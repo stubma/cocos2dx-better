@@ -1,0 +1,304 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
+		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		92DFBC1716E860D00016648F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1551A33F158F2AB200E66CFE;
+			remoteInfo = cocos2dx;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92B516E216E86020009F3536 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		92774AD316EF1C7A008E67C8 /* cocos2dxcommon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dxcommon-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		92774ADE16EF1CB3008E67C8 /* CCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUtils.h; sourceTree = "<group>"; };
+		92774AE016EF1CB3008E67C8 /* CCUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUtils.cpp; sourceTree = "<group>"; };
+		92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMoreMacros.h; sourceTree = "<group>"; };
+		92B516E416E86020009F3536 /* libcocos2dxcommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2dxcommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		92B516E116E86020009F3536 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92B516E816E86020009F3536 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		92774ADD16EF1CB3008E67C8 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */,
+				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
+			);
+			name = include;
+			path = "../cocos2dx-common/include";
+			sourceTree = "<group>";
+		};
+		92774ADF16EF1CB3008E67C8 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
+			);
+			name = src;
+			path = "../cocos2dx-common/src";
+			sourceTree = "<group>";
+		};
+		92B516D916E86020009F3536 = {
+			isa = PBXGroup;
+			children = (
+				92774ADD16EF1CB3008E67C8 /* include */,
+				92774ADF16EF1CB3008E67C8 /* src */,
+				92B516EA16E86020009F3536 /* Supporting Files */,
+				92B516E616E86020009F3536 /* Frameworks */,
+				92B516E516E86020009F3536 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		92B516E516E86020009F3536 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92B516E416E86020009F3536 /* libcocos2dxcommon.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		92B516E616E86020009F3536 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */,
+				92B516E716E86020009F3536 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		92B516EA16E86020009F3536 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				92774AD316EF1C7A008E67C8 /* cocos2dxcommon-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			path = cocos2dxdb;
+			sourceTree = "<group>";
+		};
+		92DFBC1116E860D00016648F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92DFBC1816E860D00016648F /* libcocos2dx.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		92B516E316E86020009F3536 /* cocos2dxcommon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92B516F216E86020009F3536 /* Build configuration list for PBXNativeTarget "cocos2dxcommon" */;
+			buildPhases = (
+				92B516E016E86020009F3536 /* Sources */,
+				92B516E116E86020009F3536 /* Frameworks */,
+				92B516E216E86020009F3536 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cocos2dxcommon;
+			productName = cocos2dxdb;
+			productReference = 92B516E416E86020009F3536 /* libcocos2dxcommon.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92B516DB16E86020009F3536 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = luma;
+			};
+			buildConfigurationList = 92B516DE16E86020009F3536 /* Build configuration list for PBXProject "cocos2dxcommon" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 92B516D916E86020009F3536;
+			productRefGroup = 92B516E516E86020009F3536 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 92DFBC1116E860D00016648F /* Products */;
+					ProjectRef = 92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				92B516E316E86020009F3536 /* cocos2dxcommon */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		92DFBC1816E860D00016648F /* libcocos2dx.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcocos2dx.a;
+			remoteRef = 92DFBC1716E860D00016648F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		92B516E016E86020009F3536 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		92B516F016E86020009F3536 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		92B516F116E86020009F3536 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		92B516F316E86020009F3536 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/cocos2dxdb.dst;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cocos2dxcommon-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					CC_TARGET_OS_IPHONE,
+					"COCOS2D_DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/include",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = cocos2dxcommon;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		92B516F416E86020009F3536 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/cocos2dxdb.dst;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cocos2dxcommon-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = CC_TARGET_OS_IPHONE;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/include",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = cocos2dxcommon;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		92B516DE16E86020009F3536 /* Build configuration list for PBXProject "cocos2dxcommon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B516F016E86020009F3536 /* Debug */,
+				92B516F116E86020009F3536 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		92B516F216E86020009F3536 /* Build configuration list for PBXNativeTarget "cocos2dxcommon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				92B516F316E86020009F3536 /* Debug */,
+				92B516F416E86020009F3536 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92B516DB16E86020009F3536 /* Project object */;
+}

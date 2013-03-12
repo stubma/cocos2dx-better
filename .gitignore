@@ -1,0 +1,17 @@
+.DS_Store
+bin/
+build/
+gen/
+libs/
+obj/
+dist/
+Debug/
+Release/
+*.aps
+*.suo
+*.sdf
+*.opensdf
+*.xcworkspace
+*.vcxproj.user
+xcuserdata
+todo

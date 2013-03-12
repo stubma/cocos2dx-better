@@ -1,7 +1,7 @@
 /****************************************************************************
  Author: Luma (stubma@gmail.com)
  
- https://github.com/stubma/cocos2dx-db
+ https://github.com/stubma/cocos2dx-common
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal

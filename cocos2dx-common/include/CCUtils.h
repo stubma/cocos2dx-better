@@ -36,6 +36,12 @@ class CC_DLL CCUtils {
 public:
 	/// convert string to lowercase
 	static void toLowercase(string& s);
+    
+    /// start with sub string?
+    static bool startsWith(const string& s, const string& sub);
+    
+    /// end with sub string?
+    static bool endsWith(const string& s, const string& sub);
 	
 	/**
 	 * map path to different platform, for example, a path "/sdcard/a.png" will be:

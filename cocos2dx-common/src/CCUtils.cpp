@@ -41,6 +41,14 @@ void CCUtils::toLowercase(string& s) {
 	delete buf;
 }
 
+bool CCUtils::startsWith(const string& s, const string& sub) {
+    return s.find(sub) == 0;
+}
+
+bool CCUtils::endsWith(const string& s, const string& sub) {
+    return s.rfind(sub) == s.length() - sub.length();
+}
+
 bool CCUtils::deleteFile(string path) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 	string mappedPath = mapLocalPath(path);

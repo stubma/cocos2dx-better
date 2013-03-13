@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
-		92774B4616EF2940008E67C8 /* CCAssetInputStream_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774B4316EF2940008E67C8 /* CCAssetInputStream_ios.cpp */; };
-		92774B4716EF2940008E67C8 /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774B4516EF2940008E67C8 /* CCAssetInputStream.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,10 +38,6 @@
 		92774ADE16EF1CB3008E67C8 /* CCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUtils.h; sourceTree = "<group>"; };
 		92774AE016EF1CB3008E67C8 /* CCUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUtils.cpp; sourceTree = "<group>"; };
 		92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMoreMacros.h; sourceTree = "<group>"; };
-		92774B4216EF2938008E67C8 /* CCAssetInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream.h; sourceTree = "<group>"; };
-		92774B4316EF2940008E67C8 /* CCAssetInputStream_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream_ios.cpp; sourceTree = "<group>"; };
-		92774B4416EF2940008E67C8 /* CCAssetInputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_ios.h; sourceTree = "<group>"; };
-		92774B4516EF2940008E67C8 /* CCAssetInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream.cpp; sourceTree = "<group>"; };
 		92B516E416E86020009F3536 /* libcocos2dxcommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2dxcommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
@@ -64,7 +58,6 @@
 		92774ADD16EF1CB3008E67C8 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				92774B4216EF2938008E67C8 /* CCAssetInputStream.h */,
 				92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
 			);
@@ -75,9 +68,6 @@
 		92774ADF16EF1CB3008E67C8 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				92774B4316EF2940008E67C8 /* CCAssetInputStream_ios.cpp */,
-				92774B4416EF2940008E67C8 /* CCAssetInputStream_ios.h */,
-				92774B4516EF2940008E67C8 /* CCAssetInputStream.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
 			);
 			name = src;
@@ -197,8 +187,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */,
-				92774B4616EF2940008E67C8 /* CCAssetInputStream_ios.cpp in Sources */,
-				92774B4716EF2940008E67C8 /* CCAssetInputStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

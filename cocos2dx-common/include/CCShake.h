@@ -21,13 +21,54 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCShake_h__
+#define __CCShake_h__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCShake.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+/**
+ * node is moved randomly in a circle area fast, looks like shaking
+ */
+class CC_DLL CCShake : public CCActionInterval {
+protected:
+	/// radius of shaking area
+	float m_radius;
+
+	/// original x position of node
+	float m_originalX;
+
+	/// original y position of node
+	float m_originalY;
+
+public:
+	/**
+	 * static factory method
+	 *
+	 * @param duration duration time of action in seconds
+	 * @param radius radius of shaking area
+	 */
+	static CCShake* create(float duration, float radius);
+
+	virtual ~CCShake();
+
+	/** initializes the action */
+    bool initWithDuration(float d, float r);
+	
+	/// @see CCObject::copyWithZone
+	virtual CCObject* copyWithZone(CCZone* pZone);
+
+	/// @see CCActionInterval::reverse
+	virtual CCActionInterval* reverse();
+
+	/// @see CCAction::update
+	virtual void update(float t);
+
+	/// @see CCAction::startWithTarget
+	virtual void startWithTarget(CCNode* pTarget);
+};
+
+NS_CC_END
+
+#endif // __CCShake_h__

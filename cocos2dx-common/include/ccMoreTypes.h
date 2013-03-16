@@ -24,6 +24,12 @@
 #ifndef __ccMoreTypes_h__
 #define __ccMoreTypes_h__
 
+#include "cocos2d.h"
+
+USING_NS_CC;
+
+NS_CC_BEGIN
+
 /// hsv color
 typedef struct ccColorHSV { float h, s, v; } ccColorHSV;
 static inline ccColorHSV cchsv(float h, float s, float v) {
@@ -40,5 +46,7 @@ static inline ccAABB ccaabb(CCPoint min, CCPoint max) {
 	};
 	return b;
 }
+
+NS_CC_END
 
 #endif // __ccMoreTypes_h__

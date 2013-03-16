@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include <string>
+#include "ccMoreTypes.h"
 
 using namespace std;
 
@@ -33,6 +34,9 @@ NS_CC_BEGIN
 
 /// custom utilities
 class CC_DLL CCUtils {
+private:
+	static unsigned char UnitScalarToByte(float x);
+	
 public:
 	/// convert string to lowercase
 	static void toLowercase(string& s);
@@ -86,6 +90,21 @@ public:
 	
 	/// delete a file
 	static bool deleteFile(string path);
+	
+	/// convert rgb to hsv
+	static ccColorHSV ccc32hsv(ccColor3B c);
+	
+	/// convert hsv to rgb
+	static ccColor3B hsv2ccc3(ccColorHSV c);
+	
+	/// get node origin
+	static CCPoint getOrigin(CCNode* node);
+	
+	/// get node center
+	static CCPoint getCenter(CCNode* node);
+	
+	/// is a segment intersected with a box
+	static bool testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b);
 };
 
 NS_CC_END

@@ -26,6 +26,16 @@
 
 NS_CC_BEGIN
 
+unsigned char CCUtils::UnitScalarToByte(float x) {
+    if (x < 0) {
+        return 0;
+    }
+    if (x >= 1) {
+        return 255;
+    }
+    return (int)(x * (1 << 16)) >> 8;
+}
+
 void CCUtils::toLowercase(string& s) {
 	if(s.empty())
 		return;
@@ -154,6 +164,147 @@ bool CCUtils::isPathExistent(string path) {
 	CCLOGERROR("CCUtils::mapLocalPath is not implemented for this platform, please finish it");
 	return false;
 #endif
+}
+
+ccColorHSV CCUtils::ccc32hsv(ccColor3B c) {
+	unsigned char min = MIN(c.r, MIN(c.g, c.b));
+    unsigned char max = MAX(c.r, MAX(c.g, c.b));
+    unsigned char delta = max - min;
+	
+    // get v
+    float v = max / 255.f;
+	
+    // if input color a gray color?
+    if(delta == 0) {
+    	return cchsv(0, 0, v);
+    }
+	
+    // get s
+    float s = (float)delta / max;
+	
+    // get h
+    float h;
+    if(c.r == max) {
+        h = (float)(c.g - c.b) / delta;
+    } else if (c.g == max) {
+        h = 2 + (float)(c.b - c.r) / delta;
+    } else { // b == max
+        h = 4 + (float)(c.r - c.g) / delta;
+    }
+	
+    // adjust h
+    h *= 60;
+    if (h < 0) {
+        h += 360;
+    }
+	
+    return cchsv(h, s, v);
+}
+
+ccColor3B CCUtils::hsv2ccc3(ccColorHSV c) {
+	unsigned char s = UnitScalarToByte(c.s);
+    unsigned char v = UnitScalarToByte(c.v);
+	
+    // if s is zero then rgb color is gray
+    if (0 == s) {
+    	return ccc3(v, v, v);
+    }
+	
+    int hx = (c.h < 0 || c.h >= 360.f) ? 0 : (int)((c.h / 60) * (1 << 16));
+    int f = hx & 0xFFFF;
+	
+    unsigned char v_scale = v + 1;
+    unsigned char p = ((255 - s) * v_scale) >> 8;
+    unsigned char q = ((255 - (s * f >> 16)) * v_scale) >> 8;
+    unsigned char t = ((255 - (s * ((1 << 16) - f) >> 16)) * v_scale) >> 8;
+	
+    unsigned char r, g, b;
+    switch (hx >> 16) {
+        case 0:
+        	r = v;
+        	g = t;
+        	b = p;
+        	break;
+        case 1:
+        	r = q;
+        	g = v;
+        	b = p;
+        	break;
+        case 2:
+        	r = p;
+        	g = v;
+        	b = t;
+        	break;
+        case 3:
+        	r = p;
+        	g = q;
+        	b = v;
+        	break;
+        case 4:
+        	r = t;
+        	g = p;
+        	b = v;
+        	break;
+        default:
+        	r = v;
+        	g = p;
+        	b = q;
+        	break;
+    }
+	
+    return ccc3(r, g, b);
+}
+
+CCPoint CCUtils::getOrigin(CCNode* node) {
+	if(node->isIgnoreAnchorPointForPosition()) {
+		return node->getPosition();
+	} else {
+		return ccp(node->getPositionX() - node->getAnchorPointInPoints().x,
+				   node->getPositionY() - node->getAnchorPointInPoints().y);
+	}
+}
+
+CCPoint CCUtils::getCenter(CCNode* node) {
+	if(node->isIgnoreAnchorPointForPosition()) {
+		return ccpAdd(node->getPosition(), ccp(node->getContentSize().width / 2, node->getContentSize().height / 2));
+	} else {
+		return ccpAdd(ccp(node->getPositionX() - node->getAnchorPointInPoints().x,
+						  node->getPositionY() - node->getAnchorPointInPoints().y),
+					  ccp(node->getContentSize().width / 2, node->getContentSize().height / 2));
+	}
+}
+
+bool CCUtils::testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b) {
+	CCPoint c = ccpMult(ccpAdd(b.min, b.max), 0.5f);
+	CCPoint e = ccpSub(b.max, c);
+	CCPoint m = ccpMult(ccpAdd(p0, p1), 0.5f);
+	CCPoint d = ccpSub(p1, m);
+	m = ccpSub(m, c);
+	
+	// Box center-point
+	// Box halflength extents
+	// Segment midpoint
+	// Segment halflength vector
+	// Translate box and segment to origin
+	// Try world coordinate axes as separating axes
+	float adx = fabs(d.x);
+	if (fabs(m.x) > e.x + adx)
+		return false;
+	float ady = fabs(d.y);
+	if (fabs(m.y) > e.y + ady)
+		return false;
+	
+	// Add in an epsilon term to counteract arithmetic errors when segment is
+	// (near) parallel to a coordinate axis (see text for detail)
+	adx += FLT_EPSILON;
+	ady += FLT_EPSILON;
+	
+	// Try cross products of segment direction vector with coordinate axes
+	if (fabs(m.x * d.y - m.y * d.x) > e.x * ady + e.y * adx)
+		return false;
+	
+	// No separating axis found; segment must be overlapping AABB
+	return true;
 }
 
 NS_CC_END

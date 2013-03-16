@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */; };
 		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -34,6 +35,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
+		9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAutoRenderMenuItemSprite.cpp; sourceTree = "<group>"; };
+		9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2d-common.h"; sourceTree = "<group>"; };
+		9270FB1E16F4AB46006A6788 /* ccMoreTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccMoreTypes.h; sourceTree = "<group>"; };
 		92774AD316EF1C7A008E67C8 /* cocos2dxcommon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dxcommon-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		92774ADE16EF1CB3008E67C8 /* CCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUtils.h; sourceTree = "<group>"; };
 		92774AE016EF1CB3008E67C8 /* CCUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUtils.cpp; sourceTree = "<group>"; };
@@ -58,8 +63,11 @@
 		92774ADD16EF1CB3008E67C8 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */,
 				92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
+				9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */,
+				9270FB1E16F4AB46006A6788 /* ccMoreTypes.h */,
 			);
 			name = include;
 			path = "../cocos2dx-common/include";
@@ -68,6 +76,7 @@
 		92774ADF16EF1CB3008E67C8 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
 			);
 			name = src;
@@ -187,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */,
+				9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

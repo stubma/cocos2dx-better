@@ -109,4 +109,7 @@ using namespace std;
     #define BYTE_ORDER _BYTE_ORDER
 #endif
 
+// max value
+#define MAX_INT 0x7fffffff
+
 #endif // __CCMoreMacros_h__

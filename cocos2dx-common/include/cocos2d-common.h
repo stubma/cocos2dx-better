@@ -29,5 +29,6 @@
 #include "CCUtils.h"
 #include "CCAutoRenderMenuItemSprite.h"
 #include "CCShake.h"
+#include "CCDrawingPrimitivesEx.h"
 
 #endif // __cocos2d_common_h__

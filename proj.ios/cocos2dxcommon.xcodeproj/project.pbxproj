@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */; };
 		925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925D7D3D16F4B4F000622984 /* CCShake.cpp */; };
 		9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */; };
 		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
@@ -36,6 +37,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDrawingPrimitivesEx.cpp; sourceTree = "<group>"; };
+		921F190D16F58D2900A3DC41 /* CCDrawingPrimitivesEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCDrawingPrimitivesEx.h; sourceTree = "<group>"; };
 		925D7D3D16F4B4F000622984 /* CCShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShake.cpp; sourceTree = "<group>"; };
 		925D7D4016F4B4F600622984 /* CCShake.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShake.h; sourceTree = "<group>"; };
 		9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
@@ -67,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */,
+				921F190D16F58D2900A3DC41 /* CCDrawingPrimitivesEx.h */,
 				92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */,
 				925D7D4016F4B4F600622984 /* CCShake.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
@@ -81,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */,
+				921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */,
 				925D7D3D16F4B4F000622984 /* CCShake.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
 			);
@@ -203,6 +208,7 @@
 				92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */,
 				9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
 				925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */,
+				921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

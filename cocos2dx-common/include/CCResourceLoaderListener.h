@@ -21,18 +21,30 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCResourceLoaderListener_h__
+#define __CCResourceLoaderListener_h__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+/**
+ * listener to get resource loading progress, a pure virtual class act as
+ * an interface
+ */
+class CC_DLL CCResourceLoaderListener {
+public:
+	/** 
+	 * notified when resource loading is on-going
+	 * 
+	 * @param progress progress between 0 and 100
+	 */
+	virtual void onResourceLoadingProgress(float progress) = 0;
+	
+	/// notified when resource loading is done
+	virtual void onResourceLoadingDone() = 0;
+};
+
+NS_CC_END
+
+#endif // __CCResourceLoaderListener_h__

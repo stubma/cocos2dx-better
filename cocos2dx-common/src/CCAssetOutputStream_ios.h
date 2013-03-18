@@ -21,16 +21,60 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCDrawingPrimitivesEx_h__
-#define __CCDrawingPrimitivesEx_h__
+#ifdef CC_TARGET_OS_IPHONE
 
-#include "cocos2d.h"
+#ifndef __CCAssetOutputStream_ios_h__
+#define __CCAssetOutputStream_ios_h__
+
+#include "CCAssetOutputStream.h"
+#include <stdio.h>
+#import <Foundation/Foundation.h>
 
 NS_CC_BEGIN
 
-void ccDrawColor4BEx( GLubyte r, GLubyte g, GLubyte b, GLubyte a );
-void ccDrawSolidCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
+/**
+ * iOS implementation of output stream
+ */
+class CCAssetOutputStream_ios : public CCAssetOutputStream {
+	friend class CCAssetOutputStream;
+
+private:
+	/// file handle in iOS
+	NSFileHandle* m_handle;
+
+    /// length of file
+	int m_length;
+
+protected:
+	/**
+	 * constructor
+	 *
+	 * @param path write file path
+	 * @param append append file
+	 */
+	CCAssetOutputStream_ios(const string& path, bool append = false);
+
+public:
+	virtual ~CCAssetOutputStream_ios();
+
+	/// @see CCAssetOutputStream::close
+	virtual void close();
+
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const char* data, size_t len);
+
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const int* data, size_t len);
+
+	/// @see CCAssetOutputStream::getPosition
+	virtual size_t getPosition();
+
+	/// @see CCAssetOutputStream::seek
+	virtual size_t seek(int offset, int mode);
+};
 
 NS_CC_END
 
-#endif // __CCDrawingPrimitivesEx_h__
+#endif // __CCAssetOutputStream_ios_h__
+
+#endif // CC_TARGET_OS_IPHONE

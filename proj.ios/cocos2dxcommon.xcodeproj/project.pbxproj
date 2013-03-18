@@ -11,6 +11,14 @@
 		925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925D7D3D16F4B4F000622984 /* CCShake.cpp */; };
 		9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */; };
 		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
+		9279754016F6C0140040E3AA /* CCAssetInputStream_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279753E16F6C0140040E3AA /* CCAssetInputStream_ios.cpp */; };
+		9279754316F6C0B70040E3AA /* CCMemoryInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754216F6C0B70040E3AA /* CCMemoryInputStream.cpp */; };
+		9279754616F6C5B40040E3AA /* CCAssetInputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754416F6C5B40040E3AA /* CCAssetInputStream_android.cpp */; };
+		9279754A16F6C8960040E3AA /* CCAssetOutputStream_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754816F6C8960040E3AA /* CCAssetOutputStream_ios.cpp */; };
+		9279754D16F6CADA0040E3AA /* CCAssetOutputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754B16F6CAD90040E3AA /* CCAssetOutputStream_android.cpp */; };
+		9279755016F6CB680040E3AA /* CCMemoryOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */; };
+		9279755216F6CC4C0040E3AA /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */; };
+		9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +57,22 @@
 		92774ADE16EF1CB3008E67C8 /* CCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUtils.h; sourceTree = "<group>"; };
 		92774AE016EF1CB3008E67C8 /* CCUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUtils.cpp; sourceTree = "<group>"; };
 		92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMoreMacros.h; sourceTree = "<group>"; };
+		9279753C16F6BFD40040E3AA /* CCAssetInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream.h; sourceTree = "<group>"; };
+		9279753E16F6C0140040E3AA /* CCAssetInputStream_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream_ios.cpp; sourceTree = "<group>"; };
+		9279753F16F6C0140040E3AA /* CCAssetInputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_ios.h; sourceTree = "<group>"; };
+		9279754116F6C0490040E3AA /* CCMemoryInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMemoryInputStream.h; sourceTree = "<group>"; };
+		9279754216F6C0B70040E3AA /* CCMemoryInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMemoryInputStream.cpp; sourceTree = "<group>"; };
+		9279754416F6C5B40040E3AA /* CCAssetInputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream_android.cpp; sourceTree = "<group>"; };
+		9279754516F6C5B40040E3AA /* CCAssetInputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_android.h; sourceTree = "<group>"; };
+		9279754716F6C83F0040E3AA /* CCAssetOutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream.h; sourceTree = "<group>"; };
+		9279754816F6C8960040E3AA /* CCAssetOutputStream_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream_ios.cpp; sourceTree = "<group>"; };
+		9279754916F6C8960040E3AA /* CCAssetOutputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_ios.h; sourceTree = "<group>"; };
+		9279754B16F6CAD90040E3AA /* CCAssetOutputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream_android.cpp; sourceTree = "<group>"; };
+		9279754C16F6CADA0040E3AA /* CCAssetOutputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_android.h; sourceTree = "<group>"; };
+		9279754E16F6CB5B0040E3AA /* CCMemoryOutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMemoryOutputStream.h; sourceTree = "<group>"; };
+		9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMemoryOutputStream.cpp; sourceTree = "<group>"; };
+		9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream.cpp; sourceTree = "<group>"; };
+		9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream.cpp; sourceTree = "<group>"; };
 		92B516E416E86020009F3536 /* libcocos2dxcommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2dxcommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
@@ -69,6 +93,10 @@
 		92774ADD16EF1CB3008E67C8 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				9279753C16F6BFD40040E3AA /* CCAssetInputStream.h */,
+				9279754716F6C83F0040E3AA /* CCAssetOutputStream.h */,
+				9279754116F6C0490040E3AA /* CCMemoryInputStream.h */,
+				9279754E16F6CB5B0040E3AA /* CCMemoryOutputStream.h */,
 				9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */,
 				921F190D16F58D2900A3DC41 /* CCDrawingPrimitivesEx.h */,
 				92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */,
@@ -84,6 +112,18 @@
 		92774ADF16EF1CB3008E67C8 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */,
+				9279753E16F6C0140040E3AA /* CCAssetInputStream_ios.cpp */,
+				9279753F16F6C0140040E3AA /* CCAssetInputStream_ios.h */,
+				9279754416F6C5B40040E3AA /* CCAssetInputStream_android.cpp */,
+				9279754516F6C5B40040E3AA /* CCAssetInputStream_android.h */,
+				9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */,
+				9279754816F6C8960040E3AA /* CCAssetOutputStream_ios.cpp */,
+				9279754916F6C8960040E3AA /* CCAssetOutputStream_ios.h */,
+				9279754B16F6CAD90040E3AA /* CCAssetOutputStream_android.cpp */,
+				9279754C16F6CADA0040E3AA /* CCAssetOutputStream_android.h */,
+				9279754216F6C0B70040E3AA /* CCMemoryInputStream.cpp */,
+				9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */,
 				9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */,
 				921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */,
 				925D7D3D16F4B4F000622984 /* CCShake.cpp */,
@@ -209,6 +249,14 @@
 				9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
 				925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */,
 				921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */,
+				9279754016F6C0140040E3AA /* CCAssetInputStream_ios.cpp in Sources */,
+				9279754316F6C0B70040E3AA /* CCMemoryInputStream.cpp in Sources */,
+				9279754616F6C5B40040E3AA /* CCAssetInputStream_android.cpp in Sources */,
+				9279754A16F6C8960040E3AA /* CCAssetOutputStream_ios.cpp in Sources */,
+				9279754D16F6CADA0040E3AA /* CCAssetOutputStream_android.cpp in Sources */,
+				9279755016F6CB680040E3AA /* CCMemoryOutputStream.cpp in Sources */,
+				9279755216F6CC4C0040E3AA /* CCAssetInputStream.cpp in Sources */,
+				9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,16 +21,65 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCDrawingPrimitivesEx_h__
-#define __CCDrawingPrimitivesEx_h__
+#ifdef CC_TARGET_OS_IPHONE
 
-#include "cocos2d.h"
+#ifndef __CCAssetInputStream_ios_h__
+#define __CCAssetInputStream_ios_h__
+
+#include "CCAssetInputStream.h"
+#include <stdio.h>
+#import <Foundation/Foundation.h>
 
 NS_CC_BEGIN
 
-void ccDrawColor4BEx( GLubyte r, GLubyte g, GLubyte b, GLubyte a );
-void ccDrawSolidCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
+/**
+ * iOS implementation of input stream
+ */
+class CCAssetInputStream_ios : public CCAssetInputStream {
+	friend class CCAssetInputStream;
+
+private:
+    /// file handle in iOS
+	NSFileHandle* m_handle;
+
+	/// length of file
+	size_t m_length;
+
+protected:
+	/**
+	 * constructor
+	 *
+	 * @param path file path
+	 */
+	CCAssetInputStream_ios(const string& path);
+
+public:
+	virtual ~CCAssetInputStream_ios();
+
+	/// @see CCAssetInputStream::getBuffer
+	virtual char* getBuffer();
+
+	/// @see CCAssetInputStream::getPosition
+	virtual size_t getPosition();
+
+	/// @see CCAssetInputStream::getLength
+	virtual size_t getLength();
+
+	/// @see CCAssetInputStream::available
+	virtual size_t available();
+
+	/// @see CCAssetInputStream::close
+	virtual void close();
+
+	/// @see CCAssetInputStream::read
+	virtual ssize_t read(char* buffer, size_t length);
+
+	/// @see CCAssetInputStream::seek
+	virtual size_t seek(int offset, int mode);
+};
 
 NS_CC_END
 
-#endif // __CCDrawingPrimitivesEx_h__
+#endif // __CCAssetInputStream_ios_h__
+
+#endif // CC_TARGET_OS_IPHONE

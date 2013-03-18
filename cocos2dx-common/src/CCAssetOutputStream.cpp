@@ -21,16 +21,24 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCDrawingPrimitivesEx_h__
-#define __CCDrawingPrimitivesEx_h__
-
-#include "cocos2d.h"
+#include "CCAssetOutputStream.h"
 
 NS_CC_BEGIN
 
-void ccDrawColor4BEx( GLubyte r, GLubyte g, GLubyte b, GLubyte a );
-void ccDrawSolidCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
+CCAssetOutputStream::CCAssetOutputStream() :
+		m_append(false) {
+}
+
+CCAssetOutputStream::CCAssetOutputStream(const string& path, bool append) :
+		m_path(path),
+		m_append(append) {
+}
+
+CCAssetOutputStream::~CCAssetOutputStream() {
+}
+
+bool CCAssetOutputStream::open() {
+	return true;
+}
 
 NS_CC_END
-
-#endif // __CCDrawingPrimitivesEx_h__

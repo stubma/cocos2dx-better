@@ -21,16 +21,56 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCDrawingPrimitivesEx_h__
-#define __CCDrawingPrimitivesEx_h__
+#ifdef ANDROID
 
-#include "cocos2d.h"
+#ifndef __CCAssetOutputStream_android_h__
+#define __CCAssetOutputStream_android_h__
+
+#include "CCAssetOutputStream.h"
+#include <stdio.h>
 
 NS_CC_BEGIN
 
-void ccDrawColor4BEx( GLubyte r, GLubyte g, GLubyte b, GLubyte a );
-void ccDrawSolidCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
+/**
+ * Android implementation of output stream
+ */
+class CCAssetOutputStream_android : public CCAssetOutputStream {
+	friend class CCAssetOutputStream;
+
+private:
+	/// FILE pointer used for file path
+	FILE* m_fp;
+
+protected:
+	/**x
+	 * constructor
+	 *
+	 * @param path write file path
+	 * @param append append file
+	 */
+	CCAssetOutputStream_android(const string& path, bool append = false);
+
+public:
+	virtual ~CCAssetOutputStream_android();
+
+	/// @see CCAssetOutputStream::close
+	virtual void close();
+
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const char* data, size_t len);
+
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const int* data, size_t len);
+
+	/// @see CCAssetOutputStream::getPosition
+	virtual size_t getPosition();
+
+	/// @see CCAssetOutputStream::seek
+	virtual size_t seek(int offset, int mode);
+};
 
 NS_CC_END
 
-#endif // __CCDrawingPrimitivesEx_h__
+#endif // __CCAssetOutputStream_android_h__
+
+#endif // #if ANDROID

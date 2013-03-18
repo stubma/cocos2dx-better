@@ -21,16 +21,48 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCDrawingPrimitivesEx_h__
-#define __CCDrawingPrimitivesEx_h__
+#ifdef ANDROID
 
-#include "cocos2d.h"
+#include "CCAssetInputStream_android.h"
+#include <errno.h>
 
 NS_CC_BEGIN
 
-void ccDrawColor4BEx( GLubyte r, GLubyte g, GLubyte b, GLubyte a );
-void ccDrawSolidCircle( const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
+CCAssetInputStream* CCAssetInputStream::create(const string& path) {
+	CCAssetInputStream* ais = new CCAssetInputStream_android(path);
+	return (CCAssetInputStream*)ais->autorelease();
+}
+
+CCAssetInputStream_android::CCAssetInputStream_android(const string& path) :
+		CCAssetInputStream(path),
+		m_length(0) {
+}
+
+CCAssetInputStream_android::~CCAssetInputStream_android() {
+}
+
+size_t CCAssetInputStream_android::getLength() {
+	return m_length;
+}
+
+size_t CCAssetInputStream_android::getPosition() {
+}
+
+size_t CCAssetInputStream_android::available() {
+}
+
+char* CCAssetInputStream_android::getBuffer() {
+}
+
+void CCAssetInputStream_android::close() {
+}
+
+ssize_t CCAssetInputStream_android::read(char* buffer, size_t length) {
+}
+
+size_t CCAssetInputStream_android::seek(int offset, int mode) {
+}
 
 NS_CC_END
 
-#endif // __CCDrawingPrimitivesEx_h__
+#endif // ANDROID

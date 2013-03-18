@@ -30,5 +30,7 @@
 #include "CCAutoRenderMenuItemSprite.h"
 #include "CCShake.h"
 #include "CCDrawingPrimitivesEx.h"
+#include "CCAssetInputStream.h"
+#include "CCMemoryInputStream.h"
 
 #endif // __cocos2d_common_h__

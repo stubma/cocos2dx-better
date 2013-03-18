@@ -36,6 +36,25 @@ unsigned char CCUtils::UnitScalarToByte(float x) {
     return (int)(x * (1 << 16)) >> 8;
 }
 
+const char* CCUtils::copy(const char* src) {
+	if(src == NULL)
+		return NULL;
+    
+	size_t len = strlen(src);
+	char* c = (char*)calloc(len + 1, sizeof(char));
+	memcpy(c, src, len);
+	return c;
+}
+
+const char* CCUtils::copy(const char* src, int start, size_t len) {
+	if(src == NULL)
+		return NULL;
+    
+	char* c = (char*)calloc(len + 1, sizeof(char));
+	memcpy(c, src + start, len);
+	return c;
+}
+
 void CCUtils::toLowercase(string& s) {
 	if(s.empty())
 		return;

@@ -38,6 +38,24 @@ private:
 	static unsigned char UnitScalarToByte(float x);
 	
 public:
+    /**
+	 * Copy a string
+	 *
+	 * @param src source string
+	 * @return copied string, caller should release it
+	 */
+	static const char* copy(const char* src);
+    
+	/**
+	 * Copy a string
+	 *
+	 * @param src source string
+	 * @param start start position to copy
+	 * @param len length to copy
+	 * @return copied string, caller should release it. returns NULL if \c src is NULL
+	 */
+	static const char* copy(const char* src, int start, size_t len);
+    
 	/// convert string to lowercase
 	static void toLowercase(string& s);
     

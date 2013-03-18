@@ -32,14 +32,23 @@
 NS_CC_BEGIN
 
 /**
- * iOS implementation of input stream
+ * android implementation of input stream
+ *
+ * \note
+ * currently we just load all data into memory
  */
 class CCAssetInputStream_android : public CCAssetInputStream {
 	friend class CCAssetInputStream;
 
 private:
+    /// buffer
+    char* m_buffer;
+    
 	/// length of file
 	size_t m_length;
+    
+    /// position
+    size_t m_position;
 
 protected:
 	/**

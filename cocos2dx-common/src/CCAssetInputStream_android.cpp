@@ -35,7 +35,12 @@ CCAssetInputStream* CCAssetInputStream::create(const string& path) {
 
 CCAssetInputStream_android::CCAssetInputStream_android(const string& path) :
 		CCAssetInputStream(path),
+        m_buffer(NULL),
+        m_position(0),
 		m_length(0) {
+    unsigned long len;
+    m_buffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "wb", &len);
+    m_length = (size_t)len;
 }
 
 CCAssetInputStream_android::~CCAssetInputStream_android() {
@@ -46,21 +51,47 @@ size_t CCAssetInputStream_android::getLength() {
 }
 
 size_t CCAssetInputStream_android::getPosition() {
+    return m_position;
 }
 
 size_t CCAssetInputStream_android::available() {
+    return m_length - m_position;
 }
 
 char* CCAssetInputStream_android::getBuffer() {
+    return m_buffer;
 }
 
 void CCAssetInputStream_android::close() {
+    if(m_buffer) {
+        free(m_buffer);
+        m_buffer = NULL;
+        m_length = 0;
+        m_position = 0;
+    }
 }
 
 ssize_t CCAssetInputStream_android::read(char* buffer, size_t length) {
+    int canRead = MIN(length, available());
+    memcpy(buffer, m_buffer + m_position, canRead);
+    m_position += canRead;
+    return canRead;
 }
 
 size_t CCAssetInputStream_android::seek(int offset, int mode) {
+    switch(mode) {
+        case SEEK_CUR:
+            m_position = clampf(m_position + offset, 0, m_length);
+            break;
+        case SEEK_END:
+            m_position = clampf(m_length + offset, 0, m_length);
+            break;
+        case SEEK_SET:
+            m_position = clampf(offset, 0, m_length);
+            break;
+    }
+	
+	return m_position;
 }
 
 NS_CC_END

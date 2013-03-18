@@ -39,7 +39,7 @@ CCAssetInputStream_android::CCAssetInputStream_android(const string& path) :
         m_position(0),
 		m_length(0) {
     unsigned long len;
-    m_buffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "wb", &len);
+    m_buffer = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "rb", &len);
     m_length = (size_t)len;
 }
 

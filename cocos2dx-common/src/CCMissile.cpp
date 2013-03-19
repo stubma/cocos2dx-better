@@ -21,61 +21,45 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCShake.h"
+#include "CCMissile.h"
 
 NS_CC_BEGIN
 
-CCShake::~CCShake() {
+CCMissile::~CCMissile() {
 }
 
-CCShake* CCShake::create(float duration, float radius) {
-	CCShake* a = new CCShake();
-	a->initWithDuration(duration, radius);
-	return (CCShake*)a->autorelease();
+CCMissile* CCMissile::create(float duration, CCNode* aimed, float targetPresetDegree) {
+	CCMissile* a = new CCMissile();
+	a->initWithDuration(duration, aimed, targetPresetDegree);
+	return (CCMissile*)a->autorelease();
 }
 
-bool CCShake::initWithDuration(float d, float r) {
+bool CCMissile::initWithDuration(float d, CCNode* aimed, float targetPresetDegree) {
 	m_fDuration = d;
-	m_radius = r;
+	m_aimed = aimed;
+	m_presetDegree = targetPresetDegree;
 	return true;
 }
 
-CCObject* CCShake::copyWithZone(CCZone *pZone) {
+CCObject* CCMissile::copyWithZone(CCZone *pZone) {
     CCZone* pNewZone = NULL;
-    CCShake* pCopy = NULL;
+    CCMissile* pCopy = NULL;
     if(pZone && pZone->m_pCopyObject) {
         // in case of being called at sub class
-        pCopy = (CCShake*)(pZone->m_pCopyObject);
+        pCopy = (CCMissile*)(pZone->m_pCopyObject);
     } else {
-        pCopy = new CCShake();
+        pCopy = new CCMissile();
         pZone = pNewZone = new CCZone(pCopy);
     }
 	
     CCActionInterval::copyWithZone(pZone);
-    pCopy->initWithDuration(m_fDuration, m_radius);
+    pCopy->initWithDuration(m_fDuration, m_aimed, m_presetDegree);
     
     CC_SAFE_DELETE(pNewZone);
     return pCopy;
 }
 
-CCActionInterval* CCShake::reverse() {
-	return create(m_fDuration, m_radius);
-}
-
-void CCShake::update(float t) {
-	if(t >= 1) {
-		getTarget()->setPosition(m_originalX, m_originalY);
-	} else {
-		getTarget()->setPosition(m_originalX + m_radius * CCRANDOM_MINUS1_1(),
-				m_originalY + m_radius * CCRANDOM_MINUS1_1());
-	}
-}
-
-void CCShake::startWithTarget(CCNode* pTarget) {
-	CCActionInterval::startWithTarget(pTarget);
-
-	m_originalX = pTarget->getPositionX();
-	m_originalY = pTarget->getPositionY();
+void CCMissile::update(float t) {
 }
 
 NS_CC_END

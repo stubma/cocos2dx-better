@@ -21,19 +21,51 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCMissile_h__
+#define __CCMissile_h__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+/**
+ * node is moved to another node, called aimed node. The target node
+ * and aimed node must belong to same parent node. When moving, target
+ * node will head to aimed node so its rotation will be adjusted according 
+ * to aimed node position. This action doesn't retain aimed node, you should
+ * ensure the aimed node is not released before action completed
+ */
+class CC_DLL CCMissile : public CCActionInterval {
+protected:
+	/// aimed node
+	CCNode* m_aimed;
+	
+	/// preset degree
+	float m_presetDegree;
+	
+public:
+	/**
+	 * static factory method
+	 *
+	 * @param duration duration time of action in seconds
+	 * @param aimed aimed node
+	 * @param targetPresetDegree a degree should be reduced when set target node rotation,
+	 *		positive means clockwise
+	 */
+	static CCMissile* create(float duration, CCNode* aimed, float targetPresetDegree = 0);
+	
+	virtual ~CCMissile();
+	
+	/** initializes the action */
+    bool initWithDuration(float d, CCNode* aimed, float targetPresetDegree);
+	
+	/// @see CCObject::copyWithZone
+	virtual CCObject* copyWithZone(CCZone* pZone);
+	
+	/// @see CCAction::update
+	virtual void update(float t);
+};
+
+NS_CC_END
+
+#endif // __CCMissile_h__

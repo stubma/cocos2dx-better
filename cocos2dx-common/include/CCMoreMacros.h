@@ -112,4 +112,7 @@ using namespace std;
 // max value
 #define MAX_INT 0x7fffffff
 
+// random to max, inclusive
+#define CCRANDOM_0_X_INT(x) ((int)(CCRANDOM_0_1() * (x) * 100) % (x))
+
 #endif // __CCMoreMacros_h__

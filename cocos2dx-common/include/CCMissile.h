@@ -33,10 +33,16 @@ NS_CC_BEGIN
  * and aimed node must belong to same parent node. When moving, target
  * node will head to aimed node so its rotation will be adjusted according 
  * to aimed node position. This action doesn't retain aimed node, you should
- * ensure the aimed node is not released before action completed
+ * ensure the aimed node is not released before action completed.
+ *
+ * because aimed node may move, so the duration of missile action can't be 
+ * predicated.
  */
 class CC_DLL CCMissile : public CCActionInterval {
 protected:
+    /// velocity
+    float m_velocity;
+    
 	/// aimed node
 	CCNode* m_aimed;
 	
@@ -47,23 +53,26 @@ public:
 	/**
 	 * static factory method
 	 *
-	 * @param duration duration time of action in seconds
+	 * @param velocity move velocity
 	 * @param aimed aimed node
 	 * @param targetPresetDegree a degree should be reduced when set target node rotation,
 	 *		positive means clockwise
 	 */
-	static CCMissile* create(float duration, CCNode* aimed, float targetPresetDegree = 0);
+	static CCMissile* create(float velocity, CCNode* aimed, float targetPresetDegree = 0);
 	
 	virtual ~CCMissile();
 	
 	/** initializes the action */
-    bool initWithDuration(float d, CCNode* aimed, float targetPresetDegree);
+    bool initWithVelocity(float velocity, CCNode* aimed, float targetPresetDegree);
 	
 	/// @see CCObject::copyWithZone
 	virtual CCObject* copyWithZone(CCZone* pZone);
 	
-	/// @see CCAction::update
-	virtual void update(float t);
+    /// @see CCAction::step
+    virtual void step(float dt);
+    
+    /// @see CCAction::isDone
+    virtual bool isDone();
 };
 
 NS_CC_END

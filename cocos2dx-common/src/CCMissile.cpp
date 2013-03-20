@@ -28,14 +28,14 @@ NS_CC_BEGIN
 CCMissile::~CCMissile() {
 }
 
-CCMissile* CCMissile::create(float duration, CCNode* aimed, float targetPresetDegree) {
+CCMissile* CCMissile::create(float velocity, CCNode* aimed, float targetPresetDegree) {
 	CCMissile* a = new CCMissile();
-	a->initWithDuration(duration, aimed, targetPresetDegree);
+	a->initWithVelocity(velocity, aimed, targetPresetDegree);
 	return (CCMissile*)a->autorelease();
 }
 
-bool CCMissile::initWithDuration(float d, CCNode* aimed, float targetPresetDegree) {
-	m_fDuration = d;
+bool CCMissile::initWithVelocity(float velocity, CCNode* aimed, float targetPresetDegree) {
+	m_velocity = velocity;
 	m_aimed = aimed;
 	m_presetDegree = targetPresetDegree;
 	return true;
@@ -53,13 +53,41 @@ CCObject* CCMissile::copyWithZone(CCZone *pZone) {
     }
 	
     CCActionInterval::copyWithZone(pZone);
-    pCopy->initWithDuration(m_fDuration, m_aimed, m_presetDegree);
+    pCopy->initWithVelocity(m_velocity, m_aimed, m_presetDegree);
     
     CC_SAFE_DELETE(pNewZone);
     return pCopy;
 }
 
-void CCMissile::update(float t) {
+void CCMissile::step(float dt) {
+    // position of target and aimed
+    CCNode* target = getTarget();
+    CCPoint t = target->getPosition();
+    CCPoint a = m_aimed->getPosition();
+    
+    // position vector degree
+    CCPoint v = ccpSub(a, t);
+    float r = ccpToAngle(v);
+    float d = -CC_RADIANS_TO_DEGREES(r);
+    
+    // rotate target
+    target->setRotation(d - m_presetDegree);
+    
+    // move target by velocity
+    float move = m_velocity * dt;
+    float distance = ccpLength(v);
+    if(move >= distance) {
+        target->setPosition(a);
+    } else {
+        t.x += move * cosf(r);
+        t.y += move * sinf(r);
+        target->setPosition(t);
+    }
+}
+
+bool CCMissile::isDone() {
+    return getTarget()->getPositionX() == m_aimed->getPositionX() &&
+        getTarget()->getPositionY() == m_aimed->getPositionY();
 }
 
 NS_CC_END

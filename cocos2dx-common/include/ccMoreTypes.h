@@ -47,6 +47,15 @@ static inline ccAABB ccaabb(CCPoint min, CCPoint max) {
 	return b;
 }
 
+// position
+typedef struct ccPosition { int x, y; } ccPosition;
+static inline ccPosition ccpos(int x, int y) {
+    ccPosition p = {
+        x, y
+    };
+    return p;
+}
+
 NS_CC_END
 
 #endif // __ccMoreTypes_h__

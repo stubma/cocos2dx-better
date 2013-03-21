@@ -25,19 +25,27 @@
 
 NS_CC_BEGIN
 
-CCMissile::~CCMissile() {
+CCMissile::CCMissile() :
+		m_aimed(NULL),
+		m_doneCallFunc(NULL) {
 }
 
-CCMissile* CCMissile::create(float velocity, CCNode* aimed, float targetPresetDegree) {
+CCMissile::~CCMissile() {
+	CC_SAFE_RELEASE(m_doneCallFunc);
+}
+
+CCMissile* CCMissile::create(float velocity, CCNode* aimed, float targetPresetDegree, CCCallFunc* doneCallFunc) {
 	CCMissile* a = new CCMissile();
-	a->initWithVelocity(velocity, aimed, targetPresetDegree);
+	a->initWithVelocity(velocity, aimed, targetPresetDegree, doneCallFunc);
 	return (CCMissile*)a->autorelease();
 }
 
-bool CCMissile::initWithVelocity(float velocity, CCNode* aimed, float targetPresetDegree) {
+bool CCMissile::initWithVelocity(float velocity, CCNode* aimed, float targetPresetDegree, CCCallFunc* doneCallFunc) {
 	m_velocity = velocity;
 	m_aimed = aimed;
 	m_presetDegree = targetPresetDegree;
+	m_doneCallFunc = doneCallFunc;
+	CC_SAFE_RETAIN(m_doneCallFunc);
 	return true;
 }
 
@@ -53,7 +61,7 @@ CCObject* CCMissile::copyWithZone(CCZone *pZone) {
     }
 	
     CCActionInterval::copyWithZone(pZone);
-    pCopy->initWithVelocity(m_velocity, m_aimed, m_presetDegree);
+    pCopy->initWithVelocity(m_velocity, m_aimed, m_presetDegree, m_doneCallFunc);
     
     CC_SAFE_DELETE(pNewZone);
     return pCopy;
@@ -86,8 +94,14 @@ void CCMissile::step(float dt) {
 }
 
 bool CCMissile::isDone() {
-    return getTarget()->getPositionX() == m_aimed->getPositionX() &&
+    bool done = getTarget()->getPositionX() == m_aimed->getPositionX() &&
         getTarget()->getPositionY() == m_aimed->getPositionY();
+	
+	if(done && m_doneCallFunc) {
+		m_doneCallFunc->execute();
+	}
+	
+	return done;
 }
 
 NS_CC_END

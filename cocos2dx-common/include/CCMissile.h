@@ -36,7 +36,7 @@ NS_CC_BEGIN
  * ensure the aimed node is not released before action completed.
  *
  * because aimed node may move, so the duration of missile action can't be 
- * predicated.
+ * predicated. So it can be sequenced
  */
 class CC_DLL CCMissile : public CCActionInterval {
 protected:
@@ -49,6 +49,9 @@ protected:
 	/// preset degree
 	float m_presetDegree;
 	
+	/// done callback
+	CCCallFunc* m_doneCallFunc;
+	
 public:
 	/**
 	 * static factory method
@@ -58,12 +61,13 @@ public:
 	 * @param targetPresetDegree a degree should be reduced when set target node rotation,
 	 *		positive means clockwise
 	 */
-	static CCMissile* create(float velocity, CCNode* aimed, float targetPresetDegree = 0);
+	static CCMissile* create(float velocity, CCNode* aimed, float targetPresetDegree = 0, CCCallFunc* doneCallFunc = NULL);
 	
+	CCMissile();
 	virtual ~CCMissile();
 	
 	/** initializes the action */
-    bool initWithVelocity(float velocity, CCNode* aimed, float targetPresetDegree);
+    bool initWithVelocity(float velocity, CCNode* aimed, float targetPresetDegree, CCCallFunc* doneCallFunc);
 	
 	/// @see CCObject::copyWithZone
 	virtual CCObject* copyWithZone(CCZone* pZone);

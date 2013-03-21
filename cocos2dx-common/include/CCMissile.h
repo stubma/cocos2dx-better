@@ -48,6 +48,9 @@ protected:
 	
 	/// preset degree
 	float m_presetDegree;
+    
+    /// dest degree
+    float m_dstDegree;
 	
 public:
 	/**

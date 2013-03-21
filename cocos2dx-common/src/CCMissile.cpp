@@ -25,6 +25,8 @@
 
 NS_CC_BEGIN
 
+#define ANGULAR_VELOCITY 360
+
 CCMissile::~CCMissile() {
 }
 
@@ -35,6 +37,7 @@ CCMissile* CCMissile::create(float velocity, CCNode* aimed, float targetPresetDe
 }
 
 bool CCMissile::initWithVelocity(float velocity, CCNode* aimed, float targetPresetDegree) {
+    m_dstDegree = 0;
 	m_velocity = velocity;
 	m_aimed = aimed;
 	m_presetDegree = targetPresetDegree;
@@ -69,9 +72,21 @@ void CCMissile::step(float dt) {
     CCPoint v = ccpSub(a, t);
     float r = ccpToAngle(v);
     float d = -CC_RADIANS_TO_DEGREES(r);
+    d -= m_presetDegree;
     
-    // rotate target
-    target->setRotation(d - m_presetDegree);
+    // save dest degree
+    if(m_dstDegree != d) {
+        m_dstDegree = d;
+    }
+    
+    // rotate to dst degree gradually
+    if(m_dstDegree > target->getRotation()) {
+        float cur = MIN(m_dstDegree, target->getRotation() + dt * ANGULAR_VELOCITY);
+        target->setRotation(cur);
+    } else if(m_dstDegree < target->getRotation()) {
+        float cur = MAX(m_dstDegree, target->getRotation() - dt * ANGULAR_VELOCITY);
+        target->setRotation(cur);
+    }
     
     // move target by velocity
     float move = m_velocity * dt;

@@ -121,6 +121,9 @@ public:
 	/// get node center
 	static CCPoint getCenter(CCNode* node);
 	
+	/// get node position
+	static CCPoint getPoint(CCNode* node, float xpercent, float ypercent);
+	
 	/// is a segment intersected with a box
 	static bool testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b);
 };

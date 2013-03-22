@@ -293,6 +293,12 @@ CCPoint CCUtils::getCenter(CCNode* node) {
 	}
 }
 
+CCPoint CCUtils::getPoint(CCNode* node, float xpercent, float ypercent) {
+	CCPoint origin = getOrigin(node);
+	CCSize size = node->getContentSize();
+	return ccp(origin.x + size.width * xpercent, origin.y + size.height * ypercent);
+}
+
 bool CCUtils::testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b) {
 	CCPoint c = ccpMult(ccpAdd(b.min, b.max), 0.5f);
 	CCPoint e = ccpSub(b.max, c);

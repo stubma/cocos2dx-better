@@ -47,6 +47,24 @@ CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalI
     return pRet;
 }
 
+CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalImage, CCSprite* selectedImage,
+															   CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector) {
+	CCAutoRenderMenuItemSprite* pRet = new CCAutoRenderMenuItemSprite();
+    pRet->initWithNormalSprite(normalImage, selectedImage, NULL, target, selector);
+	pRet->setFocusImage(focusImage);
+    pRet->autorelease();
+    return pRet;
+}
+
+CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalImage, CCSprite* selectedImage, CCSprite* disabledImage,
+															   CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector) {
+	CCAutoRenderMenuItemSprite* pRet = new CCAutoRenderMenuItemSprite();
+    pRet->initWithNormalSprite(normalImage, selectedImage, disabledImage, target, selector);
+	pRet->setFocusImage(focusImage);
+    pRet->autorelease();
+    return pRet;
+}
+
 void CCAutoRenderMenuItemSprite::selected() {
 	CCMenuItemSprite::selected();
 	

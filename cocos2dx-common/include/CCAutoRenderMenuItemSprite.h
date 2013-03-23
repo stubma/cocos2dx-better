@@ -67,6 +67,31 @@ public:
 	 */
 	static CCAutoRenderMenuItemSprite* create(CCSprite* normalImage, CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector);
 	
+	/**
+	 * create a menu item
+	 *
+	 * @param normalImage normal state
+	 * @param selectedImage selected state
+	 * @param focusImage focus state
+	 * @param target target
+	 * @param selector selector
+	 */
+	static CCAutoRenderMenuItemSprite* create(CCSprite* normalImage, CCSprite* selectedImage,
+											  CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector);
+	
+	/**
+	 * create a menu item
+	 *
+	 * @param normalImage normal state
+	 * @param selectedImage selected state
+	 * @param disabledImage disabled state
+	 * @param focusImage focus state
+	 * @param target target
+	 * @param selector selector
+	 */
+	static CCAutoRenderMenuItemSprite* create(CCSprite* normalImage, CCSprite* selectedImage, CCSprite* disabledImage,
+											  CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector);
+	
 	/// @see CCMenuItemSprite::selected
 	virtual void selected();
 	

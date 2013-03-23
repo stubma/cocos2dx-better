@@ -27,6 +27,7 @@ NS_CC_BEGIN
 
 CCResourceLoader::CCResourceLoader(CCResourceLoaderListener* listener) :
 		m_listener(listener),
+		m_delay(0),
 		m_remainingIdle(0),
         m_nextLoad(0) {
 }
@@ -39,7 +40,7 @@ CCResourceLoader::~CCResourceLoader() {
 
 void CCResourceLoader::run() {
 	CCScheduler* scheduler = CCDirector::sharedDirector()->getScheduler();
-	scheduler->scheduleSelector(schedule_selector(CCResourceLoader::doLoad), this, 0, false);
+	scheduler->scheduleSelector(schedule_selector(CCResourceLoader::doLoad), this, 0, kCCRepeatForever, m_delay, false);
 }
 
 void CCResourceLoader::addImageTask(const string& name, float idle) {

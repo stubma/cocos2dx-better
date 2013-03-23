@@ -161,6 +161,9 @@ public:
 							int endIndex,
 							bool restoreOriginalFrame = false,
 							float idle = 0);
+	
+	/// delay time before start to load
+	CC_SYNTHESIZE(float, m_delay, Delay);
 };
 
 NS_CC_END

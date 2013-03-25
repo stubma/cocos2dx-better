@@ -32,14 +32,14 @@ NS_CC_BEGIN
 
 /// hsv color
 typedef struct ccColorHSV { float h, s, v; } ccColorHSV;
-static inline ccColorHSV cchsv(float h, float s, float v) {
+static inline ccColorHSV cchsv(const float h, const float s, const float v) {
 	ccColorHSV c = { h, s, v };
 	return c;
 }
 
 // aabb
 typedef struct ccAABB { CCPoint min, max; } ccAABB;
-static inline ccAABB ccaabb(CCPoint min, CCPoint max) {
+static inline ccAABB ccaabb(const CCPoint min, const CCPoint max) {
 	ccAABB b = {
 		min,
 		max
@@ -49,11 +49,35 @@ static inline ccAABB ccaabb(CCPoint min, CCPoint max) {
 
 // position
 typedef struct ccPosition { int x, y; } ccPosition;
-static inline ccPosition ccpos(int x, int y) {
+static inline ccPosition ccpos(const int x, const int y) {
     ccPosition p = {
         x, y
     };
     return p;
+}
+
+// point struct
+typedef struct ccPoint { float x, y; } ccPoint;
+static const ccPoint ccpZero = { 0, 0 };
+static inline ccPoint ccpt(const float x, const float y) {
+	ccPoint p = { x, y };
+	return p;
+}
+
+// rect struct
+typedef struct ccRect { float x, y, width, height; } ccRect;
+static const ccRect ccrZero = { 0, 0, 0, 0 };
+static inline ccRect ccr(const float x, const float y, const float w, const float h) {
+	ccRect r = { x, y, w, h };
+	return r;
+}
+
+// size struct
+typedef struct ccSize { float width, height; } ccSize;
+static const ccSize ccsZero = { 0, 0 };
+static inline ccSize ccsz(const float w, const float h) {
+	ccSize s = { w, h };
+	return s;
 }
 
 NS_CC_END

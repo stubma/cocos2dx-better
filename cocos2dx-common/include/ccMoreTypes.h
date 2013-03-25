@@ -74,6 +74,9 @@ static inline ccRect ccr(const float x, const float y, const float w, const floa
 	ccRect r = { x, y, w, h };
 	return r;
 }
+static inline CCRect ccr2CCR(const ccRect& r) {
+	return CCRectMake(r.x, r.y, r.width, r.height);
+}
 
 // size struct
 typedef struct ccSize { float width, height; } ccSize;

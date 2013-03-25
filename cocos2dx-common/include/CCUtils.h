@@ -126,6 +126,9 @@ public:
 	
 	/// is a segment intersected with a box
 	static bool testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b);
+	
+	/// perform a binary search in a int array
+	static int binarySearch(int* a, size_t len, int key);
 };
 
 NS_CC_END

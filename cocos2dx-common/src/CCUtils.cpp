@@ -332,4 +332,22 @@ bool CCUtils::testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b) {
 	return true;
 }
 
+int CCUtils::binarySearch(int* a, size_t len, int key) {
+	int low = 0;
+	int high = len - 1;
+	
+	while(low <= high) {
+		int mid = (low + high) >> 1;
+		int midVal = a[mid];
+		
+		if(midVal < key)
+			low = mid + 1;
+		else if(midVal > key)
+			high = mid - 1;
+		else
+			return mid; // key found
+	}
+	return -(low + 1); // key not found.
+}
+
 NS_CC_END

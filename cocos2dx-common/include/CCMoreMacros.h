@@ -114,5 +114,6 @@ using namespace std;
 
 // random to max, inclusive
 #define CCRANDOM_0_X_INT(x) ((int)(CCRANDOM_0_1() * (x) * 100) % ((x) + 1))
+#define CCRANDOM_X_Y_INT(x, y) (CCRANDOM_0_X_INT((y) - (x)) + (x))
 
 #endif // __CCMoreMacros_h__

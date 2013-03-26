@@ -129,6 +129,9 @@ public:
 	
 	/// perform a binary search in a int array
 	static int binarySearch(int* a, size_t len, int key);
+    
+    /// combine two rect
+    static CCRect combine(const CCRect& r1, const CCRect& r2);
 };
 
 NS_CC_END

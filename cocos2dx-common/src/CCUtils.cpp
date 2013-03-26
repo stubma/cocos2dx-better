@@ -350,4 +350,12 @@ int CCUtils::binarySearch(int* a, size_t len, int key) {
 	return -(low + 1); // key not found.
 }
 
+CCRect CCUtils::combine(const CCRect& r1, const CCRect& r2) {
+    float left = MIN(r1.origin.x, r2.origin.x);
+	float right = MAX(r1.origin.x + r1.size.width, r2.origin.x + r2.size.width);
+	float bottom = MIN(r1.origin.y, r2.origin.y);
+	float top = MAX(r1.origin.y + r1.size.height, r2.origin.y + r2.size.height);
+	return CCRectMake(left, bottom, right - left, top - bottom);
+}
+
 NS_CC_END

@@ -153,12 +153,26 @@ public:
 	void addZwoptexTask(const string& name, float idle = 0);
 	
 	/// add a zwoptex animation loading task
-	/// the endIndex is included
+	/// the endIndex is inclusive
 	void addZwoptexAnimTask(const string& name,
 							float unitDelay,
 							const string& pattern,
 							int startIndex,
 							int endIndex,
+							bool restoreOriginalFrame = false,
+							float idle = 0);
+	
+	/// add a zwoptex animation loading task
+	/// the endIndex is inclusive
+	/// this method can specify two sets of start/end index so the
+	/// animation can have two stage
+	void addZwoptexAnimTask(const string& name,
+							float unitDelay,
+							const string& pattern,
+							int startIndex,
+							int endIndex,
+							int startIndex2,
+							int endIndex2,
 							bool restoreOriginalFrame = false,
 							float idle = 0);
 	

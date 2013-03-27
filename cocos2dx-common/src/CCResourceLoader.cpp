@@ -77,6 +77,32 @@ void CCResourceLoader::addZwoptexAnimTask(const string& name,
 	addLoadTask(t);
 }
 
+void CCResourceLoader::addZwoptexAnimTask(const string& name,
+										  float unitDelay,
+										  const string& pattern,
+										  int startIndex,
+										  int endIndex,
+										  int startIndex2,
+										  int endIndex2,
+										  bool restoreOriginalFrame,
+										  float idle) {
+	ZwoptexAnimLoadTask* t = new ZwoptexAnimLoadTask();
+	t->name = name;
+	t->unitDelay = unitDelay;
+	t->restoreOriginalFrame = restoreOriginalFrame;
+	t->idle = idle;
+	char buf[256];
+	for(int i = startIndex; i <= endIndex; i++) {
+		sprintf(buf, pattern.c_str(), i);
+		t->frames.push_back(buf);
+	}
+	for(int i = startIndex2; i <= endIndex2; i++) {
+		sprintf(buf, pattern.c_str(), i);
+		t->frames.push_back(buf);
+	}
+	addLoadTask(t);
+}
+
 void CCResourceLoader::addLoadTask(LoadTask* t) {
     m_loadTaskList.push_back(t);
 }

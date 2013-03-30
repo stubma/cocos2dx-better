@@ -124,6 +124,9 @@ public:
 	/// get node position
 	static CCPoint getPoint(CCNode* node, float xpercent, float ypercent);
 	
+	/// get node position
+	static CCPoint getPoint(CCNode* node, CCPoint anchor) { return getPoint(node, anchor.x, anchor.y); }
+	
 	/// is a segment intersected with a box
 	static bool testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b);
 	

@@ -146,7 +146,7 @@ public:
     static bool hasExternalStorage();
     
     /// current time milliseconds from 1970-1-1
-    int64_t currentTimeMillis();
+    static int64_t currentTimeMillis();
 };
 
 NS_CC_END

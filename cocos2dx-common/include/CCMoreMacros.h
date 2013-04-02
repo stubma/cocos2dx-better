@@ -36,11 +36,9 @@ using namespace std;
 
 // map endian methods
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    // common header
     #include <sys/stat.h>
-
-    // endian
 	#include <endian.h>
+    #include "JniHelper.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     // common header
     #include <sys/stat.h>

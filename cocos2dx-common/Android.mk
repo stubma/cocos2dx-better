@@ -17,10 +17,13 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
+COCOS2DX_ROOT=$(LOCAL_PATH)/../../cocos2d-x
 LOCAL_MODULE := cocos2dx-common
 LOCAL_CFLAGS += -DANDROID
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src)
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
+	$(COCOS2DX_ROOT)/cocos2dx/platform/android \
+	$(COCOS2DX_ROOT)/cocos2dx/platform/android/jni
 LOCAL_EXPORT_LDLIBS := -llog
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES)
 LOCAL_LDLIBS := $(LOCAL_EXPORT_LDLIBS)

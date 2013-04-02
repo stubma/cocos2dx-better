@@ -358,4 +358,71 @@ CCRect CCUtils::combine(const CCRect& r1, const CCRect& r2) {
 	return CCRectMake(left, bottom, right - left, top - bottom);
 }
 
+string CCUtils::getLanguage() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    // get language
+	NSString* lan = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+	if(!lan)
+		return "en";
+    else
+        return [lan cStringUsingEncoding:NSUTF8StringEncoding];
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // get default locale
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "Ljava/util/Locale;", "getDefault", "()Ljava/util/Locale;");
+    jobject jLocale = t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    
+    // get language
+    JniHelper::getMethodInfo(t, "Ljava/util/Locale;", "getLanguage", "()Ljava/lang/String;");
+    jstring jLan = (jstring)t.env->CallObjectMethod(jLocale, t.methodID);
+    return JniHelper::jstring2string(jLan);
+#else
+    CCLOGERROR("CCUtils::getLanguage is not implemented for this platform, please finish it");
+#endif
+}
+
+string CCUtils::getCountry() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    // get country
+	NSString* c = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+	if(!c)
+		return "US";
+    else
+        return [c cStringUsingEncoding:NSUTF8StringEncoding];
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // get default locale
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "Ljava/util/Locale;", "getDefault", "()Ljava/util/Locale;");
+    jobject jLocale = t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    
+    // get language
+    JniHelper::getMethodInfo(t, "Ljava/util/Locale;", "getCountry", "()Ljava/lang/String;");
+    jstring jCty = (jstring)t.env->CallObjectMethod(jLocale, t.methodID);
+    return JniHelper::jstring2string(jCty);
+#else
+    CCLOGERROR("CCUtils::getLanguage is not implemented for this platform, please finish it");
+#endif
+}
+
+bool CCUtils::hasExternalStorage() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    return true;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // get state
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "Landroid/os/Environment;", "getExternalStorageState", "()Ljava/lang/String;");
+    jobject jState = t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    
+    // get mount state
+    jfieldID fid = t.env->GetStaticFieldID(t.classID, "MEDIA_MOUNTED", "Ljava/lang/String;");
+    jstring jMounted = (jstring)t.env->GetStaticObjectField(t.classID, fid);
+    
+    // is same?
+    JniHelper::getMethodInfo(t, "Ljava/lang/Object;", "equals", "(Ljava/lang/Object;)Z");
+    return t.env->CallBooleanMethod(jMounted, t.methodID, jState);
+#else
+    CCLOGERROR("CCUtils::getLanguage is not implemented for this platform, please finish it");
+#endif
+}
+
 NS_CC_END

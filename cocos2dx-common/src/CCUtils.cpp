@@ -425,4 +425,11 @@ bool CCUtils::hasExternalStorage() {
 #endif
 }
 
+int64_t CCUtils::currentTimeMillis() {
+	struct timeval tv;
+	gettimeofday(&tv, (struct timezone *) NULL);
+	int64_t when = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
+	return when;
+}
+
 NS_CC_END

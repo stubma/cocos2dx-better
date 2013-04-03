@@ -39,6 +39,9 @@ using namespace std;
     #include <sys/stat.h>
 	#include <endian.h>
     #include "JniHelper.h"
+
+    // path separator
+    #define CC_PATH_SEPARATOR '/'
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     // common header
     #include <sys/stat.h>
@@ -58,6 +61,9 @@ using namespace std;
 	#define htobe64 CFSwapInt64HostToBig
 	#define htobe32 CFSwapInt32HostToBig
 	#define htobe16 CFSwapInt16HostToBig
+
+    // path separator
+    #define CC_PATH_SEPARATOR '/'
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
     // mkdir
     #include <direct.h>
@@ -105,6 +111,9 @@ using namespace std;
     #define BIG_ENDIAN _BIG_ENDIAN
     #define _BYTE_ORDER LITTLE_ENDIAN
     #define BYTE_ORDER _BYTE_ORDER
+
+    // path separator
+    #define CC_PATH_SEPARATOR '\\'
 #endif
 
 // max value

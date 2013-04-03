@@ -64,6 +64,57 @@ public:
     
     /// end with sub string?
     static bool endsWith(const string& s, const string& sub);
+    
+    /**
+	 * Replace a char with other char
+	 *
+	 * @param s string reference, its content will be modified
+	 * @param c char to be replaced
+	 * @param sub char to be replaced to
+	 */
+    static void replaceChar(string& s, char c, char sub);
+    
+    /// Get index of last slash character, if not found, returns -1
+    static ssize_t lastSlashIndex(string path);
+    
+    /// Get index of last dot character, if not found, returns -1
+    static ssize_t lastDotIndex(const string& path);
+    
+    /**
+	 * Delete last component in a path, for example:<br>
+	 * Input					Output<br>
+	 * "/tmp/scratch.tiff"      "/tmp"<br>
+	 * "/tmp/scratch"           "/tmp"<br>
+	 * "/tmp/"                  "/"<br>
+	 * "scratch"                ""<br>
+	 * "/" 						"/"<br>
+	 *
+	 * @param path path string
+	 * @return path without last segment, caller should release returned path string
+	 */
+    static string deleteLastPathComponent(const string& path);
+    
+    /**
+	 * Append a path segment to another path, for example:<br>
+	 * Input					Output<br>
+	 * "/tmp", "/scratch.tiff"  "/tmp/scratch.tiff"<br>
+	 * "/tmp//", "/scratch"     "/tmp/scratch"<br>
+	 * "/tmp", "/"              "/tmp"<br>
+	 * "/", "tmp/" 				"/tmp"<br>
+	 *
+	 * @param path path string
+	 * @param component segment to be added
+	 * @return new path, caller should release returned path string
+	 */
+	static string appendPathComponent(const string& path, const string& component);
+    
+    /**
+	 * Delete path extension of last path component
+	 *
+	 * @param path path string
+	 * @return path after deleted extension, caller should release it
+	 */
+	static string deletePathExtension(const string& path);
 	
 	/**
 	 * map path to different platform, for example, a path "/sdcard/a.png" will be:

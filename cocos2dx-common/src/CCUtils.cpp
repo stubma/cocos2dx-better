@@ -59,9 +59,9 @@ void CCUtils::toLowercase(string& s) {
 	if(s.empty())
 		return;
 	
-	char* buf = new char[s.length() + 1];
+    size_t len = s.length();
+	char* buf = new char[len + 1];
 	strcpy(buf, s.c_str());
-	size_t len = s.length();
     for(int i = 0; i < len; i++)
 		if(buf[i] >= 0x41 && buf[i] <= 0x5A)
 			buf[i] += 0x20;
@@ -76,6 +76,150 @@ bool CCUtils::startsWith(const string& s, const string& sub) {
 
 bool CCUtils::endsWith(const string& s, const string& sub) {
     return s.rfind(sub) == s.length() - sub.length();
+}
+
+void CCUtils::replaceChar(string& s, char c, char sub) {
+    size_t len = s.length();
+	char* buf = new char[len + 1];
+    strcpy(buf, s.c_str());
+    
+	for(int i = 0; i < len; i++) {
+		if(buf[i] == c) {
+            buf[i] = sub;
+        }
+	}
+    
+    s.copy(buf, len);
+    delete buf;
+}
+
+ssize_t CCUtils::lastDotIndex(const string& path) {
+	if(path.empty())
+		return -1;
+    
+	size_t len = path.length();
+	for(int i = len - 1; i >= 0; i--) {
+		if(path[i] == '.')
+			return i;
+	}
+    
+	return -1;
+}
+
+ssize_t CCUtils::lastSlashIndex(string path) {
+	if(path.empty())
+		return -1;
+    
+	// change slash to windows format
+    if(CC_PATH_SEPARATOR != '/')
+        replaceChar(path, '/', CC_PATH_SEPARATOR);
+    
+	// find slash index
+	size_t len = path.length();
+	int end = len;
+	int slash = -1;
+	for(int i = len - 1; i >= 0; i--) {
+		if(path[i] == CC_PATH_SEPARATOR) {
+			if(i == end - 1) {
+				end--;
+				if(i == 0) {
+					slash = 0;
+					break;
+				}
+			} else {
+				slash = i;
+				break;
+			}
+		}
+	}
+    
+	// skip extra slash
+	if(slash != -1) {
+		while(slash >= 1 && path[slash - 1] == CC_PATH_SEPARATOR)
+			slash--;
+	}
+    
+	// assign to end
+	end = slash;
+	if(end == 0)
+		end = 1;
+    
+	return end;
+}
+
+string CCUtils::deleteLastPathComponent(const string& path) {
+	ssize_t end = lastSlashIndex(path);
+	if(end < 0)
+		return path;
+	else
+		return path.substr(0, end);
+}
+
+string CCUtils::appendPathComponent(const string& path, const string& component) {
+	// change slash to windows format
+	if(CC_PATH_SEPARATOR != '/')
+		replaceChar((string&)path, '/', CC_PATH_SEPARATOR);
+    
+	// validating
+	if(path.empty()) {
+		if(component.empty())
+			return "";
+		else
+			return component;
+	} else if(component.empty()) {
+		return path;
+    }
+    
+	// allocate a big enough buffer
+	// plus 2 because one for slash, one for null terminator
+	size_t len = path.length();
+	int cLen = component.length();
+    char* buf = new char[len + cLen + 2];
+    memset(buf, 0, len + cLen + 2);
+    
+	// copy path
+	memcpy(buf, path.c_str(), len);
+    
+	// take care of slash
+	int start = len;
+	if(start > 0) {
+		if(buf[start - 1] != CC_PATH_SEPARATOR) {
+			buf[start++] = CC_PATH_SEPARATOR;
+		} else {
+			while(start >= 2 && buf[start - 2] == CC_PATH_SEPARATOR)
+				start--;
+		}
+	}
+    
+	// copy component
+	int cStart = 0;
+	while(cStart < cLen && component[cStart] == CC_PATH_SEPARATOR)
+		cStart++;
+	if(cStart > 0 && start == 0)
+		cStart--;
+	memcpy(buf + start, component.c_str() + cStart, cLen - cStart);
+    
+    // remove end slash
+    int end = start + cLen - cStart - 1;
+    while(buf[end] == CC_PATH_SEPARATOR)
+        buf[end--] = 0;
+    
+    string ret = buf;
+    delete buf;
+	return ret;
+}
+
+string CCUtils::deletePathExtension(const string& path) {
+    ssize_t end = lastDotIndex(path);
+	ssize_t slash = lastSlashIndex((string&)path);
+	if(end >= 0) {
+		if(end > slash)
+			return path.substr(0, end);
+		else
+			return path;
+	} else {
+		return path;
+	}
 }
 
 bool CCUtils::deleteFile(string path) {

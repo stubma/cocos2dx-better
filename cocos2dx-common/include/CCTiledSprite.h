@@ -80,6 +80,12 @@ public:
 	
 	/// @see CCNode::setContentSize
 	virtual void setContentSize(const CCSize& contentSize);
+	
+	/// set height
+	virtual void setHeight(float h);
+
+	/// set width
+	virtual void setWidth(float w);
 };
 
 NS_CC_END

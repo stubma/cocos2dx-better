@@ -86,6 +86,18 @@ void CCTiledSprite::setContentSize(const CCSize& contentSize) {
 	m_dirty = true;
 }
 
+void CCTiledSprite::setHeight(float h) {
+	CCSize size = getContentSize();
+	size.height = h;
+	setContentSize(size);
+}
+
+void CCTiledSprite::setWidth(float w) {
+	CCSize size = getContentSize();
+	size.width = w;
+	setContentSize(size);
+}
+
 void CCTiledSprite::draw() {
 	// build atlas
 	if(m_dirty) {

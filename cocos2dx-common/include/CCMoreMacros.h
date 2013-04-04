@@ -42,6 +42,9 @@ using namespace std;
 
     // path separator
     #define CC_PATH_SEPARATOR '/'
+
+	// max float
+	#define MAX_FLOAT 3.4028235E38f
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     // common header
     #include <sys/stat.h>
@@ -64,6 +67,9 @@ using namespace std;
 
     // path separator
     #define CC_PATH_SEPARATOR '/'
+
+	// max float
+	#define MAX_FLOAT 3.4028235E38f
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
     // mkdir
     #include <direct.h>
@@ -114,9 +120,12 @@ using namespace std;
 
     // path separator
     #define CC_PATH_SEPARATOR '\\'
+
+	// max float
+	#define MAX_FLOAT FLT_MAX
 #endif
 
-// max value
+// max int
 #define MAX_INT 0x7fffffff
 
 // random to max, inclusive

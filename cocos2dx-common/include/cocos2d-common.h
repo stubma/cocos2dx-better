@@ -27,6 +27,7 @@
 #include "CCMoreMacros.h"
 #include "ccMoreTypes.h"
 #include "CCUtils.h"
+#include "CCScroller.h"
 #include "CCAutoRenderMenuItemSprite.h"
 #include "CCMissile.h"
 #include "CCShake.h"
@@ -35,5 +36,6 @@
 #include "CCMemoryInputStream.h"
 #include "CCResourceLoader.h"
 #include "CCResourceLoaderListener.h"
+#include "CCTiledSprite.h"
 
 #endif // __cocos2d_common_h__

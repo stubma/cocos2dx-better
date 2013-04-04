@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */; };
 		924C929C16F8AC0900E39658 /* CCMissile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924C929A16F8AC0900E39658 /* CCMissile.cpp */; };
+		92591A7B170D845B00490E54 /* CCTiledSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7A170D845B00490E54 /* CCTiledSprite.cpp */; };
+		92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7E170D84E700490E54 /* CCScroller.cpp */; };
 		925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925D7D3D16F4B4F000622984 /* CCShake.cpp */; };
 		9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */; };
 		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
@@ -51,6 +53,10 @@
 		921F190D16F58D2900A3DC41 /* CCDrawingPrimitivesEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCDrawingPrimitivesEx.h; sourceTree = "<group>"; };
 		924C929A16F8AC0900E39658 /* CCMissile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMissile.cpp; sourceTree = "<group>"; };
 		924C929E16F8AC1A00E39658 /* CCMissile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMissile.h; sourceTree = "<group>"; };
+		92591A7A170D845B00490E54 /* CCTiledSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTiledSprite.cpp; sourceTree = "<group>"; };
+		92591A7D170D846100490E54 /* CCTiledSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTiledSprite.h; sourceTree = "<group>"; };
+		92591A7E170D84E700490E54 /* CCScroller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScroller.cpp; sourceTree = "<group>"; };
+		92591A80170D84EB00490E54 /* CCScroller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCScroller.h; sourceTree = "<group>"; };
 		925D7D3D16F4B4F000622984 /* CCShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShake.cpp; sourceTree = "<group>"; };
 		925D7D4016F4B4F600622984 /* CCShake.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShake.h; sourceTree = "<group>"; };
 		9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
@@ -111,7 +117,9 @@
 				92AE790116F73643009C5FFC /* CCResourceLoader.h */,
 				92AE790216F73643009C5FFC /* CCResourceLoaderListener.h */,
 				924C929E16F8AC1A00E39658 /* CCMissile.h */,
+				92591A80170D84EB00490E54 /* CCScroller.h */,
 				925D7D4016F4B4F600622984 /* CCShake.h */,
+				92591A7D170D846100490E54 /* CCTiledSprite.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
 				9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */,
 			);
@@ -138,7 +146,9 @@
 				921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */,
 				92AE790416F73649009C5FFC /* CCResourceLoader.cpp */,
 				924C929A16F8AC0900E39658 /* CCMissile.cpp */,
+				92591A7E170D84E700490E54 /* CCScroller.cpp */,
 				925D7D3D16F4B4F000622984 /* CCShake.cpp */,
+				92591A7A170D845B00490E54 /* CCTiledSprite.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
 			);
 			name = src;
@@ -271,6 +281,8 @@
 				9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */,
 				92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */,
 				924C929C16F8AC0900E39658 /* CCMissile.cpp in Sources */,
+				92591A7B170D845B00490E54 /* CCTiledSprite.cpp in Sources */,
+				92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

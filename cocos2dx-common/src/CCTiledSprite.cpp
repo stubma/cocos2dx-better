@@ -47,10 +47,6 @@ CCTiledSprite::CCTiledSprite(CCSprite* sprite) :
 	// shader program
 	setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColor));
 			
-	// blend func
-	m_sBlendFunc.src = CC_BLEND_SRC;
-	m_sBlendFunc.dst = CC_BLEND_DST;
-			
 	// set content size
 	setContentSize(m_sprite->getContentSize());
 }
@@ -112,17 +108,15 @@ void CCTiledSprite::draw() {
     CC_NODE_DRAW_SETUP();
 	
 	// blend func
-    ccGLBlendFunc(m_sBlendFunc.src, m_sBlendFunc.dst);
+	ccBlendFunc bf = m_sprite->getBlendFunc();
+    ccGLBlendFunc(bf.src, bf.dst);
 	
     // draw
 	if(m_atlas)
 		m_atlas->drawQuads();
     
     // shader attributes
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
-	
-	// statistics
-    CC_INCREMENT_GL_DRAWS(1);
+    ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
 	
 	// profile end
     CC_PROFILER_STOP_CATEGORY(kCCProfilerCategorySprite, "CCTiledSprite - draw");

@@ -52,9 +52,6 @@ private:
 	/// atlas
 	CCTextureAtlas* m_atlas;
 	
-	/// blend func
-	ccBlendFunc m_sBlendFunc;
-	
 private:
 	/// update atlas
 	void updateAtlas();
@@ -71,8 +68,8 @@ public:
 	
 	/// @{
     /// @name Functions inherited from CCTextureProtocol
-    inline void setBlendFunc(ccBlendFunc blendFunc) { m_sBlendFunc = blendFunc; }
-    inline ccBlendFunc getBlendFunc(void) { return m_sBlendFunc; }
+    inline void setBlendFunc(ccBlendFunc blendFunc) { m_sprite->setBlendFunc(blendFunc); }
+    inline ccBlendFunc getBlendFunc(void) { return m_sprite->getBlendFunc(); }
     /// @}
 	
 	/// @see CCNode::draw

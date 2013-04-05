@@ -36,6 +36,7 @@
 #include "CCMemoryInputStream.h"
 #include "CCResourceLoader.h"
 #include "CCResourceLoaderListener.h"
+#include "CCAntiArtifactSprite.h"
 #include "CCTiledSprite.h"
 
 #endif // __cocos2d_common_h__

@@ -20,7 +20,7 @@ If not clear, refer to demo code.
 My Extensions
 ===========
 Here is my extensions which refer to this common base:
-https://github.com/stubma/cocos2dx-anim
-https://github.com/stubma/cocos2dx-json
-https://github.com/stubma/cocos2dx-wisound
-https://github.com/stubma/cocos2dx-db
+* https://github.com/stubma/cocos2dx-anim
+* https://github.com/stubma/cocos2dx-json
+* https://github.com/stubma/cocos2dx-wisound
+* https://github.com/stubma/cocos2dx-db

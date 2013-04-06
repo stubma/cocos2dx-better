@@ -16,3 +16,11 @@ How to use
 ===========
 For iOS, just drag cocos2dx-common project into your project. For Android, just import cocos2dx-common module. 
 If not clear, refer to demo code.
+
+My Extensions
+===========
+Here is my extensions which refer to this common base:
+https://github.com/stubma/cocos2dx-anim
+https://github.com/stubma/cocos2dx-json
+https://github.com/stubma/cocos2dx-wisound
+https://github.com/stubma/cocos2dx-db

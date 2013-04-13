@@ -83,6 +83,9 @@ public:
 
 	/// set width
 	virtual void setWidth(float w);
+	
+	/// get internal sprite
+	CCSprite* getSprite() { return m_sprite; }
 };
 
 NS_CC_END

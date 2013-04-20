@@ -107,7 +107,7 @@ private:
         
         virtual void load() {
             CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
-            CCArray* array = new CCArray();
+            CCArray* array = CCArray::create();
             for(StringList::iterator iter = frames.begin(); iter != frames.end(); iter++) {
                 CCSpriteFrame* f = cache->spriteFrameByName(iter->c_str());
                 array->addObject(f);

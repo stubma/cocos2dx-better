@@ -106,15 +106,17 @@ private:
         virtual ~ZwoptexAnimLoadTask() {}
         
         virtual void load() {
-            CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
-            CCArray* array = CCArray::create();
-            for(StringList::iterator iter = frames.begin(); iter != frames.end(); iter++) {
-                CCSpriteFrame* f = cache->spriteFrameByName(iter->c_str());
-                array->addObject(f);
-            }
-            CCAnimation* anim = CCAnimation::createWithSpriteFrames(array, unitDelay);
-			anim->setRestoreOriginalFrame(restoreOriginalFrame);
-            CCAnimationCache::sharedAnimationCache()->addAnimation(anim, name.c_str());
+			if(!CCAnimationCache::sharedAnimationCache()->animationByName(name.c_str())) {
+				CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
+				CCArray* array = CCArray::create();
+				for(StringList::iterator iter = frames.begin(); iter != frames.end(); iter++) {
+					CCSpriteFrame* f = cache->spriteFrameByName(iter->c_str());
+					array->addObject(f);
+				}
+				CCAnimation* anim = CCAnimation::createWithSpriteFrames(array, unitDelay);
+				anim->setRestoreOriginalFrame(restoreOriginalFrame);
+				CCAnimationCache::sharedAnimationCache()->addAnimation(anim, name.c_str());
+			}
         }
     };
  

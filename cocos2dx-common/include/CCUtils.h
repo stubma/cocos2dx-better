@@ -201,6 +201,9 @@ public:
     
     /// current time milliseconds from 1970-1-1
     static int64_t currentTimeMillis();
+    
+    /// verify app signature, if has, basically it is only used for android
+    bool verifySignature(void* validSign, size_t len);
 };
 
 NS_CC_END

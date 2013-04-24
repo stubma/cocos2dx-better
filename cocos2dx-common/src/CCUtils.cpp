@@ -147,6 +147,31 @@ ssize_t CCUtils::lastSlashIndex(string path) {
 	return end;
 }
 
+string CCUtils::lastPathComponent(const string& path) {
+	// change slash to windows format
+	if(CC_PATH_SEPARATOR != '/')
+		replaceChar((string&)path, '/', CC_PATH_SEPARATOR);
+    
+	size_t len = path.length();
+	int start = 0;
+	int end = len;
+	for(int i = len - 1; i >= 0; i--) {
+		if(path[i] == CC_PATH_SEPARATOR) {
+			if(i == end - 1)
+				end--;
+			else {
+				start = i + 1;
+				break;
+			}
+		}
+	}
+    
+	if(end < start)
+		return path;
+	else
+		return path.substr(start, end);
+}
+
 string CCUtils::deleteLastPathComponent(const string& path) {
 	ssize_t end = lastSlashIndex(path);
 	if(end < 0)

@@ -80,6 +80,9 @@ public:
     /// Get index of last dot character, if not found, returns -1
     static ssize_t lastDotIndex(const string& path);
     
+    /// get last segment of path
+    static string lastPathComponent(const string& path);
+    
     /**
 	 * Delete last component in a path, for example:<br>
 	 * Input					Output<br>

@@ -25,6 +25,7 @@
 		9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */; };
 		92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92AE790416F73649009C5FFC /* CCResourceLoader.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
+		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
 		92E107C7170EB78F0096EA4C /* CCAntiArtifactSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,8 @@
 		92AE790416F73649009C5FFC /* CCResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCResourceLoader.cpp; sourceTree = "<group>"; };
 		92B516E416E86020009F3536 /* libcocos2dxcommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2dxcommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		92B706B3172793D9002A9655 /* CCGradientSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGradientSprite.cpp; sourceTree = "<group>"; };
+		92B706B6172793E7002A9655 /* CCGradientSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCGradientSprite.h; sourceTree = "<group>"; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAntiArtifactSprite.h; sourceTree = "<group>"; };
 		92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAntiArtifactSprite.cpp; sourceTree = "<group>"; };
@@ -124,6 +127,7 @@
 				924C929E16F8AC1A00E39658 /* CCMissile.h */,
 				92591A80170D84EB00490E54 /* CCScroller.h */,
 				925D7D4016F4B4F600622984 /* CCShake.h */,
+				92B706B6172793E7002A9655 /* CCGradientSprite.h */,
 				92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */,
 				92591A7D170D846100490E54 /* CCTiledSprite.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
@@ -154,6 +158,7 @@
 				924C929A16F8AC0900E39658 /* CCMissile.cpp */,
 				92591A7E170D84E700490E54 /* CCScroller.cpp */,
 				925D7D3D16F4B4F000622984 /* CCShake.cpp */,
+				92B706B3172793D9002A9655 /* CCGradientSprite.cpp */,
 				92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */,
 				92591A7A170D845B00490E54 /* CCTiledSprite.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
@@ -291,6 +296,7 @@
 				92591A7B170D845B00490E54 /* CCTiledSprite.cpp in Sources */,
 				92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */,
 				92E107C7170EB78F0096EA4C /* CCAntiArtifactSprite.cpp in Sources */,
+				92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

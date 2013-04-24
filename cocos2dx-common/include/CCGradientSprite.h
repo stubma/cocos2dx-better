@@ -26,24 +26,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#ifndef __CCAntiArtifactSprite_h__
-#define __CCAntiArtifactSprite_h__
+#ifndef __CCGradientSprite_h__
+#define __CCGradientSprite_h__
 
 #include "cocos2d.h"
 
 NS_CC_BEGIN
 
-class CCAntiArtifactSprite : public CCSprite {
+/// sprite can show a gradient effect
+class CCGradientSprite : public CCSprite {
+private:
+    /// update color
+    void updateColor();
+    
 public:
 	/**
      * Default constructor
      */
-    CCAntiArtifactSprite();
+    CCGradientSprite();
     
     /**
      * Default destructor
      */
-    virtual ~CCAntiArtifactSprite();
+    virtual ~CCGradientSprite();
 	
 	/// @{
     /// @name Creators
@@ -53,7 +58,7 @@ public:
      *
      * @return An empty sprite object that is marked as autoreleased.
      */
-    static CCAntiArtifactSprite* create();
+    static CCGradientSprite* create();
     
     /**
      * Creates a sprite with an image filename.
@@ -64,7 +69,7 @@ public:
      * @param   pszFileName The string which indicates a path to image file, e.g., "scene1/monster.png".
      * @return  A valid sprite object that is marked as autoreleased.
      */
-    static CCAntiArtifactSprite* create(const char *pszFileName);
+    static CCGradientSprite* create(const char *pszFileName);
     
     /**
      * Creates a sprite with an image filename and a rect.
@@ -73,7 +78,7 @@ public:
      * @param   rect        Only the contents inside rect of pszFileName's texture will be applied for this sprite.
      * @return  A valid sprite object that is marked as autoreleased.
      */
-    static CCAntiArtifactSprite* create(const char *pszFileName, const CCRect& rect);
+    static CCGradientSprite* create(const char *pszFileName, const CCRect& rect);
     
     /**
      * Creates a sprite with an exsiting texture contained in a CCTexture2D object
@@ -82,7 +87,7 @@ public:
      * @param   pTexture    A pointer to a CCTexture2D object.
      * @return  A valid sprite object that is marked as autoreleased.
      */
-    static CCAntiArtifactSprite* createWithTexture(CCTexture2D *pTexture);
+    static CCGradientSprite* createWithTexture(CCTexture2D *pTexture);
     
     /**
      * Creates a sprite with a texture and a rect.
@@ -94,7 +99,7 @@ public:
      * @param   rect        Only the contents inside the rect of this texture will be applied for this sprite.
      * @return  A valid sprite object that is marked as autoreleased.
      */
-    static CCAntiArtifactSprite* createWithTexture(CCTexture2D *pTexture, const CCRect& rect);
+    static CCGradientSprite* createWithTexture(CCTexture2D *pTexture, const CCRect& rect);
     
     /**
      * Creates a sprite with an sprite frame.
@@ -102,7 +107,7 @@ public:
      * @param   pSpriteFrame    A sprite frame which involves a texture and a rect
      * @return  A valid sprite object that is marked as autoreleased.
      */
-    static CCAntiArtifactSprite* createWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
+    static CCGradientSprite* createWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
     
     /**
      * Creates a sprite with an sprite frame name.
@@ -113,15 +118,34 @@ public:
      * @param   pszSpriteFrameName A null terminated string which indicates the sprite frame name.
      * @return  A valid sprite object that is marked as autoreleased.
      */
-    static CCAntiArtifactSprite* createWithSpriteFrameName(const char *pszSpriteFrameName);
+    static CCGradientSprite* createWithSpriteFrameName(const char *pszSpriteFrameName);
     
     /// @}  end of creators group
-	
-protected:
-	/// @see CCSprite::setTextureCoords
-    virtual void setTextureCoords(CCRect rect);
+    
+    /// @{
+    /// @name Functions inherited from CCNodeRGBA
+    virtual void setColor(const ccColor3B& color3);
+    virtual void updateDisplayedColor(const ccColor3B& parentColor);
+    virtual void setOpacity(GLubyte opacity);
+    virtual void setOpacityModifyRGB(bool modify);
+    virtual void updateDisplayedOpacity(GLubyte parentOpacity);
+    /// @}
+    
+    bool isCompressedInterpolation() {
+        return getCompressedInterpolation();
+    }
+    
+    // set gradient
+    virtual void setColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v);
+    
+    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_startColor, StartColor)
+    CC_PROPERTY_PASS_BY_REF(ccColor3B, m_endColor, EndColor)
+    CC_PROPERTY(GLubyte, m_cStartOpacity, StartOpacity)
+    CC_PROPERTY(GLubyte, m_cEndOpacity, EndOpacity)
+    CC_PROPERTY_PASS_BY_REF(CCPoint, m_AlongVector, Vector)
+    CC_PROPERTY(bool, m_bCompressedInterpolation, CompressedInterpolation);
 };
 
 NS_CC_END
 
-#endif // __CCAntiArtifactSprite_h__
+#endif // __CCGradientSprite_h__

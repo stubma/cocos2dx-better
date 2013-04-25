@@ -23,6 +23,7 @@
  ****************************************************************************/
 #include "CCUtils.h"
 #include "CCMoreMacros.h"
+#include "CCMD5.h"
 
 NS_CC_BEGIN
 
@@ -609,19 +610,19 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
     
 	// get context
     JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(&t, "Lcocos2dx/lib/Cocos2dxActivity;", "getContext", "()Landroid/content/Context;");
+    JniHelper::getStaticMethodInfo(t, "Lcocos2dx/lib/Cocos2dxActivity;", "getContext", "()Landroid/content/Context;");
     jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
     
     // get package manager
-    JniHelper::getMethodInfo(&t, "Landroid/content/Context;", "getPackageManager", "()Landroid/content/pm/PackageManager;");
+    JniHelper::getMethodInfo(t, "Landroid/content/Context;", "getPackageManager", "()Landroid/content/pm/PackageManager;");
 	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
     
 	// get package name
-    JniHelper::GetMethodID(&t, "Landroid/content/Context;", "getPackageName", "()Ljava/lang/String;");
+    JniHelper::getMethodInfo(t, "Landroid/content/Context;", "getPackageName", "()Ljava/lang/String;");
 	jstring packageName = (jstring)t.env->CallObjectMethod(ctx, t.methodID);
     
 	// get package info
-    JniHelper::GetMethodID(&t, "Landroid/content/pm/PackageManager;", "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+    JniHelper::getMethodInfo(t, "Landroid/content/pm/PackageManager;", "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
 	jint flags = t.env->GetStaticIntField(t.classID, t.env->GetStaticFieldID(t.classID, "GET_SIGNATURES", "I"));
 	jobject packageInfo = t.env->CallObjectMethod(packageManager, t.methodID, packageName, flags);
     
@@ -633,7 +634,7 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
     
 	// get byte array of signature
 	klazz = t.env->GetObjectClass(signature);
-    JniHelper::GetMethodID(&t, klazz, "toByteArray", "()[B");
+    t.methodID = t.env->GetMethodID(klazz, "toByteArray", "()[B");
 	jbyteArray certificate = (jbyteArray)t.env->CallObjectMethod(signature, t.methodID);
     
 	// md5
@@ -641,7 +642,7 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
 	jsize cLen = t.env->GetArrayLength(certificate);
 	jbyte* cData = t.env->GetByteArrayElements(certificate, JNI_FALSE);
 	if (cLen > 0) {
-		const char* md5 = wyMD5::md5(cData, cLen);
+		const char* md5 = CCMD5::md5(cData, cLen);
 		size_t md5Len = strlen(md5);
 		if(md5Len != len) {
 			valid = false;

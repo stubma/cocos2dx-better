@@ -23,6 +23,7 @@
 		9279755016F6CB680040E3AA /* CCMemoryOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */; };
 		9279755216F6CC4C0040E3AA /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */; };
 		9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */; };
+		928C34061728CEB8008DFA9A /* CCMD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928C34051728CEB8008DFA9A /* CCMD5.cpp */; };
 		92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92AE790416F73649009C5FFC /* CCResourceLoader.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
@@ -86,6 +87,8 @@
 		9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMemoryOutputStream.cpp; sourceTree = "<group>"; };
 		9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream.cpp; sourceTree = "<group>"; };
 		9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream.cpp; sourceTree = "<group>"; };
+		928C34031728CEA8008DFA9A /* CCMD5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMD5.h; sourceTree = "<group>"; };
+		928C34051728CEB8008DFA9A /* CCMD5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMD5.cpp; sourceTree = "<group>"; };
 		92AE790116F73643009C5FFC /* CCResourceLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResourceLoader.h; sourceTree = "<group>"; };
 		92AE790216F73643009C5FFC /* CCResourceLoaderListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResourceLoaderListener.h; sourceTree = "<group>"; };
 		92AE790416F73649009C5FFC /* CCResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCResourceLoader.cpp; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 				92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */,
 				92591A7D170D846100490E54 /* CCTiledSprite.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
+				928C34031728CEA8008DFA9A /* CCMD5.h */,
 				9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */,
 			);
 			name = include;
@@ -161,6 +165,7 @@
 				92B706B3172793D9002A9655 /* CCGradientSprite.cpp */,
 				92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */,
 				92591A7A170D845B00490E54 /* CCTiledSprite.cpp */,
+				928C34051728CEB8008DFA9A /* CCMD5.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
 			);
 			name = src;
@@ -297,6 +302,7 @@
 				92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */,
 				92E107C7170EB78F0096EA4C /* CCAntiArtifactSprite.cpp in Sources */,
 				92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */,
+				928C34061728CEB8008DFA9A /* CCMD5.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,24 +21,33 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCMD5_h__
+#define __CCMD5_h__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
+#include "cocos2d.h"
+#include <stddef.h>
 
-#endif // __cocos2d_common_h__
+/**
+ * MD5 utilities
+ */
+class CC_DLL CCMD5 {
+public:
+	/**
+	 * calculate md5 string for a C string
+	 *
+	 * @param s C string
+	 * @return md5 string, caller should release it
+	 */
+	static const char* md5(const char* s);
+
+	/**
+	 * calculate md5 for a binary data
+	 *
+	 * @param data binary data
+	 * @param len data length
+	 * @return md5 string, caller should release it
+	 */
+	static const char* md5(const void* data, size_t len);
+};
+
+#endif // __CCMD5_h__

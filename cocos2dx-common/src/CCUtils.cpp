@@ -94,6 +94,15 @@ void CCUtils::replaceChar(string& s, char c, char sub) {
     delete buf;
 }
 
+int CCUtils::getNumDigits(int num) {
+    int d = 1;
+    num /= 10;
+    while(num > 0) {
+        d++;
+    }
+    return d;
+}
+
 ssize_t CCUtils::lastDotIndex(const string& path) {
 	if(path.empty())
 		return -1;

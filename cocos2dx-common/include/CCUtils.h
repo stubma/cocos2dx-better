@@ -74,6 +74,12 @@ public:
 	 */
     static void replaceChar(string& s, char c, char sub);
     
+    /**
+     * get digit of a number. For example: 0 returns 1, 12 returns 2,
+     * if number is negative, the negate symbol is not counted
+     */
+    static int getNumDigits(int num);
+    
     /// Get index of last slash character, if not found, returns -1
     static ssize_t lastSlashIndex(string path);
     

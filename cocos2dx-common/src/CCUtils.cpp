@@ -99,6 +99,7 @@ int CCUtils::getNumDigits(int num) {
     num /= 10;
     while(num > 0) {
         d++;
+        num /= 10;
     }
     return d;
 }

@@ -549,11 +549,11 @@ string CCUtils::getLanguage() {
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // get default locale
     JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "Ljava/util/Locale;", "getDefault", "()Ljava/util/Locale;");
+    JniHelper::getStaticMethodInfo(t, "java/util/Locale", "getDefault", "()Ljava/util/Locale;");
     jobject jLocale = t.env->CallStaticObjectMethod(t.classID, t.methodID);
     
     // get language
-    JniHelper::getMethodInfo(t, "Ljava/util/Locale;", "getLanguage", "()Ljava/lang/String;");
+    JniHelper::getMethodInfo(t, "java/util/Locale", "getLanguage", "()Ljava/lang/String;");
     jstring jLan = (jstring)t.env->CallObjectMethod(jLocale, t.methodID);
     return JniHelper::jstring2string(jLan);
 #else
@@ -572,11 +572,11 @@ string CCUtils::getCountry() {
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // get default locale
     JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "Ljava/util/Locale;", "getDefault", "()Ljava/util/Locale;");
+    JniHelper::getStaticMethodInfo(t, "java/util/Locale", "getDefault", "()Ljava/util/Locale;");
     jobject jLocale = t.env->CallStaticObjectMethod(t.classID, t.methodID);
     
     // get language
-    JniHelper::getMethodInfo(t, "Ljava/util/Locale;", "getCountry", "()Ljava/lang/String;");
+    JniHelper::getMethodInfo(t, "java/util/Locale", "getCountry", "()Ljava/lang/String;");
     jstring jCty = (jstring)t.env->CallObjectMethod(jLocale, t.methodID);
     return JniHelper::jstring2string(jCty);
 #else
@@ -590,7 +590,7 @@ bool CCUtils::hasExternalStorage() {
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // get state
     JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "Landroid/os/Environment;", "getExternalStorageState", "()Ljava/lang/String;");
+    JniHelper::getStaticMethodInfo(t, "android/os/Environment", "getExternalStorageState", "()Ljava/lang/String;");
     jobject jState = t.env->CallStaticObjectMethod(t.classID, t.methodID);
     
     // get mount state
@@ -598,7 +598,7 @@ bool CCUtils::hasExternalStorage() {
     jstring jMounted = (jstring)t.env->GetStaticObjectField(t.classID, fid);
     
     // is same?
-    JniHelper::getMethodInfo(t, "Ljava/lang/Object;", "equals", "(Ljava/lang/Object;)Z");
+    JniHelper::getMethodInfo(t, "java/lang/Object", "equals", "(Ljava/lang/Object;)Z");
     return t.env->CallBooleanMethod(jMounted, t.methodID, jState);
 #else
     CCLOGERROR("CCUtils::getLanguage is not implemented for this platform, please finish it");
@@ -620,19 +620,19 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
     
 	// get context
     JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "Lcocos2dx/lib/Cocos2dxActivity;", "getContext", "()Landroid/content/Context;");
+    JniHelper::getStaticMethodInfo(t, "cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
     jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
     
     // get package manager
-    JniHelper::getMethodInfo(t, "Landroid/content/Context;", "getPackageManager", "()Landroid/content/pm/PackageManager;");
+    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageManager", "()Landroid/content/pm/PackageManager;");
 	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
     
 	// get package name
-    JniHelper::getMethodInfo(t, "Landroid/content/Context;", "getPackageName", "()Ljava/lang/String;");
+    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageName", "()Ljava/lang/String;");
 	jstring packageName = (jstring)t.env->CallObjectMethod(ctx, t.methodID);
     
 	// get package info
-    JniHelper::getMethodInfo(t, "Landroid/content/pm/PackageManager;", "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+    JniHelper::getMethodInfo(t, "android/content/pm/PackageManager", "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
 	jint flags = t.env->GetStaticIntField(t.classID, t.env->GetStaticFieldID(t.classID, "GET_SIGNATURES", "I"));
 	jobject packageInfo = t.env->CallObjectMethod(packageManager, t.methodID, packageName, flags);
     

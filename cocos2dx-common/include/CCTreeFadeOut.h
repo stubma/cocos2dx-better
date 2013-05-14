@@ -21,26 +21,27 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCTreeFadeOut_h__
+#define __CCTreeFadeOut_h__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+/// fade out action which also fade out all descendants
+class CCTreeFadeOut : public CCFadeOut {
+protected:
+    /// fade out recursively
+    void fadeOutRecursively(CCNode* n, float time);
+    
+public:
+    /** creates the action */
+    static CCTreeFadeOut* create(float d);
+    
+    virtual void update(float time);
+    virtual CCActionInterval* reverse(void);
+};
+
+NS_CC_END
+
+#endif /* defined(__CCTreeFadeOut_h__) */

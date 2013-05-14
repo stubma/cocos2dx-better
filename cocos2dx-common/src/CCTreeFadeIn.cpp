@@ -21,26 +21,40 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
-
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
 #include "CCTreeFadeIn.h"
 #include "CCTreeFadeOut.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+CCTreeFadeIn* CCTreeFadeIn::create(float d) {
+    CCTreeFadeIn* pAction = new CCTreeFadeIn();
+    pAction->initWithDuration(d);
+    pAction->autorelease();
+    return pAction;
+}
+
+void CCTreeFadeIn::update(float time) {
+    CCFadeIn::update(time);
+    
+    fadeInRecursively(getTarget(), time);
+}
+
+void CCTreeFadeIn::fadeInRecursively(CCNode* n, float time) {
+    CCArray* children = n->getChildren();
+    int cc = n->getChildrenCount();
+    for(int i = 0; i < cc; i++) {
+        CCNode* child = (CCNode*)children->objectAtIndex(i);
+        CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
+        if(p) {
+            p->setOpacity((GLubyte)(255 * time));
+        }
+        
+        fadeInRecursively(child, time);
+    }
+}
+
+CCActionInterval* CCTreeFadeIn::reverse(void) {
+    return CCTreeFadeOut::create(m_fDuration);
+}
+
+NS_CC_END

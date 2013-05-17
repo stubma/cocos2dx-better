@@ -3,7 +3,7 @@ cocos2dx-common
 
 Because I wrote more than one cocos2d-x extension so I found some code can be moved out as a common codebase.
 
-View [my repositories][1] to know what extensions I provided for you.
+View [my repositories][1] to know what extensions I provided for you. Focus on those starts with "cocos2dx" prefix.
 
 Requirement
 ===========

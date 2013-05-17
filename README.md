@@ -3,6 +3,8 @@ cocos2dx-common
 
 Because I wrote more than one cocos2d-x extension so I found some code can be moved out as a common codebase.
 
+View [my repositories][1] to know what extensions I provided for you.
+
 Requirement
 ===========
 cocos2dx-common project refers cocos2d-x project. You must clone cocos2d-x repository to a folder named "cocos2d-x", 
@@ -24,3 +26,5 @@ Here is my extensions which refer to this common base:
 * https://github.com/stubma/cocos2dx-json
 * https://github.com/stubma/cocos2dx-wisound
 * https://github.com/stubma/cocos2dx-db
+
+[1]: https://github.com/stubma?tab=repositories

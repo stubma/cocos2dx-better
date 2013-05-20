@@ -49,7 +49,7 @@ static inline ccAABB ccaabb(const CCPoint min, const CCPoint max) {
 
 // position
 typedef struct ccPosition { int x, y; } ccPosition;
-static ccPosition ccposZero = { 0, 0 };
+static const ccPosition ccposZero = { 0, 0 };
 static inline ccPosition ccpos(const int x, const int y) {
     ccPosition p = {
         x, y

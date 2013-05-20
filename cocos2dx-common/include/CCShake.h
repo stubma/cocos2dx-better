@@ -29,7 +29,7 @@
 NS_CC_BEGIN
 
 /**
- * node is moved randomly in a circle area fast, looks like shaking
+ * node moves randomly in a circle area, looks like shaking
  */
 class CC_DLL CCShake : public CCActionInterval {
 protected:

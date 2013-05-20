@@ -28,6 +28,11 @@
 
 NS_CC_BEGIN
 
+/**
+ * sprite which enables anti-artifact by default. To use
+ * this sprite so that you don't need to turn on the compile flag
+ * in cocos2d-x config, which affects everything.
+ */
 class CCAntiArtifactSprite : public CCSprite {
 public:
 	/**

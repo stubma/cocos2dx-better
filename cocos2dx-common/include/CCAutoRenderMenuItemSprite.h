@@ -28,7 +28,7 @@
 
 USING_NS_CC;
 
-/// a menu item sprite which can automatically render press state
+/// a menu item sprite which can automatically render selected state
 class CCAutoRenderMenuItemSprite : public CCMenuItemSprite {
 private:
 	/// old color

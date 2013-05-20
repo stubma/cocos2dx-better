@@ -29,7 +29,7 @@
 NS_CC_BEGIN
 
 /// fade in action which also fade in all descendants
-class CCTreeFadeIn : public CCFadeIn {
+class CC_DLL CCTreeFadeIn : public CCFadeIn {
 protected:
     /// fade in recursively
     void fadeInRecursively(CCNode* n, float time);

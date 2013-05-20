@@ -33,7 +33,7 @@ NS_CC_BEGIN
  * this sprite so that you don't need to turn on the compile flag
  * in cocos2d-x config, which affects everything.
  */
-class CCAntiArtifactSprite : public CCSprite {
+class CC_DLL CCAntiArtifactSprite : public CCSprite {
 public:
 	/**
      * Default constructor

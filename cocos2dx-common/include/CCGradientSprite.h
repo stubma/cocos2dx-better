@@ -29,7 +29,7 @@
 NS_CC_BEGIN
 
 /// sprite can show a gradient effect
-class CCGradientSprite : public CCSprite {
+class CC_DLL CCGradientSprite : public CCSprite {
 private:
     /// update color
     void updateColor();

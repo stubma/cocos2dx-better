@@ -31,7 +31,7 @@ NS_CC_BEGIN
 /**
  * A stream which read a memory buffer
  */
-class CCMemoryInputStream : public CCAssetInputStream {
+class CC_DLL CCMemoryInputStream : public CCAssetInputStream {
 private:
     /// buffer
     char* m_buffer;

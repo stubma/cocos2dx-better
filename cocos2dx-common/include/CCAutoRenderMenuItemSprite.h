@@ -29,7 +29,7 @@
 USING_NS_CC;
 
 /// a menu item sprite which can automatically render selected state
-class CCAutoRenderMenuItemSprite : public CCMenuItemSprite {
+class CC_DLL CCAutoRenderMenuItemSprite : public CCMenuItemSprite {
 private:
 	/// old color
 	ccColor3B m_oldColor;

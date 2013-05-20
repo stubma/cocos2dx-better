@@ -33,7 +33,7 @@ NS_CC_BEGIN
 /**
  * A cross platform input stream implementation for reading resources
  */
-class CCAssetInputStream : public CCObject {
+class CC_DLL CCAssetInputStream : public CCObject {
 protected:
     /// byte order, default is little endian
     int m_endian;

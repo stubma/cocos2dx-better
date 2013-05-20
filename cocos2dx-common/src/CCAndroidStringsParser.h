@@ -21,27 +21,45 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCAndroidStringsParser_h__
+#define __CCAndroidStringsParser_h__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
+#include "cocos2d.h"
+#include "tinyxml2.h"
 
-#endif // __cocos2d_common_h__
+using namespace tinyxml2;
+
+NS_CC_BEGIN
+
+/// a parser of Android strings.xml, and save string key-values to a dictionary
+class CCAndroidStringsParser : public CCObject, public XMLVisitor {
+private:
+    /// hold dictionary
+    CCDictionary* m_dict;
+    
+public:
+    CCAndroidStringsParser();
+    virtual ~CCAndroidStringsParser();
+
+    /**
+     * Create an instance of Android string parser
+     */
+    static CCAndroidStringsParser* create();
+    
+    /**
+     * Parse android string XML and save strings into a dictionary
+     *
+     * @param path string XML file path. The path is platform-independent and
+     *      it will be mapped to platform format. For example, "/sdcard/strings.xml" will
+     *      be mapped to "~/Documents/sdcard/strings.xml" in iOS like system.
+     * @param dict the dictionary to hold parsed strings
+     */
+    void parse(const string& path, const CCDictionary& dict);
+    
+    /// override XMLVisitor
+    virtual bool VisitEnter(const XMLElement& element, const XMLAttribute* firstAttribute);
+};
+
+NS_CC_END
+
+#endif /* defined(__CCAndroidStringsParser_h__) */

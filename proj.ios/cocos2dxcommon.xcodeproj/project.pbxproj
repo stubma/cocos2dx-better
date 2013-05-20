@@ -30,6 +30,8 @@
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
 		92E107C7170EB78F0096EA4C /* CCAntiArtifactSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */; };
+		92FF9FBA1749C4970015E5A7 /* CCLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */; };
+		92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,10 @@
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAntiArtifactSprite.h; sourceTree = "<group>"; };
 		92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAntiArtifactSprite.cpp; sourceTree = "<group>"; };
+		92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocalization.cpp; sourceTree = "<group>"; };
+		92FF9FBC1749C4B70015E5A7 /* CCLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLocalization.h; sourceTree = "<group>"; };
+		92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAndroidStringsParser.cpp; sourceTree = "<group>"; };
+		92FF9FBE1749CC530015E5A7 /* CCAndroidStringsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAndroidStringsParser.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +148,7 @@
 				928B834C1741E27F005EA4E0 /* CCTreeFadeIn.h */,
 				928B83491741E238005EA4E0 /* CCTreeFadeOut.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
+				92FF9FBC1749C4B70015E5A7 /* CCLocalization.h */,
 				928C34031728CEA8008DFA9A /* CCMD5.h */,
 				9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */,
 			);
@@ -177,6 +184,9 @@
 				928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */,
 				928C34051728CEB8008DFA9A /* CCMD5.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
+				92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */,
+				92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */,
+				92FF9FBE1749CC530015E5A7 /* CCAndroidStringsParser.h */,
 			);
 			name = src;
 			path = "../cocos2dx-common/src";
@@ -315,6 +325,8 @@
 				928C34061728CEB8008DFA9A /* CCMD5.cpp in Sources */,
 				928B83481741E231005EA4E0 /* CCTreeFadeOut.cpp in Sources */,
 				928B834B1741E27A005EA4E0 /* CCTreeFadeIn.cpp in Sources */,
+				92FF9FBA1749C4970015E5A7 /* CCLocalization.cpp in Sources */,
+				92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +390,7 @@
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/support/tinyxml2",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = cocos2dxcommon;
@@ -398,6 +411,7 @@
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include",
+					"$(SRCROOT)/../../cocos2d-x/cocos2dx/support/tinyxml2",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = cocos2dxcommon;

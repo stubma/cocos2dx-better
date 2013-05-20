@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include "CCResourceLoaderListener.h"
+#include "CCLocalization.h"
 
 using namespace std;
 
@@ -57,6 +58,21 @@ private:
         IMAGE,
         ZWOPTEX,
         ANIMATION
+    };
+    
+    /// android string load task
+    struct AndroidStringLoadTask : public LoadTask {
+        /// language
+        string lan;
+        
+        /// file path
+        string path;
+        
+        virtual ~AndroidStringLoadTask() {}
+        
+        virtual void load() {
+            CCLocalization::sharedLocalization()->addAndroidStrings(lan, path);
+        }
     };
     
     /// image load parameter
@@ -147,6 +163,9 @@ public:
     
     /// directly add a load task
     void addLoadTask(LoadTask* t);
+    
+    /// add an Android string loading task
+    void addAndroidStringTask(const string& lan, const string& path);
 	
 	/// add a image loading task
 	void addImageTask(const string& name, float idle = 0);

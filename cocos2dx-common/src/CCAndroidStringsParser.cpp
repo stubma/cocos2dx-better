@@ -21,27 +21,46 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
-
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
+#include "CCAndroidStringsParser.h"
 #include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+CCAndroidStringsParser::CCAndroidStringsParser() {
+}
+
+CCAndroidStringsParser::~CCAndroidStringsParser() {
+}
+
+CCAndroidStringsParser* CCAndroidStringsParser::create() {
+    CCAndroidStringsParser* p = new CCAndroidStringsParser();
+    return (CCAndroidStringsParser*)p->autorelease();
+}
+
+void CCAndroidStringsParser::parse(const string& path, const CCDictionary& dict) {
+    // map file path
+    string localPath = CCUtils::mapLocalPath(path);
+    
+    // load file, if success, visit it
+    XMLDocument* doc = new XMLDocument();
+    if(doc->LoadFile(localPath.c_str()) == XML_NO_ERROR) {
+        m_dict = (CCDictionary*)&dict;
+        doc->Accept(this);
+    }
+    
+    // release
+    delete doc;
+}
+
+bool CCAndroidStringsParser::VisitEnter(const XMLElement& element, const XMLAttribute* firstAttribute) {
+    if(!strcmp(element.Name(), "string")) {
+        CCString* s = CCString::create(element.GetText());
+        const char* key = element.Attribute("name");
+        if(key) {
+            m_dict->setObject(s, key);
+        }
+    }
+    return true;
+}
+
+NS_CC_END

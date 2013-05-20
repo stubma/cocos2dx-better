@@ -25,7 +25,8 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android/jni
 LOCAL_EXPORT_LDLIBS := -llog
-LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES)
+LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
+	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2
 LOCAL_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
 LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
 

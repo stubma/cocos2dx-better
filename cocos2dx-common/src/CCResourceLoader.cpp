@@ -43,10 +43,11 @@ void CCResourceLoader::run() {
 	scheduler->scheduleSelector(schedule_selector(CCResourceLoader::doLoad), this, 0, kCCRepeatForever, m_delay, false);
 }
 
-void CCResourceLoader::addAndroidStringTask(const string& lan, const string& path) {
+void CCResourceLoader::addAndroidStringTask(const string& lan, const string& path, bool merge) {
     AndroidStringLoadTask* t = new AndroidStringLoadTask();
     t->lan = lan;
     t->path = path;
+    t->merge = merge;
     addLoadTask(t);
 }
 

@@ -68,10 +68,13 @@ private:
         /// file path
         string path;
         
+        /// merge or not
+        bool merge;
+        
         virtual ~AndroidStringLoadTask() {}
         
         virtual void load() {
-            CCLocalization::sharedLocalization()->addAndroidStrings(lan, path);
+            CCLocalization::sharedLocalization()->addAndroidStrings(lan, path, merge);
         }
     };
     
@@ -164,8 +167,14 @@ public:
     /// directly add a load task
     void addLoadTask(LoadTask* t);
     
-    /// add an Android string loading task
-    void addAndroidStringTask(const string& lan, const string& path);
+    /**
+     * add an Android string loading task
+     *
+     * @param lan language ISO 639-1 code
+     * @param path string XML file platform-independent path
+     * @param merge true means merge new strings, or false means replace current strings
+     */
+    void addAndroidStringTask(const string& lan, const string& path, bool merge = false);
 	
 	/// add a image loading task
 	void addImageTask(const string& name, float idle = 0);

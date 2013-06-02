@@ -9,7 +9,8 @@ USING_NS_CC;
 
 enum
 {
-    COMMON_SHAKE_LAYER = 0
+    COMMON_COLOR_LABEL = 0,
+	COMMON_SHAKE_LAYER,
 };
 
 
@@ -22,7 +23,7 @@ public:
     virtual void runThisTest();
 };
 
-class CommonDemo : public CCLayer
+class CommonDemo : public CCLayerColor
 {
 public:
     virtual void onEnter();
@@ -36,11 +37,15 @@ public:
     void backCallback(CCObject* pSender);
 };
 
-class CommonShake : public CommonDemo
+class CommonColorLabel : public CommonDemo
 {
-private:
-	CCLabelTTF* m_hintLabel;
-	
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
+class CommonShake : public CommonDemo
+{	
 public:
     virtual void onEnter();
     virtual string subtitle();

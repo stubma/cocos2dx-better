@@ -6,6 +6,7 @@
 enum
 {
     TEST_SHAKE = 0,
+	TEST_COLOR_LABEL,
     TESTS_COUNT,    
 };
 

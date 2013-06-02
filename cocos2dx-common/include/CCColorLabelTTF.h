@@ -21,28 +21,37 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCColorLabelTTF__
+#define __CCColorLabelTTF__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
-#include "CCColorLabelTTF.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+class CC_DLL CCColorLabelTTF : public CCLabelTTF {
+public:
+	CCColorLabelTTF();
+    virtual ~CCColorLabelTTF();
+	
+	/** 
+	 * creates a CCColorLabelTTF with a font name and font size in points
+     */
+    static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize);
+    
+    /** 
+	 * creates a CCColorLabelTTF from a fontname, horizontal alignment, dimension in points,  and font size in points.
+     */
+    static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize,
+                               const CCSize& dimensions, CCTextAlignment hAlignment);
+	
+    /** 
+	 * creates a CCColorLabelTTF from a fontname, alignment, dimension in points and font size in points
+     */
+    static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize,
+                               const CCSize& dimensions, CCTextAlignment hAlignment,
+                               CCVerticalTextAlignment vAlignment);
+};
+
+NS_CC_END
+
+#endif /* defined(__CCColorLabelTTF__) */

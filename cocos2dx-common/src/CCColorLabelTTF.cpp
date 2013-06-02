@@ -21,28 +21,38 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
 #include "CCColorLabelTTF.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+CCColorLabelTTF::CCColorLabelTTF() {
+	
+}
+
+CCColorLabelTTF::~CCColorLabelTTF() {
+	
+}
+
+CCColorLabelTTF* CCColorLabelTTF::create(const char *string, const char *fontName, float fontSize) {
+	CCColorLabelTTF* l = new CCColorLabelTTF();
+	l->initWithString(string, fontName, fontSize);
+	return (CCColorLabelTTF*)l->autorelease();
+}
+
+CCColorLabelTTF* CCColorLabelTTF::create(const char *string, const char *fontName, float fontSize,
+										 const CCSize& dimensions, CCTextAlignment hAlignment) {
+	CCColorLabelTTF* l = new CCColorLabelTTF();
+	l->initWithString(string, fontName, fontSize, dimensions, hAlignment);
+	return (CCColorLabelTTF*)l->autorelease();
+}
+
+CCColorLabelTTF* CCColorLabelTTF::create(const char *string, const char *fontName, float fontSize,
+										 const CCSize& dimensions, CCTextAlignment hAlignment,
+										 CCVerticalTextAlignment vAlignment) {
+	CCColorLabelTTF* l = new CCColorLabelTTF();
+	l->initWithString(string, fontName, fontSize, dimensions, hAlignment, vAlignment);
+	return (CCColorLabelTTF*)l->autorelease();
+}
+
+NS_CC_END

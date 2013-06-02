@@ -2,10 +2,12 @@
 #include "../testResource.h"
 #include "cocos2d.h"
 
+TESTLAYER_CREATE_FUNC(CommonColorLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
 
 static NEWTESTFUNC createFunctions[] = {
-    CF(CommonShake)
+	CF(CommonColorLabel),
+    CF(CommonShake),
 };
 
 static int sceneIdx=-1;
@@ -130,7 +132,7 @@ void CommonDemo::backCallback(CCObject* pSender)
 
 //------------------------------------------------------------------
 //
-// Create Database
+// Shake
 //
 //------------------------------------------------------------------
 void CommonShake::onEnter()
@@ -151,4 +153,32 @@ void CommonShake::onEnter()
 std::string CommonShake::subtitle()
 {
     return "Shake";
+}
+
+//------------------------------------------------------------------
+//
+// Color Label
+//
+//------------------------------------------------------------------
+void CommonColorLabel::onEnter()
+{
+    CommonDemo::onEnter();
+	
+	setOpacity(255);
+	setColor(ccRED);
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCColorLabelTTF* label = CCColorLabelTTF::create("Hello", "Helvetica", 30);
+	label->enableStroke(ccBLUE, 0.5f);
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height / 2));
+	label->enableShadow(CCSizeMake(3, -3), 255, 4);	
+	addChild(label);
+}
+
+std::string CommonColorLabel::subtitle()
+{
+    return "Color Label";
 }

@@ -23,6 +23,7 @@
 		9279755016F6CB680040E3AA /* CCMemoryOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */; };
 		9279755216F6CC4C0040E3AA /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */; };
 		9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */; };
+		927E46DE175B718C008555FC /* CCColorLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927E46DC175B718C008555FC /* CCColorLabelTTF.cpp */; };
 		928B83481741E231005EA4E0 /* CCTreeFadeOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */; };
 		928B834B1741E27A005EA4E0 /* CCTreeFadeIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928B834A1741E27A005EA4E0 /* CCTreeFadeIn.cpp */; };
 		928C34061728CEB8008DFA9A /* CCMD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928C34051728CEB8008DFA9A /* CCMD5.cpp */; };
@@ -91,6 +92,8 @@
 		9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMemoryOutputStream.cpp; sourceTree = "<group>"; };
 		9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream.cpp; sourceTree = "<group>"; };
 		9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream.cpp; sourceTree = "<group>"; };
+		927E46DC175B718C008555FC /* CCColorLabelTTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCColorLabelTTF.cpp; sourceTree = "<group>"; };
+		927E46E0175B71A9008555FC /* CCColorLabelTTF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCColorLabelTTF.h; sourceTree = "<group>"; };
 		928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTreeFadeOut.cpp; sourceTree = "<group>"; };
 		928B83491741E238005EA4E0 /* CCTreeFadeOut.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTreeFadeOut.h; sourceTree = "<group>"; };
 		928B834A1741E27A005EA4E0 /* CCTreeFadeIn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTreeFadeIn.cpp; sourceTree = "<group>"; };
@@ -134,6 +137,7 @@
 				9279754116F6C0490040E3AA /* CCMemoryInputStream.h */,
 				9279754E16F6CB5B0040E3AA /* CCMemoryOutputStream.h */,
 				9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */,
+				927E46E0175B71A9008555FC /* CCColorLabelTTF.h */,
 				921F190D16F58D2900A3DC41 /* CCDrawingPrimitivesEx.h */,
 				92774AE416EF1D5E008E67C8 /* CCMoreMacros.h */,
 				9270FB1E16F4AB46006A6788 /* ccMoreTypes.h */,
@@ -172,6 +176,7 @@
 				9279754216F6C0B70040E3AA /* CCMemoryInputStream.cpp */,
 				9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */,
 				9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */,
+				927E46DC175B718C008555FC /* CCColorLabelTTF.cpp */,
 				921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */,
 				92AE790416F73649009C5FFC /* CCResourceLoader.cpp */,
 				924C929A16F8AC0900E39658 /* CCMissile.cpp */,
@@ -327,6 +332,7 @@
 				928B834B1741E27A005EA4E0 /* CCTreeFadeIn.cpp in Sources */,
 				92FF9FBA1749C4970015E5A7 /* CCLocalization.cpp in Sources */,
 				92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */,
+				927E46DE175B718C008555FC /* CCColorLabelTTF.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,12 +28,19 @@
 
 NS_CC_BEGIN
 
-class CC_DLL CCColorLabelTTF : public CCLabelTTF {
+class CCTexture2DEx;
+
+class CC_DLL CCColorLabelTTF : public CCSprite, public CCLabelProtocol {
 public:
 	CCColorLabelTTF();
     virtual ~CCColorLabelTTF();
 	
 	/** 
+	 * Creates an label.
+     */
+    static CCColorLabelTTF* create();
+	
+	/**
 	 * creates a CCColorLabelTTF with a font name and font size in points
      */
     static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize);
@@ -50,6 +57,107 @@ public:
     static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize,
                                const CCSize& dimensions, CCTextAlignment hAlignment,
                                CCVerticalTextAlignment vAlignment);
+	
+	const char* description();
+	
+    /** initializes the CCColorLabelTTF with a font name and font size */
+    bool initWithString(const char *string, const char *fontName, float fontSize);
+    
+    /** initializes the CCColorLabelTTF with a font name, alignment, dimension and font size */
+    bool initWithString(const char *string, const char *fontName, float fontSize,
+                        const CCSize& dimensions, CCTextAlignment hAlignment);
+	
+    /** initializes the CCColorLabelTTF with a font name, alignment, dimension and font size */
+    bool initWithString(const char *string, const char *fontName, float fontSize,
+                        const CCSize& dimensions, CCTextAlignment hAlignment,
+                        CCVerticalTextAlignment vAlignment);
+    
+    /** initializes the CCColorLabelTTF with a font name, alignment, dimension and font size */
+    bool initWithStringAndTextDefinition(const char *string, ccFontDefinition &textDefinition);
+    
+    /** set the text definition used by this label */
+    void setTextDefinition(ccFontDefinition *theDefinition);
+    
+    /** get the text definition used by this label */
+    ccFontDefinition * getTextDefinition();
+    
+    
+    
+    /** enable or disable shadow for the label */
+    void enableShadow(const CCSize &shadowOffset, float shadowOpacity, float shadowBlur, bool mustUpdateTexture = true);
+    
+    /** disable shadow rendering */
+    void disableShadow(bool mustUpdateTexture = true);
+    
+    /** enable or disable stroke */
+    void enableStroke(const ccColor3B &strokeColor, float strokeSize, bool mustUpdateTexture = true);
+    
+    /** disable stroke */
+    void disableStroke(bool mustUpdateTexture = true);
+    
+    /** set text tinting */
+    void setFontFillColor(const ccColor3B &tintColor, bool mustUpdateTexture = true);
+
+    /** initializes the CCColorLabelTTF */
+    bool init();
+	
+    /** changes the string to render
+	 * @warning Changing the string is as expensive as creating a new CCColorLabelTTF. To obtain better performance use CCLabelAtlas
+	 */
+    virtual void setString(const char *label);
+    virtual const char* getString(void);
+    
+    CCTextAlignment getHorizontalAlignment();
+    void setHorizontalAlignment(CCTextAlignment alignment);
+    
+    CCVerticalTextAlignment getVerticalAlignment();
+    void setVerticalAlignment(CCVerticalTextAlignment verticalAlignment);
+    
+    CCSize getDimensions();
+    void setDimensions(const CCSize &dim);
+    
+    float getFontSize();
+    void setFontSize(float fontSize);
+    
+    const char* getFontName();
+    void setFontName(const char *fontName);
+    
+private:
+    bool updateTexture();
+	
+protected:
+    
+    /** set the text definition for this label */
+    void                _updateWithTextDefinition(ccFontDefinition & textDefinition, bool mustUpdateTexture = true);
+    ccFontDefinition    _prepareTextDefinition(bool adjustForResolution = false);
+    
+    /** Dimensions of the label in Points */
+    CCSize m_tDimensions;
+    /** The alignment of the label */
+    CCTextAlignment         m_hAlignment;
+    /** The vertical alignment of the label */
+    CCVerticalTextAlignment m_vAlignment;
+    /** Font name used in the label */
+    std::string * m_pFontName;
+    /** Font size of the label */
+    float m_fFontSize;
+    /** label's string */
+    std::string m_string;
+    
+    /** font shadow */
+    bool    m_shadowEnabled;
+    CCSize  m_shadowOffset;
+    float   m_shadowOpacity;
+    float   m_shadowBlur;
+    
+    
+    /** font stroke */
+    bool        m_strokeEnabled;
+    ccColor3B   m_strokeColor;
+    float       m_strokeSize;
+	
+    /** font tint */
+    ccColor3B   m_textFillColor;
 };
 
 NS_CC_END

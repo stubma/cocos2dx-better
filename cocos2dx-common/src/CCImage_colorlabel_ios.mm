@@ -28,6 +28,19 @@
 #import <UIKit/UIKit.h>
 #include <math.h>
 
+/// span
+typedef struct Span {
+	// start char
+	int start;
+	
+	// end char, exclusive
+	int end;
+	
+	// color
+	int color;
+} Span;
+typedef vector<Span> SpanList;
+
 typedef struct {
     unsigned int height;
     unsigned int width;
@@ -74,12 +87,149 @@ static CGSize _calculateStringSize(NSString *str, id font, CGSize *constrainSize
     return dim;
 }
 
+static int parseColor(const char* p, int len) {
+	int color = 0;
+	for(int i = 0; i < len; i++) {
+		color <<= 4;
+		char c = p[i];
+		if(c >= '0' && c <= '9') {
+			color |= c - '0';
+		} else if(c >= 'a' && c <= 'f') {
+			color |= c - 'a' + 10;
+		} else if(c >= 'A' && c <= 'F') {
+			color |= c - 'A' + 10;
+		}
+	}
+	
+	return color;
+}
+
+static NSString* buildSpan(const char* pText, SpanList& spans) {
+	bool inSpan = false;
+	int spanStart = 0;
+	int plainLen = 0;
+	int richLen = strlen(pText);
+	char* plain = (char*)malloc(sizeof(char) * (richLen + 1));
+	for(int i = 0; i < richLen; i++) {
+		char c = pText[i];
+		switch(c) {
+			case '\\':
+				if(i < richLen - 1) {
+					char cc = pText[i + 1];
+					if(cc == '[' || cc == ']') {
+						plain[plainLen++] = cc;
+						i++;
+					}
+				} else {
+					plain[plainLen++] = c;
+				}
+				break;
+			case '[':
+			{
+				// find close bracket
+				int j;
+				for(j = i + 1; j < richLen; j++) {
+					char cc = pText[j];
+					if(cc == ']') {
+						break;
+					}
+				}
+				
+				// if no close bracket, discard those content
+				if(j >= richLen) {
+					i = j;
+					break;
+				}
+				
+				// if find, we need check whether we are in a span
+				if(inSpan) {
+					if(CCUtils::startsWith(pText + i, "[/color]")) {
+						inSpan = false;
+						spanStart = plainLen;
+					}
+					
+					// reset i to skip this part
+					i = j;
+				} else {
+					// parse this span, if not recognized, need ignore
+					if(CCUtils::startsWith(pText + i + 1, "color=")) {
+						// add previous span
+						Span span;
+						if(plainLen > spanStart) {
+							span.start = spanStart;
+							span.end = plainLen;
+							span.color = 0xffffffff;
+							spans.push_back(span);
+						}
+						spanStart = plainLen;
+						
+						// add color span
+						int color = parseColor(pText + i + 7, j - i - 7);
+						span.start = spanStart;
+						span.end = spanStart;
+						span.color = color;
+						spans.push_back(span);
+						
+						// set flag
+						inSpan = true;
+					}
+					
+					// reset i to skip this part
+					i = j;
+				}
+				
+				break;
+			}
+			case ']':
+				// just discard it
+				break;
+			default:
+				plain[plainLen++] = c;
+				
+				// if in span, update last span end position
+				if(inSpan) {
+					Span& span = *spans.rbegin();
+					span.end++;
+				}
+				break;
+		}
+	}
+	
+	// last span
+	if(spanStart < richLen && plainLen > spanStart) {
+		Span span = {
+			spanStart,
+			plainLen,
+			0xffffffff
+		};
+		spans.push_back(span);
+	}
+	
+	// end of plain
+	plain[plainLen] = 0;
+	
+#ifdef COCOS2D_DEBUG
+	// debug output span info
+	int i = 0;
+	for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+		Span& span = *iter;
+		CCLOG("span %d: %d - %d, color: 0x%08x", i++, span.start, span.end, span.color);
+	}
+#endif
+	
+	// return plain str
+	NSString* str = [NSString stringWithUTF8String:plain];
+	free(plain);
+	return str;
+}
+
 static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo) {
     bool bRet = false;
     do {
         CC_BREAK_IF(!pText || !pInfo);
         
-        NSString* str = [NSString stringWithUTF8String:pText];
+		SpanList spans;
+        NSString* str = buildSpan(pText, spans);
         NSString* fntName = [NSString stringWithUTF8String:pFontName];
         
         CGSize dim, constrainSize;
@@ -172,9 +322,6 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             break;
         }
 		
-        // text color
-        CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
-		
         // move Y rendering to the top of the image
         CGContextTranslateCTM(context, 0.0f, (dim.height - shadowStrokePaddingY) );
         CGContextScaleCTM(context, 1.0f, -1.0f); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
@@ -214,29 +361,72 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         
         // compute the rect used for rendering the text
         // based on wether shadows or stroke are enabled
-        
         float textOriginX  = 0.0;
-        float textOrigingY = 0.0;
-        
+        float textOriginY = 0.0;
         float textWidth    = dim.width  - shadowStrokePaddingX;
         float textHeight   = dim.height - shadowStrokePaddingY;
-        
-        
         if (pInfo->shadowOffset.width < 0) {
             textOriginX = shadowStrokePaddingX;
         } else {
             textOriginX = 0.0;
         }
-        
         if (pInfo->shadowOffset.height > 0) {
-            textOrigingY = startH;
+            textOriginY = startH;
         } else {
-            textOrigingY = startH - shadowStrokePaddingY;
+            textOriginY = startH - shadowStrokePaddingY;
         }
-        
-        
-        // actually draw the text in the context
-        [str drawInRect:CGRectMake(textOriginX, textOrigingY, textWidth, textHeight) withFont:font lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap alignment:align];
+		
+		// actually draw the text in the context
+		// it depends on how many spans are there
+		if(spans.size() == 1) {
+			// set color
+			Span& span = *spans.begin();
+			if(span.color == 0xffffffff) {
+				CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
+			} else {
+				CGContextSetRGBFillColor(context, ((span.color >> 16) & 0xff) / 255,
+										 ((span.color >> 8) & 0xff) / 255,
+										 (span.color & 0xff) / 255,
+										 ((span.color >> 24) & 0xff) / 255);
+			}
+			
+			[str drawInRect:CGRectMake(textOriginX, textOriginY, textWidth, textHeight)
+				   withFont:font
+			  lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap
+				  alignment:align];
+		} else {
+			float x = textOriginX;
+			float y = textOriginY;
+			for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+				Span& span = *iter;
+				
+				// set color
+				if(span.color == 0xffffffff) {
+					CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
+				} else {
+					CGContextSetRGBFillColor(context, ((span.color >> 16) & 0xff) / 255,
+											 ((span.color >> 8) & 0xff) / 255,
+											 (span.color & 0xff) / 255,
+											 ((span.color >> 24) & 0xff) / 255);
+				}
+				
+				// sub string
+				NSRange r = NSMakeRange(span.start, span.end - span.start);
+				NSString* sub = [str substringWithRange:r];
+				
+				// get sub string size
+				CGSize size = _calculateStringSize(sub, font, &constrainSize);
+				
+				// draw sub string
+				[sub drawInRect:CGRectMake(x, y, size.width, size.height)
+					   withFont:font
+				  lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap
+					  alignment:align];
+				
+				// increase
+				x += size.width;
+			}
+		}
         
         // pop the context
         UIGraphicsPopContext();

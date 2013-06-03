@@ -31,7 +31,7 @@ NS_CC_BEGIN
 /**
  * Customized CCImage for color label implementation
  */
-class CCImage_colorlabel : public CCImage {
+class CCImage_colorlabel : public CCImage {	
 public:
     CCImage_colorlabel();
     virtual ~CCImage_colorlabel();

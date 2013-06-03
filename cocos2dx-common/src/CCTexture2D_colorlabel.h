@@ -21,17 +21,17 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCTexture2DEx__
-#define __CCTexture2DEx__
+#ifndef __CCTexture2D_colorlabel__
+#define __CCTexture2D_colorlabel__
 
 #include "cocos2d.h"
 
 NS_CC_BEGIN
 
-class CCTexture2DEx : public CCTexture2D {
+class CCTexture2D_colorlabel : public CCTexture2D {
 public:
-    CCTexture2DEx();
-    virtual ~CCTexture2DEx();
+    CCTexture2D_colorlabel();
+    virtual ~CCTexture2D_colorlabel();
 	
     const char* description(void);
 	
@@ -47,4 +47,4 @@ public:
 
 NS_CC_END
 
-#endif /* defined(__CCTexture2DEx__) */
+#endif /* defined(__CCTexture2D_colorlabel__) */

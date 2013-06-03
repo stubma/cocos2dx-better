@@ -21,25 +21,25 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCTexture2DEx.h"
+#include "CCTexture2D_colorlabel.h"
 
 NS_CC_BEGIN
 
-CCTexture2DEx::CCTexture2DEx() {
+CCTexture2D_colorlabel::CCTexture2D_colorlabel() {
 }
 
-CCTexture2DEx::~CCTexture2DEx() {
+CCTexture2D_colorlabel::~CCTexture2D_colorlabel() {
 }
 
-const char* CCTexture2DEx::description(void) {
-    return CCString::createWithFormat("<CCTexture2DEx | Name = %u | Dimensions = %u x %u | Coordinates = (%.2f, %.2f)>", m_uName, m_uPixelsWide, m_uPixelsHigh, m_fMaxS, m_fMaxT)->getCString();
+const char* CCTexture2D_colorlabel::description(void) {
+    return CCString::createWithFormat("<CCTexture2D_colorlabel | Name = %u | Dimensions = %u x %u | Coordinates = (%.2f, %.2f)>", m_uName, m_uPixelsWide, m_uPixelsHigh, m_fMaxS, m_fMaxT)->getCString();
 }
 
-bool CCTexture2DEx::initWithRichString(const char *text, const char *fontName, float fontSize) {
+bool CCTexture2D_colorlabel::initWithRichString(const char *text, const char *fontName, float fontSize) {
     return initWithString(text,  fontName, fontSize, CCSizeMake(0,0), kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
 }
 
-bool CCTexture2DEx::initWithRichString(const char *text, const char *fontName, float fontSize, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment) {
+bool CCTexture2D_colorlabel::initWithRichString(const char *text, const char *fontName, float fontSize, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
 	ccFontDefinition tempDef;
@@ -104,7 +104,7 @@ bool CCTexture2DEx::initWithRichString(const char *text, const char *fontName, f
 #endif
 }
 
-bool CCTexture2DEx::initWithRichString(const char *text, ccFontDefinition *textDefinition) {
+bool CCTexture2D_colorlabel::initWithRichString(const char *text, ccFontDefinition *textDefinition) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
 #if CC_ENABLE_CACHE_TEXTURE_DATA

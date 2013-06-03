@@ -24,7 +24,7 @@
 		9279755216F6CC4C0040E3AA /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */; };
 		9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */; };
 		927E46DE175B718C008555FC /* CCColorLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927E46DC175B718C008555FC /* CCColorLabelTTF.cpp */; };
-		92838A4F175B8A9B0025FFEC /* CCTexture2DEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92838A4D175B8A9B0025FFEC /* CCTexture2DEx.cpp */; };
+		92838A4F175B8A9B0025FFEC /* CCTexture2D_colorlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92838A4D175B8A9B0025FFEC /* CCTexture2D_colorlabel.cpp */; };
 		928B83481741E231005EA4E0 /* CCTreeFadeOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */; };
 		928B834B1741E27A005EA4E0 /* CCTreeFadeIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928B834A1741E27A005EA4E0 /* CCTreeFadeIn.cpp */; };
 		928C34061728CEB8008DFA9A /* CCMD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928C34051728CEB8008DFA9A /* CCMD5.cpp */; };
@@ -95,8 +95,8 @@
 		9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream.cpp; sourceTree = "<group>"; };
 		927E46DC175B718C008555FC /* CCColorLabelTTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCColorLabelTTF.cpp; sourceTree = "<group>"; };
 		927E46E0175B71A9008555FC /* CCColorLabelTTF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCColorLabelTTF.h; sourceTree = "<group>"; };
-		92838A4D175B8A9B0025FFEC /* CCTexture2DEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTexture2DEx.cpp; sourceTree = "<group>"; };
-		92838A4E175B8A9B0025FFEC /* CCTexture2DEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTexture2DEx.h; sourceTree = "<group>"; };
+		92838A4D175B8A9B0025FFEC /* CCTexture2D_colorlabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTexture2D_colorlabel.cpp; sourceTree = "<group>"; };
+		92838A4E175B8A9B0025FFEC /* CCTexture2D_colorlabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTexture2D_colorlabel.h; sourceTree = "<group>"; };
 		928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTreeFadeOut.cpp; sourceTree = "<group>"; };
 		928B83491741E238005EA4E0 /* CCTreeFadeOut.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTreeFadeOut.h; sourceTree = "<group>"; };
 		928B834A1741E27A005EA4E0 /* CCTreeFadeIn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTreeFadeIn.cpp; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 				9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */,
 				9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */,
 				927E46DC175B718C008555FC /* CCColorLabelTTF.cpp */,
-				92838A4D175B8A9B0025FFEC /* CCTexture2DEx.cpp */,
-				92838A4E175B8A9B0025FFEC /* CCTexture2DEx.h */,
+				92838A4D175B8A9B0025FFEC /* CCTexture2D_colorlabel.cpp */,
+				92838A4E175B8A9B0025FFEC /* CCTexture2D_colorlabel.h */,
 				921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */,
 				92AE790416F73649009C5FFC /* CCResourceLoader.cpp */,
 				924C929A16F8AC0900E39658 /* CCMissile.cpp */,
@@ -338,7 +338,7 @@
 				92FF9FBA1749C4970015E5A7 /* CCLocalization.cpp in Sources */,
 				92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */,
 				927E46DE175B718C008555FC /* CCColorLabelTTF.cpp in Sources */,
-				92838A4F175B8A9B0025FFEC /* CCTexture2DEx.cpp in Sources */,
+				92838A4F175B8A9B0025FFEC /* CCTexture2D_colorlabel.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

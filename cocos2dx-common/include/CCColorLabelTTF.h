@@ -28,8 +28,13 @@
 
 NS_CC_BEGIN
 
-class CCTexture2DEx;
+class CCTexture2D_colorlabel;
 
+/**
+ * TTF label which support different colors in a string. By using a tag description such as:
+ * 'Hell[color=ffff0000]o[/color]", the 'o' character will be in red color. If you want 
+ * a '[' character, use '\' to escape.
+ */
 class CC_DLL CCColorLabelTTF : public CCSprite, public CCLabelProtocol {
 public:
 	CCColorLabelTTF();

@@ -25,7 +25,7 @@
 #include "CCDirector.h"
 #include "shaders/CCGLProgram.h"
 #include "shaders/CCShaderCache.h"
-#include "CCTexture2DEx.h"
+#include "CCTexture2D_colorlabel.h"
 
 NS_CC_BEGIN
 
@@ -279,8 +279,8 @@ void CCColorLabelTTF::setFontName(const char *fontName)
 // Helper
 bool CCColorLabelTTF::updateTexture()
 {
-    CCTexture2DEx *tex;
-    tex = new CCTexture2DEx();
+    CCTexture2D_colorlabel *tex;
+    tex = new CCTexture2D_colorlabel();
     
     if (!tex)
         return false;

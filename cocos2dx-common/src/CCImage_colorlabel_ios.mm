@@ -184,11 +184,19 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         
         // measure text size with specified font and determine the rectangle to draw text in
         unsigned uHoriFlag = eAlign & 0x0f;
-        UITextAlignment align = (UITextAlignment)((2 == uHoriFlag) ? UITextAlignmentRight
-												  : (3 == uHoriFlag) ? UITextAlignmentCenter
-												  : UITextAlignmentLeft);
+		UITextAlignment align = UITextAlignmentLeft;
+		switch(uHoriFlag) {
+			case 2:
+				align = UITextAlignmentRight;
+				break;
+			case 3:
+				align = UITextAlignmentCenter;
+				break;
+			default:
+				align = UITextAlignmentLeft;
+				break;
+		}
 		
-        
         // take care of stroke if needed
         if (pInfo->hasStroke) {
             CGContextSetTextDrawingMode(context, kCGTextFillStroke);

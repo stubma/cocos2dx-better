@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCTexture2D_colorlabel.h"
+#include "CCImage_colorlabel.h"
 
 NS_CC_BEGIN
 
@@ -168,12 +169,12 @@ bool CCTexture2D_colorlabel::initWithRichString(const char *text, ccFontDefiniti
 		strokeSize   = textDefinition->m_stroke.m_strokeSize;
 	}
 	
-	CCImage* pImage = new CCImage();
+	CCImage_colorlabel* pImage = new CCImage_colorlabel();
 	do
 	{
 		CC_BREAK_IF(NULL == pImage);
 		
-		bRet = pImage->initWithStringShadowStroke(text,
+		bRet = pImage->initWithRichStringShadowStroke(text,
 												  (int)textDefinition->m_dimensions.width,
 												  (int)textDefinition->m_dimensions.height,
 												  eAlign,

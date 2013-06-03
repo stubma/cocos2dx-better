@@ -31,6 +31,7 @@
 		92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92AE790416F73649009C5FFC /* CCResourceLoader.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
+		92C9A0CA175CDD5700C6D739 /* CCImage_colorlabel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92C9A0C8175CDD5700C6D739 /* CCImage_colorlabel_ios.mm */; };
 		92E107C7170EB78F0096EA4C /* CCAntiArtifactSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */; };
 		92FF9FBA1749C4970015E5A7 /* CCLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */; };
 		92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */; };
@@ -110,6 +111,8 @@
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92B706B3172793D9002A9655 /* CCGradientSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGradientSprite.cpp; sourceTree = "<group>"; };
 		92B706B6172793E7002A9655 /* CCGradientSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCGradientSprite.h; sourceTree = "<group>"; };
+		92C9A0C8175CDD5700C6D739 /* CCImage_colorlabel_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImage_colorlabel_ios.mm; sourceTree = "<group>"; };
+		92C9A0C9175CDD5700C6D739 /* CCImage_colorlabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCImage_colorlabel.h; sourceTree = "<group>"; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAntiArtifactSprite.h; sourceTree = "<group>"; };
 		92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAntiArtifactSprite.cpp; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 				927E46DC175B718C008555FC /* CCColorLabelTTF.cpp */,
 				92838A4D175B8A9B0025FFEC /* CCTexture2D_colorlabel.cpp */,
 				92838A4E175B8A9B0025FFEC /* CCTexture2D_colorlabel.h */,
+				92C9A0C8175CDD5700C6D739 /* CCImage_colorlabel_ios.mm */,
+				92C9A0C9175CDD5700C6D739 /* CCImage_colorlabel.h */,
 				921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */,
 				92AE790416F73649009C5FFC /* CCResourceLoader.cpp */,
 				924C929A16F8AC0900E39658 /* CCMissile.cpp */,
@@ -339,6 +344,7 @@
 				92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */,
 				927E46DE175B718C008555FC /* CCColorLabelTTF.cpp in Sources */,
 				92838A4F175B8A9B0025FFEC /* CCTexture2D_colorlabel.cpp in Sources */,
+				92C9A0CA175CDD5700C6D739 /* CCImage_colorlabel_ios.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

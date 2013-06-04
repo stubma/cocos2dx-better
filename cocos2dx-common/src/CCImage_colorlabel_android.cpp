@@ -29,13 +29,13 @@
 
 NS_CC_BEGIN
 
-class BitmapDC {
+class CLBitmapDC {
 public:
-	BitmapDC() :
+	CLBitmapDC() :
 			m_pData(NULL), m_nWidth(0), m_nHeight(0) {
 	}
 
-	~BitmapDC(void) {
+	~CLBitmapDC(void) {
 		if(m_pData) {
 			delete[] m_pData;
 		}
@@ -46,7 +46,7 @@ public:
 			float shadowBlur = 0.0, float shadowIntensity = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
 					0.0, float strokeSize = 0.0) {
 		JniMethodInfo methodInfo;
-		if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/ColorLabelBitmap", "createTextBitmapShadowStroke",
+		if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/ColorLabelBitmap", "createColorLabelBitmap",
 				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFFZFFFF)V")) {
 			CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
 			return false;
@@ -97,8 +97,8 @@ public:
 	JNIEnv *env;
 };
 
-static BitmapDC& sharedBitmapDC() {
-	static BitmapDC s_BmpDC;
+static CLBitmapDC& sharedCLBitmapDC() {
+	static CLBitmapDC s_BmpDC;
 	return s_BmpDC;
 }
 
@@ -127,7 +127,8 @@ bool CCImage_colorlabel::initWithRichStringShadowStroke(const char * pText, int 
 	do {
 		CC_BREAK_IF(!pText);
 
-		BitmapDC &dc = sharedBitmapDC();
+		CLBitmapDC &dc = sharedCLBitmapDC();
+
 		CC_BREAK_IF(
 				!dc.getBitmapFromJavaShadowStroke(pText, nWidth, nHeight, eAlignMask, pFontName, nSize, textTintR, textTintG, textTintB, shadow, shadowOffsetX,
 						shadowOffsetY, shadowBlur, shadowOpacity, stroke, strokeR, strokeG, strokeB, strokeSize));
@@ -144,7 +145,7 @@ bool CCImage_colorlabel::initWithRichStringShadowStroke(const char * pText, int 
 		m_nBitsPerComponent = 8;
 
 		// swap the alpha channel (ARGB to RGBA)
-		swapAlphaChannel((unsigned int *) m_pData, (m_nWidth * m_nHeight));
+		swapAlphaChannel((unsigned int *)m_pData, (m_nWidth * m_nHeight));
 
 		// ok
 		bRet = true;
@@ -154,5 +155,26 @@ bool CCImage_colorlabel::initWithRichStringShadowStroke(const char * pText, int 
 }
 
 NS_CC_END
+
+extern "C" {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_ColorLabelBitmap_nativeInitBitmapDC(JNIEnv* env, jobject thiz, int width, int height, jbyteArray pixels) {
+        int size = width * height * 4;
+        cocos2d::CLBitmapDC& bitmapDC = cocos2d::sharedCLBitmapDC();
+        bitmapDC.m_nWidth = width;
+        bitmapDC.m_nHeight = height;
+        bitmapDC.m_pData = new unsigned char[size];
+        env->GetByteArrayRegion(pixels, 0, size, (jbyte*)bitmapDC.m_pData);
+		
+        // swap data
+        unsigned int* tempPtr = (unsigned int*)bitmapDC.m_pData;
+        unsigned int tempdata = 0;
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                tempdata = *tempPtr;
+                *tempPtr++ = bitmapDC.swapAlpha(tempdata);
+            }
+        }
+    }
+}
 
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

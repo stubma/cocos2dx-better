@@ -23,14 +23,48 @@ THE SOFTWARE.
  ****************************************************************************/
 package org.cocos2dx.lib;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Bitmap.Config;
+
 public class ColorLabelBitmap {
 
-	public static void createTextBitmapShadowStroke(String pString, final String pFontName, final int pFontSize,
+	public static void createColorLabelBitmap(String pString, final String pFontName, final int pFontSize,
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
 	        final float strokeB, final float strokeSize) {
+		Bitmap bitmap = Bitmap.createBitmap(128, 128, Config.ARGB_8888);
+		Canvas c = new Canvas(bitmap);
+		c.drawColor(0xff00ffff);
+		initNativeObject(bitmap);
+		bitmap.recycle();
+	}
+	
+	private static byte[] getPixels(final Bitmap pBitmap) {
+		if (pBitmap != null) {
+			final byte[] pixels = new byte[pBitmap.getWidth()
+					* pBitmap.getHeight() * 4];
+			final ByteBuffer buf = ByteBuffer.wrap(pixels);
+			buf.order(ByteOrder.nativeOrder());
+			pBitmap.copyPixelsToBuffer(buf);
+			return pixels;
+		}
 
+		return null;
 	}
 
+	private static void initNativeObject(final Bitmap pBitmap) {
+		final byte[] pixels = getPixels(pBitmap);
+		if (pixels == null) {
+			return;
+		}
+
+		nativeInitBitmapDC(pBitmap.getWidth(), pBitmap.getHeight(), pixels);
+	}
+	
+	private static native void nativeInitBitmapDC(int pWidth, int pHeight, byte[] pPixels);
 }

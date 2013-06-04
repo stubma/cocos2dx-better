@@ -29,7 +29,10 @@ import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 import android.os.Bundle;
 
 public class TestCpp extends Cocos2dxActivity {
-	
+    static {
+        System.loadLibrary("testcpp");
+    }   
+    
     protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);	
 	}
@@ -40,9 +43,5 @@ public class TestCpp extends Cocos2dxActivity {
     	glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
     	
     	return glSurfaceView;
-    }
-
-    static {
-        System.loadLibrary("testcpp");
-    }     
+    }  
 }

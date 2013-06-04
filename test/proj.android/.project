@@ -56,6 +56,11 @@
 			<type>2</type>
 			<locationURI>SRC</locationURI>
 		</link>
+		<link>
+			<name>jni/test</name>
+			<type>2</type>
+			<locationURI>TEST_SRC</locationURI>
+		</link>
 	</linkedResources>
 	<variableList>
 		<variable>
@@ -77,6 +82,10 @@
 		<variable>
 			<name>SRC</name>
 			<value>$%7BPARENT-2-PROJECT_LOC%7D/cocos2dx-common/src</value>
+		</variable>
+		<variable>
+			<name>TEST_SRC</name>
+			<value>$%7BPARENT-1-PROJECT_LOC%7D/Classes</value>
 		</variable>
 	</variableList>
 </projectDescription>

@@ -17,8 +17,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := testcpp_shared
-LOCAL_MODULE_FILENAME := libtestcpp
+LOCAL_MODULE := testcpp
 LOCAL_SRC_FILES := $(call all-cpp-files-under,.) \
 	$(call all-cpp-files-under,../../Classes)
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

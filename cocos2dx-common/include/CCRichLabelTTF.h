@@ -21,63 +21,63 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCColorLabelTTF__
-#define __CCColorLabelTTF__
+#ifndef __CCRichLabelTTF__
+#define __CCRichLabelTTF__
 
 #include "cocos2d.h"
 
 NS_CC_BEGIN
 
-class CCTexture2D_colorlabel;
+class CCTexture2D_richlabel;
 
 /**
  * TTF label which support different colors in a string. By using a tag description such as:
  * 'Hell[color=ffff0000]o[/color]", the 'o' character will be in red color. If you want 
  * a '[' character, use '\' to escape.
  */
-class CC_DLL CCColorLabelTTF : public CCSprite, public CCLabelProtocol {
+class CC_DLL CCRichLabelTTF : public CCSprite, public CCLabelProtocol {
 public:
-	CCColorLabelTTF();
-    virtual ~CCColorLabelTTF();
+	CCRichLabelTTF();
+    virtual ~CCRichLabelTTF();
 	
 	/** 
 	 * Creates an label.
      */
-    static CCColorLabelTTF* create();
+    static CCRichLabelTTF* create();
 	
 	/**
-	 * creates a CCColorLabelTTF with a font name and font size in points
+	 * creates a CCRichLabelTTF with a font name and font size in points
      */
-    static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize);
+    static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize);
     
     /** 
-	 * creates a CCColorLabelTTF from a fontname, horizontal alignment, dimension in points,  and font size in points.
+	 * creates a CCRichLabelTTF from a fontname, horizontal alignment, dimension in points,  and font size in points.
      */
-    static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize,
+    static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize,
                                const CCSize& dimensions, CCTextAlignment hAlignment);
 	
     /** 
-	 * creates a CCColorLabelTTF from a fontname, alignment, dimension in points and font size in points
+	 * creates a CCRichLabelTTF from a fontname, alignment, dimension in points and font size in points
      */
-    static CCColorLabelTTF* create(const char *string, const char *fontName, float fontSize,
+    static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize,
                                const CCSize& dimensions, CCTextAlignment hAlignment,
                                CCVerticalTextAlignment vAlignment);
 	
 	const char* description();
 	
-    /** initializes the CCColorLabelTTF with a font name and font size */
+    /** initializes the CCRichLabelTTF with a font name and font size */
     bool initWithString(const char *string, const char *fontName, float fontSize);
     
-    /** initializes the CCColorLabelTTF with a font name, alignment, dimension and font size */
+    /** initializes the CCRichLabelTTF with a font name, alignment, dimension and font size */
     bool initWithString(const char *string, const char *fontName, float fontSize,
                         const CCSize& dimensions, CCTextAlignment hAlignment);
 	
-    /** initializes the CCColorLabelTTF with a font name, alignment, dimension and font size */
+    /** initializes the CCRichLabelTTF with a font name, alignment, dimension and font size */
     bool initWithString(const char *string, const char *fontName, float fontSize,
                         const CCSize& dimensions, CCTextAlignment hAlignment,
                         CCVerticalTextAlignment vAlignment);
     
-    /** initializes the CCColorLabelTTF with a font name, alignment, dimension and font size */
+    /** initializes the CCRichLabelTTF with a font name, alignment, dimension and font size */
     bool initWithStringAndTextDefinition(const char *string, ccFontDefinition &textDefinition);
     
     /** set the text definition used by this label */
@@ -103,11 +103,11 @@ public:
     /** set text tinting */
     void setFontFillColor(const ccColor3B &tintColor, bool mustUpdateTexture = true);
 
-    /** initializes the CCColorLabelTTF */
+    /** initializes the CCRichLabelTTF */
     bool init();
 	
     /** changes the string to render
-	 * @warning Changing the string is as expensive as creating a new CCColorLabelTTF. To obtain better performance use CCLabelAtlas
+	 * @warning Changing the string is as expensive as creating a new CCRichLabelTTF. To obtain better performance use CCLabelAtlas
 	 */
     virtual void setString(const char *label);
     virtual const char* getString(void);
@@ -167,4 +167,4 @@ protected:
 
 NS_CC_END
 
-#endif /* defined(__CCColorLabelTTF__) */
+#endif /* defined(__CCRichLabelTTF__) */

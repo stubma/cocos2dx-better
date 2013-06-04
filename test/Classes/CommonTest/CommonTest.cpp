@@ -170,7 +170,7 @@ void CommonColorLabel::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
-	CCColorLabelTTF* label = CCColorLabelTTF::create("H[color=ff00ff00]e我[/color]llo [color=ff0000ff]W[/color]orld!",
+	CCRichLabelTTF* label = CCRichLabelTTF::create("H[color=ff00ff00]e我[/color]llo [color=ff0000ff]W[/color]orld!",
                                                      "Helvetica",
                                                      30,
                                                      CCSizeMake(150, 200),

@@ -42,7 +42,7 @@ import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
-public class ColorLabelBitmap {
+public class RichLabelBitmap {
 	/* The values are the same as cocos2dx/platform/CCImage.h. */
 	private static final int HORIZONTALALIGN_LEFT = 1;
 	private static final int HORIZONTALALIGN_RIGHT = 2;
@@ -58,7 +58,7 @@ public class ColorLabelBitmap {
 		public ForegroundColorSpan style;
 	}
 	
-	public static void createColorLabelBitmap(String pString, final String pFontName, final int pFontSize,
+	public static void createRichLabelBitmap(String pString, final String pFontName, final int pFontSize,
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
@@ -114,7 +114,7 @@ public class ColorLabelBitmap {
 		float renderTextDeltaX = 0.0f;
 		float renderTextDeltaY = 0.0f;
 		if (shadow) {
-			int shadowColor = 0xff7d7d7d;
+			int shadowColor = 0xff333333;
 			paint.setShadowLayer(shadowBlur, shadowDX, shadowDY, shadowColor);
 
 			bitmapPaddingX = Math.abs(shadowDX);
@@ -129,6 +129,18 @@ public class ColorLabelBitmap {
 			}
 		}
 		
+        // compute the padding needed by shadow and stroke
+        float shadowStrokePaddingX = 0.0f;
+        float shadowStrokePaddingY = 0.0f;
+        if (stroke) {
+            shadowStrokePaddingX = (float)Math.ceil(strokeSize);
+            shadowStrokePaddingY = (float)Math.ceil(strokeSize);
+        }
+        if (shadow) {
+            shadowStrokePaddingX = Math.max(shadowStrokePaddingX, (float)Math.abs(shadowDX));
+            shadowStrokePaddingY = Math.max(shadowStrokePaddingY, (float)Math.abs(shadowDY));
+        }
+		
 		// layout this text
 		StaticLayout layout = new StaticLayout(rich,
 				paint, 
@@ -141,6 +153,10 @@ public class ColorLabelBitmap {
 		// size of layout
 		int width = layout.getWidth();
 		int height = layout.getHeight();
+		
+		// add padding of stroke
+		width += shadowStrokePaddingX;
+		height += shadowStrokePaddingY;
 		
         // vertical alignment
         int startH = 0;

@@ -23,7 +23,7 @@
  ****************************************************************************/
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#include "CCImage_colorlabel.h"
+#include "CCImage_richlabel.h"
 #include <jni.h>
 #include "JniHelper.h"
 
@@ -46,7 +46,7 @@ public:
 			float shadowBlur = 0.0, float shadowIntensity = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
 					0.0, float strokeSize = 0.0) {
 		JniMethodInfo methodInfo;
-		if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/ColorLabelBitmap", "createColorLabelBitmap",
+		if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/RichLabelBitmap", "createRichLabelBitmap",
 				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFFZFFFF)V")) {
 			CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
 			return false;
@@ -114,13 +114,13 @@ static void swapAlphaChannel(unsigned int *pImageMemory, unsigned int numPixels)
 	}
 }
 
-CCImage_colorlabel::CCImage_colorlabel() {
+CCImage_richlabel::CCImage_richlabel() {
 }
 
-CCImage_colorlabel::~CCImage_colorlabel() {
+CCImage_richlabel::~CCImage_richlabel() {
 }
 
-bool CCImage_colorlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
+bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, float shadowOpacity, float shadowBlur,
 		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize) {
 	bool bRet = false;
@@ -157,7 +157,7 @@ bool CCImage_colorlabel::initWithRichStringShadowStroke(const char * pText, int 
 NS_CC_END
 
 extern "C" {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_ColorLabelBitmap_nativeInitBitmapDC(JNIEnv* env, jobject thiz, int width, int height, jbyteArray pixels) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeInitBitmapDC(JNIEnv* env, jobject thiz, int width, int height, jbyteArray pixels) {
         int size = width * height * 4;
         cocos2d::CLBitmapDC& bitmapDC = cocos2d::sharedCLBitmapDC();
         bitmapDC.m_nWidth = width;

@@ -43,6 +43,6 @@
 #include "CCTreeFadeIn.h"
 #include "CCTreeFadeOut.h"
 #include "CCLocalization.h"
-#include "CCColorLabelTTF.h"
+#include "CCRichLabelTTF.h"
 
 #endif // __cocos2d_common_h__

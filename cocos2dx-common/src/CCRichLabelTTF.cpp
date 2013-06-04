@@ -21,11 +21,11 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCColorLabelTTF.h"
+#include "CCRichLabelTTF.h"
 #include "CCDirector.h"
 #include "shaders/CCGLProgram.h"
 #include "shaders/CCShaderCache.h"
-#include "CCTexture2D_colorlabel.h"
+#include "CCTexture2D_richlabel.h"
 
 NS_CC_BEGIN
 
@@ -36,9 +36,9 @@ NS_CC_BEGIN
 #endif
 
 //
-//CCColorLabelTTF
+//CCRichLabelTTF
 //
-CCColorLabelTTF::CCColorLabelTTF()
+CCRichLabelTTF::CCRichLabelTTF()
 : m_hAlignment(kCCTextAlignmentCenter)
 , m_vAlignment(kCCVerticalTextAlignmentTop)
 , m_pFontName(NULL)
@@ -50,14 +50,14 @@ CCColorLabelTTF::CCColorLabelTTF()
 {
 }
 
-CCColorLabelTTF::~CCColorLabelTTF()
+CCRichLabelTTF::~CCRichLabelTTF()
 {
     CC_SAFE_DELETE(m_pFontName);
 }
 
-CCColorLabelTTF * CCColorLabelTTF::create()
+CCRichLabelTTF * CCRichLabelTTF::create()
 {
-    CCColorLabelTTF * pRet = new CCColorLabelTTF();
+    CCRichLabelTTF * pRet = new CCRichLabelTTF();
     if (pRet && pRet->init())
     {
         pRet->autorelease();
@@ -69,23 +69,23 @@ CCColorLabelTTF * CCColorLabelTTF::create()
     return pRet;
 }
 
-CCColorLabelTTF * CCColorLabelTTF::create(const char *string, const char *fontName, float fontSize)
+CCRichLabelTTF * CCRichLabelTTF::create(const char *string, const char *fontName, float fontSize)
 {
-    return CCColorLabelTTF::create(string, fontName, fontSize,
+    return CCRichLabelTTF::create(string, fontName, fontSize,
                               CCSizeZero, kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
 }
 
-CCColorLabelTTF * CCColorLabelTTF::create(const char *string, const char *fontName, float fontSize,
+CCRichLabelTTF * CCRichLabelTTF::create(const char *string, const char *fontName, float fontSize,
                                 const CCSize& dimensions, CCTextAlignment hAlignment)
 {
-    return CCColorLabelTTF::create(string, fontName, fontSize, dimensions, hAlignment, kCCVerticalTextAlignmentTop);
+    return CCRichLabelTTF::create(string, fontName, fontSize, dimensions, hAlignment, kCCVerticalTextAlignmentTop);
 }
 
-CCColorLabelTTF* CCColorLabelTTF::create(const char *string, const char *fontName, float fontSize,
+CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName, float fontSize,
                                const CCSize &dimensions, CCTextAlignment hAlignment,
                                CCVerticalTextAlignment vAlignment)
 {
-    CCColorLabelTTF *pRet = new CCColorLabelTTF();
+    CCRichLabelTTF *pRet = new CCRichLabelTTF();
     if(pRet && pRet->initWithString(string, fontName, fontSize, dimensions, hAlignment, vAlignment))
     {
         pRet->autorelease();
@@ -95,24 +95,24 @@ CCColorLabelTTF* CCColorLabelTTF::create(const char *string, const char *fontNam
     return NULL;
 }
 
-bool CCColorLabelTTF::init()
+bool CCRichLabelTTF::init()
 {
     return this->initWithString("", "Helvetica", 12);
 }
 
-bool CCColorLabelTTF::initWithString(const char *label, const char *fontName, float fontSize,
+bool CCRichLabelTTF::initWithString(const char *label, const char *fontName, float fontSize,
                                 const CCSize& dimensions, CCTextAlignment alignment)
 {
     return this->initWithString(label, fontName, fontSize, dimensions, alignment, kCCVerticalTextAlignmentTop);
 }
 
-bool CCColorLabelTTF::initWithString(const char *label, const char *fontName, float fontSize)
+bool CCRichLabelTTF::initWithString(const char *label, const char *fontName, float fontSize)
 {
     return this->initWithString(label, fontName, fontSize,
                                 CCSizeZero, kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
 }
 
-bool CCColorLabelTTF::initWithString(const char *string, const char *fontName, float fontSize,
+bool CCRichLabelTTF::initWithString(const char *string, const char *fontName, float fontSize,
                                 const cocos2d::CCSize &dimensions, CCTextAlignment hAlignment,
                                 CCVerticalTextAlignment vAlignment)
 {
@@ -135,7 +135,7 @@ bool CCColorLabelTTF::initWithString(const char *string, const char *fontName, f
     return false;
 }
 
-bool CCColorLabelTTF::initWithStringAndTextDefinition(const char *string, ccFontDefinition &textDefinition)
+bool CCRichLabelTTF::initWithStringAndTextDefinition(const char *string, ccFontDefinition &textDefinition)
 {
     if (CCSprite::init())
     {
@@ -158,7 +158,7 @@ bool CCColorLabelTTF::initWithStringAndTextDefinition(const char *string, ccFont
 }
 
 
-void CCColorLabelTTF::setString(const char *string)
+void CCRichLabelTTF::setString(const char *string)
 {
     CCAssert(string != NULL, "Invalid string");
     
@@ -170,22 +170,22 @@ void CCColorLabelTTF::setString(const char *string)
     }
 }
 
-const char* CCColorLabelTTF::getString(void)
+const char* CCRichLabelTTF::getString(void)
 {
     return m_string.c_str();
 }
 
-const char* CCColorLabelTTF::description()
+const char* CCRichLabelTTF::description()
 {
-    return CCString::createWithFormat("<CCColorLabelTTF | FontName = %s, FontSize = %.1f>", m_pFontName->c_str(), m_fFontSize)->getCString();
+    return CCString::createWithFormat("<CCRichLabelTTF | FontName = %s, FontSize = %.1f>", m_pFontName->c_str(), m_fFontSize)->getCString();
 }
 
-CCTextAlignment CCColorLabelTTF::getHorizontalAlignment()
+CCTextAlignment CCRichLabelTTF::getHorizontalAlignment()
 {
     return m_hAlignment;
 }
 
-void CCColorLabelTTF::setHorizontalAlignment(CCTextAlignment alignment)
+void CCRichLabelTTF::setHorizontalAlignment(CCTextAlignment alignment)
 {
     if (alignment != m_hAlignment)
     {
@@ -199,12 +199,12 @@ void CCColorLabelTTF::setHorizontalAlignment(CCTextAlignment alignment)
     }
 }
 
-CCVerticalTextAlignment CCColorLabelTTF::getVerticalAlignment()
+CCVerticalTextAlignment CCRichLabelTTF::getVerticalAlignment()
 {
     return m_vAlignment;
 }
 
-void CCColorLabelTTF::setVerticalAlignment(CCVerticalTextAlignment verticalAlignment)
+void CCRichLabelTTF::setVerticalAlignment(CCVerticalTextAlignment verticalAlignment)
 {
     if (verticalAlignment != m_vAlignment)
     {
@@ -218,12 +218,12 @@ void CCColorLabelTTF::setVerticalAlignment(CCVerticalTextAlignment verticalAlign
     }
 }
 
-CCSize CCColorLabelTTF::getDimensions()
+CCSize CCRichLabelTTF::getDimensions()
 {
     return m_tDimensions;
 }
 
-void CCColorLabelTTF::setDimensions(const CCSize &dim)
+void CCRichLabelTTF::setDimensions(const CCSize &dim)
 {
     if (dim.width != m_tDimensions.width || dim.height != m_tDimensions.height)
     {
@@ -237,12 +237,12 @@ void CCColorLabelTTF::setDimensions(const CCSize &dim)
     }
 }
 
-float CCColorLabelTTF::getFontSize()
+float CCRichLabelTTF::getFontSize()
 {
     return m_fFontSize;
 }
 
-void CCColorLabelTTF::setFontSize(float fontSize)
+void CCRichLabelTTF::setFontSize(float fontSize)
 {
     if (m_fFontSize != fontSize)
     {
@@ -256,12 +256,12 @@ void CCColorLabelTTF::setFontSize(float fontSize)
     }
 }
 
-const char* CCColorLabelTTF::getFontName()
+const char* CCRichLabelTTF::getFontName()
 {
     return m_pFontName->c_str();
 }
 
-void CCColorLabelTTF::setFontName(const char *fontName)
+void CCRichLabelTTF::setFontName(const char *fontName)
 {
     if (m_pFontName->compare(fontName))
     {
@@ -277,10 +277,10 @@ void CCColorLabelTTF::setFontName(const char *fontName)
 }
 
 // Helper
-bool CCColorLabelTTF::updateTexture()
+bool CCRichLabelTTF::updateTexture()
 {
-    CCTexture2D_colorlabel *tex;
-    tex = new CCTexture2D_colorlabel();
+    CCTexture2D_richlabel *tex;
+    tex = new CCTexture2D_richlabel();
     
     if (!tex)
         return false;
@@ -315,7 +315,7 @@ bool CCColorLabelTTF::updateTexture()
     return true;
 }
 
-void CCColorLabelTTF::enableShadow(const CCSize &shadowOffset, float shadowOpacity, float shadowBlur, bool updateTexture)
+void CCRichLabelTTF::enableShadow(const CCSize &shadowOffset, float shadowOpacity, float shadowBlur, bool updateTexture)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
@@ -359,7 +359,7 @@ void CCColorLabelTTF::enableShadow(const CCSize &shadowOffset, float shadowOpaci
     
 }
 
-void CCColorLabelTTF::disableShadow(bool updateTexture)
+void CCRichLabelTTF::disableShadow(bool updateTexture)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
@@ -377,7 +377,7 @@ void CCColorLabelTTF::disableShadow(bool updateTexture)
 #endif
 }
 
-void CCColorLabelTTF::enableStroke(const ccColor3B &strokeColor, float strokeSize, bool updateTexture)
+void CCRichLabelTTF::enableStroke(const ccColor3B &strokeColor, float strokeSize, bool updateTexture)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
@@ -412,7 +412,7 @@ void CCColorLabelTTF::enableStroke(const ccColor3B &strokeColor, float strokeSiz
     
 }
 
-void CCColorLabelTTF::disableStroke(bool updateTexture)
+void CCRichLabelTTF::disableStroke(bool updateTexture)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
@@ -430,7 +430,7 @@ void CCColorLabelTTF::disableStroke(bool updateTexture)
     
 }
 
-void CCColorLabelTTF::setFontFillColor(const ccColor3B &tintColor, bool updateTexture)
+void CCRichLabelTTF::setFontFillColor(const ccColor3B &tintColor, bool updateTexture)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	if (m_textFillColor.r != tintColor.r || m_textFillColor.g != tintColor.g || m_textFillColor.b != tintColor.b)
@@ -445,7 +445,7 @@ void CCColorLabelTTF::setFontFillColor(const ccColor3B &tintColor, bool updateTe
 #endif
 }
 
-void CCColorLabelTTF::setTextDefinition(ccFontDefinition *theDefinition)
+void CCRichLabelTTF::setTextDefinition(ccFontDefinition *theDefinition)
 {
     if (theDefinition)
     {
@@ -453,14 +453,14 @@ void CCColorLabelTTF::setTextDefinition(ccFontDefinition *theDefinition)
     }
 }
 
-ccFontDefinition *CCColorLabelTTF::getTextDefinition()
+ccFontDefinition *CCRichLabelTTF::getTextDefinition()
 {
     ccFontDefinition *tempDefinition = new ccFontDefinition;
     *tempDefinition = _prepareTextDefinition(false);
     return tempDefinition;
 }
 
-void CCColorLabelTTF::_updateWithTextDefinition(ccFontDefinition & textDefinition, bool mustUpdateTexture)
+void CCRichLabelTTF::_updateWithTextDefinition(ccFontDefinition & textDefinition, bool mustUpdateTexture)
 {
     m_tDimensions = CCSizeMake(textDefinition.m_dimensions.width, textDefinition.m_dimensions.height);
     m_hAlignment  = textDefinition.m_alignment;
@@ -489,7 +489,7 @@ void CCColorLabelTTF::_updateWithTextDefinition(ccFontDefinition & textDefinitio
         updateTexture();
 }
 
-ccFontDefinition CCColorLabelTTF::_prepareTextDefinition(bool adjustForResolution)
+ccFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolution)
 {
     ccFontDefinition texDef;
     

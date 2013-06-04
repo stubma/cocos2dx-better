@@ -23,7 +23,7 @@
  ****************************************************************************/
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-#include "CCImage_colorlabel.h"
+#include "CCImage_richlabel.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreText/CoreText.h>
@@ -466,13 +466,13 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 
 NS_CC_BEGIN
 
-CCImage_colorlabel::CCImage_colorlabel() {
+CCImage_richlabel::CCImage_richlabel() {
 }
 
-CCImage_colorlabel::~CCImage_colorlabel() {
+CCImage_richlabel::~CCImage_richlabel() {
 }
 
-bool CCImage_colorlabel::initWithRichStringShadowStroke(const char * pText,
+bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														int         nWidth,
 														int         nHeight,
 														ETextAlign eAlignMask,

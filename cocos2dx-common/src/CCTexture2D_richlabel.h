@@ -21,42 +21,33 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCImage_colorlabel__
-#define __CCImage_colorlabel__
+#ifndef __CCTexture2D_richlabel__
+#define __CCTexture2D_richlabel__
 
 #include "cocos2d.h"
 
 NS_CC_BEGIN
 
 /**
- * Customized CCImage for color label implementation
+ * Customized CCTexture2D for color label implementation
  */
-class CCImage_colorlabel : public CCImage {	
+class CCTexture2D_richlabel : public CCTexture2D {
 public:
-    CCImage_colorlabel();
-    virtual ~CCImage_colorlabel();
+    CCTexture2D_richlabel();
+    virtual ~CCTexture2D_richlabel();
 	
-	bool initWithRichStringShadowStroke(const char *    pText,
-										int             nWidth      = 0,
-										int             nHeight     = 0,
-										ETextAlign      eAlignMask  = kAlignCenter,
-										const char *    pFontName   = 0,
-										int             nSize       = 0,
-										float           textTintR   = 1,
-										float           textTintG   = 1,
-										float           textTintB   = 1,
-										bool shadow                 = false,
-										float shadowOffsetX         = 0.0,
-										float shadowOffsetY         = 0.0,
-										float shadowOpacity         = 0.0,
-										float shadowBlur            = 0.0,
-										bool  stroke                =  false,
-										float strokeR               = 1,
-										float strokeG               = 1,
-										float strokeB               = 1,
-										float strokeSize            = 1);
+    const char* description(void);
+	
+	/** Initializes a texture from a string with dimensions, alignment, font name and font size */
+    bool initWithRichString(const char *text,  const char *fontName, float fontSize, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment);
+	
+    /** Initializes a texture from a string with font name and font size */
+    bool initWithRichString(const char *text, const char *fontName, float fontSize);
+	
+    /** Initializes a texture from a string using a text definition*/
+    bool initWithRichString(const char *text, ccFontDefinition *textDefinition);
 };
 
 NS_CC_END
 
-#endif /* defined(__CCImage_colorlabel__) */
+#endif /* defined(__CCTexture2D_richlabel__) */

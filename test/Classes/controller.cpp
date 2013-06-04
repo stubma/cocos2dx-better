@@ -42,7 +42,6 @@ TestController::TestController()
 // #else
         CCLabelTTF* label = CCLabelTTF::create(g_aTestNames[i].c_str(), "Arial", 24);
 // #endif        
-        CCLOG("label: %f, %f", label->getContentSize().width, label->getContentSize().height);
         CCMenuItemLabel* pMenuItem = CCMenuItemLabel::create(label, this, menu_selector(TestController::menuCallback));
 
         m_pItemMenu->addChild(pMenuItem, i + 10000);

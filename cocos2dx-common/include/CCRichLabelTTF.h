@@ -126,6 +126,8 @@ public:
     
     const char* getFontName();
     void setFontName(const char *fontName);
+	
+	virtual void setColor(const ccColor3B& color3) {}
     
 private:
     bool updateTexture();

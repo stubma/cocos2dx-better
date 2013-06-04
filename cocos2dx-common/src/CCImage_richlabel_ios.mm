@@ -85,7 +85,7 @@ static int parseColor(const unichar* p, int len) {
 	return color;
 }
 
-static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
+static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int defaultColor) {
     // get unichar of string
     NSString* ns = [NSString stringWithUTF8String:pText];
     int uniLen = [ns length];
@@ -156,7 +156,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 						if(plainLen > spanStart) {
 							span.start = spanStart;
 							span.end = plainLen;
-							span.color = 0xffffffff;
+							span.color = defaultColor;
 							spans.push_back(span);
 						}
 						spanStart = plainLen;
@@ -198,7 +198,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 		Span span = {
 			spanStart,
 			plainLen,
-			0xffffffff
+			defaultColor
 		};
 		spans.push_back(span);
 	}
@@ -209,12 +209,12 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
         *outLen = plainLen;
 	
 #ifdef COCOS2D_DEBUG
-	// debug output span info
-	int i = 0;
-	for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
-		Span& span = *iter;
-		CCLOG("span %d: %d - %d, color: 0x%08x", i++, span.start, span.end, span.color);
-	}
+//	// debug output span info
+//	int i = 0;
+//	for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+//		Span& span = *iter;
+//		CCLOG("span %d: %d - %d, color: 0x%08x", i++, span.start, span.end, span.color);
+//	}
 #endif
     
     // release
@@ -247,7 +247,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         // get plain text and extract span list
 		SpanList spans;
         int uniLen;
-        unichar* plain = buildSpan(pText, spans, &uniLen);
+		int color = 0xff000000 | ((int)(pInfo->tintColorR * 255) << 16) | ((int)(pInfo->tintColorG * 255) << 8) | (int)(pInfo->tintColorB * 255);
+        unichar* plain = buildSpan(pText, spans, &uniLen, color);
         
         // create attributed string
         CFStringRef plainCFStr = CFStringCreateWithCharacters(kCFAllocatorDefault,
@@ -261,36 +262,23 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                        CFRangeMake(0, CFAttributedStringGetLength(plainCFAStr)),
                                        kCTFontAttributeName,
                                        ctFont);
-        
-        // set default color
-        CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
-        CGFloat defaultColorComp[] = {
-            pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1
-        };
-        CGColorRef defaultColor = CGColorCreate(colorSpace, defaultColorComp);
-        CFAttributedStringSetAttribute(plainCFAStr,
-                                       CFRangeMake(0, CFAttributedStringGetLength(plainCFAStr)),
-                                       kCTForegroundColorAttributeName,
-                                       defaultColor);
-        CGColorRelease(defaultColor);
-        
+		
         // set span color
+		CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
-            if(span.color != 0xffffffff) {
-                CGFloat comp[] = {
-                    ((span.color >> 16) & 0xff) / 255,
-                    ((span.color >> 8) & 0xff) / 255,
-                    (span.color & 0xff) / 255,
-                    ((span.color >> 24) & 0xff) / 255
-                };
-                CGColorRef fc = CGColorCreate(colorSpace, comp);
-                CFAttributedStringSetAttribute(plainCFAStr,
-                                               CFRangeMake(span.start, span.end - span.start),
-                                               kCTForegroundColorAttributeName,
-                                               fc);
-                CGColorRelease(fc);
-            }
+			CGFloat comp[] = {
+				((span.color >> 16) & 0xff) / 255.0f,
+				((span.color >> 8) & 0xff) / 255.0f,
+				(span.color & 0xff) / 255.0f,
+				((span.color >> 24) & 0xff) / 255.0f
+			};
+			CGColorRef fc = CGColorCreate(colorSpace, comp);
+			CFAttributedStringSetAttribute(plainCFAStr,
+										   CFRangeMake(span.start, span.end - span.start),
+										   kCTForegroundColorAttributeName,
+										   fc);
+			CGColorRelease(fc);
         }
         
         // set paragraph style, including line spacing and alignment
@@ -424,9 +412,6 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                 offset.width  = pInfo->shadowOffset.width;
                 CGContextSetShadow(context, offset, pInfo->shadowBlur);
             }
-            
-            // set color
-            CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
             
             // vertical alignment
             CGContextTranslateCTM(context, 0, -startH);

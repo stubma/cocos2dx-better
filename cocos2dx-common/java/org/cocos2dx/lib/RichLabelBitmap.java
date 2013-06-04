@@ -65,15 +65,14 @@ public class RichLabelBitmap {
 	        final float strokeB, final float strokeSize) {
 		// extract span info and return text without span style
 		List<Span> spans = new ArrayList<Span>();
-		String plain = buildSpan(pString, spans);
+		int color = 0xff000000 | ((int)(fontTintR * 255) << 16) | ((int)(fontTintG * 255) << 8) | (int)(fontTintB * 255);
+		String plain = buildSpan(pString, spans, color);
 		
 		// build spannable string, install span color
 		SpannableString rich = new SpannableString(plain);
 		for(Span span : spans) {
-			if(span.color != 0xffffffff) {
-				span.style = new ForegroundColorSpan(span.color);
-				rich.setSpan(span.style, span.start, span.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			}
+			span.style = new ForegroundColorSpan(span.color);
+			rich.setSpan(span.style, span.start, span.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 		
 		// alignment
@@ -209,7 +208,7 @@ public class RichLabelBitmap {
 		bitmap.recycle();
 	}
 	
-	private static String buildSpan(String text, List<Span> spans) {
+	private static String buildSpan(String text, List<Span> spans, int defaultColor) {
 		boolean inSpan = false;
 		int spanStart = 0;
 		int uniLen = text.length();
@@ -274,7 +273,7 @@ public class RichLabelBitmap {
 								Span span = new Span();
 								span.start = spanStart;
 								span.end = plain.length();
-								span.color = 0xffffffff;
+								span.color = defaultColor;
 								spans.add(span);
 							}
 							spanStart = plain.length();
@@ -317,7 +316,7 @@ public class RichLabelBitmap {
 			Span span = new Span();
 			span.start = spanStart;
 			span.end = plain.length();
-			span.color = 0xffffffff;
+			span.color = defaultColor;
 			spans.add(span);
 		}
 		

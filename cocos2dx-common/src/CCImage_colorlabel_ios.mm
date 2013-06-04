@@ -68,26 +68,6 @@ typedef struct {
 #define ALIGN_CENTER 3
 #define ALIGN_BOTTOM 2
 
-static CGSize _calculateStringSize(NSString *str, id font, CGSize *constrainSize) {
-    NSArray *listItems = [str componentsSeparatedByString: @"\n"];
-    CGSize dim = CGSizeZero;
-    CGSize textRect = CGSizeZero;
-    textRect.width = constrainSize->width > 0 ? constrainSize->width : 0x7fffffff;
-    textRect.height = constrainSize->height > 0 ? constrainSize->height : 0x7fffffff;
-    
-    for (NSString *s in listItems) {
-        CGSize tmp = [s sizeWithFont:font constrainedToSize:textRect];
-        
-        if (tmp.width > dim.width) {
-			dim.width = tmp.width;
-        }
-        
-        dim.height += tmp.height;
-    }
-    
-    return dim;
-}
-
 static int parseColor(const unichar* p, int len) {
 	int color = 0;
 	for(int i = 0; i < len; i++) {

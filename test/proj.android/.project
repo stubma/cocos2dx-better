@@ -30,4 +30,26 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>assets</name>
+			<type>2</type>
+			<locationURI>RESOURCES</locationURI>
+		</link>
+		<link>
+			<name>cocos2d-x</name>
+			<type>2</type>
+			<locationURI>$%7BCOCOS2DX_ROOT%7D/cocos2dx/platform/android/java/src</locationURI>
+		</link>
+	</linkedResources>
+	<variableList>
+		<variable>
+			<name>COCOS2DX_ROOT</name>
+			<value>$%7BPARENT-3-PROJECT_LOC%7D/cocos2d-x</value>
+		</variable>
+		<variable>
+			<name>RESOURCES</name>
+			<value>$%7BPARENT-1-PROJECT_LOC%7D/Resources</value>
+		</variable>
+	</variableList>
 </projectDescription>

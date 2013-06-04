@@ -3,7 +3,11 @@ cocos2dx-common
 
 Because I wrote more than one cocos2d-x extension so I found some code can be moved out as a common codebase.
 
-View [my repositories][1] to know what extensions I provided for you. Focus on those starts with "cocos2dx" prefix.
+Here is my extensions which refer to this common base:
+* https://github.com/stubma/cocos2dx-anim
+* https://github.com/stubma/cocos2dx-json
+* https://github.com/stubma/cocos2dx-wisound
+* https://github.com/stubma/cocos2dx-db
 
 Requirement
 ===========
@@ -18,13 +22,3 @@ How to use
 ===========
 For iOS, just drag cocos2dx-common project into your project. For Android, just import cocos2dx-common module. 
 If not clear, refer to demo code.
-
-My Extensions
-===========
-Here is my extensions which refer to this common base:
-* https://github.com/stubma/cocos2dx-anim
-* https://github.com/stubma/cocos2dx-json
-* https://github.com/stubma/cocos2dx-wisound
-* https://github.com/stubma/cocos2dx-db
-
-[1]: https://github.com/stubma?tab=repositories

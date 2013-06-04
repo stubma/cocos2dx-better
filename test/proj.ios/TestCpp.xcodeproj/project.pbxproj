@@ -18,6 +18,7 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
 		92774B2616EF1F6D008E67C8 /* libcocos2dxcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92774B2316EF1F4B008E67C8 /* libcocos2dxcommon.a */; };
+		92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3D175D9B0700E63472 /* CoreText.framework */; };
 		92A670F516E893AF008BE79D /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 92A670F416E893AF008BE79D /* Images */; };
 		92A6710016E895FF008BE79D /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A670EF16E8922A008BE79D /* libcocos2dx.a */; };
 		92A6710316E89667008BE79D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A6710216E89667008BE79D /* libz.dylib */; };
@@ -72,6 +73,7 @@
 		32CA4F630368D1EE00C91783 /* iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iphone_Prefix.pch; path = ../iphone_Prefix.pch; sourceTree = "<group>"; };
 		7855E0DF153FEF240059DD9A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dxcommon.xcodeproj; path = "../../../cocos2dx-common/proj.ios/cocos2dxcommon.xcodeproj"; sourceTree = "<group>"; };
+		92984F3D175D9B0700E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92A670F416E893AF008BE79D /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		92A6710216E89667008BE79D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -96,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */,
 				92A6712116E8BA5F008BE79D /* libsqlite3.dylib in Frameworks */,
 				92A6710316E89667008BE79D /* libz.dylib in Frameworks */,
 				92774B2616EF1F6D008E67C8 /* libcocos2dxcommon.a in Frameworks */,
@@ -175,6 +178,7 @@
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				BF170DB012928DE900B8313A /* OpenGLES.framework */,
+				92984F3D175D9B0700E63472 /* CoreText.framework */,
 				BF1C47EA1293683800B63C5D /* QuartzCore.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 			);

@@ -172,7 +172,10 @@ void CommonColorLabel::onEnter()
 	
 	CCColorLabelTTF* label = CCColorLabelTTF::create("H[color=ff00ff00]e我[/color]llo [color=ff0000ff]W[/color]orld!",
                                                      "Helvetica",
-                                                     30);
+                                                     30,
+                                                     CCSizeMake(150, 200),
+                                                     kCCTextAlignmentRight,
+                                                     kCCVerticalTextAlignmentBottom);
 	label->enableStroke(ccBLUE, 0.5f);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height / 2));

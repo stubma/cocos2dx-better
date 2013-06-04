@@ -26,6 +26,7 @@
 #include "CCImage_colorlabel.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
 #include <math.h>
 
 /// span
@@ -87,7 +88,7 @@ static CGSize _calculateStringSize(NSString *str, id font, CGSize *constrainSize
     return dim;
 }
 
-static int parseColor(const char* p, int len) {
+static int parseColor(const unichar* p, int len) {
 	int color = 0;
 	for(int i = 0; i < len; i++) {
 		color <<= 4;
@@ -104,18 +105,23 @@ static int parseColor(const char* p, int len) {
 	return color;
 }
 
-static char* buildSpan(const char* pText, SpanList& spans) {
+static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
+    // get unichar of string
+    NSString* ns = [NSString stringWithUTF8String:pText];
+    int uniLen = [ns length];
+    unichar* uniText = (unichar*)malloc(uniLen * sizeof(unichar));
+    [ns getCharacters:uniText];
+    
 	bool inSpan = false;
 	int spanStart = 0;
 	int plainLen = 0;
-	int richLen = strlen(pText);
-	char* plain = (char*)malloc(sizeof(char) * (richLen + 1));
-	for(int i = 0; i < richLen; i++) {
-		char c = pText[i];
+	unichar* plain = (unichar*)malloc(sizeof(unichar) * uniLen);
+	for(int i = 0; i < uniLen; i++) {
+		unichar c = uniText[i];
 		switch(c) {
 			case '\\':
-				if(i < richLen - 1) {
-					char cc = pText[i + 1];
+				if(i < uniLen - 1) {
+					unichar cc = uniText[i + 1];
 					if(cc == '[' || cc == ']') {
 						plain[plainLen++] = cc;
 						i++;
@@ -128,22 +134,29 @@ static char* buildSpan(const char* pText, SpanList& spans) {
 			{
 				// find close bracket
 				int j;
-				for(j = i + 1; j < richLen; j++) {
-					char cc = pText[j];
+				for(j = i + 1; j < uniLen; j++) {
+					unichar cc = uniText[j];
 					if(cc == ']') {
 						break;
 					}
 				}
 				
 				// if no close bracket, discard those content
-				if(j >= richLen) {
+				if(j >= uniLen) {
 					i = j;
 					break;
 				}
 				
 				// if find, we need check whether we are in a span
 				if(inSpan) {
-					if(CCUtils::startsWith(pText + i, "[/color]")) {
+					if(uniText[i] == '['
+                       && uniText[i + 1] == '/'
+                       && uniText[i + 2] == 'c'
+                       && uniText[i + 3] == 'o'
+                       && uniText[i + 4] == 'l'
+                       && uniText[i + 5] == 'o'
+                       && uniText[i + 6] == 'r'
+                       && uniText[i + 7] == ']') {
 						inSpan = false;
 						spanStart = plainLen;
 					}
@@ -152,7 +165,12 @@ static char* buildSpan(const char* pText, SpanList& spans) {
 					i = j;
 				} else {
 					// parse this span, if not recognized, need ignore
-					if(CCUtils::startsWith(pText + i + 1, "color=")) {
+					if(uniText[i + 1] == 'c'
+                       && uniText[i + 2] == 'o'
+                       && uniText[i + 3] == 'l'
+                       && uniText[i + 4] == 'o'
+                       && uniText[i + 5] == 'r'
+                       && uniText[i + 6] == '=') {
 						// add previous span
 						Span span;
 						if(plainLen > spanStart) {
@@ -164,7 +182,7 @@ static char* buildSpan(const char* pText, SpanList& spans) {
 						spanStart = plainLen;
 						
 						// add color span
-						int color = parseColor(pText + i + 7, j - i - 7);
+						int color = parseColor(uniText + i + 7, j - i - 7);
 						span.start = spanStart;
 						span.end = spanStart;
 						span.color = color;
@@ -196,7 +214,7 @@ static char* buildSpan(const char* pText, SpanList& spans) {
 	}
 	
 	// last span
-	if(spanStart < richLen && plainLen > spanStart) {
+	if(spanStart < uniLen && plainLen > spanStart) {
 		Span span = {
 			spanStart,
 			plainLen,
@@ -207,6 +225,8 @@ static char* buildSpan(const char* pText, SpanList& spans) {
 	
 	// end of plain
 	plain[plainLen] = 0;
+    if(outLen)
+        *outLen = plainLen;
 	
 #ifdef COCOS2D_DEBUG
 	// debug output span info
@@ -216,6 +236,9 @@ static char* buildSpan(const char* pText, SpanList& spans) {
 		CCLOG("span %d: %d - %d, color: 0x%08x", i++, span.start, span.end, span.color);
 	}
 #endif
+    
+    // release
+    free(uniText);
 	
 	// return plain str
 	return plain;
@@ -226,41 +249,118 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
     do {
         CC_BREAK_IF(!pText || !pInfo);
         
-		SpanList spans;
-        char* plain = buildSpan(pText, spans);
-        NSString* plainStr = [NSString stringWithUTF8String:plain];
-        NSString* fntName = [NSString stringWithUTF8String:pFontName];
-        
-        CGSize dim, constrainSize;
-        
-        constrainSize.width     = pInfo->width;
-        constrainSize.height    = pInfo->height;
-        
         // On iOS custom fonts must be listed beforehand in the App info.plist (in order to be usable) and referenced only the by the font family name itself when
         // calling [UIFont fontWithName]. Therefore even if the developer adds 'SomeFont.ttf' or 'fonts/SomeFont.ttf' to the App .plist, the font must
         // be referenced as 'SomeFont' when calling [UIFont fontWithName]. Hence we strip out the folder path components and the extension here in order to get just
         // the font family name itself. This stripping step is required especially for references to user fonts stored in CCB files; CCB files appear to store
         // the '.ttf' extensions when referring to custom fonts.
+        NSString* fntName = [NSString stringWithUTF8String:pFontName];
         fntName = [[fntName lastPathComponent] stringByDeletingPathExtension];
         
         // create the font
-        id font = [UIFont fontWithName:fntName size:nSize];
-        
-        if (font) {
-            dim = _calculateStringSize(plainStr, font, &constrainSize);
-        } else {
-            if (!font) {
-                font = [UIFont systemFontOfSize:nSize];
-            }
-			
-            if (font) {
-                dim = _calculateStringSize(plainStr, font, &constrainSize);
-            }
-        }
-		
+        UIFont* font = [UIFont fontWithName:fntName size:nSize];
         CC_BREAK_IF(!font);
         
-        // compute start point
+        // create ct font
+        CTFontRef ctFont = CTFontCreateWithName((CFStringRef)font.fontName, nSize, NULL);
+
+        // get plain text and extract span list
+		SpanList spans;
+        int uniLen;
+        unichar* plain = buildSpan(pText, spans, &uniLen);
+        
+        // create attributed string
+        CFStringRef plainCFStr = CFStringCreateWithCharacters(kCFAllocatorDefault,
+                                                              (const UniChar*)plain,
+                                                              uniLen);
+        CFMutableAttributedStringRef plainCFAStr = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+        CFAttributedStringReplaceString(plainCFAStr, CFRangeMake(0, 0), plainCFStr);
+        
+        // set font
+        CFAttributedStringSetAttribute(plainCFAStr,
+                                       CFRangeMake(0, CFAttributedStringGetLength(plainCFAStr)),
+                                       kCTFontAttributeName,
+                                       ctFont);
+        
+        // set default color
+        CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
+        CGFloat defaultColorComp[] = {
+            pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1
+        };
+        CGColorRef defaultColor = CGColorCreate(colorSpace, defaultColorComp);
+        CFAttributedStringSetAttribute(plainCFAStr,
+                                       CFRangeMake(0, CFAttributedStringGetLength(plainCFAStr)),
+                                       kCTForegroundColorAttributeName,
+                                       defaultColor);
+        CGColorRelease(defaultColor);
+        
+        // set span color
+        for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+            Span& span = *iter;
+            if(span.color != 0xffffffff) {
+                CGFloat comp[] = {
+                    ((span.color >> 16) & 0xff) / 255,
+                    ((span.color >> 8) & 0xff) / 255,
+                    (span.color & 0xff) / 255,
+                    ((span.color >> 24) & 0xff) / 255
+                };
+                CGColorRef fc = CGColorCreate(colorSpace, comp);
+                CFAttributedStringSetAttribute(plainCFAStr,
+                                               CFRangeMake(span.start, span.end - span.start),
+                                               kCTForegroundColorAttributeName,
+                                               fc);
+                CGColorRelease(fc);
+            }
+        }
+        
+        // set paragraph style, including line spacing and alignment
+        CTTextAlignment alignment = kCTLeftTextAlignment;
+        switch(eAlign & 0x0f) {
+            case 2:
+                alignment = kCTRightTextAlignment;
+                break;
+            case 3:
+                alignment = kCTCenterTextAlignment;
+                break;
+            default:
+                break;
+        }
+        float space = 0;
+        CTParagraphStyleSetting paraSettings[] = {
+            { kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment},
+            { kCTParagraphStyleSpecifierLineSpacingAdjustment, sizeof(CGFloat), &space },
+            { kCTParagraphStyleSpecifierMaximumLineSpacing, sizeof(CGFloat), &space },
+            { kCTParagraphStyleSpecifierMinimumLineSpacing, sizeof(CGFloat), &space }
+        };
+        CTParagraphStyleRef paraStyle = CTParagraphStyleCreate(paraSettings,
+                                                               sizeof(paraSettings) / sizeof(paraSettings[0]));
+        CFAttributedStringSetAttribute(plainCFAStr,
+                                       CFRangeMake(0, CFAttributedStringGetLength(plainCFAStr)),
+                                       kCTParagraphStyleAttributeName,
+                                       paraStyle);
+        
+        // create frame setter
+        CTFramesetterRef fs = CTFramesetterCreateWithAttributedString(plainCFAStr);
+        
+        // constrain size
+        CFRange range;
+        CGSize constrainSize = CGSizeMake(pInfo->width, pInfo->height);
+        CGSize ctConstrainSize = constrainSize;
+        if(ctConstrainSize.width <= 0) {
+            ctConstrainSize.width = CGFLOAT_MAX;
+        }
+        if(ctConstrainSize.height <= 0) {
+            ctConstrainSize.height = CGFLOAT_MAX;
+        }
+        CGSize dim = CTFramesetterSuggestFrameSizeWithConstraints(fs,
+                                                                  CFRangeMake(0, 0),
+                                                                  NULL,
+                                                                  ctConstrainSize,
+                                                                  &range);
+        dim.width = ceilf(dim.width);
+        dim.height = ceilf(dim.height);
+        
+        // vertical alignment
         int startH = 0;
         if (constrainSize.height > dim.height) {
             // vertical alignment
@@ -282,15 +382,21 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             dim.height = constrainSize.height;
         }
         
+        // create frame
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathAddRect(path, NULL, CGRectMake(0, 0, dim.width, dim.height));
+        CTFrameRef frame = CTFramesetterCreateFrame(fs,
+                                                    CFRangeMake(0, 0),
+                                                    path,
+                                                    NULL);
+        
         // compute the padding needed by shadow and stroke
         float shadowStrokePaddingX = 0.0f;
         float shadowStrokePaddingY = 0.0f;
-        
         if (pInfo->hasStroke) {
             shadowStrokePaddingX = ceilf(pInfo->strokeSize);
             shadowStrokePaddingY = ceilf(pInfo->strokeSize);
         }
-        
         if (pInfo->hasShadow) {
             shadowStrokePaddingX = MAX(shadowStrokePaddingX, (float)fabs(pInfo->shadowOffset.width));
             shadowStrokePaddingY = MAX(shadowStrokePaddingY, (float)fabs(pInfo->shadowOffset.height));
@@ -304,135 +410,66 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         unsigned char* data = new unsigned char[(int)(dim.width * dim.height * 4)];
         memset(data, 0, (int)(dim.width * dim.height * 4));
         
-        // draw text
-        CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
-        CGContextRef context        = CGBitmapContextCreate(data,
-                                                            dim.width,
-                                                            dim.height,
-                                                            8,
-                                                            dim.width * 4,
-                                                            colorSpace,
-                                                            kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+        // create context
+        CGContextRef context = CGBitmapContextCreate(data,
+                                                     dim.width,
+                                                     dim.height,
+                                                     8,
+                                                     dim.width * 4,
+                                                     colorSpace,
+                                                     kCGImageAlphaPremultipliedLast |kCGBitmapByteOrder32Big);
         
-        CGColorSpaceRelease(colorSpace);
-        
+        // if fail, release
+        // if ok, draw text by core text
         if (!context) {
             delete[] data;
-            break;
-        }
-		
-        // move Y rendering to the top of the image
-        CGContextTranslateCTM(context, 0.0f, (dim.height - shadowStrokePaddingY) );
-        CGContextScaleCTM(context, 1.0f, -1.0f); //NOTE: NSString draws in UIKit referential i.e. renders upside-down compared to CGBitmapContext referential
-        
-        // store the current context
-        UIGraphicsPushContext(context);
-        
-        // measure text size with specified font and determine the rectangle to draw text in
-        unsigned uHoriFlag = eAlign & 0x0f;
-		UITextAlignment align = UITextAlignmentLeft;
-		switch(uHoriFlag) {
-			case 2:
-				align = UITextAlignmentRight;
-				break;
-			case 3:
-				align = UITextAlignmentCenter;
-				break;
-			default:
-				align = UITextAlignmentLeft;
-				break;
-		}
-		
-        // take care of stroke if needed
-        if (pInfo->hasStroke) {
-            CGContextSetTextDrawingMode(context, kCGTextFillStroke);
-            CGContextSetRGBStrokeColor(context, pInfo->strokeColorR, pInfo->strokeColorG, pInfo->strokeColorB, 1);
-            CGContextSetLineWidth(context, pInfo->strokeSize);
-        }
-        
-        // take care of shadow if needed
-        if (pInfo->hasShadow) {
-            CGSize offset;
-            offset.height = pInfo->shadowOffset.height;
-            offset.width  = pInfo->shadowOffset.width;
-            CGContextSetShadow(context, offset, pInfo->shadowBlur);
-        }        
-        
-        // compute the rect used for rendering the text
-        // based on wether shadows or stroke are enabled
-        float textOriginX  = 0.0;
-        float textOriginY = 0.0;
-        float textWidth    = dim.width  - shadowStrokePaddingX;
-        float textHeight   = dim.height - shadowStrokePaddingY;
-        if (pInfo->shadowOffset.width < 0) {
-            textOriginX = shadowStrokePaddingX;
         } else {
-            textOriginX = 0.0;
+            // store the current context
+            UIGraphicsPushContext(context);
+            
+            // alow anti-aliasing
+            CGContextSetAllowsAntialiasing(context, YES);
+            
+            // take care of stroke if needed
+            if (pInfo->hasStroke) {
+                CGContextSetTextDrawingMode(context, kCGTextFillStroke);
+                CGContextSetRGBStrokeColor(context, pInfo->strokeColorR, pInfo->strokeColorG, pInfo->strokeColorB, 1);
+                CGContextSetLineWidth(context, pInfo->strokeSize);
+            }
+            
+            // take care of shadow if needed
+            if (pInfo->hasShadow) {
+                CGSize offset;
+                offset.height = pInfo->shadowOffset.height;
+                offset.width  = pInfo->shadowOffset.width;
+                CGContextSetShadow(context, offset, pInfo->shadowBlur);
+            }
+            
+            // set color
+            CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
+            
+            // vertical alignment
+            CGContextTranslateCTM(context, 0, -startH);
+            
+            // draw frame
+            CTFrameDraw(frame, context);
+                        
+            // pop the context
+            UIGraphicsPopContext();
+            
+            // release
+            CGContextRelease(context);
         }
-        if (pInfo->shadowOffset.height > 0) {
-            textOriginY = startH;
-        } else {
-            textOriginY = startH - shadowStrokePaddingY;
-        }
-		
-		// actually draw the text in the context
-		// it depends on how many spans are there
-		if(spans.size() == 1) {
-			// set color
-			Span& span = *spans.begin();
-			if(span.color == 0xffffffff) {
-				CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
-			} else {
-				CGContextSetRGBFillColor(context, ((span.color >> 16) & 0xff) / 255,
-										 ((span.color >> 8) & 0xff) / 255,
-										 (span.color & 0xff) / 255,
-										 ((span.color >> 24) & 0xff) / 255);
-			}
-			
-			[plainStr drawInRect:CGRectMake(textOriginX, textOriginY, textWidth, textHeight)
-                        withFont:font
-                   lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap
-                       alignment:align];
-		} else {
-			float x = textOriginX;
-			float y = textOriginY;
-			for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
-				Span& span = *iter;
-				
-				// set color
-				if(span.color == 0xffffffff) {
-					CGContextSetRGBFillColor(context, pInfo->tintColorR, pInfo->tintColorG, pInfo->tintColorB, 1);
-				} else {
-					CGContextSetRGBFillColor(context, ((span.color >> 16) & 0xff) / 255,
-											 ((span.color >> 8) & 0xff) / 255,
-											 (span.color & 0xff) / 255,
-											 ((span.color >> 24) & 0xff) / 255);
-				}
-				
-				// sub string
-                NSString* sub = [[[NSString alloc] initWithBytes:plain + span.start
-                                                          length:span.end - span.start
-                                                        encoding:NSUTF8StringEncoding] autorelease];
-				
-				// get sub string size
-				CGSize size = _calculateStringSize(sub, font, &constrainSize);
-				
-				// draw sub string
-				[sub drawInRect:CGRectMake(x, y, size.width, size.height)
-					   withFont:font
-				  lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap
-					  alignment:align];
-				
-				// increase
-				x += size.width;
-			}
-		}
         
-        // pop the context
-        UIGraphicsPopContext();
-        
-        // release the context
-        CGContextRelease(context);
+        // release
+        CGColorSpaceRelease(colorSpace);
+        CFRelease(plainCFStr);
+        CFRelease(plainCFAStr);
+        CFRelease(fs);
+        CFRelease(ctFont);
+        CFRelease(frame);
+        CFRelease(path);
+        CFRelease(paraStyle);
 		
         // output params
         pInfo->data                 = data;

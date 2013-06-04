@@ -28,6 +28,7 @@
 		928B83481741E231005EA4E0 /* CCTreeFadeOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */; };
 		928B834B1741E27A005EA4E0 /* CCTreeFadeIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928B834A1741E27A005EA4E0 /* CCTreeFadeIn.cpp */; };
 		928C34061728CEB8008DFA9A /* CCMD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928C34051728CEB8008DFA9A /* CCMD5.cpp */; };
+		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92AE790416F73649009C5FFC /* CCResourceLoader.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
@@ -104,6 +105,7 @@
 		928B834C1741E27F005EA4E0 /* CCTreeFadeIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTreeFadeIn.h; sourceTree = "<group>"; };
 		928C34031728CEA8008DFA9A /* CCMD5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMD5.h; sourceTree = "<group>"; };
 		928C34051728CEB8008DFA9A /* CCMD5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMD5.cpp; sourceTree = "<group>"; };
+		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92AE790116F73643009C5FFC /* CCResourceLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResourceLoader.h; sourceTree = "<group>"; };
 		92AE790216F73643009C5FFC /* CCResourceLoaderListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResourceLoaderListener.h; sourceTree = "<group>"; };
 		92AE790416F73649009C5FFC /* CCResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCResourceLoader.cpp; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92984F3B175D904500E63472 /* CoreText.framework in Frameworks */,
 				924BE967170EB69D002BEEB0 /* libcocos2dx.a in Frameworks */,
 				92B516E816E86020009F3536 /* Foundation.framework in Frameworks */,
 			);
@@ -230,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */,
+				92984F3A175D904500E63472 /* CoreText.framework */,
 				92B516E716E86020009F3536 /* Foundation.framework */,
 			);
 			name = Frameworks;

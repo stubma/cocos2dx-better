@@ -55,6 +55,7 @@ public class ColorLabelBitmap {
 		public int start;
 		public int end;
 		public int color;
+		public ForegroundColorSpan style;
 	}
 	
 	public static void createColorLabelBitmap(String pString, final String pFontName, final int pFontSize,
@@ -70,7 +71,8 @@ public class ColorLabelBitmap {
 		SpannableString rich = new SpannableString(plain);
 		for(Span span : spans) {
 			if(span.color != 0xffffffff) {
-				rich.setSpan(new ForegroundColorSpan(span.color), span.start, span.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				span.style = new ForegroundColorSpan(span.color);
+				rich.setSpan(span.style, span.start, span.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
 		}
 		
@@ -178,6 +180,11 @@ public class ColorLabelBitmap {
 			paint.setStrokeWidth(strokeSize);
 			paint.setARGB(255, (int)strokeR * 255, (int)strokeG * 255, (int)strokeB * 255);
 			paint.clearShadowLayer();
+			for(Span span : spans) {
+				if(span.style != null) {
+					rich.removeSpan(span.style);
+				}
+			}
 			layout.draw(c);
 		}
 		

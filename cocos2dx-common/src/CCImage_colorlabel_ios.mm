@@ -104,7 +104,7 @@ static int parseColor(const char* p, int len) {
 	return color;
 }
 
-static NSString* buildSpan(const char* pText, SpanList& spans) {
+static char* buildSpan(const char* pText, SpanList& spans) {
 	bool inSpan = false;
 	int spanStart = 0;
 	int plainLen = 0;
@@ -218,9 +218,7 @@ static NSString* buildSpan(const char* pText, SpanList& spans) {
 #endif
 	
 	// return plain str
-	NSString* str = [NSString stringWithUTF8String:plain];
-	free(plain);
-	return str;
+	return plain;
 }
 
 static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo) {
@@ -229,7 +227,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         CC_BREAK_IF(!pText || !pInfo);
         
 		SpanList spans;
-        NSString* str = buildSpan(pText, spans);
+        char* plain = buildSpan(pText, spans);
+        NSString* plainStr = [NSString stringWithUTF8String:plain];
         NSString* fntName = [NSString stringWithUTF8String:pFontName];
         
         CGSize dim, constrainSize;
@@ -248,14 +247,14 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         id font = [UIFont fontWithName:fntName size:nSize];
         
         if (font) {
-            dim = _calculateStringSize(str, font, &constrainSize);
+            dim = _calculateStringSize(plainStr, font, &constrainSize);
         } else {
             if (!font) {
                 font = [UIFont systemFontOfSize:nSize];
             }
 			
             if (font) {
-                dim = _calculateStringSize(str, font, &constrainSize);
+                dim = _calculateStringSize(plainStr, font, &constrainSize);
             }
         }
 		
@@ -390,10 +389,10 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 										 ((span.color >> 24) & 0xff) / 255);
 			}
 			
-			[str drawInRect:CGRectMake(textOriginX, textOriginY, textWidth, textHeight)
-				   withFont:font
-			  lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap
-				  alignment:align];
+			[plainStr drawInRect:CGRectMake(textOriginX, textOriginY, textWidth, textHeight)
+                        withFont:font
+                   lineBreakMode:(UILineBreakMode)UILineBreakModeWordWrap
+                       alignment:align];
 		} else {
 			float x = textOriginX;
 			float y = textOriginY;
@@ -411,8 +410,9 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 				}
 				
 				// sub string
-				NSRange r = NSMakeRange(span.start, span.end - span.start);
-				NSString* sub = [str substringWithRange:r];
+                NSString* sub = [[[NSString alloc] initWithBytes:plain + span.start
+                                                          length:span.end - span.start
+                                                        encoding:NSUTF8StringEncoding] autorelease];
 				
 				// get sub string size
 				CGSize size = _calculateStringSize(sub, font, &constrainSize);

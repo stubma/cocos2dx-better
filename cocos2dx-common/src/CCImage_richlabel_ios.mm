@@ -29,6 +29,10 @@
 #import <CoreText/CoreText.h>
 #include <math.h>
 
+// tag char
+#define TAG_START '['
+#define TAG_END ']'
+
 /// span
 typedef struct Span {
 	// start char
@@ -102,7 +106,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int d
 			case '\\':
 				if(i < uniLen - 1) {
 					unichar cc = uniText[i + 1];
-					if(cc == '[' || cc == ']') {
+					if(cc == TAG_START || cc == TAG_END) {
 						plain[plainLen++] = cc;
 						i++;
 					}
@@ -110,13 +114,13 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int d
 					plain[plainLen++] = c;
 				}
 				break;
-			case '[':
+			case TAG_START:
 			{
 				// find close bracket
 				int j;
 				for(j = i + 1; j < uniLen; j++) {
 					unichar cc = uniText[j];
-					if(cc == ']') {
+					if(cc == TAG_END) {
 						break;
 					}
 				}
@@ -129,14 +133,14 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int d
 				
 				// if find, we need check whether we are in a span
 				if(inSpan) {
-					if(uniText[i] == '['
+					if(uniText[i] == TAG_START
                        && uniText[i + 1] == '/'
                        && uniText[i + 2] == 'c'
                        && uniText[i + 3] == 'o'
                        && uniText[i + 4] == 'l'
                        && uniText[i + 5] == 'o'
                        && uniText[i + 6] == 'r'
-                       && uniText[i + 7] == ']') {
+                       && uniText[i + 7] == TAG_END) {
 						inSpan = false;
 						spanStart = plainLen;
 					}
@@ -178,7 +182,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int d
 				
 				break;
 			}
-			case ']':
+			case TAG_END:
 				// just discard it
 				break;
 			default:

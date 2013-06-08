@@ -34,6 +34,9 @@ class CCTexture2D_richlabel;
  * TTF label which support different colors in a string. By using a tag description such as:
  * 'Hell[color=ffff0000]o[/color]", the 'o' character will be in red color. If you want 
  * a '[' character, use '\' to escape.
+ *
+ * \note
+ * Currently it only supports iOS and Android, please do it yourself if you want other platform.
  */
 class CC_DLL CCRichLabelTTF : public CCSprite, public CCLabelProtocol {
 public:

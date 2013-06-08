@@ -27,6 +27,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -39,7 +40,10 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.TypefaceSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 
 public class RichLabelBitmap {
@@ -51,29 +55,102 @@ public class RichLabelBitmap {
 	private static final int VERTICALALIGN_BOTTOM = 2;
 	private static final int VERTICALALIGN_CENTER = 3;
 	
-	final static class Span {
-		public int start;
-		public int end;
-		public int color;
-		public ForegroundColorSpan style;
+	private static final char TAG_START = '[';
+	private static final char TAG_END = ']';
+	
+	private enum SpanType {
+		UNKNOWN,
+	    COLOR,
+	    FONT,
+	    SIZE,
+	    BOLD,
+	    ITALIC,
+	    UNDERLINE
 	}
+	
+	// span info
+	final static class Span {
+		public SpanType type;
+		public boolean close;
+		public int pos;
+		
+		// only for color
+		public int color;
+		
+		// only for size
+		public float fontSize;
+		
+		// only for font
+		public String fontName;
+	}
+	
+	// tag parse result
+	final static class TagParseResult {
+		SpanType type;
+		boolean close;
+		int endTagPos;
+		int dataStart;
+		int dataEnd;
+	}
+	
+	// tag parse state
+	private enum TagParseState {
+	    READY,
+	    START_TAG,
+	    CLOSE_TAG,
+	    EQUAL,
+	    SUCCESS,
+	    FAIL
+	}
+	
+	static class CustomTypefaceSpan extends TypefaceSpan {
+        private final Typeface newType;
+
+        public CustomTypefaceSpan(String family, Typeface type) {
+            super(family);
+            newType = type;
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            applyCustomTypeFace(ds, newType);
+        }
+
+        @Override
+        public void updateMeasureState(TextPaint paint) {
+            applyCustomTypeFace(paint, newType);
+        }
+
+        private void applyCustomTypeFace(Paint paint, Typeface tf) {
+            int oldStyle;
+            Typeface old = paint.getTypeface();
+            if (old == null) {
+                oldStyle = 0;
+            } else {
+                oldStyle = old.getStyle();
+            }
+
+            int fake = oldStyle & ~tf.getStyle();
+            if ((fake & Typeface.BOLD) != 0) {
+                paint.setFakeBoldText(true);
+            }
+
+            if ((fake & Typeface.ITALIC) != 0) {
+                paint.setTextSkewX(-0.25f);
+            }
+
+            paint.setTypeface(tf);
+        }
+    }
 	
 	public static void createRichLabelBitmap(String pString, final String pFontName, final int pFontSize,
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
-	        final float strokeB, final float strokeSize) {
+	        final float strokeB, final float strokeSize, float contentScaleFactor) {
 		// extract span info and return text without span style
 		List<Span> spans = new ArrayList<Span>();
-		int color = 0xff000000 | ((int)(fontTintR * 255) << 16) | ((int)(fontTintG * 255) << 8) | (int)(fontTintB * 255);
-		String plain = buildSpan(pString, spans, color);
-		
-		// build spannable string, install span color
-		SpannableString rich = new SpannableString(plain);
-		for(Span span : spans) {
-			span.style = new ForegroundColorSpan(span.color);
-			rich.setSpan(span.style, span.start, span.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		}
+		String plain = buildSpan(pString, spans);
 		
 		// alignment
 		int horizontalAlignment = pAlignment & 0x0F;
@@ -139,11 +216,223 @@ public class RichLabelBitmap {
             shadowStrokePaddingX = Math.max(shadowStrokePaddingX, (float)Math.abs(shadowDX));
             shadowStrokePaddingY = Math.max(shadowStrokePaddingY, (float)Math.abs(shadowDY));
         }
+        
+        // stack of color and font
+        int defaultColor = 0xff000000 
+        		| ((int)(fontTintR * 255) << 16) 
+        		| ((int)(fontTintG * 255) << 8) 
+        		| (int)(fontTintB * 255);
+        Typeface defaultFont = Typeface.DEFAULT;
+        Stack<Integer> colorStack = new Stack<Integer>();
+        Stack<Typeface> fontStack = new Stack<Typeface>();
+        Stack<Float> fontSizeStack = new Stack<Float>();
+        colorStack.push(defaultColor);
+        fontStack.push(defaultFont);
+        fontSizeStack.push(pFontSize / contentScaleFactor);
+        
+        // build spannable string
+        int colorStart = 0;
+        int fontStart = 0;
+        int sizeStart = 0;
+        int underlineStart = -1;
+        SpannableString rich = new SpannableString(plain);
+        for(Span span : spans) {
+        	if(span.close) {
+                switch(span.type) {
+                    case COLOR:
+                    {
+                    	int curColor = colorStack.pop();
+                        if(span.pos > colorStart) {
+                            rich.setSpan(new ForegroundColorSpan(curColor), 
+                            		colorStart, 
+                            		span.pos, 
+                            		Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            
+                            // start need to be reset
+                            colorStart = span.pos;
+                        }
+                        
+                        break;
+                    }
+                    case FONT:
+                    case BOLD:
+                    case ITALIC:
+                    {
+                        // set previous span
+                        Typeface font = fontStack.pop();
+                        if(span.pos > fontStart && font != null) {
+                        	rich.setSpan(new CustomTypefaceSpan("", font),
+                        			fontStart,
+                        			span.pos,
+                        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            fontStart = span.pos;
+                        }
+                        
+                        break;
+                    }
+                    case SIZE:
+                    {
+                    	float size = fontSizeStack.pop();
+                        if(span.pos > sizeStart) {
+                        	rich.setSpan(new AbsoluteSizeSpan((int)(size * contentScaleFactor)),
+                        			sizeStart,
+                        			span.pos,
+                        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        	sizeStart = span.pos;
+                        }
+                    	break;
+                    }
+                    case UNDERLINE:
+                    {
+                        if(underlineStart > -1) {
+                        	rich.setSpan(new UnderlineSpan(), 
+                        			underlineStart, 
+                        			span.pos, 
+                        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            underlineStart = -1;
+                        }
+                        break;
+                    }
+                }
+        	} else {
+                switch(span.type) {
+                    case COLOR:
+                    {
+                        // process previous run
+                        if(span.pos > colorStart) {
+                            int curColor = colorStack.peek();
+                            rich.setSpan(new ForegroundColorSpan(curColor), 
+                            		colorStart, 
+                            		span.pos, 
+                            		Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            
+                            // start need to be reset
+                            colorStart = span.pos;
+                        }
+                        
+                        // push color
+                        colorStack.push(span.color);
+                        
+                        break;
+                    }
+                    case FONT:
+                    {
+                        // set previous span
+                    	Typeface curFont = fontStack.peek();
+                        if(span.pos > fontStart) {
+                        	rich.setSpan(new CustomTypefaceSpan("", curFont), 
+                        			fontStart, 
+                        			span.pos, 
+                        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            fontStart = span.pos;
+                        }
+                        
+                        // create the font
+                        Typeface font = null;
+                		if (span.fontName.endsWith(".ttf")) {
+                			try {
+                				font = Cocos2dxTypefaces.get(Cocos2dxActivity.getContext(), span.fontName);
+                			} catch (final Exception e) {
+                			}
+                		} else {
+                			font = Typeface.create(span.fontName, Typeface.NORMAL);
+                			if(font == null) {
+                				font = Typeface.DEFAULT;
+                			}
+                		}
+                		fontStack.push(font);
+                        
+                        break;
+                    }
+                    case SIZE:
+                    {
+                        // set previous span
+                        if(span.pos > sizeStart) {
+                        	float size = fontSizeStack.peek();
+                        	rich.setSpan(new AbsoluteSizeSpan((int)(size * contentScaleFactor)), 
+                        			fontStart, 
+                        			span.pos, 
+                        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        	sizeStart = span.pos;
+                        }
+                        
+                        // push new size
+                        fontSizeStack.push(span.fontSize);
+                        
+                        break;
+                    }
+                    case BOLD:
+                    {
+                        // set previous span
+                    	Typeface curFont = fontStack.peek();
+                        if(span.pos > fontStart) {
+                        	rich.setSpan(new CustomTypefaceSpan("", curFont), 
+                        			fontStart, 
+                        			span.pos, 
+                        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            fontStart = span.pos;
+                        }
+                        
+                        // create new font
+                        Typeface font = Typeface.create(curFont, Typeface.BOLD | curFont.getStyle());
+                        fontStack.push(font);
+                        
+                        break;
+                    }
+                    case ITALIC:
+                    {
+                        // set previous span
+                    	Typeface curFont = fontStack.peek();
+                        if(span.pos > fontStart) {
+                        	rich.setSpan(new CustomTypefaceSpan("", curFont), 
+                        			fontStart, 
+                        			span.pos, 
+                        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            fontStart = span.pos;
+                        }
+                        
+                        // create new font
+                        Typeface font = Typeface.create(curFont, Typeface.ITALIC | curFont.getStyle());
+                        fontStack.push(font);
+                        
+                        break;
+                    }
+                    case UNDERLINE:
+                    {
+                        underlineStart = span.pos;
+                        break;
+                    }
+                }
+        	}
+        }
+        
+        // last segment
+        if(plain.length() > colorStart) {
+            int curColor = colorStack.peek();
+            rich.setSpan(new ForegroundColorSpan(curColor), 
+            		colorStart, 
+            		plain.length(), 
+            		Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        if(plain.length() > sizeStart) {
+        	float size = fontSizeStack.peek();
+        	rich.setSpan(new AbsoluteSizeSpan((int)(size * contentScaleFactor)), 
+        			fontStart, 
+        			plain.length(), 
+        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        if(plain.length() > fontStart) {
+        	Typeface curFont = fontStack.peek();
+        	rich.setSpan(new CustomTypefaceSpan("", curFont), 
+        			fontStart, 
+        			plain.length(), 
+        			Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 		
 		// layout this text
 		StaticLayout layout = new StaticLayout(rich,
 				paint, 
-				pWidth <= 0 ? Integer.MAX_VALUE : pWidth, 
+				pWidth <= 0 ? (int)StaticLayout.getDesiredWidth(rich, paint) : pWidth, 
 				align, 
 				1, 
 				0, 
@@ -191,15 +480,20 @@ public class RichLabelBitmap {
 		
 		// draw again if stroke is enabled
 		if(stroke) {
+			// reset paint to stroke mode
 			paint.setStyle(Paint.Style.STROKE);
 			paint.setStrokeWidth(strokeSize);
 			paint.setARGB(255, (int)strokeR * 255, (int)strokeG * 255, (int)strokeB * 255);
 			paint.clearShadowLayer();
-			for(Span span : spans) {
-				if(span.style != null) {
-					rich.removeSpan(span.style);
-				}
+			
+			// clear color and underline span
+			for(ForegroundColorSpan span : rich.getSpans(0, rich.length(), ForegroundColorSpan.class)) {
+				rich.removeSpan(span);
 			}
+			for(UnderlineSpan span : rich.getSpans(0, rich.length(), UnderlineSpan.class)) {
+				rich.removeSpan(span);
+			}
+			
 			layout.draw(c);
 		}
 		
@@ -208,9 +502,122 @@ public class RichLabelBitmap {
 		bitmap.recycle();
 	}
 	
-	private static String buildSpan(String text, List<Span> spans, int defaultColor) {
-		boolean inSpan = false;
-		int spanStart = 0;
+	// if parse failed, endTagPos will be len, otherwise it is end tag position
+	private static TagParseResult checkTag(String p, int start) {
+		TagParseResult r = new TagParseResult();
+		r.type = SpanType.UNKNOWN;
+	    TagParseState state = TagParseState.READY;
+	    int tagNameStart = 0, tagNameEnd = 0;
+	    r.close = false;
+	    int len = p.length();
+	    r.endTagPos = len;
+	    r.dataStart = -1;
+	    int i = start;
+	    while(i < len) {
+	        switch (state) {
+	            case READY:
+	                if(p.charAt(i) == TAG_START) {
+	                    state = TagParseState.START_TAG;
+	                    tagNameStart = ++i;
+	                } else {
+	                    state = TagParseState.FAIL;
+	                }
+	                break;
+	            case START_TAG:
+	                if((i == start + 1) && p.charAt(i) == '/') {
+	                    state = TagParseState.CLOSE_TAG;
+	                    r.close = true;
+	                    tagNameStart = ++i;
+	                } else if(p.charAt(i) == '=') {
+	                    state = TagParseState.EQUAL;
+	                    tagNameEnd = i++;
+	                    r.type = checkTagName(p, tagNameStart, tagNameEnd);
+	                    r.dataStart = i;
+	                } else if(p.charAt(i) == TAG_END) {
+	                    state = TagParseState.SUCCESS;
+	                    r.endTagPos = i;
+	                    r.dataEnd = i;
+	                    tagNameEnd = i;
+	                    if(r.type == SpanType.UNKNOWN) {
+	                        r.type = checkTagName(p, tagNameStart, tagNameEnd);
+	                    }
+	                } else {
+	                    i++;
+	                }
+	                break;
+	            case CLOSE_TAG:
+	                if(p.charAt(i) == TAG_END) {
+	                    state = TagParseState.SUCCESS;
+	                    r.endTagPos = i;
+	                    tagNameEnd = i;
+	                    r.type = checkTagName(p, tagNameStart, tagNameEnd);
+	                } else {
+	                    i++;
+	                }
+	                break;
+	            case EQUAL:
+	                if(p.charAt(i) == TAG_END) {
+	                    state = TagParseState.SUCCESS;
+	                    r.endTagPos = i;
+	                    r.dataEnd = i;
+	                } else {
+	                    i++;
+	                }
+	                break;
+	            default:
+	                break;
+	        }
+	        
+	        if(state == TagParseState.FAIL || state == TagParseState.SUCCESS)
+	            break;
+	    }
+	    
+	    if(state != TagParseState.SUCCESS)
+	        r.type = SpanType.UNKNOWN;
+	    
+	    return r;
+	}
+	
+	private static SpanType checkTagName(String p, int start, int end) {
+	    int len = end - start;
+	    switch(len) {
+	        case 1:
+	            if(p.charAt(start) == 'b') {
+	                return SpanType.BOLD;
+	            } else if(p.charAt(start) == 'i') {
+	                return SpanType.ITALIC;
+	            } else if(p.charAt(start) == 'u') {
+	                return SpanType.UNDERLINE;
+	            }
+	            break;
+	        case 4:
+	            if(p.charAt(start) == 'f' &&
+	               p.charAt(start + 1) == 'o' &&
+	               p.charAt(start + 2) == 'n' &&
+	               p.charAt(start + 3) == 't') {
+	                return SpanType.FONT;
+	            } else if(p.charAt(start) == 's' &&
+	                      p.charAt(start + 1) == 'i' &&
+	                      p.charAt(start + 2) == 'z' &&
+	                      p.charAt(start + 3) == 'e') {
+	                return SpanType.SIZE;
+	            }
+	        case 5:
+	            if(p.charAt(start) == 'c' &&
+	               p.charAt(start + 1) == 'o' &&
+	               p.charAt(start + 2) == 'l' &&
+	               p.charAt(start + 3) == 'o' &&
+	               p.charAt(start + 4) == 'r') {
+	                return SpanType.COLOR;
+	            }
+	            break;
+	            
+	    }
+	    
+	    return SpanType.UNKNOWN;
+    }
+
+	private static String buildSpan(String text, List<Span> spans) {
 		int uniLen = text.length();
 		StringBuilder plain = new StringBuilder();
 		for(int i = 0; i < uniLen; i++) {
@@ -227,105 +634,60 @@ public class RichLabelBitmap {
 						plain.append(c);
 					}
 					break;
-				case '[':
+				case TAG_START:
 				{
-					// find close bracket
-					int j;
-					for(j = i + 1; j < uniLen; j++) {
-						char cc = text.charAt(j);
-						if(cc == ']') {
-							break;
-						}
-					}
-					
-					// if no close bracket, discard those content
-					if(j >= uniLen) {
-						i = j;
-						break;
-					}
-					
-					// if find, we need check whether we are in a span
-					if(inSpan) {
-						if(text.charAt(i) == '['
-	                       && text.charAt(i + 1) == '/'
-	                       && text.charAt(i + 2) == 'c'
-	                       && text.charAt(i + 3) == 'o'
-	                       && text.charAt(i + 4) == 'l'
-	                       && text.charAt(i + 5) == 'o'
-	                       && text.charAt(i + 6) == 'r'
-	                       && text.charAt(i + 7) == ']') {
-							inSpan = false;
-							spanStart = plain.length();
-						}
-						
-						// reset i to skip this part
-						i = j;
-					} else {
-						// parse this span, if not recognized, need ignore
-						if(text.charAt(i + 1) == 'c'
-	                       && text.charAt(i + 2) == 'o'
-	                       && text.charAt(i + 3) == 'l'
-	                       && text.charAt(i + 4) == 'o'
-	                       && text.charAt(i + 5) == 'r'
-	                       && text.charAt(i + 6) == '=') {
-							// add previous span
-							if(plain.length() > spanStart) {
-								Span span = new Span();
-								span.start = spanStart;
-								span.end = plain.length();
-								span.color = defaultColor;
-								spans.add(span);
-							}
-							spanStart = plain.length();
-							
-							// add color span
-							int color = parseColor(text, i + 7, j - i - 7);
-							Span span = new Span();
-							span.start = spanStart;
-							span.end = spanStart;
-							span.color = color;
-							spans.add(span);
-							
-							// set flag
-							inSpan = true;
-						}
-						
-						// reset i to skip this part
-						i = j;
-					}
+	                // parse the tag
+	                Span span = new Span();
+	                TagParseResult r = checkTag(text, i);
+	                
+	                // fill span info
+	                do {
+	                    // if type is unknown, discard
+	                    if(r.type == SpanType.UNKNOWN)
+	                    	break;
+	                    
+	                    // parse span data
+	                    span.type = r.type;
+	                    span.close = r.close;
+	                    span.pos = plain.length();
+	                    if(!r.close) {
+	                        switch(span.type) {
+	                            case COLOR:
+	                                span.color = parseColor(text, r.dataStart, r.dataEnd - r.dataStart);
+	                                break;
+	                            case FONT:
+	                            	span.fontName = text.substring(r.dataStart, r.dataEnd);
+	                                break;
+	                            case SIZE:
+	                            	try {
+	                                    span.fontSize = Integer.parseInt(text.substring(r.dataStart, r.dataEnd));
+                                    } catch (NumberFormatException e) {
+                                    	span.fontSize = 16;
+                                    }
+	                                break;
+	                            default:
+	                                break;
+	                        }
+	                    }
+	                    
+	                    // add span
+	                    spans.add(span);
+	                    
+	                    // set i pos
+	                    i = r.endTagPos;
+	                } while(false);
 					
 					break;
 				}
-				case ']':
+				case TAG_END:
 					// just discard it
 					break;
 				default:
 					plain.append(c);
-					
-					// if in span, update last span end position
-					if(inSpan) {
-						Span span = spans.get(spans.size() - 1);
-						span.end++;
-					}
 					break;
 			}
 		}
 		
-		// last span
-		if(spanStart < uniLen && plain.length() > spanStart) {
-			Span span = new Span();
-			span.start = spanStart;
-			span.end = plain.length();
-			span.color = defaultColor;
-			spans.add(span);
-		}
-		
-		// debug output span info
-//		int i = 0;
-//		for(Span span : spans) {
-//			Log.d("test", String.format("span %d: %d - %d, color: 0x%08x", i++, span.start, span.end, span.color));
-//		}
-	    
 		// return plain str
 		return plain.toString();
 	}

@@ -47,7 +47,7 @@ public:
 					0.0, float strokeSize = 0.0) {
 		JniMethodInfo methodInfo;
 		if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/RichLabelBitmap", "createRichLabelBitmap",
-				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFFZFFFF)V")) {
+				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFFZFFFFF)V")) {
 			CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
 			return false;
 		}
@@ -72,7 +72,7 @@ public:
 		jstring jstrFont = methodInfo.env->NewStringUTF(fullPathOrFontName.c_str());
 
 		methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstrText, jstrFont, (int) fontSize, textTintR, textTintG, textTintB,
-				eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize);
+				eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR());
 
 		methodInfo.env->DeleteLocalRef(jstrText);
 		methodInfo.env->DeleteLocalRef(jstrFont);

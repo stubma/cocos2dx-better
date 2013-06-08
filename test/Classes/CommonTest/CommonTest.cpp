@@ -172,15 +172,19 @@ void CommonColorLabel::onEnter()
 	
 	CCRichLabelTTF* label = CCRichLabelTTF::create("H[color=ff00ff00]e我[/color]llo [color=ffffffff]W[/color]orld!",
                                                      "Helvetica",
-                                                     30,
-                                                     CCSizeMake(150, 200),
-                                                     kCCTextAlignmentRight,
-                                                     kCCVerticalTextAlignmentBottom);
+                                                     30);
 	label->enableStroke(ccBLUE, 0.5f);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
-						   origin.y + visibleSize.height / 2));
+						   origin.y + visibleSize.height / 5));
 	label->enableShadow(CCSizeMake(3, -3), 255, 4);
 	label->setFontFillColor(ccc3(179, 179, 179));
+	addChild(label);
+    
+    label = CCRichLabelTTF::create("H[color=ff00ff00][i][b][u]ell[/u][/b][/i][/color]o[size=20][font=font/Arial Rounded MT Bold.ttf]H[i]ell[/i]o[/font][/size]",
+                                   "Helvetica",
+                                   30);
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height * 2 / 5));
 	addChild(label);
 }
 

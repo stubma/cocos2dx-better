@@ -33,16 +33,35 @@
 #define TAG_START '['
 #define TAG_END ']'
 
+// span type
+typedef enum {
+    UNKNOWN,
+    COLOR,
+    FONT,
+    SIZE,
+    BOLD,
+    ITALIC,
+    UNDERLINE
+} SpanType;
+
 /// span
 typedef struct Span {
-	// start char
-	int start;
-	
-	// end char, exclusive
-	int end;
+    // span type
+    SpanType type;
+    
+    // close tag?
+    bool close;
+    
+	// pos in plain text
+    // for close tag, it is exclusive, i.e., it is next char
+    int pos;
 	
 	// color
-	int color;
+    union {
+        int color;
+        int fontSize;
+        char* fontName;
+    } data;
 } Span;
 typedef vector<Span> SpanList;
 
@@ -72,6 +91,16 @@ typedef struct {
 #define ALIGN_CENTER 3
 #define ALIGN_BOTTOM 2
 
+// tag parsing state
+typedef enum {
+    READY,
+    START_TAG,
+    CLOSE_TAG,
+    EQUAL,
+    SUCCESS,
+    FAIL
+} TagParseState;
+
 static int parseColor(const unichar* p, int len) {
 	int color = 0;
 	for(int i = 0; i < len; i++) {
@@ -89,15 +118,126 @@ static int parseColor(const unichar* p, int len) {
 	return color;
 }
 
-static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int defaultColor) {
+static SpanType checkTagName(unichar* p, int start, int end) {
+    int len = end - start;
+    switch(len) {
+        case 1:
+            if(p[start] == 'b') {
+                return BOLD;
+            } else if(p[start] == 'i') {
+                return ITALIC;
+            } else if(p[start] == 'u') {
+                return UNDERLINE;
+            }
+            break;
+        case 4:
+            if(p[start] == 'f' &&
+               p[start + 1] == 'o' &&
+               p[start + 2] == 'n' &&
+               p[start + 3] == 't') {
+                return FONT;
+            } else if(p[start] == 's' &&
+                      p[start + 1] == 'i' &&
+                      p[start + 2] == 'z' &&
+                      p[start + 3] == 'e') {
+                return SIZE;
+            }
+        case 5:
+            if(p[start] == 'c' &&
+               p[start + 1] == 'o' &&
+               p[start + 2] == 'l' &&
+               p[start + 3] == 'o' &&
+               p[start + 4] == 'r') {
+                return COLOR;
+            }
+            break;
+            
+    }
+    
+    return UNKNOWN;
+}
+
+// if parse failed, endTagPos will be len, otherwise it is end tag position
+static SpanType checkTag(unichar* p, int start, int len, int* endTagPos, int* dataStart, int* dataEnd, bool* close) {
+    SpanType type = UNKNOWN;
+    TagParseState state = READY;
+    int tagNameStart, tagNameEnd;
+    *close = false;
+    *endTagPos = len;
+    *dataStart = -1;
+    int i = start;
+    while(i < len) {
+        switch (state) {
+            case READY:
+                if(p[i] == TAG_START) {
+                    state = START_TAG;
+                    tagNameStart = ++i;
+                } else {
+                    state = FAIL;
+                }
+                break;
+            case START_TAG:
+                if((i == start + 1) && p[i] == '/') {
+                    state = CLOSE_TAG;
+                    *close = true;
+                    tagNameStart = ++i;
+                } else if(p[i] == '=') {
+                    state = EQUAL;
+                    tagNameEnd = i++;
+                    type = checkTagName(p, tagNameStart, tagNameEnd);
+                    *dataStart = i;
+                } else if(p[i] == TAG_END) {
+                    state = SUCCESS;
+                    *endTagPos = i;
+                    *dataEnd = i;
+                    tagNameEnd = i;
+                    if(type == UNKNOWN) {
+                        type = checkTagName(p, tagNameStart, tagNameEnd);
+                    }
+                } else {
+                    i++;
+                }
+                break;
+            case CLOSE_TAG:
+                if(p[i] == TAG_END) {
+                    state = SUCCESS;
+                    *endTagPos = i;
+                    tagNameEnd = i;
+                    type = checkTagName(p, tagNameStart, tagNameEnd);
+                } else {
+                    i++;
+                }
+                break;
+            case EQUAL:
+                if(p[i] == TAG_END) {
+                    state = SUCCESS;
+                    *endTagPos = i;
+                    *dataEnd = i;
+                } else {
+                    i++;
+                }
+                break;
+            default:
+                break;
+        }
+        
+        if(state == FAIL || state == SUCCESS)
+            break;
+    }
+    
+    if(state != SUCCESS)
+        type = UNKNOWN;
+    
+    return type;
+}
+
+static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
     // get unichar of string
     NSString* ns = [NSString stringWithUTF8String:pText];
     int uniLen = [ns length];
     unichar* uniText = (unichar*)malloc(uniLen * sizeof(unichar));
     [ns getCharacters:uniText];
     
-	bool inSpan = false;
-	int spanStart = 0;
 	int plainLen = 0;
 	unichar* plain = (unichar*)malloc(sizeof(unichar) * uniLen);
 	for(int i = 0; i < uniLen; i++) {
@@ -116,69 +256,52 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int d
 				break;
 			case TAG_START:
 			{
-				// find close bracket
-				int j;
-				for(j = i + 1; j < uniLen; j++) {
-					unichar cc = uniText[j];
-					if(cc == TAG_END) {
-						break;
-					}
-				}
-				
-				// if no close bracket, discard those content
-				if(j >= uniLen) {
-					i = j;
-					break;
-				}
-				
-				// if find, we need check whether we are in a span
-				if(inSpan) {
-					if(uniText[i] == TAG_START
-                       && uniText[i + 1] == '/'
-                       && uniText[i + 2] == 'c'
-                       && uniText[i + 3] == 'o'
-                       && uniText[i + 4] == 'l'
-                       && uniText[i + 5] == 'o'
-                       && uniText[i + 6] == 'r'
-                       && uniText[i + 7] == TAG_END) {
-						inSpan = false;
-						spanStart = plainLen;
-					}
-					
-					// reset i to skip this part
-					i = j;
-				} else {
-					// parse this span, if not recognized, need ignore
-					if(uniText[i + 1] == 'c'
-                       && uniText[i + 2] == 'o'
-                       && uniText[i + 3] == 'l'
-                       && uniText[i + 4] == 'o'
-                       && uniText[i + 5] == 'r'
-                       && uniText[i + 6] == '=') {
-						// add previous span
-						Span span;
-						if(plainLen > spanStart) {
-							span.start = spanStart;
-							span.end = plainLen;
-							span.color = defaultColor;
-							spans.push_back(span);
-						}
-						spanStart = plainLen;
-						
-						// add color span
-						int color = parseColor(uniText + i + 7, j - i - 7);
-						span.start = spanStart;
-						span.end = spanStart;
-						span.color = color;
-						spans.push_back(span);
-						
-						// set flag
-						inSpan = true;
-					}
-					
-					// reset i to skip this part
-					i = j;
-				}
+                // parse the tag
+                Span span;
+                int endTagPos, dataStart, dataEnd;
+                SpanType type = checkTag(uniText, i, uniLen, &endTagPos, &dataStart, &dataEnd, &span.close);
+                
+                // fill span info
+                do {
+                    // if type is unknown, discard
+                    CC_BREAK_IF(type == UNKNOWN);
+                    
+                    // parse span data
+                    span.type = type;
+                    span.pos = plainLen;
+                    if(!span.close) {
+                        switch(span.type) {
+                            case COLOR:
+                                span.data.color = parseColor(uniText + dataStart, dataEnd - dataStart);
+                                break;
+                            case FONT:
+                            {
+                                NSString* font = [NSString stringWithCharacters:uniText + dataStart
+                                                                         length:dataEnd - dataStart];
+                                const char* cFont = [font cStringUsingEncoding:NSUTF8StringEncoding];
+                                int len = strlen(cFont);
+                                span.data.fontName = (char*)calloc(sizeof(char), len + 1);
+                                strcpy(span.data.fontName, cFont);
+                                break;
+                            }
+                            case SIZE:
+                            {
+                                NSString* size = [NSString stringWithCharacters:uniText + dataStart
+                                                                         length:dataEnd - dataStart];
+                                span.data.fontSize = [size intValue];
+                                break;
+                            }
+                            default:
+                                break;
+                        }
+                    }
+                    
+                    // add span
+                    spans.push_back(span);
+                    
+                    // set i pos
+                    i = endTagPos;
+                } while(0);
 				
 				break;
 			}
@@ -187,24 +310,8 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int d
 				break;
 			default:
 				plain[plainLen++] = c;
-				
-				// if in span, update last span end position
-				if(inSpan) {
-					Span& span = *spans.rbegin();
-					span.end++;
-				}
 				break;
 		}
-	}
-	
-	// last span
-	if(spanStart < uniLen && plainLen > spanStart) {
-		Span span = {
-			spanStart,
-			plainLen,
-			defaultColor
-		};
-		spans.push_back(span);
 	}
 	
 	// end of plain
@@ -217,7 +324,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, int d
 //	int i = 0;
 //	for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
 //		Span& span = *iter;
-//		CCLOG("span %d: %d - %d, color: 0x%08x", i++, span.start, span.end, span.color);
+//		CCLOG("span %d: %d, %d, %d", i++, span.type, span.close, span.pos);
 //	}
 #endif
     
@@ -242,17 +349,14 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         fntName = [[fntName lastPathComponent] stringByDeletingPathExtension];
         
         // create the font
-        UIFont* font = [UIFont fontWithName:fntName size:nSize];
-        CC_BREAK_IF(!font);
-        
-        // create ct font
-        CTFontRef ctFont = CTFontCreateWithName((CFStringRef)font.fontName, nSize, NULL);
+        UIFont* uiDefaultFont = [UIFont fontWithName:fntName size:nSize];
+        CC_BREAK_IF(!uiDefaultFont);
+        CTFontRef defaultFont = CTFontCreateWithName((CFStringRef)uiDefaultFont.fontName, nSize, NULL);
 
         // get plain text and extract span list
 		SpanList spans;
         int uniLen;
-		int color = 0xff000000 | ((int)(pInfo->tintColorR * 255) << 16) | ((int)(pInfo->tintColorG * 255) << 8) | (int)(pInfo->tintColorB * 255);
-        unichar* plain = buildSpan(pText, spans, &uniLen, color);
+        unichar* plain = buildSpan(pText, spans, &uniLen);
         
         // create attributed string
         CFStringRef plainCFStr = CFStringCreateWithCharacters(kCFAllocatorDefault,
@@ -260,31 +364,249 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                                               uniLen);
         CFMutableAttributedStringRef plainCFAStr = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
         CFAttributedStringReplaceString(plainCFAStr, CFRangeMake(0, 0), plainCFStr);
+        int plainLen = CFAttributedStringGetLength(plainCFAStr);
         
-        // set font
-        CFAttributedStringSetAttribute(plainCFAStr,
-                                       CFRangeMake(0, CFAttributedStringGetLength(plainCFAStr)),
-                                       kCTFontAttributeName,
-                                       ctFont);
-		
-        // set span color
-		CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
+        // font and color stack
+        int defaultColor = 0xff000000
+            | ((int)(pInfo->tintColorR * 255) << 16)
+            | ((int)(pInfo->tintColorG * 255) << 8)
+            | (int)(pInfo->tintColorB * 255);
+        vector<CTFontRef> fontStack;
+        vector<int> colorStack;
+        fontStack.push_back(defaultFont);
+        colorStack.push_back(defaultColor);
+        
+        // iterate all spans, install attributes
+        int colorStart = 0;
+        int fontStart = 0;
+        int underlineStart = -1;
+        CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
-			CGFloat comp[] = {
-				((span.color >> 16) & 0xff) / 255.0f,
-				((span.color >> 8) & 0xff) / 255.0f,
-				(span.color & 0xff) / 255.0f,
-				((span.color >> 24) & 0xff) / 255.0f
-			};
-			CGColorRef fc = CGColorCreate(colorSpace, comp);
-			CFAttributedStringSetAttribute(plainCFAStr,
-										   CFRangeMake(span.start, span.end - span.start),
-										   kCTForegroundColorAttributeName,
-										   fc);
-			CGColorRelease(fc);
+            if(span.close) {
+                switch(span.type) {
+                    case COLOR:
+                    {
+                        if(span.pos > colorStart) {
+                            int curColor = *colorStack.rbegin();
+                            CGFloat comp[] = {
+                                ((curColor >> 16) & 0xff) / 255.0f,
+                                ((curColor >> 8) & 0xff) / 255.0f,
+                                (curColor & 0xff) / 255.0f,
+                                ((curColor >> 24) & 0xff) / 255.0f
+                            };
+                            CGColorRef fc = CGColorCreate(colorSpace, comp);
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(colorStart, span.pos - colorStart),
+                                                           kCTForegroundColorAttributeName,
+                                                           fc);
+                            CGColorRelease(fc);
+                            
+                            // start need to be reset
+                            colorStart = span.pos;
+                        }
+                        
+                        // pop color
+                        colorStack.pop_back();
+                        
+                        break;
+                    }
+                    case FONT:
+                    case SIZE:
+                    case BOLD:
+                    case ITALIC:
+                    {
+                        // set previous span
+                        CTFontRef font = *fontStack.rbegin();
+                        if(span.pos > fontStart && font) {
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(fontStart, plainLen - fontStart),
+                                                           kCTFontAttributeName,
+                                                           font);
+                            fontStart = span.pos;
+                        }
+                        
+                        // pop font
+                        fontStack.pop_back();
+                        if(font)
+                            CFRelease(font);
+                        
+                        break;
+                    }
+                    case UNDERLINE:
+                    {
+                        if(underlineStart > -1) {
+                            CFIndex style = kCTUnderlineStyleSingle;
+                            CFNumberRef styleNum = CFNumberCreate(kCFAllocatorDefault, kCFNumberCFIndexType, &style);
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(underlineStart, span.pos - underlineStart),
+                                                           kCTUnderlineStyleAttributeName,
+                                                           styleNum);
+                            CFRelease(styleNum);
+                            underlineStart = -1;
+                        }
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            } else {
+                switch(span.type) {
+                    case COLOR:
+                    {
+                        // process previous run
+                        if(span.pos > colorStart) {
+                            int curColor = *colorStack.rbegin();
+                            CGFloat comp[] = {
+                                ((curColor >> 16) & 0xff) / 255.0f,
+                                ((curColor >> 8) & 0xff) / 255.0f,
+                                (curColor & 0xff) / 255.0f,
+                                ((curColor >> 24) & 0xff) / 255.0f
+                            };
+                            CGColorRef fc = CGColorCreate(colorSpace, comp);
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(colorStart, span.pos - colorStart),
+                                                           kCTForegroundColorAttributeName,
+                                                           fc);
+                            CGColorRelease(fc);
+                            
+                            // start need to be reset
+                            colorStart = span.pos;
+                        }
+                        
+                        // push color
+                        colorStack.push_back(span.data.color);
+                        
+                        break;
+                    }
+                    case FONT:
+                    {
+                        // set previous span
+                        CTFontRef curFont = *fontStack.rbegin();
+                        if(span.pos > fontStart) {
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(fontStart, plainLen - fontStart),
+                                                           kCTFontAttributeName,
+                                                           curFont);
+                            fontStart = span.pos;
+                        }
+                        
+                        // create the font
+                        NSString* fontName = [NSString stringWithCString:span.data.fontName
+                                                                encoding:NSUTF8StringEncoding];
+                        fontName = [[fontName lastPathComponent] stringByDeletingPathExtension];
+                        UIFont* uiFont = [UIFont fontWithName:fontName
+                                                         size:CTFontGetSize(curFont)];
+                        CC_BREAK_IF(!uiFont);
+                        CTFontRef font = CTFontCreateWithName((CFStringRef)uiFont.fontName,
+                                                              CTFontGetSize(curFont),
+                                                              NULL);
+                        fontStack.push_back(font);
+                        
+                        break;
+                    }
+                    case SIZE:
+                    {
+                        // set previous span
+                        CTFontRef curFont = *fontStack.rbegin();
+                        if(span.pos > fontStart) {
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(fontStart, plainLen - fontStart),
+                                                           kCTFontAttributeName,
+                                                           curFont);
+                            fontStart = span.pos;
+                        }
+                        
+                        // push new font
+                        CTFontDescriptorRef fd = CTFontCopyFontDescriptor(curFont);
+                        CTFontRef font = CTFontCreateCopyWithAttributes(curFont,
+                                                                        span.data.fontSize * CC_CONTENT_SCALE_FACTOR(),
+                                                                        NULL,
+                                                                        fd);
+                        fontStack.push_back(font);
+                        CFRelease(fd);
+                        
+                        break;
+                    }
+                    case BOLD:
+                    {
+                        // set previous span
+                        CTFontRef curFont = *fontStack.rbegin();
+                        if(span.pos > fontStart) {
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(fontStart, plainLen - fontStart),
+                                                           kCTFontAttributeName,
+                                                           curFont);
+                            fontStart = span.pos;
+                        }
+                        
+                        // create new font
+                        CTFontRef font = CTFontCreateCopyWithSymbolicTraits(curFont,
+                                                                            CTFontGetSize(curFont),
+                                                                            NULL,
+                                                                            kCTFontBoldTrait,
+                                                                            kCTFontBoldTrait);
+                        fontStack.push_back(font);
+                        
+                        break;
+                    }
+                    case ITALIC:
+                    {
+                        // set previous span
+                        CTFontRef curFont = *fontStack.rbegin();
+                        if(span.pos > fontStart) {
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(fontStart, plainLen - fontStart),
+                                                           kCTFontAttributeName,
+                                                           curFont);
+                            fontStart = span.pos;
+                        }
+                   
+                        // create new font
+                        CTFontRef font = CTFontCreateCopyWithSymbolicTraits(curFont,
+                                                                            CTFontGetSize(curFont),
+                                                                            NULL,
+                                                                            kCTFontItalicTrait,
+                                                                            kCTFontItalicTrait);
+                        fontStack.push_back(font);
+                        
+                        break;
+                    }
+                    case UNDERLINE:
+                    {
+                        underlineStart = span.pos;
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
         }
         
+        // last segment
+        if(plainLen > colorStart) {
+            int curColor = *colorStack.rbegin();
+            CGFloat comp[] = {
+                ((curColor >> 16) & 0xff) / 255.0f,
+                ((curColor >> 8) & 0xff) / 255.0f,
+                (curColor & 0xff) / 255.0f,
+                ((curColor >> 24) & 0xff) / 255.0f
+            };
+            CGColorRef fc = CGColorCreate(colorSpace, comp);
+            CFAttributedStringSetAttribute(plainCFAStr,
+                                           CFRangeMake(colorStart, plainLen - colorStart),
+                                           kCTForegroundColorAttributeName,
+                                           fc);
+            CGColorRelease(fc);
+        }
+        if(plainLen > fontStart) {
+            CTFontRef font = *fontStack.rbegin();
+            CFAttributedStringSetAttribute(plainCFAStr,
+                                           CFRangeMake(fontStart, plainLen - fontStart),
+                                           kCTFontAttributeName,
+                                           font);
+        }
+	       
         // set paragraph style, including line spacing and alignment
         CTTextAlignment alignment = kCTLeftTextAlignment;
         switch(eAlign & 0x0f) {
@@ -435,10 +757,16 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         CFRelease(plainCFStr);
         CFRelease(plainCFAStr);
         CFRelease(fs);
-        CFRelease(ctFont);
+        CFRelease(defaultFont);
         CFRelease(frame);
         CFRelease(path);
         CFRelease(paraStyle);
+        for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+            Span& span = *iter;
+            if(span.type == FONT && span.close) {
+                free(span.data.fontName);
+            }
+        }
 		
         // output params
         pInfo->data                 = data;

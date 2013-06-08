@@ -31,9 +31,18 @@ NS_CC_BEGIN
 class CCTexture2D_richlabel;
 
 /**
- * TTF label which support different colors in a string. By using a tag description such as:
+ * TTF label which support different style in a string. By using a tag description such as:
  * 'Hell[color=ffff0000]o[/color]", the 'o' character will be in red color. If you want 
  * a '[' character, use '\' to escape.
+ *
+ * \par
+ * supported tags:
+ * [color=aarrggbb][/color]: set text color
+ * [font=font name or path][/font]: set font
+ * [size=integer][/size]: set font size
+ * [b][/b]: bold font
+ * [i][/i]: italic font
+ * [u][/u]: underline
  *
  * \note
  * Currently it only supports iOS and Android, please do it yourself if you want other platform.

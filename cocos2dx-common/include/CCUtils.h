@@ -180,6 +180,9 @@ public:
 	
 	/// get node center
 	static CCPoint getCenter(CCNode* node);
+    
+    /// get local center
+    static CCPoint getLocalCenter(CCNode* node);
 	
 	/// get node position
 	static CCPoint getPoint(CCNode* node, float xpercent, float ypercent);

@@ -57,6 +57,14 @@ public:
 	 */
 	static CCAutoRenderMenuItemSprite* create(CCSprite* sprite, CCObject* target, SEL_MenuHandler selector);
 	
+    /**
+	 * create a menu item without selector bounded
+	 *
+	 * @param normalImage normal state
+	 * @param focusImage focus state
+	 */
+    static CCAutoRenderMenuItemSprite* create(CCSprite* normalImage, CCSprite* focusImage);
+                                              
 	/**
 	 * create a menu item
 	 *

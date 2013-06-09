@@ -38,8 +38,9 @@ public:
 	 * notified when resource loading is on-going
 	 * 
 	 * @param progress progress between 0 and 100
+     * @param delta time from last callback
 	 */
-	virtual void onResourceLoadingProgress(float progress) = 0;
+	virtual void onResourceLoadingProgress(float progress, float delta) = 0;
 	
 	/// notified when resource loading is done
 	virtual void onResourceLoadingDone() = 0;

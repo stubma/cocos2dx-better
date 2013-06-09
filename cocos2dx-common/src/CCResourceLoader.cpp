@@ -131,7 +131,7 @@ void CCResourceLoader::doLoad(float delta) {
         
         lp->load();
         if(m_listener)
-            m_listener->onResourceLoadingProgress(m_nextLoad * 100 / m_loadTaskList.size());
+            m_listener->onResourceLoadingProgress(m_nextLoad * 100 / m_loadTaskList.size(), delta);
     }
 }
 

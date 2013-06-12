@@ -235,8 +235,8 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
     // get unichar of string
     NSString* ns = [NSString stringWithUTF8String:pText];
     int uniLen = [ns length];
-    unichar* uniText = (unichar*)malloc(uniLen * sizeof(unichar));
-    [ns getCharacters:uniText];
+    unichar* uniText = (unichar*)malloc((uniLen + 1) * sizeof(unichar));
+    [ns getCharacters:uniText range:NSMakeRange(0, uniLen)];
     
 	int plainLen = 0;
 	unichar* plain = (unichar*)malloc(sizeof(unichar) * uniLen);
@@ -318,6 +318,8 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 	plain[plainLen] = 0;
     if(outLen)
         *outLen = plainLen;
+	
+	CCLOG("uniLen: %d, plainLen: %d", uniLen, plainLen);
 	
 #ifdef COCOS2D_DEBUG
 //	// debug output span info

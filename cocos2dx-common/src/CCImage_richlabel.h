@@ -29,7 +29,7 @@
 NS_CC_BEGIN
 
 /**
- * Customized CCImage for color label implementation
+ * Customized CCImage for rich label implementation
  */
 class CCImage_richlabel : public CCImage {	
 public:
@@ -50,7 +50,7 @@ public:
 										float shadowOffsetY         = 0.0,
 										float shadowOpacity         = 0.0,
 										float shadowBlur            = 0.0,
-										bool  stroke                =  false,
+										bool  stroke                = false,
 										float strokeR               = 1,
 										float strokeG               = 1,
 										float strokeB               = 1,

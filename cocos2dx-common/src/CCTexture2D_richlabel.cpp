@@ -37,7 +37,7 @@ const char* CCTexture2D_richlabel::description(void) {
 }
 
 bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fontName, float fontSize) {
-    return initWithString(text,  fontName, fontSize, CCSizeMake(0,0), kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
+    return initWithRichString(text,  fontName, fontSize, CCSizeMake(0,0), kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
 }
 
 bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fontName, float fontSize, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment) {

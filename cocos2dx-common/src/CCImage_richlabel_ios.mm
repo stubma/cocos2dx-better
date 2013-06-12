@@ -711,14 +711,14 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                                      8,
                                                      dim.width * 4,
                                                      colorSpace,
-                                                     kCGImageAlphaPremultipliedLast |kCGBitmapByteOrder32Big);
+                                                     kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
         
-        // if fail, release
+        // if fail to create context, break
         // if ok, draw text by core text
-        if (!context) {
-            delete[] data;
-        } else {
-            // store the current context
+		do {
+			CC_BREAK_IF(!context);
+			
+			// store the current context
             UIGraphicsPushContext(context);
             
             // alow anti-aliasing
@@ -744,15 +744,14 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             
             // draw frame
             CTFrameDraw(frame, context);
-                        
+			
             // pop the context
             UIGraphicsPopContext();
-            
-            // release
-            CGContextRelease(context);
-        }
+		} while(0);
         
         // release
+		if(context)
+			CGContextRelease(context);
         CGColorSpaceRelease(colorSpace);
         CFRelease(plainCFStr);
         CFRelease(plainCFAStr);
@@ -763,7 +762,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         CFRelease(paraStyle);
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
-            if(span.type == FONT && span.close) {
+            if(span.type == FONT && !span.close) {
                 free(span.data.fontName);
             }
         }

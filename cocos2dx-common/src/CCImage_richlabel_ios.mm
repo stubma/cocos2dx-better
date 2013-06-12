@@ -235,7 +235,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
     // get unichar of string
     NSString* ns = [NSString stringWithUTF8String:pText];
     int uniLen = [ns length];
-    unichar* uniText = (unichar*)malloc((uniLen + 1) * sizeof(unichar));
+    unichar* uniText = (unichar*)malloc(uniLen * sizeof(unichar));
     [ns getCharacters:uniText range:NSMakeRange(0, uniLen)];
     
 	int plainLen = 0;
@@ -314,8 +314,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 		}
 	}
 	
-	// end of plain
-	plain[plainLen] = 0;
+	// return length
     if(outLen)
         *outLen = plainLen;
 	
@@ -760,6 +759,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         CFRelease(frame);
         CFRelease(path);
         CFRelease(paraStyle);
+		free(plain);
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
             if(span.type == FONT && !span.close) {

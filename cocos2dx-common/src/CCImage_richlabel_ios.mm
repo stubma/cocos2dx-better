@@ -319,8 +319,6 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
     if(outLen)
         *outLen = plainLen;
 	
-	CCLOG("uniLen: %d, plainLen: %d", uniLen, plainLen);
-	
 #ifdef COCOS2D_DEBUG
 //	// debug output span info
 //	int i = 0;

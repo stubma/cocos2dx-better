@@ -65,4 +65,11 @@ public:
     virtual string subtitle();
 };
 
+class CommonTreeFadeInOut : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 #endif

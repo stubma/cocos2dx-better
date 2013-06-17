@@ -7,6 +7,7 @@ TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
+TESTLAYER_CREATE_FUNC(CommonTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
     CF(CommonCalendar),
@@ -14,6 +15,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonLocale),
 	CF(CommonRichLabel),
     CF(CommonShake),
+	CF(CommonTreeFadeInOut),
 };
 
 static int sceneIdx=-1;
@@ -302,4 +304,33 @@ std::string CommonShake::subtitle()
     return "Shake";
 }
 
+//------------------------------------------------------------------
+//
+// Tree Fade In/Out
+//
+//------------------------------------------------------------------
+void CommonTreeFadeInOut::onEnter()
+{
+    CommonDemo::onEnter();
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCSprite* s = CCSprite::create("Images/grossini.png");
+	s->setPosition(ccp(origin.x + visibleSize.width / 2,
+					   origin.y + visibleSize.height / 2));
+	addChild(s);
+	
+	CCSprite* s2 = CCSprite::create("Images/grossini.png");
+	s->addChild(s2);
+	
+	CCSprite* s3 = CCSprite::create("Images/grossini.png");
+	s2->addChild(s3);
+	
+	s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(CCTreeFadeOut::create(2), CCTreeFadeIn::create(2))));
+}
 
+std::string CommonTreeFadeInOut::subtitle()
+{
+    return "Tree Fade In/Out";
+}

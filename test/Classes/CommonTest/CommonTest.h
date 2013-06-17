@@ -7,15 +7,6 @@
 using namespace std;
 USING_NS_CC;
 
-enum
-{
-    COMMON_COLOR_LABEL = 0,
-    COMMON_CALENDAR,
-    COMMON_LOCALE,
-	COMMON_SHAKE,
-};
-
-
 // the class inherit from TestScene
 // every Scene each test used must inherit from TestScene,
 // make sure the test have the menu item for back to main menu
@@ -39,7 +30,7 @@ public:
     void backCallback(CCObject* pSender);
 };
 
-class CommonColorLabel : public CommonDemo
+class CommonRichLabel : public CommonDemo
 {
 public:
     virtual void onEnter();

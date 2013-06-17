@@ -2,13 +2,13 @@
 #include "../testResource.h"
 #include "cocos2d.h"
 
-TESTLAYER_CREATE_FUNC(CommonColorLabel);
+TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonShake);
 
 static NEWTESTFUNC createFunctions[] = {
-	CF(CommonColorLabel),
+	CF(CommonRichLabel),
     CF(CommonCalendar),
     CF(CommonLocale),
     CF(CommonShake),
@@ -136,10 +136,10 @@ void CommonDemo::backCallback(CCObject* pSender)
 
 //------------------------------------------------------------------
 //
-// Color Label
+// Rich Label
 //
 //------------------------------------------------------------------
-void CommonColorLabel::onEnter()
+void CommonRichLabel::onEnter()
 {
     CommonDemo::onEnter();
 	
@@ -167,9 +167,9 @@ void CommonColorLabel::onEnter()
 	addChild(label);
 }
 
-std::string CommonColorLabel::subtitle()
+std::string CommonRichLabel::subtitle()
 {
-    return "Color Label";
+    return "Rich Label";
 }
 
 //------------------------------------------------------------------

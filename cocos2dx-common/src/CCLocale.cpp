@@ -22,6 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCLocale.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    #import <Foundation/Foundation.h>
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    #include "JniHelper.h"
+#endif
 
 NS_CC_BEGIN
 

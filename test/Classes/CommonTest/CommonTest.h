@@ -10,6 +10,7 @@ USING_NS_CC;
 enum
 {
     COMMON_COLOR_LABEL = 0,
+    COMMON_CALENDAR,
     COMMON_LOCALE,
 	COMMON_SHAKE,
 };
@@ -39,6 +40,13 @@ public:
 };
 
 class CommonColorLabel : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
+class CommonCalendar : public CommonDemo
 {
 public:
     virtual void onEnter();

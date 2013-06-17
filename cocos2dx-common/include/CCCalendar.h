@@ -31,8 +31,11 @@ NS_CC_BEGIN
 /// calendar c++ wrapper
 class CC_DLL CCCalendar : public CCObject {
 private:
-    // singleton
+    /// singleton
     static CCCalendar* s_instance;
+    
+    /// time, in seconds
+    float m_time;
     
 protected:
     CCCalendar();
@@ -40,6 +43,27 @@ protected:
 public:
     virtual ~CCCalendar();
     static CCCalendar* sharedCalendar();
+    
+    /// get time, since 1970-1-1
+    float getTime() { return m_time; }
+    
+    /// set time
+    void setTime(float time) { m_time = time; }
+    
+    /// set time of now
+    void setNow();
+    
+    /// get year
+    int getYear();
+    
+    // get month, 1 for January
+    int getMonth();
+    
+    // get day, 1 for first day
+    int getDay();
+    
+    // get day of week, 1 for sunday
+    int getWeekday();
 };
 
 NS_CC_END

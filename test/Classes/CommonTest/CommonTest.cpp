@@ -3,11 +3,13 @@
 #include "cocos2d.h"
 
 TESTLAYER_CREATE_FUNC(CommonColorLabel);
+TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonShake);
 
 static NEWTESTFUNC createFunctions[] = {
 	CF(CommonColorLabel),
+    CF(CommonCalendar),
     CF(CommonLocale),
     CF(CommonShake),
 };
@@ -197,6 +199,38 @@ void CommonLocale::onEnter()
 std::string CommonLocale::subtitle()
 {
     return "Locale";
+}
+
+//------------------------------------------------------------------
+//
+// Calendar
+//
+//------------------------------------------------------------------
+void CommonCalendar::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCCalendar* c = CCCalendar::sharedCalendar();
+    char buf[512];
+    sprintf(buf, "time=%f\nyear=%d\nmonth=%d\nday=%d\nweekday=%d",
+            c->getTime(),
+            c->getYear(),
+            c->getMonth(),
+            c->getDay(),
+            c->getWeekday());
+    
+    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
+    label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    addChild(label);
+}
+
+std::string CommonCalendar::subtitle()
+{
+    return "Calendar";
 }
 
 //------------------------------------------------------------------

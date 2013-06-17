@@ -31,6 +31,7 @@ CCLocale::CCLocale() {
 }
 
 CCLocale::~CCLocale() {
+    s_instance = NULL;
 }
 
 CCLocale* CCLocale::sharedLocale() {

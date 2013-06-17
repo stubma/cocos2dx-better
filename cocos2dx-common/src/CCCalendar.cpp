@@ -21,30 +21,24 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
-
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
-#include "CCRichLabelTTF.h"
-#include "CCLocale.h"
 #include "CCCalendar.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+CCCalendar* CCCalendar::s_instance = NULL;
+
+CCCalendar::CCCalendar() {
+}
+
+CCCalendar::~CCCalendar() {
+    s_instance = NULL;
+}
+
+CCCalendar* CCCalendar::sharedCalendar() {
+    if(!s_instance) {
+        s_instance = new CCCalendar();
+    }
+    return s_instance;
+}
+
+NS_CC_END

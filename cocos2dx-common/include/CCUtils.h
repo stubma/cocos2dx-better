@@ -199,12 +199,6 @@ public:
     /// combine two rect
     static CCRect combine(const CCRect& r1, const CCRect& r2);
     
-    /// get system language iso two letter code
-    static string getLanguage();
-    
-    /// get system country iso two letter code
-    static string getCountry();
-    
     /// has external storage, such as sd card
     static bool hasExternalStorage();
     

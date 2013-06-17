@@ -21,29 +21,35 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCLocale__
+#define __CCLocale__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
-#include "CCRichLabelTTF.h"
-#include "CCLocale.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+using namespace std;
+
+NS_CC_BEGIN
+
+/// a locale util in C++ wrapper
+class CC_DLL CCLocale : public CCObject {
+private:
+    // singleton
+    static CCLocale* s_instance;
+    
+protected:
+    CCLocale();
+    
+public:
+    virtual ~CCLocale();
+    static CCLocale* sharedLocale();
+    
+    /// get language iso code
+    string getLanguage();
+    
+    /// get country iso code
+    string getCountry();
+};
+
+NS_CC_END
+
+#endif /* defined(__CCLocale__) */

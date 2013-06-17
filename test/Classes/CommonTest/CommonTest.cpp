@@ -3,10 +3,12 @@
 #include "cocos2d.h"
 
 TESTLAYER_CREATE_FUNC(CommonColorLabel);
+TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonShake);
 
 static NEWTESTFUNC createFunctions[] = {
 	CF(CommonColorLabel),
+    CF(CommonLocale),
     CF(CommonShake),
 };
 
@@ -132,6 +134,73 @@ void CommonDemo::backCallback(CCObject* pSender)
 
 //------------------------------------------------------------------
 //
+// Color Label
+//
+//------------------------------------------------------------------
+void CommonColorLabel::onEnter()
+{
+    CommonDemo::onEnter();
+	
+	setOpacity(255);
+	setColor(ccRED);
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCRichLabelTTF* label = CCRichLabelTTF::create("H[color=ff00ff00]e我[/color]llo [color=ffffffff]W[/color]orld!",
+                                                   "Helvetica",
+                                                   30);
+	label->enableStroke(ccBLUE, 0.5f);
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height / 5));
+	label->enableShadow(CCSizeMake(3, -3), 255, 4);
+	label->setFontFillColor(ccc3(179, 179, 179));
+	addChild(label);
+    
+    label = CCRichLabelTTF::create("H[color=ff00ff00][i][b][u]ell[/u][/b][/i][/color]o[size=20][font=font/Arial Rounded MT Bold.ttf]H[i]ell[/i]o[/font][/size]",
+                                   "Helvetica",
+                                   30);
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height * 2 / 5));
+	addChild(label);
+}
+
+std::string CommonColorLabel::subtitle()
+{
+    return "Color Label";
+}
+
+//------------------------------------------------------------------
+//
+// Locale
+//
+//------------------------------------------------------------------
+void CommonLocale::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCLocale* locale = CCLocale::sharedLocale();
+    char buf[512];
+    sprintf(buf, "language=%s\ncountry=%s",
+            locale->getLanguage().c_str(),
+            locale->getCountry().c_str());
+    
+    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
+    label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    addChild(label);
+}
+
+std::string CommonLocale::subtitle()
+{
+    return "Locale";
+}
+
+//------------------------------------------------------------------
+//
 // Shake
 //
 //------------------------------------------------------------------
@@ -155,40 +224,4 @@ std::string CommonShake::subtitle()
     return "Shake";
 }
 
-//------------------------------------------------------------------
-//
-// Color Label
-//
-//------------------------------------------------------------------
-void CommonColorLabel::onEnter()
-{
-    CommonDemo::onEnter();
-	
-	setOpacity(255);
-	setColor(ccRED);
-	
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-	
-	CCRichLabelTTF* label = CCRichLabelTTF::create("H[color=ff00ff00]e我[/color]llo [color=ffffffff]W[/color]orld!",
-                                                     "Helvetica",
-                                                     30);
-	label->enableStroke(ccBLUE, 0.5f);
-	label->setPosition(ccp(origin.x + visibleSize.width / 2,
-						   origin.y + visibleSize.height / 5));
-	label->enableShadow(CCSizeMake(3, -3), 255, 4);
-	label->setFontFillColor(ccc3(179, 179, 179));
-	addChild(label);
-    
-    label = CCRichLabelTTF::create("H[color=ff00ff00][i][b][u]ell[/u][/b][/i][/color]o[size=20][font=font/Arial Rounded MT Bold.ttf]H[i]ell[/i]o[/font][/size]",
-                                   "Helvetica",
-                                   30);
-	label->setPosition(ccp(origin.x + visibleSize.width / 2,
-						   origin.y + visibleSize.height * 2 / 5));
-	addChild(label);
-}
 
-std::string CommonColorLabel::subtitle()
-{
-    return "Color Label";
-}

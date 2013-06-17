@@ -24,6 +24,7 @@
 #include "CCLocalization.h"
 #include "CCUtils.h"
 #include "CCAndroidStringsParser.h"
+#include "CCLocale.h"
 
 NS_CC_BEGIN
 
@@ -77,7 +78,7 @@ void CCLocalization::addAndroidStrings(const string& lan, const string& path, bo
 
 string CCLocalization::getString(const string& key) {
     // get strings, may fallback to English if not found
-    string lan = CCUtils::getLanguage();
+    string lan = CCLocale::sharedLocale()->getLanguage();
     CCDictionary* strings = (CCDictionary*)m_lanMap.objectForKey(lan);
     if(!strings) {
         if(lan != "en") {

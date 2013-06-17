@@ -34,6 +34,7 @@
 		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
 		92C4463D175DCE090049F6AE /* CCImage_richlabel_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C4463B175DCE090049F6AE /* CCImage_richlabel_android.cpp */; };
 		92C9A0CA175CDD5700C6D739 /* CCImage_richlabel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92C9A0C8175CDD5700C6D739 /* CCImage_richlabel_ios.mm */; };
+		92DEBD32176EF663005C6413 /* CCLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DEBD30176EF663005C6413 /* CCLocale.cpp */; };
 		92E107C7170EB78F0096EA4C /* CCAntiArtifactSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */; };
 		92FF9FBA1749C4970015E5A7 /* CCLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */; };
 		92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */; };
@@ -117,6 +118,8 @@
 		92C4463B175DCE090049F6AE /* CCImage_richlabel_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImage_richlabel_android.cpp; sourceTree = "<group>"; };
 		92C9A0C8175CDD5700C6D739 /* CCImage_richlabel_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImage_richlabel_ios.mm; sourceTree = "<group>"; };
 		92C9A0C9175CDD5700C6D739 /* CCImage_richlabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCImage_richlabel.h; sourceTree = "<group>"; };
+		92DEBD30176EF663005C6413 /* CCLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocale.cpp; sourceTree = "<group>"; };
+		92DEBD34176EF69C005C6413 /* CCLocale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLocale.h; sourceTree = "<group>"; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAntiArtifactSprite.h; sourceTree = "<group>"; };
 		92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAntiArtifactSprite.cpp; sourceTree = "<group>"; };
@@ -164,6 +167,7 @@
 				928B83491741E238005EA4E0 /* CCTreeFadeOut.h */,
 				92774ADE16EF1CB3008E67C8 /* CCUtils.h */,
 				92FF9FBC1749C4B70015E5A7 /* CCLocalization.h */,
+				92DEBD34176EF69C005C6413 /* CCLocale.h */,
 				928C34031728CEA8008DFA9A /* CCMD5.h */,
 				9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */,
 			);
@@ -205,6 +209,7 @@
 				928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */,
 				928C34051728CEB8008DFA9A /* CCMD5.cpp */,
 				92774AE016EF1CB3008E67C8 /* CCUtils.cpp */,
+				92DEBD30176EF663005C6413 /* CCLocale.cpp */,
 				92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */,
 				92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */,
 				92FF9FBE1749CC530015E5A7 /* CCAndroidStringsParser.h */,
@@ -353,6 +358,7 @@
 				92838A4F175B8A9B0025FFEC /* CCTexture2D_richlabel.cpp in Sources */,
 				92C9A0CA175CDD5700C6D739 /* CCImage_richlabel_ios.mm in Sources */,
 				92C4463D175DCE090049F6AE /* CCImage_richlabel_android.cpp in Sources */,
+				92DEBD32176EF663005C6413 /* CCLocale.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

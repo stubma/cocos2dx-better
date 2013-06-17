@@ -543,52 +543,6 @@ CCRect CCUtils::combine(const CCRect& r1, const CCRect& r2) {
 	return CCRectMake(left, bottom, right - left, top - bottom);
 }
 
-string CCUtils::getLanguage() {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-    // get language
-	NSString* lan = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
-	if(!lan)
-		return "en";
-    else
-        return [lan cStringUsingEncoding:NSUTF8StringEncoding];
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    // get default locale
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "java/util/Locale", "getDefault", "()Ljava/util/Locale;");
-    jobject jLocale = t.env->CallStaticObjectMethod(t.classID, t.methodID);
-    
-    // get language
-    JniHelper::getMethodInfo(t, "java/util/Locale", "getLanguage", "()Ljava/lang/String;");
-    jstring jLan = (jstring)t.env->CallObjectMethod(jLocale, t.methodID);
-    return JniHelper::jstring2string(jLan);
-#else
-    CCLOGERROR("CCUtils::getLanguage is not implemented for this platform, please finish it");
-#endif
-}
-
-string CCUtils::getCountry() {
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-    // get country
-	NSString* c = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-	if(!c)
-		return "US";
-    else
-        return [c cStringUsingEncoding:NSUTF8StringEncoding];
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    // get default locale
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "java/util/Locale", "getDefault", "()Ljava/util/Locale;");
-    jobject jLocale = t.env->CallStaticObjectMethod(t.classID, t.methodID);
-    
-    // get language
-    JniHelper::getMethodInfo(t, "java/util/Locale", "getCountry", "()Ljava/lang/String;");
-    jstring jCty = (jstring)t.env->CallObjectMethod(jLocale, t.methodID);
-    return JniHelper::jstring2string(jCty);
-#else
-    CCLOGERROR("CCUtils::getLanguage is not implemented for this platform, please finish it");
-#endif
-}
-
 bool CCUtils::hasExternalStorage() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     return true;

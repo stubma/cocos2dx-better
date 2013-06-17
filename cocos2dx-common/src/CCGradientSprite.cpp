@@ -147,6 +147,7 @@ void CCGradientSprite::updateDisplayedOpacity(GLubyte opacity) {
 }
 
 void CCGradientSprite::setColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v) {
+	CCSprite::setColor(ccc3(start.r, start.g, start.b));
     m_endColor.r = end.r;
     m_endColor.g = end.g;
     m_endColor.b = end.b;

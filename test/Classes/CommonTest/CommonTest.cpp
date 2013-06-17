@@ -2,15 +2,17 @@
 #include "../testResource.h"
 #include "cocos2d.h"
 
-TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonCalendar);
+TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
+TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
 
 static NEWTESTFUNC createFunctions[] = {
-	CF(CommonRichLabel),
     CF(CommonCalendar),
-    CF(CommonLocale),
+	CF(CommonGradientSprite),
+	CF(CommonLocale),
+	CF(CommonRichLabel),
     CF(CommonShake),
 };
 
@@ -136,6 +138,109 @@ void CommonDemo::backCallback(CCObject* pSender)
 
 //------------------------------------------------------------------
 //
+// Calendar
+//
+//------------------------------------------------------------------
+void CommonCalendar::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCCalendar* c = CCCalendar::sharedCalendar();
+    char buf[512];
+    sprintf(buf, "time=%f\nyear=%d\nmonth=%d\nday=%d\nweekday=%d",
+            c->getTime(),
+            c->getYear(),
+            c->getMonth(),
+            c->getDay(),
+            c->getWeekday());
+    
+    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
+    label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    addChild(label);
+}
+
+std::string CommonCalendar::subtitle()
+{
+    return "Calendar";
+}
+
+//------------------------------------------------------------------
+//
+// Gradient Sprite
+//
+//------------------------------------------------------------------
+void CommonGradientSprite::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+	// red bottom to green top
+	CCGradientSprite* s = CCGradientSprite::create("Images/usa_flag.jpg");
+	s->setColor(ccc4(255, 0, 0, 255), ccc4(0, 255, 0, 255), ccp(0, 1));
+	s->setPosition(ccp(origin.x + visibleSize.width / 4,
+					   origin.y + visibleSize.height / 2));
+	s->setScale(0.6f);
+	addChild(s);
+	
+	// red bottom to green top, and fade out
+	s = CCGradientSprite::create("Images/usa_flag.jpg");
+	s->setColor(ccc4(255, 0, 0, 255), ccc4(0, 255, 0, 0), ccp(0, 1));
+	s->setPosition(ccp(origin.x + visibleSize.width / 2,
+					   origin.y + visibleSize.height / 2));
+	s->setScale(0.6f);
+	addChild(s);
+	
+	// red left to green right
+	s = CCGradientSprite::create("Images/usa_flag.jpg");
+	s->setColor(ccc4(255, 0, 0, 255), ccc4(0, 255, 0, 255), ccp(1, 0));
+	s->setPosition(ccp(origin.x + visibleSize.width * 3 / 4,
+					   origin.y + visibleSize.height / 2));
+	s->setScale(0.6f);
+	addChild(s);
+}
+
+std::string CommonGradientSprite::subtitle()
+{
+    return "Gradient Sprite";
+}
+
+//------------------------------------------------------------------
+//
+// Locale
+//
+//------------------------------------------------------------------
+void CommonLocale::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCLocale* locale = CCLocale::sharedLocale();
+    char buf[512];
+    sprintf(buf, "language=%s\ncountry=%s",
+            locale->getLanguage().c_str(),
+            locale->getCountry().c_str());
+    
+    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
+    label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    addChild(label);
+}
+
+std::string CommonLocale::subtitle()
+{
+    return "Locale";
+}
+
+//------------------------------------------------------------------
+//
 // Rich Label
 //
 //------------------------------------------------------------------
@@ -170,67 +275,6 @@ void CommonRichLabel::onEnter()
 std::string CommonRichLabel::subtitle()
 {
     return "Rich Label";
-}
-
-//------------------------------------------------------------------
-//
-// Locale
-//
-//------------------------------------------------------------------
-void CommonLocale::onEnter()
-{
-    CommonDemo::onEnter();
-    
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    
-    CCLocale* locale = CCLocale::sharedLocale();
-    char buf[512];
-    sprintf(buf, "language=%s\ncountry=%s",
-            locale->getLanguage().c_str(),
-            locale->getCountry().c_str());
-    
-    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
-    label->setPosition(ccp(origin.x + visibleSize.width / 2,
-                           origin.y + visibleSize.height / 2));
-    addChild(label);
-}
-
-std::string CommonLocale::subtitle()
-{
-    return "Locale";
-}
-
-//------------------------------------------------------------------
-//
-// Calendar
-//
-//------------------------------------------------------------------
-void CommonCalendar::onEnter()
-{
-    CommonDemo::onEnter();
-    
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    
-    CCCalendar* c = CCCalendar::sharedCalendar();
-    char buf[512];
-    sprintf(buf, "time=%f\nyear=%d\nmonth=%d\nday=%d\nweekday=%d",
-            c->getTime(),
-            c->getYear(),
-            c->getMonth(),
-            c->getDay(),
-            c->getWeekday());
-    
-    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
-    label->setPosition(ccp(origin.x + visibleSize.width / 2,
-                           origin.y + visibleSize.height / 2));
-    addChild(label);
-}
-
-std::string CommonCalendar::subtitle()
-{
-    return "Calendar";
 }
 
 //------------------------------------------------------------------

@@ -27,6 +27,9 @@
 #include "cocos2d.h"
 #include <string>
 #include "ccMoreTypes.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	#include <jni.h>
+#endif
 
 using namespace std;
 
@@ -207,6 +210,11 @@ public:
     
     /// verify app signature, if has, basically it is only used for android
     bool verifySignature(void* validSign, size_t len);
+	
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	/// get JNIEnv
+	static JNIEnv* getJNIEnv();
+#endif
 };
 
 NS_CC_END

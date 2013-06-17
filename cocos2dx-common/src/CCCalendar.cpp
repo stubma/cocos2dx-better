@@ -42,44 +42,43 @@ static int YEAR;
 static jmethodID CALENDAR_GET;
 
 static void setupAndroidCalendar() {
-    // just try to get env
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "java/util/GregorianCalendar", "getInstance", "()Ljava/util/Calendar;");
-    
     // get klass of calendard
-    jclass klass = JniHelper::getClassID("java/util/Calendar");
+	JNIEnv* env = CCUtils::getJNIEnv();
+    jclass klass = env->FindClass("java/util/Calendar");
     
     // populate field
-    jfieldID fid = t.env->GetStaticFieldID(klass, "DAY_OF_MONTH", "I");
-    DAY_OF_MONTH = t.env->GetIntField(klass, fid);
-    fid = t.env->GetStaticFieldID(klass, "DAY_OF_WEEK", "I");
-    DAY_OF_WEEK = t.env->GetIntField(klass, fid);
-    fid = t.env->GetStaticFieldID(klass, "MONTH", "I");
-    MONTH = t.env->GetIntField(klass, fid);
-    fid = t.env->GetStaticFieldID(klass, "YEAR", "I");
-    YEAR = t.env->GetIntField(klass, fid);
-    CALENDAR_GET = t.env->GetMethodID(klass, "get", "(I)I");
+    jfieldID fid = env->GetStaticFieldID(klass, "DAY_OF_MONTH", "I");
+    DAY_OF_MONTH = env->GetStaticIntField(klass, fid);
+    fid = env->GetStaticFieldID(klass, "DAY_OF_WEEK", "I");
+    DAY_OF_WEEK = env->GetStaticIntField(klass, fid);
+    fid = env->GetStaticFieldID(klass, "MONTH", "I");
+    MONTH = env->GetStaticIntField(klass, fid);
+    fid = env->GetStaticFieldID(klass, "YEAR", "I");
+    YEAR = env->GetStaticIntField(klass, fid); 
+    CALENDAR_GET = env->GetMethodID(klass, "get", "(I)I");
+	
+	// clear
+	env->DeleteLocalRef(klass);
 }
 
-static jobject createAndroidCalendar(float time, JNIEnv** outEnv) {
+static jobject createAndroidCalendar(float time) {
     // get GregorianCalendar
-    JniMethodInfo t;
-    JniHelper::getMethodInfo(t, "java/util/GregorianCalendar", "<init>", "()V");
-    jobject jCalendar = t.env->NewObject(t.classID, t.methodID);
+	JNIEnv* env = CCUtils::getJNIEnv();
+	jclass klass = env->FindClass("java/util/GregorianCalendar");
+    jmethodID mid = env->GetMethodID(klass, "<init>", "()V");
+    jobject jCalendar = env->NewObject(klass, mid);
     
     // set time
-    JniHelper::getMethodInfo(t, "java/util/Calendar", "setTimeInMillis", "(J)V");
-    t.env->CallVoidMethod(jCalendar, t.methodID, (jlong)(time * 1000.0f));
-    
-    // return env
-    *outEnv = t.env;
+	mid = env->GetMethodID(klass, "setTimeInMillis", "(J)V");
+    env->CallVoidMethod(jCalendar, mid, (jlong)(time * 1000.0f));
     
     return jCalendar;
 }
-#endif
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 CCCalendar::CCCalendar() {
-    m_time = CCUtils::currentTimeMillis() / 1000.0f;
+    m_time = (double)CCUtils::currentTimeMillis() / 1000.0f;
     
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     setupAndroidCalendar();
@@ -98,7 +97,7 @@ CCCalendar* CCCalendar::sharedCalendar() {
 }
 
 void CCCalendar::setNow() {
-    m_time = CCUtils::currentTimeMillis() / 1000.0f;
+    m_time = (double)CCUtils::currentTimeMillis() / 1000.0f;
 }
 
 int CCCalendar::getYear() {
@@ -108,11 +107,12 @@ int CCCalendar::getYear() {
     NSDateComponents* dc = [c components:NSYearCalendarUnit fromDate:d];
     return dc.year;
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    JNIEnv* env;
-    jobject c = createAndroidCalendar(m_time, &env);
+    jobject c = createAndroidCalendar(m_time);
+	JNIEnv* env = CCUtils::getJNIEnv();
     int ret = env->CallIntMethod(c, CALENDAR_GET, YEAR);
     env->DeleteLocalRef(c);
     return ret;
+	return 0;
 #else
     CCLOGERROR("CCCalendar::getYear is not implemented for this platform, please finish it");
     return 0;
@@ -126,9 +126,9 @@ int CCCalendar::getMonth() {
     NSDateComponents* dc = [c components:NSMonthCalendarUnit fromDate:d];
     return dc.month;
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    JNIEnv* env;
-    jobject c = createAndroidCalendar(m_time, &env);
-    int ret = env->CallIntMethod(c, CALENDAR_GET, MONTH);
+    jobject c = createAndroidCalendar(m_time);
+	JNIEnv* env = CCUtils::getJNIEnv();
+    int ret = env->CallIntMethod(c, CALENDAR_GET, MONTH) + 1;
     env->DeleteLocalRef(c);
     return ret;
 #else
@@ -144,8 +144,8 @@ int CCCalendar::getDay() {
     NSDateComponents* dc = [c components:NSDayCalendarUnit fromDate:d];
     return dc.day;
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    JNIEnv* env;
-    jobject c = createAndroidCalendar(m_time, &env);
+    jobject c = createAndroidCalendar(m_time);
+	JNIEnv* env = CCUtils::getJNIEnv();
     int ret = env->CallIntMethod(c, CALENDAR_GET, DAY_OF_MONTH);
     env->DeleteLocalRef(c);
     return ret;
@@ -162,8 +162,8 @@ int CCCalendar::getWeekday() {
     NSDateComponents* dc = [c components:NSWeekdayCalendarUnit fromDate:d];
     return dc.weekday;
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    JNIEnv* env;
-    jobject c = createAndroidCalendar(m_time, &env);
+    jobject c = createAndroidCalendar(m_time);
+	JNIEnv* env = CCUtils::getJNIEnv();
     int ret = env->CallIntMethod(c, CALENDAR_GET, DAY_OF_WEEK);
     env->DeleteLocalRef(c);
     return ret;

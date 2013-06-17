@@ -24,6 +24,9 @@
 #include "CCUtils.h"
 #include "CCMoreMacros.h"
 #include "CCMD5.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	#include "JniHelper.h"
+#endif
 
 NS_CC_BEGIN
 
@@ -635,5 +638,26 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
     return true;
 #endif
 }
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+JNIEnv* CCUtils::getJNIEnv() {
+	JavaVM* vm = JniHelper::getJavaVM();
+	JNIEnv* env = NULL;
+    if(vm) {
+        jint ret = vm->GetEnv((void**) &env, JNI_VERSION_1_4);
+        if (ret != JNI_OK) {
+        	jint status = vm->AttachCurrentThread(&env, NULL);
+        	if(status < 0) {
+        	    CCLOGERROR("getJNIEnv: failed to attach current thread");
+        	    env = NULL;
+            }
+        }
+    }
+	
+	return env;
+}
+
+#endif
 
 NS_CC_END

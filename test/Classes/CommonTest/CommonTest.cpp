@@ -152,14 +152,17 @@ void CommonCalendar::onEnter()
     
     CCCalendar* c = CCCalendar::sharedCalendar();
     char buf[512];
-    sprintf(buf, "time=%f\nyear=%d\nmonth=%d\nday=%d\nweekday=%d",
+    sprintf(buf, "time=%f\nyear=%d\nmonth=%d\nday=%d\nweekday=%d\nhour=%d\nminute=%d\nsecond=%d",
             c->getTime(),
             c->getYear(),
             c->getMonth(),
             c->getDay(),
-            c->getWeekday());
+            c->getWeekday(),
+            c->getHour(),
+            c->getMinute(),
+            c->getSecond());
     
-    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
+    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 14);
     label->setPosition(ccp(origin.x + visibleSize.width / 2,
                            origin.y + visibleSize.height / 2));
     addChild(label);

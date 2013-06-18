@@ -64,6 +64,15 @@ public:
     
     // get day of week, 1 for sunday
     int getWeekday();
+    
+    // get hour
+    int getHour();
+    
+    // get minute
+    int getMinute();
+    
+    // get second
+    int getSecond();
 };
 
 NS_CC_END

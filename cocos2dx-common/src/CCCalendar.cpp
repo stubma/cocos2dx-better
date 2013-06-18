@@ -39,6 +39,9 @@ static int DAY_OF_MONTH;
 static int DAY_OF_WEEK;
 static int MONTH;
 static int YEAR;
+static int HOUR_OF_DAY;
+static int MINUTE;
+static int SECOND;
 static jmethodID CALENDAR_GET;
 
 static void setupAndroidCalendar() {
@@ -54,7 +57,13 @@ static void setupAndroidCalendar() {
     fid = env->GetStaticFieldID(klass, "MONTH", "I");
     MONTH = env->GetStaticIntField(klass, fid);
     fid = env->GetStaticFieldID(klass, "YEAR", "I");
-    YEAR = env->GetStaticIntField(klass, fid); 
+    YEAR = env->GetStaticIntField(klass, fid);
+    fid = env->GetStaticFieldID(klass, "HOUR_OF_DAY", "I");
+    HOUR_OF_DAY = env->GetStaticIntField(klass, fid);
+    fid = env->GetStaticFieldID(klass, "MINUTE", "I");
+    MINUTE = env->GetStaticIntField(klass, fid);
+    fid = env->GetStaticFieldID(klass, "SECOND", "I");
+    SECOND = env->GetStaticIntField(klass, fid);
     CALENDAR_GET = env->GetMethodID(klass, "get", "(I)I");
 	
 	// clear
@@ -169,6 +178,60 @@ int CCCalendar::getWeekday() {
     return ret;
 #else
     CCLOGERROR("CCCalendar::getDay is not implemented for this platform, please finish it");
+    return 0;
+#endif
+}
+
+int CCCalendar::getHour() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    NSCalendar* c = [NSCalendar currentCalendar];
+    NSDate* d = [NSDate dateWithTimeIntervalSince1970:m_time];
+    NSDateComponents* dc = [c components:NSHourCalendarUnit fromDate:d];
+    return dc.hour;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    jobject c = createAndroidCalendar(m_time);
+	JNIEnv* env = CCUtils::getJNIEnv();
+    int ret = env->CallIntMethod(c, CALENDAR_GET, HOUR_OF_DAY);
+    env->DeleteLocalRef(c);
+    return ret;
+#else
+    CCLOGERROR("CCCalendar::getHour is not implemented for this platform, please finish it");
+    return 0;
+#endif
+}
+
+int CCCalendar::getMinute() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    NSCalendar* c = [NSCalendar currentCalendar];
+    NSDate* d = [NSDate dateWithTimeIntervalSince1970:m_time];
+    NSDateComponents* dc = [c components:NSMinuteCalendarUnit fromDate:d];
+    return dc.minute;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    jobject c = createAndroidCalendar(m_time);
+	JNIEnv* env = CCUtils::getJNIEnv();
+    int ret = env->CallIntMethod(c, CALENDAR_GET, MINUTE);
+    env->DeleteLocalRef(c);
+    return ret;
+#else
+    CCLOGERROR("CCCalendar::getHour is not implemented for this platform, please finish it");
+    return 0;
+#endif
+}
+
+int CCCalendar::getSecond() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    NSCalendar* c = [NSCalendar currentCalendar];
+    NSDate* d = [NSDate dateWithTimeIntervalSince1970:m_time];
+    NSDateComponents* dc = [c components:NSSecondCalendarUnit fromDate:d];
+    return dc.second;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    jobject c = createAndroidCalendar(m_time);
+	JNIEnv* env = CCUtils::getJNIEnv();
+    int ret = env->CallIntMethod(c, CALENDAR_GET, SECOND);
+    env->DeleteLocalRef(c);
+    return ret;
+#else
+    CCLOGERROR("CCCalendar::getHour is not implemented for this platform, please finish it");
     return 0;
 #endif
 }

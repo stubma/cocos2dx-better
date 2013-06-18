@@ -58,6 +58,15 @@ public:
     virtual string subtitle();
 };
 
+class CommonMissile : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+    
+    void onHit();
+};
+
 class CommonRichLabel : public CommonDemo
 {
 public:

@@ -6,6 +6,7 @@ TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
+TESTLAYER_CREATE_FUNC(CommonMissile);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
@@ -16,6 +17,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonGradientSprite),
 	CF(CommonLocale),
     CF(CommonLocalization),
+    CF(CommonMissile),
 	CF(CommonRichLabel),
     CF(CommonShake),
     CF(CommonTiledSprite),
@@ -277,6 +279,65 @@ void CommonLocalization::onEnter()
 std::string CommonLocalization::subtitle()
 {
     return "Localization";
+}
+
+//------------------------------------------------------------------
+//
+// Missile
+//
+//------------------------------------------------------------------
+void CommonMissile::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    // target
+    CCSprite* grossini = CCSprite::create("Images/grossini.png");
+    grossini->setPosition(ccp(origin.x + visibleSize.width / 8,
+                              origin.y + visibleSize.height / 8));
+    grossini->setTag(1);
+    addChild(grossini);
+    
+    // move target
+    CCMoveTo* m1 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width * 7 / 8,
+                                           origin.y + visibleSize.height / 8));
+    CCMoveTo* m2 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width * 7 / 8,
+                                           origin.y + visibleSize.height * 7 / 8));
+    CCMoveTo* m3 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width / 8,
+                                           origin.y + visibleSize.height * 7 / 8));
+    CCMoveTo* m4 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width / 8,
+                                           origin.y + visibleSize.height / 8));
+    CCSequence* seq = CCSequence::create(m1, m2, m3, m4, NULL);
+    grossini->runAction(CCRepeatForever::create(seq));
+    
+    // missile
+    CCSprite* m = CCSprite::create("Images/r1.png");
+    m->setPosition(ccp(origin.x + visibleSize.width / 2,
+                       origin.y + visibleSize.height / 2));
+    addChild(m);
+    
+    // run missile action
+    CCMissile* action = CCMissile::create(130, grossini, 0,
+                                          CCCallFunc::create(this, callfunc_selector(CommonMissile::onHit)));
+    m->runAction(action);
+}
+
+void CommonMissile::onHit() {
+    getChildByTag(1)->stopAllActions();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    CCLabelTTF* label = CCLabelTTF::create("Hit!!", "Helvetica", 24);
+    label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    addChild(label);
+}
+
+std::string CommonMissile::subtitle()
+{
+    return "Missile";
 }
 
 //------------------------------------------------------------------

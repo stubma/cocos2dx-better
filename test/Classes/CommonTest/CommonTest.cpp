@@ -5,6 +5,7 @@
 TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
+TESTLAYER_CREATE_FUNC(CommonLocalization);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
@@ -14,6 +15,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonCalendar),
 	CF(CommonGradientSprite),
 	CF(CommonLocale),
+    CF(CommonLocalization),
 	CF(CommonRichLabel),
     CF(CommonShake),
     CF(CommonTiledSprite),
@@ -244,6 +246,37 @@ void CommonLocale::onEnter()
 std::string CommonLocale::subtitle()
 {
     return "Locale";
+}
+
+//------------------------------------------------------------------
+//
+// Localization
+//
+//------------------------------------------------------------------
+void CommonLocalization::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCLocalization::sharedLocalization()->addAndroidStrings("en", "strings/strings.xml");
+    CCLocalization::sharedLocalization()->addAndroidStrings("zh", "strings/strings_zh.xml");
+    
+    CCLabelTTF* label = CCLabelTTF::create(CCLC("hello"), "Helvetica", 16);
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    addChild(label);
+    
+    CCLabelTTF* hint = CCLabelTTF::create("把系统语言设置成中文再看上面的label显示的文字", "Helvetica", 16);
+	hint->setPosition(ccp(origin.x + visibleSize.width / 2,
+                          origin.y + visibleSize.height / 4));
+    addChild(hint);
+}
+
+std::string CommonLocalization::subtitle()
+{
+    return "Localization";
 }
 
 //------------------------------------------------------------------

@@ -51,6 +51,13 @@ public:
     virtual string subtitle();
 };
 
+class CommonLocalization : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonRichLabel : public CommonDemo
 {
 public:

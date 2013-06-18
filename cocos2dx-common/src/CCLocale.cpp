@@ -49,7 +49,7 @@ CCLocale* CCLocale::sharedLocale() {
 string CCLocale::getLanguage() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     // get language
-	NSString* lan = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+	NSString* lan = [[NSLocale preferredLanguages] objectAtIndex:0];
 	if(!lan)
 		return "en";
     else

@@ -7,6 +7,7 @@ TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
+TESTLAYER_CREATE_FUNC(CommonTiledSprite);
 TESTLAYER_CREATE_FUNC(CommonTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
@@ -15,6 +16,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonLocale),
 	CF(CommonRichLabel),
     CF(CommonShake),
+    CF(CommonTiledSprite),
 	CF(CommonTreeFadeInOut),
 };
 
@@ -305,6 +307,39 @@ void CommonShake::onEnter()
 std::string CommonShake::subtitle()
 {
     return "Shake";
+}
+
+//------------------------------------------------------------------
+//
+// Tiled Sprite
+//
+//------------------------------------------------------------------
+void CommonTiledSprite::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCTiledSprite* s = CCTiledSprite::create("Images/tiled.png");
+    s->setHeight(visibleSize.height / 2);
+    s->setAnchorPoint(ccp(0.5f, 0.5f));
+	s->setPosition(ccp(origin.x + visibleSize.width / 2,
+					   origin.y + visibleSize.height / 2));
+	addChild(s);
+    
+    s = CCTiledSprite::create("Images/tiled.png");
+    s->setHeight(visibleSize.height / 2);
+    s->setRotation(90);
+    s->setAnchorPoint(ccp(0.5f, 0.5f));
+	s->setPosition(ccp(origin.x + visibleSize.width / 2,
+					   origin.y + visibleSize.height / 2));
+	addChild(s);
+}
+
+std::string CommonTiledSprite::subtitle()
+{
+    return "Tiled Sprite";
 }
 
 //------------------------------------------------------------------

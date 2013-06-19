@@ -276,6 +276,10 @@ void CCRichLabelTTF::setFontName(const char *fontName)
     }
 }
 
+void CCRichLabelTTF::setColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v) {
+    CCGradientSprite::setColor(start, end, v);
+}
+
 // Helper
 bool CCRichLabelTTF::updateTexture()
 {
@@ -303,6 +307,7 @@ bool CCRichLabelTTF::updateTexture()
     
     // set the texture
     this->setTexture(tex);
+    
     // release it
     tex->release();
     

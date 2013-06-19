@@ -371,6 +371,14 @@ void CommonRichLabel::onEnter()
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height * 2 / 5));
 	addChild(label);
+    
+    label = CCRichLabelTTF::create("H[i][b][u]ell[/u][/b][/i]o[size=20][font=font/Arial Rounded MT Bold.ttf]H[i]ell[/i]o[/font][/size]",
+                                   "Helvetica",
+                                   30);
+    label->setColor(ccc4(0, 0, 255, 255), ccc4(0, 255, 0, 255), ccp(1, 0));
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height * 3 / 5));
+	addChild(label);
 }
 
 std::string CommonRichLabel::subtitle()

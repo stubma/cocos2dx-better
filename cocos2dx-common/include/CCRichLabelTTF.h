@@ -25,6 +25,7 @@
 #define __CCRichLabelTTF__
 
 #include "cocos2d.h"
+#include "CCGradientSprite.h"
 
 NS_CC_BEGIN
 
@@ -44,10 +45,14 @@ class CCTexture2D_richlabel;
  * [i][/i]: italic font
  * [u][/u]: underline
  *
+ * \par
+ * CCRichLabelTFF is a subclass of CCGradientSprite, so it also can set a gradient
+ * effect.
+ *
  * \note
  * Currently it only supports iOS and Android, please do it yourself if you want other platform.
  */
-class CC_DLL CCRichLabelTTF : public CCSprite, public CCLabelProtocol {
+class CC_DLL CCRichLabelTTF : public CCGradientSprite, public CCLabelProtocol {
 public:
 	CCRichLabelTTF();
     virtual ~CCRichLabelTTF();
@@ -140,6 +145,8 @@ public:
     void setFontName(const char *fontName);
 	
 	virtual void setColor(const ccColor3B& color3) {}
+    
+    virtual void setColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v);
     
 private:
     bool updateTexture();

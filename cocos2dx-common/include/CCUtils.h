@@ -37,6 +37,16 @@ NS_CC_BEGIN
 
 /// custom utilities
 class CC_DLL CCUtils {
+public:
+    typedef vector<string> StringList;
+    
+private:
+    /// string list temp
+    static StringList s_tmpStringList;
+    
+    /// tmp CCArray
+    static CCArray s_tmpArray;
+    
 private:
 	static unsigned char UnitScalarToByte(float x);
 	
@@ -209,7 +219,86 @@ public:
     static int64_t currentTimeMillis();
     
     /// verify app signature, if has, basically it is only used for android
-    bool verifySignature(void* validSign, size_t len);
+    static bool verifySignature(void* validSign, size_t len);
+    
+    /**
+     * split string into components by a separator
+     * returned string list is const and no need to release
+     * the list is shared, you must copy its content if you want to keep content for later use
+     *
+     * @param s string
+     * @param sep separator character
+     * @return a const vector, must copy it if you want to keep its content
+     */
+    static const StringList& componentsOfString(const string& s, const char sep);
+    
+    /**
+     * parse a CCPoint from a string in format {x,y}, such as {3.2,3.4}.
+     * The brace can be replaced with bracket or parentheses, i.e., [3.2,3.4] and
+     * (3.2,3.4) is also valid. Furthurmore, white space is allowed so [3.2,   3.4] is valid
+     *
+     * \note
+     * for partial valid string, the result will be
+     * {3.2} ==> ccp(3.2, 0)
+     * {,3.4} ==> ccp(0, 3.4)
+     * {3.2 ==> ccp(3.2, 0)
+     * {,3.4 ==> ccp(0, 3.4)
+     * {2,3,4} ==> ccp(2, 3)
+     * {[2,3}]) ==> ccp(2,3)
+     * {,} ==> ccp(0, 0)
+     * 
+     * @param s string
+     * @return CCPoint, or a zero point if string format is invalid
+     */
+    static CCPoint ccpFromString(const string& s);
+    
+    /**
+     * parse a CCSize from a string in format {x,y}, such as {3.2,3.4}.
+     * The brace can be replaced with bracket or parentheses, i.e., [3.2,3.4] and
+     * (3.2,3.4) is also valid. Furthurmore, white space is allowed so [3.2,   3.4] is valid
+     *
+     * \note
+     * for partial valid string, the result will be
+     * {3.2} ==> ccp(3.2, 0)
+     * {,3.4} ==> ccp(0, 3.4)
+     * {3.2 ==> ccp(3.2, 0)
+     * {,3.4 ==> ccp(0, 3.4)
+     * {2,3,4} ==> ccp(2, 3)
+     * {[2,3}]) ==> ccp(2,3)
+     * {,} ==> ccp(0, 0)
+     *
+     * @param s string
+     * @return CCSize, or a zero point if string format is invalid
+     */
+    static CCSize ccsFromString(const string& s);
+    
+    /**
+     * parse a CCRect from a string in format {x,y,w,h}, such as {1,2,3,4}
+     * The brace can be replaced with bracket or parentheses, and whitespace
+     * is allowed
+     *
+     * \note
+     * This method has same tolerance as ccpFromString and ccsFromString
+     *
+     * @param s string
+     * @return CCRect, or a zero point of string format is invalid
+     */
+    static CCRect ccrFromString(const string& s);
+    
+    /**
+     * create a CCArray from a string in format {a1,a2,a3,...}. If the element is
+     * embraced by quote or double quote, it will be a CCString object.
+     * If no quote and has dot, it will be a CCFloat, otherwise it will be CCInteger
+     *
+     * @param s string
+     * @return CCArray const, you should copy it if you want to keep its content for later use
+     */
+    static const CCArray& arrayFromString(const string& s);
+    
+    /**
+     * convert CCArray to string format, rule is same as arrayFromString
+     */
+    static string arrayToString(const CCArray& array);
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

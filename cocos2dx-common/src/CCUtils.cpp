@@ -30,6 +30,9 @@
 
 NS_CC_BEGIN
 
+CCUtils::StringList CCUtils::s_tmpStringList;
+CCArray CCUtils::s_tmpArray;
+
 unsigned char CCUtils::UnitScalarToByte(float x) {
     if (x < 0) {
         return 0;
@@ -637,6 +640,175 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
 #else
     return true;
 #endif
+}
+
+const CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep) {
+    // remove head and tailing brace, bracket, parentheses
+    int start = 0;
+    int end = s.length() - 1;
+    char c = s[start];
+    while(c == '{' || c == '[' || c == '(') {
+        start++;
+        c = s[start];
+    }
+    c = s[end];
+    while(c == '}' || c == ']' || c == ')') {
+        end--;
+        c = s[end];
+    }
+    
+    // returned string list
+    s_tmpStringList.clear();
+    
+    // iterate string
+    int compStart = start;
+    for(int i = start; i <= end; i++) {
+        c = s[i];
+        if(c == sep) {
+            s_tmpStringList.push_back(s.substr(compStart, i - compStart));
+            compStart = i + 1;
+        } else if(c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+            if(compStart == i) {
+                compStart++;
+            }
+        }
+    }
+    
+    // last comp
+    if(compStart <= end) {
+        s_tmpStringList.push_back(s.substr(compStart, end - compStart + 1));
+    }
+    
+    // return
+    return s_tmpStringList;
+}
+
+CCPoint CCUtils::ccpFromString(const string& s) {
+    StringList comp = componentsOfString(s, ',');
+    float x = 0, y = 0;
+    if(comp.size() > 0) {
+        x = atof(comp.at(0).c_str());
+    }
+    if(comp.size() > 1) {
+        y = atof(comp.at(1).c_str());
+    }
+    return ccp(x, y);
+}
+
+CCSize CCUtils::ccsFromString(const string& s) {
+    StringList comp = componentsOfString(s, ',');
+    float x = 0, y = 0;
+    if(comp.size() > 0) {
+        x = atof(comp.at(0).c_str());
+    }
+    if(comp.size() > 1) {
+        y = atof(comp.at(1).c_str());
+    }
+    return CCSizeMake(x, y);
+}
+
+CCRect CCUtils::ccrFromString(const string& s) {
+    StringList comp = componentsOfString(s, ',');
+    float x = 0, y = 0, w = 0, h = 0;
+    if(comp.size() > 0) {
+        x = atof(comp.at(0).c_str());
+    }
+    if(comp.size() > 1) {
+        y = atof(comp.at(1).c_str());
+    }
+    if(comp.size() > 2) {
+        w = atof(comp.at(2).c_str());
+    }
+    if(comp.size() > 3) {
+        h = atof(comp.at(3).c_str());
+    }
+    return CCRectMake(x, y, w, h);
+}
+
+const CCArray& CCUtils::arrayFromString(const string& s) {
+    StringList comp = componentsOfString(s, ',');
+    
+    // clear
+    s_tmpArray.removeAllObjects();
+    
+    // iterator components
+    for(StringList::iterator iter = comp.begin(); iter != comp.end(); iter++) {
+        string& cs = *iter;
+        if(cs.length() > 0) {
+            if(cs[0] == '\'' || cs[0] == '"') {
+                int start = 1;
+                int end = cs.length() - 1;
+                if(cs[end] == '\'' || cs[end] == '"') {
+                    end--;
+                }
+                if(end >= start) {
+                    s_tmpArray.addObject(CCString::create(cs.substr(start, end - start + 1)));
+                } else {
+                    s_tmpArray.addObject(CCString::create(""));
+                }
+            } else {
+                if(cs.find(".") == string::npos) {
+                    int i = atoi(cs.c_str());
+                    s_tmpArray.addObject(CCInteger::create(i));
+                } else {
+                    float f = atof(cs.c_str());
+                    s_tmpArray.addObject(CCFloat::create(f));
+                }
+            }
+        } else {
+            s_tmpArray.addObject(CCFloat::create(0));
+        }
+    }
+    
+    // return
+    return s_tmpArray;
+}
+
+string CCUtils::arrayToString(const CCArray& array) {
+    string ret = "{";
+    CCObject* obj;
+    char buf[128]; 
+    CCARRAY_FOREACH(&array, obj) {
+        CCString* s = dynamic_cast<CCString*>(obj);
+        if(s) {
+            if(ret.length() > 1)
+                ret.append(",");
+            ret.append("\"");
+            ret.append(s->getCString());
+            ret.append("\"");
+            continue;
+        }
+        
+        CCInteger* i = dynamic_cast<CCInteger*>(obj);
+        if(i) {
+            if(ret.length() > 1)
+                ret.append(",");
+            sprintf(buf, "%d", i->getValue());
+            ret.append(buf);
+            continue;
+        }
+        
+        CCFloat* f = dynamic_cast<CCFloat*>(obj);
+        if(f) {
+            if(ret.length() > 1)
+                ret.append(",");
+            sprintf(buf, "%f", f->getValue());
+            ret.append(buf);
+            continue;
+        }
+        
+        CCDouble* d = dynamic_cast<CCDouble*>(obj);
+        if(d) {
+            if(ret.length() > 1)
+                ret.append(",");
+            sprintf(buf, "%lf", d->getValue());
+            ret.append(buf);
+            continue;
+        }
+    }
+    
+    ret.append("}");
+    return ret;
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

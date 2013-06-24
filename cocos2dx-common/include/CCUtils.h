@@ -230,7 +230,7 @@ public:
      * @param sep separator character
      * @return a const vector, must copy it if you want to keep its content
      */
-    static const StringList& componentsOfString(const string& s, const char sep);
+    static StringList& componentsOfString(const string& s, const char sep);
     
     /**
      * parse a CCPoint from a string in format {x,y}, such as {3.2,3.4}.
@@ -291,9 +291,9 @@ public:
      * If no quote and has dot, it will be a CCFloat, otherwise it will be CCInteger
      *
      * @param s string
-     * @return CCArray const, you should copy it if you want to keep its content for later use
+     * @return CCArray, you should copy it if you want to keep its content for later use
      */
-    static const CCArray& arrayFromString(const string& s);
+    static CCArray& arrayFromString(const string& s);
     
     /**
      * convert CCArray to string format, rule is same as arrayFromString

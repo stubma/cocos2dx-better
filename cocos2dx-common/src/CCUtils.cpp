@@ -642,7 +642,7 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
 #endif
 }
 
-const CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep) {
+CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep) {
     // remove head and tailing brace, bracket, parentheses
     int start = 0;
     int end = s.length() - 1;
@@ -725,7 +725,7 @@ CCRect CCUtils::ccrFromString(const string& s) {
     return CCRectMake(x, y, w, h);
 }
 
-const CCArray& CCUtils::arrayFromString(const string& s) {
+CCArray& CCUtils::arrayFromString(const string& s) {
     StringList comp = componentsOfString(s, ',');
     
     // clear

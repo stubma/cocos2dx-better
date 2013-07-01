@@ -117,7 +117,7 @@ bool CCRichLabelTTF::initWithString(const char *string, const char *fontName, fl
                                 const cocos2d::CCSize &dimensions, CCTextAlignment hAlignment,
                                 CCVerticalTextAlignment vAlignment)
 {
-    if (CCSprite::init())
+    if (CCGradientSprite::init())
     {
         // shader program
         this->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(SHADER_PROGRAM));
@@ -138,7 +138,7 @@ bool CCRichLabelTTF::initWithString(const char *string, const char *fontName, fl
 
 bool CCRichLabelTTF::initWithStringAndTextDefinition(const char *string, ccRichFontDefinition &textDefinition)
 {
-    if (CCSprite::init())
+    if (CCGradientSprite::init())
     {
         // shader program
         this->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(SHADER_PROGRAM));

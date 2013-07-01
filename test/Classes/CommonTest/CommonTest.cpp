@@ -361,7 +361,7 @@ void CommonRichLabel::onEnter()
 	label->enableStroke(ccBLUE, 0.5f);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height / 5));
-	label->enableShadow(CCSizeMake(3, -3), 255, 4);
+	label->enableShadow(CCSizeMake(3, -3), 0xafffff00, 4);
 	label->setFontFillColor(ccc3(179, 179, 179));
 	addChild(label);
     

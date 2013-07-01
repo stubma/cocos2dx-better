@@ -45,6 +45,7 @@ CCRichLabelTTF::CCRichLabelTTF()
 , m_fFontSize(0.0)
 , m_string("")
 , m_shadowEnabled(false)
+, m_shadowColor(0xff333333)
 , m_strokeEnabled(false)
 , m_textFillColor(ccWHITE)
 {
@@ -135,7 +136,7 @@ bool CCRichLabelTTF::initWithString(const char *string, const char *fontName, fl
     return false;
 }
 
-bool CCRichLabelTTF::initWithStringAndTextDefinition(const char *string, ccFontDefinition &textDefinition)
+bool CCRichLabelTTF::initWithStringAndTextDefinition(const char *string, ccRichFontDefinition &textDefinition)
 {
     if (CCSprite::init())
     {
@@ -291,7 +292,7 @@ bool CCRichLabelTTF::updateTexture()
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
-	ccFontDefinition texDef = _prepareTextDefinition(true);
+	ccRichFontDefinition texDef = _prepareTextDefinition(true);
 	tex->initWithRichString( m_string.c_str(), &texDef );
     
 #else
@@ -320,7 +321,7 @@ bool CCRichLabelTTF::updateTexture()
     return true;
 }
 
-void CCRichLabelTTF::enableShadow(const CCSize &shadowOffset, float shadowOpacity, float shadowBlur, bool updateTexture)
+void CCRichLabelTTF::enableShadow(const CCSize &shadowOffset, int shadowColor, float shadowBlur, bool updateTexture)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
@@ -339,12 +340,11 @@ void CCRichLabelTTF::enableShadow(const CCSize &shadowOffset, float shadowOpacit
 		
 		valueChanged = true;
 	}
-	
-	if (m_shadowOpacity != shadowOpacity )
-	{
-		m_shadowOpacity = shadowOpacity;
-		valueChanged = true;
-	}
+    
+    if(m_shadowColor != shadowColor) {
+        m_shadowColor = shadowColor;
+        valueChanged = true;
+    }
 	
 	if (m_shadowBlur    != shadowBlur)
 	{
@@ -450,7 +450,7 @@ void CCRichLabelTTF::setFontFillColor(const ccColor3B &tintColor, bool updateTex
 #endif
 }
 
-void CCRichLabelTTF::setTextDefinition(ccFontDefinition *theDefinition)
+void CCRichLabelTTF::setTextDefinition(ccRichFontDefinition *theDefinition)
 {
     if (theDefinition)
     {
@@ -458,14 +458,14 @@ void CCRichLabelTTF::setTextDefinition(ccFontDefinition *theDefinition)
     }
 }
 
-ccFontDefinition *CCRichLabelTTF::getTextDefinition()
+ccRichFontDefinition *CCRichLabelTTF::getTextDefinition()
 {
-    ccFontDefinition *tempDefinition = new ccFontDefinition;
+    ccRichFontDefinition *tempDefinition = new ccRichFontDefinition;
     *tempDefinition = _prepareTextDefinition(false);
     return tempDefinition;
 }
 
-void CCRichLabelTTF::_updateWithTextDefinition(ccFontDefinition & textDefinition, bool mustUpdateTexture)
+void CCRichLabelTTF::_updateWithTextDefinition(ccRichFontDefinition & textDefinition, bool mustUpdateTexture)
 {
     m_tDimensions = CCSizeMake(textDefinition.m_dimensions.width, textDefinition.m_dimensions.height);
     m_hAlignment  = textDefinition.m_alignment;
@@ -478,7 +478,7 @@ void CCRichLabelTTF::_updateWithTextDefinition(ccFontDefinition & textDefinition
     // shadow
     if ( textDefinition.m_shadow.m_shadowEnabled )
     {
-        enableShadow(textDefinition.m_shadow.m_shadowOffset, textDefinition.m_shadow.m_shadowOpacity, textDefinition.m_shadow.m_shadowBlur, false);
+        enableShadow(textDefinition.m_shadow.m_shadowOffset, textDefinition.m_shadowColor, false);
     }
     
     // stroke
@@ -494,9 +494,9 @@ void CCRichLabelTTF::_updateWithTextDefinition(ccFontDefinition & textDefinition
         updateTexture();
 }
 
-ccFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolution)
+ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolution)
 {
-    ccFontDefinition texDef;
+    ccRichFontDefinition texDef;
     
     if (adjustForResolution)
         texDef.m_fontSize       =  m_fFontSize * CC_CONTENT_SCALE_FACTOR();
@@ -539,6 +539,7 @@ ccFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolution
         texDef.m_shadow.m_shadowEnabled         = true;
         texDef.m_shadow.m_shadowBlur            = m_shadowBlur;
         texDef.m_shadow.m_shadowOpacity         = m_shadowOpacity;
+        texDef.m_shadowColor           = m_shadowColor;
         
         if (adjustForResolution)
             texDef.m_shadow.m_shadowOffset = CC_SIZE_POINTS_TO_PIXELS(m_shadowOffset);

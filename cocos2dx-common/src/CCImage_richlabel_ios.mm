@@ -74,7 +74,7 @@ typedef struct {
     bool         hasShadow;
     CGSize       shadowOffset;
     float        shadowBlur;
-    float        shadowOpacity;
+    int          shadowColor;
     bool         hasStroke;
     float        strokeColorR;
     float        strokeColorG;
@@ -735,7 +735,15 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                 CGSize offset;
                 offset.height = pInfo->shadowOffset.height;
                 offset.width  = pInfo->shadowOffset.width;
-                CGContextSetShadow(context, offset, pInfo->shadowBlur);
+                CGFloat comp[] = {
+                    ((pInfo->shadowColor >> 16) & 0xff) / 255.0f,
+                    ((pInfo->shadowColor >> 8) & 0xff) / 255.0f,
+                    (pInfo->shadowColor & 0xff) / 255.0f,
+                    ((pInfo->shadowColor >> 24) & 0xff) / 255.0f
+                };
+                CGColorRef shadowColor = CGColorCreate(colorSpace, comp);
+                CGContextSetShadowWithColor(context, offset, pInfo->shadowBlur, shadowColor);
+                CGColorRelease(shadowColor);
             }
             
             // vertical alignment
@@ -800,7 +808,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														bool shadow,
 														float shadowOffsetX,
 														float shadowOffsetY,
-														float shadowOpacity,
+                                                        int   shadowColor,
 														float shadowBlur,
 														bool  stroke,
 														float strokeR,
@@ -814,7 +822,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.shadowOffset.width     = shadowOffsetX;
     info.shadowOffset.height    = shadowOffsetY;
     info.shadowBlur             = shadowBlur;
-    info.shadowOpacity          = shadowOpacity;
+    info.shadowColor            = shadowColor;
     info.hasStroke              =  stroke;
     info.strokeColorR           =  strokeR;
     info.strokeColorG           = strokeG;

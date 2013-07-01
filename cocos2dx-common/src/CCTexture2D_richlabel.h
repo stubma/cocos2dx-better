@@ -25,6 +25,7 @@
 #define __CCTexture2D_richlabel__
 
 #include "cocos2d.h"
+#include "ccMoreTypes.h"
 
 NS_CC_BEGIN
 
@@ -45,7 +46,7 @@ public:
     bool initWithRichString(const char *text, const char *fontName, float fontSize);
 	
     /** Initializes a texture from a string using a text definition*/
-    bool initWithRichString(const char *text, ccFontDefinition *textDefinition);
+    bool initWithRichString(const char *text, ccRichFontDefinition *textDefinition);
 };
 
 NS_CC_END

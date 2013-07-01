@@ -42,12 +42,12 @@ public:
 	}
 
 	bool getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
-			float textTintR = 1.0, float textTintG = 1.0, float textTintB = 1.0, bool shadow = false, float shadowDeltaX = 0.0, float shadowDeltaY = 0.0,
-			float shadowBlur = 0.0, float shadowIntensity = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
+			float textTintR = 1.0, float textTintG = 1.0, float textTintB = 1.0, bool shadow = false, float shadowDeltaX = 0.0, float shadowDeltaY = 0.0, int shadowColor = 0,
+			float shadowBlur = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
 					0.0, float strokeSize = 0.0) {
 		JniMethodInfo methodInfo;
 		if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/RichLabelBitmap", "createRichLabelBitmap",
-				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFFZFFFFF)V")) {
+				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFIFZFFFFF)V")) {
 			CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
 			return false;
 		}
@@ -72,7 +72,7 @@ public:
 		jstring jstrFont = methodInfo.env->NewStringUTF(fullPathOrFontName.c_str());
 
 		methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstrText, jstrFont, (int) fontSize, textTintR, textTintG, textTintB,
-				eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR());
+				eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowColor, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR());
 
 		methodInfo.env->DeleteLocalRef(jstrText);
 		methodInfo.env->DeleteLocalRef(jstrFont);
@@ -121,7 +121,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 }
 
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
-		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, float shadowOpacity, float shadowBlur,
+		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, int shadowColor, float shadowBlur,
 		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize) {
 	bool bRet = false;
 	do {
@@ -131,7 +131,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 
 		CC_BREAK_IF(
 				!dc.getBitmapFromJavaShadowStroke(pText, nWidth, nHeight, eAlignMask, pFontName, nSize, textTintR, textTintG, textTintB, shadow, shadowOffsetX,
-						shadowOffsetY, shadowBlur, shadowOpacity, stroke, strokeR, strokeG, strokeB, strokeSize));
+						shadowOffsetY, shadowColor, shadowBlur, stroke, strokeR, strokeG, strokeB, strokeSize));
 
 		// assign the dc.m_pData to m_pData in order to save time
 		m_pData = dc.m_pData;

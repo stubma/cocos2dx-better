@@ -48,7 +48,7 @@ public:
 										bool shadow                 = false,
 										float shadowOffsetX         = 0.0,
 										float shadowOffsetY         = 0.0,
-										float shadowOpacity         = 0.0,
+                                        int   shadowColor           = 0,
 										float shadowBlur            = 0.0,
 										bool  stroke                = false,
 										float strokeR               = 1,

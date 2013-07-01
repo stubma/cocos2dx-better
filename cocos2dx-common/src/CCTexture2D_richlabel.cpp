@@ -105,7 +105,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fon
 #endif
 }
 
-bool CCTexture2D_richlabel::initWithRichString(const char *text, ccFontDefinition *textDefinition) {
+bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefinition *textDefinition) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
 #if CC_ENABLE_CACHE_TEXTURE_DATA
@@ -142,7 +142,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccFontDefinitio
 	float shadowDX      = 0.0;
 	float shadowDY      = 0.0;
 	float shadowBlur    = 0.0;
-	float shadowOpacity = 0.0;
+    int shadowColor     = 0;
 	
 	if ( textDefinition->m_shadow.m_shadowEnabled )
 	{
@@ -150,7 +150,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccFontDefinitio
 		shadowDX      = textDefinition->m_shadow.m_shadowOffset.width;
 		shadowDY      = textDefinition->m_shadow.m_shadowOffset.height;
 		shadowBlur    = textDefinition->m_shadow.m_shadowBlur;
-		shadowOpacity = textDefinition->m_shadow.m_shadowOpacity;
+        shadowColor   = textDefinition->m_shadowColor;
 	}
 	
 	// handle stroke parameters
@@ -186,7 +186,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccFontDefinitio
 												  shadowEnabled,
 												  shadowDX,
 												  shadowDY,
-												  shadowOpacity,
+                                                  shadowColor,
 												  shadowBlur,
 												  strokeEnabled,
 												  strokeColorR,

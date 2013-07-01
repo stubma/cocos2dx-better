@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include "CCGradientSprite.h"
+#include "ccMoreTypes.h"
 
 NS_CC_BEGIN
 
@@ -95,18 +96,18 @@ public:
                         CCVerticalTextAlignment vAlignment);
     
     /** initializes the CCRichLabelTTF with a font name, alignment, dimension and font size */
-    bool initWithStringAndTextDefinition(const char *string, ccFontDefinition &textDefinition);
+    bool initWithStringAndTextDefinition(const char *string, ccRichFontDefinition &textDefinition);
     
     /** set the text definition used by this label */
-    void setTextDefinition(ccFontDefinition *theDefinition);
+    void setTextDefinition(ccRichFontDefinition *theDefinition);
     
     /** get the text definition used by this label */
-    ccFontDefinition * getTextDefinition();
+    ccRichFontDefinition * getTextDefinition();
     
     
     
     /** enable or disable shadow for the label */
-    void enableShadow(const CCSize &shadowOffset, float shadowOpacity, float shadowBlur, bool mustUpdateTexture = true);
+    void enableShadow(const CCSize &shadowOffset, int shadowColor, float shadowBlur, bool mustUpdateTexture = true);
     
     /** disable shadow rendering */
     void disableShadow(bool mustUpdateTexture = true);
@@ -154,8 +155,8 @@ private:
 protected:
     
     /** set the text definition for this label */
-    void                _updateWithTextDefinition(ccFontDefinition & textDefinition, bool mustUpdateTexture = true);
-    ccFontDefinition    _prepareTextDefinition(bool adjustForResolution = false);
+    void                _updateWithTextDefinition(ccRichFontDefinition & textDefinition, bool mustUpdateTexture = true);
+    ccRichFontDefinition    _prepareTextDefinition(bool adjustForResolution = false);
     
     /** Dimensions of the label in Points */
     CCSize m_tDimensions;
@@ -175,6 +176,7 @@ protected:
     CCSize  m_shadowOffset;
     float   m_shadowOpacity;
     float   m_shadowBlur;
+    int     m_shadowColor;
     
     
     /** font stroke */

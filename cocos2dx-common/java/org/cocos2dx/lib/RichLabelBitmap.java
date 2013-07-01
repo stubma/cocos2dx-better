@@ -146,7 +146,7 @@ public class RichLabelBitmap {
 	public static void createRichLabelBitmap(String pString, final String pFontName, final int pFontSize,
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
-	        final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
+	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
 	        final float strokeB, final float strokeSize, float contentScaleFactor) {
 		// extract span info and return text without span style
 		List<Span> spans = new ArrayList<Span>();
@@ -190,7 +190,6 @@ public class RichLabelBitmap {
 		float renderTextDeltaX = 0.0f;
 		float renderTextDeltaY = 0.0f;
 		if (shadow) {
-			int shadowColor = 0xff333333;
 			paint.setShadowLayer(shadowBlur, shadowDX, shadowDY, shadowColor);
 
 			bitmapPaddingX = Math.abs(shadowDX);

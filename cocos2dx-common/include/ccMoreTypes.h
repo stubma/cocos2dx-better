@@ -90,6 +90,12 @@ static inline ccSize ccsz(const float w, const float h) {
 	return s;
 }
 
+// rich font definition, support shadow color
+struct ccRichFontDefinition : public ccFontDefinition {
+    // font shadow color
+    int m_shadowColor;
+};
+
 NS_CC_END
 
 #endif // __ccMoreTypes_h__

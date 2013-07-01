@@ -653,17 +653,18 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         dim.width = ceilf(dim.width);
         dim.height = ceilf(dim.height);
         
-        // vertical alignment
-        int startH = 0;
+        // text origin offset
+        int startY = 0;
+        int startX = 0;
         if (constrainSize.height > dim.height) {
             // vertical alignment
             unsigned int vAlignment = (eAlign >> 4) & 0x0F;
             if (vAlignment == ALIGN_TOP) {
-                startH = 0;
+                startY = 0;
             } else if (vAlignment == ALIGN_CENTER) {
-                startH = (constrainSize.height - dim.height) / 2;
+                startY = (constrainSize.height - dim.height) / 2;
             } else {
-                startH = constrainSize.height - dim.height;
+                startY = constrainSize.height - dim.height;
             }
         }
         
@@ -693,6 +694,12 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         if (pInfo->hasShadow) {
             shadowStrokePaddingX = MAX(shadowStrokePaddingX, (float)fabs(pInfo->shadowOffset.width));
             shadowStrokePaddingY = MAX(shadowStrokePaddingY, (float)fabs(pInfo->shadowOffset.height));
+            if(pInfo->shadowOffset.height < 0) {
+                startY += pInfo->shadowOffset.height;
+            }
+            if(pInfo->shadowOffset.width < 0) {
+                startX += pInfo->shadowOffset.width;
+            }
         }
         
         // add the padding (this could be 0 if no shadow and no stroke)
@@ -747,7 +754,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             }
             
             // vertical alignment
-            CGContextTranslateCTM(context, 0, -startH);
+            CGContextTranslateCTM(context, -startX, -startY);
             
             // draw frame
             CTFrameDraw(frame, context);

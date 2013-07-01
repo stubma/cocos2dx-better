@@ -185,23 +185,8 @@ public class RichLabelBitmap {
 		}
 		
 		// shadow
-		float bitmapPaddingX = 0.0f;
-		float bitmapPaddingY = 0.0f;
-		float renderTextDeltaX = 0.0f;
-		float renderTextDeltaY = 0.0f;
 		if (shadow) {
 			paint.setShadowLayer(shadowBlur, shadowDX, shadowDY, shadowColor);
-
-			bitmapPaddingX = Math.abs(shadowDX);
-			bitmapPaddingY = Math.abs(shadowDY);
-
-			if (shadowDX < 0.0) {
-				renderTextDeltaX = bitmapPaddingX;
-			}
-
-			if (shadowDY < 0.0) {
-				renderTextDeltaY = bitmapPaddingY;
-			}
 		}
 		
         // compute the padding needed by shadow and stroke
@@ -445,17 +430,26 @@ public class RichLabelBitmap {
 		width += shadowStrokePaddingX;
 		height += shadowStrokePaddingY;
 		
-        // vertical alignment
-        int startH = 0;
+        // text origin
+        int startY = 0;
+        int startX = 0;
         if (pHeight > height) {
             // vertical alignment
             if (verticalAlignment == VERTICALALIGN_TOP) {
-                startH = 0;
+                startY = 0;
             } else if (verticalAlignment == VERTICALALIGN_CENTER) {
-                startH = (pHeight - height) / 2;
+                startY = (pHeight - height) / 2;
             } else {
-                startH = pHeight - height;
+                startY = pHeight - height;
             }
+        }
+        if(shadow) {
+        	if(shadowDY < 0) {
+        		startY -= shadowDY; 
+        	}
+        	if(shadowDX < 0) {
+        		startX -= shadowDX;
+        	}
         }
 		
 		// adjust layout
@@ -468,11 +462,8 @@ public class RichLabelBitmap {
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 		Canvas c = new Canvas(bitmap);
 		
-		// translate for shadow
-		c.translate(renderTextDeltaX, renderTextDeltaY);
-		
 		// translate for vertical alignment
-		c.translate(0, startH);
+		c.translate(startX, startY);
 		
 		// draw text
 		layout.draw(c);

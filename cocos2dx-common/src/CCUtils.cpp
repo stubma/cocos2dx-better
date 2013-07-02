@@ -765,7 +765,7 @@ CCArray& CCUtils::arrayFromString(const string& s) {
 }
 
 string CCUtils::arrayToString(const CCArray& array) {
-    string ret = "{";
+    string ret = "[";
     CCObject* obj;
     char buf[128]; 
     CCARRAY_FOREACH(&array, obj) {
@@ -807,7 +807,7 @@ string CCUtils::arrayToString(const CCArray& array) {
         }
     }
     
-    ret.append("}");
+    ret.append("]");
     return ret;
 }
 

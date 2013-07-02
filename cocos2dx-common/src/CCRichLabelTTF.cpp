@@ -87,7 +87,7 @@ CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName,
                                CCVerticalTextAlignment vAlignment)
 {
     CCRichLabelTTF *pRet = new CCRichLabelTTF();
-    if(pRet && pRet->initWithString(string, fontName, fontSize, dimensions, hAlignment, vAlignment))
+    if(pRet && pRet->initWithString(string, strcmp(fontName, "") == 0 ? "Helvetica" : fontName , fontSize, dimensions, hAlignment, vAlignment))
     {
         pRet->autorelease();
         return pRet;

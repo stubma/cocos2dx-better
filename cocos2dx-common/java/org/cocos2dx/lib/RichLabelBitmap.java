@@ -185,8 +185,9 @@ public class RichLabelBitmap {
 		}
 		
 		// shadow
+		// shadowBlur can be zero in android Paint, so set a min value to 1
 		if (shadow) {
-			paint.setShadowLayer(shadowBlur, shadowDX, shadowDY, shadowColor);
+			paint.setShadowLayer(Math.max(shadowBlur, 1), shadowDX, shadowDY, shadowColor);
 		}
 		
         // compute the padding needed by shadow and stroke

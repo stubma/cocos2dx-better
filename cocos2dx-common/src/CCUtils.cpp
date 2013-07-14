@@ -490,6 +490,20 @@ CCPoint CCUtils::getPoint(CCNode* node, float xpercent, float ypercent) {
 	return ccp(origin.x + size.width * xpercent, origin.y + size.height * ypercent);
 }
 
+void CCUtils::setTreeOpacity(CCNode* n, int o) {
+	CCArray* children = n->getChildren();
+	CCObject* pObj = NULL;
+	CCARRAY_FOREACH(children, pObj) {
+		CCNode* child = (CCNode*)pObj;
+		CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
+        if(p) {
+            p->setOpacity((GLubyte)o);
+        }
+		
+		setTreeOpacity(child, o);
+	}
+}
+
 bool CCUtils::testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b) {
 	CCPoint c = ccpMult(ccpAdd(b.min, b.max), 0.5f);
 	CCPoint e = ccpSub(b.max, c);

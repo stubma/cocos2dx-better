@@ -491,16 +491,17 @@ CCPoint CCUtils::getPoint(CCNode* node, float xpercent, float ypercent) {
 }
 
 void CCUtils::setTreeOpacity(CCNode* n, int o) {
+	// self
+	CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(n);
+	if(p) {
+		p->setOpacity((GLubyte)o);
+	}
+	
+	// children
 	CCArray* children = n->getChildren();
 	CCObject* pObj = NULL;
 	CCARRAY_FOREACH(children, pObj) {
-		CCNode* child = (CCNode*)pObj;
-		CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
-        if(p) {
-            p->setOpacity((GLubyte)o);
-        }
-		
-		setTreeOpacity(child, o);
+		setTreeOpacity((CCNode*)pObj, o);
 	}
 }
 

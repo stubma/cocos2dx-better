@@ -117,6 +117,12 @@ public:
 	
 	/// get focus image
 	CCSprite* getFocusImage() { return m_focusImage; }
+    
+    /// make every state image center aligned
+    void centerAlignImages();
+    
+    /// true means focus image can be displayed with normal, selected and disable image
+    CC_SYNTHESIZE(bool, m_focusIsAttachment, FocusIsAttachment);
 };
 
 #endif // __CCAutoRenderMenuItemSprite_h__

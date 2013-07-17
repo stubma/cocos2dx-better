@@ -26,6 +26,7 @@
 
 CCAutoRenderMenuItemSprite::CCAutoRenderMenuItemSprite() :
 		m_focus(false),
+        m_focusIsAttachment(false),
 		m_focusImage(NULL) {
 }
 
@@ -73,6 +74,52 @@ CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalI
     return pRet;
 }
 
+void CCAutoRenderMenuItemSprite::centerAlignImages() {
+    CCSize s = CCSizeZero;
+    if(m_pNormalImage) {
+        CCSize _s = m_pNormalImage->getContentSize();
+        s.width = MAX(s.width, _s.width);
+        s.height = MAX(s.height, _s.height);
+    }
+    if(m_pSelectedImage) {
+        CCSize _s = m_pSelectedImage->getContentSize();
+        s.width = MAX(s.width, _s.width);
+        s.height = MAX(s.height, _s.height);
+    }
+    if(m_focusImage) {
+        CCSize _s = m_focusImage->getContentSize();
+        s.width = MAX(s.width, _s.width);
+        s.height = MAX(s.height, _s.height);
+    }
+    if(m_pDisabledImage) {
+        CCSize _s = m_pDisabledImage->getContentSize();
+        s.width = MAX(s.width, _s.width);
+        s.height = MAX(s.height, _s.height);
+    }
+    setContentSize(s);
+    
+    if(m_pNormalImage) {
+        CCSize _s = m_pNormalImage->getContentSize();
+        m_pNormalImage->setPosition(ccp((s.width - _s.width) / 2,
+                                        (s.height - _s.height) / 2));
+    }
+    if(m_pSelectedImage) {
+        CCSize _s = m_pSelectedImage->getContentSize();
+        m_pSelectedImage->setPosition(ccp((s.width - _s.width) / 2,
+                                          (s.height - _s.height) / 2));
+    }
+    if(m_focusImage) {
+        CCSize _s = m_focusImage->getContentSize();
+        m_focusImage->setPosition(ccp((s.width - _s.width) / 2,
+                                      (s.height - _s.height) / 2));
+    }
+    if(m_pDisabledImage) {
+        CCSize _s = m_pDisabledImage->getContentSize();
+        m_pDisabledImage->setPosition(ccp((s.width - _s.width) / 2,
+                                          (s.height - _s.height) / 2));
+    }
+}
+
 void CCAutoRenderMenuItemSprite::selected() {
 	CCMenuItemSprite::selected();
 	
@@ -107,7 +154,7 @@ void CCAutoRenderMenuItemSprite::updateImagesVisibility() {
 	
 	if(m_focusImage) {
 		m_focusImage->setVisible(m_focus);
-		if(!m_focus)
+		if(!m_focus || m_focusIsAttachment)
 			CCMenuItemSprite::updateImagesVisibility();
 	} else {
 		CCMenuItemSprite::updateImagesVisibility();

@@ -29,6 +29,7 @@
 #include "CCUtils.h"
 #include "CCMD5.h"
 #include "CCScroller.h"
+#include "CCScrollView.h"
 #include "CCAutoRenderMenuItemSprite.h"
 #include "CCMissile.h"
 #include "CCShake.h"
@@ -46,5 +47,6 @@
 #include "CCRichLabelTTF.h"
 #include "CCLocale.h"
 #include "CCCalendar.h"
+#include "CCVelocityTracker.h"
 
 #endif // __cocos2d_common_h__

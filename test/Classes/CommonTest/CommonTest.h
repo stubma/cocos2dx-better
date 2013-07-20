@@ -81,6 +81,14 @@ public:
     virtual string subtitle();
 };
 
+class CommonScrollView : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	CCLayer* createScrollContent(const CCSize& size);
+};
+
 class CommonTiledSprite : public CommonDemo
 {
 public:

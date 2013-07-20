@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */; };
+		92446209179A29A100AC41D2 /* CCScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92446208179A29A100AC41D2 /* CCScrollView.cpp */; };
+		9244621D179A324500AC41D2 /* CCVelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244621B179A324500AC41D2 /* CCVelocityTracker.cpp */; };
+		92446251179A3AE100AC41D2 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244623B179A3AE100AC41D2 /* Atomic.cpp */; };
+		92446252179A3AE100AC41D2 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244623F179A3AE100AC41D2 /* Input.cpp */; };
+		92446253179A3AE100AC41D2 /* SharedBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92446242179A3AE100AC41D2 /* SharedBuffer.cpp */; };
+		92446254179A3AE100AC41D2 /* String8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92446245179A3AE100AC41D2 /* String8.cpp */; };
+		92446255179A3AE100AC41D2 /* Timers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92446247179A3AE100AC41D2 /* Timers.cpp */; };
+		92446256179A3AE100AC41D2 /* Unicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244624A179A3AE100AC41D2 /* Unicode.cpp */; };
+		92446257179A3AE100AC41D2 /* VectorImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244624D179A3AE100AC41D2 /* VectorImpl.cpp */; };
+		92446258179A3AE100AC41D2 /* VelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244624F179A3AE100AC41D2 /* VelocityTracker.cpp */; };
 		924BE967170EB69D002BEEB0 /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92DFBC1816E860D00016648F /* libcocos2dx.a */; };
 		924C929C16F8AC0900E39658 /* CCMissile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924C929A16F8AC0900E39658 /* CCMissile.cpp */; };
 		92591A7B170D845B00490E54 /* CCTiledSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7A170D845B00490E54 /* CCTiledSprite.cpp */; };
@@ -66,6 +76,33 @@
 /* Begin PBXFileReference section */
 		921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDrawingPrimitivesEx.cpp; sourceTree = "<group>"; };
 		921F190D16F58D2900A3DC41 /* CCDrawingPrimitivesEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCDrawingPrimitivesEx.h; sourceTree = "<group>"; };
+		92446208179A29A100AC41D2 /* CCScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollView.cpp; sourceTree = "<group>"; };
+		9244620B179A29A700AC41D2 /* CCScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
+		9244621B179A324500AC41D2 /* CCVelocityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCVelocityTracker.cpp; sourceTree = "<group>"; };
+		92446220179A326800AC41D2 /* CCVelocityTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCVelocityTracker.h; sourceTree = "<group>"; };
+		9244623A179A3AE100AC41D2 /* android_input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_input.h; sourceTree = "<group>"; };
+		9244623B179A3AE100AC41D2 /* Atomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Atomic.cpp; sourceTree = "<group>"; };
+		9244623C179A3AE100AC41D2 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
+		9244623D179A3AE100AC41D2 /* BitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitSet.h; sourceTree = "<group>"; };
+		9244623E179A3AE100AC41D2 /* Errors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Errors.h; sourceTree = "<group>"; };
+		9244623F179A3AE100AC41D2 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
+		92446240179A3AE100AC41D2 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
+		92446241179A3AE100AC41D2 /* KeyedVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyedVector.h; sourceTree = "<group>"; };
+		92446242179A3AE100AC41D2 /* SharedBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SharedBuffer.cpp; sourceTree = "<group>"; };
+		92446243179A3AE100AC41D2 /* SharedBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedBuffer.h; sourceTree = "<group>"; };
+		92446244179A3AE100AC41D2 /* SortedVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortedVector.h; sourceTree = "<group>"; };
+		92446245179A3AE100AC41D2 /* String8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = String8.cpp; sourceTree = "<group>"; };
+		92446246179A3AE100AC41D2 /* String8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = String8.h; sourceTree = "<group>"; };
+		92446247179A3AE100AC41D2 /* Timers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timers.cpp; sourceTree = "<group>"; };
+		92446248179A3AE100AC41D2 /* Timers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timers.h; sourceTree = "<group>"; };
+		92446249179A3AE100AC41D2 /* TypeHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeHelpers.h; sourceTree = "<group>"; };
+		9244624A179A3AE100AC41D2 /* Unicode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Unicode.cpp; sourceTree = "<group>"; };
+		9244624B179A3AE100AC41D2 /* Unicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unicode.h; sourceTree = "<group>"; };
+		9244624C179A3AE100AC41D2 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		9244624D179A3AE100AC41D2 /* VectorImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorImpl.cpp; sourceTree = "<group>"; };
+		9244624E179A3AE100AC41D2 /* VectorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorImpl.h; sourceTree = "<group>"; };
+		9244624F179A3AE100AC41D2 /* VelocityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VelocityTracker.cpp; sourceTree = "<group>"; };
+		92446250179A3AE100AC41D2 /* VelocityTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VelocityTracker.h; sourceTree = "<group>"; };
 		924C929A16F8AC0900E39658 /* CCMissile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMissile.cpp; sourceTree = "<group>"; };
 		924C929E16F8AC1A00E39658 /* CCMissile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMissile.h; sourceTree = "<group>"; };
 		92591A7A170D845B00490E54 /* CCTiledSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTiledSprite.cpp; sourceTree = "<group>"; };
@@ -146,6 +183,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		92446239179A3AE100AC41D2 /* aosp */ = {
+			isa = PBXGroup;
+			children = (
+				9244623A179A3AE100AC41D2 /* android_input.h */,
+				9244623B179A3AE100AC41D2 /* Atomic.cpp */,
+				9244623C179A3AE100AC41D2 /* Atomic.h */,
+				9244623D179A3AE100AC41D2 /* BitSet.h */,
+				9244623E179A3AE100AC41D2 /* Errors.h */,
+				9244623F179A3AE100AC41D2 /* Input.cpp */,
+				92446240179A3AE100AC41D2 /* Input.h */,
+				92446241179A3AE100AC41D2 /* KeyedVector.h */,
+				92446242179A3AE100AC41D2 /* SharedBuffer.cpp */,
+				92446243179A3AE100AC41D2 /* SharedBuffer.h */,
+				92446244179A3AE100AC41D2 /* SortedVector.h */,
+				92446245179A3AE100AC41D2 /* String8.cpp */,
+				92446246179A3AE100AC41D2 /* String8.h */,
+				92446247179A3AE100AC41D2 /* Timers.cpp */,
+				92446248179A3AE100AC41D2 /* Timers.h */,
+				92446249179A3AE100AC41D2 /* TypeHelpers.h */,
+				9244624A179A3AE100AC41D2 /* Unicode.cpp */,
+				9244624B179A3AE100AC41D2 /* Unicode.h */,
+				9244624C179A3AE100AC41D2 /* Vector.h */,
+				9244624D179A3AE100AC41D2 /* VectorImpl.cpp */,
+				9244624E179A3AE100AC41D2 /* VectorImpl.h */,
+				9244624F179A3AE100AC41D2 /* VelocityTracker.cpp */,
+				92446250179A3AE100AC41D2 /* VelocityTracker.h */,
+			);
+			name = aosp;
+			path = "../cocos2dx-common/aosp";
+			sourceTree = "<group>";
+		};
 		92774ADD16EF1CB3008E67C8 /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +230,8 @@
 				92AE790216F73643009C5FFC /* CCResourceLoaderListener.h */,
 				924C929E16F8AC1A00E39658 /* CCMissile.h */,
 				92591A80170D84EB00490E54 /* CCScroller.h */,
+				9244620B179A29A700AC41D2 /* CCScrollView.h */,
+				92446220179A326800AC41D2 /* CCVelocityTracker.h */,
 				925D7D4016F4B4F600622984 /* CCShake.h */,
 				92B706B6172793E7002A9655 /* CCGradientSprite.h */,
 				92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */,
@@ -205,6 +275,8 @@
 				92AE790416F73649009C5FFC /* CCResourceLoader.cpp */,
 				924C929A16F8AC0900E39658 /* CCMissile.cpp */,
 				92591A7E170D84E700490E54 /* CCScroller.cpp */,
+				92446208179A29A100AC41D2 /* CCScrollView.cpp */,
+				9244621B179A324500AC41D2 /* CCVelocityTracker.cpp */,
 				925D7D3D16F4B4F000622984 /* CCShake.cpp */,
 				92B706B3172793D9002A9655 /* CCGradientSprite.cpp */,
 				92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */,
@@ -226,6 +298,7 @@
 		92B516D916E86020009F3536 = {
 			isa = PBXGroup;
 			children = (
+				92446239179A3AE100AC41D2 /* aosp */,
 				92774ADD16EF1CB3008E67C8 /* include */,
 				92774ADF16EF1CB3008E67C8 /* src */,
 				92B516EA16E86020009F3536 /* Supporting Files */,
@@ -365,6 +438,16 @@
 				92C4463D175DCE090049F6AE /* CCImage_richlabel_android.cpp in Sources */,
 				92DEBD32176EF663005C6413 /* CCLocale.cpp in Sources */,
 				92C02D7C176EFC7F00835C7B /* CCCalendar.cpp in Sources */,
+				92446209179A29A100AC41D2 /* CCScrollView.cpp in Sources */,
+				9244621D179A324500AC41D2 /* CCVelocityTracker.cpp in Sources */,
+				92446251179A3AE100AC41D2 /* Atomic.cpp in Sources */,
+				92446252179A3AE100AC41D2 /* Input.cpp in Sources */,
+				92446253179A3AE100AC41D2 /* SharedBuffer.cpp in Sources */,
+				92446254179A3AE100AC41D2 /* String8.cpp in Sources */,
+				92446255179A3AE100AC41D2 /* Timers.cpp in Sources */,
+				92446256179A3AE100AC41D2 /* Unicode.cpp in Sources */,
+				92446257179A3AE100AC41D2 /* VectorImpl.cpp in Sources */,
+				92446258179A3AE100AC41D2 /* VelocityTracker.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

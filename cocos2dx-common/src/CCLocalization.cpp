@@ -101,10 +101,10 @@ string CCLocalization::getString(const string& key) {
         if(s) {
             return s->getCString();
         } else {
-            return "";
+            return "!" + key + "!";
         }
     } else {
-        return "";
+        return "!" + key + "!";
     }
 }
 

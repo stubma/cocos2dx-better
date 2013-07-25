@@ -203,6 +203,12 @@ public:
 	/// get node position
 	static CCPoint getPoint(CCNode* node, CCPoint anchor) { return getPoint(node, anchor.x, anchor.y); }
 	
+	// get node point, in node space
+	static CCPoint getLocalPoint(CCNode* node, float xpercent, float ypercent);
+	
+	// get node point, in node space
+	static CCPoint getLocalPoint(CCNode* node, CCPoint anchor);
+	
 	/// change opacity recursively
 	static void setTreeOpacity(CCNode* n, int o);
 	

@@ -484,6 +484,16 @@ CCPoint CCUtils::getLocalCenter(CCNode* node) {
                node->getContentSize().height / 2);
 }
 
+CCPoint CCUtils::getLocalPoint(CCNode* node, float xpercent, float ypercent) {
+	CCSize s = node->getContentSize();
+	return ccp(s.width * xpercent, s.height * ypercent);
+}
+
+CCPoint CCUtils::getLocalPoint(CCNode* node, CCPoint anchor) {
+	CCSize s = node->getContentSize();
+	return ccp(s.width * anchor.x, s.height * anchor.y);
+}
+
 CCPoint CCUtils::getPoint(CCNode* node, float xpercent, float ypercent) {
 	CCPoint origin = getOrigin(node);
 	CCSize size = node->getContentSize();

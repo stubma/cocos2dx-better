@@ -21,33 +21,42 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
-
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCScrollView.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
-#include "CCRichLabelTTF.h"
-#include "CCLocale.h"
-#include "CCCalendar.h"
-#include "CCVelocityTracker.h"
 #include "CCToast.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+CCToast::CCToast() {
+}
+
+CCToast::~CCToast() {
+}
+
+CCToast* CCToast::create(CCNode* owner, CCNode* content, float duration, CCFiniteTimeAction* inAction, CCFiniteTimeAction* outAction) {
+    CCToast* t = new CCToast();
+    t->init();
+    
+    // append to owner
+    owner->addChild(t, MAX_INT);
+    
+    // add content
+    t->addChild(content);
+    
+    // run action for content node
+    if(inAction == NULL) {
+        inAction = CCFadeIn::create(0.5f);
+    }
+    if(outAction == NULL) {
+        outAction = CCFadeOut::create(0.5f);
+    }
+    content->runAction(CCSequence::create(inAction,
+                                          CCDelayTime::create(duration > 0 ? duration : 3),
+                                          outAction,
+                                          CCCallFunc::create(t, callfunc_selector(CCNode::removeFromParent)),
+                                          NULL));
+    
+    // return
+    t->autorelease();
+    return t;
+}
+
+NS_CC_END

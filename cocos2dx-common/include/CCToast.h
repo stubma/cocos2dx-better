@@ -21,33 +21,42 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCToast__
+#define __CCToast__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCScrollView.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
-#include "CCRichLabelTTF.h"
-#include "CCLocale.h"
-#include "CCCalendar.h"
-#include "CCVelocityTracker.h"
-#include "CCToast.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+/**
+ * Toast
+ */
+class CC_DLL CCToast : public CCLayer {
+protected:
+    CCToast();
+    
+public:
+    virtual ~CCToast();
+    
+    /**
+     * Create a CCToast instance
+     *
+     * @param owner owner node, toast will be added to owner with max z order
+     * @param content content node will display real info. You must set proper anchor and position for content node
+     * @param duration duration time, default is 0 which means default duration, about 3 seconds
+     * @param inAction the custom in action of content node, default is NULL which means the content node  
+     *      will be faded in
+     * @param outAction the custom out action of content node, default is NULL which means the content node
+     *      will be faded out
+     * @return CCToast instance
+     */
+    static CCToast* create(CCNode* owner,
+                           CCNode* content,
+                           float duration = 0,
+                           CCFiniteTimeAction* inAction = NULL,
+                           CCFiniteTimeAction* outAction = NULL);
+};
+
+NS_CC_END
+
+#endif /* defined(__CCToast__) */

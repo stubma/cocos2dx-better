@@ -47,6 +47,7 @@
 		92C9A0CA175CDD5700C6D739 /* CCImage_richlabel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92C9A0C8175CDD5700C6D739 /* CCImage_richlabel_ios.mm */; };
 		92DEBD32176EF663005C6413 /* CCLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DEBD30176EF663005C6413 /* CCLocale.cpp */; };
 		92E107C7170EB78F0096EA4C /* CCAntiArtifactSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */; };
+		92E5519617A24A990001869D /* CCToast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E5519417A24A990001869D /* CCToast.cpp */; };
 		92FF9FBA1749C4970015E5A7 /* CCLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */; };
 		92FF9FBF1749CC530015E5A7 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */; };
 /* End PBXBuildFile section */
@@ -163,6 +164,8 @@
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E107C5170EB78A0096EA4C /* CCAntiArtifactSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAntiArtifactSprite.h; sourceTree = "<group>"; };
 		92E107C6170EB78F0096EA4C /* CCAntiArtifactSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAntiArtifactSprite.cpp; sourceTree = "<group>"; };
+		92E5519417A24A990001869D /* CCToast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCToast.cpp; sourceTree = "<group>"; };
+		92E5519817A24AC50001869D /* CCToast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCToast.h; sourceTree = "<group>"; };
 		92FF9FB81749C4970015E5A7 /* CCLocalization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocalization.cpp; sourceTree = "<group>"; };
 		92FF9FBC1749C4B70015E5A7 /* CCLocalization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLocalization.h; sourceTree = "<group>"; };
 		92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAndroidStringsParser.cpp; sourceTree = "<group>"; };
@@ -243,6 +246,7 @@
 				92DEBD34176EF69C005C6413 /* CCLocale.h */,
 				928C34031728CEA8008DFA9A /* CCMD5.h */,
 				92C02D7D176EFC9A00835C7B /* CCCalendar.h */,
+				92E5519817A24AC50001869D /* CCToast.h */,
 				9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */,
 			);
 			name = include;
@@ -290,6 +294,7 @@
 				92C02D7A176EFC7E00835C7B /* CCCalendar.cpp */,
 				92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */,
 				92FF9FBE1749CC530015E5A7 /* CCAndroidStringsParser.h */,
+				92E5519417A24A990001869D /* CCToast.cpp */,
 			);
 			name = src;
 			path = "../cocos2dx-common/src";
@@ -448,6 +453,7 @@
 				92446256179A3AE100AC41D2 /* Unicode.cpp in Sources */,
 				92446257179A3AE100AC41D2 /* VectorImpl.cpp in Sources */,
 				92446258179A3AE100AC41D2 /* VelocityTracker.cpp in Sources */,
+				92E5519617A24A990001869D /* CCToast.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -96,6 +96,14 @@ public:
     virtual string subtitle();
 };
 
+class CommonToast : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+};
+
 class CommonTreeFadeInOut : public CommonDemo
 {
 public:

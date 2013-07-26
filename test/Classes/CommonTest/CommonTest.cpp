@@ -11,6 +11,7 @@ TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonScrollView);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
+TESTLAYER_CREATE_FUNC(CommonToast);
 TESTLAYER_CREATE_FUNC(CommonTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
@@ -23,6 +24,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonShake),
 	CF(CommonScrollView),
     CF(CommonTiledSprite),
+    CF(CommonToast),
 	CF(CommonTreeFadeInOut),
 };
 
@@ -496,6 +498,49 @@ void CommonTiledSprite::onEnter()
 std::string CommonTiledSprite::subtitle()
 {
     return "Tiled Sprite";
+}
+
+//------------------------------------------------------------------
+//
+// Toast
+//
+//------------------------------------------------------------------
+void CommonToast::onEnter()
+{
+    CommonDemo::onEnter();
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCLabelTTF* hint = CCLabelTTF::create("touch screen to show toast", "Helvetica", 24);
+    hint->setPosition(ccp(origin.x + visibleSize.width / 2,
+                          origin.y + visibleSize.height / 3));
+    addChild(hint);
+    
+    setTouchEnabled(true);
+    setTouchMode(kCCTouchesOneByOne);
+}
+
+bool CommonToast::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    CCSprite* content = CCSprite::create("Images/grossini.png");
+    content->setPosition(ccp(origin.x + visibleSize.width / 2,
+                             origin.y - content->getContentSize().height / 2));
+    float dy = visibleSize.height / 4 + content->getContentSize().height / 2;
+    CCToast::create(this,
+                    content,
+                    1000, // tag, if not -1, it won't show more than one at the same time
+                    3,
+                    CCEaseExponentialOut::create(CCMoveBy::create(0.5f, ccp(0, dy))),
+                    CCEaseExponentialIn::create(CCMoveBy::create(0.5f, ccp(0, -dy))));
+    
+    return false;
+}
+
+std::string CommonToast::subtitle()
+{
+    return "Toast";
 }
 
 //------------------------------------------------------------------

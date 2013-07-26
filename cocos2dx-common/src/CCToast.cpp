@@ -25,28 +25,18 @@
 
 NS_CC_BEGIN
 
-CCToast::IntBoolMap CCToast::s_toastMap;
-
 CCToast::CCToast() {
 }
 
 CCToast::~CCToast() {
-    int tag = getTag();
-    IntBoolMap::iterator iter = s_toastMap.find(tag);
-    if(iter != s_toastMap.end()) {
-        s_toastMap.erase(iter);
-    }
 }
 
 CCToast* CCToast::create(CCNode* owner, CCNode* content, int tag, float duration,
                          CCFiniteTimeAction* inAction, CCFiniteTimeAction* outAction) {
     // tag
     if(tag != -1) {
-        IntBoolMap::iterator iter = s_toastMap.find(tag);
-        if(iter != s_toastMap.end()) {
+        if(owner->getChildByTag(tag)) {
             return NULL;
-        } else {
-            s_toastMap[tag] = true;
         }
     }
     

@@ -33,11 +33,7 @@ NS_CC_BEGIN
 /**
  * Toast
  */
-class CC_DLL CCToast : public CCLayer {
-private:
-    typedef map<int, bool> IntBoolMap;
-    static IntBoolMap s_toastMap;
-    
+class CC_DLL CCToast : public CCLayer {    
 protected:
     CCToast();
     

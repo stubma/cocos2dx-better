@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCToast.h"
+#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 

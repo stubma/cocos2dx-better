@@ -188,19 +188,19 @@ public:
 	/// convert hsv to rgb
 	static ccColor3B hsv2ccc3(ccColorHSV c);
 	
-	/// get node origin
+	/// get node origin, relative to parent space
 	static CCPoint getOrigin(CCNode* node);
 	
-	/// get node center
+	/// get node center, relative to parent space
 	static CCPoint getCenter(CCNode* node);
     
     /// get local center
     static CCPoint getLocalCenter(CCNode* node);
 	
-	/// get node position
+	/// get node position, relative to parent space
 	static CCPoint getPoint(CCNode* node, float xpercent, float ypercent);
 	
-	/// get node position
+	/// get node position, relative to parent space
 	static CCPoint getPoint(CCNode* node, CCPoint anchor) { return getPoint(node, anchor.x, anchor.y); }
 	
 	// get node point, in node space

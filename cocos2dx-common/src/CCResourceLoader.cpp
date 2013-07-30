@@ -22,8 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCResourceLoader.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 NS_CC_BEGIN
+
+void CCResourceLoader::CDMusicTask::load() {
+	SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic(name.c_str());
+}
+
+void CCResourceLoader::CDEffectTask::load() {
+	SimpleAudioEngine::sharedEngine()->preloadEffect(name.c_str());
+}
 
 CCResourceLoader::CCResourceLoader(CCResourceLoaderListener* listener) :
 		m_listener(listener),
@@ -82,6 +93,20 @@ void CCResourceLoader::addZwoptexAnimTask(const string& name,
 		sprintf(buf, pattern.c_str(), i);
 		t->frames.push_back(buf);
 	}
+	addLoadTask(t);
+}
+
+void CCResourceLoader::addCDEffectTask(const string& name, float idle) {
+	CDEffectTask* t = new CDEffectTask();
+	t->idle = idle;
+	t->name = name;
+	addLoadTask(t);
+}
+
+void CCResourceLoader::addCDMusicTask(const string& name, float idle) {
+	CDMusicTask* t = new CDMusicTask();
+	t->idle = idle;
+	t->name = name;
 	addLoadTask(t);
 }
 

@@ -53,6 +53,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		92BB214B17A7C44B00988282 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D87CC2E5154FC6C500AAFE11;
+			remoteInfo = CocosDenshion;
+		};
 		92DFBC1716E860D00016648F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */;
@@ -154,6 +161,7 @@
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92B706B3172793D9002A9655 /* CCGradientSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGradientSprite.cpp; sourceTree = "<group>"; };
 		92B706B6172793E7002A9655 /* CCGradientSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCGradientSprite.h; sourceTree = "<group>"; };
+		92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocosDenshion.xcodeproj; path = "../../cocos2d-x/CocosDenshion/proj.ios/CocosDenshion.xcodeproj"; sourceTree = "<group>"; };
 		92C02D7A176EFC7E00835C7B /* CCCalendar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCalendar.cpp; sourceTree = "<group>"; };
 		92C02D7D176EFC9A00835C7B /* CCCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCalendar.h; sourceTree = "<group>"; };
 		92C4463B175DCE090049F6AE /* CCImage_richlabel_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImage_richlabel_android.cpp; sourceTree = "<group>"; };
@@ -324,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */,
+				92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */,
 				92984F3A175D904500E63472 /* CoreText.framework */,
 				92B516E716E86020009F3536 /* Foundation.framework */,
 			);
@@ -337,6 +346,14 @@
 			);
 			name = "Supporting Files";
 			path = cocos2dxdb;
+			sourceTree = "<group>";
+		};
+		92BB214717A7C44B00988282 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				92BB214C17A7C44B00988282 /* libCocosDenshion.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		92DFBC1116E860D00016648F /* Products */ = {
@@ -391,6 +408,10 @@
 					ProductGroup = 92DFBC1116E860D00016648F /* Products */;
 					ProjectRef = 92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */;
 				},
+				{
+					ProductGroup = 92BB214717A7C44B00988282 /* Products */;
+					ProjectRef = 92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -400,6 +421,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		92BB214C17A7C44B00988282 /* libCocosDenshion.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCocosDenshion.a;
+			remoteRef = 92BB214B17A7C44B00988282 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		92DFBC1816E860D00016648F /* libcocos2dx.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -517,6 +545,7 @@
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/support/tinyxml2",
+					"$(SRCROOT)/../../cocos2d-x/CocosDenshion/include",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = cocos2dxcommon;
@@ -538,6 +567,7 @@
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include",
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/support/tinyxml2",
+					"$(SRCROOT)/../../cocos2d-x/CocosDenshion/include",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = cocos2dxcommon;

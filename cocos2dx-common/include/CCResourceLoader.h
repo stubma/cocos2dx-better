@@ -77,6 +77,26 @@ private:
             CCLocalization::sharedLocalization()->addAndroidStrings(lan, path, merge);
         }
     };
+	
+	/// cocosdenshion music load parameter
+    struct CDMusicTask : public LoadTask {
+        /// image name
+        string name;
+        
+        virtual ~CDMusicTask() {}
+        
+        virtual void load();
+    };
+	
+	/// cocosdenshion effect load parameter
+    struct CDEffectTask : public LoadTask {
+        /// image name
+        string name;
+        
+        virtual ~CDEffectTask() {}
+        
+        virtual void load();
+    };
     
     /// image load parameter
     struct ImageLoadTask : public LoadTask {
@@ -181,6 +201,12 @@ public:
 	
 	/// add a zwoptex image loading task
 	void addZwoptexTask(const string& name, float idle = 0);
+	
+	/// add a cocosdenshion effect task
+	void addCDEffectTask(const string& name, float idle = 0);
+	
+	/// add a cocosdenshion music task
+	void addCDMusicTask(const string& name, float idle = 0);
 	
 	/// add a zwoptex animation loading task
 	/// the endIndex is inclusive

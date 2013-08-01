@@ -33,6 +33,7 @@
 		9279755016F6CB680040E3AA /* CCMemoryOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */; };
 		9279755216F6CC4C0040E3AA /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */; };
 		9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */; };
+		927A4A8F17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927A4A8D17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp */; };
 		927E46DE175B718C008555FC /* CCRichLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 927E46DC175B718C008555FC /* CCRichLabelTTF.cpp */; };
 		92838A4F175B8A9B0025FFEC /* CCTexture2D_richlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92838A4D175B8A9B0025FFEC /* CCTexture2D_richlabel.cpp */; };
 		928B83481741E231005EA4E0 /* CCTreeFadeOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */; };
@@ -143,6 +144,8 @@
 		9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMemoryOutputStream.cpp; sourceTree = "<group>"; };
 		9279755116F6CC4C0040E3AA /* CCAssetInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream.cpp; sourceTree = "<group>"; };
 		9279755316F6CC530040E3AA /* CCAssetOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream.cpp; sourceTree = "<group>"; };
+		927A4A8D17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLayerMultiplexEx.cpp; sourceTree = "<group>"; };
+		927A4A9217AAB9DB000FDAE3 /* CCLayerMultiplexEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLayerMultiplexEx.h; sourceTree = "<group>"; };
 		927E46DC175B718C008555FC /* CCRichLabelTTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCRichLabelTTF.cpp; sourceTree = "<group>"; };
 		927E46E0175B71A9008555FC /* CCRichLabelTTF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCRichLabelTTF.h; sourceTree = "<group>"; };
 		92838A4D175B8A9B0025FFEC /* CCTexture2D_richlabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTexture2D_richlabel.cpp; sourceTree = "<group>"; };
@@ -255,6 +258,7 @@
 				928C34031728CEA8008DFA9A /* CCMD5.h */,
 				92C02D7D176EFC9A00835C7B /* CCCalendar.h */,
 				92E5519817A24AC50001869D /* CCToast.h */,
+				927A4A9217AAB9DB000FDAE3 /* CCLayerMultiplexEx.h */,
 				9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */,
 			);
 			name = include;
@@ -303,6 +307,7 @@
 				92FF9FBD1749CC530015E5A7 /* CCAndroidStringsParser.cpp */,
 				92FF9FBE1749CC530015E5A7 /* CCAndroidStringsParser.h */,
 				92E5519417A24A990001869D /* CCToast.cpp */,
+				927A4A8D17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp */,
 			);
 			name = src;
 			path = "../cocos2dx-common/src";
@@ -482,6 +487,7 @@
 				92446257179A3AE100AC41D2 /* VectorImpl.cpp in Sources */,
 				92446258179A3AE100AC41D2 /* VelocityTracker.cpp in Sources */,
 				92E5519617A24A990001869D /* CCToast.cpp in Sources */,
+				927A4A8F17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

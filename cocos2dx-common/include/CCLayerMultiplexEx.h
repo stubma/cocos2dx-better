@@ -21,34 +21,42 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __cocos2dxcommon__CCLayerMultiplexEx__
+#define __cocos2dxcommon__CCLayerMultiplexEx__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCScrollView.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
-#include "CCRichLabelTTF.h"
-#include "CCLocale.h"
-#include "CCCalendar.h"
-#include "CCVelocityTracker.h"
-#include "CCToast.h"
-#include "CCLayerMultiplexEx.h"
+#include "cocos2d.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+/**
+ * Original CCLayerMultiplex will cleanup children when switching, sometimes
+ * it is bad. So this class is just a workaround
+ */
+class CC_DLL CCLayerMultiplexEx : public CCLayerMultiplex {
+public:
+    CCLayerMultiplexEx();
+    virtual ~CCLayerMultiplexEx();
+    
+    static CCLayerMultiplexEx* create();
+	
+	/** creates a CCMultiplexLayer with an array of layers.
+     @since v2.1
+     */
+    static CCLayerMultiplexEx* createWithArray(CCArray* arrayOfLayers);
+	
+    /** creates a CCLayerMultiplexEx with one or more layers using a variable argument list. */
+    static CCLayerMultiplexEx* create(CCLayer* layer, ... );
+	
+    /**
+     * lua script can not init with undetermined number of variables
+     * so add these functions to be used with lua.
+     */
+    static CCLayerMultiplexEx* createWithLayer(CCLayer* layer);
+	
+	// switch layer with cleanup option
+	void switchToLayerAt(unsigned int n, bool cleanup);
+};
+
+NS_CC_END
+
+#endif /* defined(__cocos2dxcommon__CCLayerMultiplexEx__) */

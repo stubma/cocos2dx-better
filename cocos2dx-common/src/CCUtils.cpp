@@ -371,6 +371,40 @@ bool CCUtils::isPathExistent(string path) {
 #endif
 }
 
+string CCUtils::getPackageName() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+	NSBundle* bundle = [NSBundle mainBundle];
+    NSString* bundleId = [bundle bundleIdentifier];
+    return [bundleId cStringUsingEncoding:NSUTF8StringEncoding];
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	// get context
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
+    jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    
+    // get package manager
+    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageManager", "()Landroid/content/pm/PackageManager;");
+	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
+    
+	// get package name
+    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageName", "()Ljava/lang/String;");
+	jstring packageName = (jstring)t.env->CallObjectMethod(ctx, t.methodID);
+	
+	// get c++ string
+	const char* cpn = (const char*)t.env->GetStringUTFChars(packageName, NULL);
+	string pn = cpn;
+	
+	// release
+	t.env->ReleaseStringUTFChars(packageName, cpn);
+	
+	// return
+	return pn;
+#else
+	CCLOGERROR("CCUtils::getPackageName is not implemented for this platform, please finish it");
+	return false;
+#endif
+}
+
 ccColorHSV CCUtils::ccc32hsv(ccColor3B c) {
 	unsigned char min = MIN(c.r, MIN(c.g, c.b));
     unsigned char max = MAX(c.r, MAX(c.g, c.b));
@@ -610,7 +644,7 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
     
 	// get context
     JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
     jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
     
     // get package manager

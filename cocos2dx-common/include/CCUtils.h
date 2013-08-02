@@ -154,6 +154,9 @@ public:
 	/// get parent path of a path
 	static string getParentPath(string path);
 	
+	/// get package name, in iOS, it retuns bundle id
+	static string getPackageName();
+	
 	/**
 	 * create intermediate folders for a path
 	 *

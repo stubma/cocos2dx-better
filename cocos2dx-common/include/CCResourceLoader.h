@@ -51,6 +51,9 @@ public:
         /// do loading
         virtual void load() {}
     };
+    
+    /// decrypted function pointer
+    typedef const char* (*DECRYPT_FUNC)(const char*, int, int*);
 	
 private:
     /// type of load operation
@@ -119,6 +122,43 @@ private:
         
         virtual void load() {
             CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(name.c_str());
+        }
+    };
+    
+    /// encrypted zwoptex load task
+    struct EncryptedZwoptexLoadTask : public LoadTask {
+        /// plist name, plist is not encrypted
+        string name;
+        
+        /// texture name, which is encrypted
+        string texName;
+        
+        // decrypt func
+        DECRYPT_FUNC func;
+        
+        virtual ~EncryptedZwoptexLoadTask() {}
+        
+        virtual void load() {
+            // load encryptd data
+            unsigned long len;
+            char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(texName.c_str(), "rb", &len);
+            
+            // create texture
+            int decLen;
+            const char* dec = (*func)(data, len, &decLen);
+            CCImage* image = new CCImage();
+            image->initWithImageData((void*)dec, decLen);
+            image->autorelease();
+            CCTexture2D* tex = new CCTexture2D();
+            tex->initWithImage(image);
+            tex->autorelease();
+            
+            // free
+            free((void*)dec);
+            free(data);
+            
+            // add zwoptex
+            CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(name.c_str(), tex);
         }
     };
     

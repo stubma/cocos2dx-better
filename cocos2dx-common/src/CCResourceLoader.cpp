@@ -49,6 +49,45 @@ CCResourceLoader::~CCResourceLoader() {
     }
 }
 
+void CCResourceLoader::loadImage(const string& name, DECRYPT_FUNC decFunc) {
+	// load encryptd data
+	unsigned long len;
+	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
+	
+	// create texture
+	int decLen;
+	const char* dec = (*decFunc)(data, len, &decLen);
+	CCImage* image = new CCImage();
+	image->initWithImageData((void*)dec, decLen);
+	image->autorelease();
+	CCTextureCache::sharedTextureCache()->addUIImage(image, name.c_str());
+	
+	// free
+	free((void*)dec);
+	free(data);
+}
+
+void CCResourceLoader::loadZwoptex(const string& plistName, const string& texName, DECRYPT_FUNC decFunc) {
+	// load encryptd data
+	unsigned long len;
+	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(texName.c_str(), "rb", &len);
+	
+	// create texture
+	int decLen;
+	const char* dec = (*decFunc)(data, len, &decLen);
+	CCImage* image = new CCImage();
+	image->initWithImageData((void*)dec, decLen);
+	image->autorelease();
+	CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, texName.c_str());
+	
+	// free
+	free((void*)dec);
+	free(data);
+	
+	// add zwoptex
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(plistName.c_str(), tex);
+}
+
 void CCResourceLoader::run() {
 	CCScheduler* scheduler = CCDirector::sharedDirector()->getScheduler();
 	scheduler->scheduleSelector(schedule_selector(CCResourceLoader::doLoad), this, 0, kCCRepeatForever, m_delay, false);
@@ -69,11 +108,28 @@ void CCResourceLoader::addImageTask(const string& name, float idle) {
     addLoadTask(t);
 }
 
+void CCResourceLoader::addImageTask(const string& name, DECRYPT_FUNC decFunc, float idle) {
+	EncryptedImageLoadTask* t = new EncryptedImageLoadTask();
+	t->idle = idle;
+	t->name = name;
+	t->func = decFunc;
+	addLoadTask(t);
+}
+
 void CCResourceLoader::addZwoptexTask(const string& name, float idle) {
     ZwoptexLoadTask* t = new ZwoptexLoadTask();
     t->idle = idle;
     t->name = name;
     addLoadTask(t);
+}
+
+void CCResourceLoader::addZwoptexTask(const string& plistName, const string& texName, DECRYPT_FUNC decFunc, float idle) {
+	EncryptedZwoptexLoadTask* t = new EncryptedZwoptexLoadTask();
+	t->idle = idle;
+	t->name = plistName;
+	t->texName = texName;
+	t->func = decFunc;
+	addLoadTask(t);
 }
 
 void CCResourceLoader::addZwoptexAnimTask(const string& name,

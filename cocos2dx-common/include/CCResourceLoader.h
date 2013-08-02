@@ -112,6 +112,35 @@ private:
             CCTextureCache::sharedTextureCache()->addImage(name.c_str());
         }
     };
+	
+	/// encrypted image load parameter
+    struct EncryptedImageLoadTask : public LoadTask {
+        /// image name
+        string name;
+		
+		/// decrypt function
+		DECRYPT_FUNC func;
+        
+        virtual ~EncryptedImageLoadTask() {}
+        
+        virtual void load() {
+			// load encryptd data
+            unsigned long len;
+            char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
+            
+            // create texture
+            int decLen;
+            const char* dec = (*func)(data, len, &decLen);
+            CCImage* image = new CCImage();
+            image->initWithImageData((void*)dec, decLen);
+            image->autorelease();
+            CCTextureCache::sharedTextureCache()->addUIImage(image, name.c_str());
+            
+            // free
+            free((void*)dec);
+            free(data);
+        }
+    };
     
     /// zwoptex load parameter
     struct ZwoptexLoadTask : public LoadTask {
@@ -149,9 +178,7 @@ private:
             CCImage* image = new CCImage();
             image->initWithImageData((void*)dec, decLen);
             image->autorelease();
-            CCTexture2D* tex = new CCTexture2D();
-            tex->initWithImage(image);
-            tex->autorelease();
+            CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, texName.c_str());
             
             // free
             free((void*)dec);
@@ -220,7 +247,24 @@ private:
 public:
     CCResourceLoader(CCResourceLoaderListener* listener);
 	virtual ~CCResourceLoader();
+	
+	/**
+	 * a static method used to load an encrypted image
+	 *
+	 * @param name name of image file, it should be encrypted
+	 * @param decFunc decrypt func
+	 */
+	static void loadImage(const string& name, DECRYPT_FUNC decFunc);
     
+	/**
+	 * a static method used to load an encrypted zwoptex resource, the plist should not be encrypted
+	 *
+	 * @param plistName name of plist file, it should not be encrypted
+	 * @param texName name of image file, it should be encrypted
+	 * @param decFunc decrypt func
+	 */
+	static void loadZwoptex(const string& plistName, const string& texName, DECRYPT_FUNC decFunc);
+	
     /// start loading
     void run();
     
@@ -239,8 +283,27 @@ public:
 	/// add a image loading task
 	void addImageTask(const string& name, float idle = 0);
 	
+	/**
+	 * add a image task, but the texture is encrypted. So a decrypt function must be provided.
+	 *
+	 * @param name name of image file, it should be encrypted
+	 * @param decFunc decrypt func
+	 * @param idle idle time after loaded
+	 */
+	void addImageTask(const string& name, DECRYPT_FUNC decFunc, float idle = 0);
+	
 	/// add a zwoptex image loading task
 	void addZwoptexTask(const string& name, float idle = 0);
+	
+	/**
+	 * add a zwoptex task, but the texture is encrypted. So a decrypt function must be provided.
+	 *
+	 * @param plistName name of plist file, it should not be encrypted
+	 * @param texName name of image file, it should be encrypted
+	 * @param decFunc decrypt func
+	 * @param idle idle time after loaded
+	 */
+	void addZwoptexTask(const string& plistName, const string& texName, DECRYPT_FUNC decFunc, float idle = 0);
 	
 	/// add a cocosdenshion effect task
 	void addCDEffectTask(const string& name, float idle = 0);

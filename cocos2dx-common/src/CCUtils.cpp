@@ -378,11 +378,10 @@ string CCUtils::getPackageName() {
     return [bundleId cStringUsingEncoding:NSUTF8StringEncoding];
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	// get context
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
-    jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    jobject ctx = getContext();
     
     // get package manager
+    JniMethodInfo t;
     JniHelper::getMethodInfo(t, "android/content/Context", "getPackageManager", "()Landroid/content/pm/PackageManager;");
 	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
     
@@ -643,11 +642,10 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
 		return true;
     
 	// get context
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
-    jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    jobject ctx = getContext();
     
     // get package manager
+    JniMethodInfo t;
     JniHelper::getMethodInfo(t, "android/content/Context", "getPackageManager", "()Landroid/content/pm/PackageManager;");
 	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
     
@@ -887,6 +885,13 @@ JNIEnv* CCUtils::getJNIEnv() {
     }
 	
 	return env;
+}
+
+jobject CCUtils::getContext() {
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
+    jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
+    return ctx;
 }
 
 #endif

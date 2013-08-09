@@ -315,6 +315,9 @@ public:
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv
 	static JNIEnv* getJNIEnv();
+    
+    /// get context
+    static jobject getContext();
 #endif
 };
 

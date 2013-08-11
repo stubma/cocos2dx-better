@@ -624,7 +624,7 @@ bool CCUtils::hasExternalStorage() {
     JniHelper::getMethodInfo(t, "java/lang/Object", "equals", "(Ljava/lang/Object;)Z");
     return t.env->CallBooleanMethod(jMounted, t.methodID, jState);
 #else
-    CCLOGERROR("CCUtils::getLanguage is not implemented for this platform, please finish it");
+    CCLOGERROR("CCUtils::hasExternalStorage is not implemented for this platform, please finish it");
 #endif
 }
 

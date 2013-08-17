@@ -55,6 +55,9 @@ public:
 	
 	// switch layer with cleanup option
 	void switchToLayerAt(unsigned int n, bool cleanup);
+
+	// get visible layer index
+	int getEnabledLayer() { return m_nEnabledLayer;	}
 };
 
 NS_CC_END

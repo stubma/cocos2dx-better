@@ -42,8 +42,7 @@ public:
         /// idle time after loaded
         float idle;
         
-        LoadTask() :
-		idle(0.1f) {
+        LoadTask() : idle(0.1f) {
         }
         
         virtual ~LoadTask() {}
@@ -225,6 +224,49 @@ private:
 			}
         }
     };
+    
+    /// zwoptex animation load parameter
+    /// it can specify duration for every single frame
+    struct ZwoptexAnimLoadTask2 : public LoadTask {
+        /// frame list
+        typedef vector<string> StringList;
+        StringList frames;
+        
+        /// duration list
+        typedef vector<float> TimeList;
+        TimeList durations;
+        
+        /// restore original frame when animate is done
+		bool restoreOriginalFrame;
+        
+        /// animation name
+        string name;
+        
+        ZwoptexAnimLoadTask2() :
+                restoreOriginalFrame(false) {
+		}
+        
+        virtual ~ZwoptexAnimLoadTask2() {}
+        
+        virtual void load() {
+            if(!CCAnimationCache::sharedAnimationCache()->animationByName(name.c_str())) {
+                CCSpriteFrameCache* cache = CCSpriteFrameCache::sharedSpriteFrameCache();
+                CCArray* array = CCArray::create();
+                int size = frames.size();
+				for(int i = 0; i < size; i++) {
+					CCSpriteFrame* sf = cache->spriteFrameByName(frames.at(i).c_str());
+                    float& delay = durations.at(i);
+                    CCAnimationFrame* af = new CCAnimationFrame();
+                    af->initWithSpriteFrame(sf, delay, NULL);
+                    af->autorelease();
+					array->addObject(af);
+				}
+                CCAnimation* anim = CCAnimation::createWithSpriteFrames(array, 1);
+				anim->setRestoreOriginalFrame(restoreOriginalFrame);
+                CCAnimationCache::sharedAnimationCache()->addAnimation(anim, name.c_str());
+            }
+        }
+    };
  
 private:
 	/// listener
@@ -334,6 +376,26 @@ public:
 							int endIndex2,
 							bool restoreOriginalFrame = false,
 							float idle = 0);
+    
+    /**
+     * add a zwoptex animation loading task, you can specify delay for every frame
+     *
+     * @param name animation name
+     * @param pattern sprite frame pattern, something likes frame_%d.png, the parameter
+     *      must be an integer
+     * @param startIndex sprite frame pattern start index
+     * @param endIndex sprite frame pattern end index
+     * @param delays delay time array, every element is a CGFloat
+     * @param restoreOriginalFrame restore original frame or not
+     * @param idle idle time after task is completed
+     */
+    void addZwoptexAnimTask(const string& name,
+							const string& pattern,
+							int startIndex,
+							int endIndex,
+                            const CCArray& delays,
+							bool restoreOriginalFrame = false,
+                            float idle = 0);
 	
 	/// delay time before start to load
 	CC_SYNTHESIZE(float, m_delay, Delay);

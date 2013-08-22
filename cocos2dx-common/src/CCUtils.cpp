@@ -803,14 +803,9 @@ CCArray& CCUtils::arrayFromString(const string& s) {
                 } else {
                     s_tmpArray.addObject(CCString::create(""));
                 }
-            } else {
-                if(cs.find(".") == string::npos) {
-                    int i = atoi(cs.c_str());
-                    s_tmpArray.addObject(CCInteger::create(i));
-                } else {
-                    float f = atof(cs.c_str());
-                    s_tmpArray.addObject(CCFloat::create(f));
-                }
+            } else {                
+                float f = atof(cs.c_str());
+                s_tmpArray.addObject(CCFloat::create(f));
             }
         } else {
             s_tmpArray.addObject(CCFloat::create(0));

@@ -300,7 +300,7 @@ public:
     /**
      * create a CCArray from a string in format {a1,a2,a3,...}. If the element is
      * embraced by quote or double quote, it will be a CCString object.
-     * If no quote and has dot, it will be a CCFloat, otherwise it will be CCInteger
+     * If no quote, it will be a CCFloat
      *
      * @param s string
      * @return CCArray, you should copy it if you want to keep its content for later use

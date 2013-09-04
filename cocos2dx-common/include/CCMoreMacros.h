@@ -136,6 +136,6 @@ using namespace std;
 #define CC_SYNTHESIZE_BOOL(varName, funName)\
 protected: bool varName;\
 public: virtual bool is##funName(void) const { return varName; }\
-public: virtual void set##funName(varType var){ varName = var; }
+public: virtual void set##funName(bool var){ varName = var; }
 
 #endif // __CCMoreMacros_h__

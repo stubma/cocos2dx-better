@@ -135,7 +135,7 @@ using namespace std;
 // special macro for bool type
 #define CC_SYNTHESIZE_BOOL(varName, funName)\
 protected: bool varName;\
-public: virtual bool get##funName(void) const { return varName; }\
-public: virtual bool is##funName(varType var){ varName = var; }
+public: virtual bool is##funName(void) const { return varName; }\
+public: virtual void set##funName(varType var){ varName = var; }
 
 #endif // __CCMoreMacros_h__

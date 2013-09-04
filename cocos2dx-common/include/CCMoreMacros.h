@@ -132,4 +132,10 @@ using namespace std;
 #define CCRANDOM_0_X_INT(x) ((int)(CCRANDOM_0_1() * (x) * 100) % ((x) + 1))
 #define CCRANDOM_X_Y_INT(x, y) (CCRANDOM_0_X_INT((y) - (x)) + (x))
 
+// special macro for bool type
+#define CC_SYNTHESIZE_BOOL(varName, funName)\
+protected: bool varName;\
+public: virtual bool get##funName(void) const { return varName; }\
+public: virtual bool is##funName(varType var){ varName = var; }
+
 #endif // __CCMoreMacros_h__

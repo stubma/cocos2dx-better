@@ -864,17 +864,19 @@ string CCUtils::arrayToString(const CCArray& array) {
 }
 
 void CCUtils::setOpacityRecursively(CCNode* node, int o) {
+	CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(node);
+	if(p) {
+		p->setOpacity(o);
+	}
+	
 	CCArray* children = node->getChildren();
     int cc = node->getChildrenCount();
     for(int i = 0; i < cc; i++) {
-        CCNode* child = (CCNode*)children->objectAtIndex(i);
-        CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
-        if(p) {
-            p->setOpacity(o);
-        }
-        
+        CCNode* child = (CCNode*)children->objectAtIndex(i);        
         setOpacityRecursively(child, o);
     }
+	
+	
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

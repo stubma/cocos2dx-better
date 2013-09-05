@@ -312,6 +312,9 @@ public:
      */
     static string arrayToString(const CCArray& array);
 	
+	/// set opacity from a node, to all its descentants
+	static void setOpacityRecursively(CCNode* node, int o);
+	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv
 	static JNIEnv* getJNIEnv();

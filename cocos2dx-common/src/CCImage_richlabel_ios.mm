@@ -334,7 +334,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 	return plain;
 }
 
-static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo) {
+static bool _initWithString(const char * pText, CCImage::TextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo) {
     bool bRet = false;
     do {
         CC_BREAK_IF(!pText || !pInfo);
@@ -608,8 +608,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 	       
         // set paragraph style, including line spacing and alignment
         CTTextAlignment alignment = kCTLeftTextAlignment;
-        switch(eAlign & 0x0f) {
-            case 2:
+        switch((int)eAlign & 0x0f) {//cast eAlign to int , does it ok?
+            case 2://maybe we can use enum here?
                 alignment = kCTRightTextAlignment;
                 break;
             case 3:
@@ -658,7 +658,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         int startX = 0;
         if (constrainSize.height > dim.height) {
             // vertical alignment
-            unsigned int vAlignment = (eAlign >> 4) & 0x0F;
+            unsigned int vAlignment = ((int)eAlign >> 4) & 0x0F;//cast eAlign to int , does it ok?
             if (vAlignment == ALIGN_TOP) {
                 startY = 0;
             } else if (vAlignment == ALIGN_CENTER) {
@@ -806,7 +806,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														int         nWidth,
 														int         nHeight,
-														ETextAlign eAlignMask,
+														TextAlign eAlignMask,
 														const char * pFontName,
 														int         nSize,
 														float       textTintR,
@@ -844,12 +844,12 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     {
         return false;
     }
-    m_nHeight = (short)info.height;
-    m_nWidth = (short)info.width;
-    m_nBitsPerComponent = info.bitsPerComponent;
-    m_bHasAlpha = info.hasAlpha;
-    m_bPreMulti = info.isPremultipliedAlpha;
-    m_pData = info.data;
+    _height = (short)info.height;
+    _width = (short)info.width;
+    _bitsPerComponent = info.bitsPerComponent;
+    _hasAlpha = info.hasAlpha;
+    _preMulti = info.isPremultipliedAlpha;
+    _data = info.data;
     
     return true;
 }

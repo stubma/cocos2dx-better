@@ -133,9 +133,14 @@ using namespace std;
 #define CCRANDOM_X_Y_INT(x, y) (CCRANDOM_0_X_INT((y) - (x)) + (x))
 
 // special macro for bool type
-#define CC_SYNTHESIZE_BOOL(varName, funName)\
-protected: bool varName;\
-public: virtual bool is##funName(void) const { return varName; }\
-public: virtual void set##funName(bool var){ varName = var; }
+#define CC_SYNTHESIZE_BOOL(varName, funName) \
+    protected: bool varName; \
+    public: virtual bool is##funName(void) const { return varName; } \
+    public: virtual void set##funName(bool var){ varName = var; }
+
+#define CC_SYNTHESIZE_SETTER(varType, varName, funName) \
+    protected: varType varName;\
+    public: virtual varType get##funName(void) const { return varName; } \
+    public: virtual void set##funName(varType var);
 
 #endif // __CCMoreMacros_h__

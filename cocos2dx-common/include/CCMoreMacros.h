@@ -138,11 +138,13 @@ using namespace std;
     public: virtual bool is##funName(void) const { return varName; } \
     public: virtual void set##funName(bool var) { varName = var; }
 
+// macro for custom setter
 #define CC_SYNTHESIZE_SETTER(varType, varName, funName) \
     protected: varType varName;\
     public: virtual varType get##funName(void) const { return varName; } \
     public: virtual void set##funName(varType var);
 
+// macro for custom getter
 #define CC_SYNTHESIZE_GETTER(varType, varName, funName) \
 	protected: varType varName;\
 	public: virtual varType get##funName(void) const; \

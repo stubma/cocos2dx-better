@@ -132,6 +132,12 @@ using namespace std;
 #define CCRANDOM_0_X_INT(x) ((int)(CCRANDOM_0_1() * (x) * 100) % ((x) + 1))
 #define CCRANDOM_X_Y_INT(x, y) (CCRANDOM_0_X_INT((y) - (x)) + (x))
 
+// nc means not const
+#define CC_SYNTHESIZE_PASS_BY_REF_NC(varType, varName, funName) \
+	protected: varType varName; \
+	public: virtual varType& get##funName(void) { return varName; } \
+	public: virtual void set##funName(const varType& var){ varName = var; }
+
 // special macro for bool type
 #define CC_SYNTHESIZE_BOOL(varName, funName) \
     protected: bool varName; \

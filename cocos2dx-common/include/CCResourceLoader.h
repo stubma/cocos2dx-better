@@ -129,14 +129,21 @@ private:
             
             // create texture
             int decLen;
-            const char* dec = (*func)(data, len, &decLen);
+            const char* dec = NULL;
+            if(func) {
+                dec = (*func)(data, len, &decLen);
+            } else {
+                dec = data;
+                decLen = (int)len;
+            }
             CCImage* image = new CCImage();
             image->initWithImageData((void*)dec, decLen);
             image->autorelease();
             CCTextureCache::sharedTextureCache()->addUIImage(image, name.c_str());
             
             // free
-            free((void*)dec);
+            if(dec != data)
+                free((void*)dec);
             free(data);
         }
     };
@@ -173,14 +180,21 @@ private:
             
             // create texture
             int decLen;
-            const char* dec = (*func)(data, len, &decLen);
+            const char* dec = NULL;
+            if(func) {
+                dec = (*func)(data, len, &decLen);
+            } else {
+                dec = data;
+                decLen = (int)len;
+            }
             CCImage* image = new CCImage();
             image->initWithImageData((void*)dec, decLen);
             image->autorelease();
             CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, texName.c_str());
             
             // free
-            free((void*)dec);
+            if(dec != data)
+                free((void*)dec);
             free(data);
             
             // add zwoptex

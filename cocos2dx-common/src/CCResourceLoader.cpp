@@ -56,14 +56,21 @@ void CCResourceLoader::loadImage(const string& name, DECRYPT_FUNC decFunc) {
 	
 	// create texture
 	int decLen;
-	const char* dec = (*decFunc)(data, len, &decLen);
+    const char* dec = NULL;
+	if(decFunc) {
+        dec = (*decFunc)(data, len, &decLen);
+    } else {
+        dec = data;
+        decLen = (int)len;
+    }
 	CCImage* image = new CCImage();
 	image->initWithImageData((void*)dec, decLen);
 	image->autorelease();
 	CCTextureCache::sharedTextureCache()->addUIImage(image, name.c_str());
 	
 	// free
-	free((void*)dec);
+    if(dec != data)
+        free((void*)dec);
 	free(data);
 }
 
@@ -74,14 +81,21 @@ void CCResourceLoader::loadZwoptex(const string& plistName, const string& texNam
 	
 	// create texture
 	int decLen;
-	const char* dec = (*decFunc)(data, len, &decLen);
-	CCImage* image = new CCImage();
+	const char* dec = NULL;
+	if(decFunc) {
+        dec = (*decFunc)(data, len, &decLen);
+    } else {
+        dec = data;
+        decLen = (int)len;
+    }
+    CCImage* image = new CCImage();
 	image->initWithImageData((void*)dec, decLen);
 	image->autorelease();
 	CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, texName.c_str());
 	
 	// free
-	free((void*)dec);
+    if(dec != data)
+        free((void*)dec);
 	free(data);
 	
 	// add zwoptex

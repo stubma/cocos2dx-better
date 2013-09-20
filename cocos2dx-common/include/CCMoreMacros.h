@@ -144,6 +144,12 @@ using namespace std;
     public: virtual bool is##funName(void) const { return varName; } \
     public: virtual void set##funName(bool var) { varName = var; }
 
+// special macro for bool type, custom setter
+#define CC_SYNTHESIZE_BOOL_SETTER(varName, funName) \
+	protected: bool varName; \
+	public: virtual bool is##funName(void) const { return varName; } \
+	public: virtual void set##funName(bool var);
+
 // macro for custom setter
 #define CC_SYNTHESIZE_SETTER(varType, varName, funName) \
     protected: varType varName;\

@@ -122,7 +122,7 @@ public:
     void centerAlignImages();
     
     /// true means focus image can be displayed with normal, selected and disable image
-    CC_SYNTHESIZE(bool, m_focusIsAttachment, FocusIsAttachment);
+    CC_SYNTHESIZE_BOOL(m_focusIsAttachment, FocusIsAttachment);
 };
 
 #endif // __CCAutoRenderMenuItemSprite_h__

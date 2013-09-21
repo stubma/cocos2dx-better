@@ -55,6 +55,9 @@ protected:
 	/// done callback
 	CCCallFunc* m_doneCallFunc;
 	
+	/// done flag
+	bool m_done;
+	
 public:
 	/**
 	 * static factory method
@@ -79,7 +82,7 @@ public:
     virtual void step(float dt);
     
     /// @see CCAction::isDone
-    virtual bool isDone();
+    virtual bool isDone() { return m_done; }
 };
 
 NS_CC_END

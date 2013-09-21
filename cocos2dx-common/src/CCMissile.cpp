@@ -28,8 +28,9 @@ NS_CC_BEGIN
 #define ANGULAR_VELOCITY 360
 
 CCMissile::CCMissile() :
-		m_aimed(NULL),
-		m_doneCallFunc(NULL) {
+m_done(false),
+m_aimed(NULL),
+m_doneCallFunc(NULL) {
 }
 
 CCMissile::~CCMissile() {
@@ -106,17 +107,15 @@ void CCMissile::step(float dt) {
         t.y += move * sinf(r);
         target->setPosition(t);
     }
-}
-
-bool CCMissile::isDone() {
-    bool done = getTarget()->getPositionX() == m_aimed->getPositionX() &&
-        getTarget()->getPositionY() == m_aimed->getPositionY();
 	
-	if(done && m_doneCallFunc) {
+	// is done?
+	m_done = getTarget()->getPositionX() == m_aimed->getPositionX() &&
+		getTarget()->getPositionY() == m_aimed->getPositionY();
+	
+	// done callback
+	if(m_done && m_doneCallFunc) {
 		m_doneCallFunc->execute();
 	}
-	
-	return done;
 }
 
 NS_CC_END

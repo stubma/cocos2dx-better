@@ -25,6 +25,7 @@
 #define __CCAutoRenderMenuItemSprite_h__
 
 #include "cocos2d.h"
+#include "cocos2d-common.h"
 
 USING_NS_CC;
 

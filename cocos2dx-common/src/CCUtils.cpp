@@ -24,7 +24,9 @@
 #include "CCUtils.h"
 #include "CCMoreMacros.h"
 #include "CCMD5.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    #include <sys/sysctl.h>
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	#include "JniHelper.h"
 #endif
 
@@ -875,8 +877,60 @@ void CCUtils::setOpacityRecursively(CCNode* node, int o) {
         CCNode* child = (CCNode*)children->objectAtIndex(i);        
         setOpacityRecursively(child, o);
     }
-	
-	
+}
+
+int CCUtils::getCpuHz() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    // get hardward string
+    size_t size = 100;
+    char* hw_machine = (char*)malloc(size);
+    int name[] = {CTL_HW, HW_MACHINE};
+    sysctl(name, 2, hw_machine, &size, NULL, 0);
+    string hw = hw_machine;
+    free(hw_machine);
+    
+    // check
+    if(startsWith(hw, "iPhone")) {
+        string majorMinor = hw.substr(6);
+        StringList& parts = componentsOfString(majorMinor, ',');
+        int major = atoi(parts.at(0).c_str());
+        if(major < 4)
+            return 500000000;
+        else if(major == 4)
+            return 800000000;
+        else
+            return 1500000000;
+    } else if(startsWith(hw, "iPod")) {
+        string majorMinor = hw.substr(4);
+        StringList& parts = componentsOfString(majorMinor, ',');
+        int major = atoi(parts.at(0).c_str());
+        if(major < 4)
+            return 500000000;
+        else if(major == 4)
+            return 800000000;
+        else
+            return 1500000000;
+    } else if(startsWith(hw, "iPad")) {
+        string majorMinor = hw.substr(4);
+        StringList& parts = componentsOfString(majorMinor, ',');
+        int major = atoi(parts.at(0).c_str());
+        if(major < 2)
+            return 500000000;
+        else if(major == 2)
+            return 800000000;
+        else
+            return 1500000000;
+    } else {
+        return 1500000000;
+    }
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // get package manager
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/SystemUtils", "getCPUFrequencyMax", "()I");
+	return t.env->CallStaticIntMethod(t.classID, t.methodID);
+#else
+    return 0;
+#endif
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

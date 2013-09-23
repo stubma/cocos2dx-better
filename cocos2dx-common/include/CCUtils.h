@@ -314,6 +314,14 @@ public:
 	
 	/// set opacity from a node, to all its descentants
 	static void setOpacityRecursively(CCNode* node, int o);
+    
+    /**
+     * get CPU freqency, in Hz
+     *
+     * @return freqency. However, for iOS, it returns a fake and approximate value
+     *      It will returns 0 if it can't be queried
+     */
+    static int getCpuHz();
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

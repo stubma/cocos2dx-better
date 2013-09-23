@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 #include "controller.h"
+#include "cocos2d-common.h"
 
 USING_NS_CC;
 
@@ -45,6 +46,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     pScene->addChild(pLayer);
     pDirector->runWithScene(pScene);
+    
+    CCLOG("%d hz", CCUtils::getCpuHz());
 
     return true;
 }

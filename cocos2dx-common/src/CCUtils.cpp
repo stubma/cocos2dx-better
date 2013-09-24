@@ -879,6 +879,21 @@ void CCUtils::setOpacityRecursively(CCNode* node, int o) {
     }
 }
 
+double CCUtils::pround(double x, int precision) {
+    double div = pow(10, -precision);
+    return floor(x / div + 0.5) * div;
+}
+
+double CCUtils::pfloor(double x, int precision) {
+    double div = pow(10, -precision);
+    return (int)floor(x / div) * div;
+}
+
+double CCUtils::pceil(double x, int precision) {
+    double div = pow(10, -precision);
+    return (int)ceil(x / div) * div;
+}
+
 int CCUtils::getCpuHz() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     // get hardward string

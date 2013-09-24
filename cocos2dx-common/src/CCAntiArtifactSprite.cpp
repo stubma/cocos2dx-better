@@ -120,7 +120,6 @@ void CCAntiArtifactSprite::setTextureCoords(CCRect rect) {
 	
     float atlasWidth = (float)tex->getPixelsWide();
     float atlasHeight = (float)tex->getPixelsHigh();
-	
     float left, right, top, bottom;
 	
     if (m_bRectRotated)

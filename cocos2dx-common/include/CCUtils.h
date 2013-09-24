@@ -156,6 +156,15 @@ public:
 	
 	/// get package name, in iOS, it retuns bundle id
 	static string getPackageName();
+    
+    /// round float for specified precision
+    static double pround(double x, int precision);
+    
+    /// floor float for specified precision
+    static double pfloor(double x, int precision);
+    
+    /// ceil float for specified precision
+    static double pceil(double x, int precision);
 	
 	/**
 	 * create intermediate folders for a path

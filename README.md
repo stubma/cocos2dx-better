@@ -6,7 +6,7 @@ Because I wrote more than one cocos2d-x extension so I found some code can be mo
 Here is my extensions which refer to this common base:
 * https://github.com/stubma/cocos2dx-anim
 * https://github.com/stubma/cocos2dx-json
-* https://github.com/stubma/cocos2dx-wisound
+* https://github.com/stubma/cocos2dx-wisound (Abandoned)
 * https://github.com/stubma/cocos2dx-db
 
 Requirement

@@ -38,7 +38,6 @@
 #include "CCMemoryInputStream.h"
 #include "CCResourceLoader.h"
 #include "CCResourceLoaderListener.h"
-#include "CCAntiArtifactSprite.h"
 #include "CCGradientSprite.h"
 #include "CCTiledSprite.h"
 #include "CCTreeFadeIn.h"

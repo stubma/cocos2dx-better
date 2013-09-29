@@ -16,7 +16,12 @@ and then clone cocos2dx-common in the same parent folder.
 
 Demo
 ===========
-There is a test project in test folder, it supports iOS and android. If you want other platform, do it yourself.
+There is a test project in test folder, it supports iOS and android. 
+
+NOTE
+===========
+I don't use Windows a lot so there are some basic features not implemented for Windows. If you are a Windows guy, do
+it yourself and good luck.
 
 How to use
 ===========

@@ -23,14 +23,20 @@
  ****************************************************************************/
 package org.cocos2dx.lib;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -41,7 +47,9 @@ import android.text.SpannableString;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -65,7 +73,8 @@ public class RichLabelBitmap {
 	    SIZE,
 	    BOLD,
 	    ITALIC,
-	    UNDERLINE
+	    UNDERLINE,
+	    IMAGE
 	}
 	
 	// span info
@@ -82,6 +91,9 @@ public class RichLabelBitmap {
 		
 		// only for font
 		public String fontName;
+		
+		// only for image
+		public String imageName;
 	}
 	
 	// tag parse result
@@ -216,10 +228,13 @@ public class RichLabelBitmap {
         fontSizeStack.push(pFontSize / contentScaleFactor);
         
         // build spannable string
+        Map<String, Bitmap> imageMap = new HashMap<String, Bitmap>();
         int colorStart = 0;
         int fontStart = 0;
         int sizeStart = 0;
         int underlineStart = -1;
+        int imageStart = -1;
+        String imageName = null;
         SpannableString rich = new SpannableString(plain);
         for(Span span : spans) {
         	if(span.close) {
@@ -277,6 +292,34 @@ public class RichLabelBitmap {
                             underlineStart = -1;
                         }
                         break;
+                    }
+                    case IMAGE:
+                    {
+                    	if(imageStart > -1) {                  		
+                    		AssetManager am = Cocos2dxHelper.getAssetManager();
+                    		InputStream is = null;
+                    		try {
+								is = am.open(imageName);
+								Bitmap bitmap = BitmapFactory.decodeStream(is);
+								imageMap.put(span.imageName, bitmap);
+								
+								rich.setSpan(new ImageSpan(bitmap, DynamicDrawableSpan.ALIGN_BASELINE), 
+										imageStart,
+										span.pos,
+										Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							} catch (Throwable e) {
+							} finally {
+								if(is != null) {
+									try {
+										is.close();
+									} catch (IOException e) {
+									}
+								}
+							}
+                    		
+                    		imageStart = -1;
+                    	}
+                    	break;
                     }
                 }
         	} else {
@@ -387,6 +430,12 @@ public class RichLabelBitmap {
                         underlineStart = span.pos;
                         break;
                     }
+                    case IMAGE:
+                    {
+                    	imageStart = span.pos;
+                    	imageName = span.imageName;
+                    	break;
+                    }
                 }
         	}
         }
@@ -491,6 +540,13 @@ public class RichLabelBitmap {
 		// transfer bitmap data to native layer, and release bitmap when done
 		initNativeObject(bitmap);
 		bitmap.recycle();
+		
+		// release cached images
+		for(Bitmap b : imageMap.values()) {
+			if(!b.isRecycled()) {
+				b.recycle();
+			}
+		}
 	}
 	
 	// if parse failed, endTagPos will be len, otherwise it is end tag position
@@ -600,6 +656,12 @@ public class RichLabelBitmap {
 	               p.charAt(start + 3) == 'o' &&
 	               p.charAt(start + 4) == 'r') {
 	                return SpanType.COLOR;
+	            } else if(p.charAt(start) == 'i' &&
+	            		p.charAt(start + 1) == 'm' &&
+	            		p.charAt(start + 2) == 'a' &&
+	            		p.charAt(start + 3) == 'g' &&
+	            		p.charAt(start + 4) == 'e') {
+	            	return SpanType.IMAGE;
 	            }
 	            break;
 	            
@@ -656,6 +718,9 @@ public class RichLabelBitmap {
                                     	span.fontSize = 16;
                                     }
 	                                break;
+	                            case IMAGE:
+	                            	span.imageName = text.substring(r.dataStart, r.dataEnd);
+	                            	break;
 	                            default:
 	                                break;
 	                        }

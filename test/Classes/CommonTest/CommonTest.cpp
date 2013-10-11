@@ -369,7 +369,7 @@ void CommonRichLabel::onEnter()
 	label->setFontFillColor(ccc3(179, 179, 179));
 	addChild(label);
     
-    label = CCRichLabelTTF::create("Hello, [image=Images/a.png]\ufffc[/image], \n[u]Grossini[/u][image=Images/grossini.png]\ufffc[/image]",
+    label = CCRichLabelTTF::create("Hello, [image=Images/a.png]\ufffc[/image], [u]Grossini[/u][image=Images/grossini.png]\ufffc[/image]",
                                    "Helvetica",
                                    20);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,

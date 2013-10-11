@@ -45,7 +45,7 @@ class CCTexture2D_richlabel;
  * [b][/b]: bold font
  * [i][/i]: italic font
  * [u][/u]: underline
- * [image=image path][/image]: embed a image, the character in tag is better be a whitespace.
+ * [image=image path][/image]: embed a image, the character in tag must be \ufffc.
  *      For now, the image must NOT be in an atlas.
  *
  * \par

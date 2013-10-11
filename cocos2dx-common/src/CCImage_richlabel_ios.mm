@@ -831,50 +831,47 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             // vertical alignment
             CGContextTranslateCTM(context, -startX, -startY);
             
-            // if has cached images, render those images
+            // draw frame
+            CTFrameDraw(frame, context);
+			
+            // if has cached images, try render those images
             if([s_imageMap count] > 0) {
+				// get line count and their origin
                 CFArrayRef linesArray = CTFrameGetLines(frame);
                 int lineCount = CFArrayGetCount(linesArray);
                 CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
                 CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
-        
+				
+				// iterate every line
                 for (CFIndex i = 0; i < lineCount; i++) {
+					// get line character range
                     CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, i);
                     CFRange range = CTLineGetStringRange(line);
                     
                     // find image placeholder
-                    int placeholderIndex = -1;
                     int end = range.location + range.length;
-                    for(int i = range.location; i < end; i++) {
-                        if(plain[i] == 0xfffc) {
-                            placeholderIndex = i;
-                            break;
-                        }
-                    }
-                    
-                    // if placeholder is found, render image
-                    if(placeholderIndex != -1) {
-                        // get offset
-                        CGFloat offsetX = CTLineGetOffsetForStringIndex(line, placeholderIndex - range.location, NULL);
-                        
-                        // get span
-                        for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
-                            Span& span = *iter;
-                            if(span.pos == placeholderIndex) {
-                                NSString* imageName = [NSString stringWithCString:span.data.imageName
-                                                                         encoding:NSUTF8StringEncoding];
-                                UIImage* image = [s_imageMap objectForKey:imageName];
-                                CGRect rect = CGRectMake(offsetX, origin[i].y, image.size.width, image.size.height);
-                                CGContextDrawImage(context, rect, image.CGImage);
-                                break;
-                            }
+                    for(int j = range.location; j < end; j++) {
+						// if placeholder matched, render this image
+                        if(plain[j] == 0xfffc) {
+							// get offset
+							CGFloat offsetX = CTLineGetOffsetForStringIndex(line, j, NULL);
+							
+							// get span, if one image span matched index, draw the image
+							for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+								Span& span = *iter;
+								if(span.type == IMAGE && !span.close && span.pos == j) {
+									NSString* imageName = [NSString stringWithCString:span.data.imageName
+																			 encoding:NSUTF8StringEncoding];
+									UIImage* image = [s_imageMap objectForKey:imageName];
+									CGRect rect = CGRectMake(offsetX + origin[i].x, origin[i].y, image.size.width, image.size.height);
+									CGContextDrawImage(context, rect, image.CGImage);
+									break;
+								}
+							}
                         }
                     }
                 }
             }
-            
-            // draw frame
-            CTFrameDraw(frame, context);
 			
             // pop the context
             UIGraphicsPopContext();

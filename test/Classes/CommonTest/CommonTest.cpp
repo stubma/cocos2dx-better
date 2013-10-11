@@ -359,7 +359,7 @@ void CommonRichLabel::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
-	CCRichLabelTTF* label = CCRichLabelTTF::create("H[color=ff00ff00]e我[/color]llo [color=ffffffff]W[/color]orld!",
+	CCRichLabelTTF* label = CCRichLabelTTF::create("H[color=ff00ff00][i][b][u]e我[/u][/b][/i][/color]llo [size=20][font=font/Arial Rounded MT Bold.ttf][color=ffffffff]W[/color]orld![/font][/size]",
                                                    "Helvetica",
                                                    30);
 	label->enableStroke(ccBLUE, 0.5f);
@@ -369,7 +369,7 @@ void CommonRichLabel::onEnter()
 	label->setFontFillColor(ccc3(179, 179, 179));
 	addChild(label);
     
-    label = CCRichLabelTTF::create("H[color=ff00ff00][i][b][u]ell[/u][/b][/i][/color]o[size=20][font=font/Arial Rounded MT Bold.ttf]H[i]ell[/i]o[/font][/size]",
+    label = CCRichLabelTTF::create("Hello, [image=Images/grossini_small.png]\ufffc[/image], [u]Grossini[/u]",
                                    "Helvetica",
                                    30);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,

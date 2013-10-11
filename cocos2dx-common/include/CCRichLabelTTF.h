@@ -45,6 +45,8 @@ class CCTexture2D_richlabel;
  * [b][/b]: bold font
  * [i][/i]: italic font
  * [u][/u]: underline
+ * [image=image path][/image]: embed a image, the character in tag is better be a whitespace.
+ *      For now, the image must NOT be in an atlas.
  *
  * \par
  * CCRichLabelTFF is a subclass of CCGradientSprite, so it also can set a gradient

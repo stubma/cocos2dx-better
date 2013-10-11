@@ -41,7 +41,8 @@ typedef enum {
     SIZE,
     BOLD,
     ITALIC,
-    UNDERLINE
+    UNDERLINE,
+    IMAGE
 } SpanType;
 
 /// span
@@ -61,6 +62,7 @@ typedef struct Span {
         int color;
         int fontSize;
         char* fontName;
+        char* imageName;
     } data;
 } Span;
 typedef vector<Span> SpanList;
@@ -85,6 +87,40 @@ typedef struct {
     float        tintColorB;
     unsigned char*  data;
 } tImageInfo;
+
+////////////////////////////////////////
+// run delegate callback
+
+// key is NSString, value is UIImage
+static NSMutableDictionary* s_imageMap = [[NSMutableDictionary alloc] init];
+
+static CGFloat getAscent(void* refCon) {
+    NSString* name = [NSString stringWithCString:(const char*)refCon
+                                        encoding:NSUTF8StringEncoding];
+    UIImage* image = [s_imageMap objectForKey:name];
+    return image.size.height;
+}
+
+static CGFloat getDescent(void* refCon) {
+    return 0;
+}
+
+static CGFloat getWidth(void* refCon) {
+    NSString* name = [NSString stringWithCString:(const char*)refCon
+                                        encoding:NSUTF8StringEncoding];
+    UIImage* image = [s_imageMap objectForKey:name];
+    return image.size.width;
+}
+
+static CTRunDelegateCallbacks s_runDelegateCallbacks = {
+    kCTRunDelegateVersion1,
+    NULL,
+    getAscent,
+    getDescent,
+    getWidth
+};
+
+///////////////////////////////////////
 
 // alignment
 #define ALIGN_TOP    1
@@ -149,6 +185,12 @@ static SpanType checkTagName(unichar* p, int start, int end) {
                p[start + 3] == 'o' &&
                p[start + 4] == 'r') {
                 return COLOR;
+            } else if(p[start] == 'i' &&
+                      p[start + 1] == 'm' &&
+                      p[start + 2] == 'a' &&
+                      p[start + 3] == 'g' &&
+                      p[start + 4] == 'e') {
+                return IMAGE;
             }
             break;
             
@@ -291,6 +333,16 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 span.data.fontSize = [size intValue];
                                 break;
                             }
+                            case IMAGE:
+                            {
+                                NSString* name = [NSString stringWithCharacters:uniText + dataStart
+                                                                         length:dataEnd - dataStart];
+                                const char* cName = [name cStringUsingEncoding:NSUTF8StringEncoding];
+                                int len = strlen(cName);
+                                span.data.imageName = (char*)calloc(sizeof(char), len + 1);
+                                strcpy(span.data.imageName, cName);
+                                break;
+                            }
                             default:
                                 break;
                         }
@@ -379,6 +431,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         int colorStart = 0;
         int fontStart = 0;
         int underlineStart = -1;
+        int imageStart = -1;
         CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
@@ -443,6 +496,23 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                                            styleNum);
                             CFRelease(styleNum);
                             underlineStart = -1;
+                        }
+                        break;
+                    }
+                    case IMAGE:
+                    {
+                        if(imageStart > -1) {
+                            CTRunDelegateRef delegate = CTRunDelegateCreate(&s_runDelegateCallbacks, span.data.imageName);
+                            CFAttributedStringSetAttribute(plainCFAStr,
+                                                           CFRangeMake(imageStart, span.pos - imageStart),
+                                                           kCTRunDelegateAttributeName,
+                                                           delegate);
+                            
+                            // register image
+                            NSString* imageName = [NSString stringWithCString:span.data.imageName
+                                                                     encoding:NSUTF8StringEncoding];
+                            UIImage* image = [UIImage imageNamed:imageName];
+                            [s_imageMap setValue:image forKey:imageName];
                         }
                         break;
                     }
@@ -574,6 +644,11 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                     case UNDERLINE:
                     {
                         underlineStart = span.pos;
+                        break;
+                    }
+                    case IMAGE:
+                    {
+                        imageStart = span.pos;
                         break;
                     }
                     default:
@@ -756,6 +831,34 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             // vertical alignment
             CGContextTranslateCTM(context, -startX, -startY);
             
+            if([s_imageMap count] > 0) {
+                CFArrayRef linesArray = CTFrameGetLines(frame);
+                int lineCount = CFArrayGetCount(linesArray);
+                for (CFIndex i = 0; i < lineCount; i++) {
+                    CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, i);
+                    CFRange range = CTLineGetStringRange(line);
+                    
+                    // find image placeholder
+                    int placeholderIndex = -1;
+                    int end = range.location + range.length;
+                    for(int i = range.location; i < end; i++) {
+                        if(plain[i] == 0xfffc) {
+                            placeholderIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    // if placeholder is found, render image
+                    if(placeholderIndex != -1) {
+                        // get offset
+                        CGFloat offset = CTLineGetOffsetForStringIndex(line, placeholderIndex - range.location, NULL);
+                        
+                        // get span
+                        
+                    }
+                }
+            }
+            
             // draw frame
             CTFrameDraw(frame, context);
 			
@@ -781,6 +884,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                 free(span.data.fontName);
             }
         }
+        [s_imageMap removeAllObjects];
 		
         // output params
         pInfo->data                 = data;

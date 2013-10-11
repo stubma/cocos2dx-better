@@ -142,7 +142,9 @@ using namespace std;
 #define CC_SYNTHESIZE_BOOL(varName, funName) \
     protected: bool varName; \
     public: virtual bool is##funName(void) const { return varName; } \
-    public: virtual void set##funName(bool var) { varName = var; }
+    public: virtual void set##funName(bool var) { varName = var; } \
+    public: virtual void mark##funName() { varName = true; } \
+    public: virtual void clear##funName() { varName = false; }
 
 // readonly for bool type
 #define CC_SYNTHESIZE_READONLY_BOOL(varName, funName)\

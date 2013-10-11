@@ -831,9 +831,13 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             // vertical alignment
             CGContextTranslateCTM(context, -startX, -startY);
             
+            // if has cached images, render those images
             if([s_imageMap count] > 0) {
                 CFArrayRef linesArray = CTFrameGetLines(frame);
                 int lineCount = CFArrayGetCount(linesArray);
+                CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
+                CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
+        
                 for (CFIndex i = 0; i < lineCount; i++) {
                     CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, i);
                     CFRange range = CTLineGetStringRange(line);
@@ -851,10 +855,20 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                     // if placeholder is found, render image
                     if(placeholderIndex != -1) {
                         // get offset
-                        CGFloat offset = CTLineGetOffsetForStringIndex(line, placeholderIndex - range.location, NULL);
+                        CGFloat offsetX = CTLineGetOffsetForStringIndex(line, placeholderIndex - range.location, NULL);
                         
                         // get span
-                        
+                        for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+                            Span& span = *iter;
+                            if(span.pos == placeholderIndex) {
+                                NSString* imageName = [NSString stringWithCString:span.data.imageName
+                                                                         encoding:NSUTF8StringEncoding];
+                                UIImage* image = [s_imageMap objectForKey:imageName];
+                                CGRect rect = CGRectMake(offsetX, origin[i].y, image.size.width, image.size.height);
+                                CGContextDrawImage(context, rect, image.CGImage);
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -882,6 +896,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             Span& span = *iter;
             if(span.type == FONT && !span.close) {
                 free(span.data.fontName);
+            } else if(span.type == IMAGE && !span.close) {
+                free(span.data.imageName);
             }
         }
         [s_imageMap removeAllObjects];

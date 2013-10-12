@@ -34,7 +34,11 @@ NS_CC_BEGIN
  *
  * \note
  * Use setContentSize to specify the tile area. It will automatically tile
- * sprite to fill whole area
+ * sprite to fill whole area. 
+ *
+ * \note
+ * When use texture in an atlas, you should add 1 pixel Extrude. TexturePacker
+ * supports Extrude option.
  */
 class CC_DLL CCTiledSprite : public CCNodeRGBA, public CCBlendProtocol {
 private:

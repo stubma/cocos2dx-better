@@ -31,6 +31,7 @@
 #include "CCScroller.h"
 #include "CCScrollView.h"
 #include "CCAutoRenderMenuItemSprite.h"
+#include "CCMenuItemColor.h"
 #include "CCMissile.h"
 #include "CCShake.h"
 #include "CCDrawingPrimitivesEx.h"

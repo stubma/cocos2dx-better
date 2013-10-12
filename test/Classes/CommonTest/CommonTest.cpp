@@ -6,6 +6,7 @@ TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
+TESTLAYER_CREATE_FUNC(CommonMenuItemColor);
 TESTLAYER_CREATE_FUNC(CommonMissile);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonShake);
@@ -19,6 +20,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonGradientSprite),
 	CF(CommonLocale),
     CF(CommonLocalization),
+    CF(CommonMenuItemColor),
     CF(CommonMissile),
 	CF(CommonRichLabel),
     CF(CommonShake),
@@ -283,6 +285,33 @@ void CommonLocalization::onEnter()
 std::string CommonLocalization::subtitle()
 {
     return "Localization";
+}
+
+//------------------------------------------------------------------
+//
+// Localization
+//
+//------------------------------------------------------------------
+void CommonMenuItemColor::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCMenuItemColor* item1 = CCMenuItemColor::create(cc4RED, cc4BLUE);
+    item1->setContentSize(CCSizeMake(visibleSize.width / 5, visibleSize.height / 8));
+    item1->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    
+    CCMenu* menu = CCMenu::create(item1, NULL);
+    menu->setPosition(CCPointZero);
+    addChild(menu);
+}
+
+std::string CommonMenuItemColor::subtitle()
+{
+    return "Color Menu Item";
 }
 
 //------------------------------------------------------------------

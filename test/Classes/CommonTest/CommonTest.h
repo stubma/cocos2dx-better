@@ -58,6 +58,13 @@ public:
     virtual string subtitle();
 };
 
+class CommonMenuItemColor : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonMissile : public CommonDemo
 {
 public:

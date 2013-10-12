@@ -96,6 +96,14 @@ struct ccRichFontDefinition : public ccFontDefinition {
     int m_shadowColor;
 };
 
+// color constants
+static const ccColor4B cc4RED = { 255, 0, 0, 255 };
+static const ccColor4B cc4GREEN = { 0, 255, 0, 255 };
+static const ccColor4B cc4BLUE = { 0, 0, 255, 255 };
+static const ccColor4B cc4BLACK = { 0, 0, 0, 255 };
+static const ccColor4B cc4WHITE = { 255, 255, 255, 255 };
+static const ccColor4B cc4TRANSPARENT = { 0, 0, 0, 0 };
+
 NS_CC_END
 
 #endif // __ccMoreTypes_h__

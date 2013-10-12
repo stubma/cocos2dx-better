@@ -1,8 +1,7 @@
 /****************************************************************************
- Copyright (c) 2012 cocos2d-x.org
- Copyright (c) 2010 Sangwoo Im
+ Author: Luma (stubma@gmail.com)
  
- http://www.cocos2d-x.org
+ https://github.com/stubma/cocos2dx-common
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal

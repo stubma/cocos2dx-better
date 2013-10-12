@@ -57,13 +57,18 @@ typedef struct Span {
     // for close tag, it is exclusive, i.e., it is next char
     int pos;
 	
-	// color
-    union {
-        int color;
-        int fontSize;
-        char* fontName;
-        char* imageName;
-    } data;
+	// only used for color
+    int color;
+    
+    // only used for size
+    int fontSize;
+    
+    // only used for font
+    char* fontName;
+    
+    // only used for image
+    char* imageName;
+    float scale;
 } Span;
 typedef vector<Span> SpanList;
 
@@ -95,10 +100,11 @@ typedef struct {
 static NSMutableDictionary* s_imageMap = [[NSMutableDictionary alloc] init];
 
 static CGFloat getAscent(void* refCon) {
-    NSString* name = [NSString stringWithCString:(const char*)refCon
+    Span& span = *(Span*)refCon;
+    NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return image.size.height;
+    return image.size.height * span.scale;
 }
 
 static CGFloat getDescent(void* refCon) {
@@ -106,10 +112,11 @@ static CGFloat getDescent(void* refCon) {
 }
 
 static CGFloat getWidth(void* refCon) {
-    NSString* name = [NSString stringWithCString:(const char*)refCon
+    Span& span = *(Span*)refCon;
+    NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return image.size.width;
+    return image.size.width * span.scale;
 }
 
 static CTRunDelegateCallbacks s_runDelegateCallbacks = {
@@ -314,7 +321,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                     if(!span.close) {
                         switch(span.type) {
                             case COLOR:
-                                span.data.color = parseColor(uniText + dataStart, dataEnd - dataStart);
+                                span.color = parseColor(uniText + dataStart, dataEnd - dataStart);
                                 break;
                             case FONT:
                             {
@@ -322,25 +329,47 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                                                          length:dataEnd - dataStart];
                                 const char* cFont = [font cStringUsingEncoding:NSUTF8StringEncoding];
                                 int len = strlen(cFont);
-                                span.data.fontName = (char*)calloc(sizeof(char), len + 1);
-                                strcpy(span.data.fontName, cFont);
+                                span.fontName = (char*)calloc(sizeof(char), len + 1);
+                                strcpy(span.fontName, cFont);
                                 break;
                             }
                             case SIZE:
                             {
                                 NSString* size = [NSString stringWithCharacters:uniText + dataStart
                                                                          length:dataEnd - dataStart];
-                                span.data.fontSize = [size intValue];
+                                span.fontSize = [size intValue];
                                 break;
                             }
                             case IMAGE:
                             {
                                 NSString* name = [NSString stringWithCharacters:uniText + dataStart
                                                                          length:dataEnd - dataStart];
+                                NSArray* parts = [name componentsSeparatedByString:@" "];
+                                name = [parts objectAtIndex:0];
                                 const char* cName = [name cStringUsingEncoding:NSUTF8StringEncoding];
                                 int len = strlen(cName);
-                                span.data.imageName = (char*)calloc(sizeof(char), len + 1);
-                                strcpy(span.data.imageName, cName);
+                                span.imageName = (char*)calloc(sizeof(char), len + 1);
+                                strcpy(span.imageName, cName);
+                                
+                                // set scale default
+                                span.scale = 1;
+                                
+                                // if has other parts, check
+                                if([parts count] > 1) {
+                                    int count = [parts count];
+                                    for(int i = 1; i < count; i++) {
+                                        NSString* part = [parts objectAtIndex:i];
+                                        NSArray* pair = [part componentsSeparatedByString:@"="];
+                                        if([pair count] == 2) {
+                                            NSString* key = [pair objectAtIndex:0];
+                                            NSString* value = [pair objectAtIndex:1];
+                                            if([@"scale" isEqualToString:key]) {
+                                                span.scale = [value floatValue];
+                                            }
+                                        }
+                                    }
+                                }
+                                
                                 break;
                             }
                             default:
@@ -502,14 +531,14 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                     case IMAGE:
                     {
                         if(imageStart > -1) {
-                            CTRunDelegateRef delegate = CTRunDelegateCreate(&s_runDelegateCallbacks, span.data.imageName);
+                            CTRunDelegateRef delegate = CTRunDelegateCreate(&s_runDelegateCallbacks, &span);
                             CFAttributedStringSetAttribute(plainCFAStr,
                                                            CFRangeMake(imageStart, span.pos - imageStart),
                                                            kCTRunDelegateAttributeName,
                                                            delegate);
                             
                             // register image
-                            NSString* imageName = [NSString stringWithCString:span.data.imageName
+                            NSString* imageName = [NSString stringWithCString:span.imageName
                                                                      encoding:NSUTF8StringEncoding];
                             UIImage* image = [UIImage imageNamed:imageName];
                             [s_imageMap setValue:image forKey:imageName];
@@ -544,7 +573,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                         }
                         
                         // push color
-                        colorStack.push_back(span.data.color);
+                        colorStack.push_back(span.color);
                         
                         break;
                     }
@@ -561,7 +590,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                         }
                         
                         // create the font
-                        NSString* fontName = [NSString stringWithCString:span.data.fontName
+                        NSString* fontName = [NSString stringWithCString:span.fontName
                                                                 encoding:NSUTF8StringEncoding];
                         fontName = [[fontName lastPathComponent] stringByDeletingPathExtension];
                         UIFont* uiFont = [UIFont fontWithName:fontName
@@ -589,7 +618,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                         // push new font
                         CTFontDescriptorRef fd = CTFontCopyFontDescriptor(curFont);
                         CTFontRef font = CTFontCreateCopyWithAttributes(curFont,
-                                                                        span.data.fontSize * CC_CONTENT_SCALE_FACTOR(),
+                                                                        span.fontSize * CC_CONTENT_SCALE_FACTOR(),
                                                                         NULL,
                                                                         fd);
                         fontStack.push_back(font);
@@ -860,10 +889,13 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 							for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
 								Span& span = *iter;
 								if(span.type == IMAGE && !span.close && span.pos == j) {
-									NSString* imageName = [NSString stringWithCString:span.data.imageName
+									NSString* imageName = [NSString stringWithCString:span.imageName
 																			 encoding:NSUTF8StringEncoding];
 									UIImage* image = [s_imageMap objectForKey:imageName];
-									CGRect rect = CGRectMake(offsetX + origin[i].x, origin[i].y, image.size.width, image.size.height);
+									CGRect rect = CGRectMake(offsetX + origin[i].x,
+                                                             origin[i].y,
+                                                             image.size.width * span.scale,
+                                                             image.size.height * span.scale);
 									CGContextDrawImage(context, rect, image.CGImage);
 									break;
 								}
@@ -895,9 +927,9 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
             if(span.type == FONT && !span.close) {
-                free(span.data.fontName);
+                free(span.fontName);
             } else if(span.type == IMAGE && !span.close) {
-                free(span.data.imageName);
+                free(span.imageName);
             }
         }
         [s_imageMap removeAllObjects];

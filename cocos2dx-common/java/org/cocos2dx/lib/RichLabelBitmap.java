@@ -94,6 +94,7 @@ public class RichLabelBitmap {
 		
 		// only for image
 		public String imageName;
+		public float scale;
 	}
 	
 	// tag parse result
@@ -233,8 +234,7 @@ public class RichLabelBitmap {
         int fontStart = 0;
         int sizeStart = 0;
         int underlineStart = -1;
-        int imageStart = -1;
-        String imageName = null;
+        Span openSpan = null;
         SpannableString rich = new SpannableString(plain);
         for(Span span : spans) {
         	if(span.close) {
@@ -295,16 +295,24 @@ public class RichLabelBitmap {
                     }
                     case IMAGE:
                     {
-                    	if(imageStart > -1) {                  		
+                    	if(openSpan != null) {                  		
                     		AssetManager am = Cocos2dxHelper.getAssetManager();
                     		InputStream is = null;
                     		try {
-								is = am.open(imageName);
+								is = am.open(openSpan.imageName);
 								Bitmap bitmap = BitmapFactory.decodeStream(is);
+								if(openSpan.scale != 1) {
+									Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
+											(int)(bitmap.getWidth() * openSpan.scale),
+											(int)(bitmap.getHeight() * openSpan.scale),
+											true);
+									bitmap.recycle();
+									bitmap = scaled;
+								}
 								imageMap.put(span.imageName, bitmap);
 								
 								rich.setSpan(new ImageSpan(bitmap, DynamicDrawableSpan.ALIGN_BASELINE), 
-										imageStart,
+										openSpan.pos,
 										span.pos,
 										Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							} catch (Throwable e) {
@@ -317,7 +325,7 @@ public class RichLabelBitmap {
 								}
 							}
                     		
-                    		imageStart = -1;
+                    		openSpan = null;
                     	}
                     	break;
                     }
@@ -432,8 +440,7 @@ public class RichLabelBitmap {
                     }
                     case IMAGE:
                     {
-                    	imageStart = span.pos;
-                    	imageName = span.imageName;
+                    	openSpan = span;
                     	break;
                     }
                 }
@@ -719,8 +726,29 @@ public class RichLabelBitmap {
                                     }
 	                                break;
 	                            case IMAGE:
-	                            	span.imageName = text.substring(r.dataStart, r.dataEnd);
+	                            {
+	                            	String name = text.substring(r.dataStart, r.dataEnd);
+	                            	String[] parts = name.split(" ");
+	                            	span.imageName = parts[0];
+	                            	span.scale = 1;
+	                            	
+	                            	// if parts more than one, parse attributes
+	                            	if(parts.length > 1) {
+	                            		for(int j = 1; j < parts.length; j++) {
+	                            			String[] pair = parts[j].split("=");
+	                            			if(pair.length == 2) {
+	                            				if("scale".equals(pair[0])) {
+	                            					try {
+	                                                    span.scale = Float.parseFloat(pair[1]);
+                                                    } catch (NumberFormatException e) {
+                                                    }
+	                            				}
+	                            			}
+	                            		}
+	                            	}
+	                            	
 	                            	break;
+	                            }
 	                            default:
 	                                break;
 	                        }

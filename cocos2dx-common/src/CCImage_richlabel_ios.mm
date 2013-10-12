@@ -871,6 +871,9 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                         }
                     }
                 }
+                
+                // free origin
+                free(origin);
             }
 			
             // pop the context

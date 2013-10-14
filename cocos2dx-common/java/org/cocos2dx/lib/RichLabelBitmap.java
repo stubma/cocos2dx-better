@@ -94,7 +94,8 @@ public class RichLabelBitmap {
 		
 		// only for image
 		public String imageName;
-		public float scale;
+		public float scaleX;
+		public float scaleY;
 	}
 	
 	// tag parse result
@@ -301,10 +302,10 @@ public class RichLabelBitmap {
                     		try {
 								is = am.open(openSpan.imageName);
 								Bitmap bitmap = BitmapFactory.decodeStream(is);
-								if(openSpan.scale != 1) {
+								if(openSpan.scaleX != 1 || openSpan.scaleY != 1) {
 									Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
-											(int)(bitmap.getWidth() * openSpan.scale),
-											(int)(bitmap.getHeight() * openSpan.scale),
+											(int)(bitmap.getWidth() * openSpan.scaleX),
+											(int)(bitmap.getHeight() * openSpan.scaleY),
 											true);
 									bitmap.recycle();
 									bitmap = scaled;
@@ -730,18 +731,22 @@ public class RichLabelBitmap {
 	                            	String name = text.substring(r.dataStart, r.dataEnd);
 	                            	String[] parts = name.split(" ");
 	                            	span.imageName = parts[0];
-	                            	span.scale = 1;
+	                            	span.scaleX = span.scaleY = 1;
 	                            	
 	                            	// if parts more than one, parse attributes
 	                            	if(parts.length > 1) {
 	                            		for(int j = 1; j < parts.length; j++) {
 	                            			String[] pair = parts[j].split("=");
 	                            			if(pair.length == 2) {
-	                            				if("scale".equals(pair[0])) {
-	                            					try {
-	                                                    span.scale = Float.parseFloat(pair[1]);
-                                                    } catch (NumberFormatException e) {
-                                                    }
+	                            				try {
+	                            					if("scale".equals(pair[0])) {
+	                                                    span.scaleX = span.scaleY = Float.parseFloat(pair[1]);
+	                            					} else if("scalex".equals(pair[0])) {
+	                            						span.scaleX = Float.parseFloat(pair[1]);
+	                            					} else if("scaley".equals(pair[0])) {
+	                            						span.scaleY = Float.parseFloat(pair[1]);
+	                            					}
+	                            				} catch (NumberFormatException e) {
 	                            				}
 	                            			}
 	                            		}

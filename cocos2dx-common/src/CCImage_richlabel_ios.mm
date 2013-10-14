@@ -68,7 +68,8 @@ typedef struct Span {
     
     // only used for image
     char* imageName;
-    float scale;
+    float scaleX;
+	float scaleY;
 } Span;
 typedef vector<Span> SpanList;
 
@@ -104,7 +105,7 @@ static CGFloat getAscent(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return image.size.height * span.scale;
+    return image.size.height * span.scaleY;
 }
 
 static CGFloat getDescent(void* refCon) {
@@ -116,7 +117,7 @@ static CGFloat getWidth(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return image.size.width * span.scale;
+    return image.size.width * span.scaleX;
 }
 
 static CTRunDelegateCallbacks s_runDelegateCallbacks = {
@@ -352,7 +353,8 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 strcpy(span.imageName, cName);
                                 
                                 // set scale default
-                                span.scale = 1;
+                                span.scaleX = 1;
+								span.scaleY = 1;
                                 
                                 // if has other parts, check
                                 if([parts count] > 1) {
@@ -364,8 +366,12 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                             NSString* key = [pair objectAtIndex:0];
                                             NSString* value = [pair objectAtIndex:1];
                                             if([@"scale" isEqualToString:key]) {
-                                                span.scale = [value floatValue];
-                                            }
+                                                span.scaleX = span.scaleY = [value floatValue];
+                                            } else if([@"scalex" isEqualToString:key]) {
+												span.scaleX = [value floatValue];
+											} else if([@"scaley" isEqualToString:key]) {
+												span.scaleY = [value floatValue];
+											}
                                         }
                                     }
                                 }
@@ -894,8 +900,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 									UIImage* image = [s_imageMap objectForKey:imageName];
 									CGRect rect = CGRectMake(offsetX + origin[i].x,
                                                              origin[i].y,
-                                                             image.size.width * span.scale,
-                                                             image.size.height * span.scale);
+                                                             image.size.width * span.scaleX,
+                                                             image.size.height * span.scaleY);
 									CGContextDrawImage(context, rect, image.CGImage);
 									break;
 								}

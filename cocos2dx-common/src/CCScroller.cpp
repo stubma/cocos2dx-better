@@ -80,8 +80,8 @@ bool CCScroller::computeScrollOffset() {
 				float x = (float) timePassed * m_durationReciprocal;
 				x = viscousFluid(x);
 
-				m_currX = m_startX + round(x * m_deltaX);
-				m_currY = m_startY + round(x * m_deltaY);
+				m_currX = m_startX + x * m_deltaX;
+				m_currY = m_startY + x * m_deltaY;
 				break;
 			}
 			case FLING_MODE:

@@ -70,6 +70,8 @@ typedef struct Span {
     char* imageName;
     float scaleX;
 	float scaleY;
+	float width;
+	float height;
 } Span;
 typedef vector<Span> SpanList;
 
@@ -352,9 +354,9 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 span.imageName = (char*)calloc(sizeof(char), len + 1);
                                 strcpy(span.imageName, cName);
                                 
-                                // set scale default
-                                span.scaleX = 1;
-								span.scaleY = 1;
+                                // set default
+                                span.scaleX = span.scaleY = 1;
+								span.width = span.height = 0;
                                 
                                 // if has other parts, check
                                 if([parts count] > 1) {
@@ -371,6 +373,10 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 												span.scaleX = [value floatValue];
 											} else if([@"scaley" isEqualToString:key]) {
 												span.scaleY = [value floatValue];
+											} else if([@"w" isEqualToString:key]) {
+												span.width = [value floatValue];
+											} else if([@"h" isEqualToString:key]) {
+												span.height = [value floatValue];
 											}
                                         }
                                     }
@@ -900,8 +906,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 									UIImage* image = [s_imageMap objectForKey:imageName];
 									CGRect rect = CGRectMake(offsetX + origin[i].x,
                                                              origin[i].y,
-                                                             image.size.width * span.scaleX,
-                                                             image.size.height * span.scaleY);
+                                                             span.width != 0 ? span.width : (image.size.width * span.scaleX),
+                                                             span.height != 0 ? span.height : (image.size.height * span.scaleY));
 									CGContextDrawImage(context, rect, image.CGImage);
 									break;
 								}

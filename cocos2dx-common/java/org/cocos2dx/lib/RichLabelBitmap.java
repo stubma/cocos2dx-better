@@ -96,6 +96,8 @@ public class RichLabelBitmap {
 		public String imageName;
 		public float scaleX;
 		public float scaleY;
+		public float width;
+		public float height;
 	}
 	
 	// tag parse result
@@ -304,8 +306,8 @@ public class RichLabelBitmap {
 								Bitmap bitmap = BitmapFactory.decodeStream(is);
 								if(openSpan.scaleX != 1 || openSpan.scaleY != 1) {
 									Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
-											(int)(bitmap.getWidth() * openSpan.scaleX),
-											(int)(bitmap.getHeight() * openSpan.scaleY),
+											openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX),
+											openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY),
 											true);
 									bitmap.recycle();
 									bitmap = scaled;
@@ -732,6 +734,7 @@ public class RichLabelBitmap {
 	                            	String[] parts = name.split(" ");
 	                            	span.imageName = parts[0];
 	                            	span.scaleX = span.scaleY = 1;
+	                            	span.width = span.height = 0;
 	                            	
 	                            	// if parts more than one, parse attributes
 	                            	if(parts.length > 1) {
@@ -745,6 +748,10 @@ public class RichLabelBitmap {
 	                            						span.scaleX = Float.parseFloat(pair[1]);
 	                            					} else if("scaley".equals(pair[0])) {
 	                            						span.scaleY = Float.parseFloat(pair[1]);
+	                            					} else if("w".equals(pair[0])) {
+	                            						span.width = Float.parseFloat(pair[1]);
+	                            					} else if("h".equals(pair[0])) {
+	                            						span.height = Float.parseFloat(pair[1]);
 	                            					}
 	                            				} catch (NumberFormatException e) {
 	                            				}

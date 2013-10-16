@@ -9,6 +9,7 @@ TESTLAYER_CREATE_FUNC(CommonLocalization);
 TESTLAYER_CREATE_FUNC(CommonMenuItemColor);
 TESTLAYER_CREATE_FUNC(CommonMissile);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
+TESTLAYER_CREATE_FUNC(CommonResourceLoader);
 TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonScrollView);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
@@ -23,6 +24,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonMenuItemColor),
     CF(CommonMissile),
 	CF(CommonRichLabel),
+	CF(CommonResourceLoader),
     CF(CommonShake),
 	CF(CommonScrollView),
     CF(CommonTiledSprite),
@@ -417,6 +419,88 @@ void CommonRichLabel::onEnter()
 std::string CommonRichLabel::subtitle()
 {
     return "Rich Label";
+}
+
+//------------------------------------------------------------------
+//
+// Rich Label
+//
+//------------------------------------------------------------------
+void CommonResourceLoader::onEnter()
+{
+    CommonDemo::onEnter();
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCMenuItemLabel* item1 = CCMenuItemLabel::create(CCLabelTTF::create("Start Load", "Helvetica", 40),
+													 this,
+													 menu_selector(CommonResourceLoader::onStartLoadClicked));
+    item1->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    
+    CCMenu* menu = CCMenu::create(item1, NULL);
+    menu->setPosition(CCPointZero);
+    addChild(menu);
+	
+	m_percent = CCLabelTTF::create("0%", "Helvetica", 40);
+	m_percent->setPosition(ccp(origin.x + visibleSize.width / 2,
+							   origin.y + visibleSize.height / 5));
+	addChild(m_percent);
+}
+
+std::string CommonResourceLoader::subtitle()
+{
+    return "Resource Loading";
+}
+
+void CommonResourceLoader::onResourceLoadingProgress(float progress, float delta) {
+	// because resource loading is scheduled in OpenGL thread, so it is safe to update UI in callback
+	char buf[32];
+	sprintf(buf, "%d%%", (int)progress);
+	m_percent->setString(buf);
+}
+
+void CommonResourceLoader::onResourceLoadingDone() {
+	m_percent->setString("Done");
+}
+
+void CommonResourceLoader::onStartLoadClicked(CCObject* sender) {
+	// we don't have large resource. So we repeatly loading one image and set a big idle time.
+	// of course, same resource will only be loaded once. Just for demo purpose.
+	CCResourceLoader* rl = new CCResourceLoader(this);
+    
+	//////////////////////////////////////////////////////////////
+	// DEMO SNIPPET
+	// if resource is encrypted, provide decrypt function
+//  rl->addImageTask("mainbg.jpg", decryptRes);
+//  rl->addZwoptexTask("z_res_help.plist", "z_res_help.jpg", decryptRes);
+    
+    // animation frame name support pattern string
+//  rl->addZwoptexAnimTask("fly", 0.1f, "fly_%d.png", 1, 4);
+    
+    // sound, for music and effect
+//	rl->addCDMusicTask("audio/bg.mp3");
+//  rl->addCDEffectTask("audio/click.mp3");
+	///////////////////////////////////////////////////////////////
+	
+	// fake loading code
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+	rl->addImageTask("Images/grossini.png", 0.1f);
+    
+    // start to load resource
+    rl->run();
 }
 
 //------------------------------------------------------------------

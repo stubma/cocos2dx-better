@@ -81,6 +81,23 @@ public:
     virtual string subtitle();
 };
 
+class CommonResourceLoader : public CommonDemo, public CCResourceLoaderListener
+{
+private:
+	CCLabelTTF* m_percent;
+	
+private:
+	void onStartLoadClicked(CCObject* sender);
+	
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	
+	// CCResourceLoaderListener
+	virtual void onResourceLoadingProgress(float progress, float delta);
+	virtual void onResourceLoadingDone();
+};
+
 class CommonShake : public CommonDemo
 {	
 public:

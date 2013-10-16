@@ -107,7 +107,7 @@ static CGFloat getAscent(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return image.size.height * span.scaleY;
+    return span.height != 0 ? span.height : (image.size.height * span.scaleY);
 }
 
 static CGFloat getDescent(void* refCon) {
@@ -119,7 +119,7 @@ static CGFloat getWidth(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return image.size.width * span.scaleX;
+    return span.width != 0 ? span.width : (image.size.width * span.scaleX);
 }
 
 static CTRunDelegateCallbacks s_runDelegateCallbacks = {

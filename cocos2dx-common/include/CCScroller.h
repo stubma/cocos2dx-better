@@ -201,14 +201,14 @@ public:
      *
      * @return current x position
      */
-    int getCurrX() const { return m_currX; }
+    float getCurrX() const { return m_currX; }
 
     /**
      * return current y position
      *
      * @return current y position
      */
-    int getCurrY() const { return m_currY; }
+    float getCurrY() const { return m_currY; }
 
     /**
      * get current velocity

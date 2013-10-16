@@ -33,7 +33,26 @@ using namespace std;
 NS_CC_BEGIN
 
 /**
- * a self-retain class for resource loading
+ * A self-retain class for resource loading. It schedule resource loading in OpenGL thread in
+ * every tick. One resource is handled by one Task, the loading logic is encapsulated in task so
+ * you don't care about that. For CPU intensive task, you can set idle time to avoid blocking OpenGL
+ * thread too long. If you display an animation feedback, don't use CCAction mechanism because a long 
+ * task will cause animation to skip frames. The better choice is invoking setDisplayFrame one by one.
+ *
+ * \par
+ * Decryption is supported and you can provide a decrypt function pointer to load method. Of course you
+ * need write an independent tool to encrypt your resources, that's your business.
+ *
+ * \par
+ * Resources supported
+ * <ul>
+ * <li>Android style strings xml file. It is handy tool to use it with CCLocalization</li>
+ * <li>Single image file, encrypted or not</li>
+ * <li>Atlas image file, encrypted or not</li>
+ * <li>atlas animation</li>
+ * <li>Audio file supported by CocosDenshion</li>
+ * </ul>
+ * If not supported, just adding a task to support it.
  */
 class CC_DLL CCResourceLoader : public CCObject {
 public:

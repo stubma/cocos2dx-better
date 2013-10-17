@@ -57,8 +57,10 @@ class CCTexture2D_richlabel;
  * Currently it only supports iOS and Android, please do it yourself if you want other platform.
  */
 class CC_DLL CCRichLabelTTF : public CCGradientSprite, public CCLabelProtocol {
+protected:
+    CCRichLabelTTF();
+    
 public:
-	CCRichLabelTTF();
     virtual ~CCRichLabelTTF();
 	
 	/** 
@@ -151,6 +153,16 @@ public:
 	virtual void setColor(const ccColor3B& color3) {}
     
     virtual void setColor(const ccColor4B& start, const ccColor4B& end, const CCPoint& v);
+    
+    /**
+     * If a rich lable contains link tag, a menu will be created and every link tag is 
+     * converted to a CCMenuItemColor in menu. Buy by default, the menu item is not connected
+     * to action, so you must call this method to assign an action to every link
+     *
+     * @param index index of link, start from zero, by literal sequence
+     * @param func the function will be invoked when a link is clicked
+     */
+    void setLinkTarget(int index, CCCallFunc* func);
     
 private:
     bool updateTexture();

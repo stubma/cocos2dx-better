@@ -26,6 +26,24 @@
 
 #include "cocos2d.h"
 
+/**
+ * Meta info of a link area, only used for link tag
+ */
+typedef struct LinkMeta {
+    int normalBgColor;
+    int selectedBgColor;
+    
+    // link rect area
+    float x;
+    float y;
+    float width;
+    float height;
+} LinkMeta;
+
+/// global link meta info
+typedef vector<LinkMeta> LinkMetaList;
+extern LinkMetaList gLinkMetas;
+
 NS_CC_BEGIN
 
 /**

@@ -29,6 +29,9 @@
 #import <CoreText/CoreText.h>
 #include <math.h>
 
+// link meta infos
+LinkMetaList gLinkMetas;
+
 // tag char
 #define TAG_START '['
 #define TAG_END ']'
@@ -42,7 +45,8 @@ typedef enum {
     BOLD,
     ITALIC,
     UNDERLINE,
-    IMAGE
+    IMAGE,
+    LINK
 } SpanType;
 
 /// span
@@ -72,6 +76,10 @@ typedef struct Span {
 	float scaleY;
 	float width;
 	float height;
+    
+    // for link tag
+    int normalBgColor;
+    int selectedBgColor;
 } Span;
 typedef vector<Span> SpanList;
 
@@ -187,7 +195,13 @@ static SpanType checkTagName(unichar* p, int start, int end) {
                       p[start + 2] == 'z' &&
                       p[start + 3] == 'e') {
                 return SIZE;
+            } else if(p[start] == 'l' &&
+                      p[start + 1] == 'i' &&
+                      p[start + 2] == 'n' &&
+                      p[start + 3] == 'k') {
+                return LINK;
             }
+            break;
         case 5:
             if(p[start] == 'c' &&
                p[start + 1] == 'o' &&
@@ -246,6 +260,11 @@ static SpanType checkTag(unichar* p, int start, int len, int* endTagPos, int* da
                     if(type == UNKNOWN) {
                         type = checkTagName(p, tagNameStart, tagNameEnd);
                     }
+                } else if(p[i] == ' ') {
+                    state = EQUAL;
+                    tagNameEnd = i++;
+                    type = checkTagName(p, tagNameStart, tagNameEnd);
+                    *dataStart = i;
                 } else {
                     i++;
                 }
@@ -384,6 +403,28 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 
                                 break;
                             }
+                            case LINK:
+                            {
+                                NSString* v = [NSString stringWithCharacters:uniText + dataStart
+                                                                         length:dataEnd - dataStart];
+                                NSArray* parts = [v componentsSeparatedByString:@" "];
+                                for(NSString* part in parts) {
+                                    NSArray* pair = [part componentsSeparatedByString:@"="];
+                                    if([pair count] == 2) {
+                                        unichar tmp[32];
+                                        NSString* key = [pair objectAtIndex:0];
+                                        NSString* value = [pair objectAtIndex:1];
+                                        if([@"bg" isEqualToString:key]) {
+                                            [value getCharacters:tmp];
+                                            span.normalBgColor = parseColor(tmp, [value length]);
+                                        } else if([@"bg_click" isEqualToString:key]) {
+                                            [value getCharacters:tmp];
+                                            span.selectedBgColor = parseColor(tmp, [value length]);
+                                        }
+                                    }
+                                }
+                                break;
+                            }
                             default:
                                 break;
                         }
@@ -425,6 +466,136 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 	
 	// return plain str
 	return plain;
+}
+
+static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans) {
+    if([s_imageMap count] > 0) {
+        // get line count and their origin
+        CFArrayRef linesArray = CTFrameGetLines(frame);
+        int lineCount = CFArrayGetCount(linesArray);
+        CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
+        CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
+        
+        // iterate every line
+        for (CFIndex i = 0; i < lineCount; i++) {
+            // get line character range
+            CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, i);
+            CFRange range = CTLineGetStringRange(line);
+            
+            // find image placeholder
+            int end = range.location + range.length;
+            for(int j = range.location; j < end; j++) {
+                // if placeholder matched, render this image
+                if(plain[j] == 0xfffc) {
+                    // get offset
+                    CGFloat offsetX = CTLineGetOffsetForStringIndex(line, j, NULL);
+                    
+                    // get span, if one image span matched index, draw the image
+                    for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+                        Span& span = *iter;
+                        if(span.type == IMAGE && !span.close && span.pos == j) {
+                            NSString* imageName = [NSString stringWithCString:span.imageName
+                                                                     encoding:NSUTF8StringEncoding];
+                            UIImage* image = [s_imageMap objectForKey:imageName];
+                            CGRect rect = CGRectMake(offsetX + origin[i].x,
+                                                     origin[i].y,
+                                                     span.width != 0 ? span.width : (image.size.width * span.scaleX),
+                                                     span.height != 0 ? span.height : (image.size.height * span.scaleY));
+                            CGContextDrawImage(context, rect, image.CGImage);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // free origin
+        free(origin);
+    }
+}
+
+static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
+    // clear global meta
+    gLinkMetas.clear();
+    
+    // get line count and their origin
+    CFArrayRef linesArray = CTFrameGetLines(frame);
+    int lineCount = CFArrayGetCount(linesArray);
+    CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
+    CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
+    
+    // divide scale factor for origin
+    for (CFIndex i = 0; i < lineCount; i++) {
+        origin[i].x /= CC_CONTENT_SCALE_FACTOR();
+        origin[i].y /= CC_CONTENT_SCALE_FACTOR();
+    }
+    
+    // get range of every line
+    CFRange* range = (CFRange*)malloc(sizeof(CFRange) * lineCount);
+    for (CFIndex i = 0; i < lineCount; i++) {
+        CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, i);
+        range[i] = CTLineGetStringRange(line);
+    }
+    
+    // find every link span
+    LinkMeta meta;
+    int linkStart, linkEnd;
+    int startLine, endLine;
+    for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
+        Span& span = *iter;
+        if(span.type == LINK) {
+            if(!span.close) {
+                // get start pos
+                linkStart = span.pos;
+                
+                // save color info
+                meta.normalBgColor = span.normalBgColor;
+                meta.selectedBgColor = span.selectedBgColor;
+            } else {
+                // remember end pos
+                linkEnd = span.pos;
+                
+                // find out the line for start and end pos
+                for (CFIndex i = 0; i < lineCount; i++) {
+                    if(linkStart >= range[i].location &&
+                       linkStart < range[i].location + range[i].length) {
+                        startLine = i;
+                    }
+                    
+                    if(linkEnd >= range[i].location &&
+                       linkEnd < range[i].location + range[i].length) {
+                        endLine = i;
+                        break;
+                    }
+                }
+                
+                // get rect area
+                if(startLine == endLine) {
+                    CGFloat ascent;
+                    CGFloat descent;
+                    CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, startLine);
+                    CGFloat startOffsetX = CTLineGetOffsetForStringIndex(line, linkStart, NULL) /CC_CONTENT_SCALE_FACTOR();
+                    CGFloat endOffsetX = CTLineGetOffsetForStringIndex(line, linkEnd, NULL) / CC_CONTENT_SCALE_FACTOR();
+                    CTLineGetTypographicBounds(line, &ascent, &descent, NULL);
+                    ascent /= CC_CONTENT_SCALE_FACTOR();
+                    descent /= CC_CONTENT_SCALE_FACTOR();
+                    meta.x = origin[startLine].x + startOffsetX;
+                    meta.y = origin[startLine].y - descent;
+                    meta.width = origin[startLine].x + endOffsetX - meta.x;
+                    meta.height = descent + ascent;
+                } else {
+                    // TODO
+                }
+                
+                // push meta
+                gLinkMetas.push_back(meta);
+            }
+        }
+    }
+    
+    // free
+    free(origin);
+    free(range);
 }
 
 static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo) {
@@ -876,49 +1047,10 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             CTFrameDraw(frame, context);
 			
             // if has cached images, try render those images
-            if([s_imageMap count] > 0) {
-				// get line count and their origin
-                CFArrayRef linesArray = CTFrameGetLines(frame);
-                int lineCount = CFArrayGetCount(linesArray);
-                CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
-                CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
-				
-				// iterate every line
-                for (CFIndex i = 0; i < lineCount; i++) {
-					// get line character range
-                    CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, i);
-                    CFRange range = CTLineGetStringRange(line);
-                    
-                    // find image placeholder
-                    int end = range.location + range.length;
-                    for(int j = range.location; j < end; j++) {
-						// if placeholder matched, render this image
-                        if(plain[j] == 0xfffc) {
-							// get offset
-							CGFloat offsetX = CTLineGetOffsetForStringIndex(line, j, NULL);
-							
-							// get span, if one image span matched index, draw the image
-							for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
-								Span& span = *iter;
-								if(span.type == IMAGE && !span.close && span.pos == j) {
-									NSString* imageName = [NSString stringWithCString:span.imageName
-																			 encoding:NSUTF8StringEncoding];
-									UIImage* image = [s_imageMap objectForKey:imageName];
-									CGRect rect = CGRectMake(offsetX + origin[i].x,
-                                                             origin[i].y,
-                                                             span.width != 0 ? span.width : (image.size.width * span.scaleX),
-                                                             span.height != 0 ? span.height : (image.size.height * span.scaleY));
-									CGContextDrawImage(context, rect, image.CGImage);
-									break;
-								}
-							}
-                        }
-                    }
-                }
-                
-                // free origin
-                free(origin);
-            }
+            renderEmbededImages(context, frame, plain, spans);
+            
+            // if has link tag, build link info
+            extractLinkMeta(frame, spans);
 			
             // pop the context
             UIGraphicsPopContext();

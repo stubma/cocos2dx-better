@@ -81,6 +81,13 @@ public:
     virtual string subtitle();
 };
 
+class CommonRichLabel2 : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonResourceLoader : public CommonDemo, public CCResourceLoaderListener
 {
 private:

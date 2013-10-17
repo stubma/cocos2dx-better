@@ -26,6 +26,8 @@
 #include "shaders/CCGLProgram.h"
 #include "shaders/CCShaderCache.h"
 #include "CCTexture2D_richlabel.h"
+#include "CCImage_richlabel.h"
+#include "CCMenuItemColor.h"
 
 NS_CC_BEGIN
 
@@ -34,6 +36,10 @@ NS_CC_BEGIN
 #else
 #define SHADER_PROGRAM kCCShader_PositionTextureA8Color
 #endif
+
+// the start tag of menu item, for link tag
+#define START_TAG_LINK_ITEM 0x80000
+#define TAG_MENU 0x70000
 
 //
 //CCRichLabelTTF
@@ -89,6 +95,26 @@ CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName,
     CCRichLabelTTF *pRet = new CCRichLabelTTF();
     if(pRet && pRet->initWithString(string, strcmp(fontName, "") == 0 ? "Helvetica" : fontName , fontSize, dimensions, hAlignment, vAlignment))
     {
+        // create link menu
+        if(!gLinkMetas.empty()) {
+            CCArray* items = CCArray::create();
+            for(LinkMetaList::iterator iter = gLinkMetas.begin(); iter != gLinkMetas.end(); iter++) {
+                LinkMeta& meta = *iter;
+                CCMenuItemColor* item = CCMenuItemColor::create(ccc4FromInt(meta.normalBgColor),
+                                                                ccc4FromInt(meta.selectedBgColor));
+                item->setTag(START_TAG_LINK_ITEM + iter - gLinkMetas.begin());
+                item->setPosition(ccp(meta.x + meta.width / 2,
+                                      meta.y + meta.height / 2));
+                item->setContentSize(CCSizeMake(meta.width, meta.height));
+                items->addObject(item);
+            }
+            
+            // add menu in -1 z order so that it won't override label UI
+            CCMenu* menu = CCMenu::createWithArray(items);
+            menu->setPosition(CCPointZero);
+            pRet->addChild(menu, -1, TAG_MENU);
+        }
+        
         pRet->autorelease();
         return pRet;
     }
@@ -555,6 +581,20 @@ ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolu
     texDef.m_fontFillColor = m_textFillColor;
     
     return texDef;
+}
+
+void CCRichLabelTTF::setLinkTarget(int index, CCCallFunc* func) {
+    // if not found, do nothing
+    CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
+    if(!menu)
+        return;
+    CCMenuItemColor* item = (CCMenuItemColor*)menu->getChildByTag(START_TAG_LINK_ITEM + index);
+    if(!item)
+        return;
+    
+    // set func as user data of it
+    item->setUserData(func);
+    CC_SAFE_RETAIN(func);
 }
 
 NS_CC_END

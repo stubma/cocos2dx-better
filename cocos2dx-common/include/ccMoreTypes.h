@@ -104,6 +104,14 @@ static const ccColor4B cc4BLACK = { 0, 0, 0, 255 };
 static const ccColor4B cc4WHITE = { 255, 255, 255, 255 };
 static const ccColor4B cc4TRANSPARENT = { 0, 0, 0, 0 };
 
+// color conversion
+static inline ccColor4B ccc4FromInt(int c) {
+    return ccc4((c >> 16) & 0xff,
+                (c >> 8) & 0xff,
+                c & 0xff,
+                (c >> 24) & 0xff);
+}
+
 NS_CC_END
 
 #endif // __ccMoreTypes_h__

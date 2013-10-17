@@ -9,6 +9,7 @@ TESTLAYER_CREATE_FUNC(CommonLocalization);
 TESTLAYER_CREATE_FUNC(CommonMenuItemColor);
 TESTLAYER_CREATE_FUNC(CommonMissile);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
+TESTLAYER_CREATE_FUNC(CommonRichLabel2);
 TESTLAYER_CREATE_FUNC(CommonResourceLoader);
 TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonScrollView);
@@ -24,6 +25,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonMenuItemColor),
     CF(CommonMissile),
 	CF(CommonRichLabel),
+    CF(CommonRichLabel2),
 	CF(CommonResourceLoader),
     CF(CommonShake),
 	CF(CommonScrollView),
@@ -423,7 +425,35 @@ std::string CommonRichLabel::subtitle()
 
 //------------------------------------------------------------------
 //
-// Rich Label
+// Rich Label (Link Tag)
+//
+//------------------------------------------------------------------
+void CommonRichLabel2::onEnter()
+{
+    CommonDemo::onEnter();
+	
+	setOpacity(255);
+	setColor(ccRED);
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCRichLabelTTF* label = CCRichLabelTTF::create("This label has a [color=ff0000ff][link bg=3f7f7f7f bg_click=9f00ff00]clickable[/link][/color] link, 哦耶~",
+                                                   "Helvetica",
+                                                   24);
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height / 2));
+	addChild(label);
+}
+
+std::string CommonRichLabel2::subtitle()
+{
+    return "Rich Label (Link Tag)";
+}
+
+//------------------------------------------------------------------
+//
+// Resource Loader
 //
 //------------------------------------------------------------------
 void CommonResourceLoader::onEnter()

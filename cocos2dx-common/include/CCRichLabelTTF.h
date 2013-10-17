@@ -166,6 +166,13 @@ public:
      * @param func the function will be invoked when a link is clicked
      */
     void setLinkTarget(int index, CCCallFunc* func);
+	
+	/**
+	 * It set all link action to same callfunc object
+	 * 
+	 * @param func the function will be invoked when any link is clicked
+	 */
+	void setLinkTargetForAll(CCCallFunc* func);
     
 private:
     bool updateTexture();

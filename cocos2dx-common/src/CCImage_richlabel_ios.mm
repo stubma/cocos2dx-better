@@ -571,12 +571,15 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
                 }
                 
                 // get rect area
-                if(startLine == endLine) {
-                    CGFloat ascent;
+				while(startLine <= endLine) {
+					CGFloat ascent;
                     CGFloat descent;
+					int charEnd = linkEnd;
+					if(startLine < endLine)
+						charEnd = range[startLine].location + range[startLine].length;
                     CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, startLine);
-                    CGFloat startOffsetX = CTLineGetOffsetForStringIndex(line, linkStart, NULL) /CC_CONTENT_SCALE_FACTOR();
-                    CGFloat endOffsetX = CTLineGetOffsetForStringIndex(line, linkEnd, NULL) / CC_CONTENT_SCALE_FACTOR();
+                    CGFloat startOffsetX = CTLineGetOffsetForStringIndex(line, linkStart, NULL) / CC_CONTENT_SCALE_FACTOR();
+                    CGFloat endOffsetX = CTLineGetOffsetForStringIndex(line, charEnd, NULL) / CC_CONTENT_SCALE_FACTOR();
                     CTLineGetTypographicBounds(line, &ascent, &descent, NULL);
                     ascent /= CC_CONTENT_SCALE_FACTOR();
                     descent /= CC_CONTENT_SCALE_FACTOR();
@@ -585,12 +588,16 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
                     meta.width = origin[startLine].x + endOffsetX - meta.x;
                     meta.height = descent + ascent;
 					meta.tag = tag;
-                } else {
-                    // TODO
-                }
-                
-                // push meta
-                gLinkMetas.push_back(meta);
+					
+					// push meta
+					gLinkMetas.push_back(meta);
+					
+					// move line
+					startLine++;
+					
+					// move start
+					linkStart = charEnd;
+				}
 				
 				// increase tag
 				tag++;

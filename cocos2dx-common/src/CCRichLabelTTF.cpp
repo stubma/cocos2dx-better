@@ -601,13 +601,37 @@ void CCRichLabelTTF::setLinkTarget(int index, CCCallFunc* func) {
     CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
     if(!menu)
         return;
-    CCMenuItemColor* item = (CCMenuItemColor*)menu->getChildByTag(START_TAG_LINK_ITEM + index);
-    if(!item)
+	
+	CCObject* obj;
+	CCARRAY_FOREACH(menu->getChildren(), obj) {
+		CCMenuItemColor* item = (CCMenuItemColor*)obj;
+		if(item->getTag() == START_TAG_LINK_ITEM + index) {
+			obj = (CCObject*)item->getUserData();
+			if(obj) {
+				CC_SAFE_RELEASE(obj);
+			}
+			item->setUserData(func);
+			CC_SAFE_RETAIN(func);
+		}
+	}
+}
+
+void CCRichLabelTTF::setLinkTargetForAll(CCCallFunc* func) {
+	// if not found, do nothing
+    CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
+    if(!menu)
         return;
-    
-    // set func as user data of it
-    item->setUserData(func);
-    CC_SAFE_RETAIN(func);
+	
+	CCObject* obj;
+	CCARRAY_FOREACH(menu->getChildren(), obj) {
+		CCMenuItemColor* item = (CCMenuItemColor*)obj;
+		obj = (CCObject*)item->getUserData();
+		if(obj) {
+			CC_SAFE_RELEASE(obj);
+		}
+		item->setUserData(func);
+		CC_SAFE_RETAIN(func);
+	}
 }
 
 void CCRichLabelTTF::onLinkMenuItemClicked(CCObject* sender) {

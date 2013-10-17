@@ -83,6 +83,9 @@ public:
 
 class CommonRichLabel2 : public CommonDemo
 {
+private:
+	void onLinkClicked();
+	
 public:
     virtual void onEnter();
     virtual string subtitle();

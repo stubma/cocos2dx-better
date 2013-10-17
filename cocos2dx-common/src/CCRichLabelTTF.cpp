@@ -60,6 +60,17 @@ CCRichLabelTTF::CCRichLabelTTF()
 CCRichLabelTTF::~CCRichLabelTTF()
 {
     CC_SAFE_DELETE(m_pFontName);
+	
+	// release callfunc
+	CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
+	if(menu) {
+		CCObject* obj;
+		CCARRAY_FOREACH(menu->getChildren(), obj) {
+			CCNode* item = (CCNode*)obj;
+			CCObject* data = (CCObject*)item->getUserData();
+			CC_SAFE_RELEASE(data);
+		}
+	}
 }
 
 CCRichLabelTTF * CCRichLabelTTF::create()
@@ -101,8 +112,10 @@ CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName,
             for(LinkMetaList::iterator iter = gLinkMetas.begin(); iter != gLinkMetas.end(); iter++) {
                 LinkMeta& meta = *iter;
                 CCMenuItemColor* item = CCMenuItemColor::create(ccc4FromInt(meta.normalBgColor),
-                                                                ccc4FromInt(meta.selectedBgColor));
-                item->setTag(START_TAG_LINK_ITEM + iter - gLinkMetas.begin());
+                                                                ccc4FromInt(meta.selectedBgColor),
+																pRet,
+																menu_selector(CCRichLabelTTF::onLinkMenuItemClicked));
+                item->setTag(START_TAG_LINK_ITEM + meta.tag);
                 item->setPosition(ccp(meta.x + meta.width / 2,
                                       meta.y + meta.height / 2));
                 item->setContentSize(CCSizeMake(meta.width, meta.height));
@@ -595,6 +608,13 @@ void CCRichLabelTTF::setLinkTarget(int index, CCCallFunc* func) {
     // set func as user data of it
     item->setUserData(func);
     CC_SAFE_RETAIN(func);
+}
+
+void CCRichLabelTTF::onLinkMenuItemClicked(CCObject* sender) {
+	CCMenuItemColor* item = (CCMenuItemColor*)sender;
+	CCCallFunc* func = (CCCallFunc*)item->getUserData();
+	if(func)
+		func->execute();
 }
 
 NS_CC_END

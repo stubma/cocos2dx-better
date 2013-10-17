@@ -32,6 +32,9 @@
 typedef struct LinkMeta {
     int normalBgColor;
     int selectedBgColor;
+	
+	// the tag of link, multiple link can have same tag (in line break situation)
+	int tag;
     
     // link rect area
     float x;

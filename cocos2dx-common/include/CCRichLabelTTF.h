@@ -59,6 +59,9 @@ class CCTexture2D_richlabel;
 class CC_DLL CCRichLabelTTF : public CCGradientSprite, public CCLabelProtocol {
 protected:
     CCRichLabelTTF();
+	
+	// when link item is clicked
+	void onLinkMenuItemClicked(CCObject* sender);
     
 public:
     virtual ~CCRichLabelTTF();

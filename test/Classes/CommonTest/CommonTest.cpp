@@ -443,12 +443,28 @@ void CommonRichLabel2::onEnter()
                                                    24);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height / 2));
+	label->setLinkTarget(0, CCCallFunc::create(this, callfunc_selector(CommonRichLabel2::onLinkClicked)));
 	addChild(label);
 }
 
 std::string CommonRichLabel2::subtitle()
 {
     return "Rich Label (Link Tag)";
+}
+
+void CommonRichLabel2::onLinkClicked() {
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    CCSprite* content = CCSprite::create("Images/grossini.png");
+    content->setPosition(ccp(origin.x + visibleSize.width / 2,
+                             origin.y - content->getContentSize().height / 2));
+    float dy = visibleSize.height / 4 + content->getContentSize().height / 2;
+    CCToast::create(this,
+                    content,
+                    1000, // tag, if not -1, it won't show more than one at the same time
+                    3,
+                    CCEaseExponentialOut::create(CCMoveBy::create(0.5f, ccp(0, dy))),
+                    CCEaseExponentialIn::create(CCMoveBy::create(0.5f, ccp(0, -dy))));
 }
 
 //------------------------------------------------------------------

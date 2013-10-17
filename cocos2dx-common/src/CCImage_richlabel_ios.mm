@@ -539,6 +539,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
     
     // find every link span
     LinkMeta meta;
+	int tag = 0;
     int linkStart, linkEnd;
     int startLine, endLine;
     for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
@@ -583,12 +584,16 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
                     meta.y = origin[startLine].y - descent;
                     meta.width = origin[startLine].x + endOffsetX - meta.x;
                     meta.height = descent + ascent;
+					meta.tag = tag;
                 } else {
                     // TODO
                 }
                 
                 // push meta
                 gLinkMetas.push_back(meta);
+				
+				// increase tag
+				tag++;
             }
         }
     }

@@ -879,6 +879,19 @@ void CCUtils::setOpacityRecursively(CCNode* node, int o) {
     }
 }
 
+CCArray* CCUtils::getChildrenByTag(CCNode* parent, int tag) {
+	CCArray* ret = CCArray::create();
+	CCObject* obj;
+	CCARRAY_FOREACH(parent->getChildren(), obj) {
+		CCNode* child = (CCNode*)obj;
+		if(child->getTag() == tag) {
+			ret->addObject(child);
+		}
+	}
+	
+	return ret;
+}
+
 double CCUtils::pround(double x, int precision) {
     double div = pow(10, -precision);
     return floor(x / div + 0.5) * div;

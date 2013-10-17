@@ -323,6 +323,16 @@ public:
 	
 	/// set opacity from a node, to all its descentants
 	static void setOpacityRecursively(CCNode* node, int o);
+	
+	/**
+	 * get child node whth specified tag, it can return all children nodes if they has
+	 * same tag
+	 *
+	 * @param parent parent node
+	 * @param tag tag
+	 * @return array pointer contains all children node whose tag matched, array is auto released
+	 */
+	static CCArray* getChildrenByTag(CCNode* parent, int tag);
     
     /**
      * get CPU freqency, in Hz

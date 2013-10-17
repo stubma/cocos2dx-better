@@ -438,7 +438,7 @@ void CommonRichLabel2::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
-	CCRichLabelTTF* label = CCRichLabelTTF::create("This label has a [color=ff0000ff][link bg=3f7f7f7f bg_click=9f00ff00]clickable[/link][/color] link, great!",
+	CCRichLabelTTF* label = CCRichLabelTTF::create("This label has a [color=ff0000ff][link bg=3f7f7f7f bg_click=9fffff00]clickable[/link][/color] link, great!",
                                                    "Helvetica",
                                                    20);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,

@@ -446,6 +446,14 @@ void CommonRichLabel2::onEnter()
 	label->setLinkTarget(0, CCCallFunc::create(this, callfunc_selector(CommonRichLabel2::onLinkClicked)));
 	addChild(label);
 	
+	label = CCRichLabelTTF::create("Wow! Image[link bg=3f7f7f7f bg_click=9f00ff00] [image=Images/a.png scale=2]\ufffc[/image] [/link]can also be linked!",
+                                   "Helvetica",
+                                   24);
+	label->setPosition(ccp(origin.x + visibleSize.width / 2,
+						   origin.y + visibleSize.height * 2 / 5));
+	label->setLinkTarget(0, CCCallFunc::create(this, callfunc_selector(CommonRichLabel2::onLinkClicked)));
+	addChild(label);
+	
 	label = CCRichLabelTTF::create("Link works fine even in [color=ff0000ff][link bg=3f7f7f7f bg_click=9f00ff00]line\nbreak![/link][/color] That's incredible!",
                                                    "Helvetica",
                                                    20);

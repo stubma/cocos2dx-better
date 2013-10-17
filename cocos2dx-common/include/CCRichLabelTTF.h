@@ -49,6 +49,9 @@ class CCRichLabelTTFLinkStateSynchronizer;
  * [image=image path][/image]: embed a image, the character in tag must be \ufffc.
  *      For now, the image must NOT be in an atlas. Optional attributes: scale, scalex, scaley, w, h.
  *		If w is specified, x scale property will be ignored. If h is specified, y scale property will be ignored.
+ * [link bg=aarrggbb bg_click=aarrggbb][/link]: set one segment can be clicked as a hyperlink. bg and bg_click are
+ *		optional and they will be transparent color if not set. Link tag doesn't add any decoration, you must use other
+ *		tag to add visual style for clickable area.
  *
  * \par
  * CCRichLabelTFF is a subclass of CCGradientSprite, so it also can set a gradient

@@ -31,6 +31,7 @@
 NS_CC_BEGIN
 
 class CCTexture2D_richlabel;
+class CCRichLabelTTFLinkStateSynchronizer;
 
 /**
  * TTF label which support different style in a string. By using a tag description such as:
@@ -57,6 +58,10 @@ class CCTexture2D_richlabel;
  * Currently it only supports iOS and Android, please do it yourself if you want other platform.
  */
 class CC_DLL CCRichLabelTTF : public CCGradientSprite, public CCLabelProtocol {
+private:
+	/// menu item state listener
+	CCRichLabelTTFLinkStateSynchronizer* m_stateListener;
+	
 protected:
     CCRichLabelTTF();
 	

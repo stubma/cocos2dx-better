@@ -28,6 +28,7 @@
 #include "CCTexture2D_richlabel.h"
 #include "CCImage_richlabel.h"
 #include "CCMenuItemColor.h"
+#include "CCRichLabelTTFLinkStateSynchronizer.h"
 
 NS_CC_BEGIN
 
@@ -54,7 +55,8 @@ CCRichLabelTTF::CCRichLabelTTF()
 , m_shadowColor(0xff333333)
 , m_strokeEnabled(false)
 , m_textFillColor(ccWHITE)
-{
+, m_stateListener(NULL) {
+	m_stateListener = new CCRichLabelTTFLinkStateSynchronizer(this);
 }
 
 CCRichLabelTTF::~CCRichLabelTTF()
@@ -71,6 +73,9 @@ CCRichLabelTTF::~CCRichLabelTTF()
 			CC_SAFE_RELEASE(data);
 		}
 	}
+	
+	// release other
+	m_stateListener->release();
 }
 
 CCRichLabelTTF * CCRichLabelTTF::create()
@@ -119,6 +124,7 @@ CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName,
                 item->setPosition(ccp(meta.x + meta.width / 2,
                                       meta.y + meta.height / 2));
                 item->setContentSize(CCSizeMake(meta.width, meta.height));
+				item->setStateListener(pRet->m_stateListener);
                 items->addObject(item);
             }
             

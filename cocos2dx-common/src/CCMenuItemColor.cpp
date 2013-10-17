@@ -22,13 +22,17 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCMenuItemColor.h"
+#include "CCMenuItemColorStateListener.h"
+
+NS_CC_BEGIN
 
 CCMenuItemColor::CCMenuItemColor() :
 m_normalColor(ccc4(0, 0, 0, 0)),
 m_selectedColor(ccc4(0, 0, 0, 0)),
 m_disabledColor(ccc4(0, 0, 0, 0)),
 m_focusColor(ccc4(0, 0, 0, 0)),
-m_focus(false) {
+m_focus(false),
+m_stateListener(NULL) {
     // init other
     m_bEnabled = true;
     m_tBlendFunc.src = CC_BLEND_SRC;
@@ -190,22 +194,60 @@ ccBlendFunc CCMenuItemColor::getBlendFunc() {
 }
 
 void CCMenuItemColor::selected() {
-    CCMenuItem::selected();
-    updateColor();
+    selectedSilent();
+	
+	if(m_stateListener) {
+		m_stateListener->onMenuItemColorSelected(this);
+	}
 }
 
 void CCMenuItemColor::unselected() {
-    CCMenuItem::unselected();
-    updateColor();
+    unselectedSilent();
+	
+	if(m_stateListener) {
+		m_stateListener->onMenuItemColorDeselected(this);
+	}
 }
 
 void CCMenuItemColor::setEnabled(bool value) {
-    CCMenuItem::setEnabled(value);
-    updateColor();
+    setEnabledSilent(value);
+	
+	if(m_stateListener) {
+		if(value)
+			m_stateListener->onMenuItemColorEnabled(this);
+		else
+			m_stateListener->onMenuItemColorDisabled(this);
+	}
 }
 
 void CCMenuItemColor::setFocus(bool flag) {
-    m_focus = flag;
+    setFocusSilent(flag);
+	
+	if(m_stateListener) {
+		if(flag)
+			m_stateListener->onMenuItemColorFocused(this);
+		else
+			m_stateListener->onMenuItemColorUnfocused(this);
+	}
+}
+
+void CCMenuItemColor::selectedSilent() {
+	CCMenuItem::selected();
+    updateColor();
+}
+
+void CCMenuItemColor::unselectedSilent() {
+	CCMenuItem::unselected();
+    updateColor();
+}
+
+void CCMenuItemColor::setEnabledSilent(bool value) {
+	CCMenuItem::setEnabled(value);
+    updateColor();
+}
+
+void CCMenuItemColor::setFocusSilent(bool flag) {
+	m_focus = flag;
     updateColor();
 }
 
@@ -234,3 +276,5 @@ void CCMenuItemColor::draw() {
     
     CC_INCREMENT_GL_DRAWS(1);
 }
+
+NS_CC_END

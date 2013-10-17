@@ -27,7 +27,9 @@
 #include "cocos2d.h"
 #include "cocos2d-common.h"
 
-USING_NS_CC;
+NS_CC_BEGIN
+
+class CCMenuItemColorStateListener;
 
 /**
  * A menu item which only show a pure color. Because it is not based
@@ -80,12 +82,23 @@ public:
     virtual void selected();
     virtual void unselected();
     virtual void setEnabled(bool value);
+	
+	// those method doesn't trigger state event
+	virtual void selectedSilent();
+	virtual void unselectedSilent();
+	virtual void setEnabledSilent(bool value);
+	virtual void setFocusSilent(bool flag);
     
     /** BlendFunction. Conforms to CCBlendProtocol protocol */
     CC_PROPERTY(ccBlendFunc, m_tBlendFunc, BlendFunc);
     
     /// focused state
     CC_SYNTHESIZE_BOOL_SETTER(m_focus, Focus);
+	
+	/// state listener
+	CC_SYNTHESIZE(CCMenuItemColorStateListener*, m_stateListener, StateListener);
 };
+
+NS_CC_END
 
 #endif /* defined(__CCMenuItemColor__) */

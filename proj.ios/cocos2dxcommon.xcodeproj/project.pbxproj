@@ -23,6 +23,7 @@
 		92591A7B170D845B00490E54 /* CCTiledSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7A170D845B00490E54 /* CCTiledSprite.cpp */; };
 		92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7E170D84E700490E54 /* CCScroller.cpp */; };
 		925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925D7D3D16F4B4F000622984 /* CCShake.cpp */; };
+		92603811181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9260380F181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp */; };
 		9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */; };
 		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
 		9279754016F6C0140040E3AA /* CCAssetInputStream_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279753E16F6C0140040E3AA /* CCAssetInputStream_ios.cpp */; };
@@ -120,6 +121,9 @@
 		92591A80170D84EB00490E54 /* CCScroller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCScroller.h; sourceTree = "<group>"; };
 		925D7D3D16F4B4F000622984 /* CCShake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShake.cpp; sourceTree = "<group>"; };
 		925D7D4016F4B4F600622984 /* CCShake.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShake.h; sourceTree = "<group>"; };
+		9260380C1810112E001D69C4 /* CCMenuItemColorStateListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMenuItemColorStateListener.h; sourceTree = "<group>"; };
+		9260380F181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCRichLabelTTFLinkStateSynchronizer.cpp; sourceTree = "<group>"; };
+		92603810181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCRichLabelTTFLinkStateSynchronizer.h; sourceTree = "<group>"; };
 		9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
 		9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAutoRenderMenuItemSprite.cpp; sourceTree = "<group>"; };
 		9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2d-common.h"; sourceTree = "<group>"; };
@@ -281,8 +285,11 @@
 				9279754216F6C0B70040E3AA /* CCMemoryInputStream.cpp */,
 				9279754F16F6CB680040E3AA /* CCMemoryOutputStream.cpp */,
 				9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */,
+				9260380C1810112E001D69C4 /* CCMenuItemColorStateListener.h */,
 				9285154218093B6C008751E4 /* CCMenuItemColor.cpp */,
 				927E46DC175B718C008555FC /* CCRichLabelTTF.cpp */,
+				9260380F181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp */,
+				92603810181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.h */,
 				92838A4D175B8A9B0025FFEC /* CCTexture2D_richlabel.cpp */,
 				92838A4E175B8A9B0025FFEC /* CCTexture2D_richlabel.h */,
 				92C4463B175DCE090049F6AE /* CCImage_richlabel_android.cpp */,
@@ -456,6 +463,7 @@
 				9279754316F6C0B70040E3AA /* CCMemoryInputStream.cpp in Sources */,
 				9279754616F6C5B40040E3AA /* CCAssetInputStream_android.cpp in Sources */,
 				9279754A16F6C8960040E3AA /* CCAssetOutputStream_ios.cpp in Sources */,
+				92603811181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */,
 				9279754D16F6CADA0040E3AA /* CCAssetOutputStream_android.cpp in Sources */,
 				9279755016F6CB680040E3AA /* CCMemoryOutputStream.cpp in Sources */,
 				9279755216F6CC4C0040E3AA /* CCAssetInputStream.cpp in Sources */,

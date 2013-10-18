@@ -460,6 +460,7 @@ void CommonRichLabel2::onEnter()
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height * 3 / 5));
 	label->setLinkTarget(0, CCCallFunc::create(this, callfunc_selector(CommonRichLabel2::onLinkClicked)));
+	label->enableShadow(CCSizeMake(-10, -10), 0xafffff00, 4);
 	addChild(label);
 }
 

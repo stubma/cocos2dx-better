@@ -22,11 +22,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCTexture2D_richlabel.h"
-#include "CCImage_richlabel.h"
 
 NS_CC_BEGIN
 
-CCTexture2D_richlabel::CCTexture2D_richlabel() {
+CCTexture2D_richlabel::CCTexture2D_richlabel() :
+m_shadowStrokePadding(CCPointZero) {
 }
 
 CCTexture2D_richlabel::~CCTexture2D_richlabel() {
@@ -198,6 +198,9 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 		CC_BREAK_IF(!bRet);
 		bRet = initWithImage(pImage);
 		
+		// save info needed by rich label
+		m_shadowStrokePadding = pImage->getShadowStrokePadding();
+		m_linkMetas = pImage->getLinkMetas();
 	} while (0);
 	
 	CC_SAFE_RELEASE(pImage);

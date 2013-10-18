@@ -29,9 +29,6 @@
 #import <CoreText/CoreText.h>
 #include <math.h>
 
-// link meta infos
-LinkMetaList gLinkMetas;
-
 // tag char
 #define TAG_START '['
 #define TAG_END ']'
@@ -514,10 +511,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
     }
 }
 
-static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
-    // clear global meta
-    gLinkMetas.clear();
-    
+static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& linkMetas) {
     // get line count and their origin
     CFArrayRef linesArray = CTFrameGetLines(frame);
     int lineCount = CFArrayGetCount(linesArray);
@@ -590,7 +584,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
 					meta.tag = tag;
 					
 					// push meta
-					gLinkMetas.push_back(meta);
+					linkMetas.push_back(meta);
 					
 					// move line
 					startLine++;
@@ -610,7 +604,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans) {
     free(range);
 }
 
-static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo) {
+static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList& linkMetas) {
     bool bRet = false;
     do {
         CC_BREAK_IF(!pText || !pInfo);
@@ -1004,6 +998,12 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         // add the padding (this could be 0 if no shadow and no stroke)
         dim.width  += shadowStrokePaddingX;
         dim.height += shadowStrokePaddingY;
+		
+		// save shadow stroke padding
+		if(outShadowStrokePadding) {
+			outShadowStrokePadding->x = -startX;
+			outShadowStrokePadding->y = -startY;
+		}
         
 		// allocate data for bitmap
         unsigned char* data = new unsigned char[(int)(dim.width * dim.height * 4)];
@@ -1062,7 +1062,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             renderEmbededImages(context, frame, plain, spans);
             
             // if has link tag, build link info
-            extractLinkMeta(frame, spans);
+            extractLinkMeta(frame, spans, linkMetas);
 			
             // pop the context
             UIGraphicsPopContext();
@@ -1105,7 +1105,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 
 NS_CC_BEGIN
 
-CCImage_richlabel::CCImage_richlabel() {
+CCImage_richlabel::CCImage_richlabel() :
+m_shadowStrokePadding(CCPointZero) {
 }
 
 CCImage_richlabel::~CCImage_richlabel() {
@@ -1148,7 +1149,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorB             = textTintB;
     
     
-    if (! _initWithString(pText, eAlignMask, pFontName, nSize, &info))
+    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, m_LinkMetas))
     {
         return false;
     }

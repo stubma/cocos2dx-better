@@ -42,10 +42,7 @@ typedef struct LinkMeta {
     float width;
     float height;
 } LinkMeta;
-
-/// global link meta info
 typedef vector<LinkMeta> LinkMetaList;
-extern LinkMetaList gLinkMetas;
 
 NS_CC_BEGIN
 
@@ -76,6 +73,12 @@ public:
 										float strokeG               = 1,
 										float strokeB               = 1,
 										float strokeSize            = 1);
+	
+	/// shadow and stroke padding value
+	CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCPoint, m_shadowStrokePadding, ShadowStrokePadding);
+	
+	/// link meta list
+	CC_SYNTHESIZE_READONLY_PASS_BY_REF(LinkMetaList, m_LinkMetas, LinkMetas);
 };
 
 NS_CC_END

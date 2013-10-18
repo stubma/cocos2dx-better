@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include "ccMoreTypes.h"
+#include "CCImage_richlabel.h"
 
 NS_CC_BEGIN
 
@@ -47,6 +48,12 @@ public:
 	
     /** Initializes a texture from a string using a text definition*/
     bool initWithRichString(const char *text, ccRichFontDefinition *textDefinition);
+	
+	/// shadow and stroke padding value
+	CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCPoint, m_shadowStrokePadding, ShadowStrokePadding);
+	
+	/// link meta list
+	CC_SYNTHESIZE_READONLY_PASS_BY_REF(LinkMetaList, m_linkMetas, LinkMetas);
 };
 
 NS_CC_END

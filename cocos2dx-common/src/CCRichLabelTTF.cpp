@@ -45,17 +45,18 @@ NS_CC_BEGIN
 //
 //CCRichLabelTTF
 //
-CCRichLabelTTF::CCRichLabelTTF()
-: m_hAlignment(kCCTextAlignmentCenter)
-, m_vAlignment(kCCVerticalTextAlignmentTop)
-, m_pFontName(NULL)
-, m_fFontSize(0.0)
-, m_string("")
-, m_shadowEnabled(false)
-, m_shadowColor(0xff333333)
-, m_strokeEnabled(false)
-, m_textFillColor(ccWHITE)
-, m_stateListener(NULL) {
+CCRichLabelTTF::CCRichLabelTTF() :
+m_hAlignment(kCCTextAlignmentCenter),
+m_vAlignment(kCCVerticalTextAlignmentTop),
+m_pFontName(NULL),
+m_fFontSize(0.0),
+m_string(""),
+m_shadowEnabled(false),
+m_shadowColor(0xff333333),
+m_strokeEnabled(false),
+m_textFillColor(ccWHITE),
+m_stateListener(NULL),
+m_textChanging(true) {
 	m_stateListener = new CCRichLabelTTFLinkStateSynchronizer(this);
 }
 
@@ -111,29 +112,6 @@ CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName,
     CCRichLabelTTF *pRet = new CCRichLabelTTF();
     if(pRet && pRet->initWithString(string, strcmp(fontName, "") == 0 ? "Helvetica" : fontName , fontSize, dimensions, hAlignment, vAlignment))
     {
-        // create link menu
-        if(!gLinkMetas.empty()) {
-            CCArray* items = CCArray::create();
-            for(LinkMetaList::iterator iter = gLinkMetas.begin(); iter != gLinkMetas.end(); iter++) {
-                LinkMeta& meta = *iter;
-                CCMenuItemColor* item = CCMenuItemColor::create(ccc4FromInt(meta.normalBgColor),
-                                                                ccc4FromInt(meta.selectedBgColor),
-																pRet,
-																menu_selector(CCRichLabelTTF::onLinkMenuItemClicked));
-                item->setTag(START_TAG_LINK_ITEM + meta.tag);
-                item->setPosition(ccp(meta.x + meta.width / 2,
-                                      meta.y + meta.height / 2));
-                item->setContentSize(CCSizeMake(meta.width, meta.height));
-				item->setStateListener(pRet->m_stateListener);
-                items->addObject(item);
-            }
-            
-            // add menu in -1 z order so that it won't override label UI
-            CCMenu* menu = CCMenu::createWithArray(items);
-            menu->setPosition(CCPointZero);
-            pRet->addChild(menu, -1, TAG_MENU);
-        }
-        
         pRet->autorelease();
         return pRet;
     }
@@ -211,7 +189,7 @@ void CCRichLabelTTF::setString(const char *string)
     if (m_string.compare(string))
     {
         m_string = string;
-        
+        m_textChanging = true;
         this->updateTexture();
     }
 }
@@ -361,6 +339,50 @@ bool CCRichLabelTTF::updateTexture()
     CCRect rect =CCRectZero;
     rect.size   = m_pobTexture->getContentSize();
     this->setTextureRect(rect);
+	
+	// create link menu
+	CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
+	const LinkMetaList& linkMetas = tex->getLinkMetas();
+	if(!linkMetas.empty() && m_textChanging) {
+		// delete old menu if has
+		if(menu) {
+			menu->removeFromParent();
+			menu = NULL;
+		}
+		
+		// now create items for every link
+		CCArray* items = CCArray::create();
+		for(LinkMetaList::const_iterator iter = linkMetas.begin(); iter != linkMetas.end(); iter++) {
+			const LinkMeta& meta = *iter;
+			CCMenuItemColor* item = CCMenuItemColor::create(ccc4FromInt(meta.normalBgColor),
+															ccc4FromInt(meta.selectedBgColor),
+															this,
+															menu_selector(CCRichLabelTTF::onLinkMenuItemClicked));
+			item->setTag(START_TAG_LINK_ITEM + meta.tag);
+			item->setPosition(ccp(meta.x + meta.width / 2,
+								  meta.y + meta.height / 2));
+			item->setContentSize(CCSizeMake(meta.width, meta.height));
+			item->setStateListener(m_stateListener);
+			items->addObject(item);
+		}
+		
+		// add menu in -1 z order so that it won't override label UI
+		CCMenu* newMenu = CCMenu::createWithArray(items);
+		newMenu->setPosition(CCPointZero);
+		addChild(newMenu, -1, TAG_MENU);
+		
+		// clear flag
+		m_textChanging = false;
+	}
+	
+	// sync shadow stroke padding to link menu
+	// the padding must divide scale factor. Because at this time, texture already scaled for label
+	menu = (CCMenu*)getChildByTag(TAG_MENU);
+	if(menu) {
+		const CCPoint& p = tex->getShadowStrokePadding();
+		menu->setPosition(ccp(p.x / CC_CONTENT_SCALE_FACTOR(),
+							  p.y / CC_CONTENT_SCALE_FACTOR()));
+	}
     
     //ok
     return true;

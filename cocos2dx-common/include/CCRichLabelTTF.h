@@ -222,6 +222,9 @@ protected:
 	
     /** font tint */
     ccColor3B   m_textFillColor;
+	
+	// text is changing
+	bool m_textChanging;
 };
 
 NS_CC_END

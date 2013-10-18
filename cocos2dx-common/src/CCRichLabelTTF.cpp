@@ -647,4 +647,13 @@ void CCRichLabelTTF::onLinkMenuItemClicked(CCObject* sender) {
 		func->execute();
 }
 
+void CCRichLabelTTF::setLinkPriority(int p) {
+	// if not found, do nothing
+    CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
+    if(!menu)
+        return;
+	
+	menu->setTouchPriority(p);
+}
+
 NS_CC_END

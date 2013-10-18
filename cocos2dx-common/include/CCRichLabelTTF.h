@@ -181,6 +181,9 @@ public:
 	 * @param func the function will be invoked when any link is clicked
 	 */
 	void setLinkTargetForAll(CCCallFunc* func);
+	
+	/// set touch event priority of link menu
+	void setLinkPriority(int p);
     
 private:
     bool updateTexture();

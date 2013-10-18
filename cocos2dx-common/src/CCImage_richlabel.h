@@ -42,7 +42,7 @@ typedef struct LinkMeta {
     float width;
     float height;
 } LinkMeta;
-typedef vector<LinkMeta> LinkMetaList;
+typedef std::vector<LinkMeta> LinkMetaList;
 
 NS_CC_BEGIN
 
@@ -78,7 +78,7 @@ public:
 	CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCPoint, m_shadowStrokePadding, ShadowStrokePadding);
 	
 	/// link meta list
-	CC_SYNTHESIZE_READONLY_PASS_BY_REF(LinkMetaList, m_LinkMetas, LinkMetas);
+	CC_SYNTHESIZE_READONLY_PASS_BY_REF(LinkMetaList, m_linkMetas, LinkMetas);
 };
 
 NS_CC_END

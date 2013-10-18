@@ -1149,7 +1149,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorB             = textTintB;
     
     
-    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, m_LinkMetas))
+    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, m_linkMetas))
     {
         return false;
     }

@@ -31,8 +31,15 @@ NS_CC_BEGIN
 
 class CLBitmapDC {
 public:
+	// link meta list
+	LinkMetaList m_linkMetas;
+
+	// shadow stroke padding
+	CCPoint m_shadowStrokePadding;
+
+public:
 	CLBitmapDC() :
-			m_pData(NULL), m_nWidth(0), m_nHeight(0) {
+			m_pData(NULL), m_nWidth(0), m_nHeight(0), m_shadowStrokePadding(CCPointZero) {
 	}
 
 	~CLBitmapDC(void) {
@@ -149,6 +156,10 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 
 		// ok
 		bRet = true;
+
+		// save info needed by label
+		m_linkMetas = dc.m_linkMetas;
+		m_shadowStrokePadding = dc.m_shadowStrokePadding;
 	} while(0);
 
 	return bRet;
@@ -156,10 +167,12 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 
 NS_CC_END
 
+using namespace cocos2d;
+
 extern "C" {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeInitBitmapDC(JNIEnv* env, jobject thiz, int width, int height, jbyteArray pixels) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeInitBitmapDC(JNIEnv* env, jclass clazz, jint width, jint height, jbyteArray pixels) {
         int size = width * height * 4;
-        cocos2d::CLBitmapDC& bitmapDC = cocos2d::sharedCLBitmapDC();
+        CLBitmapDC& bitmapDC = sharedCLBitmapDC();
         bitmapDC.m_nWidth = width;
         bitmapDC.m_nHeight = height;
         bitmapDC.m_pData = new unsigned char[size];
@@ -174,6 +187,33 @@ extern "C" {
                 *tempPtr++ = bitmapDC.swapAlpha(tempdata);
             }
         }
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeSaveLinkMeta(JNIEnv* env, jclass clazz, jint normalBgColor, jint selectedBgColor,
+			jfloat x, jfloat y, jfloat width, jfloat height, jint tag) {
+    	CLBitmapDC& bitmapDC = sharedCLBitmapDC();
+    	LinkMeta meta = {
+    		normalBgColor,
+    		selectedBgColor,
+    		tag,
+    		x,
+    		y,
+    		width,
+    		height
+    	};
+    	bitmapDC.m_linkMetas.push_back(meta);
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeSaveShadowStrokePadding(JNIEnv* env, jclass clazz, jfloat x, jfloat y) {
+    	CLBitmapDC& bitmapDC = sharedCLBitmapDC();
+    	bitmapDC.m_shadowStrokePadding.x = x;
+    	bitmapDC.m_shadowStrokePadding.y = y;
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeResetBitmapDC(JNIEnv* env, jclass clazz) {
+    	CLBitmapDC& bitmapDC = sharedCLBitmapDC();
+    	bitmapDC.m_linkMetas.clear();
+    	bitmapDC.m_shadowStrokePadding = CCPointZero;
     }
 }
 

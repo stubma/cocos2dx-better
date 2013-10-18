@@ -40,6 +40,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.text.Layout.Alignment;
 import android.text.Spannable;
@@ -74,7 +76,23 @@ public class RichLabelBitmap {
 	    BOLD,
 	    ITALIC,
 	    UNDERLINE,
-	    IMAGE
+	    IMAGE,
+	    LINK
+	}
+	
+	// link meta info
+	final static class LinkMeta {
+	    int normalBgColor;
+	    int selectedBgColor;
+		
+		// the tag of link, multiple link can have same tag (in line break situation)
+		int tag;
+	    
+	    // link rect area
+	    float x;
+	    float y;
+	    float width;
+	    float height;
 	}
 	
 	// span info
@@ -98,6 +116,10 @@ public class RichLabelBitmap {
 		public float scaleY;
 		public float width;
 		public float height;
+		
+	    // for link tag
+	    int normalBgColor;
+	    int selectedBgColor;
 	}
 	
 	// tag parse result
@@ -164,6 +186,9 @@ public class RichLabelBitmap {
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
 	        final float strokeB, final float strokeSize, float contentScaleFactor) {
+		// reset bitmap dc
+		nativeResetBitmapDC();
+		
 		// extract span info and return text without span style
 		List<Span> spans = new ArrayList<Span>();
 		String plain = buildSpan(pString, spans);
@@ -518,6 +543,9 @@ public class RichLabelBitmap {
 		if(pHeight > 0 && pHeight > height)
 			height = pHeight;
 		
+		// save padding
+		nativeSaveShadowStrokePadding(startX, Math.max(0, height - layout.getHeight() - startY));
+		
 		// create bitmap and canvas
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 		Canvas c = new Canvas(bitmap);
@@ -547,6 +575,9 @@ public class RichLabelBitmap {
 			layout.draw(c);
 		}
 		
+		// extract link meta info
+		extractLinkMeta(layout, spans, contentScaleFactor);
+		
 		// transfer bitmap data to native layer, and release bitmap when done
 		initNativeObject(bitmap);
 		bitmap.recycle();
@@ -557,6 +588,104 @@ public class RichLabelBitmap {
 				b.recycle();
 			}
 		}
+	}
+	
+	private static void extractLinkMeta(StaticLayout layout, List<Span> spans, float contentScaleFactor) {
+		// get line count
+		int lineCount = layout.getLineCount();
+		
+		// total height
+		float totalHeight = layout.getHeight();
+		
+		// get line origin
+		PointF[] origin = new PointF[lineCount];
+		for(int i = 0; i < lineCount; i++) {
+			origin[i] = new PointF();
+			origin[i].x = layout.getLineLeft(i) / contentScaleFactor;
+			origin[i].y = (totalHeight - layout.getLineBaseline(i)) / contentScaleFactor;
+		}
+		
+		// get line range
+		Point[] range = new Point[lineCount];
+		for(int i = 0; i < lineCount; i++) {
+			range[i] = new Point();
+			range[i].x = layout.getLineStart(i);
+			range[i].y = layout.getLineEnd(i);
+		}
+		
+		// get rect area for every link, or link part
+		LinkMeta meta = new LinkMeta();
+		int tag = 0;
+	    int linkStart = 0, linkEnd = 0;
+	    int startLine = 0, endLine = 0;
+	    for(Span span : spans) {
+	    	if(span.type == SpanType.LINK) {
+	    		if(!span.close) {
+	                // get start pos
+	                linkStart = span.pos;
+	                
+	                // save color info
+	                meta.normalBgColor = span.normalBgColor;
+	                meta.selectedBgColor = span.selectedBgColor;
+	    		} else {
+	                // remember end pos
+	                linkEnd = span.pos;
+	                
+	                // find out the line for start and end pos
+	                for (int i = 0; i < lineCount; i++) {
+	                    if(linkStart >= range[i].x &&
+	                       linkStart < range[i].y) {
+	                        startLine = i;
+	                    }
+	                    
+	                    if(linkEnd >= range[i].x &&
+	                       linkEnd < range[i].y) {
+	                        endLine = i;
+	                        break;
+	                    }
+	                }
+	                
+	                // get rect area
+	                int firstLine = startLine;
+					while(startLine <= endLine) {
+						float ascent = -layout.getLineAscent(startLine) / contentScaleFactor;
+	                    float descent = layout.getLineDescent(startLine) / contentScaleFactor;
+						int charEnd = linkEnd;
+						if(startLine < endLine)
+							charEnd = range[startLine].y;
+	                    float startOffsetX = startLine > firstLine 
+	                    		? (layout.getLineLeft(startLine) / contentScaleFactor) 
+	                    		: (layout.getPrimaryHorizontal(linkStart) / contentScaleFactor);
+	                    float endOffsetX = startLine < endLine 
+	                    		? (layout.getLineRight(startLine) / contentScaleFactor) 
+	                    		: (layout.getPrimaryHorizontal(charEnd) / contentScaleFactor);
+	                    meta.x = startOffsetX;
+	                    meta.y = origin[startLine].y - descent;
+	                    meta.width = endOffsetX - meta.x;
+	                    meta.height = descent + ascent;
+						meta.tag = tag;
+						
+						// push meta
+						nativeSaveLinkMeta(meta.normalBgColor, 
+								meta.selectedBgColor,
+								meta.x,
+								meta.y,
+								meta.width,
+								meta.height,
+								meta.tag);
+						
+						// move line
+						startLine++;
+						
+						// move start
+						linkStart = charEnd;
+					}
+					
+					// increase tag
+					tag++;
+	    		}
+	    	}
+	    }
 	}
 	
 	// if parse failed, endTagPos will be len, otherwise it is end tag position
@@ -598,6 +727,11 @@ public class RichLabelBitmap {
 	                    if(r.type == SpanType.UNKNOWN) {
 	                        r.type = checkTagName(p, tagNameStart, tagNameEnd);
 	                    }
+	                } else if(p.charAt(i) == ' ') {
+	                    state = TagParseState.EQUAL;
+	                    tagNameEnd = i++;
+	                    r.type = checkTagName(p, tagNameStart, tagNameEnd);
+	                    r.dataStart = i;
 	                } else {
 	                    i++;
 	                }
@@ -658,6 +792,11 @@ public class RichLabelBitmap {
 	                      p.charAt(start + 2) == 'z' &&
 	                      p.charAt(start + 3) == 'e') {
 	                return SpanType.SIZE;
+	            } else if(p.charAt(start) == 'l' &&
+	                      p.charAt(start + 1) == 'i' &&
+	                      p.charAt(start + 2) == 'n' &&
+	                      p.charAt(start + 3) == 'k') {
+	                return SpanType.LINK;
 	            }
 	        case 5:
 	            if(p.charAt(start) == 'c' &&
@@ -672,7 +811,7 @@ public class RichLabelBitmap {
 	            		p.charAt(start + 3) == 'g' &&
 	            		p.charAt(start + 4) == 'e') {
 	            	return SpanType.IMAGE;
-	            }
+	            } 
 	            break;
 	            
 	    }
@@ -761,6 +900,22 @@ public class RichLabelBitmap {
 	                            	
 	                            	break;
 	                            }
+	                            case LINK:
+	                            {
+	                            	String v = text.substring(r.dataStart, r.dataEnd);
+	                            	String[] parts = v.split(" ");
+	                            	for(String part : parts) {
+	                            		String[] pair = part.split("=");
+	                            		if(pair.length == 2) {
+	                            			if("bg".equals(pair[0])) {
+	                            				span.normalBgColor = parseColor(pair[1], 0, pair[1].length());
+	                            			} else if("bg_click".equals(pair[0])) {
+	                            				span.selectedBgColor = parseColor(pair[1], 0, pair[1].length());
+	                            			}
+	                            		}
+	                            	}
+	                            	break;
+	                            }
 	                            default:
 	                                break;
 	                        }
@@ -829,4 +984,8 @@ public class RichLabelBitmap {
 	}
 	
 	private static native void nativeInitBitmapDC(int pWidth, int pHeight, byte[] pPixels);
+	private native static void nativeSaveLinkMeta(int normalBgColor, int selectedBgColor, 
+			float x, float y, float width, float height, int tag);
+	private native static void nativeSaveShadowStrokePadding(float x, float y);
+	private native static void nativeResetBitmapDC();
 }

@@ -30,7 +30,7 @@ CCGradientSprite::CCGradientSprite() :
         m_endColor(ccWHITE),
         m_cEndOpacity(0),
         m_cStartOpacity(255),
-        m_AlongVector(ccp(0, 1)),
+        m_AlongVector(CCPointZero),
         m_bCompressedInterpolation(true) {
 }
 

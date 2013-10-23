@@ -163,9 +163,9 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 	if ( textDefinition->m_stroke.m_strokeEnabled )
 	{
 		strokeEnabled = true;
-		strokeColorR = textDefinition->m_stroke.m_strokeColor.r / 255;
-		strokeColorG = textDefinition->m_stroke.m_strokeColor.g / 255;
-		strokeColorB = textDefinition->m_stroke.m_strokeColor.b / 255;
+		strokeColorR = textDefinition->m_stroke.m_strokeColor.r / 255.0f;
+		strokeColorG = textDefinition->m_stroke.m_strokeColor.g / 255.0f;
+		strokeColorB = textDefinition->m_stroke.m_strokeColor.b / 255.0f;
 		strokeSize   = textDefinition->m_stroke.m_strokeSize;
 	}
 	

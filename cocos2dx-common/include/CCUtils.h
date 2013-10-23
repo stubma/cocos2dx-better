@@ -341,6 +341,9 @@ public:
      *      It will returns 0 if it can't be queried
      */
     static int getCpuHz();
+    
+    /// remove a default setting, CCUserDefault doesn't provide this feature
+    static void purgeDefaultForKey(const string& key);
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

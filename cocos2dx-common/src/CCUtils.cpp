@@ -961,6 +961,54 @@ int CCUtils::getCpuHz() {
 #endif
 }
 
+void CCUtils::purgeDefaultForKey(const string& key) {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    NSString* nsKey = [NSString stringWithCString:key.c_str() encoding:NSUTF8StringEncoding];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:nsKey];
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // context
+    jobject ctx = getContext();
+    
+    // preference
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t,
+                                   "android/preference/PreferenceManager",
+                                   "getDefaultSharedPreferences",
+                                   "(Landroid/content/Context;)Landroid/content/SharedPreferences;");
+	jobject pref = t.env->CallStaticObjectMethod(t.classID, t.methodID, ctx);
+    
+    // editor
+    JniHelper::getMethodInfo(t,
+                             "android/content/SharedPreferences",
+                             "edit",
+                             "()Landroid/content/SharedPreferences$Editor;");
+    jobject edit = t.env->CallObjectMethod(pref, t.methodID);
+    
+    // remove
+    jstring jKey = t.env->NewStringUTF(key.c_str());
+    JniHelper::getMethodInfo(t,
+                             "android/content/SharedPreferences$Editor",
+                             "remove",
+                             "(Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;");
+    t.env->CallObjectMethod(edit, t.methodID, jKey);
+    
+    // commit
+    JniHelper::getMethodInfo(t,
+                             "android/content/SharedPreferences$Editor",
+                             "commit",
+                             "()Z");
+    t.env->CallBooleanMethod(edit, t.methodID);
+    
+    // release
+    t.env->DeleteLocalRef(jKey);
+    t.env->DeleteLocalRef(ctx);
+    t.env->DeleteLocalRef(pref);
+    t.env->DeleteLocalRef(edit);
+#else
+    CCLOGERROR("CCUtils::purgeDefaultForKey is not implemented for this platform, please finish it");
+#endif
+}
+
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 JNIEnv* CCUtils::getJNIEnv() {

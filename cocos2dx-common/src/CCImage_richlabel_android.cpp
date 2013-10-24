@@ -51,10 +51,10 @@ public:
 	bool getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
 			float textTintR = 1.0, float textTintG = 1.0, float textTintB = 1.0, bool shadow = false, float shadowDeltaX = 0.0, float shadowDeltaY = 0.0, int shadowColor = 0,
 			float shadowBlur = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
-					0.0, float strokeSize = 0.0) {
+					0.0, float strokeSize = 0.0, bool sizeOnly = false) {
 		JniMethodInfo methodInfo;
 		if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/RichLabelBitmap", "createRichLabelBitmap",
-				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFIFZFFFFF)V")) {
+				"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFIFZFFFFFZ)V")) {
 			CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
 			return false;
 		}
@@ -79,7 +79,7 @@ public:
 		jstring jstrFont = methodInfo.env->NewStringUTF(fullPathOrFontName.c_str());
 
 		methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstrText, jstrFont, (int) fontSize, textTintR, textTintG, textTintB,
-				eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowColor, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR());
+				eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowColor, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR(), sizeOnly);
 
 		methodInfo.env->DeleteLocalRef(jstrText);
 		methodInfo.env->DeleteLocalRef(jstrFont);
@@ -136,9 +136,26 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 
 		CLBitmapDC &dc = sharedCLBitmapDC();
 
-		CC_BREAK_IF(
-				!dc.getBitmapFromJavaShadowStroke(pText, nWidth, nHeight, eAlignMask, pFontName, nSize, textTintR, textTintG, textTintB, shadow, shadowOffsetX,
-						shadowOffsetY, shadowColor, shadowBlur, stroke, strokeR, strokeG, strokeB, strokeSize));
+		CC_BREAK_IF(!dc.getBitmapFromJavaShadowStroke(pText,
+                                                      nWidth,
+                                                      nHeight,
+                                                      eAlignMask,
+                                                      pFontName,
+                                                      nSize,
+                                                      textTintR,
+                                                      textTintG,
+                                                      textTintB,
+                                                      shadow,
+                                                      shadowOffsetX,
+                                                      shadowOffsetY,
+                                                      shadowColor,
+                                                      shadowBlur,
+                                                      stroke,
+                                                      strokeR,
+                                                      strokeG,
+                                                      strokeB,
+                                                      strokeSize,
+                                                      false));
 
 		// assign the dc.m_pData to m_pData in order to save time
 		m_pData = dc.m_pData;
@@ -165,26 +182,69 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 	return bRet;
 }
 
+CCSize CCImage_richlabel::measureRichString(const char* pText,
+                                            const char* pFontName,
+                                            int nSize,
+                                            int maxWidth,
+                                            float shadowOffsetX,
+                                            float shadowOffsetY,
+                                            float strokeSize) {
+    CCSize size = CCSizeZero;
+	do {
+		CC_BREAK_IF(!pText);
+        
+		CLBitmapDC &dc = sharedCLBitmapDC();
+        
+		CC_BREAK_IF(!dc.getBitmapFromJavaShadowStroke(pText,
+                                                      maxWidth,
+                                                      0,
+                                                      kAlignCenter,
+                                                      pFontName,
+                                                      nSize,
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      shadowOffsetX != 0 || shadowOffsetY != 0,
+                                                      shadowOffsetX,
+                                                      shadowOffsetY,
+                                                      0,
+                                                      0,
+                                                      strokeSize != 0,
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      strokeSize,
+                                                      true));
+		size.width = dc.m_nWidth;
+		size.height = dc.m_nHeight;
+	} while(0);
+    
+	return size;
+}
+
 NS_CC_END
 
 using namespace cocos2d;
 
 extern "C" {
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeInitBitmapDC(JNIEnv* env, jclass clazz, jint width, jint height, jbyteArray pixels) {
-        int size = width * height * 4;
         CLBitmapDC& bitmapDC = sharedCLBitmapDC();
         bitmapDC.m_nWidth = width;
         bitmapDC.m_nHeight = height;
-        bitmapDC.m_pData = new unsigned char[size];
-        env->GetByteArrayRegion(pixels, 0, size, (jbyte*)bitmapDC.m_pData);
-		
-        // swap data
-        unsigned int* tempPtr = (unsigned int*)bitmapDC.m_pData;
-        unsigned int tempdata = 0;
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                tempdata = *tempPtr;
-                *tempPtr++ = bitmapDC.swapAlpha(tempdata);
+        
+        if(pixels) {
+            int size = width * height * 4;
+            bitmapDC.m_pData = new unsigned char[size];
+            env->GetByteArrayRegion(pixels, 0, size, (jbyte*)bitmapDC.m_pData);
+            
+            // swap data
+            unsigned int* tempPtr = (unsigned int*)bitmapDC.m_pData;
+            unsigned int tempdata = 0;
+            for (int i = 0; i < height; ++i) {
+                for (int j = 0; j < width; ++j) {
+                    tempdata = *tempPtr;
+                    *tempPtr++ = bitmapDC.swapAlpha(tempdata);
+                }
             }
         }
     }

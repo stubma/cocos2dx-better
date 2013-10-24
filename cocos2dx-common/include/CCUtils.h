@@ -344,6 +344,28 @@ public:
     
     /// remove a default setting, CCUserDefault doesn't provide this feature
     static void purgeDefaultForKey(const string& key);
+    
+    /**
+     * Measure a rich string size without creating a OpenGL texture. Measured size
+     * will be same as content size of rich label node. However, it may not exactly same 
+     * as content size if content scale factor is not 1, but the deviation will be less than 1
+     * pixel
+     *
+     * @param pText rich text string supported by CCRichLabelTTF
+     * @param pFontName font name, optional. If NULL, use default font
+     * @param nSize font size, optional. If zero, use default size
+     * @param maxWidth max line width, or zero if single line text. optional
+     * @param shadowOffsetX shadow x offset, optional
+     * @param shadowOffsetY shadow y offset, optional
+     * @param strokeSize border line width, optional
+     */
+    static CCSize measureRichString(const char* pText,
+                                    const char* pFontName = NULL,
+                                    int nSize = 0,
+                                    int maxWidth = 0,
+                                    float shadowOffsetX = 0,
+                                    float shadowOffsetY = 0,
+                                    float strokeSize = 0);
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

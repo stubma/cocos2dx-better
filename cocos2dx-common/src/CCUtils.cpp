@@ -24,6 +24,7 @@
 #include "CCUtils.h"
 #include "CCMoreMacros.h"
 #include "CCMD5.h"
+#include "CCImage_richlabel.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     #include <sys/sysctl.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -1007,6 +1008,25 @@ void CCUtils::purgeDefaultForKey(const string& key) {
 #else
     CCLOGERROR("CCUtils::purgeDefaultForKey is not implemented for this platform, please finish it");
 #endif
+}
+
+CCSize CCUtils::measureRichString(const char* pText,
+                                  const char* pFontName,
+                                  int nSize,
+                                  int maxWidth,
+                                  float shadowOffsetX,
+                                  float shadowOffsetY,
+                                  float strokeSize) {
+    CCImage_richlabel* image = new CCImage_richlabel();
+    CCSize size = image->measureRichString(pText,
+                                           pFontName,
+                                           nSize,
+                                           maxWidth,
+                                           shadowOffsetX,
+                                           shadowOffsetY,
+                                           strokeSize);
+    image->release();
+    return size;
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

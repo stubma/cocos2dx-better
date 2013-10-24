@@ -46,8 +46,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     pScene->addChild(pLayer);
     pDirector->runWithScene(pScene);
-    
-    CCLOG("%d hz", CCUtils::getCpuHz());
 
     return true;
 }

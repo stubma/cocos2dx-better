@@ -73,7 +73,19 @@ public:
 										float strokeG               = 1,
 										float strokeB               = 1,
 										float strokeSize            = 1);
-	
+    
+    /**
+     * Measure a rich string size without creating a OpenGL texture. Measured size
+     * will be exactly same as content size of rich label node.
+     */
+    CCSize measureRichString(const char* pText,
+                             const char* pFontName = NULL,
+                             int nSize = 0,
+                             int maxWidth = 0,
+                             float shadowOffsetX = 0,
+                             float shadowOffsetY = 0,
+                             float strokeSize = 0);
+    
 	/// shadow and stroke padding value
 	CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCPoint, m_shadowStrokePadding, ShadowStrokePadding);
 	

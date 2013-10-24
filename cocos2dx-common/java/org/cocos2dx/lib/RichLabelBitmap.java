@@ -185,7 +185,7 @@ public class RichLabelBitmap {
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
-	        final float strokeB, final float strokeSize, float contentScaleFactor) {
+	        final float strokeB, final float strokeSize, float contentScaleFactor, boolean sizeOnly) {
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		
@@ -543,44 +543,50 @@ public class RichLabelBitmap {
 		if(pHeight > 0 && pHeight > height)
 			height = pHeight;
 		
-		// save padding
-		nativeSaveShadowStrokePadding(startX, Math.max(0, height - layout.getHeight() - startY));
-		
-		// create bitmap and canvas
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-		Canvas c = new Canvas(bitmap);
-		
-		// translate for vertical alignment
-		c.translate(startX, startY);
-		
-		// draw text
-		layout.draw(c);
-		
-		// draw again if stroke is enabled
-		if(stroke) {
-			// reset paint to stroke mode
-			paint.setStyle(Paint.Style.STROKE);
-			paint.setStrokeWidth(strokeSize);
-			paint.setARGB(255, (int)strokeR * 255, (int)strokeG * 255, (int)strokeB * 255);
-			paint.clearShadowLayer();
+		// if only measure, just pass size to native layer
+		// if not, render a bitmap
+		if(!sizeOnly) {
+			// save padding
+			nativeSaveShadowStrokePadding(startX, Math.max(0, height - layout.getHeight() - startY));
 			
-			// clear color and underline span
-			for(ForegroundColorSpan span : rich.getSpans(0, rich.length(), ForegroundColorSpan.class)) {
-				rich.removeSpan(span);
-			}
-			for(UnderlineSpan span : rich.getSpans(0, rich.length(), UnderlineSpan.class)) {
-				rich.removeSpan(span);
-			}
+			// create bitmap and canvas
+			Bitmap bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+			Canvas c = new Canvas(bitmap);
 			
+			// translate for vertical alignment
+			c.translate(startX, startY);
+			
+			// draw text
 			layout.draw(c);
+			
+			// draw again if stroke is enabled
+			if(stroke) {
+				// reset paint to stroke mode
+				paint.setStyle(Paint.Style.STROKE);
+				paint.setStrokeWidth(strokeSize);
+				paint.setARGB(255, (int)strokeR * 255, (int)strokeG * 255, (int)strokeB * 255);
+				paint.clearShadowLayer();
+				
+				// clear color and underline span
+				for(ForegroundColorSpan span : rich.getSpans(0, rich.length(), ForegroundColorSpan.class)) {
+					rich.removeSpan(span);
+				}
+				for(UnderlineSpan span : rich.getSpans(0, rich.length(), UnderlineSpan.class)) {
+					rich.removeSpan(span);
+				}
+				
+				layout.draw(c);
+			}
+			
+			// extract link meta info
+			extractLinkMeta(layout, spans, contentScaleFactor);
+			
+			// transfer bitmap data to native layer, and release bitmap when done
+			initNativeObject(bitmap);
+			bitmap.recycle();
+		} else {
+			nativeInitBitmapDC(width, height, null);
 		}
-		
-		// extract link meta info
-		extractLinkMeta(layout, spans, contentScaleFactor);
-		
-		// transfer bitmap data to native layer, and release bitmap when done
-		initNativeObject(bitmap);
-		bitmap.recycle();
 		
 		// release cached images
 		for(Bitmap b : imageMap.values()) {

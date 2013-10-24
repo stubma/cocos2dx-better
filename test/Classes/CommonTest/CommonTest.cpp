@@ -438,6 +438,7 @@ void CommonRichLabel2::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
+    // label 1
 	CCRichLabelTTF* label = CCRichLabelTTF::create("This label has a [color=ff0000ff][link bg=3f7f7f7f bg_click=9fffff00]clickable[/link][/color] link, great!",
                                                    "Helvetica",
                                                    20);
@@ -445,7 +446,15 @@ void CommonRichLabel2::onEnter()
 						   origin.y + visibleSize.height / 5));
 	label->setLinkTarget(0, CCCallFunc::create(this, callfunc_selector(CommonRichLabel2::onLinkClicked)));
 	addChild(label);
+    
+    // measure api demo
+    CCLOG("label content: %f, %f", label->getContentSize().width, label->getContentSize().height);
+    CCSize s = CCUtils::measureRichString("This label has a [color=ff0000ff][link bg=3f7f7f7f bg_click=9fffff00]clickable[/link][/color] link, great!",
+                                          "Helvetica",
+                                          20);
+    CCLOG("measure: %f, %f", s.width, s.height);
 	
+    // label 2
 	label = CCRichLabelTTF::create("Wow! Image[link bg=3f7f7f7f bg_click=9f00ff00] [image=Images/a.png scale=2]\ufffc[/image] [/link]can also be linked!",
                                    "Helvetica",
                                    24);
@@ -454,6 +463,7 @@ void CommonRichLabel2::onEnter()
 	label->setLinkTarget(0, CCCallFunc::create(this, callfunc_selector(CommonRichLabel2::onLinkClicked)));
 	addChild(label);
 	
+    // label 3
 	label = CCRichLabelTTF::create("Link works fine even in [color=ff0000ff][link bg=3f7f7f7f bg_click=9f00ff00]line\nbreak![/link][/color] That's incredible!",
                                                    "Helvetica",
                                                    20);

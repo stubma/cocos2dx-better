@@ -99,6 +99,9 @@ typedef struct {
     float        tintColorG;
     float        tintColorB;
     unsigned char*  data;
+    
+    // true indicating only doing measurement
+    bool sizeOnly;
 } tImageInfo;
 
 ////////////////////////////////////////
@@ -618,6 +621,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         fntName = [[fntName lastPathComponent] stringByDeletingPathExtension];
         
         // create the font
+        if(nSize <= 0)
+            nSize = (int)[UIFont systemFontSize];
         UIFont* uiDefaultFont = [UIFont fontWithName:fntName size:nSize];
         CC_BREAK_IF(!uiDefaultFont);
         CTFontRef defaultFont = CTFontCreateWithName((CFStringRef)uiDefaultFont.fontName, nSize, NULL);
@@ -1006,17 +1011,22 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 		}
         
 		// allocate data for bitmap
-        unsigned char* data = new unsigned char[(int)(dim.width * dim.height * 4)];
-        memset(data, 0, (int)(dim.width * dim.height * 4));
-        
-        // create context
-        CGContextRef context = CGBitmapContextCreate(data,
-                                                     dim.width,
-                                                     dim.height,
-                                                     8,
-                                                     dim.width * 4,
-                                                     colorSpace,
-                                                     kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+        // but don't do that if only measure
+        unsigned char* data = NULL;
+        CGContextRef context = NULL;
+        if(!pInfo->sizeOnly) {
+            data = new unsigned char[(int)(dim.width * dim.height * 4)];
+            memset(data, 0, (int)(dim.width * dim.height * 4));
+            
+            // create context
+            context = CGBitmapContextCreate(data,
+                                            dim.width,
+                                            dim.height,
+                                            8,
+                                            dim.width * 4,
+                                            colorSpace,
+                                            kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+        }
         
         // if fail to create context, break
         // if ok, draw text by core text
@@ -1147,7 +1157,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorR             = textTintR;
     info.tintColorG             = textTintG;
     info.tintColorB             = textTintB;
-    
+    info.sizeOnly = false;
     
     if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, m_linkMetas))
     {
@@ -1161,6 +1171,37 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     m_pData = info.data;
     
     return true;
+}
+
+CCSize CCImage_richlabel::measureRichString(const char* pText,
+                                            const char* pFontName,
+                                            int nSize,
+                                            int maxWidth,
+                                            float shadowOffsetX,
+                                            float shadowOffsetY,
+                                            float strokeSize) {
+    tImageInfo info = {0};
+    info.width                  = maxWidth;
+    info.height                 = 0;
+    info.hasShadow              = shadowOffsetX != 0 || shadowOffsetY != 0;
+    info.shadowOffset.width     = shadowOffsetX;
+    info.shadowOffset.height    = shadowOffsetY;
+    info.shadowBlur             = 0;
+    info.shadowColor            = 0;
+    info.hasStroke              = strokeSize != 0;
+    info.strokeColorR           = 0;
+    info.strokeColorG           = 0;
+    info.strokeColorB           = 0;
+    info.strokeSize             = strokeSize;
+    info.tintColorR             = 0;
+    info.tintColorG             = 0;
+    info.tintColorB             = 0;
+    info.sizeOnly = true;
+    
+    if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, &m_shadowStrokePadding, m_linkMetas)) {
+        return CCSizeZero;
+    }
+    return CCSizeMake(info.width, info.height);
 }
 
 NS_CC_END

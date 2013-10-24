@@ -104,12 +104,51 @@ static const ccColor4B cc4BLACK = { 0, 0, 0, 255 };
 static const ccColor4B cc4WHITE = { 255, 255, 255, 255 };
 static const ccColor4B cc4TRANSPARENT = { 0, 0, 0, 0 };
 
-// color conversion
+/// convert int color 0xaarrggbb to ccColor4B
 static inline ccColor4B ccc4FromInt(int c) {
     return ccc4((c >> 16) & 0xff,
                 (c >> 8) & 0xff,
                 c & 0xff,
                 (c >> 24) & 0xff);
+}
+
+/// convert int color 0xaarrggbb to ccColor3B, alpha is discarded
+static inline ccColor3B ccc3FromInt(int c) {
+    return ccc3((c >> 16) & 0xff,
+                (c >> 8) & 0xff,
+                c & 0xff);
+}
+
+/// convert int color 0xaarrggbb to ccColor4F
+static inline ccColor4F ccc4fFromInt(int c) {
+    return ccc4f(((c >> 16) & 0xff) / 255.0f,
+                ((c >> 8) & 0xff) / 255.0f,
+                (c & 0xff) / 255.0f,
+                ((c >> 24) & 0xff) / 255.0f);
+}
+
+/// convert ccColor4B to int color 0xaarrggbb
+static inline int ccIntFromC4(const ccColor4B& c) {
+    return ((c.a & 0xff) << 24) |
+        ((c.r & 0xff) << 16) |
+        ((c.g & 0xff) << 8) |
+        (c.b & 0xff);
+}
+
+/// convert ccColor3B to int color 0xaarrggbb
+static inline int ccIntFromC3(const ccColor3B& c) {
+    return 0xff000000 |
+        ((c.r & 0xff) << 16) |
+        ((c.g & 0xff) << 8) |
+        (c.b & 0xff);
+}
+
+/// convert ccColor4F to int color 0xaarrggbb
+static inline int ccIntFromC4f(const ccColor4F& c) {
+    return (((int)(c.a * 255) & 0xff) << 24) |
+        (((int)(c.r * 255) & 0xff) << 16) |
+        (((int)(c.g * 255) & 0xff) << 8) |
+        ((int)(c.b * 255) & 0xff);
 }
 
 NS_CC_END

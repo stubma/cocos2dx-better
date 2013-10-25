@@ -21,42 +21,46 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2d_common_h__
-#define __cocos2d_common_h__
+#ifndef __CCSimpleRookieGuide__
+#define __CCSimpleRookieGuide__
 
-#include "CCMoreMacros.h"
-#include "ccMoreTypes.h"
-#include "CCUtils.h"
-#include "CCMD5.h"
-#include "CCScroller.h"
-#include "CCScrollView.h"
-#include "CCAutoRenderMenuItemSprite.h"
-#include "CCMenuItemColor.h"
-#include "CCMissile.h"
-#include "CCShake.h"
-#include "CCDrawingPrimitivesEx.h"
-#include "CCAssetInputStream.h"
-#include "CCMemoryInputStream.h"
-#include "CCResourceLoader.h"
-#include "CCResourceLoaderListener.h"
-#include "CCGradientSprite.h"
-#include "CCTiledSprite.h"
-#include "CCTreeFadeIn.h"
-#include "CCTreeFadeOut.h"
-#include "CCLocalization.h"
-#include "CCRichLabelTTF.h"
-#include "CCLocale.h"
-#include "CCCalendar.h"
-#include "CCVelocityTracker.h"
-#include "CCToast.h"
-#include "CCLayerMultiplexEx.h"
-#include "CCGestureRecognizer.h"
-#include "CCLongPressGestureRecognizer.h"
-#include "CCPinchGestureRecognizer.h"
-#include "CCPanGestureRecognizer.h"
-#include "CCSwipeGestureRecognizer.h"
-#include "CCTapGestureRecognizer.h"
+#include "cocos2d.h"
 #include "CCRookieGuide.h"
-#include "CCSimpleRookieGuide.h"
 
-#endif // __cocos2d_common_h__
+NS_CC_BEGIN
+
+/**
+ * A simple rookie guide customization. It just show a label and an arrow
+ */
+class CC_DLL CCSimpleRookieGuide : public CCRookieGuide {
+protected:
+    CCSimpleRookieGuide();
+    
+public:
+    virtual ~CCSimpleRookieGuide();
+    
+    static CCSimpleRookieGuide* create();
+    
+    /**
+     * align arrow to a region center, with specified distance and angle
+     *
+     * @param regionIndex index of region
+     * @param distance distance between region center and arrow sprite center
+     * @param degree degree of the vector whose origin is region center and point 
+     *      to arrow center. Positive value is counter-clockwise
+     * @param arrowPresetRotation take an rightward arrow as 0 degree, the preset degree of your
+     *      arrow sprite. Positive value is counter-clockwise
+     */
+    void pointToRegionCenter(int regionIndex, float distance, float degree, float arrowPresetRotation = 0);
+    
+    /// place hint relative to arrow, relative to arrow center
+    void shiftHint(float dx, float dy);
+    
+    /// arrow node
+    CC_SYNTHESIZE_SETTER(CCSprite*, m_arrow, Arrow);
+    CC_SYNTHESIZE_SETTER(CCNode*, m_hint, Hint);
+};
+
+NS_CC_END
+
+#endif /* defined(__CCSimpleRookieGuide__) */

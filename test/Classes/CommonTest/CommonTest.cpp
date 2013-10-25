@@ -11,6 +11,7 @@ TESTLAYER_CREATE_FUNC(CommonMissile);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonRichLabel2);
 TESTLAYER_CREATE_FUNC(CommonResourceLoader);
+TESTLAYER_CREATE_FUNC(CommonRookieGuide);
 TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonScrollView);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
@@ -27,6 +28,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonRichLabel),
     CF(CommonRichLabel2),
 	CF(CommonResourceLoader),
+    CF(CommonRookieGuide),
     CF(CommonShake),
 	CF(CommonScrollView),
     CF(CommonTiledSprite),
@@ -574,6 +576,64 @@ void CommonResourceLoader::onStartLoadClicked(CCObject* sender) {
     
     // start to load resource
     rl->run();
+}
+
+//------------------------------------------------------------------
+//
+// Rookie Guide Layer
+//
+//------------------------------------------------------------------
+void CommonRookieGuide::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCSprite* g1 = CCSprite::create("Images/grossini.png");
+	g1->setPosition(ccp(origin.x + visibleSize.width / 4,
+                        origin.y + visibleSize.height / 2));
+	addChild(g1);
+    
+    CCSprite* g2 = CCSprite::create("Images/grossini.png");
+	g2->setPosition(ccp(origin.x + visibleSize.width * 3 / 4,
+                        origin.y + visibleSize.height / 2));
+	addChild(g2);
+    
+    // create rookie guide
+    CCSimpleRookieGuide* rg = CCSimpleRookieGuide::create();
+    
+    // set bg
+    rg->setBgColor(ccc4(0xff, 0, 0, 0x4f));
+    
+    // add region
+    rg->addRegion(g2,
+                  CCCallFunc::create(this, callfunc_selector(CommonRookieGuide::onGuideClicked)));
+    
+    // set arrow
+    rg->setArrow(CCSprite::create("Images/f1.png"));
+    rg->pointToRegionCenter(0, 100 / CC_CONTENT_SCALE_FACTOR(), 200);
+    
+    // set hint
+    CCRichLabelTTF* hint = CCRichLabelTTF::create("[color=0xff0000ff]This is rookie guide, you MUST click it![/color]",
+                                                  "Helvetica",
+                                                  24 / CC_CONTENT_SCALE_FACTOR(),
+                                                  CCSizeMake(150 / CC_CONTENT_SCALE_FACTOR(), 0),
+                                                  kCCTextAlignmentLeft);
+    rg->setHint(hint);
+    rg->shiftHint(-80 / CC_CONTENT_SCALE_FACTOR(), -20 / CC_CONTENT_SCALE_FACTOR());
+    
+    // add guide layer, must add it after set
+    addChild(rg);
+}
+
+std::string CommonRookieGuide::subtitle()
+{
+    return "Rookie Guide";
+}
+
+void CommonRookieGuide::onGuideClicked() {
+    CCLOG("guide clicked!");
 }
 
 //------------------------------------------------------------------

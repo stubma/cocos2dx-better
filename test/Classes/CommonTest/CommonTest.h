@@ -108,6 +108,16 @@ public:
 	virtual void onResourceLoadingDone();
 };
 
+class CommonRookieGuide : public CommonDemo
+{
+private:
+    void onGuideClicked();
+    
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonShake : public CommonDemo
 {	
 public:

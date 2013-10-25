@@ -14,6 +14,7 @@
 		922A4048181A1A3500A6B328 /* CCPinchGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4042181A1A3500A6B328 /* CCPinchGestureRecognizer.cpp */; };
 		922A4049181A1A3500A6B328 /* CCSwipeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4043181A1A3500A6B328 /* CCSwipeGestureRecognizer.cpp */; };
 		922A404A181A1A3500A6B328 /* CCTapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4044181A1A3500A6B328 /* CCTapGestureRecognizer.cpp */; };
+		922A406B181A3D1500A6B328 /* CCRookieGuide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4069181A3D1500A6B328 /* CCRookieGuide.cpp */; };
 		92446209179A29A100AC41D2 /* CCScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92446208179A29A100AC41D2 /* CCScrollView.cpp */; };
 		9244621D179A324500AC41D2 /* CCVelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244621B179A324500AC41D2 /* CCVelocityTracker.cpp */; };
 		92446251179A3AE100AC41D2 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244623B179A3AE100AC41D2 /* Atomic.cpp */; };
@@ -30,6 +31,7 @@
 		92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7E170D84E700490E54 /* CCScroller.cpp */; };
 		925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925D7D3D16F4B4F000622984 /* CCShake.cpp */; };
 		92603811181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9260380F181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp */; };
+		926B61DC181A52160075A5DB /* CCSimpleRookieGuide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926B61DA181A52160075A5DB /* CCSimpleRookieGuide.cpp */; };
 		9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */; };
 		92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92774AE016EF1CB3008E67C8 /* CCUtils.cpp */; };
 		9279754016F6C0140040E3AA /* CCAssetInputStream_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9279753E16F6C0140040E3AA /* CCAssetInputStream_ios.cpp */; };
@@ -104,6 +106,8 @@
 		922A4042181A1A3500A6B328 /* CCPinchGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPinchGestureRecognizer.cpp; sourceTree = "<group>"; };
 		922A4043181A1A3500A6B328 /* CCSwipeGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSwipeGestureRecognizer.cpp; sourceTree = "<group>"; };
 		922A4044181A1A3500A6B328 /* CCTapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTapGestureRecognizer.cpp; sourceTree = "<group>"; };
+		922A4069181A3D1500A6B328 /* CCRookieGuide.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCRookieGuide.cpp; sourceTree = "<group>"; };
+		922A406C181A3D2E00A6B328 /* CCRookieGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCRookieGuide.h; sourceTree = "<group>"; };
 		92446208179A29A100AC41D2 /* CCScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollView.cpp; sourceTree = "<group>"; };
 		9244620B179A29A700AC41D2 /* CCScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		9244621B179A324500AC41D2 /* CCVelocityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCVelocityTracker.cpp; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 		9260380C1810112E001D69C4 /* CCMenuItemColorStateListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMenuItemColorStateListener.h; sourceTree = "<group>"; };
 		9260380F181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCRichLabelTTFLinkStateSynchronizer.cpp; sourceTree = "<group>"; };
 		92603810181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCRichLabelTTFLinkStateSynchronizer.h; sourceTree = "<group>"; };
+		926B61DA181A52160075A5DB /* CCSimpleRookieGuide.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSimpleRookieGuide.cpp; sourceTree = "<group>"; };
+		926B61DF181A52460075A5DB /* CCSimpleRookieGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSimpleRookieGuide.h; sourceTree = "<group>"; };
 		9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
 		9270FB1B16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAutoRenderMenuItemSprite.cpp; sourceTree = "<group>"; };
 		9270FB1D16F4AAFD006A6788 /* cocos2d-common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2d-common.h"; sourceTree = "<group>"; };
@@ -238,6 +244,8 @@
 				92C4463B175DCE090049F6AE /* CCImage_richlabel_android.cpp */,
 				92C9A0C8175CDD5700C6D739 /* CCImage_richlabel_ios.mm */,
 				92C9A0C9175CDD5700C6D739 /* CCImage_richlabel.h */,
+				922A4069181A3D1500A6B328 /* CCRookieGuide.cpp */,
+				926B61DA181A52160075A5DB /* CCSimpleRookieGuide.cpp */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -314,6 +322,8 @@
 				92B706B6172793E7002A9655 /* CCGradientSprite.h */,
 				92591A7D170D846100490E54 /* CCTiledSprite.h */,
 				927A4A9217AAB9DB000FDAE3 /* CCLayerMultiplexEx.h */,
+				922A406C181A3D2E00A6B328 /* CCRookieGuide.h */,
+				926B61DF181A52460075A5DB /* CCSimpleRookieGuide.h */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -571,6 +581,7 @@
 				9279754016F6C0140040E3AA /* CCAssetInputStream_ios.cpp in Sources */,
 				9285154418093B6C008751E4 /* CCMenuItemColor.cpp in Sources */,
 				9279754316F6C0B70040E3AA /* CCMemoryInputStream.cpp in Sources */,
+				922A406B181A3D1500A6B328 /* CCRookieGuide.cpp in Sources */,
 				9279754616F6C5B40040E3AA /* CCAssetInputStream_android.cpp in Sources */,
 				9279754A16F6C8960040E3AA /* CCAssetOutputStream_ios.cpp in Sources */,
 				92603811181014C7001D69C4 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */,
@@ -612,6 +623,7 @@
 				922A404A181A1A3500A6B328 /* CCTapGestureRecognizer.cpp in Sources */,
 				92E5519617A24A990001869D /* CCToast.cpp in Sources */,
 				927A4A8F17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp in Sources */,
+				926B61DC181A52160075A5DB /* CCSimpleRookieGuide.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

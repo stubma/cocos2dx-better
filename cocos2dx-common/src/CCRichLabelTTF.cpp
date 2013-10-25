@@ -137,7 +137,7 @@ bool CCRichLabelTTF::initWithString(const char *label, const char *fontName, flo
 }
 
 bool CCRichLabelTTF::initWithString(const char *string, const char *fontName, float fontSize,
-                                const cocos2d::CCSize &dimensions, CCTextAlignment hAlignment,
+                                const CCSize &dimensions, CCTextAlignment hAlignment,
                                 CCVerticalTextAlignment vAlignment)
 {
     if (CCGradientSprite::init())

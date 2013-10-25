@@ -50,5 +50,11 @@
 #include "CCVelocityTracker.h"
 #include "CCToast.h"
 #include "CCLayerMultiplexEx.h"
+#include "CCGestureRecognizer.h"
+#include "CCLongPressGestureRecognizer.h"
+#include "CCPinchGestureRecognizer.h"
+#include "CCPanGestureRecognizer.h"
+#include "CCSwipeGestureRecognizer.h"
+#include "CCTapGestureRecognizer.h"
 
 #endif // __cocos2d_common_h__

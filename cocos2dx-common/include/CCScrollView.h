@@ -43,7 +43,7 @@ typedef enum {
 
 class CCScrollView;
 
-class CCScrollViewDelegate
+class CC_DLL CCScrollViewDelegate
 {
 public:
     virtual ~CCScrollViewDelegate() {}
@@ -56,7 +56,7 @@ public:
  * ScrollView support for cocos2d for iphone.
  * It provides scroll view functionalities to cocos2d projects natively.
  */
-class CCScrollView : public CCLayer
+class CC_DLL CCScrollView : public CCLayer
 {
 public:
     CCScrollView();

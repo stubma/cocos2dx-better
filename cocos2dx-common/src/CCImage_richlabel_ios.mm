@@ -607,7 +607,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
     free(range);
 }
 
-static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList& linkMetas) {
+static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas) {
     bool bRet = false;
     do {
         CC_BREAK_IF(!pText || !pInfo);
@@ -1072,7 +1072,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             renderEmbededImages(context, frame, plain, spans);
             
             // if has link tag, build link info
-            extractLinkMeta(frame, spans, linkMetas);
+            if(linkMetas)
+                extractLinkMeta(frame, spans, *linkMetas);
 			
             // pop the context
             UIGraphicsPopContext();
@@ -1159,7 +1160,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorB             = textTintB;
     info.sizeOnly = false;
     
-    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, m_linkMetas))
+    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas))
     {
         return false;
     }
@@ -1198,7 +1199,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
     info.tintColorB             = 0;
     info.sizeOnly = true;
     
-    if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, &m_shadowStrokePadding, m_linkMetas)) {
+    if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, NULL, NULL)) {
         return CCSizeZero;
     }
     return CCSizeMake(info.width, info.height);

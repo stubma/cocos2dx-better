@@ -1017,16 +1017,13 @@ CCSize CCUtils::measureRichString(const char* pText,
                                   float shadowOffsetX,
                                   float shadowOffsetY,
                                   float strokeSize) {
-    CCImage_richlabel* image = new CCImage_richlabel();
-    CCSize size = image->measureRichString(pText,
-                                           pFontName,
-                                           nSize,
-                                           maxWidth,
-                                           shadowOffsetX,
-                                           shadowOffsetY,
-                                           strokeSize);
-    image->release();
-    return size;
+    return CCImage_richlabel::measureRichString(pText,
+                                                pFontName,
+                                                nSize,
+                                                maxWidth,
+                                                shadowOffsetX,
+                                                shadowOffsetY,
+                                                strokeSize);
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

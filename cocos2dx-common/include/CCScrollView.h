@@ -199,6 +199,11 @@ public:
     virtual void addChild(CCNode * child, int zOrder);
     virtual void addChild(CCNode * child);
     void setTouchEnabled(bool e);
+    
+    // scale
+    CC_SYNTHESIZE(float, m_fMinScale, MinScale);
+    CC_SYNTHESIZE(float, m_fMaxScale, MaxScale);
+    
 private:
     /**
      * Relocates the container at the proper offset, in bounds of max/min offsets.
@@ -315,10 +320,7 @@ protected:
      * Hence, this scroll view will use a separate size property.
      */
     CCSize m_tViewSize;
-    /**
-     * max and min scale
-     */
-    float m_fMinScale, m_fMaxScale;
+    
     /**
      * scissor rect for parent, just for restoring GL_SCISSOR_BOX
      */

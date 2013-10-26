@@ -65,11 +65,9 @@ public:
 	static CCTiledSprite* createWithSpriteFrame(CCSpriteFrame* frame);
 	static CCTiledSprite* createWithSprite(CCSprite* sprite);
 	
-	/// @{
-    /// @name Functions inherited from CCTextureProtocol
+	virtual void setOpacity(GLubyte opacity) { m_sprite->setOpacity(opacity); }
     inline void setBlendFunc(ccBlendFunc blendFunc) { m_sprite->setBlendFunc(blendFunc); }
     inline ccBlendFunc getBlendFunc(void) { return m_sprite->getBlendFunc(); }
-    /// @}
 	
 	/// @see CCNode::draw
 	virtual void draw();

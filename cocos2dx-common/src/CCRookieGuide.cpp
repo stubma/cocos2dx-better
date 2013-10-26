@@ -30,7 +30,8 @@ NS_CC_BEGIN
 CCRookieGuide::CCRookieGuide() :
 m_clickedRegion(NULL),
 m_bgColor(ccc4(0x7f, 0, 0, 0)),
-m_anyTouchMode(false) {
+m_anyTouchMode(false),
+m_shouldCheckRegion(true) {
 }
 
 CCRookieGuide::~CCRookieGuide() {
@@ -112,7 +113,7 @@ bool CCRookieGuide::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
     CCPoint loc = pTouch->getLocation();
 
     // if clicked any region, release this event
-    if(!m_anyTouchMode) {
+    if(!m_anyTouchMode && m_shouldCheckRegion) {
         m_clickedRegion = NULL;
         for(RegionList::iterator iter = m_regions.begin(); iter != m_regions.end(); iter++) {
             Region& r = *iter;

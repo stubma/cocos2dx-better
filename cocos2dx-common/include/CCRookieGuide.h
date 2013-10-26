@@ -104,6 +104,9 @@ public:
     
     /// any touch mode, means touch anywhere can end the guide
     CC_SYNTHESIZE_BOOL(m_anyTouchMode, AnyTouchMode);
+	
+	/// true means no region checking, that will eat all touch event
+	CC_SYNTHESIZE_BOOL(m_shouldCheckRegion, ShouldCheckRegion);
 };
 
 NS_CC_END

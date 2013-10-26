@@ -137,6 +137,14 @@ void CCResourceLoader::addZwoptexTask(const string& name, float idle) {
     addLoadTask(t);
 }
 
+void CCResourceLoader::addZwoptexTask(const string& pattern, int start, int end, float idle) {
+	char buf[512];
+	for(int i = start; i <= end; i++) {
+		sprintf(buf, pattern.c_str(), i);
+		addZwoptexTask(buf, idle);
+	}
+}
+
 void CCResourceLoader::addZwoptexTask(const string& plistName, const string& texName, DECRYPT_FUNC decFunc, float idle) {
 	EncryptedZwoptexLoadTask* t = new EncryptedZwoptexLoadTask();
 	t->idle = idle;
@@ -144,6 +152,15 @@ void CCResourceLoader::addZwoptexTask(const string& plistName, const string& tex
 	t->texName = texName;
 	t->func = decFunc;
 	addLoadTask(t);
+}
+
+void CCResourceLoader::addZwoptexTask(const string& plistPattern, const string& texPattern, int start, int end, DECRYPT_FUNC decFunc, float idle) {
+	char buf1[512], buf2[512];
+	for(int i = start; i <= end; i++) {
+		sprintf(buf1, plistPattern.c_str(), i);
+		sprintf(buf2, texPattern.c_str(), i);
+		addZwoptexTask(buf1, buf2, decFunc, idle);
+	}
 }
 
 void CCResourceLoader::addZwoptexAnimTask(const string& name,

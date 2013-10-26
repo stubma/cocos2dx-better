@@ -178,7 +178,7 @@ private:
             CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(name.c_str());
         }
     };
-    
+	
     /// encrypted zwoptex load task
     struct EncryptedZwoptexLoadTask : public LoadTask {
         /// plist name, plist is not encrypted
@@ -220,7 +220,7 @@ private:
             CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(name.c_str(), tex);
         }
     };
-    
+	    
     /// zwoptex animation load parameter
     struct ZwoptexAnimLoadTask : public LoadTask {
         /// frame list
@@ -370,6 +370,9 @@ public:
 	/// add a zwoptex image loading task
 	void addZwoptexTask(const string& name, float idle = 0);
 	
+	/// add a multipack zwoptex image loading task
+	void addZwoptexTask(const string& pattern, int start, int end, float idle = 0);
+	
 	/**
 	 * add a zwoptex task, but the texture is encrypted. So a decrypt function must be provided.
 	 *
@@ -379,6 +382,18 @@ public:
 	 * @param idle idle time after loaded
 	 */
 	void addZwoptexTask(const string& plistName, const string& texName, DECRYPT_FUNC decFunc, float idle = 0);
+	
+	/**
+	 * add a multipack zwoptex task, but the texture is encrypted. So a decrypt function must be provided.
+	 *
+	 * @param plistPattern pattern of plist file, it should not be encrypted
+	 * @param texPattern name pattern of image file, it should be encrypted
+	 * @param start start index in pattern
+	 * @param end end index in pattern
+	 * @param decFunc decrypt func
+	 * @param idle idle time after loaded
+	 */
+	void addZwoptexTask(const string& plistPattern, const string& texPattern, int start, int end, DECRYPT_FUNC decFunc, float idle = 0);
 	
 	/// add a cocosdenshion effect task
 	void addCDEffectTask(const string& name, float idle = 0);

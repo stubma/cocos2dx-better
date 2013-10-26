@@ -44,10 +44,12 @@ void CCTreeFadeOut::fadeOutRecursively(CCNode* n, float time) {
     int cc = n->getChildrenCount();
     for(int i = 0; i < cc; i++) {
         CCNode* child = (CCNode*)children->objectAtIndex(i);
-        CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
-        if(p) {
-            p->setOpacity((GLubyte)(255 * (1 - time)));
-        }
+		if(!m_excludeList.containsObject(child)) {
+			CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
+			if(p) {
+				p->setOpacity((GLubyte)(255 * (1 - time)));
+			}
+		}
         
         fadeOutRecursively(child, time);
     }
@@ -55,6 +57,10 @@ void CCTreeFadeOut::fadeOutRecursively(CCNode* n, float time) {
 
 CCActionInterval* CCTreeFadeOut::reverse(void) {
     return CCTreeFadeIn::create(m_fDuration);
+}
+
+void CCTreeFadeOut::excludeNode(CCNode* n) {
+	m_excludeList.addObject(n);
 }
 
 NS_CC_END

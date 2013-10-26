@@ -30,6 +30,10 @@ NS_CC_BEGIN
 
 /// fade in action which also fade in all descendants
 class CC_DLL CCTreeFadeIn : public CCFadeIn {
+private:
+	/// excluded node list
+	CCArray m_excludeList;
+	
 protected:
     /// fade in recursively
     void fadeInRecursively(CCNode* n, float time);
@@ -40,6 +44,9 @@ public:
     
     virtual void update(float time);
     virtual CCActionInterval* reverse(void);
+	
+	/// add excluded node
+	void excludeNode(CCNode* n);
 };
 
 NS_CC_END

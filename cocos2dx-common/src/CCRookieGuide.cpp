@@ -109,6 +109,14 @@ void CCRookieGuide::addRegion(CCNode* n, CCCallFunc* func) {
     addRegion(b, func);
 }
 
+const CCRect& CCRookieGuide::getRegionRect(int index) {
+	if(index < 0 || index >= m_regions.size())
+		return CCRectZero;
+	
+	Region& reg = m_regions.at(index);
+	return reg.r;
+}
+
 bool CCRookieGuide::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
     CCPoint loc = pTouch->getLocation();
 

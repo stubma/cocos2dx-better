@@ -95,6 +95,9 @@ public:
      *      it is NULL, this region is not clickable.
      */
     void addRegion(CCNode* n, CCCallFunc* func);
+	
+	/// get rectangle of region at given index
+	const CCRect& getRegionRect(int index);
     
     /// clickable area
     CC_SYNTHESIZE_READONLY_PASS_BY_REF(RegionList, m_regions, Regions);

@@ -77,6 +77,11 @@ void CCTiledSprite::setContentSize(const CCSize& contentSize) {
 	m_dirty = true;
 }
 
+void CCTiledSprite::setOpacity(GLubyte opacity) {
+	m_sprite->setOpacity(opacity);
+	m_dirty = true;
+}
+
 void CCTiledSprite::setHeight(float h) {
 	CCSize size = getContentSize();
 	size.height = h;

@@ -65,7 +65,7 @@ public:
 	static CCTiledSprite* createWithSpriteFrame(CCSpriteFrame* frame);
 	static CCTiledSprite* createWithSprite(CCSprite* sprite);
 	
-	virtual void setOpacity(GLubyte opacity) { m_sprite->setOpacity(opacity); }
+	virtual void setOpacity(GLubyte opacity);
     inline void setBlendFunc(ccBlendFunc blendFunc) { m_sprite->setBlendFunc(blendFunc); }
     inline ccBlendFunc getBlendFunc(void) { return m_sprite->getBlendFunc(); }
 	

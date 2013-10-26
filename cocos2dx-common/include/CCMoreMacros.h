@@ -138,6 +138,12 @@ using namespace std;
 	public: virtual varType& get##funName(void) { return varName; } \
 	public: virtual void set##funName(const varType& var){ varName = var; }
 
+// setter is not implemented
+#define CC_SYNTHESIZE_PASS_BY_REF_SETTER(varType, varName, funName) \
+	protected: varType varName;\
+	public: virtual const varType& get##funName(void) const { return varName; } \
+	public: virtual void set##funName(const varType& var);
+
 // special macro for bool type
 #define CC_SYNTHESIZE_BOOL(varName, funName) \
     protected: bool varName; \

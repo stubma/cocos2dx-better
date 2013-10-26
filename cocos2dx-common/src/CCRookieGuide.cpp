@@ -23,15 +23,16 @@
  ****************************************************************************/
 #include "CCRookieGuide.h"
 
-#define TAG_CLIPPER 0x1000
-
 NS_CC_BEGIN
 
 CCRookieGuide::CCRookieGuide() :
 m_clickedRegion(NULL),
-m_bgColor(ccc4(0x7f, 0, 0, 0)),
+m_bgColor(ccc4(0, 0, 0, 0x7f)),
 m_anyTouchMode(false),
-m_shouldCheckRegion(true) {
+m_shouldCheckRegion(true),
+m_stencil(NULL),
+m_content(NULL),
+m_clipper(NULL) {
 }
 
 CCRookieGuide::~CCRookieGuide() {
@@ -51,6 +52,21 @@ bool CCRookieGuide::init() {
     if(!CCLayer::init()) {
         return false;
     }
+	
+	// stencil
+	m_stencil = CCDrawNode::create();
+	m_stencil->setPosition(CCPointZero);
+	
+	// clipper
+	m_clipper = CCClippingNode::create();
+	m_clipper->setPosition(CCPointZero);
+	m_clipper->setStencil(m_stencil);
+	m_clipper->setInverted(true);
+	addChild(m_clipper);
+	
+	// add bg
+	m_content = CCLayerColor::create(m_bgColor);
+	m_clipper->addChild(m_content);
     
     // enable event, and set top priority
     setTouchEnabled(true);
@@ -61,45 +77,29 @@ bool CCRookieGuide::init() {
     return true;
 }
 
-void CCRookieGuide::onEnter() {
-    CCLayer::onEnter();
-    
-    if(!getChildByTag(TAG_CLIPPER)) {
-        // stencil
-        CCDrawNode* stencil = CCDrawNode::create();
-        stencil->setPosition(CCPointZero);
-        for(RegionList::iterator iter = m_regions.begin(); iter != m_regions.end(); iter++) {
-            Region& reg = *iter;
-            CCRect& r = reg.r;
-            CCPoint v[] = {
-                r.origin,
-                ccpAdd(r.origin, ccp(r.size.width, 0)),
-                ccpAdd(r.origin, ccp(r.size.width, r.size.height)),
-                ccpAdd(r.origin, ccp(0, r.size.height))
-            };
-            stencil->drawPolygon(v, 4, cc4fGREEN, 0, cc4fTRANSPARENT);
-        }
-        
-        // clipper
-        CCClippingNode* clipper = CCClippingNode::create();
-        clipper->setPosition(CCPointZero);
-        clipper->setStencil(stencil);
-        clipper->setInverted(true);
-        addChild(clipper, 0, TAG_CLIPPER);
-        
-        // add bg
-        CCLayerColor* content = CCLayerColor::create(m_bgColor);
-        clipper->addChild(content);
-    }
+void CCRookieGuide::setBgColor(const ccColor4B &var) {
+	m_bgColor = var;
+	m_content->setColor(ccc3(m_bgColor.r, m_bgColor.g, m_bgColor.b));
+	m_content->setOpacity(m_bgColor.a);
 }
 
 void CCRookieGuide::addRegion(const CCRect& r, CCCallFunc* func) {
+	// add region
     Region region = {
         r,
         func
     };
     CC_SAFE_RETAIN(func);
     m_regions.push_back(region);
+	
+	// update stencil
+	CCPoint v[] = {
+		r.origin,
+		ccpAdd(r.origin, ccp(r.size.width, 0)),
+		ccpAdd(r.origin, ccp(r.size.width, r.size.height)),
+		ccpAdd(r.origin, ccp(0, r.size.height))
+	};
+	m_stencil->drawPolygon(v, 4, cc4fGREEN, 0, cc4fTRANSPARENT);
 }
 
 void CCRookieGuide::addRegion(CCNode* n, CCCallFunc* func) {

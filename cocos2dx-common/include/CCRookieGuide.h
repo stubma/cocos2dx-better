@@ -61,7 +61,6 @@ public:
     
     /// override super
     virtual bool init();
-    virtual void onEnter();
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
@@ -103,13 +102,22 @@ public:
     CC_SYNTHESIZE_READONLY_PASS_BY_REF(RegionList, m_regions, Regions);
     
     /// bg color
-    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, m_bgColor, BgColor);
+    CC_SYNTHESIZE_PASS_BY_REF_SETTER(ccColor4B, m_bgColor, BgColor);
     
     /// any touch mode, means touch anywhere can end the guide
     CC_SYNTHESIZE_BOOL(m_anyTouchMode, AnyTouchMode);
 	
 	/// true means no region checking, that will eat all touch event
 	CC_SYNTHESIZE_BOOL(m_shouldCheckRegion, ShouldCheckRegion);
+	
+	/// clipper
+	CC_SYNTHESIZE(CCClippingNode*, m_clipper, Clipper);
+	
+	/// content layer
+	CC_SYNTHESIZE(CCLayerColor*, m_content, Content);
+	
+	/// stencil node
+	CC_SYNTHESIZE(CCDrawNode*, m_stencil, Stencil);
 };
 
 NS_CC_END

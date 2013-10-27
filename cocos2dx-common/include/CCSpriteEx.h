@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCLayerMultiplexEx__
-#define __CCLayerMultiplexEx__
+#ifndef __CCSpriteEx__
+#define __CCSpriteEx__
 
 #include "cocos2d.h"
 
@@ -31,37 +31,35 @@ NS_CC_BEGIN
 /**
  * In general, class with Ex suffix is my workaround for cocos2d design defect
  */
-class CC_DLL CCLayerMultiplexEx : public CCLayerMultiplex {
+class CC_DLL CCSpriteEx : public CCSprite {
+protected:
+	CCSpriteEx();
+	
 public:
-    CCLayerMultiplexEx();
-    virtual ~CCLayerMultiplexEx();
-    
-    static CCLayerMultiplexEx* create();
+	virtual ~CCSpriteEx();
 	
-	/** creates a CCMultiplexLayer with an array of layers.
-     @since v2.1
-     */
-    static CCLayerMultiplexEx* createWithArray(CCArray* arrayOfLayers);
-	
-    /** creates a CCLayerMultiplexEx with one or more layers using a variable argument list. */
-    static CCLayerMultiplexEx* create(CCLayer* layer, ... );
-	
-    /**
-     * lua script can not init with undetermined number of variables
-     * so add these functions to be used with lua.
-     */
-    static CCLayerMultiplexEx* createWithLayer(CCLayer* layer);
+	// just copy super
+	static CCSpriteEx* create();
+    static CCSpriteEx* create(const char *pszFileName);
+    static CCSpriteEx* create(const char *pszFileName, const CCRect& rect);
+    static CCSpriteEx* createWithTexture(CCTexture2D *pTexture);
+    static CCSpriteEx* createWithTexture(CCTexture2D *pTexture, const CCRect& rect);
+    static CCSpriteEx* createWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
+    static CCSpriteEx* createWithSpriteFrameName(const char *pszSpriteFrameName);
 	
 	/**
-	 * Original CCLayerMultiplex will cleanup children when switching, so there is
-	 * a workaround method with cleanup option
+	 * setTexture will trigger updateBlendFunc. In multipack textures (a feature supported
+	 * (in TexturePacker), if frames in an animation cross different texture and sprite use
+	 * non-default blend function, the blend function will be reset after setDisplayFrame.
+	 * So, the workaround is overriding setTexture and checking a special flag before updating 
+	 * blend function.
 	 */
-	void switchToLayerAt(unsigned int n, bool cleanup);
-
-	// get visible layer index
-	int getEnabledLayer() { return m_nEnabledLayer;	}
+	virtual void setTexture(CCTexture2D *texture);
+	
+	/// true means don't update blend function
+	CC_SYNTHESIZE_BOOL(m_shouldUpdateBlendFunc, ShouldUpdateBlendFunc);
 };
 
 NS_CC_END
 
-#endif /* defined(__CCLayerMultiplexEx__) */
+#endif /* defined(__CCSpriteEx__) */

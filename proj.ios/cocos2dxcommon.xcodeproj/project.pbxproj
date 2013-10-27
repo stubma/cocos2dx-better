@@ -53,6 +53,7 @@
 		92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92AE790416F73649009C5FFC /* CCResourceLoader.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
+		92BAD8A8181D487500DD210D /* CCSpriteEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BAD8A7181D487500DD210D /* CCSpriteEx.cpp */; };
 		92C02D7C176EFC7F00835C7B /* CCCalendar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C02D7A176EFC7E00835C7B /* CCCalendar.cpp */; };
 		92C4463D175DCE090049F6AE /* CCImage_richlabel_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C4463B175DCE090049F6AE /* CCImage_richlabel_android.cpp */; };
 		92C9A0CA175CDD5700C6D739 /* CCImage_richlabel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92C9A0C8175CDD5700C6D739 /* CCImage_richlabel_ios.mm */; };
@@ -194,6 +195,8 @@
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92B706B3172793D9002A9655 /* CCGradientSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGradientSprite.cpp; sourceTree = "<group>"; };
 		92B706B6172793E7002A9655 /* CCGradientSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCGradientSprite.h; sourceTree = "<group>"; };
+		92BAD8A7181D487500DD210D /* CCSpriteEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteEx.cpp; sourceTree = "<group>"; };
+		92BAD8A9181D488000DD210D /* CCSpriteEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSpriteEx.h; sourceTree = "<group>"; };
 		92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocosDenshion.xcodeproj; path = "../../cocos2d-x/CocosDenshion/proj.ios/CocosDenshion.xcodeproj"; sourceTree = "<group>"; };
 		92C02D7A176EFC7E00835C7B /* CCCalendar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCalendar.cpp; sourceTree = "<group>"; };
 		92C02D7D176EFC9A00835C7B /* CCCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCalendar.h; sourceTree = "<group>"; };
@@ -230,6 +233,7 @@
 			children = (
 				92E5519417A24A990001869D /* CCToast.cpp */,
 				927A4A8D17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp */,
+				92BAD8A7181D487500DD210D /* CCSpriteEx.cpp */,
 				92B706B3172793D9002A9655 /* CCGradientSprite.cpp */,
 				92591A7A170D845B00490E54 /* CCTiledSprite.cpp */,
 				92446208179A29A100AC41D2 /* CCScrollView.cpp */,
@@ -322,6 +326,7 @@
 				92B706B6172793E7002A9655 /* CCGradientSprite.h */,
 				92591A7D170D846100490E54 /* CCTiledSprite.h */,
 				927A4A9217AAB9DB000FDAE3 /* CCLayerMultiplexEx.h */,
+				92BAD8A9181D488000DD210D /* CCSpriteEx.h */,
 				922A406C181A3D2E00A6B328 /* CCRookieGuide.h */,
 				926B61DF181A52460075A5DB /* CCSimpleRookieGuide.h */,
 			);
@@ -592,6 +597,7 @@
 				9279755416F6CC530040E3AA /* CCAssetOutputStream.cpp in Sources */,
 				92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */,
 				924C929C16F8AC0900E39658 /* CCMissile.cpp in Sources */,
+				92BAD8A8181D487500DD210D /* CCSpriteEx.cpp in Sources */,
 				92591A7B170D845B00490E54 /* CCTiledSprite.cpp in Sources */,
 				922A4045181A1A3500A6B328 /* CCGestureRecognizer.cpp in Sources */,
 				92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */,

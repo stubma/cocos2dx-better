@@ -58,5 +58,6 @@
 #include "CCTapGestureRecognizer.h"
 #include "CCRookieGuide.h"
 #include "CCSimpleRookieGuide.h"
+#include "CCSpriteEx.h"
 
 #endif // __cocos2d_common_h__

@@ -25,6 +25,7 @@
 #define __CCRookieGuide__
 
 #include "cocos2d.h"
+#include "CCMoreMacros.h"
 
 using namespace std;
 

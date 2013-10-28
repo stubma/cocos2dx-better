@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCSimpleRookieGuide.h"
+#include "ccMoreTypes.h"
 
 NS_CC_BEGIN
 

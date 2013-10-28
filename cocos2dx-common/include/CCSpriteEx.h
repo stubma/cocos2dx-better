@@ -25,6 +25,7 @@
 #define __CCSpriteEx__
 
 #include "cocos2d.h"
+#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 

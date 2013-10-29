@@ -84,11 +84,12 @@ void CCRookieGuide::setBgColor(const ccColor4B &var) {
 	m_content->setOpacity(m_bgColor.a);
 }
 
-void CCRookieGuide::addRegion(const CCRect& r, CCCallFunc* func) {
+void CCRookieGuide::addRegion(const CCRect& r, CCCallFunc* func, bool removeOnTouch) {
 	// add region
     Region region = {
         r,
-        func
+        func,
+        removeOnTouch
     };
     CC_SAFE_RETAIN(func);
     m_regions.push_back(region);
@@ -103,11 +104,11 @@ void CCRookieGuide::addRegion(const CCRect& r, CCCallFunc* func) {
 	m_stencil->drawPolygon(v, 4, cc4fGREEN, 0, cc4fTRANSPARENT);
 }
 
-void CCRookieGuide::addRegion(CCNode* n, CCCallFunc* func) {
+void CCRookieGuide::addRegion(CCNode* n, CCCallFunc* func, bool removeOnTouch) {
     CCRect b = CCRectMake(0, 0, n->getContentSize().width, n->getContentSize().height);
     CCAffineTransform t = n->nodeToWorldTransform();
     b = CCRectApplyAffineTransform(b, t);
-    addRegion(b, func);
+    addRegion(b, func, removeOnTouch);
 }
 
 const CCRect& CCRookieGuide::getRegionRect(int index) {
@@ -130,6 +131,9 @@ bool CCRookieGuide::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
                 if(r.func) {
                     m_clickedRegion = &r;
                     break;
+                } else if(r.removeOnTouch) {
+                    removeFromParent();
+                    return false;
                 }
             }
         }

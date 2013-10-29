@@ -45,6 +45,9 @@ protected:
     typedef struct {
         CCRect r;
         CCCallFunc* func;
+        
+        // only valid when func is NULL
+        bool removeOnTouch;
     } Region;
     typedef vector<Region> RegionList;
     
@@ -78,8 +81,10 @@ public:
      * @param func function to be invoked when region is clicked. This 
      *      can be NULL if no special action need to be performed. When
      *      it is NULL, this region is not clickable.
+     * @param removeOnTouch true means guide layer will be removed on touch began
+     *      this flag is valid only when function is NULL
      */
-    void addRegion(const CCRect& r, CCCallFunc* func);
+    void addRegion(const CCRect& r, CCCallFunc* func, bool removeOnTouch = false);
     
     /**
      * add a clickable region by a node, the node's global bounding box
@@ -93,8 +98,10 @@ public:
      * @param func function to be invoked when region is clicked. This
      *      can be NULL if no special action need to be performed. When
      *      it is NULL, this region is not clickable.
+     * @param removeOnTouch true means guide layer will be removed on touch began
+     *      this flag is valid only when function is NULL
      */
-    void addRegion(CCNode* n, CCCallFunc* func);
+    void addRegion(CCNode* n, CCCallFunc* func, bool removeOnTouch = false);
 	
 	/// get rectangle of region at given index
 	const CCRect& getRegionRect(int index);

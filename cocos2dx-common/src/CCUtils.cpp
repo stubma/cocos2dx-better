@@ -551,6 +551,19 @@ void CCUtils::setTreeOpacity(CCNode* n, int o) {
 	}
 }
 
+CCScene* CCUtils::getScene(CCNode* n) {
+    while(n) {
+        CCScene* s = dynamic_cast<CCScene*>(n);
+        if(s) {
+            return s;
+        } else {
+            n = n->getParent();
+        }
+    }
+    
+    return NULL;
+}
+
 bool CCUtils::testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b) {
 	CCPoint c = ccpMult(ccpAdd(b.min, b.max), 0.5f);
 	CCPoint e = ccpSub(b.max, c);

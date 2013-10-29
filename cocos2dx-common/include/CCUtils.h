@@ -223,6 +223,9 @@ public:
 	
 	/// change opacity recursively
 	static void setTreeOpacity(CCNode* n, int o);
+    
+    /// get scene to which a node belongs
+    static CCScene* getScene(CCNode* n);
 	
 	/// is a segment intersected with a box
 	static bool testSegmentAABB(CCPoint p0, CCPoint p1, ccAABB b);

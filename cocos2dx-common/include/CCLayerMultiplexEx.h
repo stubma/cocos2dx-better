@@ -57,6 +57,9 @@ public:
 	 * a workaround method with cleanup option
 	 */
 	void switchToLayerAt(unsigned int n, bool cleanup);
+    
+    /// get layer at specified index
+    CCLayer* layerAt(int n);
 
 	// get visible layer index
 	int getEnabledLayer() { return m_nEnabledLayer;	}

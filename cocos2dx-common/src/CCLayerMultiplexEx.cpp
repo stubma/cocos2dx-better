@@ -87,4 +87,9 @@ void CCLayerMultiplexEx::switchToLayerAt(unsigned int n, bool cleanup) {
     this->addChild((CCNode*)m_pLayers->objectAtIndex(n));
 }
 
+CCLayer* CCLayerMultiplexEx::layerAt(int n) {
+    CCAssert( n < m_pLayers->count(), "Invalid index in MultiplexLayer layerAt message" );
+    return (CCLayer*)m_pLayers->objectAtIndex(n);
+}
+
 NS_CC_END

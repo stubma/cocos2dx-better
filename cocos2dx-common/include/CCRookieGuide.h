@@ -65,6 +65,8 @@ public:
     
     /// override super
     virtual bool init();
+    virtual void onEnter();
+    virtual void onExit();
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
@@ -130,8 +132,9 @@ public:
 	/// stencil node
 	CC_SYNTHESIZE(CCDrawNode*, m_stencil, Stencil);
     
-    /// function invoked before remove guide layer
-    CC_SYNTHESIZE_RETAIN(CCCallFunc*, m_beforeRemoveFunc, BeforeRemoveFunc);
+    /// function invoked on enter and exit
+    CC_SYNTHESIZE_RETAIN(CCCallFunc*, m_onExitFunc, OnExitFunc);
+    CC_SYNTHESIZE_RETAIN(CCCallFunc*, m_onEnterFunc, OnEnterFunc);
 };
 
 NS_CC_END

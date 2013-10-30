@@ -34,7 +34,8 @@ m_shouldCheckRegion(true),
 m_stencil(NULL),
 m_content(NULL),
 m_clipper(NULL),
-m_beforeRemoveFunc(NULL) {
+m_onExitFunc(NULL),
+m_onEnterFunc(NULL) {
 }
 
 CCRookieGuide::~CCRookieGuide() {
@@ -42,13 +43,28 @@ CCRookieGuide::~CCRookieGuide() {
         Region& r = *iter;
         CC_SAFE_RELEASE(r.func);
     }
-    CC_SAFE_RELEASE(m_beforeRemoveFunc);
+    CC_SAFE_RELEASE(m_onExitFunc);
+    CC_SAFE_RELEASE(m_onEnterFunc);
 }
 
 CCRookieGuide* CCRookieGuide::create() {
     CCRookieGuide* l = new CCRookieGuide();
     l->init();
     return (CCRookieGuide*)l->autorelease();
+}
+
+void CCRookieGuide::onEnter() {
+    CCLayer::onEnter();
+    
+    if(m_onEnterFunc)
+        m_onEnterFunc->execute();
+}
+
+void CCRookieGuide::onExit() {
+    if(m_onExitFunc)
+        m_onExitFunc->execute();
+    
+    CCLayer::onExit();
 }
 
 bool CCRookieGuide::init() {
@@ -143,8 +159,6 @@ bool CCRookieGuide::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
                     m_clickedRegion = &r;
                     break;
                 } else if(r.removeOnTouch) {
-                    if(m_beforeRemoveFunc)
-                        m_beforeRemoveFunc->execute();
                     removeFromParent();
                     return false;
                 }
@@ -163,8 +177,6 @@ void CCRookieGuide::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {
         removeFromParent();
     } else if(m_clickedRegion) {
         m_clickedRegion->func->execute();
-        if(m_beforeRemoveFunc)
-            m_beforeRemoveFunc->execute();
         removeFromParent();
     }
 }

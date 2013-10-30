@@ -102,6 +102,9 @@ public:
      *      this flag is valid only when function is NULL
      */
     void addRegion(CCNode* n, CCCallFunc* func, bool removeOnTouch = false);
+    
+    /// set a region removed on touch, that will clear its function if has
+    void setRegionRemoveOnTouch(int index);
 	
 	/// get rectangle of region at given index
 	const CCRect& getRegionRect(int index);

@@ -111,6 +111,15 @@ void CCRookieGuide::addRegion(CCNode* n, CCCallFunc* func, bool removeOnTouch) {
     addRegion(b, func, removeOnTouch);
 }
 
+void CCRookieGuide::setRegionRemoveOnTouch(int index) {
+    if(index < 0 || index >= m_regions.size())
+		return;
+    
+    Region& reg = m_regions.at(index);
+    reg.removeOnTouch = true;
+    CC_SAFE_RELEASE(reg.func);
+}
+
 const CCRect& CCRookieGuide::getRegionRect(int index) {
 	if(index < 0 || index >= m_regions.size())
 		return CCRectZero;

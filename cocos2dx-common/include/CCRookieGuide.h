@@ -129,6 +129,9 @@ public:
 	
 	/// stencil node
 	CC_SYNTHESIZE(CCDrawNode*, m_stencil, Stencil);
+    
+    /// function invoked before remove guide layer
+    CC_SYNTHESIZE_RETAIN(CCCallFunc*, m_beforeRemoveFunc, BeforeRemoveFunc);
 };
 
 NS_CC_END

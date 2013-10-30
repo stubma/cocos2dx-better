@@ -129,6 +129,18 @@ void CCRookieGuide::addRegion(CCNode* n, CCCallFunc* func, bool removeOnTouch) {
     addRegion(b, func, removeOnTouch);
 }
 
+void CCRookieGuide::enableRegionCheckAfter(float seconds) {
+    setShouldCheckRegion(false);
+    runAction(CCSequence::createWithTwoActions(CCDelayTime::create(seconds),
+                                               CCCallFunc::create(this, callfunc_selector(CCRookieGuide::markShouldCheckRegion))));
+}
+
+void CCRookieGuide::fadeIn(float duration, float delay) {
+    CCUtils::setOpacityRecursively(this, 0);
+    m_content->runAction(CCSequence::createWithTwoActions(CCDelayTime::create(delay),
+                                                          CCFadeTo::create(duration, m_bgColor.a)));
+}
+
 void CCRookieGuide::setRegionRemoveOnTouch(int index) {
     if(index < 0 || index >= m_regions.size())
 		return;

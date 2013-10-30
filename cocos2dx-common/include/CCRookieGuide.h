@@ -73,6 +73,15 @@ public:
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
     
     /**
+     * fade in whole rookie layer, this method should be invoked after
+     * bg color is set
+     *
+     * @param duration fade in action duration time
+     * @param delay delay time before fade in action, default is zero
+     */
+    virtual void fadeIn(float duration, float delay = 0);
+    
+    /**
      * add a clickable region, the region must in world space. 
      *
      * \note
@@ -110,6 +119,9 @@ public:
 	
 	/// get rectangle of region at given index
 	const CCRect& getRegionRect(int index);
+    
+    /// disable region check until time passed
+    void enableRegionCheckAfter(float seconds);
     
     /// clickable area
     CC_SYNTHESIZE_READONLY_PASS_BY_REF(RegionList, m_regions, Regions);

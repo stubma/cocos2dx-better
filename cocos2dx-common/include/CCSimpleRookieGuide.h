@@ -41,6 +41,9 @@ public:
     
     static CCSimpleRookieGuide* create();
     
+    // override super
+    virtual void fadeIn(float duration, float delay = 0);
+    
     /**
      * align arrow to a region center, with specified distance and angle
      *

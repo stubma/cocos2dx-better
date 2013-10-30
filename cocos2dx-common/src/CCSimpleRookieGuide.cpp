@@ -23,6 +23,7 @@
  ****************************************************************************/
 #include "CCSimpleRookieGuide.h"
 #include "ccMoreTypes.h"
+#include "CCTreeFadeIn.h"
 
 NS_CC_BEGIN
 
@@ -38,6 +39,16 @@ CCSimpleRookieGuide* CCSimpleRookieGuide::create() {
     CCSimpleRookieGuide* g = new CCSimpleRookieGuide();
     g->init();
     return (CCSimpleRookieGuide*)g->autorelease();
+}
+
+void CCSimpleRookieGuide::fadeIn(float duration, float delay) {
+    CCRookieGuide::fadeIn(duration, delay);
+    
+    // other runs fade in
+    CCTreeFadeIn* fadeIn = CCTreeFadeIn::create(duration);
+    fadeIn->excludeNode(m_content);
+    runAction(CCSequence::createWithTwoActions(CCDelayTime::create(delay),
+                                               fadeIn));
 }
 
 void CCSimpleRookieGuide::pointToRegionCenter(int regionIndex, float distance, float degree, float arrowPresetRotation) {

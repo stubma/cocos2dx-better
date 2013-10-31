@@ -81,17 +81,10 @@ string CCLocalization::getString(const string& key) {
     string lan = CCLocale::sharedLocale()->getLanguage();
     CCDictionary* strings = (CCDictionary*)m_lanMap.objectForKey(lan);
     if(!strings) {
-        if(lan != "en") {
-            size_t pos = lan.find("-");
-            if(pos == string::npos) {
-                strings = (CCDictionary*)m_lanMap.objectForKey("en");
-            } else {
-                string primaryKey = lan.substr(0, pos);
-                strings = (CCDictionary*)m_lanMap.objectForKey(primaryKey);
-                if(!strings) {
-                    strings = (CCDictionary*)m_lanMap.objectForKey("en");
-                }
-            }
+        lan = CCLocale::sharedLocale()->getISOLanguage();
+        strings = (CCDictionary*)m_lanMap.objectForKey(lan);
+        if(!strings) {
+            strings = (CCDictionary*)m_lanMap.objectForKey("en");
         }
     }
     

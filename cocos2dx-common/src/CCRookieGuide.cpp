@@ -199,7 +199,7 @@ void CCRookieGuide::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {
 }
 
 void CCRookieGuide::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {
-    if(m_anyTouchMode) {
+    if(m_anyTouchMode && m_shouldCheckRegion) {
         removeFromParent();
     } else if(m_clickedRegion) {
         m_clickedRegion->func->execute();

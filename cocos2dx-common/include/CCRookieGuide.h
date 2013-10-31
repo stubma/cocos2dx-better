@@ -58,6 +58,12 @@ private:
 protected:
     CCRookieGuide();
     
+    /**
+     * only invoked when you call fadeIn, subclass can override it for
+     * custom behavior
+     */
+    virtual void onFadeInDone() {}
+    
 public:
     virtual ~CCRookieGuide();
     

@@ -151,6 +151,10 @@ void CCRookieGuide::fadeIn(float duration, float delay) {
                                             NULL));
 }
 
+void CCRookieGuide::onFadeInDone() {
+    // it is up to subclass
+}
+
 void CCRookieGuide::setRegionRemoveOnTouch(int index) {
     if(index < 0 || index >= m_regions.size())
 		return;

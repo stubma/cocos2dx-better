@@ -43,7 +43,10 @@ public:
     virtual ~CCLocale();
     static CCLocale* sharedLocale();
     
-    /// get language iso code
+    /// only get first two letter language code, ISO 639-1
+    string getISOLanguage();
+    
+    /// get language code, may be longer than 2
     string getLanguage();
     
     /// get country iso code

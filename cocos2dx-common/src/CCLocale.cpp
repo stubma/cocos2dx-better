@@ -46,6 +46,13 @@ CCLocale* CCLocale::sharedLocale() {
     return s_instance;
 }
 
+string CCLocale::getISOLanguage() {
+    string lan = getLanguage();
+    if(lan.length() > 2)
+        lan = lan.substr(0, 2);
+    return lan;
+}
+
 string CCLocale::getLanguage() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     // get language

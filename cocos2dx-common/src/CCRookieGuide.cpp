@@ -24,6 +24,8 @@
 #include "CCRookieGuide.h"
 #include "ccMoreTypes.h"
 
+#define TAG_ENABLE_REGION_CHECK 1000
+
 NS_CC_BEGIN
 
 CCRookieGuide::CCRookieGuide() :
@@ -130,9 +132,15 @@ void CCRookieGuide::addRegion(CCNode* n, CCCallFunc* func, bool removeOnTouch) {
 }
 
 void CCRookieGuide::enableRegionCheckAfter(float seconds) {
+    // ensure previous action is stopped
+    stopActionByTag(TAG_ENABLE_REGION_CHECK);
+    
+    // now run a new action
     setShouldCheckRegion(false);
-    runAction(CCSequence::createWithTwoActions(CCDelayTime::create(seconds),
-                                               CCCallFunc::create(this, callfunc_selector(CCRookieGuide::markShouldCheckRegion))));
+    CCAction* a = CCSequence::createWithTwoActions(CCDelayTime::create(seconds),
+                                                   CCCallFunc::create(this, callfunc_selector(CCRookieGuide::markShouldCheckRegion)));
+    a->setTag(TAG_ENABLE_REGION_CHECK);
+    runAction(a);
 }
 
 void CCRookieGuide::fadeIn(float duration, float delay) {

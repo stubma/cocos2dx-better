@@ -43,6 +43,10 @@ private:
     /// language map, key is language ISO code, value is CCDictionary
     CCDictionary m_lanMap;
     
+private:
+	/// replace \n, \t, \r with correct ascii code
+	string unescape(const string& s);
+	
 protected:
     CCLocalization();
     

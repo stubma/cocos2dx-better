@@ -92,13 +92,49 @@ string CCLocalization::getString(const string& key) {
     if(strings) {
         CCString* s = (CCString*)strings->objectForKey(key);
         if(s) {
-            return s->getCString();
+			string ret = s->getCString();
+			ret = unescape(ret);
+			return ret;
         } else {
             return "!" + key + "!";
         }
     } else {
         return "!" + key + "!";
     }
+}
+
+string CCLocalization::unescape(const string& s) {
+	string unescaped;
+	char c;
+	const char* buf = s.c_str();
+	int len = s.length();
+	for(int i = 0; i < len; i++) {
+		if(buf[i] == '\\') {
+			switch (buf[i + 1]) {
+				case 'n':
+					c = '\n';
+					unescaped.append(&c, 1);
+					i++;
+					break;
+				case 'r':
+					c = '\r';
+					unescaped.append(&c, 1);
+					i++;
+					break;
+				case 't':
+					c = '\t';
+					unescaped.append(&c, 1);
+					i++;
+					break;
+				default:
+					unescaped.append(&buf[i], 1);
+					break;
+			}
+		} else {
+			unescaped.append(&buf[i], 1);
+		}
+	}
+	return unescaped;
 }
 
 NS_CC_END

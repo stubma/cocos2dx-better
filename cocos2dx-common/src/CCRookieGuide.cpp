@@ -23,6 +23,7 @@
  ****************************************************************************/
 #include "CCRookieGuide.h"
 #include "ccMoreTypes.h"
+#include "CCUtils.h"
 
 #define TAG_ENABLE_REGION_CHECK 1000
 

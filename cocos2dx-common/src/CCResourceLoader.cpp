@@ -130,6 +130,21 @@ void CCResourceLoader::addImageTask(const string& name, DECRYPT_FUNC decFunc, fl
 	addLoadTask(t);
 }
 
+void CCResourceLoader::addBMFontTask(const string& fntFile, float idle) {
+    BMFontLoadTask* t = new BMFontLoadTask();
+    t->idle = idle;
+    t->name = fntFile;
+    addLoadTask(t);
+}
+
+void CCResourceLoader::addBMFontTask(const string& fntFile, DECRYPT_FUNC decFunc, float idle) {
+    EncryptedBMFontLoadTask* t = new EncryptedBMFontLoadTask();
+    t->idle = idle;
+    t->name = fntFile;
+    t->func = decFunc;
+    addLoadTask(t);
+}
+
 void CCResourceLoader::addZwoptexTask(const string& name, float idle) {
     ZwoptexLoadTask* t = new ZwoptexLoadTask();
     t->idle = idle;

@@ -119,6 +119,57 @@ private:
         virtual void load();
     };
     
+    /// bitmap font load task
+    struct BMFontLoadTask : public LoadTask {
+        /// fnt file name
+        string name;
+        
+        virtual ~BMFontLoadTask() {}
+        
+        virtual void load() {
+            CCBMFontConfiguration* conf = FNTConfigLoadFile(name.c_str());
+            CCTextureCache::sharedTextureCache()->addImage(conf->getAtlasName());
+        }
+    };
+    
+    /// bitmap font load task, image is encrypted
+    struct EncryptedBMFontLoadTask : public LoadTask {
+        /// fnt file name
+        string name;
+        
+        /// decrypt func
+        DECRYPT_FUNC func;
+        
+        virtual ~EncryptedBMFontLoadTask() {}
+        
+        virtual void load() {
+            CCBMFontConfiguration* conf = FNTConfigLoadFile(name.c_str());
+
+            // load encryptd data
+            unsigned long len;
+            char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(conf->getAtlasName(), "rb", &len);
+            
+            // create texture
+            int decLen;
+            const char* dec = NULL;
+            if(func) {
+                dec = (*func)(data, len, &decLen);
+            } else {
+                dec = data;
+                decLen = (int)len;
+            }
+            CCImage* image = new CCImage();
+            image->initWithImageData((void*)dec, decLen);
+            image->autorelease();
+            CCTextureCache::sharedTextureCache()->addUIImage(image, conf->getAtlasName());
+            
+            // free
+            if(dec != data)
+                free((void*)dec);
+            free(data);
+        }
+    };
+    
     /// image load parameter
     struct ImageLoadTask : public LoadTask {
         /// image name
@@ -345,6 +396,12 @@ public:
     
     /// directly add a load task
     void addLoadTask(LoadTask* t);
+    
+    /// add bitmap font loading task
+    void addBMFontTask(const string& fntFile, float idle = 0);
+    
+    /// add bitmap font loading task, and the bitmap font atlas is encrypted
+    void addBMFontTask(const string& fntFile, DECRYPT_FUNC decFunc, float idle = 0);
     
     /**
      * add an Android string loading task

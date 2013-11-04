@@ -374,6 +374,24 @@ public:
     CCResourceLoader(CCResourceLoaderListener* listener);
 	virtual ~CCResourceLoader();
 	
+    /**
+     * load a file and return raw data
+     *
+     * @param name file path
+     * @param decFunc decrypt function or NULL if file is not encrypted
+     * @return raw data of file, caller should release it
+     */
+    static unsigned char* loadRaw(const string& name, unsigned long* size, DECRYPT_FUNC decFunc = NULL);
+    
+    /**
+     * load a file and return a c string
+     *
+     * @param name file path
+     * @param decFunc decrypt function or NULL if file is not encrypted
+     * @return c string of file content, caller should release it
+     */
+    static char* loadCString(const string& name, DECRYPT_FUNC decFunc = NULL);
+    
 	/**
 	 * a static method used to load an encrypted image
 	 *

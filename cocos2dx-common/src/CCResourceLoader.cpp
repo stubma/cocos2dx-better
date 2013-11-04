@@ -49,6 +49,62 @@ CCResourceLoader::~CCResourceLoader() {
     }
 }
 
+unsigned char* CCResourceLoader::loadRaw(const string& name, unsigned long* size, DECRYPT_FUNC decFunc) {
+    // load encryptd data
+	unsigned long len;
+	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
+    
+    // create texture
+	int decLen;
+    const char* dec = NULL;
+	if(decFunc) {
+        dec = (*decFunc)(data, len, &decLen);
+    } else {
+        dec = data;
+        decLen = (int)len;
+    }
+    
+    // free
+    if(dec != data)
+        free(data);
+    
+    // save size
+    if(size)
+        *size = decLen;
+    
+    // return
+    return (unsigned char*)dec;
+}
+
+char* CCResourceLoader::loadCString(const string& name, DECRYPT_FUNC decFunc) {
+    // load encryptd data
+	unsigned long len;
+	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
+    
+    // create texture
+	int decLen;
+    const char* dec = NULL;
+	if(decFunc) {
+        dec = (*decFunc)(data, len, &decLen);
+    } else {
+        dec = data;
+        decLen = (int)len;
+    }
+    
+    // copy as c string
+    char* ret = (char*)malloc((decLen + 1) * sizeof(char));
+    memcpy(ret, dec, decLen);
+    ret[decLen] = 0;
+    
+    // free
+    if(dec != data)
+        free((void*)dec);
+    free(data);
+    
+    // return
+    return ret;
+}
+
 void CCResourceLoader::loadImage(const string& name, DECRYPT_FUNC decFunc) {
 	// load encryptd data
 	unsigned long len;

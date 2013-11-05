@@ -37,6 +37,13 @@ public:
     virtual string subtitle();
 };
 
+class CommonClipInOut : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonGradientSprite : public CommonDemo
 {
 public:

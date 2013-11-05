@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 
 TESTLAYER_CREATE_FUNC(CommonCalendar);
+TESTLAYER_CREATE_FUNC(CommonClipInOut);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
@@ -20,6 +21,7 @@ TESTLAYER_CREATE_FUNC(CommonTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
     CF(CommonCalendar),
+    CF(CommonClipInOut),
 	CF(CommonGradientSprite),
 	CF(CommonLocale),
     CF(CommonLocalization),
@@ -189,6 +191,72 @@ void CommonCalendar::onEnter()
 std::string CommonCalendar::subtitle()
 {
     return "Calendar";
+}
+
+//------------------------------------------------------------------
+//
+// Clip In & Out
+//
+//------------------------------------------------------------------
+void CommonClipInOut::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCClippingNode* n = CCClippingNode::create();
+    CCSprite* flag = CCSprite::create("Images/usa_flag.jpg");
+    CCDrawNode* stencil = CCDrawNode::create();
+    n->setStencil(stencil);
+    flag->setAnchorPoint(CCPointZero);
+    flag->setPosition(CCPointZero);
+    n->addChild(flag);
+    n->ignoreAnchorPointForPosition(false);
+    n->setAnchorPoint(ccp(0.5f, 0.5f));
+    n->setContentSize(flag->getContentSize());
+    n->setPosition(ccp(origin.x + visibleSize.width / 2,
+                       origin.y + visibleSize.height / 2));
+    addChild(n, 1);
+    
+    CCClipIn* in1 = CCClipIn::create(2);
+    CCClipOut* out1 = (CCClipOut*)in1->reverse()->autorelease();
+    CCClipIn* in2 = CCClipIn::create(2, ccp(1, 1));
+    CCClipOut* out2 = (CCClipOut*)in2->reverse()->autorelease();
+    CCClipIn* in3 = CCClipIn::create(2, ccp(-1, 1));
+    CCClipOut* out3 = (CCClipOut*)in3->reverse()->autorelease();
+    CCClipIn* in4 = CCClipIn::create(2, ccp(-1, -1));
+    CCClipOut* out4 = (CCClipOut*)in4->reverse()->autorelease();
+    CCClipIn* in5 = CCClipIn::create(2, ccp(1, -1));
+    CCClipOut* out5 = (CCClipOut*)in5->reverse()->autorelease();
+    CCClipIn* in6 = CCClipIn::create(2, ccp(0, -1));
+    CCClipOut* out6 = (CCClipOut*)in6->reverse()->autorelease();
+    CCClipIn* in7 = CCClipIn::create(2, ccp(0, 1));
+    CCClipOut* out7 = (CCClipOut*)in7->reverse()->autorelease();
+    CCClipIn* in8 = CCClipIn::create(2, ccp(-1, 0));
+    CCClipOut* out8 = (CCClipOut*)in8->reverse()->autorelease();
+    n->runAction(CCSequence::create(in1,
+                                    out1,
+                                    in2,
+                                    out2,
+                                    in3,
+                                    out3,
+                                    in4,
+                                    out4,
+                                    in5,
+                                    out5,
+                                    in6,
+                                    out6,
+                                    in7,
+                                    out7,
+                                    in8,
+                                    out8,
+                                    NULL));
+}
+
+std::string CommonClipInOut::subtitle()
+{
+    return "Clip In & Out";
 }
 
 //------------------------------------------------------------------

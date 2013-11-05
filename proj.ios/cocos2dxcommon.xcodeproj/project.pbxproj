@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */; };
+		9220AB021828BBB5009AA8C4 /* CCClipIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220AB001828BBB5009AA8C4 /* CCClipIn.cpp */; };
+		9220AB071828BC5D009AA8C4 /* CCClipOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9220AB051828BC5D009AA8C4 /* CCClipOut.cpp */; };
 		922A4045181A1A3500A6B328 /* CCGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A403F181A1A3500A6B328 /* CCGestureRecognizer.cpp */; };
 		922A4046181A1A3500A6B328 /* CCLongPressGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4040181A1A3500A6B328 /* CCLongPressGestureRecognizer.cpp */; };
 		922A4047181A1A3500A6B328 /* CCPanGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4041181A1A3500A6B328 /* CCPanGestureRecognizer.cpp */; };
@@ -95,6 +97,10 @@
 /* Begin PBXFileReference section */
 		921F190A16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDrawingPrimitivesEx.cpp; sourceTree = "<group>"; };
 		921F190D16F58D2900A3DC41 /* CCDrawingPrimitivesEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCDrawingPrimitivesEx.h; sourceTree = "<group>"; };
+		9220AB001828BBB5009AA8C4 /* CCClipIn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCClipIn.cpp; sourceTree = "<group>"; };
+		9220AB051828BC5D009AA8C4 /* CCClipOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCClipOut.cpp; sourceTree = "<group>"; };
+		9220AB081828BC71009AA8C4 /* CCClipIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCClipIn.h; sourceTree = "<group>"; };
+		9220AB091828BC71009AA8C4 /* CCClipOut.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCClipOut.h; sourceTree = "<group>"; };
 		922A4037181A1A1800A6B328 /* CCGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCGestureRecognizer.h; sourceTree = "<group>"; };
 		922A4038181A1A1800A6B328 /* CCLongPressGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLongPressGestureRecognizer.h; sourceTree = "<group>"; };
 		922A4039181A1A1800A6B328 /* CCPanGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPanGestureRecognizer.h; sourceTree = "<group>"; };
@@ -311,6 +317,8 @@
 				928B834A1741E27A005EA4E0 /* CCTreeFadeIn.cpp */,
 				928B83471741E231005EA4E0 /* CCTreeFadeOut.cpp */,
 				924C929A16F8AC0900E39658 /* CCMissile.cpp */,
+				9220AB001828BBB5009AA8C4 /* CCClipIn.cpp */,
+				9220AB051828BC5D009AA8C4 /* CCClipOut.cpp */,
 			);
 			name = action;
 			sourceTree = "<group>";
@@ -370,6 +378,8 @@
 				925D7D4016F4B4F600622984 /* CCShake.h */,
 				928B834C1741E27F005EA4E0 /* CCTreeFadeIn.h */,
 				928B83491741E238005EA4E0 /* CCTreeFadeOut.h */,
+				9220AB081828BC71009AA8C4 /* CCClipIn.h */,
+				9220AB091828BC71009AA8C4 /* CCClipOut.h */,
 			);
 			name = action;
 			sourceTree = "<group>";
@@ -581,6 +591,7 @@
 			files = (
 				92774AE116EF1CB3008E67C8 /* CCUtils.cpp in Sources */,
 				9270FB1C16F4A927006A6788 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
+				9220AB071828BC5D009AA8C4 /* CCClipOut.cpp in Sources */,
 				925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */,
 				921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */,
 				9279754016F6C0140040E3AA /* CCAssetInputStream_ios.cpp in Sources */,
@@ -625,6 +636,7 @@
 				92446255179A3AE100AC41D2 /* Timers.cpp in Sources */,
 				92446256179A3AE100AC41D2 /* Unicode.cpp in Sources */,
 				92446257179A3AE100AC41D2 /* VectorImpl.cpp in Sources */,
+				9220AB021828BBB5009AA8C4 /* CCClipIn.cpp in Sources */,
 				92446258179A3AE100AC41D2 /* VelocityTracker.cpp in Sources */,
 				922A404A181A1A3500A6B328 /* CCTapGestureRecognizer.cpp in Sources */,
 				92E5519617A24A990001869D /* CCToast.cpp in Sources */,

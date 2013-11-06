@@ -23,6 +23,7 @@
  ****************************************************************************/
 #include "CCClipIn.h"
 #include "CCClipOut.h"
+#include "ccMoreTypes.h"
 
 NS_CC_BEGIN
 

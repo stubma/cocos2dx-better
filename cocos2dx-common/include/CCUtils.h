@@ -376,6 +376,12 @@ public:
     /// start to play internal music randomly
     static void playInternalMusic();
 	
+	/// stop internal music playing
+	static void stopInternalMusic();
+	
+	/// is internal music playing
+	static bool isInternalMusicPlaying();
+	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv
 	static JNIEnv* getJNIEnv();

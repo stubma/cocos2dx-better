@@ -1051,11 +1051,33 @@ CCSize CCUtils::measureRichString(const char* pText,
                                                 strokeSize);
 }
 
+bool CCUtils::isInternalMusicPlaying() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    MPMusicPlayerController* mp = [MPMusicPlayerController applicationMusicPlayer];
+	return [mp playbackState] == MPMusicPlaybackStatePlaying;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    return false;
+#else
+    CCLOGERROR("CCUtils::playInternalMusic is not implemented for this platform, please finish it");
+#endif
+}
+
 void CCUtils::playInternalMusic() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     MPMusicPlayerController* mp = [MPMusicPlayerController applicationMusicPlayer];
     [mp setQueueWithQuery:[MPMediaQuery songsQuery]];
     [mp play];
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    
+#else
+    CCLOGERROR("CCUtils::playInternalMusic is not implemented for this platform, please finish it");
+#endif
+}
+
+void CCUtils::stopInternalMusic() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    MPMusicPlayerController* mp = [MPMusicPlayerController applicationMusicPlayer];
+    [mp stop];
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
 #else

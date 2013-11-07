@@ -25,7 +25,10 @@
 #include "CCMoreMacros.h"
 #include "CCMD5.h"
 #include "CCImage_richlabel.h"
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    #include <sys/sysctl.h>
+    #import <MediaPlayer/MediaPlayer.h>
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     #include <sys/sysctl.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	#include "JniHelper.h"
@@ -1037,6 +1040,18 @@ CCSize CCUtils::measureRichString(const char* pText,
                                                 shadowOffsetX,
                                                 shadowOffsetY,
                                                 strokeSize);
+}
+
+void CCUtils::playInternalMusic() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    MPMusicPlayerController* mp = [MPMusicPlayerController iPodMusicPlayer];
+    [mp setQueueWithQuery:[MPMediaQuery songsQuery]];
+    [mp play];
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    
+#else
+    CCLOGERROR("CCUtils::playInternalMusic is not implemented for this platform, please finish it");
+#endif
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

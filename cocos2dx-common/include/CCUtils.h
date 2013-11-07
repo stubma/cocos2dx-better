@@ -369,6 +369,9 @@ public:
                                     float shadowOffsetX = 0,
                                     float shadowOffsetY = 0,
                                     float strokeSize = 0);
+    
+    /// start to play internal music randomly
+    static void playInternalMusic();
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

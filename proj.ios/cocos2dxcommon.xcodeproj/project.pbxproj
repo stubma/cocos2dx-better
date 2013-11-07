@@ -17,6 +17,7 @@
 		922A4049181A1A3500A6B328 /* CCSwipeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4043181A1A3500A6B328 /* CCSwipeGestureRecognizer.cpp */; };
 		922A404A181A1A3500A6B328 /* CCTapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4044181A1A3500A6B328 /* CCTapGestureRecognizer.cpp */; };
 		922A406B181A3D1500A6B328 /* CCRookieGuide.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A4069181A3D1500A6B328 /* CCRookieGuide.cpp */; };
+		92405C39182B641700E46357 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92405C38182B641700E46357 /* MediaPlayer.framework */; };
 		92446209179A29A100AC41D2 /* CCScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92446208179A29A100AC41D2 /* CCScrollView.cpp */; };
 		9244621D179A324500AC41D2 /* CCVelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244621B179A324500AC41D2 /* CCVelocityTracker.cpp */; };
 		92446251179A3AE100AC41D2 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244623B179A3AE100AC41D2 /* Atomic.cpp */; };
@@ -115,6 +116,7 @@
 		922A4044181A1A3500A6B328 /* CCTapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTapGestureRecognizer.cpp; sourceTree = "<group>"; };
 		922A4069181A3D1500A6B328 /* CCRookieGuide.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCRookieGuide.cpp; sourceTree = "<group>"; };
 		922A406C181A3D2E00A6B328 /* CCRookieGuide.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCRookieGuide.h; sourceTree = "<group>"; };
+		92405C38182B641700E46357 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		92446208179A29A100AC41D2 /* CCScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollView.cpp; sourceTree = "<group>"; };
 		9244620B179A29A700AC41D2 /* CCScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		9244621B179A324500AC41D2 /* CCVelocityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCVelocityTracker.cpp; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92405C39182B641700E46357 /* MediaPlayer.framework in Frameworks */,
 				92984F3B175D904500E63472 /* CoreText.framework in Frameworks */,
 				924BE967170EB69D002BEEB0 /* libcocos2dx.a in Frameworks */,
 				92B516E816E86020009F3536 /* Foundation.framework in Frameworks */,
@@ -481,6 +484,7 @@
 				92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */,
 				92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */,
 				92984F3A175D904500E63472 /* CoreText.framework */,
+				92405C38182B641700E46357 /* MediaPlayer.framework */,
 				92B516E716E86020009F3536 /* Foundation.framework */,
 			);
 			name = Frameworks;

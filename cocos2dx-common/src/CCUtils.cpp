@@ -1053,7 +1053,7 @@ CCSize CCUtils::measureRichString(const char* pText,
 
 void CCUtils::playInternalMusic() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    MPMusicPlayerController* mp = [MPMusicPlayerController iPodMusicPlayer];
+    MPMusicPlayerController* mp = [MPMusicPlayerController applicationMusicPlayer];
     [mp setQueueWithQuery:[MPMediaQuery songsQuery]];
     [mp play];
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

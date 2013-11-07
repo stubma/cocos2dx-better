@@ -539,6 +539,15 @@ CCPoint CCUtils::getPoint(CCNode* node, float xpercent, float ypercent) {
 	return ccp(origin.x + size.width * xpercent, origin.y + size.height * ypercent);
 }
 
+CCRect CCUtils::getBoundingBoxInWorldSpace(CCNode* node) {
+	CCRect r;
+	r.origin = CCPointZero;
+	r.size = node->getContentSize();
+	CCAffineTransform t = node->nodeToWorldTransform();
+	r = CCRectApplyAffineTransform(r, t);
+	return r;
+}
+
 void CCUtils::setTreeOpacity(CCNode* n, int o) {
 	// self
 	CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(n);

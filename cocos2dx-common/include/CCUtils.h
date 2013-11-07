@@ -221,6 +221,9 @@ public:
 	// get node point, in node space
 	static CCPoint getLocalPoint(CCNode* node, CCPoint anchor);
 	
+	/// get bounding box in world space
+	static CCRect getBoundingBoxInWorldSpace(CCNode* node);
+	
 	/// change opacity recursively
 	static void setTreeOpacity(CCNode* n, int o);
     

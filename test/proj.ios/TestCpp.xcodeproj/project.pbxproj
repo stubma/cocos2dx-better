@@ -26,6 +26,7 @@
 		92A6710316E89667008BE79D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A6710216E89667008BE79D /* libz.dylib */; };
 		92A6712116E8BA5F008BE79D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A6712016E8BA5F008BE79D /* libsqlite3.dylib */; };
 		92CF92B1175B51970014CDF1 /* CommonTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CF92AF175B51970014CDF1 /* CommonTest.cpp */; };
+		92DFF091182F12E6006C4ECD /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92DFF090182F12E6006C4ECD /* MediaPlayer.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
 		BF3326F413690DA4007CAA22 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3326F313690DA4007CAA22 /* RootViewController.mm */; };
@@ -84,6 +85,7 @@
 		92A6712016E8BA5F008BE79D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		92CF92AF175B51970014CDF1 /* CommonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommonTest.cpp; sourceTree = "<group>"; };
 		92CF92B0175B51970014CDF1 /* CommonTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTest.h; sourceTree = "<group>"; };
+		92DFF090182F12E6006C4ECD /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BF3326F213690DA4007CAA22 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92DFF091182F12E6006C4ECD /* MediaPlayer.framework in Frameworks */,
 				92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */,
 				92A6712116E8BA5F008BE79D /* libsqlite3.dylib in Frameworks */,
 				92A6710316E89667008BE79D /* libz.dylib in Frameworks */,
@@ -175,6 +178,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92DFF090182F12E6006C4ECD /* MediaPlayer.framework */,
 				92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */,
 				92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */,
 				92A6710216E89667008BE79D /* libz.dylib */,

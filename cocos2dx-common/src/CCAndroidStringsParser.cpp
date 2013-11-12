@@ -59,7 +59,7 @@ void CCAndroidStringsParser::parse(const string& path, const CCDictionary& dict)
 
 bool CCAndroidStringsParser::VisitEnter(const XMLElement& element, const XMLAttribute* firstAttribute) {
     if(!strcmp(element.Name(), "string")) {
-        CCString* s = CCString::create(element.GetText());
+        CCString* s = CCString::create(element.GetText() ? element.GetText() : "");
         const char* key = element.Attribute("name");
         if(key) {
             m_dict->setObject(s, key);

@@ -136,7 +136,7 @@ void CCLayerMultiplexEx::switchTo(unsigned int n) {
 	
     m_nEnabledLayer = n;
 	
-    ((CCNode*)m_pLayers->objectAtIndex(n))->setVisible(false);
+    ((CCNode*)m_pLayers->objectAtIndex(n))->setVisible(true);
 }
 
 CCLayer* CCLayerMultiplexEx::layerAt(int n) {

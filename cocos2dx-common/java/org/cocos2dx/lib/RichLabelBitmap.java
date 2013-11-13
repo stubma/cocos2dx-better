@@ -329,10 +329,14 @@ public class RichLabelBitmap {
                     		try {
 								is = am.open(openSpan.imageName);
 								Bitmap bitmap = BitmapFactory.decodeStream(is);
-								if(openSpan.scaleX != 1 || openSpan.scaleY != 1) {
+								if(openSpan.scaleX != 1 || openSpan.scaleY != 1 || contentScaleFactor != 1) {
+									float dstW = openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX);
+									float dstH = openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY);
+									dstW *= contentScaleFactor;
+									dstH *= contentScaleFactor;
 									Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
-											openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX),
-											openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY),
+											(int)dstW,
+											(int)dstH,
 											true);
 									bitmap.recycle();
 									bitmap = scaled;
@@ -557,7 +561,7 @@ public class RichLabelBitmap {
 			c.translate(startX, startY);
 			
 			// draw text
-			layout.draw(c);
+            layout.draw(c);
 			
 			// draw again if stroke is enabled
 			if(stroke) {

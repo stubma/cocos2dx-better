@@ -31,19 +31,38 @@ NS_CC_BEGIN
 /**
  * In general, class with Ex suffix is my workaround for cocos2d design defect
  */
-class CC_DLL CCLayerMultiplexEx : public CCLayerMultiplex {
-public:
-    CCLayerMultiplexEx();
-    virtual ~CCLayerMultiplexEx();
-    
-    static CCLayerMultiplexEx* create();
+class CC_DLL CCLayerMultiplexEx : public CCLayer {
+protected:
+    unsigned int m_nEnabledLayer;
+    CCArray*     m_pLayers;
 	
-	/** creates a CCMultiplexLayer with an array of layers.
-     @since v2.1
+public:
+    /**
+     * @js ctor
+     * @lua NA
+     */
+    CCLayerMultiplexEx();
+	
+    /**
+     * @js NA
+     * @lua NA
+     */
+    virtual ~CCLayerMultiplexEx();
+	
+    /**
+     * @js NA
+     */
+    static CCLayerMultiplexEx* create();
+    
+    /** creates a CCMultiplexLayer with an array of layers.
+     * @since v2.1
+     * @js NA
      */
     static CCLayerMultiplexEx* createWithArray(CCArray* arrayOfLayers);
 	
-    /** creates a CCLayerMultiplexEx with one or more layers using a variable argument list. */
+    /** creates a CCLayerMultiplex with one or more layers using a variable argument list.
+     * @lua NA
+     */
     static CCLayerMultiplexEx* create(CCLayer* layer, ... );
 	
     /**
@@ -52,11 +71,24 @@ public:
      */
     static CCLayerMultiplexEx* createWithLayer(CCLayer* layer);
 	
-	/**
-	 * Original CCLayerMultiplex will cleanup children when switching, so there is
-	 * a workaround method with cleanup option
+    void addLayer(CCLayer* layer);
+	
+    /** initializes a MultiplexLayer with one or more layers using a variable argument list.
+     *  @js NA
+     *  @lua NA
+     */
+    bool initWithLayers(CCLayer* layer, va_list params);
+	
+    /** initializes a CCMultiplexLayer with an array of layers
+     *  @since v2.1
+     *  @lua NA
+     */
+    bool initWithArray(CCArray* arrayOfLayers);
+	
+    /** switches to a certain layer indexed by n.
+	 The current (old) layer will be removed from it's parent with 'cleanup:YES'.
 	 */
-	void switchToLayerAt(unsigned int n, bool cleanup);
+    void switchTo(unsigned int n);
     
     /// get layer at specified index
     CCLayer* layerAt(int n);

@@ -43,9 +43,6 @@ public:
 	}
 
 	~CLBitmapDC(void) {
-		if(m_pData) {
-			delete[] m_pData;
-		}
 	}
 
 	bool getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
@@ -100,8 +97,10 @@ public:
 public:
 	int m_nWidth;
 	int m_nHeight;
-	unsigned char *m_pData;
 	JNIEnv *env;
+
+	// this data will pass to CCImage, so it should NOT be released in this class
+	unsigned char *m_pData;
 };
 
 static CLBitmapDC& sharedCLBitmapDC() {

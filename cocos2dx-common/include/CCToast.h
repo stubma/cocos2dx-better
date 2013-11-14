@@ -59,6 +59,9 @@ public:
                            float duration = 0,
                            CCFiniteTimeAction* inAction = NULL,
                            CCFiniteTimeAction* outAction = NULL);
+    
+    /// force remove a toast with given tag
+    static void forceRemove(CCNode* owner, int tag);
 };
 
 NS_CC_END

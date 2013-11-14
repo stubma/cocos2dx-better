@@ -69,4 +69,11 @@ CCToast* CCToast::create(CCNode* owner, CCNode* content, int tag, float duration
     return t;
 }
 
+void CCToast::forceRemove(CCNode* owner, int tag) {
+    CCNode* c = owner->getChildByTag(tag);
+    if(c) {
+        c->removeFromParent();
+    }
+}
+
 NS_CC_END

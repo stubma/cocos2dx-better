@@ -186,6 +186,10 @@ public class RichLabelBitmap {
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
 	        final float strokeB, final float strokeSize, float contentScaleFactor, boolean sizeOnly) {
+	        /**when pString is "" , the pWidth and  pHeight will be 0 , but bitmap needs pWidth and  pHeight > 0*/
+	        if (pString.compareTo("") == 0) {
+			pString = " ";
+		}
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		

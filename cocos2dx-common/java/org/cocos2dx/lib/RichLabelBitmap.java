@@ -48,6 +48,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -186,10 +187,14 @@ public class RichLabelBitmap {
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
 	        final float strokeB, final float strokeSize, float contentScaleFactor, boolean sizeOnly) {
-	        /**when pString is "" , the pWidth and  pHeight will be 0 , but bitmap needs pWidth and  pHeight > 0*/
-	        if (pString.compareTo("") == 0) {
+		/**
+		 * when pString is "" , the pWidth and pHeight will be 0 , but bitmap
+		 * needs pWidth and pHeight > 0
+		 */
+		if (TextUtils.isEmpty(pString)) {
 			pString = " ";
 		}
+		
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		

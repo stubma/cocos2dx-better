@@ -30,6 +30,9 @@ USING_NS_CC;
 
 NS_CC_BEGIN
 
+/// CCPoint constant
+static const CCPoint CCPointCenter = ccp(0.5f, 0.5f);
+
 /// hsv color
 typedef struct ccColorHSV { float h, s, v; } ccColorHSV;
 static inline ccColorHSV cchsv(const float h, const float s, const float v) {

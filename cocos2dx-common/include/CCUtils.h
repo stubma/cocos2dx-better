@@ -242,6 +242,9 @@ public:
     /// has external storage, such as sd card
     static bool hasExternalStorage();
     
+    /// get a good place to save app internal files
+    static string getInternalStoragePath();
+    
     /// current time milliseconds from 1970-1-1
     static int64_t currentTimeMillis();
     

@@ -635,6 +635,39 @@ CCRect CCUtils::combine(const CCRect& r1, const CCRect& r2) {
 	return CCRectMake(left, bottom, right - left, top - bottom);
 }
 
+string CCUtils::getInternalStoragePath() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    NSString* docDir = @"~/Documents";
+    docDir = [docDir stringByExpandingTildeInPath];
+    return [docDir cStringUsingEncoding:NSUTF8StringEncoding];
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // get context
+    jobject ctx = getContext();
+    
+    // get file dir
+    JniMethodInfo t;
+    JniHelper::getMethodInfo(t, "android/content/Context", "getFilesDir", "()Ljava/io/File;");
+    jobject file = t.env->CallObjectMethod(ctx, t.methodID);
+    
+    // get absolute path
+    JniHelper::getMethodInfo(t, "java/io/File", "getAbsolutePath", "()Ljava/lang/String;");
+    jstring path = (jstring)t.env->CallObjectMethod(file, t.methodID);
+    
+    // get c++ string
+    string cppPath = path ? JniHelper::jstring2string(path) : "/";
+    
+    // release
+    t.env->DeleteLocalRef(path);
+    t.env->DeleteLocalRef(file);
+    t.env->DeleteLocalRef(ctx);
+    
+    // return
+    return cppPath;
+#else
+    CCLOGERROR("CCUtils::getInternalStoragePath is not implemented for this platform, please finish it");
+#endif
+}
+
 bool CCUtils::hasExternalStorage() {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     return true;

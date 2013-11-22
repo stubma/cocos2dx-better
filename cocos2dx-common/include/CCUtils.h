@@ -49,6 +49,10 @@ private:
     
 private:
 	static unsigned char UnitScalarToByte(float x);
+    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    static jbyteArray getFirstSignatureBytes();
+#endif
 	
 public:
     /**
@@ -250,6 +254,9 @@ public:
     
     /// verify app signature, if has, basically it is only used for android
     static bool verifySignature(void* validSign, size_t len);
+    
+    /// check whether app is signed by a debug cert, it always return false for iOS
+    static bool isDebugSignature();
     
     /**
      * split string into components by a separator

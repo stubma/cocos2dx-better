@@ -696,44 +696,92 @@ int64_t CCUtils::currentTimeMillis() {
 	return when;
 }
 
+bool CCUtils::isDebugSignature() {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	// get sig data
+    jbyteArray certificate = getFirstSignatureBytes();
+    
+    // create input stream
+    JniMethodInfo t;
+    JniHelper::getMethodInfo(t, "java/io/ByteArrayInputStream", "<init>", "([B)V");
+    jobject bais = t.env->NewObject(t.classID, t.methodID, certificate);
+    
+    // cert factory
+    JniHelper::getStaticMethodInfo(t, "java/security/cert/CertificateFactory", "getInstance", "(Ljava/lang/String;)Ljava/security/cert/CertificateFactory;");
+    jstring protocol = t.env->NewStringUTF("X.509");
+    jobject cf = t.env->CallStaticObjectMethod(t.classID, t.methodID, protocol);
+    
+    // cert
+    JniHelper::getMethodInfo(t, "java/security/cert/CertificateFactory", "generateCertificate", "(Ljava/io/InputStream;)Ljava/security/cert/Certificate;");
+    jobject cert = t.env->CallObjectMethod(cf, t.methodID, bais);
+    
+    // issuer dn
+    JniHelper::getMethodInfo(t, "java/security/cert/X509Certificate", "getIssuerDN", "()Ljava/security/Principal;");
+    jobject ip = t.env->CallObjectMethod(cert, t.methodID);
+    
+    // issuer dn name
+    JniHelper::getMethodInfo(t, "java/security/Principal", "getName", "()Ljava/lang/String;");
+    jstring ipn = (jstring)t.env->CallObjectMethod(ip, t.methodID);
+    
+    // check issuer dn name
+    bool debug = false;
+    string sub = "Android Debug";
+    string cppipn = JniHelper::jstring2string(ipn);
+    if(cppipn.find(sub) != string::npos) {
+        debug = true;
+    }
+    
+    // check more?
+    if(!debug) {
+        // subject dn
+        JniHelper::getMethodInfo(t, "java/security/cert/X509Certificate", "getSubjectDN", "()Ljava/security/Principal;");
+        jobject sp = t.env->CallObjectMethod(cert, t.methodID);
+        
+        // subject dn name
+        JniHelper::getMethodInfo(t, "java/security/Principal", "getName", "()Ljava/lang/String;");
+        jstring spn = (jstring)t.env->CallObjectMethod(sp, t.methodID);
+        
+        // check
+        string cppspn = JniHelper::jstring2string(spn);
+        if(cppspn.find(sub) != string::npos) {
+            debug = true;
+        }
+        
+        // release
+        t.env->DeleteLocalRef(sp);
+        t.env->DeleteLocalRef(spn);
+    }
+    
+    // release
+    t.env->DeleteLocalRef(bais);
+    t.env->DeleteLocalRef(certificate);
+    t.env->DeleteLocalRef(cf);
+    t.env->DeleteLocalRef(protocol);
+    t.env->DeleteLocalRef(cert);
+    t.env->DeleteLocalRef(ip);
+    t.env->DeleteLocalRef(ipn);
+    
+    // return
+    return debug;
+#else
+    return false;
+#endif
+}
+
 bool CCUtils::verifySignature(void* validSign, size_t len) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // basic check
 	if(!validSign)
 		return true;
     
-	// get context
-    jobject ctx = getContext();
-    
-    // get package manager
-    JniMethodInfo t;
-    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageManager", "()Landroid/content/pm/PackageManager;");
-	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
-    
-	// get package name
-    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageName", "()Ljava/lang/String;");
-	jstring packageName = (jstring)t.env->CallObjectMethod(ctx, t.methodID);
-    
-	// get package info
-    JniHelper::getMethodInfo(t, "android/content/pm/PackageManager", "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
-	jint flags = t.env->GetStaticIntField(t.classID, t.env->GetStaticFieldID(t.classID, "GET_SIGNATURES", "I"));
-	jobject packageInfo = t.env->CallObjectMethod(packageManager, t.methodID, packageName, flags);
-    
-	// get first signature java object
-	jclass klazz = t.env->GetObjectClass(packageInfo);
-	jobjectArray signatures = (jobjectArray)t.env->GetObjectField(packageInfo,
-                                                                  t.env->GetFieldID(klazz, "signatures", "[Landroid/content/pm/Signature;"));
-	jobject signature = t.env->GetObjectArrayElement(signatures, 0);
-    
-	// get byte array of signature
-	klazz = t.env->GetObjectClass(signature);
-    t.methodID = t.env->GetMethodID(klazz, "toByteArray", "()[B");
-	jbyteArray certificate = (jbyteArray)t.env->CallObjectMethod(signature, t.methodID);
+	// get sig data
+    jbyteArray certificate = getFirstSignatureBytes();
     
 	// md5
+    JNIEnv* env = getJNIEnv();
 	bool valid = true;
-	jsize cLen = t.env->GetArrayLength(certificate);
-	jbyte* cData = t.env->GetByteArrayElements(certificate, JNI_FALSE);
+	jsize cLen = env->GetArrayLength(certificate);
+	jbyte* cData = env->GetByteArrayElements(certificate, JNI_FALSE);
 	if (cLen > 0) {
 		const char* md5 = CCMD5::md5(cData, cLen);
 		size_t md5Len = strlen(md5);
@@ -751,7 +799,8 @@ bool CCUtils::verifySignature(void* validSign, size_t len) {
 	}
     
 	// release
-	t.env->ReleaseByteArrayElements(certificate, cData, 0);
+	env->ReleaseByteArrayElements(certificate, cData, 0);
+    env->DeleteLocalRef(certificate);
     
 	// return
 	return valid;
@@ -1142,6 +1191,47 @@ jobject CCUtils::getContext() {
     JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/Cocos2dxActivity", "getContext", "()Landroid/content/Context;");
     jobject ctx = t.env->CallStaticObjectMethod(t.classID, t.methodID);
     return ctx;
+}
+
+jbyteArray CCUtils::getFirstSignatureBytes() {
+    // get context
+    jobject ctx = getContext();
+    
+    // get package manager
+    JniMethodInfo t;
+    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageManager", "()Landroid/content/pm/PackageManager;");
+	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
+    
+    // get package name
+    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageName", "()Ljava/lang/String;");
+	jstring packageName = (jstring)t.env->CallObjectMethod(ctx, t.methodID);
+    
+    // get package info
+    JniHelper::getMethodInfo(t, "android/content/pm/PackageManager", "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+	jint flags = t.env->GetStaticIntField(t.classID, t.env->GetStaticFieldID(t.classID, "GET_SIGNATURES", "I"));
+	jobject packageInfo = t.env->CallObjectMethod(packageManager, t.methodID, packageName, flags);
+    
+    // get first signature java object
+	jclass klazz = t.env->GetObjectClass(packageInfo);
+	jobjectArray signatures = (jobjectArray)t.env->GetObjectField(packageInfo,
+                                                                  t.env->GetFieldID(klazz, "signatures", "[Landroid/content/pm/Signature;"));
+	jobject signature = t.env->GetObjectArrayElement(signatures, 0);
+    
+    // get byte array of signature
+	klazz = t.env->GetObjectClass(signature);
+    t.methodID = t.env->GetMethodID(klazz, "toByteArray", "()[B");
+	jbyteArray certificate = (jbyteArray)t.env->CallObjectMethod(signature, t.methodID);
+    
+    // release
+    t.env->DeleteLocalRef(ctx);
+    t.env->DeleteLocalRef(packageManager);
+    t.env->DeleteLocalRef(packageName);
+    t.env->DeleteLocalRef(packageInfo);
+    t.env->DeleteLocalRef(signatures);
+    t.env->DeleteLocalRef(signature);
+    
+    // return
+    return certificate;
 }
 
 #endif

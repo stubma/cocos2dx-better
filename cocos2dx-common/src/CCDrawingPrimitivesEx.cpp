@@ -93,4 +93,85 @@ void ccDrawSolidCircle( const CCPoint& center, float radius, float angle, unsign
     CC_INCREMENT_GL_DRAWS(1);
 }
 
+void ccDrawSolidRoundRect(CCPoint origin, CCPoint destination, float cornerRadius, ccColor4F color) {
+    // ensure origin is left bottom
+    CCPoint bl = origin;
+    CCPoint tr = destination;
+    if(bl.x > tr.x) {
+        bl.x = MIN(origin.x, destination.x);
+        tr.x = MAX(origin.x, destination.x);
+    }
+    if(bl.y > tr.y) {
+        bl.y = MIN(origin.y, destination.y);
+        tr.y = MAX(origin.y, destination.y);
+    }
+    
+    // four center of corners
+    CCPoint tlCenter = ccp(bl.x + cornerRadius, tr.y - cornerRadius);
+    CCPoint trCenter = ccp(tr.x - cornerRadius, tr.y - cornerRadius);
+    CCPoint blCenter = ccp(bl.x + cornerRadius, bl.y + cornerRadius);
+    CCPoint brCenter = ccp(tr.x - cornerRadius, bl.y + cornerRadius);
+    
+    // populate vertices
+    CCPoint vertices[] = {
+        // left edge
+        ccp(bl.x, bl.y + cornerRadius),
+        ccp(bl.x, tr.y - cornerRadius),
+        
+        // top left corner
+        ccpAdd(tlCenter, ccpDegree(170) * cornerRadius),
+        ccpAdd(tlCenter, ccpDegree(160) * cornerRadius),
+        ccpAdd(tlCenter, ccpDegree(150) * cornerRadius),
+        ccpAdd(tlCenter, ccpDegree(140) * cornerRadius),
+        ccpAdd(tlCenter, ccpDegree(130) * cornerRadius),
+        ccpAdd(tlCenter, ccpDegree(120) * cornerRadius),
+        ccpAdd(tlCenter, ccpDegree(110) * cornerRadius),
+        ccpAdd(tlCenter, ccpDegree(100) * cornerRadius),
+        
+        // top edge
+        ccp(bl.x + cornerRadius, tr.y),
+        ccp(tr.x - cornerRadius, tr.y),
+        
+        // right top corner
+        ccpAdd(trCenter, ccpDegree(80) * cornerRadius),
+        ccpAdd(trCenter, ccpDegree(70) * cornerRadius),
+        ccpAdd(trCenter, ccpDegree(60) * cornerRadius),
+        ccpAdd(trCenter, ccpDegree(50) * cornerRadius),
+        ccpAdd(trCenter, ccpDegree(40) * cornerRadius),
+        ccpAdd(trCenter, ccpDegree(30) * cornerRadius),
+        ccpAdd(trCenter, ccpDegree(20) * cornerRadius),
+        ccpAdd(trCenter, ccpDegree(10) * cornerRadius),
+        
+        // right edge
+        ccp(tr.x, tr.y - cornerRadius),
+        ccp(tr.x, bl.y + cornerRadius),
+        
+        // bottom right corner
+        ccpAdd(brCenter, ccpDegree(-10) * cornerRadius),
+        ccpAdd(brCenter, ccpDegree(-20) * cornerRadius),
+        ccpAdd(brCenter, ccpDegree(-30) * cornerRadius),
+        ccpAdd(brCenter, ccpDegree(-40) * cornerRadius),
+        ccpAdd(brCenter, ccpDegree(-50) * cornerRadius),
+        ccpAdd(brCenter, ccpDegree(-60) * cornerRadius),
+        ccpAdd(brCenter, ccpDegree(-70) * cornerRadius),
+        ccpAdd(brCenter, ccpDegree(-80) * cornerRadius),
+        
+        // bottom edge
+        ccp(tr.x - cornerRadius, bl.y),
+        ccp(bl.x + cornerRadius, bl.y),
+        
+        // bottom left corner
+        ccpAdd(blCenter, ccpDegree(-100) * cornerRadius),
+        ccpAdd(blCenter, ccpDegree(-110) * cornerRadius),
+        ccpAdd(blCenter, ccpDegree(-120) * cornerRadius),
+        ccpAdd(blCenter, ccpDegree(-130) * cornerRadius),
+        ccpAdd(blCenter, ccpDegree(-140) * cornerRadius),
+        ccpAdd(blCenter, ccpDegree(-150) * cornerRadius),
+        ccpAdd(blCenter, ccpDegree(-160) * cornerRadius),
+        ccpAdd(blCenter, ccpDegree(-170) * cornerRadius)
+    };
+    
+    ccDrawSolidPoly(vertices, 40, color);
+}
+
 NS_CC_END

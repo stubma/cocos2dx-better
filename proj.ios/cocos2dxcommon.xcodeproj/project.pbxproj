@@ -54,6 +54,7 @@
 		928C34061728CEB8008DFA9A /* CCMD5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928C34051728CEB8008DFA9A /* CCMD5.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92AE790516F73649009C5FFC /* CCResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92AE790416F73649009C5FFC /* CCResourceLoader.cpp */; };
+		92B3E613184330A800D9CA18 /* CCProgressHUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B3E611184330A800D9CA18 /* CCProgressHUD.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92B706B4172793D9002A9655 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92B706B3172793D9002A9655 /* CCGradientSprite.cpp */; };
 		92BAD8A8181D487500DD210D /* CCSpriteEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92BAD8A7181D487500DD210D /* CCSpriteEx.cpp */; };
@@ -199,6 +200,8 @@
 		92AE790116F73643009C5FFC /* CCResourceLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResourceLoader.h; sourceTree = "<group>"; };
 		92AE790216F73643009C5FFC /* CCResourceLoaderListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResourceLoaderListener.h; sourceTree = "<group>"; };
 		92AE790416F73649009C5FFC /* CCResourceLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCResourceLoader.cpp; sourceTree = "<group>"; };
+		92B3E611184330A800D9CA18 /* CCProgressHUD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCProgressHUD.cpp; sourceTree = "<group>"; };
+		92B3E616184330C900D9CA18 /* CCProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCProgressHUD.h; sourceTree = "<group>"; };
 		92B516E416E86020009F3536 /* libcocos2dxcommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcocos2dxcommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92B706B3172793D9002A9655 /* CCGradientSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGradientSprite.cpp; sourceTree = "<group>"; };
@@ -241,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				92E5519417A24A990001869D /* CCToast.cpp */,
+				92B3E611184330A800D9CA18 /* CCProgressHUD.cpp */,
 				927A4A8D17AAB9C2000FDAE3 /* CCLayerMultiplexEx.cpp */,
 				92BAD8A7181D487500DD210D /* CCSpriteEx.cpp */,
 				92B706B3172793D9002A9655 /* CCGradientSprite.cpp */,
@@ -330,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				92E5519817A24AC50001869D /* CCToast.h */,
+				92B3E616184330C900D9CA18 /* CCProgressHUD.h */,
 				9270FB1916F4A922006A6788 /* CCAutoRenderMenuItemSprite.h */,
 				9285154718093B8C008751E4 /* CCMenuItemColor.h */,
 				927E46E0175B71A9008555FC /* CCRichLabelTTF.h */,
@@ -599,6 +604,7 @@
 				925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */,
 				921F190B16F58D2400A3DC41 /* CCDrawingPrimitivesEx.cpp in Sources */,
 				9279754016F6C0140040E3AA /* CCAssetInputStream_ios.cpp in Sources */,
+				92B3E613184330A800D9CA18 /* CCProgressHUD.cpp in Sources */,
 				9285154418093B6C008751E4 /* CCMenuItemColor.cpp in Sources */,
 				9279754316F6C0B70040E3AA /* CCMemoryInputStream.cpp in Sources */,
 				922A406B181A3D1500A6B328 /* CCRookieGuide.cpp in Sources */,

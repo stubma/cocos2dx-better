@@ -9,6 +9,7 @@ TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
 TESTLAYER_CREATE_FUNC(CommonMenuItemColor);
 TESTLAYER_CREATE_FUNC(CommonMissile);
+TESTLAYER_CREATE_FUNC(CommonProgressHUD);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonRichLabel2);
 TESTLAYER_CREATE_FUNC(CommonResourceLoader);
@@ -27,6 +28,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonLocalization),
     CF(CommonMenuItemColor),
     CF(CommonMissile),
+    CF(CommonProgressHUD),
 	CF(CommonRichLabel),
     CF(CommonRichLabel2),
 	CF(CommonResourceLoader),
@@ -445,6 +447,48 @@ void CommonMissile::onHit() {
 std::string CommonMissile::subtitle()
 {
     return "Missile";
+}
+
+//------------------------------------------------------------------
+//
+// ProgressHUD
+//
+//------------------------------------------------------------------
+void CommonProgressHUD::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+ 
+    CCMenuItemLabel* item1 = CCMenuItemLabel::create(CCLabelTTF::create("Start HUD", "Helvetica", 80 / CC_CONTENT_SCALE_FACTOR()),
+													 this,
+													 menu_selector(CommonProgressHUD::showHUD));
+    item1->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    
+    CCMenu* menu = CCMenu::create(item1, NULL);
+    menu->setPosition(CCPointZero);
+    addChild(menu);
+}
+
+std::string CommonProgressHUD::subtitle()
+{
+    return "Progress HUD";
+}
+
+void CommonProgressHUD::showHUD(CCObject* sender) {
+    CCProgressHUD* hud = CCProgressHUD::show("Loading...");
+    hud->setPanelColor(ccc4(255, 0, 0, 200));
+    
+    runAction(CCSequence::create(CCDelayTime::create(1),
+                                 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::changeMessage)),
+                                 NULL));
+}
+
+void CommonProgressHUD::changeMessage() {
+    CCProgressHUD* hud = CCProgressHUD::current();
+    hud->setMessage("你可以随时改变提示信息");
 }
 
 //------------------------------------------------------------------

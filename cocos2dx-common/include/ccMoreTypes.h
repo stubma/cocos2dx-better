@@ -139,6 +139,11 @@ static inline ccColor3B ccc3FromInt(int c) {
                 c & 0xff);
 }
 
+/// convert ccColor4B to ccColor3B
+static inline ccColor3B ccc3FromCCC4(const ccColor4B& c4) {
+    return ccc3(c4.r, c4.g, c4.b);
+}
+
 /// convert int color 0xaarrggbb to ccColor4F
 static inline ccColor4F ccc4fFromInt(int c) {
     return ccc4f(((c >> 16) & 0xff) / 255.0f,

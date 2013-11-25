@@ -93,7 +93,7 @@ void ccDrawSolidCircle( const CCPoint& center, float radius, float angle, unsign
     CC_INCREMENT_GL_DRAWS(1);
 }
 
-void ccDrawSolidRoundRect(CCPoint origin, CCPoint destination, float cornerRadius, ccColor4F color) {
+void ccDrawSolidRoundRect(CCPoint origin, CCPoint destination, float cornerRadius, ccColor4B color) {
     // ensure origin is left bottom
     CCPoint bl = origin;
     CCPoint tr = destination;
@@ -171,7 +171,7 @@ void ccDrawSolidRoundRect(CCPoint origin, CCPoint destination, float cornerRadiu
         ccpAdd(blCenter, ccpDegree(-170) * cornerRadius)
     };
     
-    ccDrawSolidPoly(vertices, 40, color);
+    ccDrawSolidPoly(vertices, 40, ccc4FFromccc4B(color));
 }
 
 NS_CC_END

@@ -61,5 +61,6 @@
 #include "CCSpriteEx.h"
 #include "CCClipIn.h"
 #include "CCClipOut.h"
+#include "CCProgressHUD.h"
 
 #endif // __cocos2d_common_h__

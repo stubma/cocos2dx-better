@@ -81,6 +81,16 @@ public:
     void onHit();
 };
 
+class CommonProgressHUD : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+    
+    void showHUD(CCObject* sender);
+    void changeMessage();
+};
+
 class CommonRichLabel : public CommonDemo
 {
 public:

@@ -33,6 +33,17 @@ NS_CC_BEGIN
 /// CCPoint constant
 static const CCPoint CCPointCenter = ccp(0.5f, 0.5f);
 
+/// quick method to create a CCPoint by degree
+static inline CCPoint ccpDegree(float d) {
+    float r = CC_DEGREES_TO_RADIANS(d);
+    return ccp(cosf(r), sinf(r));
+}
+
+/// quick method to create a CCPoint by radian
+static inline CCPoint ccpRadian(float r) {
+    return ccp(cosf(r), sinf(r));
+}
+
 /// hsv color
 typedef struct ccColorHSV { float h, s, v; } ccColorHSV;
 static inline ccColorHSV cchsv(const float h, const float s, const float v) {

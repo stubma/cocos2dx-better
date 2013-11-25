@@ -97,10 +97,14 @@ public:
     CC_SYNTHESIZE_PASS_BY_REF_SETTER(ccColor4B, m_panelColor, PanelColor);
     
     /// icon sprite, it will be retained by HUD
+	/// if NULL, default progress indicator will be used
     CC_SYNTHESIZE_SETTER(CCSprite*, m_icon, Icon);
     
     /// message
     CC_SYNTHESIZE_PASS_BY_REF_SETTER(string, m_message, Message);
+	
+	/// true means the panel bg must be in square shape
+	CC_SYNTHESIZE_BOOL_SETTER(m_forceSquare, ForceSquare);
 };
 
 NS_CC_END

@@ -89,6 +89,13 @@ public:
     
     void showHUD(CCObject* sender);
     void changeMessage();
+	void changeRichMessage();
+	void changePanelColor();
+	void changeDimColor();
+	void changeIcon();
+	void forceSquare();
+	void hide();
+	void beforeHide();
 };
 
 class CommonRichLabel : public CommonDemo

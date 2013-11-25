@@ -80,8 +80,8 @@ char* CCResourceLoader::loadCString(const string& name, DECRYPT_FUNC decFunc) {
     // load encryptd data
 	unsigned long len;
 	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
-    
-    // create texture
+
+	// create texture
 	int decLen;
     const char* dec = NULL;
 	if(decFunc) {

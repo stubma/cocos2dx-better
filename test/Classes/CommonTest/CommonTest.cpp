@@ -481,14 +481,67 @@ void CommonProgressHUD::showHUD(CCObject* sender) {
     CCProgressHUD* hud = CCProgressHUD::show("Loading...");
     hud->setPanelColor(ccc4(255, 0, 0, 200));
     
-    runAction(CCSequence::create(CCDelayTime::create(1),
+    runAction(CCSequence::create(CCDelayTime::create(2),
                                  CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::changeMessage)),
+								 CCDelayTime::create(2),
+                                 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::changeRichMessage)),
+								 CCDelayTime::create(2),
+								 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::changePanelColor)),
+								 CCDelayTime::create(2),
+								 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::changeDimColor)),
+								 CCDelayTime::create(2),
+								 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::forceSquare)),
+								 CCDelayTime::create(2),
+								 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::changeIcon)),
+								 CCDelayTime::create(2),
+								 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::beforeHide)),
+								 CCDelayTime::create(2),
+								 CCCallFunc::create(this, callfunc_selector(CommonProgressHUD::hide)),
                                  NULL));
 }
 
 void CommonProgressHUD::changeMessage() {
     CCProgressHUD* hud = CCProgressHUD::current();
     hud->setMessage("你可以随时改变提示信息");
+}
+
+void CommonProgressHUD::changeRichMessage() {
+	CCProgressHUD* hud = CCProgressHUD::current();
+    hud->setMessage("消息是一个[color=ff0000ff]CCRichLabelTTF[/color]");
+}
+
+void CommonProgressHUD::changeDimColor() {
+	CCProgressHUD* hud = CCProgressHUD::current();
+	hud->setMessage("可以改变整体背景色");
+	hud->setDimColor(ccc4(0, 0, 200, 100));
+}
+
+void CommonProgressHUD::changePanelColor() {
+	CCProgressHUD* hud = CCProgressHUD::current();
+	hud->setMessage("可以改变面板背景色");
+	hud->setPanelColor(ccc4(127, 183, 90, 200));
+}
+
+void CommonProgressHUD::forceSquare() {
+	CCProgressHUD* hud = CCProgressHUD::current();
+	hud->setMessage("强制为正方形");
+	hud->setForceSquare(true);
+}
+
+void CommonProgressHUD::changeIcon() {
+	CCProgressHUD* hud = CCProgressHUD::current();
+	hud->setMessage("可以使用自定义图标");
+	hud->setIcon(CCSprite::create("Images/grossini.png"));
+}
+
+void CommonProgressHUD::beforeHide() {
+	CCProgressHUD* hud = CCProgressHUD::current();
+	hud->setIcon(NULL);
+	hud->setMessage("2秒后消失");
+}
+
+void CommonProgressHUD::hide() {
+	CCProgressHUD::hide();
 }
 
 //------------------------------------------------------------------

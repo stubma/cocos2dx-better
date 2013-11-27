@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include "CCRichLabelTTF.h"
+#include "CCMoreMacros.h"
 
 using namespace std;
 

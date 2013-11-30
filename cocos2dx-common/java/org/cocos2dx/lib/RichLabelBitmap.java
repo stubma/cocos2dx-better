@@ -257,22 +257,22 @@ public class RichLabelBitmap {
         		| ((int)(fontTintR * 255) << 16) 
         		| ((int)(fontTintG * 255) << 8) 
         		| (int)(fontTintB * 255);
-        Typeface defaultFont = Typeface.DEFAULT;
+        Typeface defaultFont = paint.getTypeface();
         Stack<Integer> colorStack = new Stack<Integer>();
         Stack<Typeface> fontStack = new Stack<Typeface>();
         Stack<Float> fontSizeStack = new Stack<Float>();
         colorStack.push(defaultColor);
         fontStack.push(defaultFont);
         fontSizeStack.push(pFontSize / contentScaleFactor);
-        
+
         // build spannable string
+        SpannableString rich = new SpannableString(plain);
         Map<String, Bitmap> imageMap = new HashMap<String, Bitmap>();
         int colorStart = 0;
         int fontStart = 0;
         int sizeStart = 0;
         int underlineStart = -1;
         Span openSpan = null;
-        SpannableString rich = new SpannableString(plain);
         for(Span span : spans) {
         	if(span.close) {
                 switch(span.type) {

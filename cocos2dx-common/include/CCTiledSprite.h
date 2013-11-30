@@ -28,6 +28,8 @@
 
 NS_CC_BEGIN
 
+class CCTextureAtlasEx;
+
 /**
  * A node which can tile a texture in vertical and horizontal direction.
  * Can be used to fill game background and it is good to fill dynamic-size area.
@@ -49,7 +51,7 @@ private:
 	bool m_dirty;
 	
 	/// atlas
-	CCTextureAtlas* m_atlas;
+	CCTextureAtlasEx* m_atlas;
 	
 private:
 	/// update atlas

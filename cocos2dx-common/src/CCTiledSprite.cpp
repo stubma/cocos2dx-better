@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCTiledSprite.h"
+#include "CCTextureAtlasEx.h"
 
 NS_CC_BEGIN
 
@@ -36,7 +37,7 @@ CCTiledSprite::CCTiledSprite(CCSprite* sprite) :
 	CC_SAFE_RETAIN(m_sprite);
 			
 	// atlas
-	m_atlas = CCTextureAtlas::createWithTexture(m_sprite->getTexture(), kDefaultSpriteBatchCapacity);
+	m_atlas = CCTextureAtlasEx::createWithTexture(m_sprite->getTexture(), kDefaultSpriteBatchCapacity);
 	CC_SAFE_RETAIN(m_atlas);
 			
 	// shader program

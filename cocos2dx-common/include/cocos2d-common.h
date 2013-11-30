@@ -40,6 +40,7 @@
 #include "CCResourceLoader.h"
 #include "CCResourceLoaderListener.h"
 #include "CCGradientSprite.h"
+#include "CCTextureAtlasEx.h"
 #include "CCTiledSprite.h"
 #include "CCTreeFadeIn.h"
 #include "CCTreeFadeOut.h"

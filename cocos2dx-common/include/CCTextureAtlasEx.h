@@ -40,17 +40,13 @@ class CCTexture2D;
 
 /** 
  * Workround version of original CCTextureAtlas, it fixes bugs:
- * 1. VBO bug in Samsung Galaxy (I9001)
+ * 1. VBO bug in Samsung Galaxy (I9001). However, the workaround is not compatible in iOS. Finally I
+ * have to remove vbo support
  */
 class CC_DLL CCTextureAtlasEx : public CCObject 
 {
 protected:
     GLushort*           m_pIndices;
-#if CC_TEXTURE_ATLAS_USE_VAO
-    GLuint              m_uVAOname;
-#endif
-    GLuint              m_pBuffersVBO[2]; //0: vertex  1: indices
-    bool                m_bDirty; //indicates whether or not the array buffer of the VBO needs to be updated
 
 
     /** quantity of quads that are going to be drawn */
@@ -201,19 +197,8 @@ public:
      */
     void listenBackToForeground(CCObject *obj);
 
-    /** whether or not the array buffer of the VBO needs to be updated*/
-    inline bool isDirty(void) { return m_bDirty; }
-    /** specify if the array buffer of the VBO needs to be updated */
-    inline void setDirty(bool bDirty) { m_bDirty = bDirty; }
-
 private:
     void setupIndices();
-    void mapBuffers();
-#if CC_TEXTURE_ATLAS_USE_VAO
-    void setupVBOandVAO();
-#else
-    void setupVBO();
-#endif
 };
 
 // end of textures group

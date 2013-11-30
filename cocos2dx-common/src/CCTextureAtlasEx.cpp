@@ -34,7 +34,6 @@ NS_CC_BEGIN
 
 CCTextureAtlasEx::CCTextureAtlasEx()
     :m_pIndices(NULL)
-    ,m_bDirty(false)
     ,m_pTexture(NULL)
     ,m_pQuads(NULL)
 {}
@@ -46,12 +45,6 @@ CCTextureAtlasEx::~CCTextureAtlasEx()
     CC_SAFE_FREE(m_pQuads);
     CC_SAFE_FREE(m_pIndices);
 
-    glDeleteBuffers(2, m_pBuffersVBO);
-
-#if CC_TEXTURE_ATLAS_USE_VAO
-    glDeleteVertexArrays(1, &m_uVAOname);
-    ccGLBindVAO(0);
-#endif
     CC_SAFE_RELEASE(m_pTexture);
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
@@ -84,7 +77,6 @@ void CCTextureAtlasEx::setTexture(CCTexture2D * var)
 ccV3F_C4B_T2F_Quad* CCTextureAtlasEx::getQuads()
 {
     //if someone accesses the quads directly, presume that changes will be made
-    m_bDirty = true;
     return m_pQuads;
 }
 
@@ -176,27 +168,11 @@ bool CCTextureAtlasEx::initWithTexture(CCTexture2D *texture, unsigned int capaci
     
     this->setupIndices();
 
-#if CC_TEXTURE_ATLAS_USE_VAO
-    setupVBOandVAO();    
-#else    
-    setupVBO();
-#endif
-
-    m_bDirty = true;
-
     return true;
 }
 
 void CCTextureAtlasEx::listenBackToForeground(CCObject *obj)
-{  
-#if CC_TEXTURE_ATLAS_USE_VAO
-    setupVBOandVAO();    
-#else    
-    setupVBO();
-#endif
-    
-    // set m_bDirty to true to force it rebinding buffer
-    m_bDirty = true;
+{
 }
 
 const char* CCTextureAtlasEx::description()
@@ -232,68 +208,6 @@ void CCTextureAtlasEx::setupIndices()
     }
 }
 
-//TextureAtlas - VAO / VBO specific
-
-#if CC_TEXTURE_ATLAS_USE_VAO
-void CCTextureAtlasEx::setupVBOandVAO()
-{
-    glGenVertexArrays(1, &m_uVAOname);
-    ccGLBindVAO(m_uVAOname);
-
-#define kQuadSize sizeof(m_pQuads[0].bl)
-
-    glGenBuffers(2, &m_pBuffersVBO[0]);
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * m_uCapacity, m_pQuads, GL_DYNAMIC_DRAW);
-
-    // vertices
-    glEnableVertexAttribArray(kCCVertexAttrib_Position);
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, vertices));
-
-    // colors
-    glEnableVertexAttribArray(kCCVertexAttrib_Color);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, colors));
-
-    // tex coords
-    glEnableVertexAttribArray(kCCVertexAttrib_TexCoords);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, texCoords));
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_pIndices[0]) * m_uCapacity * 6, m_pIndices, GL_STATIC_DRAW);
-
-    // Must unbind the VAO before changing the element buffer.
-    ccGLBindVAO(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    CHECK_GL_ERROR_DEBUG();
-}
-#else // CC_TEXTURE_ATLAS_USE_VAO
-void CCTextureAtlasEx::setupVBO()
-{
-    glGenBuffers(2, &m_pBuffersVBO[0]);
-
-    mapBuffers();
-}
-#endif // ! // CC_TEXTURE_ATLAS_USE_VAO
-
-void CCTextureAtlasEx::mapBuffers()
-{
-    // Avoid changing the element buffer for whatever VAO might be bound.
-	ccGLBindVAO(0);
-    
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * m_uCapacity, m_pQuads, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_pIndices[0]) * m_uCapacity * 6, m_pIndices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    CHECK_GL_ERROR_DEBUG();
-}
-
 // TextureAtlas - Update, Insert, Move & Remove
 
 void CCTextureAtlasEx::updateQuad(ccV3F_C4B_T2F_Quad *quad, unsigned int index)
@@ -302,10 +216,7 @@ void CCTextureAtlasEx::updateQuad(ccV3F_C4B_T2F_Quad *quad, unsigned int index)
 
     m_uTotalQuads = MAX( index+1, m_uTotalQuads);
 
-    m_pQuads[index] = *quad;    
-
-
-    m_bDirty = true;
+    m_pQuads[index] = *quad;
 
 }
 
@@ -327,9 +238,6 @@ void CCTextureAtlasEx::insertQuad(ccV3F_C4B_T2F_Quad *quad, unsigned int index)
     }
 
     m_pQuads[index] = *quad;
-
-
-    m_bDirty = true;
 
 }
 
@@ -360,8 +268,6 @@ void CCTextureAtlasEx::insertQuads(ccV3F_C4B_T2F_Quad* quads, unsigned int index
         index++;
         j++;
     }
-
-    m_bDirty = true;
 }
 
 void CCTextureAtlasEx::insertQuadFromIndex(unsigned int oldIndex, unsigned int newIndex)
@@ -388,10 +294,6 @@ void CCTextureAtlasEx::insertQuadFromIndex(unsigned int oldIndex, unsigned int n
     ccV3F_C4B_T2F_Quad quadsBackup = m_pQuads[oldIndex];
     memmove( &m_pQuads[dst],&m_pQuads[src], sizeof(m_pQuads[0]) * howMany );
     m_pQuads[newIndex] = quadsBackup;
-
-
-    m_bDirty = true;
-
 }
 
 void CCTextureAtlasEx::removeQuadAtIndex(unsigned int index)
@@ -409,10 +311,6 @@ void CCTextureAtlasEx::removeQuadAtIndex(unsigned int index)
     }
 
     m_uTotalQuads--;
-
-
-    m_bDirty = true;
-
 }
 
 void CCTextureAtlasEx::removeQuadsAtIndex(unsigned int index, unsigned int amount)
@@ -427,8 +325,6 @@ void CCTextureAtlasEx::removeQuadsAtIndex(unsigned int index, unsigned int amoun
     {
         memmove( &m_pQuads[index], &m_pQuads[index+amount], sizeof(m_pQuads[0]) * remaining );
     }
-
-    m_bDirty = true;
 }
 
 void CCTextureAtlasEx::removeAllQuads()
@@ -503,17 +399,6 @@ bool CCTextureAtlasEx::resizeCapacity(unsigned int newCapacity)
 
 
     setupIndices();
-	
-	/*
-	 * WORKAROUND: in i9001, reset buffer data has no effect, must
-	 * delete them and recreate
-	 */
-	glDeleteBuffers(2, m_pBuffersVBO);
-	glGenBuffers(2, m_pBuffersVBO);
-	
-    mapBuffers();
-
-    m_bDirty = true;
 
     return true;
 }
@@ -550,8 +435,6 @@ void CCTextureAtlasEx::moveQuadsFromIndex(unsigned int oldIndex, unsigned int am
     memcpy( &m_pQuads[newIndex], tempQuads, amount*quadSize);
 
     free(tempQuads);
-
-    m_bDirty = true;
 }
 
 void CCTextureAtlasEx::moveQuadsFromIndex(unsigned int index, unsigned int newIndex)
@@ -592,91 +475,28 @@ void CCTextureAtlasEx::drawNumberOfQuads(unsigned int n, unsigned int start)
         return;
     }
     ccGLBindTexture2D(m_pTexture->getName());
-
-#if CC_TEXTURE_ATLAS_USE_VAO
-
-    //
-    // Using VBO and VAO
-    //
-
-    // XXX: update is done in draw... perhaps it should be done in a timer
-    if (m_bDirty) 
-    {
-        glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-        // option 1: subdata
-        //glBufferSubData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0])*start, sizeof(m_pQuads[0]) * n , &m_pQuads[start] );
-		
-		// option 2: data
-        //		glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * (n-start), &quads_[start], GL_DYNAMIC_DRAW);
-		
-		// option 3: orphaning + glMapBuffer
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * (n-start), NULL, GL_DYNAMIC_DRAW);
-		void *buf = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-		memcpy(buf, m_pQuads, sizeof(m_pQuads[0])* (n-start));
-		glUnmapBuffer(GL_ARRAY_BUFFER);
-		
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        m_bDirty = false;
-    }
-
-    ccGLBindVAO(m_uVAOname);
-
-#if CC_REBIND_INDICES_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
-#endif
-
-#if CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-    glDrawElements(GL_TRIANGLE_STRIP, (GLsizei) n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])) );
-#else
-    glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])) );
-#endif // CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-
-#if CC_REBIND_INDICES_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-#endif
-
-//    glBindVertexArray(0);
-
-#else // ! CC_TEXTURE_ATLAS_USE_VAO
-
-    //
-    // Using VBO without VAO
-    //
-
-#define kQuadSize sizeof(m_pQuads[0].bl)
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-
-    // XXX: update is done in draw... perhaps it should be done in a timer
-    if (m_bDirty) 
-    {
-        glBufferSubData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0])*start, sizeof(m_pQuads[0]) * n , &m_pQuads[start] );
-        m_bDirty = false;
-    }
-
+	
+	#define kQuadSize sizeof(m_pQuads[0].bl)
     ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
 
     // vertices
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof(ccV3F_C4B_T2F, vertices));
+	long offset = (long)m_pQuads;
+	int diff = offsetof( ccV3F_C4B_T2F, vertices);
+    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*)(offset + diff));
 
     // colors
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof(ccV3F_C4B_T2F, colors));
+	diff = offsetof(ccV3F_C4B_T2F, colors);
+    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*)(offset + diff));
 
     // tex coords
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof(ccV3F_C4B_T2F, texCoords));
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
+	diff = offsetof(ccV3F_C4B_T2F, texCoords);
+    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*)(offset + diff));
 
 #if CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-    glDrawElements(GL_TRIANGLE_STRIP, (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])));
+    glDrawElements(GL_TRIANGLE_STRIP, (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6 + m_pIndices));
 #else
-    glDrawElements(GL_TRIANGLES, (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])));
+    glDrawElements(GL_TRIANGLES, (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6 + m_pIndices));
 #endif // CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-#endif // CC_TEXTURE_ATLAS_USE_VAO
 
     CC_INCREMENT_GL_DRAWS(1);
     CHECK_GL_ERROR_DEBUG();

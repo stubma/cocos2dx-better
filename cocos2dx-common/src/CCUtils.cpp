@@ -1078,12 +1078,16 @@ void CCUtils::purgeDefaultForKey(const string& key) {
     jobject ctx = getContext();
     
     // preference
-    JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t,
-                                   "android/preference/PreferenceManager",
-                                   "getDefaultSharedPreferences",
-                                   "(Landroid/content/Context;)Landroid/content/SharedPreferences;");
-	jobject pref = t.env->CallStaticObjectMethod(t.classID, t.methodID, ctx);
+	// cocos2d-x doesn't use default preference name, so we have to get pref name
+	JniMethodInfo t;
+    JniHelper::getMethodInfo(t,
+							 "android/content/Context",
+							 "getSharedPreferences",
+							 "(Ljava/lang/String;I)Landroid/content/SharedPreferences;");
+	jclass clazz = t.env->FindClass("org/cocos2dx/lib/Cocos2dxHelper");
+	jfieldID fid = t.env->GetStaticFieldID(clazz, "PREFS_NAME", "Ljava/lang/String;");
+	jstring pn = (jstring)t.env->GetStaticObjectField(clazz, fid);
+	jobject pref = t.env->CallObjectMethod(ctx, t.methodID, pn, 0);
     
     // editor
     JniHelper::getMethodInfo(t,
@@ -1108,6 +1112,8 @@ void CCUtils::purgeDefaultForKey(const string& key) {
     t.env->CallBooleanMethod(edit, t.methodID);
     
     // release
+	t.env->DeleteLocalRef(clazz);
+	t.env->DeleteLocalRef(pn);
     t.env->DeleteLocalRef(jKey);
     t.env->DeleteLocalRef(ctx);
     t.env->DeleteLocalRef(pref);

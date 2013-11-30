@@ -31,8 +31,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-class CCTexture2D;
-
 /**
  * @addtogroup textures
  * @{
@@ -43,21 +41,8 @@ class CCTexture2D;
  * 1. VBO bug in Samsung Galaxy (I9001). However, the workaround is not compatible in iOS. Finally I
  * have to remove vbo support
  */
-class CC_DLL CCTextureAtlasEx : public CCObject 
+class CC_DLL CCTextureAtlasEx : public CCTextureAtlas
 {
-protected:
-    GLushort*           m_pIndices;
-
-
-    /** quantity of quads that are going to be drawn */
-    CC_PROPERTY_READONLY(unsigned int, m_uTotalQuads, TotalQuads)
-    /** quantity of quads that can be stored with the current texture atlas size */
-    CC_PROPERTY_READONLY(unsigned int, m_uCapacity, Capacity)
-    /** Texture of the texture atlas */
-    CC_PROPERTY(CCTexture2D *, m_pTexture, Texture)
-    /** Quads that are going to be rendered */
-    CC_PROPERTY(ccV3F_C4B_T2F_Quad *, m_pQuads, Quads)
-
 public:
     /**
      * @js ctor
@@ -68,23 +53,11 @@ public:
      *  @lua NA
      */
     virtual ~CCTextureAtlasEx();
-    /**
-     *  @js NA
-     *  @lua NA
-     */
-    const char* description();
 
     /** creates a TextureAtlas with an filename and with an initial capacity for Quads.
     * The TextureAtlas capacity can be increased in runtime.
     */
     static CCTextureAtlasEx* create(const char* file , unsigned int capacity);
-
-    /** initializes a TextureAtlas with a filename and with a certain capacity for Quads.
-    * The TextureAtlas capacity can be increased in runtime.
-    *
-    * WARNING: Do not reinitialize the TextureAtlas because it will leak memory (issue #706)
-    */
-    bool initWithFile(const char* file, unsigned int capacity);
 
    /** creates a TextureAtlas with a previously initialized Texture2D object, and
     * with an initial capacity for n Quads. 
@@ -92,113 +65,21 @@ public:
     */
     static CCTextureAtlasEx* createWithTexture(CCTexture2D *texture, unsigned int capacity);
 
-
-    /** initializes a TextureAtlas with a previously initialized Texture2D object, and
-    * with an initial capacity for Quads. 
-    * The TextureAtlas capacity can be increased in runtime.
-    *
-    * WARNING: Do not reinitialize the TextureAtlas because it will leak memory (issue #706)
-    */
-    bool initWithTexture(CCTexture2D *texture, unsigned int capacity);
-
-    /** updates a Quad (texture, vertex and color) at a certain index
-    * index must be between 0 and the atlas capacity - 1
-    @since v0.8
-    */
-    void updateQuad(ccV3F_C4B_T2F_Quad* quad, unsigned int index);
-
-    /** Inserts a Quad (texture, vertex and color) at a certain index
-    index must be between 0 and the atlas capacity - 1
-    @since v0.8
-    */
-    void insertQuad(ccV3F_C4B_T2F_Quad* quad, unsigned int index);
-
-    /** Inserts a c array of quads at a given index
-     index must be between 0 and the atlas capacity - 1
-     this method doesn't enlarge the array when amount + index > totalQuads
-     @since v1.1
-    */
-    void insertQuads(ccV3F_C4B_T2F_Quad* quads, unsigned int index, unsigned int amount);
-
-    /** Removes the quad that is located at a certain index and inserts it at a new index
-    This operation is faster than removing and inserting in a quad in 2 different steps
-    @since v0.7.2
-    */
-    void insertQuadFromIndex(unsigned int fromIndex, unsigned int newIndex);
-
-    /** removes a quad at a given index number.
-    The capacity remains the same, but the total number of quads to be drawn is reduced in 1
-    @since v0.7.2
-    */
-    void removeQuadAtIndex(unsigned int index);
-
-    /** removes a amount of quads starting from index
-        @since 1.1
-     */
-    void removeQuadsAtIndex(unsigned int index, unsigned int amount);
-    /** removes all Quads.
-    The TextureAtlas capacity remains untouched. No memory is freed.
-    The total number of quads to be drawn will be 0
-    @since v0.7.2
-    */
-    void removeAllQuads();
-
-
-    /** resize the capacity of the CCTextureAtlasEx.
-    * The new capacity can be lower or higher than the current one
-    * It returns YES if the resize was successful.
-    * If it fails to resize the capacity it will return NO with a new capacity of 0.
-    */
-    bool resizeCapacity(unsigned int n);
-
-    /**
-     Used internally by CCParticleBatchNode
-     don't use this unless you know what you're doing
-     @since 1.1
-    */
-    void increaseTotalQuadsWith(unsigned int amount);
-
-    /** Moves an amount of quads from oldIndex at newIndex
-     @since v1.1
-     */
-    void moveQuadsFromIndex(unsigned int oldIndex, unsigned int amount, unsigned int newIndex);
-
-    /**
-     Moves quads from index till totalQuads to the newIndex
-     Used internally by CCParticleBatchNode
-     This method doesn't enlarge the array if newIndex + quads to be moved > capacity
-     @since 1.1
-    */
-    void moveQuadsFromIndex(unsigned int index, unsigned int newIndex);
-
-    /**
-     Ensures that after a realloc quads are still empty
-     Used internally by CCParticleBatchNode
-     @since 1.1
-    */
-    void fillWithEmptyQuadsFromIndex(unsigned int index, unsigned int amount);
-
     /** draws n quads
     * n can't be greater than the capacity of the Atlas
     */
-    void drawNumberOfQuads(unsigned int n);
+    void drawNumberOfQuadsEx(unsigned int n);
 
     /** draws n quads from an index (offset).
     n + start can't be greater than the capacity of the atlas
 
     @since v1.0
     */
-    void drawNumberOfQuads(unsigned int n, unsigned int start);
+    void drawNumberOfQuadsEx(unsigned int n, unsigned int start);
 
     /** draws all the Atlas's Quads
     */
-    void drawQuads();
-    /** listen the event that coming to foreground on Android
-     */
-    void listenBackToForeground(CCObject *obj);
-
-private:
-    void setupIndices();
+    void drawQuadsEx();
 };
 
 // end of textures group

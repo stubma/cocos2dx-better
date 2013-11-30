@@ -114,7 +114,7 @@ void CCTiledSprite::draw() {
 	
     // draw
 	if(m_atlas)
-		m_atlas->drawQuads();
+		m_atlas->drawQuadsEx();
 	
 	// profile end
     CC_PROFILER_STOP_CATEGORY(kCCProfilerCategorySprite, "CCTiledSprite - draw");

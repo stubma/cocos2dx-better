@@ -29,6 +29,7 @@
 #include "CCImage_richlabel.h"
 #include "CCMenuItemColor.h"
 #include "CCRichLabelTTFLinkStateSynchronizer.h"
+#include "CCTextureCache_richlabel.h"
 
 NS_CC_BEGIN
 
@@ -77,6 +78,10 @@ CCRichLabelTTF::~CCRichLabelTTF()
 	
 	// release other
 	m_stateListener->release();
+}
+
+void CCRichLabelTTF::reloadAll() {
+    CCTextureCache_richlabel::reloadAllTextures();
 }
 
 CCRichLabelTTF * CCRichLabelTTF::create()

@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCTexture2D_richlabel.h"
+#include "VolatileTexture_richlabel.h"
 
 NS_CC_BEGIN
 
@@ -43,7 +44,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fon
 bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fontName, float fontSize, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
-	ccFontDefinition tempDef;
+	ccRichFontDefinition tempDef;
 	
 	tempDef.m_shadow.m_shadowEnabled = false;
 	tempDef.m_stroke.m_strokeEnabled = false;
@@ -55,53 +56,13 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fon
 	tempDef.m_alignment     = hAlignment;
 	tempDef.m_vertAlignment = vAlignment;
 	tempDef.m_fontFillColor = ccWHITE;
+    tempDef.m_shadowColor = 0;
     
-	return initWithString(text, &tempDef);
+	return initWithRichString(text, &tempDef);
 	
 #else
-    
-#if CC_ENABLE_CACHE_TEXTURE_DATA
-	// cache the texture data
-    VolatileTexture::addStringTexture(this, text, textDefinition->m_dimensions, textDefinition->m_alignment, textDefinition->m_vertAlignment, textDefinition->m_fontName.c_str(), textDefinition->m_fontSize);
-#endif
-	
-	bool bRet = false;
-	CCImage::ETextAlign eAlign;
-	
-	if (kCCVerticalTextAlignmentTop == vAlignment)
-	{
-		eAlign = (kCCTextAlignmentCenter == hAlignment) ? CCImage::kAlignTop
-		: (kCCTextAlignmentLeft == hAlignment) ? CCImage::kAlignTopLeft : CCImage::kAlignTopRight;
-	}
-	else if (kCCVerticalTextAlignmentCenter == vAlignment)
-	{
-		eAlign = (kCCTextAlignmentCenter == hAlignment) ? CCImage::kAlignCenter
-		: (kCCTextAlignmentLeft == hAlignment) ? CCImage::kAlignLeft : CCImage::kAlignRight;
-	}
-	else if (kCCVerticalTextAlignmentBottom == vAlignment)
-	{
-		eAlign = (kCCTextAlignmentCenter == hAlignment) ? CCImage::kAlignBottom
-		: (kCCTextAlignmentLeft == hAlignment) ? CCImage::kAlignBottomLeft : CCImage::kAlignBottomRight;
-	}
-	else
-	{
-		CCAssert(false, "Not supported alignment format!");
-		return false;
-	}
-	
-	do
-	{
-		CCImage* pImage = new CCImage();
-		CC_BREAK_IF(NULL == pImage);
-		bRet = pImage->initWithString(text, (int)dimensions.width, (int)dimensions.height, eAlign, fontName, (int)fontSize);
-		CC_BREAK_IF(!bRet);
-		bRet = initWithImage(pImage);
-		CC_SAFE_RELEASE(pImage);
-	} while (0);
-    
-    
-	return bRet;
-    
+    CCLOGWARN("CCTexture2D_richlabel::initWithRichString only support iOS and Android");
+    return false;
 #endif
 }
 
@@ -110,7 +71,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
     
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 	// cache the texture data
-    VolatileTexture::addStringTexture(this, text, textDefinition->m_dimensions, textDefinition->m_alignment, textDefinition->m_vertAlignment, textDefinition->m_fontName.c_str(), textDefinition->m_fontSize);
+    VolatileTexture_richlabel::addRichStringTexture(this, text, *textDefinition);
 #endif
 	
 	bool bRet = false;
@@ -196,6 +157,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 		
 		
 		CC_BREAK_IF(!bRet);
+        CCLOG("ret: %d, image: %d", bRet, pImage);
 		bRet = initWithImage(pImage);
 		
 		// save info needed by rich label

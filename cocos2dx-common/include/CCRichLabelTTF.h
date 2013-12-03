@@ -96,6 +96,14 @@ public:
     static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize,
                                const CCSize& dimensions, CCTextAlignment hAlignment,
                                CCVerticalTextAlignment vAlignment);
+    
+    /**
+     * To recreate rich labels, because CCRichLabelTTF is a custom visual node, the 
+     * restoration must be done separately. Generally, you can call this method in
+     * JNI Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeInit. Check the main.cpp of
+     * cocos2dx-common test
+     */
+    static void reloadAll();
 	
 	const char* description();
 	

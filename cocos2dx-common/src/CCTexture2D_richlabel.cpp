@@ -157,7 +157,6 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 		
 		
 		CC_BREAK_IF(!bRet);
-        CCLOG("ret: %d, image: %d", bRet, pImage);
 		bRet = initWithImage(pImage);
 		
 		// save info needed by rich label

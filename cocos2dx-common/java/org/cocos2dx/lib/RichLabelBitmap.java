@@ -338,7 +338,7 @@ public class RichLabelBitmap {
                     		try {
 								is = am.open(openSpan.imageName);
 								Bitmap bitmap = BitmapFactory.decodeStream(is);
-								if(bitmap!=null){
+								if(bitmap != null) {
 									if(openSpan.scaleX != 1 || openSpan.scaleY != 1 || contentScaleFactor != 1) {
 										float dstW = openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX);
 										float dstH = openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY);

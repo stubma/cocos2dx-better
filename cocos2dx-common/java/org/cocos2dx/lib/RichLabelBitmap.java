@@ -187,20 +187,17 @@ public class RichLabelBitmap {
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
 	        final float strokeB, final float strokeSize, float contentScaleFactor, boolean sizeOnly) {
-		/**
-		 * when pString is "" , the pWidth and pHeight will be 0 , but bitmap
-		 * needs pWidth and pHeight > 0
-		 */
-		if (TextUtils.isEmpty(pString)) {
-			pString = " ";
-		}
-		
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		
 		// extract span info and return text without span style
 		List<Span> spans = new ArrayList<Span>();
 		String plain = buildSpan(pString, spans);
+		
+		// bitmap can't be zero size, ensure the plain is not empty string
+		if (TextUtils.isEmpty(plain)) {
+			plain = " ";
+		}
 		
 		// alignment
 		int horizontalAlignment = pAlignment & 0x0F;

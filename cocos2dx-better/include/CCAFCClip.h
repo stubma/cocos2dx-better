@@ -25,6 +25,7 @@
 #define __CCAFCClip_h__
 
 #include "cocos2d.h"
+#include "ccMoreTypes.h"
 #include "CCAFCConstants.h"
 
 NS_CC_BEGIN

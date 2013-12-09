@@ -26,7 +26,9 @@
 #include "CCSPXFrame.h"
 #include "CCSPXAction.h"
 #include <math.h>
-
+#include "CCMoreMacros.h"
+#include "CCUtils.h"
+ 
 NS_CC_BEGIN
 
 // sprite x file version, 3.3

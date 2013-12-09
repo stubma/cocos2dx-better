@@ -23,7 +23,9 @@
  ****************************************************************************/
 #include "CCMWLoader.h"
 #include "CCMWFileData.h"
-
+#include "CCMoreMacros.h"
+#include "CCUtils.h"
+ 
 NS_CC_BEGIN
 
 CCMWFileData* CCMWLoader::load(const char* data, size_t length, float resScale) {

@@ -25,7 +25,8 @@
 #define __CCAFCClipMapping_h__
 
 #include "cocos2d.h"
-
+#include "ccMoreTypes.h"
+ 
 NS_CC_BEGIN
 
 class CCSpriteBatchNode;

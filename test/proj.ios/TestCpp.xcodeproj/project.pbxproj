@@ -46,6 +46,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		922326EE1855DAF400E535E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9239691D185593D90063E8A1 /* cocos2dx-better.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 92B516E316E86020009F3536;
+			remoteInfo = "cocos2dx-better";
+		};
+		922326F01855DAF400E535E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1551A33E158F2AB200E66CFE;
+			remoteInfo = cocos2dx;
+		};
 		92396923185593DA0063E8A1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9239691D185593D90063E8A1 /* cocos2dx-better.xcodeproj */;
@@ -308,6 +322,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				922326F11855DAF400E535E3 /* PBXTargetDependency */,
+				922326EF1855DAF400E535E3 /* PBXTargetDependency */,
 			);
 			name = TestCpp;
 			productName = iphone;
@@ -409,6 +425,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		922326EF1855DAF400E535E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "cocos2dx-better";
+			targetProxy = 922326EE1855DAF400E535E3 /* PBXContainerItemProxy */;
+		};
+		922326F11855DAF400E535E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = cocos2dx;
+			targetProxy = 922326F01855DAF400E535E3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {

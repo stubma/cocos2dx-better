@@ -26,7 +26,9 @@
 #include "CCSPX3Frame.h"
 #include "CCSPX3Action.h"
 #include <math.h>
-
+#include "CCMoreMacros.h"
+#include "CCUtils.h"
+ 
 NS_CC_BEGIN
 
 #define SPX_MIN_VERSION 11

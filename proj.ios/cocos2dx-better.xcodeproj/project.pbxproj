@@ -123,6 +123,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		922326E41855DADC00E535E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1551A33E158F2AB200E66CFE;
+			remoteInfo = cocos2dx;
+		};
+		922326E81855DADE00E535E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9255B89F18556DA600797255 /* CocosDenshion.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D87CC2E4154FC6C500AAFE11;
+			remoteInfo = CocosDenshion;
+		};
 		9255B8A318556DA600797255 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9255B89F18556DA600797255 /* CocosDenshion.xcodeproj */;
@@ -914,6 +928,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				922326E51855DADC00E535E3 /* PBXTargetDependency */,
+				922326E91855DADE00E535E3 /* PBXTargetDependency */,
 			);
 			name = "cocos2dx-better";
 			productName = cocos2dxdb;
@@ -1086,6 +1102,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		922326E51855DADC00E535E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = cocos2dx;
+			targetProxy = 922326E41855DADC00E535E3 /* PBXContainerItemProxy */;
+		};
+		922326E91855DADE00E535E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CocosDenshion;
+			targetProxy = 922326E81855DADE00E535E3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		92B516F016E86020009F3536 /* Debug */ = {

@@ -23,6 +23,8 @@
  ****************************************************************************/
 #include "CCAFCClipMapping.h"
 #include "CCAFCSprite.h"
+#include "CCMoreMacros.h"
+#include "CCUtils.h"
 
 NS_CC_BEGIN
 

@@ -25,6 +25,8 @@
 #include "CCAuroraConstants.h"
 #include <stdlib.h>
 #include <math.h>
+#include "CCMoreMacros.h"
+#include "CCUtils.h"
 
 NS_CC_BEGIN
 

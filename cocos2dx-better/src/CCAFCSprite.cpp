@@ -27,6 +27,7 @@
 #include "CCAFCClipMapping.h"
 #include <stdarg.h>
 #include "CCTextureAtlasEx.h"
+#include "CCUtils.h"
 
 NS_CC_BEGIN
 

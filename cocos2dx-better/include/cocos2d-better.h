@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __cocos2dx_better_h__
-#define __cocos2dx_better_h__
+#ifndef __cocos2d_better_h__
+#define __cocos2d_better_h__
 
 #include "CCMoreMacros.h"
 #include "ccMoreTypes.h"
@@ -64,4 +64,11 @@
 #include "CCClipOut.h"
 #include "CCProgressHUD.h"
 
-#endif // __cocos2dx_better_h__
+#include "CCDatabase.h"
+#include "CCResultSet.h"
+#include "CCStatement.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    #include "platform/android/sqlite3.h"
+#endif
+
+#endif // __cocos2d_better_h__

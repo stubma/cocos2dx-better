@@ -21,9 +21,36 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#include "CCStatement.h"
+#include "sqlite3.h"
 
-#ifdef __OBJC__
-	#import <Foundation/Foundation.h>
-    #include "CCMoreMacros.h"
-    #include "CCUtils.h"
-#endif
+NS_CC_BEGIN
+
+CCStatement::CCStatement() :
+		m_statement(NULL),
+		m_useCount(0) {
+}
+
+CCStatement::~CCStatement() {
+	close();
+}
+
+void CCStatement::setStatement(sqlite3_stmt* s) {
+    if (m_statement) {
+        sqlite3_finalize(m_statement);
+        m_statement = NULL;
+    }
+    m_statement = s;
+}
+
+void CCStatement::close() {
+	setStatement(NULL);
+}
+
+void CCStatement::reset() {
+    if (m_statement) {
+        sqlite3_reset(m_statement);
+    }
+}
+
+NS_CC_END

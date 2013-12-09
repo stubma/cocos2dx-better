@@ -25,7 +25,7 @@
 #define __CCMenuItemColor__
 
 #include "cocos2d.h"
-#include "CCAutoRenderMenuItemSprite.h"
+#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 

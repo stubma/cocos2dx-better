@@ -24,10 +24,12 @@
 #include "CCAutoRenderMenuItemSprite.h"
 #include "CCUtils.h"
 
+NS_CC_BEGIN
+
 CCAutoRenderMenuItemSprite::CCAutoRenderMenuItemSprite() :
-		m_focus(false),
-        m_focusIsAttachment(false),
-		m_focusImage(NULL) {
+m_focus(false),
+m_focusIsAttachment(false),
+m_focusImage(NULL) {
 }
 
 CCAutoRenderMenuItemSprite::~CCAutoRenderMenuItemSprite() {
@@ -181,3 +183,5 @@ void CCAutoRenderMenuItemSprite::setFocusImage(CCSprite* focusImage) {
 		updateImagesVisibility();
     }
 }
+
+NS_CC_END

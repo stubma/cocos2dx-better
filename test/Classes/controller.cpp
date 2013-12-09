@@ -14,10 +14,12 @@ static TestScene* CreateTestScene(int nIdx)
 
     switch (nIdx)
     {
-    case TEST_COMMON:
-        pScene = new CommonTestScene(); break;
-    default:
-        break;
+        case TEST_COMMON:
+            pScene = new CommonTestScene(); break;
+        case TEST_DB:
+            pScene = new DBTestScene(); break;
+        default:
+            break;
     }
 
     return pScene;

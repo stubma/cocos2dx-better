@@ -25,8 +25,9 @@
 #define __CCAutoRenderMenuItemSprite_h__
 
 #include "cocos2d.h"
+#include "CCMoreMacros.h"
 
-USING_NS_CC;
+NS_CC_BEGIN
 
 /// a menu item sprite which can automatically render selected state
 class CC_DLL CCAutoRenderMenuItemSprite : public CCMenuItemSprite {
@@ -124,5 +125,7 @@ public:
     /// true means focus image can be displayed with normal, selected and disable image
     CC_SYNTHESIZE_BOOL(m_focusIsAttachment, FocusIsAttachment);
 };
+
+NS_CC_END
 
 #endif // __CCAutoRenderMenuItemSprite_h__

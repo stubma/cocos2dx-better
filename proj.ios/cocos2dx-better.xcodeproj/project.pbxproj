@@ -72,6 +72,10 @@
 		92F68E5E18559EC100C97188 /* Unicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E5218559EC100C97188 /* Unicode.cpp */; };
 		92F68E5F18559EC100C97188 /* VectorImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E5518559EC100C97188 /* VectorImpl.cpp */; };
 		92F68E6018559EC100C97188 /* VelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E5718559EC100C97188 /* VelocityTracker.cpp */; };
+		92F68E6E1855A7C800C97188 /* CCDatabase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E6B1855A7C800C97188 /* CCDatabase.cpp */; };
+		92F68E6F1855A7C800C97188 /* CCResultSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E6C1855A7C800C97188 /* CCResultSet.cpp */; };
+		92F68E701855A7C800C97188 /* CCStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E6D1855A7C800C97188 /* CCStatement.cpp */; };
+		92F68E751855A7F600C97188 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F68E741855A7F600C97188 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,6 +244,13 @@
 		92F68E5618559EC100C97188 /* VectorImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorImpl.h; sourceTree = "<group>"; };
 		92F68E5718559EC100C97188 /* VelocityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VelocityTracker.cpp; sourceTree = "<group>"; };
 		92F68E5818559EC100C97188 /* VelocityTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VelocityTracker.h; sourceTree = "<group>"; };
+		92F68E6B1855A7C800C97188 /* CCDatabase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDatabase.cpp; sourceTree = "<group>"; };
+		92F68E6C1855A7C800C97188 /* CCResultSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCResultSet.cpp; sourceTree = "<group>"; };
+		92F68E6D1855A7C800C97188 /* CCStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCStatement.cpp; sourceTree = "<group>"; };
+		92F68E711855A7D800C97188 /* CCDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCDatabase.h; sourceTree = "<group>"; };
+		92F68E721855A7D800C97188 /* CCResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResultSet.h; sourceTree = "<group>"; };
+		92F68E731855A7D800C97188 /* CCStatement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStatement.h; sourceTree = "<group>"; };
+		92F68E741855A7F600C97188 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +258,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92F68E751855A7F600C97188 /* libsqlite3.dylib in Frameworks */,
 				9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */,
 				9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */,
 				9255B8A718556DE400797255 /* AVFoundation.framework in Frameworks */,
@@ -265,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				92396913185592950063E8A1 /* common */,
+				92F68E671855A79C00C97188 /* db */,
 				9239690E185591E20063E8A1 /* action */,
 				9239690F185591E70063E8A1 /* gesture */,
 				92396910185591EB0063E8A1 /* io */,
@@ -280,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				92396914185592A30063E8A1 /* action */,
+				92F68E6A1855A7A600C97188 /* db */,
 				92396917185592AF0063E8A1 /* gesture */,
 				92396918185592BA0063E8A1 /* io */,
 				923969191855935E0063E8A1 /* texture */,
@@ -506,6 +520,7 @@
 		92B516E616E86020009F3536 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92F68E741855A7F600C97188 /* libsqlite3.dylib */,
 				9255B8B418556E5400797255 /* OpenAL.framework */,
 				9255B8AA18556DFD00797255 /* CoreAudio.framework */,
 				9255B8A818556DF000797255 /* AudioToolbox.framework */,
@@ -573,6 +588,26 @@
 				92F68E5818559EC100C97188 /* VelocityTracker.h */,
 			);
 			path = aosp;
+			sourceTree = "<group>";
+		};
+		92F68E671855A79C00C97188 /* db */ = {
+			isa = PBXGroup;
+			children = (
+				92F68E711855A7D800C97188 /* CCDatabase.h */,
+				92F68E721855A7D800C97188 /* CCResultSet.h */,
+				92F68E731855A7D800C97188 /* CCStatement.h */,
+			);
+			name = db;
+			sourceTree = "<group>";
+		};
+		92F68E6A1855A7A600C97188 /* db */ = {
+			isa = PBXGroup;
+			children = (
+				92F68E6B1855A7C800C97188 /* CCDatabase.cpp */,
+				92F68E6C1855A7C800C97188 /* CCResultSet.cpp */,
+				92F68E6D1855A7C800C97188 /* CCStatement.cpp */,
+			);
+			name = db;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -662,6 +697,7 @@
 				92F68E5B18559EC100C97188 /* SharedBuffer.cpp in Sources */,
 				923968FB185591DB0063E8A1 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */,
 				923968F9185591DB0063E8A1 /* CCResourceLoader.cpp in Sources */,
+				92F68E6F1855A7C800C97188 /* CCResultSet.cpp in Sources */,
 				92F68E5D18559EC100C97188 /* Timers.cpp in Sources */,
 				923968F8185591DB0063E8A1 /* CCProgressHUD.cpp in Sources */,
 				92396901185591DB0063E8A1 /* CCSpriteEx.cpp in Sources */,
@@ -695,6 +731,7 @@
 				923968F5185591DB0063E8A1 /* CCMissile.cpp in Sources */,
 				92F68E6018559EC100C97188 /* VelocityTracker.cpp in Sources */,
 				923968FE185591DB0063E8A1 /* CCScrollView.cpp in Sources */,
+				92F68E701855A7C800C97188 /* CCStatement.cpp in Sources */,
 				92396906185591DB0063E8A1 /* CCTextureCache_richlabel.cpp in Sources */,
 				92396902185591DB0063E8A1 /* CCSwipeGestureRecognizer.cpp in Sources */,
 				923968F7185591DB0063E8A1 /* CCPinchGestureRecognizer.cpp in Sources */,
@@ -707,6 +744,7 @@
 				923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */,
 				923968EA185591DB0063E8A1 /* CCGradientSprite.cpp in Sources */,
 				9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */,
+				92F68E6E1855A7C800C97188 /* CCDatabase.cpp in Sources */,
 				923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.cpp in Sources */,
 				92396900185591DB0063E8A1 /* CCSimpleRookieGuide.cpp in Sources */,
 				9239690C185591DB0063E8A1 /* CCVelocityTracker.cpp in Sources */,

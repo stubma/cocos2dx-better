@@ -21,9 +21,47 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#ifndef __CCStatement_h__
+#define __CCStatement_h__
 
-#ifdef __OBJC__
-	#import <Foundation/Foundation.h>
-    #include "CCMoreMacros.h"
-    #include "CCUtils.h"
-#endif
+#include "cocos2d.h"
+
+struct sqlite3_stmt;
+using namespace std;
+
+NS_CC_BEGIN
+
+class CCDatabase;
+
+/**
+ * SQL statement encapsulation
+ */
+class CC_DLL CCStatement : public CCObject {
+	friend class CCDatabase;
+
+private:
+    /// reference count
+    int m_useCount;
+
+private:
+    CCStatement();
+
+public:
+    virtual ~CCStatement();
+	
+	/// close statement
+    void close();
+	
+    /// reset statement
+    void reset();
+	
+	/// set statement
+	void setStatement(sqlite3_stmt* s);
+	
+	CC_SYNTHESIZE_PASS_BY_REF(string, m_query, Query);
+	CC_SYNTHESIZE_READONLY(sqlite3_stmt*, m_statement, Statement);
+};
+
+NS_CC_END
+
+#endif // __CCStatement_h__

@@ -18,11 +18,11 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
 		920B54881762FA0F0096B254 /* font in Resources */ = {isa = PBXBuildFile; fileRef = 920B54871762FA0F0096B254 /* font */; };
+		92396925185593EF0063E8A1 /* libcocos2dx-better.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92396924185593DA0063E8A1 /* libcocos2dx-better.a */; };
 		92505572176FFADC00E42708 /* strings in Resources */ = {isa = PBXBuildFile; fileRef = 92505571176FFADC00E42708 /* strings */; };
 		9255B8AD18556E1800797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8AC18556E1800797255 /* AVFoundation.framework */; };
 		9255B8B118556E2000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B018556E2000797255 /* AudioToolbox.framework */; };
 		9255B8B318556E2800797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B218556E2800797255 /* OpenAL.framework */; };
-		92774B2616EF1F6D008E67C8 /* libcocos2dxcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92774B2316EF1F4B008E67C8 /* libcocos2dxcommon.a */; };
 		92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3D175D9B0700E63472 /* CoreText.framework */; };
 		92A670F516E893AF008BE79D /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 92A670F416E893AF008BE79D /* Images */; };
 		92A6710016E895FF008BE79D /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A670EF16E8922A008BE79D /* libcocos2dx.a */; };
@@ -42,12 +42,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		92774B2216EF1F4B008E67C8 /* PBXContainerItemProxy */ = {
+		92396923185593DA0063E8A1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */;
+			containerPortal = 9239691D185593D90063E8A1 /* cocos2dx-better.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 92B516E416E86020009F3536;
-			remoteInfo = cocos2dxcommon;
+			remoteInfo = "cocos2dx-better";
 		};
 		92A670EE16E8922A008BE79D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -79,11 +79,11 @@
 		32CA4F630368D1EE00C91783 /* iphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iphone_Prefix.pch; path = ../iphone_Prefix.pch; sourceTree = "<group>"; };
 		7855E0DF153FEF240059DD9A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		920B54871762FA0F0096B254 /* font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = font; sourceTree = "<group>"; };
+		9239691D185593D90063E8A1 /* cocos2dx-better.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "cocos2dx-better.xcodeproj"; path = "../../proj.ios/cocos2dx-better.xcodeproj"; sourceTree = "<group>"; };
 		92505571176FFADC00E42708 /* strings */ = {isa = PBXFileReference; lastKnownFileType = folder; path = strings; sourceTree = "<group>"; };
 		9255B8AC18556E1800797255 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9255B8B018556E2000797255 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9255B8B218556E2800797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
-		92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dxcommon.xcodeproj; path = "../../../cocos2dx-common/proj.ios/cocos2dxcommon.xcodeproj"; sourceTree = "<group>"; };
 		92984F3D175D9B0700E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92A670F416E893AF008BE79D /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
@@ -117,8 +117,8 @@
 				92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */,
 				92A6712116E8BA5F008BE79D /* libsqlite3.dylib in Frameworks */,
 				92A6710316E89667008BE79D /* libz.dylib in Frameworks */,
-				92774B2616EF1F6D008E67C8 /* libcocos2dxcommon.a in Frameworks */,
 				92A6710016E895FF008BE79D /* libcocos2dx.a in Frameworks */,
+				92396925185593EF0063E8A1 /* libcocos2dx-better.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -191,7 +191,7 @@
 				9255B8B018556E2000797255 /* AudioToolbox.framework */,
 				9255B8AC18556E1800797255 /* AVFoundation.framework */,
 				92DFF090182F12E6006C4ECD /* MediaPlayer.framework */,
-				92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */,
+				9239691D185593D90063E8A1 /* cocos2dx-better.xcodeproj */,
 				92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */,
 				92A6710216E89667008BE79D /* libz.dylib */,
 				92A6712016E8BA5F008BE79D /* libsqlite3.dylib */,
@@ -223,10 +223,10 @@
 			path = ../Resources;
 			sourceTree = "<group>";
 		};
-		92774B1F16EF1F4B008E67C8 /* Products */ = {
+		9239691E185593D90063E8A1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				92774B2316EF1F4B008E67C8 /* libcocos2dxcommon.a */,
+				92396924185593DA0063E8A1 /* libcocos2dx-better.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -291,12 +291,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 92A670E816E8922A008BE79D /* Products */;
-					ProjectRef = 92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */;
+					ProductGroup = 9239691E185593D90063E8A1 /* Products */;
+					ProjectRef = 9239691D185593D90063E8A1 /* cocos2dx-better.xcodeproj */;
 				},
 				{
-					ProductGroup = 92774B1F16EF1F4B008E67C8 /* Products */;
-					ProjectRef = 92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */;
+					ProductGroup = 92A670E816E8922A008BE79D /* Products */;
+					ProjectRef = 92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -307,11 +307,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		92774B2316EF1F4B008E67C8 /* libcocos2dxcommon.a */ = {
+		92396924185593DA0063E8A1 /* libcocos2dx-better.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libcocos2dxcommon.a;
-			remoteRef = 92774B2216EF1F4B008E67C8 /* PBXContainerItemProxy */;
+			path = "libcocos2dx-better.a";
+			remoteRef = 92396923185593DA0063E8A1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		92A670EF16E8922A008BE79D /* libcocos2dx.a */ = {
@@ -388,7 +388,7 @@
 					"\"$(SRCROOT)/../../../cocos2d-x/cocos2dx\"",
 					"\"$(SRCROOT)/../../../cocos2d-x/cocos2dx/include\"",
 					"\"$(SRCROOT)/../../../cocos2d-x/cocos2dx/platform/ios\"",
-					"$(SRCROOT)/../../cocos2dx-common/include",
+					"$(SRCROOT)/../../cocos2dx-better/include",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -425,7 +425,7 @@
 					"\"$(SRCROOT)/../../../cocos2d-x/cocos2dx\"",
 					"\"$(SRCROOT)/../../../cocos2d-x/cocos2dx/include\"",
 					"\"$(SRCROOT)/../../../cocos2d-x/cocos2dx/platform/ios\"",
-					"$(SRCROOT)/../../cocos2dx-common/include",
+					"$(SRCROOT)/../../cocos2dx-better/include",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

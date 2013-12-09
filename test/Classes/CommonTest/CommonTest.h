@@ -2,7 +2,7 @@
 #define _CommonTest_H_
 
 #include "../testBasic.h"
-#include "cocos2d-common.h"
+#include "cocos2d-better.h"
 
 using namespace std;
 USING_NS_CC;

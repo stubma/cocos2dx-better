@@ -2,7 +2,7 @@
 
 #include "cocos2d.h"
 #include "controller.h"
-#include "cocos2d-common.h"
+#include "cocos2d-better.h"
 
 USING_NS_CC;
 

@@ -33,6 +33,7 @@
 		92F68E7D1855A84400C97188 /* DBTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E7B1855A84400C97188 /* DBTest.cpp */; };
 		92F68EC01855B4D000C97188 /* JSONTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EBE1855B4D000C97188 /* JSONTest.cpp */; };
 		92F68ECE1855B60F00C97188 /* Files in Resources */ = {isa = PBXBuildFile; fileRef = 92F68ECD1855B60F00C97188 /* Files */; };
+		92F68F471855BEF400C97188 /* AnimTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68F451855BEF400C97188 /* AnimTest.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
 		BF3326F413690DA4007CAA22 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF3326F313690DA4007CAA22 /* RootViewController.mm */; };
@@ -100,6 +101,8 @@
 		92F68EBE1855B4D000C97188 /* JSONTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSONTest.cpp; sourceTree = "<group>"; };
 		92F68EBF1855B4D000C97188 /* JSONTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONTest.h; sourceTree = "<group>"; };
 		92F68ECD1855B60F00C97188 /* Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Files; sourceTree = "<group>"; };
+		92F68F451855BEF400C97188 /* AnimTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimTest.cpp; sourceTree = "<group>"; };
+		92F68F461855BEF400C97188 /* AnimTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimTest.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BF3326F213690DA4007CAA22 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -156,6 +159,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92F68F441855BEF400C97188 /* AnimTest */,
 				92F68EBD1855B4D000C97188 /* JSONTest */,
 				92F68E7A1855A84400C97188 /* DBTest */,
 				92CF92AE175B51970014CDF1 /* CommonTest */,
@@ -280,6 +284,16 @@
 			path = ../Classes/JSONTest;
 			sourceTree = "<group>";
 		};
+		92F68F441855BEF400C97188 /* AnimTest */ = {
+			isa = PBXGroup;
+			children = (
+				92F68F451855BEF400C97188 /* AnimTest.cpp */,
+				92F68F461855BEF400C97188 /* AnimTest.h */,
+			);
+			name = AnimTest;
+			path = ../Classes/AnimTest;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -387,6 +401,7 @@
 				15AA9D6915B7EC460033D6C2 /* controller.cpp in Sources */,
 				15AA9D9315B7EC460033D6C2 /* testBasic.cpp in Sources */,
 				15AA9F3C15B7EF960033D6C2 /* AppDelegate.cpp in Sources */,
+				92F68F471855BEF400C97188 /* AnimTest.cpp in Sources */,
 				92F68EC01855B4D000C97188 /* JSONTest.cpp in Sources */,
 				15A048C41637845600F7CC0A /* VisibleRect.cpp in Sources */,
 				92CF92B1175B51970014CDF1 /* CommonTest.cpp in Sources */,

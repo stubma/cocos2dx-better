@@ -24,6 +24,7 @@
 #ifndef __cocos2d_better_h__
 #define __cocos2d_better_h__
 
+// common
 #include "CCMoreMacros.h"
 #include "ccMoreTypes.h"
 #include "CCUtils.h"
@@ -64,6 +65,7 @@
 #include "CCClipOut.h"
 #include "CCProgressHUD.h"
 
+// db
 #include "CCDatabase.h"
 #include "CCResultSet.h"
 #include "CCStatement.h"
@@ -71,9 +73,48 @@
     #include "platform/android/sqlite3.h"
 #endif
 
+// json
 #include "CCJSONArray.h"
 #include "CCJSONObject.h"
 #include "CCJSONValue.h"
 #include "CCJSONParser.h"
+
+// anim
+#include "CCAFCAnimation.h"
+#include "CCAFCClip.h"
+#include "CCAFCClipMapping.h"
+#include "CCAFCConstants.h"
+#include "CCAFCFileData.h"
+#include "CCAFCFrame.h"
+#include "CCAFCSprite.h"
+#include "CCArcticConstants.h"
+#include "CCArcticFileData.h"
+#include "CCArcticLoader.h"
+#include "CCArcticManager.h"
+#include "CCArcticSprite.h"
+#include "CCAuroraConstants.h"
+#include "CCAuroraFileData.h"
+#include "CCAuroraLoader.h"
+#include "CCAuroraManager.h"
+#include "CCAuroraSprite.h"
+#include "CCMWSprite.h"
+#include "CCMWLoader.h"
+#include "CCMWFileData.h"
+#include "CCMWManager.h"
+#include "CCSPX3Constants.h"
+#include "CCSPX3Sprite.h"
+#include "CCSPX3Manager.h"
+#include "CCSPX3FileData.h"
+#include "CCSPX3Frame.h"
+#include "CCSPX3Action.h"
+#include "CCSPX3Loader.h"
+#include "CCSPX3TileSet.h"
+#include "CCSPXConstants.h"
+#include "CCSPXSprite.h"
+#include "CCSPXManager.h"
+#include "CCSPXFileData.h"
+#include "CCSPXFrame.h"
+#include "CCSPXAction.h"
+#include "CCSPXLoader.h"
 
 #endif // __cocos2d_better_h__

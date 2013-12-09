@@ -27,6 +27,12 @@ Requirement
 cocos2dx-better project refers cocos2d-x project. You must clone cocos2d-x repository to a folder named "cocos2d-x", 
 and then clone cocos2dx-better in the same parent folder.
 
+Also, set a proper NDK_MODULE_PATH environment, below is my setting:
+```
+export C2DX_ROOT=$HOME/Projects/cocos2d-x
+export NDK_MODULE_PATH=$C2DX_ROOT:${C2DX_ROOT}/cocos2dx/platform/third_party/android/prebuilt:$HOME/Projects/cocos2dx-better
+```
+
 How to use
 ===========
 For iOS, just drag cocos2dx-better project into your project. For Android, just import cocos2dx-better module. 

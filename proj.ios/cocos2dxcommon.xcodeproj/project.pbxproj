@@ -32,6 +32,10 @@
 		92446258179A3AE100AC41D2 /* VelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9244624F179A3AE100AC41D2 /* VelocityTracker.cpp */; };
 		924BE967170EB69D002BEEB0 /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92DFBC1816E860D00016648F /* libcocos2dx.a */; };
 		924C929C16F8AC0900E39658 /* CCMissile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924C929A16F8AC0900E39658 /* CCMissile.cpp */; };
+		9255B8A518556DCB00797255 /* libCocosDenshion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A418556DA600797255 /* libCocosDenshion.a */; };
+		9255B8A718556DE400797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A618556DE400797255 /* AVFoundation.framework */; };
+		9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A818556DF000797255 /* AudioToolbox.framework */; };
+		9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B418556E5400797255 /* OpenAL.framework */; };
 		92591A7B170D845B00490E54 /* CCTiledSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7A170D845B00490E54 /* CCTiledSprite.cpp */; };
 		92591A7F170D84E700490E54 /* CCScroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92591A7E170D84E700490E54 /* CCScroller.cpp */; };
 		925D7D3E16F4B4F000622984 /* CCShake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925D7D3D16F4B4F000622984 /* CCShake.cpp */; };
@@ -71,9 +75,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		92BB214B17A7C44B00988282 /* PBXContainerItemProxy */ = {
+		9255B8A318556DA600797255 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */;
+			containerPortal = 9255B89F18556DA600797255 /* CocosDenshion.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D87CC2E5154FC6C500AAFE11;
 			remoteInfo = CocosDenshion;
@@ -154,6 +158,11 @@
 		92446250179A3AE100AC41D2 /* VelocityTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VelocityTracker.h; sourceTree = "<group>"; };
 		924C929A16F8AC0900E39658 /* CCMissile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCMissile.cpp; sourceTree = "<group>"; };
 		924C929E16F8AC1A00E39658 /* CCMissile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCMissile.h; sourceTree = "<group>"; };
+		9255B89F18556DA600797255 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocosDenshion.xcodeproj; path = "../../cocos2d-x/CocosDenshion/proj.ios/CocosDenshion.xcodeproj"; sourceTree = "<group>"; };
+		9255B8A618556DE400797255 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9255B8A818556DF000797255 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9255B8AA18556DFD00797255 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		9255B8B418556E5400797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		92591A7A170D845B00490E54 /* CCTiledSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTiledSprite.cpp; sourceTree = "<group>"; };
 		92591A7D170D846100490E54 /* CCTiledSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTiledSprite.h; sourceTree = "<group>"; };
 		92591A7E170D84E700490E54 /* CCScroller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScroller.cpp; sourceTree = "<group>"; };
@@ -217,7 +226,6 @@
 		92B9BAC11849B2F4007A6014 /* CCTextureAtlasEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTextureAtlasEx.cpp; sourceTree = "<group>"; };
 		92BAD8A7181D487500DD210D /* CCSpriteEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSpriteEx.cpp; sourceTree = "<group>"; };
 		92BAD8A9181D488000DD210D /* CCSpriteEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSpriteEx.h; sourceTree = "<group>"; };
-		92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CocosDenshion.xcodeproj; path = "../../cocos2d-x/CocosDenshion/proj.ios/CocosDenshion.xcodeproj"; sourceTree = "<group>"; };
 		92C02D7A176EFC7E00835C7B /* CCCalendar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCalendar.cpp; sourceTree = "<group>"; };
 		92C02D7D176EFC9A00835C7B /* CCCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCalendar.h; sourceTree = "<group>"; };
 		92C4463B175DCE090049F6AE /* CCImage_richlabel_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImage_richlabel_android.cpp; sourceTree = "<group>"; };
@@ -239,9 +247,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */,
+				9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */,
+				9255B8A718556DE400797255 /* AVFoundation.framework in Frameworks */,
 				92405C39182B641700E46357 /* MediaPlayer.framework in Frameworks */,
 				92984F3B175D904500E63472 /* CoreText.framework in Frameworks */,
 				924BE967170EB69D002BEEB0 /* libcocos2dx.a in Frameworks */,
+				9255B8A518556DCB00797255 /* libCocosDenshion.a in Frameworks */,
 				92B516E816E86020009F3536 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -451,6 +463,14 @@
 			path = "../cocos2dx-common/aosp";
 			sourceTree = "<group>";
 		};
+		9255B8A018556DA600797255 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9255B8A418556DA600797255 /* libCocosDenshion.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		92774ADD16EF1CB3008E67C8 /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,8 +521,12 @@
 		92B516E616E86020009F3536 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9255B8B418556E5400797255 /* OpenAL.framework */,
+				9255B8AA18556DFD00797255 /* CoreAudio.framework */,
+				9255B8A818556DF000797255 /* AudioToolbox.framework */,
+				9255B8A618556DE400797255 /* AVFoundation.framework */,
+				9255B89F18556DA600797255 /* CocosDenshion.xcodeproj */,
 				92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */,
-				92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */,
 				92984F3A175D904500E63472 /* CoreText.framework */,
 				92405C38182B641700E46357 /* MediaPlayer.framework */,
 				92B516E716E86020009F3536 /* Foundation.framework */,
@@ -517,14 +541,6 @@
 			);
 			name = "Supporting Files";
 			path = cocos2dxdb;
-			sourceTree = "<group>";
-		};
-		92BB214717A7C44B00988282 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				92BB214C17A7C44B00988282 /* libCocosDenshion.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		92DFBC1116E860D00016648F /* Products */ = {
@@ -580,8 +596,8 @@
 					ProjectRef = 92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */;
 				},
 				{
-					ProductGroup = 92BB214717A7C44B00988282 /* Products */;
-					ProjectRef = 92BB214617A7C44B00988282 /* CocosDenshion.xcodeproj */;
+					ProductGroup = 9255B8A018556DA600797255 /* Products */;
+					ProjectRef = 9255B89F18556DA600797255 /* CocosDenshion.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -592,11 +608,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		92BB214C17A7C44B00988282 /* libCocosDenshion.a */ = {
+		9255B8A418556DA600797255 /* libCocosDenshion.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libCocosDenshion.a;
-			remoteRef = 92BB214B17A7C44B00988282 /* PBXContainerItemProxy */;
+			remoteRef = 9255B8A318556DA600797255 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		92DFBC1816E860D00016648F /* libcocos2dx.a */ = {

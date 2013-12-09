@@ -19,6 +19,9 @@
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
 		920B54881762FA0F0096B254 /* font in Resources */ = {isa = PBXBuildFile; fileRef = 920B54871762FA0F0096B254 /* font */; };
 		92505572176FFADC00E42708 /* strings in Resources */ = {isa = PBXBuildFile; fileRef = 92505571176FFADC00E42708 /* strings */; };
+		9255B8AD18556E1800797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8AC18556E1800797255 /* AVFoundation.framework */; };
+		9255B8B118556E2000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B018556E2000797255 /* AudioToolbox.framework */; };
+		9255B8B318556E2800797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B218556E2800797255 /* OpenAL.framework */; };
 		92774B2616EF1F6D008E67C8 /* libcocos2dxcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92774B2316EF1F4B008E67C8 /* libcocos2dxcommon.a */; };
 		92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3D175D9B0700E63472 /* CoreText.framework */; };
 		92A670F516E893AF008BE79D /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 92A670F416E893AF008BE79D /* Images */; };
@@ -77,6 +80,9 @@
 		7855E0DF153FEF240059DD9A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		920B54871762FA0F0096B254 /* font */ = {isa = PBXFileReference; lastKnownFileType = folder; path = font; sourceTree = "<group>"; };
 		92505571176FFADC00E42708 /* strings */ = {isa = PBXFileReference; lastKnownFileType = folder; path = strings; sourceTree = "<group>"; };
+		9255B8AC18556E1800797255 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9255B8B018556E2000797255 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9255B8B218556E2800797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dxcommon.xcodeproj; path = "../../../cocos2dx-common/proj.ios/cocos2dxcommon.xcodeproj"; sourceTree = "<group>"; };
 		92984F3D175D9B0700E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
@@ -104,6 +110,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9255B8B318556E2800797255 /* OpenAL.framework in Frameworks */,
+				9255B8B118556E2000797255 /* AudioToolbox.framework in Frameworks */,
+				9255B8AD18556E1800797255 /* AVFoundation.framework in Frameworks */,
 				92DFF091182F12E6006C4ECD /* MediaPlayer.framework in Frameworks */,
 				92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */,
 				92A6712116E8BA5F008BE79D /* libsqlite3.dylib in Frameworks */,
@@ -178,6 +187,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9255B8B218556E2800797255 /* OpenAL.framework */,
+				9255B8B018556E2000797255 /* AudioToolbox.framework */,
+				9255B8AC18556E1800797255 /* AVFoundation.framework */,
 				92DFF090182F12E6006C4ECD /* MediaPlayer.framework */,
 				92774B1E16EF1F4B008E67C8 /* cocos2dxcommon.xcodeproj */,
 				92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */,

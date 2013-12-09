@@ -14,7 +14,7 @@ static TestScene* CreateTestScene(int nIdx)
 
     switch (nIdx)
     {
-    case TEST_SHAKE:
+    case TEST_COMMON:
         pScene = new CommonTestScene(); break;
     default:
         break;

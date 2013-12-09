@@ -5,8 +5,7 @@
 
 enum
 {
-    TEST_SHAKE = 0,
-	TEST_COLOR_LABEL,
+    TEST_COMMON = 0,
     TESTS_COUNT,    
 };
 

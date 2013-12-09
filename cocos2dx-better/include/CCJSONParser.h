@@ -1,7 +1,7 @@
 /****************************************************************************
  Author: Luma (stubma@gmail.com)
  
- https://github.com/stubma/cocos2dx-better
+ https://github.com/stubma/cocos2dx-json
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,60 +21,27 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#ifndef __CCJSONParser_h__
+#define __CCJSONParser_h__
 
-#ifndef __CCAssetOutputStream_ios_h__
-#define __CCAssetOutputStream_ios_h__
+#include "cocos2d.h"
 
-#include "CCAssetOutputStream.h"
-#include <stdio.h>
-#import <Foundation/Foundation.h>
+using namespace std;
 
 NS_CC_BEGIN
 
 /**
- * iOS implementation of output stream
+ * JSON parser
  */
-class CCAssetOutputStream_ios : public CCAssetOutputStream {
-	friend class CCAssetOutputStream;
-
-private:
-	/// file handle in iOS
-	NSFileHandle* m_handle;
-
-    /// length of file
-	int m_length;
-
-protected:
-	/**
-	 * constructor
-	 *
-	 * @param path write file path
-	 * @param append append file
-	 */
-	CCAssetOutputStream_ios(const string& path, bool append = false);
-
+class CC_DLL CCJSONParser {
 public:
-	virtual ~CCAssetOutputStream_ios();
+	/// parse json from a memory json string
+	static CCObject* load(const char* json, size_t length);
 
-	/// @see CCAssetOutputStream::close
-	virtual void close();
-
-	/// @see CCAssetOutputStream::write
-	virtual ssize_t write(const char* data, size_t len);
-
-	/// @see CCAssetOutputStream::write
-	virtual ssize_t write(const int* data, size_t len);
-
-	/// @see CCAssetOutputStream::getPosition
-	virtual size_t getPosition();
-
-	/// @see CCAssetOutputStream::seek
-	virtual size_t seek(int offset, int mode);
+	/// parse json file in file system or assets
+	static CCObject* load(const string& path);
 };
 
 NS_CC_END
 
-#endif // __CCAssetOutputStream_ios_h__
-
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#endif // __CCJSONParser_h__

@@ -71,4 +71,9 @@
     #include "platform/android/sqlite3.h"
 #endif
 
+#include "CCJSONArray.h"
+#include "CCJSONObject.h"
+#include "CCJSONValue.h"
+#include "CCJSONParser.h"
+
 #endif // __cocos2d_better_h__

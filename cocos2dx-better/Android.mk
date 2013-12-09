@@ -11,6 +11,10 @@ define all-cpp-files-under
 $(call all-files-under,$(1),*.cpp)
 endef
 
+define all-c-files-under
+$(call all-files-under,$(1),*.c)
+endef
+
 # module
 
 LOCAL_PATH := $(call my-dir)
@@ -21,7 +25,8 @@ COCOS2DX_ROOT=$(LOCAL_PATH)/../../cocos2d-x
 COCOSDENSHION_ROOT=$(COCOS2DX_ROOT)/CocosDenshion
 LOCAL_MODULE := cocos2dx-better
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
-	$(call all-cpp-files-under,thirdparty)
+	$(call all-cpp-files-under,thirdparty) \
+	$(call all-c-files-under,thirdparty/)
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(LOCAL_PATH)/include/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android \
@@ -32,9 +37,10 @@ LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2 \
 	$(LOCAL_PATH)/thirdparty/aosp
 LOCAL_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
-LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static
+LOCAL_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static yajl
 
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,cocos2dx)
 $(call import-module,CocosDenshion/android)
+$(call import-module,cocos2dx-better/thirdparty/yajl)

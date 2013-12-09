@@ -18,6 +18,8 @@ static TestScene* CreateTestScene(int nIdx)
             pScene = new CommonTestScene(); break;
         case TEST_DB:
             pScene = new DBTestScene(); break;
+        case TEST_JSON:
+            pScene = new JSONTestScene(); break;
         default:
             break;
     }

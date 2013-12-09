@@ -10,10 +10,10 @@
 		923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */; };
 		923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */; };
 		923968DF185591DB0063E8A1 /* CCAssetInputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */; };
-		923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.cpp */; };
+		923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.mm */; };
 		923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A0185591DB0063E8A1 /* CCAssetOutputStream.cpp */; };
 		923968E2185591DB0063E8A1 /* CCAssetOutputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A1185591DB0063E8A1 /* CCAssetOutputStream_android.cpp */; };
-		923968E3185591DB0063E8A1 /* CCAssetOutputStream_ios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.cpp */; };
+		923968E3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm */; };
 		923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A5185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp */; };
 		923968E5185591DB0063E8A1 /* CCCalendar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A6185591DB0063E8A1 /* CCCalendar.cpp */; };
 		923968E6185591DB0063E8A1 /* CCClipIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A7185591DB0063E8A1 /* CCClipIn.cpp */; };
@@ -76,6 +76,19 @@
 		92F68E6F1855A7C800C97188 /* CCResultSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E6C1855A7C800C97188 /* CCResultSet.cpp */; };
 		92F68E701855A7C800C97188 /* CCStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E6D1855A7C800C97188 /* CCStatement.cpp */; };
 		92F68E751855A7F600C97188 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F68E741855A7F600C97188 /* libsqlite3.dylib */; };
+		92F68E8E1855ACE400C97188 /* CCJSONArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E8A1855ACE400C97188 /* CCJSONArray.cpp */; };
+		92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E8B1855ACE400C97188 /* CCJSONObject.cpp */; };
+		92F68E901855ACE400C97188 /* CCJSONParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E8C1855ACE400C97188 /* CCJSONParser.cpp */; };
+		92F68E911855ACE400C97188 /* CCJSONValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E8D1855ACE400C97188 /* CCJSONValue.cpp */; };
+		92F68EAA1855AD4400C97188 /* yajl.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E9B1855AD4400C97188 /* yajl.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EAB1855AD4400C97188 /* yajl_alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E9C1855AD4400C97188 /* yajl_alloc.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EAC1855AD4400C97188 /* yajl_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E9E1855AD4400C97188 /* yajl_buf.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EAD1855AD4400C97188 /* yajl_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EA11855AD4400C97188 /* yajl_encode.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EAE1855AD4400C97188 /* yajl_gen.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EA31855AD4400C97188 /* yajl_gen.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EAF1855AD4400C97188 /* yajl_lex.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EA41855AD4400C97188 /* yajl_lex.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EB01855AD4400C97188 /* yajl_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EA61855AD4400C97188 /* yajl_parser.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EB11855AD4400C97188 /* yajl_tree.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EA81855AD4400C97188 /* yajl_tree.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		92F68EB21855AD4400C97188 /* yajl_version.c in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EA91855AD4400C97188 /* yajl_version.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,12 +168,12 @@
 		9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream.cpp; sourceTree = "<group>"; };
 		9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream_android.cpp; sourceTree = "<group>"; };
 		9239689D185591DB0063E8A1 /* CCAssetInputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_android.h; sourceTree = "<group>"; };
-		9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream_ios.cpp; sourceTree = "<group>"; };
+		9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetInputStream_ios.mm; sourceTree = "<group>"; };
 		9239689F185591DB0063E8A1 /* CCAssetInputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_ios.h; sourceTree = "<group>"; };
 		923968A0185591DB0063E8A1 /* CCAssetOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream.cpp; sourceTree = "<group>"; };
 		923968A1185591DB0063E8A1 /* CCAssetOutputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream_android.cpp; sourceTree = "<group>"; };
 		923968A2185591DB0063E8A1 /* CCAssetOutputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_android.h; sourceTree = "<group>"; };
-		923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream_ios.cpp; sourceTree = "<group>"; };
+		923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetOutputStream_ios.mm; sourceTree = "<group>"; };
 		923968A4185591DB0063E8A1 /* CCAssetOutputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_ios.h; sourceTree = "<group>"; };
 		923968A5185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAutoRenderMenuItemSprite.cpp; sourceTree = "<group>"; };
 		923968A6185591DB0063E8A1 /* CCCalendar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCalendar.cpp; sourceTree = "<group>"; };
@@ -251,6 +264,34 @@
 		92F68E721855A7D800C97188 /* CCResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCResultSet.h; sourceTree = "<group>"; };
 		92F68E731855A7D800C97188 /* CCStatement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStatement.h; sourceTree = "<group>"; };
 		92F68E741855A7F600C97188 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		92F68E851855ACC800C97188 /* CCJSONArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJSONArray.h; sourceTree = "<group>"; };
+		92F68E861855ACC800C97188 /* CCJSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJSONObject.h; sourceTree = "<group>"; };
+		92F68E871855ACC800C97188 /* CCJSONParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJSONParser.h; sourceTree = "<group>"; };
+		92F68E881855ACC800C97188 /* CCJSONValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJSONValue.h; sourceTree = "<group>"; };
+		92F68E8A1855ACE400C97188 /* CCJSONArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJSONArray.cpp; sourceTree = "<group>"; };
+		92F68E8B1855ACE400C97188 /* CCJSONObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJSONObject.cpp; sourceTree = "<group>"; };
+		92F68E8C1855ACE400C97188 /* CCJSONParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJSONParser.cpp; sourceTree = "<group>"; };
+		92F68E8D1855ACE400C97188 /* CCJSONValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJSONValue.cpp; sourceTree = "<group>"; };
+		92F68E951855AD4400C97188 /* yajl_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_common.h; sourceTree = "<group>"; };
+		92F68E961855AD4400C97188 /* yajl_gen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_gen.h; sourceTree = "<group>"; };
+		92F68E971855AD4400C97188 /* yajl_parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_parse.h; sourceTree = "<group>"; };
+		92F68E981855AD4400C97188 /* yajl_tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_tree.h; sourceTree = "<group>"; };
+		92F68E991855AD4400C97188 /* yajl_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_version.h; sourceTree = "<group>"; };
+		92F68E9B1855AD4400C97188 /* yajl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl.c; sourceTree = "<group>"; };
+		92F68E9C1855AD4400C97188 /* yajl_alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_alloc.c; sourceTree = "<group>"; };
+		92F68E9D1855AD4400C97188 /* yajl_alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_alloc.h; sourceTree = "<group>"; };
+		92F68E9E1855AD4400C97188 /* yajl_buf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_buf.c; sourceTree = "<group>"; };
+		92F68E9F1855AD4400C97188 /* yajl_buf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_buf.h; sourceTree = "<group>"; };
+		92F68EA01855AD4400C97188 /* yajl_bytestack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_bytestack.h; sourceTree = "<group>"; };
+		92F68EA11855AD4400C97188 /* yajl_encode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_encode.c; sourceTree = "<group>"; };
+		92F68EA21855AD4400C97188 /* yajl_encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_encode.h; sourceTree = "<group>"; };
+		92F68EA31855AD4400C97188 /* yajl_gen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_gen.c; sourceTree = "<group>"; };
+		92F68EA41855AD4400C97188 /* yajl_lex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_lex.c; sourceTree = "<group>"; };
+		92F68EA51855AD4400C97188 /* yajl_lex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_lex.h; sourceTree = "<group>"; };
+		92F68EA61855AD4400C97188 /* yajl_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_parser.c; sourceTree = "<group>"; };
+		92F68EA71855AD4400C97188 /* yajl_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_parser.h; sourceTree = "<group>"; };
+		92F68EA81855AD4400C97188 /* yajl_tree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_tree.c; sourceTree = "<group>"; };
+		92F68EA91855AD4400C97188 /* yajl_version.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_version.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,10 +317,11 @@
 		9239686D185591DB0063E8A1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				9239690E185591E20063E8A1 /* action */,
 				92396913185592950063E8A1 /* common */,
 				92F68E671855A79C00C97188 /* db */,
-				9239690E185591E20063E8A1 /* action */,
 				9239690F185591E70063E8A1 /* gesture */,
+				92F68E821855ACC000C97188 /* json */,
 				92396910185591EB0063E8A1 /* io */,
 				92396912185591F30063E8A1 /* ui */,
 				92396911185591EE0063E8A1 /* util */,
@@ -295,6 +337,7 @@
 				92396914185592A30063E8A1 /* action */,
 				92F68E6A1855A7A600C97188 /* db */,
 				92396917185592AF0063E8A1 /* gesture */,
+				92F68E891855ACDC00C97188 /* json */,
 				92396918185592BA0063E8A1 /* io */,
 				923969191855935E0063E8A1 /* texture */,
 				92396916185592AC0063E8A1 /* ui */,
@@ -462,12 +505,12 @@
 				9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */,
 				9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */,
 				9239689D185591DB0063E8A1 /* CCAssetInputStream_android.h */,
-				9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.cpp */,
+				9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.mm */,
 				9239689F185591DB0063E8A1 /* CCAssetInputStream_ios.h */,
 				923968A0185591DB0063E8A1 /* CCAssetOutputStream.cpp */,
 				923968A1185591DB0063E8A1 /* CCAssetOutputStream_android.cpp */,
 				923968A2185591DB0063E8A1 /* CCAssetOutputStream_android.h */,
-				923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.cpp */,
+				923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm */,
 				923968A4185591DB0063E8A1 /* CCAssetOutputStream_ios.h */,
 				923968B4185591DB0063E8A1 /* CCMemoryInputStream.cpp */,
 				923968B5185591DB0063E8A1 /* CCMemoryOutputStream.cpp */,
@@ -554,6 +597,7 @@
 		92F68E4018559EC100C97188 /* thirdparty */ = {
 			isa = PBXGroup;
 			children = (
+				92F68E921855AD4400C97188 /* yajl */,
 				92F68E4118559EC100C97188 /* aosp */,
 			);
 			name = thirdparty;
@@ -608,6 +652,71 @@
 				92F68E6D1855A7C800C97188 /* CCStatement.cpp */,
 			);
 			name = db;
+			sourceTree = "<group>";
+		};
+		92F68E821855ACC000C97188 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				92F68E851855ACC800C97188 /* CCJSONArray.h */,
+				92F68E861855ACC800C97188 /* CCJSONObject.h */,
+				92F68E871855ACC800C97188 /* CCJSONParser.h */,
+				92F68E881855ACC800C97188 /* CCJSONValue.h */,
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
+		92F68E891855ACDC00C97188 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				92F68E8A1855ACE400C97188 /* CCJSONArray.cpp */,
+				92F68E8B1855ACE400C97188 /* CCJSONObject.cpp */,
+				92F68E8C1855ACE400C97188 /* CCJSONParser.cpp */,
+				92F68E8D1855ACE400C97188 /* CCJSONValue.cpp */,
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
+		92F68E921855AD4400C97188 /* yajl */ = {
+			isa = PBXGroup;
+			children = (
+				92F68E941855AD4400C97188 /* include */,
+				92F68E9A1855AD4400C97188 /* src */,
+			);
+			path = yajl;
+			sourceTree = "<group>";
+		};
+		92F68E941855AD4400C97188 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				92F68E951855AD4400C97188 /* yajl_common.h */,
+				92F68E961855AD4400C97188 /* yajl_gen.h */,
+				92F68E971855AD4400C97188 /* yajl_parse.h */,
+				92F68E981855AD4400C97188 /* yajl_tree.h */,
+				92F68E991855AD4400C97188 /* yajl_version.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		92F68E9A1855AD4400C97188 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				92F68E9B1855AD4400C97188 /* yajl.c */,
+				92F68E9C1855AD4400C97188 /* yajl_alloc.c */,
+				92F68E9D1855AD4400C97188 /* yajl_alloc.h */,
+				92F68E9E1855AD4400C97188 /* yajl_buf.c */,
+				92F68E9F1855AD4400C97188 /* yajl_buf.h */,
+				92F68EA01855AD4400C97188 /* yajl_bytestack.h */,
+				92F68EA11855AD4400C97188 /* yajl_encode.c */,
+				92F68EA21855AD4400C97188 /* yajl_encode.h */,
+				92F68EA31855AD4400C97188 /* yajl_gen.c */,
+				92F68EA41855AD4400C97188 /* yajl_lex.c */,
+				92F68EA51855AD4400C97188 /* yajl_lex.h */,
+				92F68EA61855AD4400C97188 /* yajl_parser.c */,
+				92F68EA71855AD4400C97188 /* yajl_parser.h */,
+				92F68EA81855AD4400C97188 /* yajl_tree.c */,
+				92F68EA91855AD4400C97188 /* yajl_version.c */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -688,15 +797,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				923968E3185591DB0063E8A1 /* CCAssetOutputStream_ios.cpp in Sources */,
+				92F68EAA1855AD4400C97188 /* yajl.c in Sources */,
+				923968E3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm in Sources */,
 				923968E9185591DB0063E8A1 /* CCGestureRecognizer.cpp in Sources */,
 				92F68E5918559EC100C97188 /* Atomic.cpp in Sources */,
+				92F68E901855ACE400C97188 /* CCJSONParser.cpp in Sources */,
 				923968E8185591DB0063E8A1 /* CCDrawingPrimitivesEx.cpp in Sources */,
 				923968F2185591DB0063E8A1 /* CCMemoryInputStream.cpp in Sources */,
 				923968E5185591DB0063E8A1 /* CCCalendar.cpp in Sources */,
 				92F68E5B18559EC100C97188 /* SharedBuffer.cpp in Sources */,
 				923968FB185591DB0063E8A1 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */,
 				923968F9185591DB0063E8A1 /* CCResourceLoader.cpp in Sources */,
+				92F68EB11855AD4400C97188 /* yajl_tree.c in Sources */,
+				92F68EAD1855AD4400C97188 /* yajl_encode.c in Sources */,
 				92F68E6F1855A7C800C97188 /* CCResultSet.cpp in Sources */,
 				92F68E5D18559EC100C97188 /* Timers.cpp in Sources */,
 				923968F8185591DB0063E8A1 /* CCProgressHUD.cpp in Sources */,
@@ -706,6 +819,7 @@
 				923968DF185591DB0063E8A1 /* CCAssetInputStream_android.cpp in Sources */,
 				923968EF185591DB0063E8A1 /* CCLocalization.cpp in Sources */,
 				9239690D185591DB0063E8A1 /* VolatileTexture_richlabel.cpp in Sources */,
+				92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */,
 				92396904185591DB0063E8A1 /* CCTexture2D_richlabel.cpp in Sources */,
 				92396908185591DB0063E8A1 /* CCToast.cpp in Sources */,
 				923968FD185591DB0063E8A1 /* CCScroller.cpp in Sources */,
@@ -716,7 +830,9 @@
 				923968F1185591DB0063E8A1 /* CCMD5.cpp in Sources */,
 				92F68E5A18559EC100C97188 /* Input.cpp in Sources */,
 				923968EC185591DB0063E8A1 /* CCImage_richlabel_ios.mm in Sources */,
+				92F68E8E1855ACE400C97188 /* CCJSONArray.cpp in Sources */,
 				923968FC185591DB0063E8A1 /* CCRookieGuide.cpp in Sources */,
+				92F68EB21855AD4400C97188 /* yajl_version.c in Sources */,
 				923968F4185591DB0063E8A1 /* CCMenuItemColor.cpp in Sources */,
 				923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */,
 				923968F6185591DB0063E8A1 /* CCPanGestureRecognizer.cpp in Sources */,
@@ -726,6 +842,7 @@
 				923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */,
 				923968ED185591DB0063E8A1 /* CCLayerMultiplexEx.cpp in Sources */,
 				923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
+				92F68EAF1855AD4400C97188 /* yajl_lex.c in Sources */,
 				923968E6185591DB0063E8A1 /* CCClipIn.cpp in Sources */,
 				92396907185591DB0063E8A1 /* CCTiledSprite.cpp in Sources */,
 				923968F5185591DB0063E8A1 /* CCMissile.cpp in Sources */,
@@ -737,7 +854,9 @@
 				923968F7185591DB0063E8A1 /* CCPinchGestureRecognizer.cpp in Sources */,
 				923968FA185591DB0063E8A1 /* CCRichLabelTTF.cpp in Sources */,
 				92F68E5E18559EC100C97188 /* Unicode.cpp in Sources */,
+				92F68EB01855AD4400C97188 /* yajl_parser.c in Sources */,
 				92396909185591DB0063E8A1 /* CCTreeFadeIn.cpp in Sources */,
+				92F68EAE1855AD4400C97188 /* yajl_gen.c in Sources */,
 				923968EE185591DB0063E8A1 /* CCLocale.cpp in Sources */,
 				923968F3185591DB0063E8A1 /* CCMemoryOutputStream.cpp in Sources */,
 				923968E7185591DB0063E8A1 /* CCClipOut.cpp in Sources */,
@@ -745,9 +864,12 @@
 				923968EA185591DB0063E8A1 /* CCGradientSprite.cpp in Sources */,
 				9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */,
 				92F68E6E1855A7C800C97188 /* CCDatabase.cpp in Sources */,
-				923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.cpp in Sources */,
+				923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.mm in Sources */,
+				92F68E911855ACE400C97188 /* CCJSONValue.cpp in Sources */,
+				92F68EAC1855AD4400C97188 /* yajl_buf.c in Sources */,
 				92396900185591DB0063E8A1 /* CCSimpleRookieGuide.cpp in Sources */,
 				9239690C185591DB0063E8A1 /* CCVelocityTracker.cpp in Sources */,
+				92F68EAB1855AD4400C97188 /* yajl_alloc.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

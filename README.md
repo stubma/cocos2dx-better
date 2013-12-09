@@ -20,6 +20,8 @@ Features
 ===========
 I don't want to list all features because it is too many! The best way to understand what it can do is running its test project. The test project supports ONLY iOS and android. I don't use Windows a lot so there are some basic features missing  for Windows. If you are a Windows guy, do it yourself and GOOD LUCK.
 
+However, even the test project doesn't show all capability of it. Sure I will add more test if necessary.
+
 Requirement
 ===========
 cocos2dx-better project refers cocos2d-x project. You must clone cocos2d-x repository to a folder named "cocos2d-x", 

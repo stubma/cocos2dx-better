@@ -27,10 +27,8 @@
 #include "cocos2d.h"
 #include "CCResourceLoaderListener.h"
 #include "CCLocalization.h"
-#include "CCArmatureDataManager.h"
 
 using namespace std;
-USING_NS_CC_EXT;
 
 NS_CC_BEGIN
 
@@ -363,9 +361,7 @@ private:
         virtual ~ArmatureTask() {
         }
         
-        virtual void load() {
-            CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(configFilePath.c_str());
-        }
+        virtual void load();
     };
  
 private:

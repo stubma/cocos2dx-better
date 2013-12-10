@@ -23,8 +23,10 @@
  ****************************************************************************/
 #include "CCResourceLoader.h"
 #include "SimpleAudioEngine.h"
+#include "CCArmatureDataManager.h"
 
 using namespace CocosDenshion;
+USING_NS_CC_EXT;
 
 NS_CC_BEGIN
 
@@ -34,6 +36,10 @@ void CCResourceLoader::CDMusicTask::load() {
 
 void CCResourceLoader::CDEffectTask::load() {
 	SimpleAudioEngine::sharedEngine()->preloadEffect(name.c_str());
+}
+
+void CCResourceLoader::ArmatureTask::load() {
+    CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(configFilePath.c_str());
 }
 
 CCResourceLoader::CCResourceLoader(CCResourceLoaderListener* listener) :

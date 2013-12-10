@@ -35,5 +35,25 @@ export NDK_MODULE_PATH=$C2DX_ROOT:${C2DX_ROOT}/cocos2dx/platform/third_party/and
 
 How to use
 ===========
-For iOS, just drag cocos2dx-better project into your project. For Android, just import cocos2dx-better module. 
+For iOS
+* drag cocos2dx-better project into your project
+* you need set up proper include path, here is mine:
+
+```
+$(SDKROOT)/usr/include/libxml2/
+$(SRCROOT)/../../cocos2d-x/cocos2dx/include
+$(SRCROOT)/../../cocos2d-x/cocos2dx
+$(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios
+$(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include
+$(SRCROOT)/../../cocos2d-x/extensions/CocoStudio/Armature 
+$(SRCROOT)/../../cocos2d-x/extensions 
+$(SRCROOT)/../../cocos2dx-better/cocos2dx-better/include 
+$(SRCROOT)/../../cocos2d-x/CocosDenshion/include
+```
+
+* drag libcocos2dx-better.a (in Products folder of cocos2dx-better.xcodeproj) to your target framework list
+* if you encounter objc runtime error, change "Compile Source As" to "Objective-C++". If you have pure c library, create a new target for it
+
+For Android, just import cocos2dx-better module. 
+
 If not clear, refer to demo code.

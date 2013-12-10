@@ -321,6 +321,22 @@ void CCResourceLoader::addZwoptexAnimTask(const string& name,
 	addLoadTask(t);
 }
 
+void CCResourceLoader::addArmatureTask(string config, float idle) {
+    ArmatureTask* t = new ArmatureTask();
+    t->idle = idle;
+    t->configFilePath = config;
+    addLoadTask(t);
+}
+
+void CCResourceLoader::addArmatureTask(string plist, string tex, string config, DECRYPT_FUNC func, float idle) {
+    if(!plist.empty() && !tex.empty()) {
+        addZwoptexTask(plist, tex, func);
+    }
+    
+    if(!config.empty())
+        addArmatureTask(config);
+}
+
 void CCResourceLoader::addLoadTask(LoadTask* t) {
     m_loadTaskList.push_back(t);
 }

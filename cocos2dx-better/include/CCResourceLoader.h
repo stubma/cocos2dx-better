@@ -27,8 +27,10 @@
 #include "cocos2d.h"
 #include "CCResourceLoaderListener.h"
 #include "CCLocalization.h"
+#include "CCArmatureDataManager.h"
 
 using namespace std;
+USING_NS_CC_EXT;
 
 NS_CC_BEGIN
 
@@ -351,6 +353,20 @@ private:
             }
         }
     };
+    
+    struct ArmatureTask : public LoadTask {
+        string configFilePath;
+        
+        ArmatureTask() {
+        }
+        
+        virtual ~ArmatureTask() {
+        }
+        
+        virtual void load() {
+            CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(configFilePath.c_str());
+        }
+    };
  
 private:
 	/// listener
@@ -519,6 +535,26 @@ public:
                             const CCArray& delays,
 							bool restoreOriginalFrame = false,
                             float idle = 0);
+    
+    /**
+     * add an armature config file load task, you should add related image task for this
+     *
+     * @param config path of config file
+     * @param idle idle time after task is completed
+     */
+    void addArmatureTask(string config, float idle = 0);
+    
+    /**
+     * add an armature config file task, also load related image files. Decryption is 
+     * optional and you should not encrypt plist and config file
+     * 
+     * @param plist path of atlas plist file
+     * @param tex path of atlas image file
+     * @param config path of armature config file
+     * @param func decrypte func, default is NULL
+     * @param idle idle time after task is completed
+     */
+    void addArmatureTask(string plist, string tex, string config, DECRYPT_FUNC func = NULL, float idle = 0);
 	
 	/// delay time before start to load
 	CC_SYNTHESIZE(float, m_delay, Delay);

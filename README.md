@@ -46,6 +46,7 @@ $(SRCROOT)/../../cocos2d-x/CocosDenshion/include
 ```
 
 * drag libcocos2dx-better.a (in Products folder of cocos2dx-better.xcodeproj) to your target framework list
+* add other necessary frameworks to your project, view test project for the detail list
 * if you encounter objc runtime error, change "Compile Source As" to "Objective-C++". If you have pure c library, create a new target for it
 
 For Android:

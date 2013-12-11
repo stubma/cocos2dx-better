@@ -838,6 +838,7 @@ public class RichLabelBitmap {
     }
 
 	private static String buildSpan(String text, List<Span> spans) {
+		boolean inImageTag = false;
 		int uniLen = text.length();
 		StringBuilder plain = new StringBuilder();
 		for(int i = 0; i < uniLen; i++) {
@@ -866,11 +867,21 @@ public class RichLabelBitmap {
 	                    if(r.type == SpanType.UNKNOWN)
 	                    	break;
 	                    
+	                    // you can't embed other tag in image tag, discard
+	                    if(inImageTag && (!r.close || r.type != SpanType.IMAGE))
+	                    	break;
+	                    
 	                    // parse span data
 	                    span.type = r.type;
 	                    span.close = r.close;
 	                    span.pos = plain.length();
-	                    if(!r.close) {
+	                    if(r.close) {
+	                    	if(inImageTag) {
+	                    		plain.append('\ufffc');
+	                    		span.pos++;
+	                    		inImageTag = false;
+	                    	}
+	                    } else {
 	                        switch(span.type) {
 	                            case COLOR:
 	                                span.color = parseColor(text, r.dataStart, r.dataEnd - r.dataStart);
@@ -916,6 +927,9 @@ public class RichLabelBitmap {
 	                            		}
 	                            	}
 	                            	
+	                            	// flag
+	                            	inImageTag = true;
+	                            	
 	                            	break;
 	                            }
 	                            case LINK:
@@ -952,7 +966,10 @@ public class RichLabelBitmap {
 					// just discard it
 					break;
 				default:
-					plain.append(c);
+					// ignore text between image tag
+					if(!inImageTag) {
+						plain.append(c);
+					}
 					break;
 			}
 		}

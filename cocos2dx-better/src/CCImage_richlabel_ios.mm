@@ -309,6 +309,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
     unichar* uniText = (unichar*)malloc(uniLen * sizeof(unichar));
     [ns getCharacters:uniText range:NSMakeRange(0, uniLen)];
     
+    bool inImageTag = false;
 	int plainLen = 0;
 	unichar* plain = (unichar*)malloc(sizeof(unichar) * uniLen);
 	for(int i = 0; i < uniLen; i++) {
@@ -337,10 +338,20 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                     // if type is unknown, discard
                     CC_BREAK_IF(type == UNKNOWN);
                     
+                    // you can't embed other tag in image tag, discard
+                    CC_BREAK_IF(inImageTag && (!span.close || type != IMAGE));
+                    
                     // parse span data
                     span.type = type;
                     span.pos = plainLen;
-                    if(!span.close) {
+                    if(span.close) {
+                        // special check for image end, use a placeholder for image tag
+                        if(inImageTag) {
+                            plain[plainLen++] = 0xfffc;
+                            span.pos++;
+                            inImageTag = false;
+                        }
+                    } else {
                         switch(span.type) {
                             case COLOR:
                                 span.color = parseColor(uniText + dataStart, dataEnd - dataStart);
@@ -401,6 +412,9 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                     }
                                 }
                                 
+                                // flag
+                                inImageTag = true;
+                                
                                 break;
                             }
                             case LINK:
@@ -443,7 +457,10 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 				// just discard it
 				break;
 			default:
-				plain[plainLen++] = c;
+                // ignore text between image tag
+                if(!inImageTag) {
+                    plain[plainLen++] = c;
+                }
 				break;
 		}
 	}

@@ -39,6 +39,10 @@ class CCRichLabelTTFLinkStateSynchronizer;
  * a '[' character, use '\' to escape.
  *
  * \par
+ * CCRichLabelTFF won't perform any format validation, so you must ensure the text is
+ * correct. If text is wrong, no warning will be shown and final result will be unpredictable.
+ *
+ * \par
  * supported tags:
  * [color=aarrggbb][/color]: set text color
  * [font=font name or path][/font]: set font
@@ -49,6 +53,8 @@ class CCRichLabelTTFLinkStateSynchronizer;
  * [image=image path][/image]: embed a image, the character in tag must be \ufffc.
  *      For now, the image must NOT be in an atlas. Optional attributes: scale, scalex, scaley, w, h.
  *		If w is specified, x scale property will be ignored. If h is specified, y scale property will be ignored.
+ *      The text between image tag will be ignored, no matter how long it is.
+ *      Other tags should not be embedded inside an image tag, crash may happen if you do that.
  * [link bg=aarrggbb bg_click=aarrggbb][/link]: set one segment can be clicked as a hyperlink. bg and bg_click are
  *		optional and they will be transparent color if not set. Link tag doesn't add any decoration, you must use other
  *		tag to add visual style for clickable area.

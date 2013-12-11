@@ -559,6 +559,7 @@ void CommonRichLabel::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
+    // English, Chinese, color, font, overall test
 	CCRichLabelTTF* label = CCRichLabelTTF::create("H[color=ff00ff00][i][b][u]e我[/u][/b][/i][/color]llo [size=20][font=font/Arial Rounded MT Bold.ttf][color=ffffffff]W[/color]orld![/font][/size]",
                                                    "Helvetica",
                                                    30);
@@ -569,13 +570,16 @@ void CommonRichLabel::onEnter()
 	label->setFontFillColor(ccc3(179, 179, 179));
 	addChild(label);
     
-    label = CCRichLabelTTF::create("Hello, [image=Images/a.png scale=2]\ufffc[/image], [u]Grossini[/u][image=Images/grossini.png scaley=0.5 scalex=0.3]\ufffc[/image]",
+    // image tag test
+    // text and other tags between image tag will be ignored
+    label = CCRichLabelTTF::create("Hello, [image=Images/a.png scale=2]blo[i]c[/i]ks[/image], [u]Grossini[/u][image=Images/grossini.png scaley=0.5 scalex=0.3]grossini[/image]",
                                    "Helvetica",
                                    20);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height * 2 / 5));
 	addChild(label);
     
+    // font tag test
     label = CCRichLabelTTF::create("H[i][b][u]ell[/u][/b][/i]o[size=20][font=font/Arial Rounded MT Bold.ttf]H[i]ell[/i]o[/font][/size]",
                                    "Helvetica",
                                    30);

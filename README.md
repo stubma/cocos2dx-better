@@ -35,7 +35,7 @@ export NDK_MODULE_PATH=$C2DX_ROOT:${C2DX_ROOT}/cocos2dx/platform/third_party/and
 
 How to use
 ===========
-For iOS
+For iOS:
 * drag cocos2dx-better project into your project
 * you need set up proper include path, here is mine:
 
@@ -54,6 +54,12 @@ $(SRCROOT)/../../cocos2d-x/CocosDenshion/include
 * drag libcocos2dx-better.a (in Products folder of cocos2dx-better.xcodeproj) to your target framework list
 * if you encounter objc runtime error, change "Compile Source As" to "Objective-C++". If you have pure c library, create a new target for it
 
-For Android, just import cocos2dx-better module. 
+For Android:
+* import cocos2dx-better module in your Android.mk
+* cocos2dx-better has some java code, you must link it in your project. If you use ant to build, you can set source.dir properties in local.properties, below is my setting(c2dx_root is a environment variable which point to cocos2d-x root)
+
+```
+source.dir=src;${user.home}/../../${c2dx.root}/cocos2dx/platform/android/java/src;${user.home}/../../${c2dx.root}/../cocos2dx-better/cocos2dx-better/java
+```
 
 If not clear, refer to demo code.

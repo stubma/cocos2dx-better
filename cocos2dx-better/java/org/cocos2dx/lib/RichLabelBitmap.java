@@ -23,6 +23,7 @@
  ****************************************************************************/
 package org.cocos2dx.lib;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -329,32 +330,19 @@ public class RichLabelBitmap {
                     }
                     case IMAGE:
                     {
-                    	if(openSpan != null) {                  		
-                    		AssetManager am = Cocos2dxHelper.getAssetManager();
+                    	if(openSpan != null) {  
+                    		// if imageName starts with '/', treat it like external image
+                    		Bitmap bitmap = null;
+                    		boolean external = openSpan.imageName.startsWith("/");
                     		InputStream is = null;
                     		try {
-								is = am.open(openSpan.imageName);
-								Bitmap bitmap = BitmapFactory.decodeStream(is);
-								if(bitmap != null) {
-									if(openSpan.scaleX != 1 || openSpan.scaleY != 1 || contentScaleFactor != 1) {
-										float dstW = openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX);
-										float dstH = openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY);
-										dstW *= contentScaleFactor;
-										dstH *= contentScaleFactor;
-										Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
-												(int)dstW,
-												(int)dstH,
-												true);
-										bitmap.recycle();
-										bitmap = scaled;
-									}
-									imageMap.put(span.imageName, bitmap);
-								
-									rich.setSpan(new ImageSpan(bitmap, DynamicDrawableSpan.ALIGN_BASELINE), 
-										openSpan.pos,
-										span.pos,
-										Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-								}
+                    			if(external) {
+                    				is = new FileInputStream(openSpan.imageName);
+                    			} else {
+                    				AssetManager am = Cocos2dxHelper.getAssetManager();
+                    				is = am.open(openSpan.imageName);
+                    			}
+								bitmap = BitmapFactory.decodeStream(is);
 							} catch (Throwable e) {
 							} finally {
 								if(is != null) {
@@ -364,6 +352,31 @@ public class RichLabelBitmap {
 									}
 								}
 							}
+                    		
+                    		// scale image if necessary
+							if(bitmap != null) {
+								if(openSpan.scaleX != 1 || openSpan.scaleY != 1 || contentScaleFactor != 1) {
+									float dstW = openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX);
+									float dstH = openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY);
+									dstW *= contentScaleFactor;
+									dstH *= contentScaleFactor;
+									Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
+											(int)dstW,
+											(int)dstH,
+											true);
+									bitmap.recycle();
+									bitmap = scaled;
+								}
+							}
+                    		
+                    		// register bitmap and set span for it
+                    		if(bitmap != null) {
+								imageMap.put(span.imageName, bitmap);
+								rich.setSpan(new ImageSpan(bitmap, DynamicDrawableSpan.ALIGN_BASELINE), 
+									openSpan.pos,
+									span.pos,
+									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    		}
                     		
                     		openSpan = null;
                     	}

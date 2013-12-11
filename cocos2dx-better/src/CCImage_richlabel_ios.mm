@@ -748,11 +748,57 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                                            kCTRunDelegateAttributeName,
                                                            delegate);
                             
-                            // register image
+                            // register image, if it starts with '/', treat it as an external image
                             NSString* imageName = [NSString stringWithCString:span.imageName
                                                                      encoding:NSUTF8StringEncoding];
-                            UIImage* image = [UIImage imageNamed:imageName];
-                            [s_imageMap setValue:image forKey:imageName];
+                            if([imageName characterAtIndex:0] == '/') {
+                                // map image path to sandbox
+                                NSString* path = [@"~/Documents" stringByExpandingTildeInPath];
+                                path = [path stringByAppendingPathComponent:imageName];
+                                
+                                // check image extension
+                                NSString* pathWithoutExt = [path stringByDeletingPathExtension];
+                                NSString* ext = [path substringFromIndex:[pathWithoutExt length]];
+                                bool png = [ext compare:@".png" options:NSCaseInsensitiveSearch] == NSOrderedSame;
+                                bool jpg = [ext compare:@".jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
+                                    [ext compare:@".jpeg" options:NSCaseInsensitiveSearch] == NSOrderedSame;
+                                
+                                // try to load its data
+                                NSData* nsData = [NSData dataWithContentsOfFile:path];
+                                if(!nsData)
+                                    break;
+                                
+                                // create CGImage from data
+                                CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)nsData);
+                                CGImageRef cgImage = NULL;
+                                if(png) {
+                                    cgImage = CGImageCreateWithPNGDataProvider(imgDataProvider,
+                                                                               NULL,
+                                                                               true,
+                                                                               kCGRenderingIntentDefault);
+                                } else if(jpg) {
+                                    cgImage = CGImageCreateWithJPEGDataProvider(imgDataProvider,
+                                                                                NULL,
+                                                                                true,
+                                                                                kCGRenderingIntentDefault);
+                                } else {
+                                    // unsupported image format
+                                    break;
+                                }
+                                
+                                // create UIImage and register it
+                                if(cgImage) {
+                                    UIImage* image = [UIImage imageWithCGImage:cgImage];
+                                    CGImageRelease(cgImage);
+                                    [s_imageMap setValue:image forKey:imageName];
+                                }
+                                
+                                // release data provider
+                                CGDataProviderRelease(imgDataProvider);
+                            } else {
+                                UIImage* image = [UIImage imageNamed:imageName];
+                                [s_imageMap setValue:image forKey:imageName];
+                            }
                         }
                         break;
                     }

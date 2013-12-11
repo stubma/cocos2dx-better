@@ -42,7 +42,7 @@
 			<locationURI>$%7BCOCOS2DX_ROOT%7D/cocos2dx/platform/android/java/src</locationURI>
 		</link>
 		<link>
-			<name>cocos2dx-common</name>
+			<name>cocos2dx-better</name>
 			<type>2</type>
 			<locationURI>JAVA_SRC</locationURI>
 		</link>
@@ -69,11 +69,11 @@
 		</variable>
 		<variable>
 			<name>INCLUDE</name>
-			<value>$%7BPARENT-2-PROJECT_LOC%7D/cocos2dx-common/include</value>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D/cocos2dx-better/include</value>
 		</variable>
 		<variable>
 			<name>JAVA_SRC</name>
-			<value>$%7BPARENT-2-PROJECT_LOC%7D/cocos2dx-common/java</value>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D/cocos2dx-better/java</value>
 		</variable>
 		<variable>
 			<name>RESOURCES</name>
@@ -81,7 +81,7 @@
 		</variable>
 		<variable>
 			<name>SRC</name>
-			<value>$%7BPARENT-2-PROJECT_LOC%7D/cocos2dx-common/src</value>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D/cocos2dx-better/src</value>
 		</variable>
 		<variable>
 			<name>TEST_SRC</name>

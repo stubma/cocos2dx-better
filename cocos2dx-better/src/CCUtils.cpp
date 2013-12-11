@@ -1156,7 +1156,7 @@ void CCUtils::playInternalMusic() {
     [mp setQueueWithQuery:[MPMediaQuery songsQuery]];
     [mp play];
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
+    // TODO not easy on Android
 #else
     CCLOGERROR("CCUtils::playInternalMusic is not implemented for this platform, please finish it");
 #endif
@@ -1167,7 +1167,7 @@ void CCUtils::stopInternalMusic() {
     MPMusicPlayerController* mp = [MPMusicPlayerController applicationMusicPlayer];
     [mp stop];
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
+    // TODO not easy on Android
 #else
     CCLOGERROR("CCUtils::playInternalMusic is not implemented for this platform, please finish it");
 #endif

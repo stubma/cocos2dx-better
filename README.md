@@ -27,12 +27,6 @@ Requirement
 cocos2dx-better project refers cocos2d-x project. You must clone cocos2d-x repository to a folder named "cocos2d-x", 
 and then clone cocos2dx-better in the same parent folder.
 
-Also, set a proper NDK_MODULE_PATH environment, below is my setting:
-```
-export C2DX_ROOT=$HOME/Projects/cocos2d-x
-export NDK_MODULE_PATH=$C2DX_ROOT:${C2DX_ROOT}/cocos2dx/platform/third_party/android/prebuilt:$HOME/Projects/cocos2dx-better
-```
-
 How to use
 ===========
 For iOS:
@@ -56,7 +50,14 @@ $(SRCROOT)/../../cocos2d-x/CocosDenshion/include
 
 For Android:
 * import cocos2dx-better module in your Android.mk
-* cocos2dx-better has some java code, you must link it in your project. If you use ant to build, you can set source.dir properties in local.properties, below is my setting(c2dx_root is a environment variable which point to cocos2d-x root)
+* you must set a proper NDK_MODULE_PATH environment, below is my setting:
+
+```
+export C2DX_ROOT=$HOME/Projects/cocos2d-x
+export NDK_MODULE_PATH=$C2DX_ROOT:${C2DX_ROOT}/cocos2dx/platform/third_party/android/prebuilt:$HOME/Projects/cocos2dx-better
+```
+
+* cocos2dx-better has some java code, you must link it in your project. If you use ant to build, you can set source.dir properties in local.properties, below is my setting.
 
 ```
 source.dir=src;${user.home}/../../${c2dx.root}/cocos2dx/platform/android/java/src;${user.home}/../../${c2dx.root}/../cocos2dx-better/cocos2dx-better/java

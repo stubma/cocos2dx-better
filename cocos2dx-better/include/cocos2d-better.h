@@ -117,4 +117,7 @@
 #include "CCSPXAction.h"
 #include "CCSPXLoader.h"
 
+// network
+#include "CCTCPSocket.h"
+
 #endif // __cocos2d_better_h__

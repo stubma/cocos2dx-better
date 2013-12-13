@@ -84,6 +84,7 @@
 		9255B8A718556DE400797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A618556DE400797255 /* AVFoundation.framework */; };
 		9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A818556DF000797255 /* AudioToolbox.framework */; };
 		9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B418556E5400797255 /* OpenAL.framework */; };
+		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92F68E5918559EC100C97188 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4318559EC100C97188 /* Atomic.cpp */; };
@@ -353,6 +354,11 @@
 		9255B8A818556DF000797255 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9255B8AA18556DFD00797255 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		9255B8B418556E5400797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocket.cpp; sourceTree = "<group>"; };
+		92662272185B3E1500DC8DEC /* CCTCPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocket.h; sourceTree = "<group>"; };
+		92662277185B42CF00DC8DEC /* CCByteBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCByteBuffer.h; sourceTree = "<group>"; };
+		92662278185B42FD00DC8DEC /* CCWorldPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCWorldPacket.h; sourceTree = "<group>"; };
+		92662279185B437200DC8DEC /* CCNetworkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCNetworkCommon.h; sourceTree = "<group>"; };
 		92774AD316EF1C7A008E67C8 /* cocos2dx-better-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-better-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -514,6 +520,7 @@
 				92F68E671855A79C00C97188 /* db */,
 				9239690F185591E70063E8A1 /* gesture */,
 				92F68E821855ACC000C97188 /* json */,
+				9266226E185B3DB400DC8DEC /* network */,
 				92396910185591EB0063E8A1 /* io */,
 				92396912185591F30063E8A1 /* ui */,
 				92396911185591EE0063E8A1 /* util */,
@@ -532,6 +539,7 @@
 				92396917185592AF0063E8A1 /* gesture */,
 				92F68E891855ACDC00C97188 /* json */,
 				92396918185592BA0063E8A1 /* io */,
+				9266226D185B3DAC00DC8DEC /* network */,
 				923969191855935E0063E8A1 /* texture */,
 				92396916185592AC0063E8A1 /* ui */,
 				92396915185592A80063E8A1 /* util */,
@@ -909,6 +917,25 @@
 				9255B8A418556DA600797255 /* libCocosDenshion.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9266226D185B3DAC00DC8DEC /* network */ = {
+			isa = PBXGroup;
+			children = (
+				9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */,
+			);
+			name = network;
+			sourceTree = "<group>";
+		};
+		9266226E185B3DB400DC8DEC /* network */ = {
+			isa = PBXGroup;
+			children = (
+				92662272185B3E1500DC8DEC /* CCTCPSocket.h */,
+				92662277185B42CF00DC8DEC /* CCByteBuffer.h */,
+				92662278185B42FD00DC8DEC /* CCWorldPacket.h */,
+				92662279185B437200DC8DEC /* CCNetworkCommon.h */,
+			);
+			name = network;
 			sourceTree = "<group>";
 		};
 		92B516D916E86020009F3536 = {
@@ -1323,6 +1350,7 @@
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
 				923968ED185591DB0063E8A1 /* CCLayerMultiplexEx.cpp in Sources */,
 				923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
+				92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */,
 				92F68F351855BDE200C97188 /* CCSPXFileData.cpp in Sources */,
 				92F68F2F1855BDE200C97188 /* CCSPX3Frame.cpp in Sources */,
 				92F68EAF1855AD4400C97188 /* yajl_lex.c in Sources */,

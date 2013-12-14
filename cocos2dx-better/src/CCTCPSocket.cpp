@@ -449,7 +449,7 @@ void    CCTCPSocketManager::update(float delta)
 			char *pbufMsg = buffer;
 			if (!pSocket->ReceiveMsg(pbufMsg, nSize))
 				break;
-			CCWorldPacket packet;
+			CCByteBuffer packet;
 			uint16  _cmd, _length;
 			packet.write((uint8*)pbufMsg, nSize);
 			_cmd = packet.read<uint16>();
@@ -478,7 +478,7 @@ void    CCTCPSocketManager::register_process(const uint16 &entry, ProFunc callba
 	_mapProcess[entry] = callback;
 }
 
-bool    CCTCPSocketManager::SendPacket(int _tag, CCWorldPacket *packet)
+bool    CCTCPSocketManager::SendPacket(int _tag, CCByteBuffer *packet)
 {
 	std::list<CCTCPSocket*>::iterator iter, enditer = m_lstSocket.end();
 	for (iter = m_lstSocket.begin(); iter != enditer; ++ iter)

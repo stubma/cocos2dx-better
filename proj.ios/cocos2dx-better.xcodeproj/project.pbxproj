@@ -88,7 +88,6 @@
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */; };
-		92E8F4AA185BF11F000A1D59 /* CCWorldPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A9185BF11F000A1D59 /* CCWorldPacket.cpp */; };
 		92F68E5918559EC100C97188 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4318559EC100C97188 /* Atomic.cpp */; };
 		92F68E5A18559EC100C97188 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4718559EC100C97188 /* Input.cpp */; };
 		92F68E5B18559EC100C97188 /* SharedBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4A18559EC100C97188 /* SharedBuffer.cpp */; };
@@ -359,7 +358,6 @@
 		9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocket.cpp; sourceTree = "<group>"; };
 		92662272185B3E1500DC8DEC /* CCTCPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocket.h; sourceTree = "<group>"; };
 		92662277185B42CF00DC8DEC /* CCByteBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCByteBuffer.h; sourceTree = "<group>"; };
-		92662278185B42FD00DC8DEC /* CCWorldPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCWorldPacket.h; sourceTree = "<group>"; };
 		92662279185B437200DC8DEC /* CCNetworkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCNetworkCommon.h; sourceTree = "<group>"; };
 		92774AD316EF1C7A008E67C8 /* cocos2dx-better-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-better-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -367,7 +365,6 @@
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCByteBuffer.cpp; sourceTree = "<group>"; };
-		92E8F4A9185BF11F000A1D59 /* CCWorldPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCWorldPacket.cpp; sourceTree = "<group>"; };
 		92F68E4218559EC100C97188 /* android_input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_input.h; sourceTree = "<group>"; };
 		92F68E4318559EC100C97188 /* Atomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Atomic.cpp; sourceTree = "<group>"; };
 		92F68E4418559EC100C97188 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
@@ -928,7 +925,6 @@
 			children = (
 				92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */,
 				9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */,
-				92E8F4A9185BF11F000A1D59 /* CCWorldPacket.cpp */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -938,7 +934,6 @@
 			children = (
 				92662272185B3E1500DC8DEC /* CCTCPSocket.h */,
 				92662277185B42CF00DC8DEC /* CCByteBuffer.h */,
-				92662278185B42FD00DC8DEC /* CCWorldPacket.h */,
 				92662279185B437200DC8DEC /* CCNetworkCommon.h */,
 			);
 			name = network;
@@ -1375,7 +1370,6 @@
 				924A8BC71856B45E00681A4D /* CCDisplayManager.cpp in Sources */,
 				92F68F1D1855BDE200C97188 /* CCAFCClipMapping.cpp in Sources */,
 				92396902185591DB0063E8A1 /* CCSwipeGestureRecognizer.cpp in Sources */,
-				92E8F4AA185BF11F000A1D59 /* CCWorldPacket.cpp in Sources */,
 				923968F7185591DB0063E8A1 /* CCPinchGestureRecognizer.cpp in Sources */,
 				924A8BC11856B45E00681A4D /* CCArmature.cpp in Sources */,
 				923968FA185591DB0063E8A1 /* CCRichLabelTTF.cpp in Sources */,

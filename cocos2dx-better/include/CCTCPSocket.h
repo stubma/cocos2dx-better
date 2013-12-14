@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "ExtensionMacros.h"
-#include "CCWorldPacket.h"
+#include "CCByteBuffer.h"
 #include <sys/socket.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -63,8 +63,8 @@ private:
     int        m_tag;
 };
 
-typedef bool (*ProAllFunc)(int, int, CCWorldPacket&);    // 接收所有协议，自行处理，@socket标识,@协议头，@数据包,返回是否分发
-typedef void (*ProFunc)(int, CCWorldPacket&);    // 接收单个协议，@socket标识,@数据包
+typedef bool (*ProAllFunc)(int, int, CCByteBuffer&);    // 接收所有协议，自行处理，@socket标识,@协议头，@数据包,返回是否分发
+typedef void (*ProFunc)(int, CCByteBuffer&);    // 接收单个协议，@socket标识,@数据包
 typedef void (*sckFunc)(int);    // 连接成功/断开事件
 
 #define SCT_CALLBACK_1(func, _Object) std::bind(&func,_Object, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)
@@ -108,7 +108,7 @@ public:
     // 获取socket
     CCTCPSocket    *GetSocket(int _tag);
     // 发送消息
-    bool    SendPacket(int _tag, CCWorldPacket *packet);
+    bool    SendPacket(int _tag, CCByteBuffer *packet);
 	
     virtual void    update(float delta);
 	

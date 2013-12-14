@@ -120,7 +120,8 @@
 // network
 #include "CCNetworkCommon.h"
 #include "CCByteBuffer.h"
+#include "CCTCPSocketListener.h"
 #include "CCTCPSocket.h"
-#include "CCTCPSocketManager.h"
+#include "CCTCPSocketHub.h"
 
 #endif // __cocos2d_better_h__

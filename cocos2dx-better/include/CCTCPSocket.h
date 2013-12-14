@@ -25,7 +25,6 @@
 #define __CCTCPSocket_h__
 
 #include "cocos2d.h"
-#include "ExtensionMacros.h"
 #include "CCByteBuffer.h"
 #include <sys/socket.h>
 #include <fcntl.h>
@@ -47,7 +46,7 @@ NS_CC_BEGIN
 class CC_DLL CCTCPSocket : public CCObject {
 private:
 	/// socket handle
-    int m_sockClient;
+    int m_sock;
 	
     /// write buffer
     char m_outBuf[kCCSocketOutputBufferDefaultSize];
@@ -134,7 +133,7 @@ public:
     void destroy();
 	
 	/// get socket handle
-    int getSocket() const { return m_sockClient; }
+    int getSocket() const { return m_sock; }
     
 	/// get tag
     int getTag() { return m_tag; }

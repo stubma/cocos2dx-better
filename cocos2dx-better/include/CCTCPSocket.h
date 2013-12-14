@@ -1,3 +1,26 @@
+/****************************************************************************
+ Author: Luma (stubma@gmail.com)
+ 
+ https://github.com/stubma/cocos2dx-better
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 #ifndef __CCTCPSocket_h__
 #define __CCTCPSocket_h__
 
@@ -10,62 +33,112 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define SOCKET int
-#define SOCKET_ERROR -1
-#define INVALID_SOCKET -1
-
 NS_CC_BEGIN
 
-#ifndef CHECKF
-#define CHECKF(x) \
-do \
-{ \
-if (!(x)) { \
-log_msg("CHECKF", #x, __FILE__, __LINE__); \
-return 0; \
-} \
-} while (0)
-#endif
+#define kCCSocketMaxPacketSize (16 * 1024)
+#define kCCSocketDefaultTimeout 30
+#define kCCSocketInputBufferDefaultSize (64 * 1024)
+#define kCCSocketOutputBufferDefaultSize (8 * 1024)
 
-#define _MAX_MSGSIZE 16 * 1024        // 暂定一个消息最大为16k
-#define BLOCKSECONDS    30            // INIT函数阻塞时间
-#define INBUFSIZE    (64*1024)        //?    具体尺寸根据剖面报告调整  接收数据的缓存
-#define OUTBUFSIZE    (8*1024)        //? 具体尺寸根据剖面报告调整。 发送数据的缓存，当不超过8K时，FLUSH只需要SEND一次
-
-class CC_DLL CCTCPSocket
-{
-public:
-    CCTCPSocket(void);
-    bool    Create(const char* pszServerIP, int nServerPort, int tagid, int nBlockSec = BLOCKSECONDS, bool bKeepAlive = false);
-    bool    SendMsg(void* pBuf, int nSize);
-    bool    ReceiveMsg(void* pBuf, int& nSize);
-    bool    Flush(void);
-    bool    Check(void);
-    void    Destroy(void);
-    SOCKET    GetSocket(void) const { return m_sockClient; }
-    
-    int        getTagID(){ return m_tag; }
+/**
+ * TCP socket client. Data in read buffer has a length header, i.e., first two
+ * bytes is data packet length
+ */
+class CC_DLL CCTCPSocket : public CCObject {
 private:
-    bool    recvFromSock(void);        // 从网络中读取尽可能多的数据
-    bool    hasError();            // 是否发生错误，注意，异步模式未完成非错误
-    void    closeSocket();
+	/// socket handle
+    int m_sockClient;
 	
-    SOCKET    m_sockClient;
+    /// write buffer
+    char m_outBuf[kCCSocketOutputBufferDefaultSize];
 	
-    // 发送数据缓冲
-    char    m_bufOutput[OUTBUFSIZE];    //? 可优化为指针数组
-    int        m_nOutbufLen;
+	/// writable data in write buffer
+    int m_outBufLen;
 	
-    // 环形缓冲区
-    char    m_bufInput[INBUFSIZE];
-    int        m_nInbufLen;
-    int        m_nInbufStart;                // INBUF使用循环式队列，该变量为队列起点，0 - (SIZE-1)
-    int        m_tag;
+    /// read buffer, it is a loop buffer
+    char m_inBuf[kCCSocketInputBufferDefaultSize];
+	
+	/// available data in read buffer
+    int m_inBufLen;
+	
+	/// start reading pos of read buffer, between 0 and (size - 1)
+    int m_inBufStart;
+	
+	/// tag of this socket
+    int m_tag;
+	
+private:
+	/// receive data from socket until no more data or buffer full, or error
+	bool recvFromSock();
+	
+	/// has error
+    bool hasError();
+	
+	/// close socket
+    void closeSocket();
+	
+protected:
+	/**
+	 * init socket
+	 *
+	 * @param hostname host name or ip address, ipv4 only
+	 * @param port port
+	 * @param tag tag of socket
+	 * @param blockSec block time when create this socket, 0 means not block
+	 * @param keepAlive true means keep socket alive
+	 * @return true means initialization successful
+	 */
+    bool init(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout, bool keepAlive = false);
+	
+public:
+    CCTCPSocket();
+	virtual ~CCTCPSocket();
+	
+	/**
+	 * create socket instance
+	 *
+	 * @param hostname host name or ip address, ipv4 only
+	 * @param port port
+	 * @param tag tag of socket
+	 * @param blockSec block time when create this socket, 0 means not block
+	 * @param keepAlive true means keep socket alive
+	 * @return instance or NULL if failed
+	 */
+	static CCTCPSocket* create(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout, bool keepAlive = false);
+	
+	/**
+	 * send data in a buffer
+	 *
+	 * @param buf buffer
+	 * @param size data to be sent
+	 * @return operation success or failed
+	 */
+    bool sendData(void* buf, int size);
+	
+	/**
+	 * receive data and put into a buffer
+	 * 
+	 * @param buf buffer large enough to hold data
+	 * @param size wanted data length
+	 * @return actual read data size, or -1 if fail to read a complete packet
+	 */
+    int receiveData(void* buf, int size);
+	
+	/// flush write buffer, send them now
+    bool flush();
+	
+	/// check is there any data can be read
+    bool hasAvailable();
+	
+	/// destroy socket
+    void destroy();
+	
+	/// get socket handle
+    int getSocket() const { return m_sockClient; }
+    
+	/// get tag
+    int getTag() { return m_tag; }
 };
-
-typedef bool (*ProAllFunc)(int, int, CCByteBuffer&);    // 接收所有协议，自行处理，@socket标识,@协议头，@数据包,返回是否分发
-typedef void (*ProFunc)(int, CCByteBuffer&);    // 接收单个协议，@socket标识,@数据包
-typedef void (*sckFunc)(int);    // 连接成功/断开事件
 
 NS_CC_END
 

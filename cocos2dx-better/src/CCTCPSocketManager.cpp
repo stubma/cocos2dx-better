@@ -1,39 +1,62 @@
+/****************************************************************************
+ Author: Luma (stubma@gmail.com)
+ 
+ https://github.com/stubma/cocos2dx-better
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 #include "CCTCPSocketManager.h"
 #include "support/zip_support/unzip.h"
-
 
 NS_CC_BEGIN
 
 CCTCPSocketManager *CCTCPSocketManager::mSingleton = 0;
-CCTCPSocket *CCTCPSocketManager::createSocket(const char* pszServerIP,    // IP地址
-											  int nServerPort,            // 端口
-											  int _tag,                    // 标识ID
-											  int nBlockSec,            // 阻塞时间ms
-											  bool bKeepAlive)
+
+CCTCPSocketManager::~CCTCPSocketManager() {
+	for (list<CCTCPSocket*>::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++iter) {
+		CC_SAFE_RELEASE(*iter);
+	}
+}
+
+CCTCPSocket *CCTCPSocketManager::createSocket(const string& hostname, int port, int tag, int blockSec, bool keepAlive)
 {
-	CCTCPSocket *pSocket = new CCTCPSocket();
-	if (pSocket->Create(pszServerIP, nServerPort, _tag, nBlockSec, bKeepAlive))
+	CCTCPSocket *pSocket = CCTCPSocket::create(hostname, port, tag, blockSec, keepAlive);
+	if (pSocket)
 	{
 		assert(addSocket(pSocket));
 		if (_pOnConnect){
-			_pOnConnect(_tag);
+			_pOnConnect(tag);
 		}
-		return pSocket;
 	}
 	
-	delete pSocket;
-	return NULL;
+	return pSocket;
 }
 
 bool    CCTCPSocketManager::addSocket(CCTCPSocket *pSocket)
 {
-	std::list<CCTCPSocket*>::iterator iter, enditer = m_lstSocket.end();
-	for (iter = m_lstSocket.begin(); iter != enditer; ++ iter)
+	for (list<CCTCPSocket*>::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter)
 	{
-		if ((*iter)->GetSocket() == pSocket->GetSocket())
+		if ((*iter)->getSocket() == pSocket->getSocket())
 			return false;
 	}
 	m_lstSocket.push_back(pSocket);
+	CC_SAFE_RETAIN(pSocket);
 	return true;
 }
 
@@ -43,9 +66,9 @@ bool    CCTCPSocketManager::removeSocket(int _tag)
 	std::list<CCTCPSocket*>::iterator iter, enditer = m_lstSocket.end();
 	for (iter = m_lstSocket.begin(); iter != enditer; ++ iter)
 	{
-		if ((*iter)->getTagID() == _tag)
+		if ((*iter)->getTag() == _tag)
 		{
-			(*iter)->Destroy();
+			CC_SAFE_RELEASE(*iter);
 			m_lstSocket.erase(iter);
 			return true;
 		}
@@ -58,7 +81,7 @@ CCTCPSocket *CCTCPSocketManager::GetSocket(int _tag)
 	std::list<CCTCPSocket*>::iterator iter, enditer = m_lstSocket.end();
 	for (iter = m_lstSocket.begin(); iter != enditer; ++ iter)
 	{
-		if ((*iter)->getTagID() == _tag)
+		if ((*iter)->getTag() == _tag)
 		{
 			return *iter;
 		}
@@ -72,8 +95,8 @@ void    CCTCPSocketManager::update(float delta)
 	for (iter = m_lstSocket.begin(); iter != enditer; ++ iter)
 	{
 		CCTCPSocket *pSocket = *iter;
-		int _tag = pSocket->getTagID();
-		if (!pSocket->Check())
+		int _tag = pSocket->getTag();
+		if (!pSocket->hasAvailable())
 		{// 掉线了
 			_OnDisconnect(_tag);
 			m_lstSocket.erase(iter);
@@ -82,10 +105,10 @@ void    CCTCPSocketManager::update(float delta)
 		
 		while (true)
 		{
-			char buffer[_MAX_MSGSIZE] = {0};
+			char buffer[kCCSocketMaxPacketSize] = {0};
 			int nSize = sizeof(buffer);
 			char *pbufMsg = buffer;
-			if (!pSocket->ReceiveMsg(pbufMsg, nSize))
+			if (!pSocket->receiveData(pbufMsg, nSize))
 				break;
 			CCByteBuffer packet;
 			uint16  _cmd, _length;
@@ -100,12 +123,12 @@ void    CCTCPSocketManager::update(float delta)
 				uncompress(uncompr, &uncomprLen, packet.getBuffer()+4, packet.available()-4);
 			}
 			
-			if (_pProcess == 0 || _pProcess(pSocket->getTagID(), _cmd, packet))
+			if (_pProcess == 0 || _pProcess(pSocket->getTag(), _cmd, packet))
 			{// 分发数据
 				std::map<uint16, ProFunc>::iterator mapi = _mapProcess.find(_cmd);
 				if (mapi == _mapProcess.end())
 					continue;
-				mapi->second(pSocket->getTagID(), packet);
+				mapi->second(pSocket->getTag(), packet);
 			}
 		}
 	}
@@ -121,10 +144,10 @@ bool    CCTCPSocketManager::SendPacket(int _tag, CCByteBuffer *packet)
 	std::list<CCTCPSocket*>::iterator iter, enditer = m_lstSocket.end();
 	for (iter = m_lstSocket.begin(); iter != enditer; ++ iter)
 	{
-		if ((*iter)->getTagID() == _tag)
+		if ((*iter)->getTag() == _tag)
 		{
-			(*iter)->SendMsg((void *)packet->getBuffer(), packet->available());
-			return (*iter)->Flush();
+			(*iter)->sendData((void *)packet->getBuffer(), packet->available());
+			return (*iter)->flush();
 		}
 	}
 	
@@ -136,9 +159,9 @@ void    CCTCPSocketManager::disconnect(int _tag)
 	std::list<CCTCPSocket*>::iterator iter, enditer = m_lstSocket.end();
 	for (iter = m_lstSocket.begin(); iter != enditer; ++ iter)
 	{
-		if ((*iter)->getTagID() == _tag)
+		if ((*iter)->getTag() == _tag)
 		{
-			(*iter)->Destroy();
+			(*iter)->destroy();
 			if (_OnDisconnect){
 				_OnDisconnect(_tag);
 			}

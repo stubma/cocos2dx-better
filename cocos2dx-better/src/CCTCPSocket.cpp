@@ -1,95 +1,107 @@
+/****************************************************************************
+ Author: Luma (stubma@gmail.com)
+ 
+ https://github.com/stubma/cocos2dx-better
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 #include "CCTCPSocket.h"
-#include "support/zip_support/unzip.h"
 
+#define kCCSocketError -1
+#define kCCSocketInvalid -1
 
 NS_CC_BEGIN
 
-CCTCPSocket::CCTCPSocket()
-{
-    // 初始化
-    memset(m_bufOutput, 0, sizeof(m_bufOutput));
-    memset(m_bufInput, 0, sizeof(m_bufInput));
+CCTCPSocket::CCTCPSocket() :
+m_sockClient(kCCSocketInvalid) {
+    memset(m_outBuf, 0, sizeof(m_outBuf));
+    memset(m_inBuf, 0, sizeof(m_inBuf));
 }
 
-void CCTCPSocket::closeSocket()
-{
-#ifdef WIN32
-    closesocket(m_sockClient);
-    WSACleanup();
-#else
+CCTCPSocket::~CCTCPSocket() {
+	destroy();
+}
+
+CCTCPSocket* CCTCPSocket::create(const string& hostname, int port, int tag, int blockSec, bool keepAlive) {
+	CCTCPSocket* s = new CCTCPSocket();
+	if(s->init(hostname, port, tag, blockSec, keepAlive)) {
+		return (CCTCPSocket*)s->autorelease();
+	}
+	
+	s->release();
+	return NULL;
+}
+
+void CCTCPSocket::closeSocket() {
     close(m_sockClient);
-#endif
 }
 
-bool CCTCPSocket::Create(const char* pszServerIP, int nServerPort, int tagid, int nBlockSec, bool bKeepAlive /*= FALSE*/)
-{
-    // 检查参数
-    if(pszServerIP == 0 || strlen(pszServerIP) > 15) {
+bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, bool keepAlive) {
+	// check
+    if(hostname.empty() || hostname.length() > 15) {
         return false;
     }
 	
-#ifdef WIN32
-    WSADATA wsaData;
-    WORD version = MAKEWORD(2, 0);
-    int ret = WSAStartup(version, &wsaData);//win sock start up
-    if (ret != 0) {
-        return false;
-    }
-#endif
-	
-    // 创建主套接字
+	// create tcp socket
     m_sockClient = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(m_sockClient == INVALID_SOCKET) {
+    if(m_sockClient == kCCSocketInvalid) {
         closeSocket();
         return false;
     }
 	
-    // 设置SOCKET为KEEPALIVE
-    if(bKeepAlive)
-    {
-        int        optval=1;
-        if(setsockopt(m_sockClient, SOL_SOCKET, SO_KEEPALIVE, (char *) &optval, sizeof(optval)))
-        {
+    // keep alive or not
+    if(keepAlive) {
+        int optVal = 1;
+        if(setsockopt(m_sockClient, SOL_SOCKET, SO_KEEPALIVE, (char*)&optVal, sizeof(optVal))) {
             closeSocket();
             return false;
         }
     }
 	
-#ifdef WIN32
-    DWORD nMode = 1;
-    int nRes = ioctlsocket(m_sockClient, FIONBIO, &nMode);
-    if (nRes == SOCKET_ERROR) {
-        closeSocket();
-        return false;
-    }
-#else
-    // 设置为非阻塞方式
+	// non-block mode
     fcntl(m_sockClient, F_SETFL, O_NONBLOCK);
-#endif
 	
-    unsigned long serveraddr = inet_addr(pszServerIP);
-    if(serveraddr == INADDR_NONE)    // 检查IP地址格式错误
-    {
+	// validate host name
+    unsigned long serveraddr = inet_addr(hostname.c_str());
+    if(serveraddr == INADDR_NONE) {
         closeSocket();
         return false;
     }
 	
-    sockaddr_in    addr_in;
+	// create address
+    sockaddr_in addr_in;
     memset((void *)&addr_in, 0, sizeof(addr_in));
     addr_in.sin_family = AF_INET;
-    addr_in.sin_port = htons(nServerPort);
+    addr_in.sin_port = htons(port);
     addr_in.sin_addr.s_addr = serveraddr;
     
-    if(connect(m_sockClient, (sockaddr *)&addr_in, sizeof(addr_in)) == SOCKET_ERROR) {
+	// connect
+	// if has error, close it
+	// if success, select it with specified timeout
+    if(connect(m_sockClient, (sockaddr*)&addr_in, sizeof(addr_in)) == kCCSocketError) {
         if (hasError()) {
             closeSocket();
             return false;
-        }
-        else    // WSAWOLDBLOCK
-        {
+        } else {
             timeval timeout;
-            timeout.tv_sec    = nBlockSec;
-            timeout.tv_usec    = 0;
+            timeout.tv_sec = blockSec;
+            timeout.tv_usec = 0;
             fd_set writeset, exceptset;
             FD_ZERO(&writeset);
             FD_ZERO(&exceptset);
@@ -100,11 +112,9 @@ bool CCTCPSocket::Create(const char* pszServerIP, int nServerPort, int tagid, in
             if (ret == 0 || ret < 0) {
                 closeSocket();
                 return false;
-            } else    // ret > 0
-            {
+            } else {
                 ret = FD_ISSET(m_sockClient, &exceptset);
-                if(ret)        // or (!FD_ISSET(m_sockClient, &writeset)
-                {
+                if(ret) {
                     closeSocket();
                     return false;
                 }
@@ -112,110 +122,101 @@ bool CCTCPSocket::Create(const char* pszServerIP, int nServerPort, int tagid, in
         }
     }
 	
-    m_nInbufLen        = 0;
-    m_nInbufStart    = 0;
-    m_nOutbufLen    = 0;
+	// reset buffer
+    m_inBufLen = 0;
+    m_inBufStart = 0;
+    m_outBufLen = 0;
 	
+	// delay 500ms when socket closed
     struct linger so_linger;
     so_linger.l_onoff = 1;
     so_linger.l_linger = 500;
     setsockopt(m_sockClient, SOL_SOCKET, SO_LINGER, (const char*)&so_linger, sizeof(so_linger));
-    m_tag = tagid;
+	
+	// save tag
+    m_tag = tag;
+	
     return true;
 }
 
-bool CCTCPSocket::SendMsg(void* pBuf, int nSize)
-{
-    if(pBuf == 0 || nSize <= 0) {
+bool CCTCPSocket::sendData(void* buf, int size) {
+	// basic checking
+    if(!buf || size <= 0) {
+        return false;
+    }
+    if (m_sockClient == kCCSocketInvalid) {
         return false;
     }
 	
-    if (m_sockClient == INVALID_SOCKET) {
-        return false;
-    }
-	
-    // 检查通讯消息包长度
-    int packsize = 0;
-    packsize = nSize;
-	
-    // 检测BUF溢出
-    if(m_nOutbufLen + nSize > OUTBUFSIZE) {
-        // 立即发送OUTBUF中的数据，以清空OUTBUF。
-        Flush();
-        if(m_nOutbufLen + nSize > OUTBUFSIZE) {
-            // 出错了
-            Destroy();
+    // buffer size check
+    if(m_outBufLen + size > kCCSocketOutputBufferDefaultSize) {
+        flush();
+        if(m_outBufLen + size > kCCSocketOutputBufferDefaultSize) {
+            destroy();
             return false;
         }
     }
-    // 数据添加到BUF尾
-    memcpy(m_bufOutput + m_nOutbufLen, pBuf, nSize);
-    m_nOutbufLen += nSize;
+	
+	// append data to buffer
+    memcpy(m_outBuf + m_outBufLen, buf, size);
+    m_outBufLen += size;
+	
     return true;
 }
 
-bool CCTCPSocket::ReceiveMsg(void* pBuf, int& nSize)
-{
-    //检查参数
-    if(pBuf == NULL || nSize <= 0) {
-        return false;
+int CCTCPSocket::receiveData(void* buf, int size) {
+	// basic checking
+    if(buf == NULL || size <= 0) {
+        return -1;
     }
-    
-    if (m_sockClient == INVALID_SOCKET) {
-        return false;
+    if (m_sockClient == kCCSocketInvalid) {
+        return -1;
     }
 	
-    // 检查是否有一个消息(小于2则无法获取到消息长度)
-    if(m_nInbufLen < 2) {
-        //  如果没有请求成功  或者   如果没有数据则直接返回
-        if(!recvFromSock() || m_nInbufLen < 2) {        // 这个m_nInbufLen更新了
-            return false;
+	// need a minimum length of 2
+    if(m_inBufLen < 2) {
+        if(!recvFromSock() || m_inBufLen < 2) {
+            return -1;
         }
     }
 	
-    // 计算要拷贝的消息的大小（一个消息，大小为整个消息的第一个16字节），因为环形缓冲区，所以要分开计算
-    int packsize = (unsigned char)m_bufInput[m_nInbufStart+2] +
-	(unsigned char)m_bufInput[(m_nInbufStart + 3) % INBUFSIZE] * 256; // 注意字节序，高位+低位
+	// calculate message size, first two bytes are length
+	// and remember the buffer is looped
+    int packsize = (unsigned char)m_inBuf[m_inBufStart + 2] +
+		(unsigned char)m_inBuf[(m_inBufStart + 3) % kCCSocketInputBufferDefaultSize] * 256;
 	
-    // 检测消息包尺寸错误 暂定最大16k
-    if (packsize <= 0 || packsize > _MAX_MSGSIZE) {
-        m_nInbufLen = 0;        // 直接清空INBUF
-        m_nInbufStart = 0;
-        return false;
+	// check max allowed packet size
+	// if not in a valid range, reset read buffer to 0
+    if (packsize <= 0 || packsize > kCCSocketMaxPacketSize) {
+        m_inBufLen = 0;
+        m_inBufStart = 0;
+        return -1;
     }
 	
-    // 检查消息是否完整(如果将要拷贝的消息大于此时缓冲区数据长度，需要再次请求接收剩余数据)
-    if (packsize > m_nInbufLen) {
-        // 如果没有请求成功   或者    依然无法获取到完整的数据包  则返回，直到取得完整包
-        if (!recvFromSock() || packsize > m_nInbufLen) {    // 这个m_nInbufLen已更新
-            return false;
+	// ensure the packet is complete, if not, read again
+    if (packsize > m_inBufLen) {
+        if (!recvFromSock() || packsize > m_inBufLen) {
+            return -1;
         }
     }
 	
-    // 复制出一个消息
-    if(m_nInbufStart + packsize > INBUFSIZE) {
-        // 如果一个消息有回卷（被拆成两份在环形缓冲区的头尾）
-        // 先拷贝环形缓冲区末尾的数据
-        int copylen = INBUFSIZE - m_nInbufStart;
-        memcpy(pBuf, m_bufInput + m_nInbufStart, copylen);
-		
-        // 再拷贝环形缓冲区头部的剩余部分
-        memcpy((unsigned char *)pBuf + copylen, m_bufInput, packsize - copylen);
-        nSize = packsize;
+	// if the packet is looped, need copy two times
+    if(m_inBufStart + packsize > kCCSocketInputBufferDefaultSize) {
+        int copylen = kCCSocketInputBufferDefaultSize - m_inBufStart;
+        memcpy(buf, m_inBuf + m_inBufStart, copylen);
+        memcpy((unsigned char *)buf + copylen, m_inBuf, packsize - copylen);
     } else {
-        // 消息没有回卷，可以一次拷贝出去
-        memcpy(pBuf, m_bufInput + m_nInbufStart, packsize);
-        nSize = packsize;
+        memcpy(buf, m_inBuf + m_inBufStart, packsize);
     }
 	
-    // 重新计算环形缓冲区头部位置
-    m_nInbufStart = (m_nInbufStart + packsize) % INBUFSIZE;
-    m_nInbufLen -= packsize;
-    return    true;
+	// reposition read pos
+    m_inBufStart = (m_inBufStart + packsize) % kCCSocketInputBufferDefaultSize;
+    m_inBufLen -= packsize;
+	
+    return packsize;
 }
 
-bool CCTCPSocket::hasError()
-{
+bool CCTCPSocket::hasError() {
 	int err = errno;
 	if(err != EINPROGRESS && err != EAGAIN) {
 		return true;
@@ -223,63 +224,57 @@ bool CCTCPSocket::hasError()
 	
 	return false;
 }
-	
-// 从网络中读取尽可能多的数据，实际向服务器请求数据的地方
-bool CCTCPSocket::recvFromSock(void)
-{
-	if (m_nInbufLen >= INBUFSIZE || m_sockClient == INVALID_SOCKET) {
+
+bool CCTCPSocket::recvFromSock() {
+	// basic check
+	if (m_inBufLen >= kCCSocketInputBufferDefaultSize || m_sockClient == kCCSocketInvalid) {
 		return false;
 	}
 	
-	// 接收第一段数据
-	int    savelen, savepos;            // 数据要保存的长度和位置
-	if(m_nInbufStart + m_nInbufLen < INBUFSIZE)    {    // INBUF中的剩余空间有回绕
-		savelen = INBUFSIZE - (m_nInbufStart + m_nInbufLen);        // 后部空间长度，最大接收数据的长度
+	// max byte can be hold by read buffer and the write position
+	// for the first read operation
+	int savelen, savepos;
+	if(m_inBufStart + m_inBufLen < kCCSocketInputBufferDefaultSize){
+		savelen = kCCSocketInputBufferDefaultSize - (m_inBufStart + m_inBufLen);
 	} else {
-		savelen = INBUFSIZE - m_nInbufLen;
+		savelen = kCCSocketInputBufferDefaultSize - m_inBufLen;
 	}
 	
-	// 缓冲区数据的末尾
-	savepos = (m_nInbufStart + m_nInbufLen) % INBUFSIZE;
-	//CHECKF(savepos + savelen <= INBUFSIZE);
-	int inlen = recv(m_sockClient, m_bufInput + savepos, savelen, 0);
+	// read to buffer end
+	savepos = (m_inBufStart + m_inBufLen) % kCCSocketInputBufferDefaultSize;
+	int inlen = recv(m_sockClient, m_inBuf + savepos, savelen, 0);
 	if(inlen > 0) {
-		// 有接收到数据
-		m_nInbufLen += inlen;
-		
-		if (m_nInbufLen > INBUFSIZE) {
+		m_inBufLen += inlen;
+		if (m_inBufLen > kCCSocketInputBufferDefaultSize) {
 			return false;
 		}
 		
-		// 接收第二段数据(一次接收没有完成，接收第二段数据)
-		if(inlen == savelen && m_nInbufLen < INBUFSIZE) {
-			int savelen = INBUFSIZE - m_nInbufLen;
-			int savepos = (m_nInbufStart + m_nInbufLen) % INBUFSIZE;
-			//CHECKF(savepos + savelen <= INBUFSIZE);
-			inlen = recv(m_sockClient, m_bufInput + savepos, savelen, 0);
+		// read second if has more
+		if(inlen == savelen && m_inBufLen < kCCSocketInputBufferDefaultSize) {
+			int savelen = kCCSocketInputBufferDefaultSize - m_inBufLen;
+			int savepos = (m_inBufStart + m_inBufLen) % kCCSocketInputBufferDefaultSize;
+			inlen = recv(m_sockClient, m_inBuf + savepos, savelen, 0);
 			if(inlen > 0) {
-				m_nInbufLen += inlen;
-				if (m_nInbufLen > INBUFSIZE) {
+				m_inBufLen += inlen;
+				if (m_inBufLen > kCCSocketInputBufferDefaultSize) {
 					return false;
 				}
 			} else if(inlen == 0) {
-				Destroy();
+				destroy();
 				return false;
 			} else {
-				// 连接已断开或者错误（包括阻塞）
 				if (hasError()) {
-					Destroy();
+					destroy();
 					return false;
 				}
 			}
 		}
 	} else if(inlen == 0) {
-		Destroy();
+		destroy();
 		return false;
 	} else {
-		// 连接已断开或者错误（包括阻塞）
 		if (hasError()) {
-			Destroy();
+			destroy();
 			return false;
 		}
 	}
@@ -287,33 +282,32 @@ bool CCTCPSocket::recvFromSock(void)
 	return true;
 }
 
-bool CCTCPSocket::Flush(void)        //? 如果 OUTBUF > SENDBUF 则需要多次SEND（）
-{
-	if (m_sockClient == INVALID_SOCKET) {
+bool CCTCPSocket::flush() {
+	// basic checking
+	if (m_sockClient == kCCSocketInvalid) {
 		return false;
 	}
-	
-	if(m_nOutbufLen <= 0) {
+	if(m_outBufLen <= 0) {
 		return true;
 	}
 	
-	// 发送一段数据
-	int    outsize;
-	outsize = send(m_sockClient, m_bufOutput, m_nOutbufLen, 0);
+	// send
+	int outsize;
+	outsize = send(m_sockClient, m_outBuf, m_outBufLen, 0);
 	if(outsize > 0) {
-		// 删除已发送的部分
-		if(m_nOutbufLen - outsize > 0) {
-			memcpy(m_bufOutput, m_bufOutput + outsize, m_nOutbufLen - outsize);
+		// move cursor
+		if(m_outBufLen - outsize > 0) {
+			memcpy(m_outBuf, m_outBuf + outsize, m_outBufLen - outsize);
 		}
+		m_outBufLen -= outsize;
 		
-		m_nOutbufLen -= outsize;
-		
-		if (m_nOutbufLen < 0) {
+		// any more?
+		if (m_outBufLen < 0) {
 			return false;
 		}
 	} else {
 		if (hasError()) {
-			Destroy();
+			destroy();
 			return false;
 		}
 	}
@@ -321,49 +315,46 @@ bool CCTCPSocket::Flush(void)        //? 如果 OUTBUF > SENDBUF 则需要多次
 	return true;
 }
 
-bool CCTCPSocket::Check(void)
-{
-	// 检查状态
-	if (m_sockClient == INVALID_SOCKET) {
+bool CCTCPSocket::hasAvailable() {
+	// basic check
+	if (m_sockClient == kCCSocketInvalid) {
 		return false;
 	}
 	
 	char buf[1];
-	int    ret = recv(m_sockClient, buf, 1, MSG_PEEK);
+	int ret = recv(m_sockClient, buf, 1, MSG_PEEK);
 	if(ret == 0) {
-		Destroy();
+		destroy();
 		return false;
 	} else if(ret < 0) {
 		if (hasError()) {
-			Destroy();
+			destroy();
 			return false;
-		} else {    // 阻塞
+		} else {
 			return true;
 		}
-	} else {    // 有数据
+	} else {
 		return true;
 	}
 	
 	return true;
 }
 
-void CCTCPSocket::Destroy(void)
-{
-	// 关闭
-	struct linger so_linger;
-	so_linger.l_onoff = 1;
-	so_linger.l_linger = 500;
-	int ret = setsockopt(m_sockClient, SOL_SOCKET, SO_LINGER, (const char*)&so_linger, sizeof(so_linger));
+void CCTCPSocket::destroy() {
+	// ensure not destroy again
+	if(m_sockClient == kCCSocketInvalid)
+		return;
 	
+	// close
 	closeSocket();
 	
-	m_sockClient = INVALID_SOCKET;
-	m_nInbufLen = 0;
-	m_nInbufStart = 0;
-	m_nOutbufLen = 0;
-	
-	memset(m_bufOutput, 0, sizeof(m_bufOutput));
-	memset(m_bufInput, 0, sizeof(m_bufInput));
+	// reset
+	m_sockClient = kCCSocketInvalid;
+	m_inBufLen = 0;
+	m_inBufStart = 0;
+	m_outBufLen = 0;
+	memset(m_outBuf, 0, sizeof(m_outBuf));
+	memset(m_inBuf, 0, sizeof(m_inBuf));
 }
 
 NS_CC_END

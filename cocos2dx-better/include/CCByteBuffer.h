@@ -98,6 +98,9 @@ public:
 	/// read a pascal string from buffer, i.e., the first two bytes must be string length
 	void readPascalString(string& dest);
 	
+	/// read a string, until encounter new line or end
+	void readLine(string& dest);
+	
     /** 
 	 * Writes sizeof(T) bytes to the buffer, while checking for overflows.
 	 *
@@ -122,6 +125,13 @@ public:
 	 * string won't be appended a zero byte
 	 */
 	void writePascalString(const string& value);
+	
+	/**
+	 * write a string and new line to buffer
+	 * 
+	 * @param value string to be written
+	 */
+	void writeLine(const string& value);
 	
     /// get read position
     size_t getReadPos() { return m_readPos; }

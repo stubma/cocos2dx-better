@@ -116,6 +116,19 @@ void CCByteBuffer::readPascalString(string& dest) {
 	}
 }
 
+void CCByteBuffer::readLine(string& dest) {
+	dest.clear();
+	char c;
+	while(true)	{
+		c = read<char>();
+		if(c == '\r')
+			continue;
+		else if(c == 0 || c == '\n')
+			break;
+		dest += c;
+	}
+}
+
 template<typename T>
 size_t CCByteBuffer::readVector(size_t vsize, vector<T>& v) {
 	v.clear();
@@ -210,6 +223,14 @@ void CCByteBuffer::writePascalString(const string& value) {
 	write<uint16>(value.length());
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length());
 	m_writePos += value.length();
+}
+
+void CCByteBuffer::writeLine(const string& value) {
+	ensureCanWrite(value.length() + 2 * sizeof(char));
+	memcpy(&m_buffer[m_writePos], value.c_str(), value.length());
+	m_writePos += value.length();
+	write<char>('\r');
+	write<char>('\n');
 }
 
 void CCByteBuffer::skip(size_t len) {

@@ -30,6 +30,7 @@
 		92A6712116E8BA5F008BE79D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A6712016E8BA5F008BE79D /* libsqlite3.dylib */; };
 		92CF92B1175B51970014CDF1 /* CommonTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CF92AF175B51970014CDF1 /* CommonTest.cpp */; };
 		92DFF091182F12E6006C4ECD /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92DFF090182F12E6006C4ECD /* MediaPlayer.framework */; };
+		92E8F4B3185C30C8000A1D59 /* NetworkTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4B1185C30C8000A1D59 /* NetworkTest.cpp */; };
 		92F68E7D1855A84400C97188 /* DBTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E7B1855A84400C97188 /* DBTest.cpp */; };
 		92F68EC01855B4D000C97188 /* JSONTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68EBE1855B4D000C97188 /* JSONTest.cpp */; };
 		92F68ECE1855B60F00C97188 /* Files in Resources */ = {isa = PBXBuildFile; fileRef = 92F68ECD1855B60F00C97188 /* Files */; };
@@ -110,6 +111,8 @@
 		92CF92AF175B51970014CDF1 /* CommonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommonTest.cpp; sourceTree = "<group>"; };
 		92CF92B0175B51970014CDF1 /* CommonTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTest.h; sourceTree = "<group>"; };
 		92DFF090182F12E6006C4ECD /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		92E8F4B1185C30C8000A1D59 /* NetworkTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkTest.cpp; sourceTree = "<group>"; };
+		92E8F4B2185C30C8000A1D59 /* NetworkTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTest.h; sourceTree = "<group>"; };
 		92F68E7B1855A84400C97188 /* DBTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DBTest.cpp; sourceTree = "<group>"; };
 		92F68E7C1855A84400C97188 /* DBTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBTest.h; sourceTree = "<group>"; };
 		92F68EBE1855B4D000C97188 /* JSONTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JSONTest.cpp; sourceTree = "<group>"; };
@@ -175,6 +178,7 @@
 			children = (
 				92F68F441855BEF400C97188 /* AnimTest */,
 				92F68EBD1855B4D000C97188 /* JSONTest */,
+				92E8F4B0185C30C8000A1D59 /* NetworkTest */,
 				92F68E7A1855A84400C97188 /* DBTest */,
 				92CF92AE175B51970014CDF1 /* CommonTest */,
 				15AA9F3A15B7EF960033D6C2 /* AppDelegate.cpp */,
@@ -276,6 +280,16 @@
 			);
 			name = CommonTest;
 			path = ../Classes/CommonTest;
+			sourceTree = "<group>";
+		};
+		92E8F4B0185C30C8000A1D59 /* NetworkTest */ = {
+			isa = PBXGroup;
+			children = (
+				92E8F4B1185C30C8000A1D59 /* NetworkTest.cpp */,
+				92E8F4B2185C30C8000A1D59 /* NetworkTest.h */,
+			);
+			name = NetworkTest;
+			path = ../Classes/NetworkTest;
 			sourceTree = "<group>";
 		};
 		92F68E7A1855A84400C97188 /* DBTest */ = {
@@ -420,6 +434,7 @@
 				92F68F471855BEF400C97188 /* AnimTest.cpp in Sources */,
 				92F68EC01855B4D000C97188 /* JSONTest.cpp in Sources */,
 				15A048C41637845600F7CC0A /* VisibleRect.cpp in Sources */,
+				92E8F4B3185C30C8000A1D59 /* NetworkTest.cpp in Sources */,
 				92CF92B1175B51970014CDF1 /* CommonTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -35,7 +35,7 @@ NS_CC_BEGIN
  * It manages a group of sockets and monitor them in every update. The update loop is started
  * after hub is created.
  */
-class CC_DLL CCTCPSocketHub : public CCObject {
+class CC_DLL CCTCPSocketHub : public CCNode {
 private:
 	typedef vector<CCTCPSocket*> CCTCPSocketList;
 	CCTCPSocketList m_lstSocket;
@@ -44,12 +44,18 @@ private:
     CCTCPSocketListenerMap m_listenerMap;
 	
 protected:
+	CCTCPSocketHub();
+	
 	/// find a listener for a tag
 	CCTCPSocketListener* getListener(int tag);
 	
 public:
-    CCTCPSocketHub();
     virtual ~CCTCPSocketHub();
+	
+	static CCTCPSocketHub* create();
+	
+	// override super
+    virtual void update(float delta);
 	
 	/**
 	 * create socket instance and auto add it to hub
@@ -80,9 +86,6 @@ public:
 	
 	/// send a packet
     bool sendPacket(int tag, CCByteBuffer* packet);
-	
-	/// update loop
-    void update(float delta);
 };
 
 NS_CC_END

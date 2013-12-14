@@ -22,6 +22,8 @@ static TestScene* CreateTestScene(int nIdx)
             pScene = new DBTestScene(); break;
         case TEST_JSON:
             pScene = new JSONTestScene(); break;
+		case TEST_NETWORK:
+			pScene = new NetworkTestScene(); break;
         default:
             break;
     }

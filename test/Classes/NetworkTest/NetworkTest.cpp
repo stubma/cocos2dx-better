@@ -1,12 +1,12 @@
-#include "JSONTest.h"
+#include "NetworkTest.h"
 #include "../testResource.h"
 #include "cocos2d.h"
 #include "cocos2d-better.h"
 
-TESTLAYER_CREATE_FUNC(JSONParsing);
+TESTLAYER_CREATE_FUNC(NetworkTCP);
 
 static NEWTESTFUNC createFunctions[] = {
-    CF(JSONParsing)
+    CF(NetworkTCP)
 };
 
 static int sceneIdx=-1;
@@ -47,7 +47,7 @@ static CCLayer* restartAction()
     return pLayer;
 }
 
-void JSONTestScene::runThisTest()
+void NetworkTestScene::runThisTest()
 {
     sceneIdx = -1;
     addChild(nextAction());
@@ -56,17 +56,17 @@ void JSONTestScene::runThisTest()
 }
 
 
-std::string JSONDemo::title()
+std::string NetworkDemo::title()
 {
-    return "JSONTest";
+    return "NetworkTest";
 }
 
-std::string JSONDemo::subtitle()
+std::string NetworkDemo::subtitle()
 {
     return "";
 }
 
-void JSONDemo::onEnter()
+void NetworkDemo::onEnter()
 {
     CCLayer::onEnter();
 
@@ -86,9 +86,9 @@ void JSONDemo::onEnter()
     }    
 
     // add menu
-    CCMenuItemImage *item1 = CCMenuItemImage::create(s_pPathB1, s_pPathB2, this, menu_selector(JSONDemo::backCallback) );
-    CCMenuItemImage *item2 = CCMenuItemImage::create(s_pPathR1, s_pPathR2, this, menu_selector(JSONDemo::restartCallback) );
-    CCMenuItemImage *item3 = CCMenuItemImage::create(s_pPathF1, s_pPathF2, this, menu_selector(JSONDemo::nextCallback) );
+    CCMenuItemImage *item1 = CCMenuItemImage::create(s_pPathB1, s_pPathB2, this, menu_selector(NetworkDemo::backCallback) );
+    CCMenuItemImage *item2 = CCMenuItemImage::create(s_pPathR1, s_pPathR2, this, menu_selector(NetworkDemo::restartCallback) );
+    CCMenuItemImage *item3 = CCMenuItemImage::create(s_pPathF1, s_pPathF2, this, menu_selector(NetworkDemo::nextCallback) );
 
     CCMenu *menu = CCMenu::create(item1, item2, item3, NULL);
 
@@ -100,30 +100,30 @@ void JSONDemo::onEnter()
     addChild(menu, 1);
 }
 
-void JSONDemo::onExit()
+void NetworkDemo::onExit()
 {
     CCLayer::onExit();
 }
 
-void JSONDemo::restartCallback(CCObject* pSender)
+void NetworkDemo::restartCallback(CCObject* pSender)
 {
-    CCScene* s = new JSONTestScene();
+    CCScene* s = new NetworkTestScene();
     s->addChild( restartAction() );
     CCDirector::sharedDirector()->replaceScene(s);
     s->release();
 }
 
-void JSONDemo::nextCallback(CCObject* pSender)
+void NetworkDemo::nextCallback(CCObject* pSender)
 {
-    CCScene* s = new JSONTestScene();
+    CCScene* s = new NetworkTestScene();
     s->addChild( nextAction() );
     CCDirector::sharedDirector()->replaceScene(s);
     s->release();
 }
 
-void JSONDemo::backCallback(CCObject* pSender)
+void NetworkDemo::backCallback(CCObject* pSender)
 {
-    CCScene* s = new JSONTestScene();
+    CCScene* s = new NetworkTestScene();
     s->addChild( backAction() );
     CCDirector::sharedDirector()->replaceScene(s);
     s->release();
@@ -131,34 +131,56 @@ void JSONDemo::backCallback(CCObject* pSender)
 
 //------------------------------------------------------------------
 //
-// JSON parsing
+// TCP Socket
 //
 //------------------------------------------------------------------
-void JSONParsing::onEnter()
+void NetworkTCP::onEnter()
 {
-    JSONDemo::onEnter();
+    NetworkDemo::onEnter();
 
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
-    CCJSONObject* jo = CCJSONObject::create("Files/test_json");
-    CCJSONArray* ja = jo->optJSONArray("f");
-    CCJSONObject* jo2 = ja->optJSONObject(5);
-    string stringVal = jo2->optString("f2");
-    int intVal = jo2->optInt("f2");
-    float floatVal = jo2->optFloat("f2");
-    bool boolVal = jo2->optBool("f2");  // only when string is "true", the boolean value will be true, otherwise it is false
-    
-    char buf[256];
-    sprintf(buf, "JSON parsing result\nsource file: Files/test_json\n\nkey: f2\nstring value: \"%s\"\nbool value: %s\nint value: %d\nfloat value: %.2f",
-            +            stringVal.c_str(), boolVal ? "true" : "false", intVal, floatVal);
-    CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 16);
-    label->setPosition(ccp(origin.x + visibleSize.width / 2,
-                           +                           origin.y + visibleSize.height / 2));
-    addChild(label);
+	// you can run a echo server to test the tcp socket
+	// you can find a echo server demo in gevent samples
+	CCMenuItemLabel* item1 = CCMenuItemLabel::create(CCLabelTTF::create("Send Hello", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()),
+													 this,
+													 menu_selector(NetworkTCP::onSendClicked));
+	item1->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
+	
+	CCMenu* menu = CCMenu::create(item1, NULL);
+	menu->setAnchorPoint(CCPointZero);
+	menu->setPosition(CCPointZero);
+	addChild(menu);
+	
+	m_hub = CCTCPSocketHub::create();
+	m_hub->createSocket("192.168.1.104", 6000, 1);
+	m_hub->registerCallback(1, this);
+	addChild(m_hub);
 }
 
-std::string JSONParsing::subtitle()
+void NetworkTCP::onSendClicked(CCObject* sender) {
+	CCByteBuffer packet;
+	packet.writeLine("Hello");
+	m_hub->sendPacket(1, &packet);
+}
+
+void NetworkTCP::onTCPSocketConnected(int tag) {
+	CCLOG("connected: %d", tag);
+}
+
+void NetworkTCP::onTCPSocketDisconnected(int tag) {
+	CCLOG("disconnected: %d", tag);
+}
+
+void NetworkTCP::onTCPSocketData(int tag, CCByteBuffer& bb) {
+	string ret;
+	bb.readLine(ret);
+	if(!ret.empty())
+		CCLOG("get data: %s", ret.c_str());
+}
+
+std::string NetworkTCP::subtitle()
 {
-    return "JSON Parsing";
+    return "TCP Socket";
 }

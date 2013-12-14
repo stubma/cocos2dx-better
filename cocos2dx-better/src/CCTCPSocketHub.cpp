@@ -27,14 +27,26 @@
 NS_CC_BEGIN
 
 CCTCPSocketHub::CCTCPSocketHub() {
-	CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
-	s->scheduleUpdateForTarget(this, 0, false);
+	scheduleUpdate();
 };
 
 CCTCPSocketHub::~CCTCPSocketHub() {
+	CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
+	s->unscheduleUpdateForTarget(this);
+	
 	for (CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++iter) {
+		int tag = (*iter)->getTag();
 		CC_SAFE_RELEASE(*iter);
+		CCTCPSocketListener* l = getListener(tag);
+		if(l) {
+			l->onTCPSocketDisconnected(tag);
+		}
 	}
+}
+
+CCTCPSocketHub* CCTCPSocketHub::create() {
+	CCTCPSocketHub* h = new CCTCPSocketHub();
+	return (CCTCPSocketHub*)h->autorelease();
 }
 
 CCTCPSocket* CCTCPSocketHub::createSocket(const string& hostname, int port, int tag, int blockSec, bool keepAlive) {
@@ -104,7 +116,7 @@ void CCTCPSocketHub::update(float delta) {
 		while (true) {
 			char buffer[kCCSocketMaxPacketSize] = {0};
 			int read = pSocket->receiveData(buffer, kCCSocketMaxPacketSize);
-			if (read < 0)
+			if (read <= 0)
 				break;
 			CCByteBuffer packet;
 			packet.write((uint8*)buffer, read);

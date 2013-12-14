@@ -173,47 +173,33 @@ int CCTCPSocket::receiveData(void* buf, int size) {
         return -1;
     }
 	
-	// need a minimum length of 2
-    if(m_inBufLen < 2) {
-        if(!recvFromSock() || m_inBufLen < 2) {
-            return -1;
-        }
-    }
-	
-	// calculate message size, first two bytes are length
-	// and remember the buffer is looped
-    int packsize = (unsigned char)m_inBuf[m_inBufStart + 2] +
-		(unsigned char)m_inBuf[(m_inBufStart + 3) % kCCSocketInputBufferDefaultSize] * 256;
-	
-	// check max allowed packet size
-	// if not in a valid range, reset read buffer to 0
-    if (packsize <= 0 || packsize > kCCSocketMaxPacketSize) {
-        m_inBufLen = 0;
-        m_inBufStart = 0;
-        return -1;
-    }
+	// read can be more than buffer size
+	size = MIN(size, kCCSocketInputBufferDefaultSize);
 	
 	// ensure the packet is complete, if not, read again
-    if (packsize > m_inBufLen) {
-        if (!recvFromSock() || packsize > m_inBufLen) {
+    if (size > m_inBufLen) {
+        if (!recvFromSock()) {
             return -1;
         }
     }
 	
+	// check available
+	size = MIN(size, m_inBufLen);
+	
 	// if the packet is looped, need copy two times
-    if(m_inBufStart + packsize > kCCSocketInputBufferDefaultSize) {
+    if(m_inBufStart + size > kCCSocketInputBufferDefaultSize) {
         int copylen = kCCSocketInputBufferDefaultSize - m_inBufStart;
         memcpy(buf, m_inBuf + m_inBufStart, copylen);
-        memcpy((unsigned char *)buf + copylen, m_inBuf, packsize - copylen);
+        memcpy((unsigned char *)buf + copylen, m_inBuf, size - copylen);
     } else {
-        memcpy(buf, m_inBuf + m_inBufStart, packsize);
+        memcpy(buf, m_inBuf + m_inBufStart, size);
     }
 	
 	// reposition read pos
-    m_inBufStart = (m_inBufStart + packsize) % kCCSocketInputBufferDefaultSize;
-    m_inBufLen -= packsize;
+    m_inBufStart = (m_inBufStart + size) % kCCSocketInputBufferDefaultSize;
+    m_inBufLen -= size;
 	
-    return packsize;
+    return size;
 }
 
 bool CCTCPSocket::hasError() {

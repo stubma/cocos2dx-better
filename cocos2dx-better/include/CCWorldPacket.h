@@ -24,19 +24,19 @@ public:
     __inline uint16 GetOpcode() const { return m_opcode; }
     __inline void SetOpcode(const uint16 & opcode) { m_opcode = opcode; }
     __inline void SetLength(const uint16 & len)    {
-        uint16 * plen = (uint16 * ) &(contents()[2]);
+        uint16 * plen = (uint16 * ) &(getBuffer()[2]);
         *plen = len;
     }
 	
     __inline std::string getString()
     {
         //std::string buff =
-        return (const char*)contents();
+        return (const char*)getBuffer();
     }
     
 	template<typename T>
 	void SetOffset(const uint16 & offset, const T value ) {
-        T * pval = (T *) &(contents()[offset]);
+        T * pval = (T *) &(getBuffer()[offset]);
         *pval = value;
     }
 	
@@ -71,7 +71,7 @@ public:
         if (ilen == 0)
             return true;
         uint8 buf[ilen+1];
-        uint16 plen = size();
+        uint16 plen = available();
         if (plen < ilen)
             return false;
         read(buf, ilen);

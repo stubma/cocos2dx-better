@@ -87,6 +87,7 @@
 		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
+		92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */; };
 		92F68E5918559EC100C97188 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4318559EC100C97188 /* Atomic.cpp */; };
 		92F68E5A18559EC100C97188 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4718559EC100C97188 /* Input.cpp */; };
 		92F68E5B18559EC100C97188 /* SharedBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4A18559EC100C97188 /* SharedBuffer.cpp */; };
@@ -364,6 +365,7 @@
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
+		92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCByteBuffer.cpp; sourceTree = "<group>"; };
 		92F68E4218559EC100C97188 /* android_input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_input.h; sourceTree = "<group>"; };
 		92F68E4318559EC100C97188 /* Atomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Atomic.cpp; sourceTree = "<group>"; };
 		92F68E4418559EC100C97188 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
@@ -922,6 +924,7 @@
 		9266226D185B3DAC00DC8DEC /* network */ = {
 			isa = PBXGroup;
 			children = (
+				92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */,
 				9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */,
 			);
 			name = network;
@@ -1396,6 +1399,7 @@
 				92F68F2D1855BDE200C97188 /* CCSPX3Action.cpp in Sources */,
 				92F68F361855BDE200C97188 /* CCSPXFrame.cpp in Sources */,
 				924A8BCE1856B45E00681A4D /* CCTransformHelp.cpp in Sources */,
+				92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */,
 				924A8BED1856B45E00681A4D /* DictionaryHelper.cpp in Sources */,
 				923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.mm in Sources */,
 				92F68E911855ACE400C97188 /* CCJSONValue.cpp in Sources */,

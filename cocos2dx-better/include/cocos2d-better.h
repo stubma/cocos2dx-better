@@ -118,6 +118,9 @@
 #include "CCSPXLoader.h"
 
 // network
+#include "CCNetworkCommon.h"
+#include "CCByteBuffer.h"
+#include "CCWorldPacket.h"
 #include "CCTCPSocket.h"
 
 #endif // __cocos2d_better_h__

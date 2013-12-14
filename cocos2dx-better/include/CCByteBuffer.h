@@ -33,17 +33,13 @@ NS_CC_BEGIN
  * Byte buffer
  */
 class CC_DLL CCByteBuffer : public CCObject {
-private:
+protected:
     uint8* m_buffer;
     size_t m_readPos;
     size_t m_writePos;
-    uint32 m_buffersize;
+    uint32 m_bufferSize;
 	
 protected:
-    CCByteBuffer();
-    
-    CCByteBuffer(size_t res);
-	
 	/// Allocates/reallocates buffer with specified size.
     void reserve(size_t res);
 	
@@ -55,6 +51,9 @@ protected:
     void ensureCanWrite(uint32 size);
 	
 public:
+	CCByteBuffer();
+    CCByteBuffer(size_t res);
+	CCByteBuffer(const CCByteBuffer& b);
     virtual ~CCByteBuffer();
 	
 	/// Creates a CCByteBuffer with the default size
@@ -90,6 +89,15 @@ public:
 	 */
     size_t read(uint8* buffer, size_t len);
 	
+	/// read a string
+	void read(string& dest);
+	
+	/// read a c string
+	void readCString(string& dest);
+	
+	/// read a pascal string from buffer, i.e., the first two bytes must be string length
+	void readPascalString(string& dest);
+	
     /** 
 	 * Writes sizeof(T) bytes to the buffer, while checking for overflows.
 	 *
@@ -106,8 +114,14 @@ public:
     /// specialize write for string
 	void write(const string& value);
 	
-	/// read a string
-	void read(string& dest);
+	/// write a c string
+	void writeCString(const string& value);
+	
+	/**
+	 * write a string into buffer in pascal format, i.e., the first two bytes is string length and
+	 * string won't be appended a zero byte
+	 */
+	void writePascalString(const string& value);
 	
     /// get read position
     size_t getReadPos() { return m_readPos; }
@@ -116,7 +130,7 @@ public:
     void setReadPos(size_t p) { if(p <= m_writePos) m_readPos = p; }
 	
 	/// set write position, that will change available size
-    void setWritePos(size_t p) { if(p <= m_buffersize) m_writePos = p; }
+    void setWritePos(size_t p) { if(p <= m_bufferSize) m_writePos = p; }
 	
 	/// write a vector
     template<typename T> size_t writeVector(const vector<T>& v);

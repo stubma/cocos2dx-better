@@ -42,6 +42,16 @@ m_writePos(0) {
 	reserve(res);
 }
 
+CCByteBuffer::CCByteBuffer(const CCByteBuffer& b) :
+m_buffer(NULL),
+m_readPos(0),
+m_writePos(0) {
+	reserve(b.m_bufferSize);
+	memcpy(b.m_buffer, m_buffer, b.m_writePos);
+	m_readPos = b.m_readPos;
+	m_writePos = b.m_writePos;
+}
+
 CCByteBuffer::~CCByteBuffer() {
 	CC_SAFE_FREE(m_buffer);
 }
@@ -62,7 +72,7 @@ void CCByteBuffer::reserve(size_t res) {
 	else
 		m_buffer = (uint8*)malloc(res);
 	
-	m_buffersize = res;
+	m_bufferSize = res;
 }
 
 template<typename T>
@@ -84,6 +94,10 @@ size_t CCByteBuffer::read(uint8 * buffer, size_t len) {
 }
 
 void CCByteBuffer::read(string& dest) {
+	readCString(dest);
+}
+
+void CCByteBuffer::readCString(string& dest) {
 	dest.clear();
 	char c;
 	while(true)	{
@@ -91,6 +105,14 @@ void CCByteBuffer::read(string& dest) {
 		if(c == 0)
 			break;
 		dest += c;
+	}
+}
+
+void CCByteBuffer::readPascalString(string& dest) {
+	dest.clear();
+	uint16 len = read<uint16>();
+	while(len-- > 0) {
+		dest += read<char>();
 	}
 }
 
@@ -153,7 +175,7 @@ size_t CCByteBuffer::writeMap(const map<K, V>& m) {
 template<typename T>
 void CCByteBuffer::write(const T& data) {
 	size_t new_size = m_writePos + sizeof(T);
-	if(new_size > m_buffersize) {
+	if(new_size > m_bufferSize) {
 		new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;
 		reserve(new_size);
 	}
@@ -164,7 +186,7 @@ void CCByteBuffer::write(const T& data) {
 
 void CCByteBuffer::write(const uint8* data, size_t size) {
 	size_t new_size = m_writePos + size;
-	if(new_size > m_buffersize) {
+	if(new_size > m_bufferSize) {
 		new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;
 		reserve(new_size);
 	}
@@ -174,9 +196,20 @@ void CCByteBuffer::write(const uint8* data, size_t size) {
 }
 
 void CCByteBuffer::write(const string& value) {
+	writeCString(value);
+}
+
+void CCByteBuffer::writeCString(const string& value) {
 	ensureCanWrite(value.length() + 1);
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length() + 1);
 	m_writePos += (value.length() + 1);
+}
+
+void CCByteBuffer::writePascalString(const string& value) {
+	ensureCanWrite(value.length() + sizeof(uint16));
+	write<uint16>(value.length());
+	memcpy(&m_buffer[m_writePos], value.c_str(), value.length());
+	m_writePos += value.length();
 }
 
 void CCByteBuffer::skip(size_t len) {
@@ -187,7 +220,7 @@ void CCByteBuffer::skip(size_t len) {
 
 void CCByteBuffer::ensureCanWrite(uint32 size) {
 	size_t new_size = m_writePos + size;
-	if(new_size > m_buffersize) {
+	if(new_size > m_bufferSize) {
 		new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;
 		reserve(new_size);
 	}

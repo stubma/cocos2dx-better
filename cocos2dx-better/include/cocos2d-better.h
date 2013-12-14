@@ -121,5 +121,6 @@
 #include "CCNetworkCommon.h"
 #include "CCByteBuffer.h"
 #include "CCTCPSocket.h"
+#include "CCTCPSocketManager.h"
 
 #endif // __cocos2d_better_h__

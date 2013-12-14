@@ -67,10 +67,6 @@ typedef bool (*ProAllFunc)(int, int, CCByteBuffer&);    // 接收所有协议，
 typedef void (*ProFunc)(int, CCByteBuffer&);    // 接收单个协议，@socket标识,@数据包
 typedef void (*sckFunc)(int);    // 连接成功/断开事件
 
-#define SCT_CALLBACK_1(func, _Object) std::bind(&func,_Object, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)
-#define SCT_CALLBACK_2(func, _Object) std::bind(&func,_Object, std::placeholders::_1, std::placeholders::_2)
-#define SCT_CALLBACK_3(func, _Object) std::bind(&func,_Object, std::placeholders::_1)
-
 NS_CC_END
 
 #endif //__CCTCPSocket_h__

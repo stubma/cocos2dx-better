@@ -37,6 +37,9 @@ NS_CC_BEGIN
  */
 class CC_DLL CCTCPSocketHub : public CCNode {
 private:
+	// buffer
+	char m_buffer[kCCSocketMaxPacketSize];
+	
 	typedef vector<CCTCPSocket*> CCTCPSocketList;
 	CCTCPSocketList m_lstSocket;
 	

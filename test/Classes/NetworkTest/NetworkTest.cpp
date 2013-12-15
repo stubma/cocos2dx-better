@@ -154,9 +154,10 @@ void NetworkTCP::onEnter()
 	addChild(menu);
 	
 	// change ip to your server
+	// registerCallback must be invoked before createSocket otherwise connect event is lost
 	m_hub = CCTCPSocketHub::create();
-	m_hub->createSocket("192.168.1.104", 6000, 1);
 	m_hub->registerCallback(1, this);
+	m_hub->createSocket("192.168.1.104", 6000, 1);
 	addChild(m_hub);
 }
 

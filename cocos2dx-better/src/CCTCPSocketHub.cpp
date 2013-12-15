@@ -114,12 +114,11 @@ void CCTCPSocketHub::update(float delta) {
 		}
 		
 		while (true) {
-			char buffer[kCCSocketMaxPacketSize] = {0};
-			int read = pSocket->receiveData(buffer, kCCSocketMaxPacketSize);
+			int read = pSocket->receiveData(m_buffer, kCCSocketMaxPacketSize);
 			if (read <= 0)
 				break;
 			CCByteBuffer packet;
-			packet.write((uint8*)buffer, read);
+			packet.write((uint8*)m_buffer, read);
 			
 			CCTCPSocketListener* l = getListener(tag);
 			if(l) {

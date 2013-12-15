@@ -32,6 +32,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+using namespace std;
+
 NS_CC_BEGIN
 
 #define kCCSocketMaxPacketSize (16 * 1024)

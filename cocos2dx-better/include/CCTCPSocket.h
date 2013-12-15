@@ -37,8 +37,7 @@ using namespace std;
 NS_CC_BEGIN
 
 /**
- * TCP socket client. Data in read buffer has a length header, i.e., first two
- * bytes is data packet length
+ * TCP socket
  */
 class CC_DLL CCTCPSocket : public CCObject {
 private:

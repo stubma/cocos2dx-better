@@ -11,6 +11,7 @@ USING_NS_CC;
 enum
 {
     NETWORK_TCP = 0,
+	NETWORK_UDP,
     NETWORK_LAYER_COUNT,
 };
 
@@ -55,6 +56,25 @@ public:
 	virtual void onTCPSocketConnected(int tag);
 	virtual void onTCPSocketDisconnected(int tag);
 	virtual void onTCPSocketData(int tag, CCByteBuffer& bb);
+};
+
+class NetworkUDP : public NetworkDemo, public CCUDPSocketListener
+{
+private:
+	CCUDPSocketHub* m_hub;
+	CCLabelTTF* m_recv;
+	
+private:
+	void onSendClicked(CCObject* sender);
+	
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	
+	// CCUDPSocketListener
+	virtual void onUDPSocketClosed(int tag);
+	virtual void onUDPSocketBound(int tag);
+	virtual void onUDPSocketData(int tag, CCByteBuffer& bb);
 };
 
 #endif

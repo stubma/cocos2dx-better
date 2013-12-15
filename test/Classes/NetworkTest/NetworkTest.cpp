@@ -4,9 +4,11 @@
 #include "cocos2d-better.h"
 
 TESTLAYER_CREATE_FUNC(NetworkTCP);
+TESTLAYER_CREATE_FUNC(NetworkUDP);
 
 static NEWTESTFUNC createFunctions[] = {
-    CF(NetworkTCP)
+    CF(NetworkTCP),
+	CF(NetworkUDP)
 };
 
 static int sceneIdx=-1;
@@ -197,4 +199,74 @@ void NetworkTCP::onTCPSocketData(int tag, CCByteBuffer& bb) {
 std::string NetworkTCP::subtitle()
 {
     return "TCP Socket - Echo Server";
+}
+
+//------------------------------------------------------------------
+//
+// UDP Socket
+//
+//------------------------------------------------------------------
+void NetworkUDP::onEnter()
+{
+    NetworkDemo::onEnter();
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	// to test this sample, find echoserver.py in server folder, run it with python
+	// you need install greenlet and gevent
+	CCMenuItemLabel* item1 = CCMenuItemLabel::create(CCLabelTTF::create("Send Hello", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()),
+													 this,
+													 menu_selector(NetworkUDP::onSendClicked));
+	item1->setPosition(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
+	
+	CCMenu* menu = CCMenu::create(item1, NULL);
+	menu->setAnchorPoint(CCPointZero);
+	menu->setPosition(CCPointZero);
+	addChild(menu);
+	
+	// received content
+	m_recv = CCLabelTTF::create("", "Helvetica", 20 / CC_CONTENT_SCALE_FACTOR());
+	m_recv->setPosition(ccp(origin.x + visibleSize.width / 2,
+							origin.y + visibleSize.height / 5));
+	addChild(m_recv);
+	
+	// change ip to your server
+	// registerCallback must be invoked before createSocket otherwise bound event is lost
+	m_hub = CCUDPSocketHub::create();
+	m_hub->registerCallback(1, this);
+	m_hub->createSocket("192.168.1.104", 9000, 1);
+	addChild(m_hub);
+}
+
+void NetworkUDP::onSendClicked(CCObject* sender) {
+	static int index = 0;
+	char buf[32];
+	sprintf(buf, "Hello: %d", index++);
+	CCByteBuffer packet;
+	packet.writeLine(buf);
+	m_hub->sendPacket(1, &packet);
+}
+
+void NetworkUDP::onUDPSocketBound(int tag) {
+	CCLOG("bound: %d", tag);
+}
+
+void NetworkUDP::onUDPSocketClosed(int tag) {
+	CCLOG("closed: %d", tag);
+}
+
+void NetworkUDP::onUDPSocketData(int tag, CCByteBuffer& bb) {
+	string ret;
+	bb.readLine(ret);
+	if(!ret.empty()) {
+		char buf[65535];
+		sprintf(buf, "Client get: %s", ret.c_str());
+		m_recv->setString(buf);
+	}
+}
+
+std::string NetworkUDP::subtitle()
+{
+    return "UDP Socket";
 }

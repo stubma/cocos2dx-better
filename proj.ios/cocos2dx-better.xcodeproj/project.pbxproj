@@ -87,6 +87,8 @@
 		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
+		92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */; };
+		92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */; };
 		92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */; };
 		92E8F4AD185BFF4D000A1D59 /* CCTCPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */; };
 		92F68E5918559EC100C97188 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4318559EC100C97188 /* Atomic.cpp */; };
@@ -364,6 +366,11 @@
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUDPSocket.cpp; sourceTree = "<group>"; };
+		92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocket.h; sourceTree = "<group>"; };
+		92D36590185D58710049AF37 /* CCUDPSocketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocketListener.h; sourceTree = "<group>"; };
+		92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUDPSocketHub.cpp; sourceTree = "<group>"; };
+		92D36594185D58D60049AF37 /* CCUDPSocketHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocketHub.h; sourceTree = "<group>"; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCByteBuffer.cpp; sourceTree = "<group>"; };
 		92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocketHub.cpp; sourceTree = "<group>"; };
@@ -930,6 +937,8 @@
 				92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */,
 				9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */,
 				92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */,
+				92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */,
+				92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -942,6 +951,9 @@
 				92662277185B42CF00DC8DEC /* CCByteBuffer.h */,
 				92662279185B437200DC8DEC /* CCNetworkCommon.h */,
 				92E8F4AF185C283B000A1D59 /* CCTCPSocketListener.h */,
+				92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */,
+				92D36594185D58D60049AF37 /* CCUDPSocketHub.h */,
+				92D36590185D58710049AF37 /* CCUDPSocketListener.h */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -1325,6 +1337,7 @@
 				924A8BC01856B45E00681A4D /* CCTween.cpp in Sources */,
 				92F68F261855BDE200C97188 /* CCAuroraLoader.cpp in Sources */,
 				9239690D185591DB0063E8A1 /* VolatileTexture_richlabel.cpp in Sources */,
+				92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */,
 				924A8BC41856B45E00681A4D /* CCBatchNode.cpp in Sources */,
 				92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */,
 				92396904185591DB0063E8A1 /* CCTexture2D_richlabel.cpp in Sources */,
@@ -1358,6 +1371,7 @@
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
 				923968ED185591DB0063E8A1 /* CCLayerMultiplexEx.cpp in Sources */,
 				923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
+				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,
 				92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */,
 				92F68F351855BDE200C97188 /* CCSPXFileData.cpp in Sources */,
 				92F68F2F1855BDE200C97188 /* CCSPX3Frame.cpp in Sources */,

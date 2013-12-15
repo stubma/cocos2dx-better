@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCTCPSocket_h__
-#define __CCTCPSocket_h__
+#ifndef __CCUDPSocket_h__
+#define __CCUDPSocket_h__
 
 #include "cocos2d.h"
 #include "CCByteBuffer.h"
@@ -36,51 +36,26 @@ using namespace std;
 
 NS_CC_BEGIN
 
-class CCTCPSocketHub;
-
 /**
- * TCP socket
+ * UDP socket
  */
-class CC_DLL CCTCPSocket : public CCObject {
-	friend class CCTCPSocketHub;
-	
+class CC_DLL CCUDPSocket : public CCObject {
 private:
 	/// socket handle
     int m_sock;
 	
-    /// write buffer
-    char m_outBuf[kCCSocketOutputBufferDefaultSize];
-	
-	/// writable data in write buffer
-    int m_outBufLen;
-	
-    /// read buffer, it is a loop buffer
-    char m_inBuf[kCCSocketInputBufferDefaultSize];
-	
-	/// available data in read buffer
-    int m_inBufLen;
-	
-	/// start reading pos of read buffer, between 0 and (size - 1)
-    int m_inBufStart;
-	
 	/// tag of this socket
     int m_tag;
 	
-	/// true means socket is connected
-	bool m_connected;
+	/// server address
+	sockaddr_in m_srvAddr;
 	
 private:
-	/// receive data from socket until no more data or buffer full, or error
-	bool recvFromSock();
-	
 	/// has error
     bool hasError();
 	
 	/// close socket
     void closeSocket();
-	
-	/// set connected flag
-	void setConnected(bool flag) { m_connected = flag; }
 	
 protected:
 	/**
@@ -90,14 +65,13 @@ protected:
 	 * @param port port
 	 * @param tag tag of socket
 	 * @param blockSec block time when create this socket, 0 means not block
-	 * @param keepAlive true means keep socket alive
 	 * @return true means initialization successful
 	 */
-    bool init(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout, bool keepAlive = false);
+    bool init(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout);
 	
 public:
-    CCTCPSocket();
-	virtual ~CCTCPSocket();
+	CCUDPSocket();
+	virtual ~CCUDPSocket();
 	
 	/**
 	 * create socket instance
@@ -106,10 +80,9 @@ public:
 	 * @param port port
 	 * @param tag tag of socket
 	 * @param blockSec block time when create this socket, 0 means not block
-	 * @param keepAlive true means keep socket alive
 	 * @return instance or NULL if failed
 	 */
-	static CCTCPSocket* create(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout, bool keepAlive = false);
+	static CCUDPSocket* create(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout);
 	
 	/**
 	 * send data in a buffer
@@ -122,18 +95,12 @@ public:
 	
 	/**
 	 * receive data and put into a buffer
-	 * 
+	 *
 	 * @param buf buffer large enough to hold data
 	 * @param size wanted data length
 	 * @return actual read data size, or -1 if fail to read a complete packet
 	 */
     int receiveData(void* buf, int size);
-	
-	/// flush write buffer, send them now
-    bool flush();
-	
-	/// check is there any data can be read
-    bool hasAvailable();
 	
 	/// destroy socket
     void destroy();
@@ -143,11 +110,8 @@ public:
     
 	/// get tag
     int getTag() { return m_tag; }
-	
-	/// is connected?
-	bool isConnected() { return m_connected; }
 };
 
 NS_CC_END
 
-#endif //__CCTCPSocket_h__
+#endif /* defined(__CCUDPSocket_h__) */

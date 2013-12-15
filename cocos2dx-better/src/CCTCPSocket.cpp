@@ -23,13 +23,11 @@
  ****************************************************************************/
 #include "CCTCPSocket.h"
 
-#define kCCSocketError -1
-#define kCCSocketInvalid -1
-
 NS_CC_BEGIN
 
 CCTCPSocket::CCTCPSocket() :
-m_sock(kCCSocketInvalid) {
+m_sock(kCCSocketInvalid),
+m_connected(false) {
     memset(m_outBuf, 0, sizeof(m_outBuf));
     memset(m_inBuf, 0, sizeof(m_inBuf));
 }
@@ -98,29 +96,34 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
         if (hasError()) {
             closeSocket();
             return false;
-        } else {
-            timeval timeout;
-            timeout.tv_sec = blockSec;
-            timeout.tv_usec = 0;
-            fd_set writeset, exceptset;
-            FD_ZERO(&writeset);
-            FD_ZERO(&exceptset);
-            FD_SET(m_sock, &writeset);
-            FD_SET(m_sock, &exceptset);
-			
-            int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
-            if (ret == 0 || ret < 0) {
-                closeSocket();
-                return false;
-            } else {
-                ret = FD_ISSET(m_sock, &exceptset);
-                if(ret) {
-                    closeSocket();
-                    return false;
-                }
-            }
         }
+		
+		// connected
+		if(errno != EINPROGRESS) {
+			m_connected = true;
+		}
     }
+	
+	// select it
+	timeval timeout;
+	timeout.tv_sec = blockSec;
+	timeout.tv_usec = 0;
+	fd_set writeset, exceptset;
+	FD_ZERO(&writeset);
+	FD_ZERO(&exceptset);
+	FD_SET(m_sock, &writeset);
+	FD_SET(m_sock, &exceptset);
+	int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
+	if (ret == 0 || ret < 0) {
+		closeSocket();
+		return false;
+	} else {
+		ret = FD_ISSET(m_sock, &exceptset);
+		if(ret) {
+			closeSocket();
+			return false;
+		}
+	}
 	
 	// reset buffer
     m_inBufLen = 0;
@@ -322,8 +325,6 @@ bool CCTCPSocket::hasAvailable() {
 	} else {
 		return true;
 	}
-	
-	return true;
 }
 
 void CCTCPSocket::destroy() {
@@ -336,6 +337,7 @@ void CCTCPSocket::destroy() {
 	
 	// reset
 	m_sock = kCCSocketInvalid;
+	m_connected = false;
 	m_inBufLen = 0;
 	m_inBufStart = 0;
 	m_outBufLen = 0;

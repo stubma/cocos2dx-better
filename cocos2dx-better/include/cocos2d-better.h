@@ -123,5 +123,8 @@
 #include "CCTCPSocketListener.h"
 #include "CCTCPSocket.h"
 #include "CCTCPSocketHub.h"
+#include "CCUDPSocket.h"
+#include "CCUDPSocketListener.h"
+#include "CCUDPSocketHub.h"
 
 #endif // __cocos2d_better_h__

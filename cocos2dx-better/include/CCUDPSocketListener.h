@@ -21,38 +21,23 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCNetworkCommon_h__
-#define __CCNetworkCommon_h__
+#ifndef __CCUDPSocketListener_h__
+#define __CCUDPSocketListener_h__
 
-// type
-#if !defined(__GNUC__)
-typedef signed __int64 int64;
-typedef signed __int32 int32;
-typedef signed __int16 int16;
-typedef signed __int8 int8;
-typedef unsigned __int64 uint64;
-typedef unsigned __int32 uint32;
-typedef unsigned __int16 uint16;
-typedef unsigned __int8 uint8;
-typedef float Real;
-#else
-typedef int64_t int64;
-typedef int32_t int32;
-typedef int16_t int16;
-typedef int8_t int8;
-typedef uint64_t uint64;
-typedef uint32_t uint32;
-typedef uint16_t uint16;
-typedef uint8_t uint8;
-typedef uint32_t DWORD;
-typedef float Real;
-#endif // #if !defined(__GNUC__)
+#include "cocos2d.h"
 
-#define kCCSocketMaxPacketSize (16 * 1024)
-#define kCCSocketDefaultTimeout 30
-#define kCCSocketInputBufferDefaultSize (64 * 1024)
-#define kCCSocketOutputBufferDefaultSize (8 * 1024)
-#define kCCSocketError -1
-#define kCCSocketInvalid -1
+NS_CC_BEGIN
 
-#endif // __CCNetworkCommon_h__
+class CCByteBuffer;
+
+/// interface to listen udp socket event
+class CC_DLL CCUDPSocketListener {
+public:
+	virtual void onUDPSocketBound(int tag) = 0;
+	virtual void onUDPSocketClosed(int tag) = 0;
+	virtual void onUDPSocketData(int tag, CCByteBuffer& bb) = 0;
+};
+
+NS_CC_END
+
+#endif // __CCUDPSocketListener_h__

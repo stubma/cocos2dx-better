@@ -21,47 +21,47 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCTCPSocketHub.h"
+#include "CCUDPSocketHub.h"
 
 NS_CC_BEGIN
 
-CCTCPSocketHub::CCTCPSocketHub() {
+CCUDPSocketHub::CCUDPSocketHub() {
 	scheduleUpdate();
 };
 
-CCTCPSocketHub::~CCTCPSocketHub() {
+CCUDPSocketHub::~CCUDPSocketHub() {
 	CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
 	s->unscheduleUpdateForTarget(this);
 	
-	for (CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++iter) {
+	for (CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++iter) {
 		int tag = (*iter)->getTag();
 		CC_SAFE_RELEASE(*iter);
-		CCTCPSocketListener* l = getListener(tag);
+		CCUDPSocketListener* l = getListener(tag);
 		if(l) {
-			l->onTCPSocketDisconnected(tag);
+			l->onUDPSocketClosed(tag);
 		}
 	}
 }
 
-CCTCPSocketHub* CCTCPSocketHub::create() {
-	CCTCPSocketHub* h = new CCTCPSocketHub();
-	return (CCTCPSocketHub*)h->autorelease();
+CCUDPSocketHub* CCUDPSocketHub::create() {
+	CCUDPSocketHub* h = new CCUDPSocketHub();
+	return (CCUDPSocketHub*)h->autorelease();
 }
 
-CCTCPSocket* CCTCPSocketHub::createSocket(const string& hostname, int port, int tag, int blockSec, bool keepAlive) {
-	CCTCPSocket* s = CCTCPSocket::create(hostname, port, tag, blockSec, keepAlive);
-	if (s && addSocket(s) && s->isConnected()) {
-		CCTCPSocketListener* l = getListener(tag);
+CCUDPSocket* CCUDPSocketHub::createSocket(const string& hostname, int port, int tag, int blockSec) {
+	CCUDPSocket* s = CCUDPSocket::create(hostname, port, tag, blockSec);
+	if (s && addSocket(s)) {
+		CCUDPSocketListener* l = getListener(tag);
 		if(l) {
-			l->onTCPSocketConnected(tag);
+			l->onUDPSocketBound(tag);
 		}
 	}
 	
 	return s;
 }
 
-CCTCPSocketListener* CCTCPSocketHub::getListener(int tag) {
-	CCTCPSocketListenerMap::iterator iter = m_listenerMap.find(tag);
+CCUDPSocketListener* CCUDPSocketHub::getListener(int tag) {
+	CCUDPSocketListenerMap::iterator iter = m_listenerMap.find(tag);
 	if(iter != m_listenerMap.end()) {
 		return iter->second;
 	} else {
@@ -69,8 +69,8 @@ CCTCPSocketListener* CCTCPSocketHub::getListener(int tag) {
 	}
 }
 
-bool CCTCPSocketHub::addSocket(CCTCPSocket* socket) {
-	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
+bool CCUDPSocketHub::addSocket(CCUDPSocket* socket) {
+	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		if((*iter)->getSocket() == socket->getSocket())
 			return false;
 	}
@@ -79,8 +79,8 @@ bool CCTCPSocketHub::addSocket(CCTCPSocket* socket) {
 	return true;
 }
 
-bool CCTCPSocketHub::removeSocket(int tag) {
-	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
+bool CCUDPSocketHub::removeSocket(int tag) {
+	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		if((*iter)->getTag() == tag) {
 			CC_SAFE_RELEASE(*iter);
 			m_lstSocket.erase(iter);
@@ -90,8 +90,8 @@ bool CCTCPSocketHub::removeSocket(int tag) {
 	return false;
 }
 
-CCTCPSocket* CCTCPSocketHub::getSocket(int tag) {
-	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
+CCUDPSocket* CCUDPSocketHub::getSocket(int tag) {
+	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		if((*iter)->getTag() == tag) {
 			return *iter;
 		}
@@ -99,26 +99,10 @@ CCTCPSocket* CCTCPSocketHub::getSocket(int tag) {
 	return NULL;
 }
 
-void CCTCPSocketHub::update(float delta) {
-	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
-		CCTCPSocket* pSocket = *iter;
+void CCUDPSocketHub::update(float delta) {
+	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
+		CCUDPSocket* pSocket = *iter;
 		int tag = pSocket->getTag();
-		if (!pSocket->hasAvailable()) {
-			if(pSocket->isConnected()) {
-				pSocket->setConnected(false);
-				CCTCPSocketListener* l = getListener(tag);
-				if(l)
-					l->onTCPSocketDisconnected(tag);
-			}
-			CC_SAFE_RELEASE(*iter);
-			m_lstSocket.erase(iter);
-			break;
-		} else if(!pSocket->isConnected()) {
-			pSocket->setConnected(true);
-			CCTCPSocketListener* l = getListener(tag);
-			if(l)
-				l->onTCPSocketConnected(tag);
-		}
 		
 		while (true) {
 			int read = pSocket->receiveData(m_buffer, kCCSocketMaxPacketSize);
@@ -127,36 +111,35 @@ void CCTCPSocketHub::update(float delta) {
 			CCByteBuffer packet;
 			packet.write((uint8*)m_buffer, read);
 			
-			CCTCPSocketListener* l = getListener(tag);
+			CCUDPSocketListener* l = getListener(tag);
 			if(l) {
-				l->onTCPSocketData(tag, packet);
+				l->onUDPSocketData(tag, packet);
 			}
 		}
 	}
 }
 
-void CCTCPSocketHub::registerCallback(int tag, CCTCPSocketListener* callback) {
+void CCUDPSocketHub::registerCallback(int tag, CCUDPSocketListener* callback) {
 	m_listenerMap[tag] = callback;
 }
 
-bool CCTCPSocketHub::sendPacket(int tag, CCByteBuffer* packet) {
-	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
+bool CCUDPSocketHub::sendPacket(int tag, CCByteBuffer* packet) {
+	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		if ((*iter)->getTag() == tag) {
 			(*iter)->sendData((void*)packet->getBuffer(), packet->available());
-			return (*iter)->flush();
 		}
 	}
 	
 	return false;
 }
 
-void CCTCPSocketHub::disconnect(int tag) {
-	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
+void CCUDPSocketHub::disconnect(int tag) {
+	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		if((*iter)->getTag() == tag) {
 			(*iter)->destroy();
-			CCTCPSocketListener* l = getListener(tag);
+			CCUDPSocketListener* l = getListener(tag);
 			if(l) {
-				l->onTCPSocketDisconnected(tag);
+				l->onUDPSocketClosed(tag);
 			}
 			break;
 		}

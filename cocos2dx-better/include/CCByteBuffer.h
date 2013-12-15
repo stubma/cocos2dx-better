@@ -36,9 +36,16 @@ NS_CC_BEGIN
  */
 class CC_DLL CCByteBuffer : public CCObject {
 protected:
+	/// buffer pointer
     uint8* m_buffer;
+	
+	/// read position
     size_t m_readPos;
+	
+	/// write position
     size_t m_writePos;
+	
+	/// buffer memory size
     uint32 m_bufferSize;
 	
 protected:
@@ -73,7 +80,9 @@ public:
     /// Gets the readable content size.
     uint32 available() { return m_writePos; }
 	
-    /** Reads sizeof(T) bytes from the buffer
+    /** 
+	 * Reads sizeof(T) bytes from the buffer
+	 *
      * @return the bytes read
      */
     template<typename T> T read();

@@ -36,11 +36,6 @@ using namespace std;
 
 NS_CC_BEGIN
 
-#define kCCSocketMaxPacketSize (16 * 1024)
-#define kCCSocketDefaultTimeout 30
-#define kCCSocketInputBufferDefaultSize (64 * 1024)
-#define kCCSocketOutputBufferDefaultSize (8 * 1024)
-
 /**
  * TCP socket client. Data in read buffer has a length header, i.e., first two
  * bytes is data packet length

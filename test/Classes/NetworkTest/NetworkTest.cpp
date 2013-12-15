@@ -141,8 +141,8 @@ void NetworkTCP::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
-	// you can run a echo server to test the tcp socket
-	// you can find a echo server demo in gevent samples
+	// to test this sample, find echoserver.py in server folder, run it with python
+	// you need install greenlet and gevent
 	CCMenuItemLabel* item1 = CCMenuItemLabel::create(CCLabelTTF::create("Send Hello", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()),
 													 this,
 													 menu_selector(NetworkTCP::onSendClicked));
@@ -153,6 +153,7 @@ void NetworkTCP::onEnter()
 	menu->setPosition(CCPointZero);
 	addChild(menu);
 	
+	// change ip to your server
 	m_hub = CCTCPSocketHub::create();
 	m_hub->createSocket("192.168.1.104", 6000, 1);
 	m_hub->registerCallback(1, this);
@@ -182,5 +183,5 @@ void NetworkTCP::onTCPSocketData(int tag, CCByteBuffer& bb) {
 
 std::string NetworkTCP::subtitle()
 {
-    return "TCP Socket";
+    return "TCP Socket - Echo Server";
 }

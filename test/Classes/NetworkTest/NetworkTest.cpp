@@ -153,6 +153,12 @@ void NetworkTCP::onEnter()
 	menu->setPosition(CCPointZero);
 	addChild(menu);
 	
+	// received content
+	m_recv = CCLabelTTF::create("", "Helvetica", 20 / CC_CONTENT_SCALE_FACTOR());
+	m_recv->setPosition(ccp(origin.x + visibleSize.width / 2,
+							origin.y + visibleSize.height / 5));
+	addChild(m_recv);
+	
 	// change ip to your server
 	// registerCallback must be invoked before createSocket otherwise connect event is lost
 	m_hub = CCTCPSocketHub::create();
@@ -162,8 +168,11 @@ void NetworkTCP::onEnter()
 }
 
 void NetworkTCP::onSendClicked(CCObject* sender) {
+	static int index = 0;
+	char buf[32];
+	sprintf(buf, "Hello: %d", index++);
 	CCByteBuffer packet;
-	packet.writeLine("Hello");
+	packet.writeLine(buf);
 	m_hub->sendPacket(1, &packet);
 }
 
@@ -178,8 +187,11 @@ void NetworkTCP::onTCPSocketDisconnected(int tag) {
 void NetworkTCP::onTCPSocketData(int tag, CCByteBuffer& bb) {
 	string ret;
 	bb.readLine(ret);
-	if(!ret.empty())
-		CCLOG("get data: %s", ret.c_str());
+	if(!ret.empty()) {
+		char buf[65535];
+		sprintf(buf, "Client get: %s", ret.c_str());
+		m_recv->setString(buf);
+	}
 }
 
 std::string NetworkTCP::subtitle()

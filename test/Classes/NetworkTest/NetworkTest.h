@@ -42,6 +42,7 @@ class NetworkTCP : public NetworkDemo, public CCTCPSocketListener
 {
 private:
 	CCTCPSocketHub* m_hub;
+	CCLabelTTF* m_recv;
 	
 private:
 	void onSendClicked(CCObject* sender);

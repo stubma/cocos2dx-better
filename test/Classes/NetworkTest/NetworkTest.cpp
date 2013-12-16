@@ -213,7 +213,7 @@ void NetworkUDP::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
-	// to test this sample, find echoserver.py in server folder, run it with python
+	// to test this sample, find udp_server.py in server folder, run it with python
 	// you need install greenlet and gevent
 	CCMenuItemLabel* item1 = CCMenuItemLabel::create(CCLabelTTF::create("Send Hello", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()),
 													 this,

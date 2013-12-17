@@ -1375,6 +1375,6 @@ void CCUtils::sendBroadcast(jobject intent) {
     t.env->DeleteLocalRef(ctx);
 }
 
-#endif
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 NS_CC_END

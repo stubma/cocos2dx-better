@@ -30,6 +30,10 @@ NS_CC_BEGIN
 
 /**
  * In general, class with Ex suffix is my workaround for cocos2d design defect
+ * This class is a new implementation for CCLayerMultiplex and it use setVisible
+ * to control sub layer visibility. Original class use addChild/removeChild and that
+ * is defective because sub layer may lose onExit event. Maybe you don't think losing
+ * onExit matters but in some situation it causes memory leak.
  */
 class CC_DLL CCLayerMultiplexEx : public CCLayer {
 protected:

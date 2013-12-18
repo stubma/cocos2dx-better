@@ -402,6 +402,7 @@ public:
     // for activity starting
     static jobject newIntent(const char* activityName);
     static jobject newIntentByAction(const char* action);
+    static void setIntentUri(jobject intent, const char* uri);
     static void putBooleanExtra(jobject intent, const char* name, bool value);
     static void putByteExtra(jobject intent, const char* name, unsigned char value);
     static void putCharExtra(jobject intent, const char* name, unsigned short value);

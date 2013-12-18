@@ -1279,6 +1279,17 @@ jobject CCUtils::newIntentByAction(const char* action) {
     return intent;
 }
 
+void CCUtils::setIntentUri(jobject intent, const char* uri) {
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;");
+    jstring jUriStr = t.env->NewStringUTF(uri);
+    jobject jUri = t.env->CallStaticObjectMethod(t.classID, t.methodID, jUriStr);
+    JniHelper::getMethodInfo(t, "android/content/Intent", "setData", "(Landroid/net/Uri;)Landroid/content/Intent;");
+    t.env->CallObjectMethod(intent, t.methodID, jUri);
+    t.env->DeleteLocalRef(jUri);
+    t.env->DeleteLocalRef(jUriStr);
+}
+
 void CCUtils::putBooleanExtra(jobject intent, const char* name, bool value) {
     JniMethodInfo t;
     JniHelper::getMethodInfo(t, "android/content/Intent", "putExtra", "(Ljava/lang/String;Z)Landroid/content/Intent;");

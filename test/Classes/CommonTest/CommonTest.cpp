@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 
 TESTLAYER_CREATE_FUNC(CommonCalendar);
+TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
 TESTLAYER_CREATE_FUNC(CommonClipInOut);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonLocale);
@@ -22,6 +23,7 @@ TESTLAYER_CREATE_FUNC(CommonTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
     CF(CommonCalendar),
+    CF(CommonCatmullRomSprite),
     CF(CommonClipInOut),
 	CF(CommonGradientSprite),
 	CF(CommonLocale),
@@ -193,6 +195,33 @@ void CommonCalendar::onEnter()
 std::string CommonCalendar::subtitle()
 {
     return "Calendar";
+}
+
+//------------------------------------------------------------------
+//
+// CatmullRom Sprite
+//
+//------------------------------------------------------------------
+void CommonCatmullRomSprite::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CCCatmullRomSprite* curve1 = CCCatmullRomSprite::create("Images/line_pattern.png");
+    curve1->setPosition(CCPointZero);
+    curve1->addControlPoint(ccp(origin.x + 10, origin.y + 10));
+    curve1->addControlPoint(ccp(origin.x + 100, origin.y + 100));
+//    curve1->addControlPoint(ccp(origin.x + 200, origin.y + 20));
+//    curve1->addControlPoint(ccp(origin.x + 300, origin.y + 220));
+//    curve1->addControlPoint(ccp(origin.x + 150, origin.y + 80));
+    addChild(curve1);
+}
+
+std::string CommonCatmullRomSprite::subtitle()
+{
+    return "CatmullRom Sprite";
 }
 
 //------------------------------------------------------------------

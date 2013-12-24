@@ -27,6 +27,7 @@
 // common
 #include "CCMoreMacros.h"
 #include "ccMoreTypes.h"
+#include "CCPointList.h"
 #include "CCUtils.h"
 #include "CCMD5.h"
 #include "CCScroller.h"
@@ -64,6 +65,7 @@
 #include "CCClipIn.h"
 #include "CCClipOut.h"
 #include "CCProgressHUD.h"
+#include "CCCatmullRomSprite.h"
 
 // db
 #include "CCDatabase.h"

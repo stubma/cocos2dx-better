@@ -84,6 +84,15 @@ static inline ccPoint ccptAdd(const ccPoint& p1, const ccPoint& p2) {
 static inline CCPoint ccp2CCP(const ccPoint& p) {
     return ccp(p.x, p.y);
 }
+static inline ccPoint ccptSub(const ccPoint& p1, const ccPoint& p2) {
+    return ccpt(p1.x - p2.x, p1.y - p2.y);
+}
+static inline float ccptLengthSQ(const ccPoint& p) {
+    return p.x * p.x + p.y * p.y;
+}
+static inline float ccptLength(const ccPoint& p) {
+    return sqrtf(ccptLengthSQ(p));
+}
 
 // rect struct
 typedef struct ccRect { float x, y, width, height; } ccRect;

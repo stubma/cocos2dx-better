@@ -27,9 +27,9 @@
 NS_CC_BEGIN
 
 CCTiledSprite::CCTiledSprite(CCSprite* sprite) :
-		m_sprite(NULL),
-		m_dirty(false),
-		m_atlas(NULL) {
+m_sprite(NULL),
+m_dirty(false),
+m_atlas(NULL) {
 	CCAssert(sprite != NULL, "CCTiledSprite doesn't accept NULL sprite");
 			
 	// save sprite

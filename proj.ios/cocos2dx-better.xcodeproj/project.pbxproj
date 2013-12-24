@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
+		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
 		923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */; };
 		923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */; };
 		923968DF185591DB0063E8A1 /* CCAssetInputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */; };
@@ -193,6 +195,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCatmullRomSprite.cpp; sourceTree = "<group>"; };
+		9222C628186925F600226B34 /* CCCatmullRomSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCatmullRomSprite.h; sourceTree = "<group>"; };
+		9222C62D18693F3200226B34 /* CCPointList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPointList.cpp; sourceTree = "<group>"; };
+		9222C62F18693F4000226B34 /* CCPointList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPointList.h; sourceTree = "<group>"; };
 		9239686E185591DB0063E8A1 /* CCAssetInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream.h; sourceTree = "<group>"; };
 		9239686F185591DB0063E8A1 /* CCAssetOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream.h; sourceTree = "<group>"; };
 		92396870185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
@@ -608,6 +614,7 @@
 				92396885185591DB0063E8A1 /* CCResourceLoader.h */,
 				92396886185591DB0063E8A1 /* CCResourceLoaderListener.h */,
 				92396889185591DB0063E8A1 /* CCScroller.h */,
+				9222C62F18693F4000226B34 /* CCPointList.h */,
 				92396895185591DB0063E8A1 /* CCUtils.h */,
 				92396896185591DB0063E8A1 /* CCVelocityTracker.h */,
 			);
@@ -629,6 +636,7 @@
 				9239688D185591DB0063E8A1 /* CCSpriteEx.h */,
 				92396890185591DB0063E8A1 /* CCTextureAtlasEx.h */,
 				92396891185591DB0063E8A1 /* CCTiledSprite.h */,
+				9222C628186925F600226B34 /* CCCatmullRomSprite.h */,
 				92396892185591DB0063E8A1 /* CCToast.h */,
 			);
 			name = ui;
@@ -669,6 +677,7 @@
 				923968BC185591DB0063E8A1 /* CCResourceLoader.cpp */,
 				923968C1185591DB0063E8A1 /* CCScroller.cpp */,
 				923968D1185591DB0063E8A1 /* CCUtils.cpp */,
+				9222C62D18693F3200226B34 /* CCPointList.cpp */,
 				923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */,
 			);
 			name = util;
@@ -694,6 +703,7 @@
 				923968C4185591DB0063E8A1 /* CCSimpleRookieGuide.cpp */,
 				923968C5185591DB0063E8A1 /* CCSpriteEx.cpp */,
 				923968CD185591DB0063E8A1 /* CCTiledSprite.cpp */,
+				9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */,
 				923968CE185591DB0063E8A1 /* CCToast.cpp */,
 			);
 			name = ui;
@@ -1310,6 +1320,7 @@
 				924A8BC51856B45E00681A4D /* CCDecorativeDisplay.cpp in Sources */,
 				92F68E901855ACE400C97188 /* CCJSONParser.cpp in Sources */,
 				923968E8185591DB0063E8A1 /* CCDrawingPrimitivesEx.cpp in Sources */,
+				9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */,
 				923968F2185591DB0063E8A1 /* CCMemoryInputStream.cpp in Sources */,
 				92F68F251855BDE200C97188 /* CCAuroraFileData.cpp in Sources */,
 				92F68F281855BDE200C97188 /* CCAuroraSprite.cpp in Sources */,
@@ -1376,6 +1387,7 @@
 				92F68F351855BDE200C97188 /* CCSPXFileData.cpp in Sources */,
 				92F68F2F1855BDE200C97188 /* CCSPX3Frame.cpp in Sources */,
 				92F68EAF1855AD4400C97188 /* yajl_lex.c in Sources */,
+				9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */,
 				92F68F331855BDE200C97188 /* CCSPX3TileSet.cpp in Sources */,
 				924A8BC61856B45E00681A4D /* CCDisplayFactory.cpp in Sources */,
 				923968E6185591DB0063E8A1 /* CCClipIn.cpp in Sources */,

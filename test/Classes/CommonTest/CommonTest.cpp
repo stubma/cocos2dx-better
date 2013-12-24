@@ -213,7 +213,7 @@ void CommonCatmullRomSprite::onEnter()
     curve1->setPosition(CCPointZero);
     curve1->addControlPoint(ccp(origin.x + 10, origin.y + 10));
     curve1->addControlPoint(ccp(origin.x + 100, origin.y + 100));
-//    curve1->addControlPoint(ccp(origin.x + 200, origin.y + 20));
+//    curve1->addControlPoint(ccp(origin.x + 200, origin.y + 50));
 //    curve1->addControlPoint(ccp(origin.x + 300, origin.y + 220));
 //    curve1->addControlPoint(ccp(origin.x + 150, origin.y + 80));
     addChild(curve1);

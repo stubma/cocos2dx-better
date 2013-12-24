@@ -79,11 +79,9 @@ void CCPointList::deletePointAt(int index) {
 }
 
 CCPoint CCPointList::getPointAt(int index) const {
-	if(m_buffer) {
-		if(index < 0 || index >= m_count)
-			return CCPointZero;
-		else
-			return m_buffer[index];
+	if(m_count > 0) {
+		index = MAX(0, MIN(m_count - 1, index));
+		return m_buffer[index];
 	} else {
 		return CCPointZero;
 	}

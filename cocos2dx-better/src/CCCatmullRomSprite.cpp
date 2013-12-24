@@ -145,10 +145,6 @@ void CCCatmullRomSprite::updateAtlas() {
     m_points.addPoint(pAppend);
     pc++;
     
-    // get a copy of sprite coordinates
-	ccV3F_C4B_T2F_Quad originalQuad = m_sprite->getQuad();
-	ccV3F_C4B_T2F_Quad quad;
-    
     // first two points
     CCPoint p0 = m_points.getPointAt(0);
     CCPoint p1 = m_points.getPointAt(1);
@@ -169,6 +165,8 @@ void CCCatmullRomSprite::updateAtlas() {
     
     // current length
     float texStartP = 0;
+	float texEndP;
+	float headPos = 0;
     
     // populate quads
     for(int i = 2; i < pc; i++) {
@@ -178,22 +176,29 @@ void CCCatmullRomSprite::updateAtlas() {
         // to calculate the angle between y axis and enter angle split
         CCPoint v10 = ccpSub(p0, p1);
         CCPoint v12 = ccpSub(p2, p1);
-        float r = fabsf((ccpToAngle(v10) + ccpToAngle(v12))) / 2 - M_PI_2;
-        
-        // populate tl and tr
-        CCPoint br, tr;
-        br.x = p1.x - halfWidth * sinf(r);
-        br.y = p1.y - halfWidth * cosf(r);
-        tr.x = p1.x + halfWidth * sinf(r);
-        tr.y = p1.y + halfWidth * cosf(r);
+        float r = (ccpToAngle(v10) + ccpToAngle(v12)) / 2 + M_PI_2;
+		
+		// populate tl and tr
+		CCPoint br, tr;
+		if(p2.x > p1.x) {
+			br.x = p1.x - halfWidth * sinf(r);
+			br.y = p1.y + halfWidth * cosf(r);
+			tr.x = p1.x + halfWidth * sinf(r);
+			tr.y = p1.y - halfWidth * cosf(r);
+		} else {
+			br.x = p1.x + halfWidth * sinf(r);
+			br.y = p1.y - halfWidth * cosf(r);
+			tr.x = p1.x - halfWidth * sinf(r);
+			tr.y = p1.y + halfWidth * cosf(r);
+		}
 
         // calculate texcoords pencentage
         float segLen = ccpLength(v10);
-        float remainLen = segLen;
+		float remainLen = segLen;
         float initVerP = 0;
         float stepVerP = m_patternLength / segLen;
         while(remainLen > m_patternLength) {
-            float texEndP = texStartP;
+            texEndP = texStartP;
             float p = (1 - texStartP) / (1 - texStartP + texEndP);
             populateQuad(bl, br, tl, tr, texStartP, 1, initVerP, initVerP + stepVerP * p);
             populateQuad(bl, br, tl, tr, 0, texEndP, initVerP + stepVerP * p, initVerP + stepVerP);
@@ -204,7 +209,9 @@ void CCCatmullRomSprite::updateAtlas() {
         }
         
         // remaining length
-        float texEndP = remainLen / m_patternLength;
+		headPos += segLen;
+		headPos = fmodf(headPos, m_patternLength);
+        texEndP = headPos / m_patternLength;
         stepVerP = remainLen / segLen;
         if(texEndP <= texStartP) {
             float p = (1 - texStartP) / (1 - texStartP + texEndP);
@@ -246,7 +253,7 @@ void CCCatmullRomSprite::populateQuad(const CCPoint& bl, const CCPoint& br, cons
     quad.br.texCoords.u = blu * (1 - texEndP) + bru * texEndP;
     quad.tr.texCoords.u = tlu * (1 - texEndP) + tru * texEndP;
     
-    CCLOG("bl tex: %f, br tex: %f", quad.bl.texCoords.u, quad.br.texCoords.u);
+	CCLOG("bl: %f", quad.bl.vertices.x);
     
     // add quad
     while(m_atlas->getTotalQuads() >= m_atlas->getCapacity())

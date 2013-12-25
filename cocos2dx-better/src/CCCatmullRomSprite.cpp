@@ -156,11 +156,11 @@ void CCCatmullRomSprite::updateAtlas() {
     CCPoint bl, tl;
     {
         CCPoint v01 = ccpSub(p1, p0);
-        float radian = ccpToAngle(v01);
-        bl.x = p0.x + halfWidth * sinf(radian);
-        bl.y = p0.y - halfWidth * cosf(radian);
-        tl.x = p0.x - halfWidth * sinf(radian);
-        tl.y = p0.y + halfWidth * cosf(radian);
+        float r01 = ccpToAngle(v01);
+        bl.x = p0.x + halfWidth * sinf(r01);
+        bl.y = p0.y - halfWidth * cosf(r01);
+        tl.x = p0.x - halfWidth * sinf(r01);
+        tl.y = p0.y + halfWidth * cosf(r01);
     }
     
     // current length
@@ -174,26 +174,19 @@ void CCCatmullRomSprite::updateAtlas() {
         CCPoint p2 = m_points.getPointAt(i);
         
         // to calculate the angle between y axis and enter angle split
-        CCPoint v10 = ccpSub(p0, p1);
+        CCPoint v01 = ccpSub(p1, p0);
         CCPoint v12 = ccpSub(p2, p1);
-        float r = (ccpToAngle(v10) + ccpToAngle(v12)) / 2 + M_PI_2;
+        float r = (ccpToAngle(v01) + ccpToAngle(v12)) / 2 - M_PI_2;
 		
 		// populate tl and tr
 		CCPoint br, tr;
-		if(p2.x > p1.x) {
-			br.x = p1.x - halfWidth * sinf(r);
-			br.y = p1.y + halfWidth * cosf(r);
-			tr.x = p1.x + halfWidth * sinf(r);
-			tr.y = p1.y - halfWidth * cosf(r);
-		} else {
-			br.x = p1.x + halfWidth * sinf(r);
-			br.y = p1.y - halfWidth * cosf(r);
-			tr.x = p1.x - halfWidth * sinf(r);
-			tr.y = p1.y + halfWidth * cosf(r);
-		}
+        br.x = p1.x + halfWidth * cosf(r);
+        br.y = p1.y + halfWidth * sinf(r);
+        tr.x = p1.x - halfWidth * cosf(r);
+        tr.y = p1.y - halfWidth * sinf(r);
 
         // calculate texcoords pencentage
-        float segLen = ccpLength(v10);
+        float segLen = ccpLength(v01);
 		float remainLen = segLen;
         float initVerP = 0;
         float stepVerP = m_patternLength / segLen;

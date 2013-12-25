@@ -29,7 +29,7 @@ NS_CC_BEGIN
 CCCatmullRomSprite::CCCatmullRomSprite(CCSprite* sprite) :
 m_sprite(NULL),
 m_dirty(false),
-m_tension(0.5f),
+m_tension(0.9f),
 m_atlas(NULL) {
 	CCAssert(sprite != NULL, "CCCatmullRomSprite doesn't accept NULL sprite");
     
@@ -176,14 +176,21 @@ void CCCatmullRomSprite::updateAtlas() {
         // to calculate the angle between y axis and enter angle split
         CCPoint v01 = ccpSub(p1, p0);
         CCPoint v12 = ccpSub(p2, p1);
+        CCPoint v10 = ccpSub(p0, p1);
         float r = (ccpToAngle(v01) + ccpToAngle(v12)) / 2 - M_PI_2;
+        CCPoint m = ccp(cosf(r), sinf(r));
+        float rm01 = ccpToAngle(m) - ccpToAngle(v10);
+        float w = fabsf(halfWidth / sinf(rm01));
+        if(v01.x < 0 && SIGN(v01.x) == SIGN(v12.x) && SIGN(v01.y) != SIGN(v12.y)) {
+            r = M_PI + r;
+        }
 		
 		// populate tl and tr
 		CCPoint br, tr;
-        br.x = p1.x + halfWidth * cosf(r);
-        br.y = p1.y + halfWidth * sinf(r);
-        tr.x = p1.x - halfWidth * cosf(r);
-        tr.y = p1.y - halfWidth * sinf(r);
+        br.x = p1.x + w * cosf(r);
+        br.y = p1.y + w * sinf(r);
+        tr.x = p1.x - w * cosf(r);
+        tr.y = p1.y - w * sinf(r);
 
         // calculate texcoords pencentage
         float segLen = ccpLength(v01);

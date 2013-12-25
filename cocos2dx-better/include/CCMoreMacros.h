@@ -128,6 +128,9 @@ using namespace std;
 // max int
 #define MAX_INT 0x7fffffff
 
+// sign
+#define SIGN(x) ((x) >= 0 ? 1 : -1)
+
 // random to max, inclusive
 #define CCRANDOM_0_X_INT(x) ((int)(CCRANDOM_0_1() * (x) * 100) % ((x) + 1))
 #define CCRANDOM_X_Y_INT(x, y) (CCRANDOM_0_X_INT((y) - (x)) + (x))

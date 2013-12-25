@@ -29,7 +29,7 @@ NS_CC_BEGIN
 CCCatmullRomSprite::CCCatmullRomSprite(CCSprite* sprite) :
 m_sprite(NULL),
 m_dirty(false),
-m_tension(0.9f),
+m_tension(0.1f),
 m_atlas(NULL) {
 	CCAssert(sprite != NULL, "CCCatmullRomSprite doesn't accept NULL sprite");
     
@@ -173,14 +173,24 @@ void CCCatmullRomSprite::updateAtlas() {
         // third point
         CCPoint p2 = m_points.getPointAt(i);
         
-        // to calculate the angle between y axis and enter angle split
+        // 3 vectors, from 0 to 1, from 1 to 2, from 1 to 0
         CCPoint v01 = ccpSub(p1, p0);
         CCPoint v12 = ccpSub(p2, p1);
         CCPoint v10 = ccpSub(p0, p1);
+        
+        // angle in center of v01 and v12, then rotate 90 degrees
         float r = (ccpToAngle(v01) + ccpToAngle(v12)) / 2 - M_PI_2;
+        
+        // the vector of center divider
         CCPoint m = ccp(cosf(r), sinf(r));
+        
+        // angle between center and v10
         float rm01 = ccpToAngle(m) - ccpToAngle(v10);
+        
+        // the actual base width of joint
         float w = fabsf(halfWidth / sinf(rm01));
+        
+        // a corner situation when v01 is in third quadrant and v12 is in fourth quadrant
         if(v01.x < 0 && SIGN(v01.x) == SIGN(v12.x) && SIGN(v01.y) != SIGN(v12.y)) {
             r = M_PI + r;
         }

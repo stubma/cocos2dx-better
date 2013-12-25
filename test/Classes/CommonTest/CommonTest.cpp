@@ -209,19 +209,43 @@ void CommonCatmullRomSprite::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
     
-    CCCatmullRomSprite* curve1 = CCCatmullRomSprite::create("Images/line_pattern.png");
-    curve1->setPosition(CCPointZero);
-    curve1->addControlPoint(ccp(origin.x + 10, origin.y + 10));
-    curve1->addControlPoint(ccp(origin.x + 100, origin.y + 100));
-    curve1->addControlPoint(ccp(origin.x + 200, origin.y + 50));
-    curve1->addControlPoint(ccp(origin.x + 300, origin.y + 180));
-    curve1->addControlPoint(ccp(origin.x + 150, origin.y + 180));
-    addChild(curve1);
+    m_curve = CCCatmullRomSprite::create("Images/line_pattern.png");
+    m_curve->setPosition(CCPointZero);
+    m_curve->addControlPoint(ccp(origin.x + visibleSize.width / 20,
+                                origin.y + visibleSize.height / 10));
+    m_curve->addControlPoint(ccp(origin.x + visibleSize.width / 5,
+                                origin.y + visibleSize.height / 2));
+    addChild(m_curve);
+    
+    setTouchEnabled(true);
+    setTouchMode(kCCTouchesOneByOne);
+    
+    // hint
+    CCToast* t = CCToast::create(this, CCLabelTTF::create("Touch to add point", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()));
+    t->setPosition(ccp(origin.x + visibleSize.width / 2,
+                       origin.y + visibleSize.height / 5));
 }
 
 std::string CommonCatmullRomSprite::subtitle()
 {
     return "CatmullRom Sprite";
+}
+
+bool CommonCatmullRomSprite::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+    m_curve->addControlPoint(pTouch->getLocation());
+    return false;
+}
+
+void CommonCatmullRomSprite::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {
+    
+}
+
+void CommonCatmullRomSprite::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {
+    
+}
+
+void CommonCatmullRomSprite::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {
+    
 }
 
 //------------------------------------------------------------------

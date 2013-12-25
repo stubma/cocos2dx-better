@@ -53,6 +53,9 @@ CCToast* CCToast::create(CCNode* owner, CCNode* content, int tag, float duration
     
     // run action for content node
     if(inAction == NULL) {
+        CCNodeRGBA* n = dynamic_cast<CCNodeRGBA*>(content);
+        if(n)
+            n->setOpacity(0);
         inAction = CCFadeIn::create(0.5f);
     }
     if(outAction == NULL) {

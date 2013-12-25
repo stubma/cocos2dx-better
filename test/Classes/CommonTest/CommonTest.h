@@ -39,9 +39,17 @@ public:
 
 class CommonCatmullRomSprite : public CommonDemo
 {
+private:
+    CCCatmullRomSprite* m_curve;
+    
 public:
     virtual void onEnter();
     virtual string subtitle();
+    
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
 };
 
 class CommonClipInOut : public CommonDemo

@@ -169,6 +169,11 @@ public:
     
     /// ceil float for specified precision
     static double pceil(double x, int precision);
+    
+    /// linear interpolation for float
+    static float lerp(float a, float b, float p) {
+        return a * (1 - p) + b * p;
+    }
 	
 	/**
 	 * create intermediate folders for a path

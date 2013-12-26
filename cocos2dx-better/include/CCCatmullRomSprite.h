@@ -65,6 +65,18 @@ private:
     
     /// pattern width
     float m_patternWidth;
+    
+    /// segment point start index
+    vector<int> m_segmentPointIndices;
+    
+    /// segment quad start index
+    vector<int> m_segmentQuadIndices;
+    
+    /// segment visible flag list
+    map<int, bool> m_segmentVisibilities;
+    
+    /// true means all segments are visible
+    bool m_allVisible;
 	
 private:
 	/// update atlas
@@ -106,11 +118,26 @@ public:
      */
     void setControlPoints(CCPointArray& pa);
     
+    /// get control point count
+    int getControlPointCount() { return m_controlPoints.getCount(); }
+    
+    /// get segment count
+    int getSegmentCount() { return MAX(0, getControlPointCount() - 1); }
+    
+    /// set segment visibility
+    void setSegmentVisible(int sIndex, bool visible);
+    
+    /// is a segment visible? if index is invalid, it returns true
+    bool isSegmentVisible(int sIndex);
+    
+    /// clear segment visibility flag, set them all visible
+    void resetSegmentVisibility();
+    
     /// set tension of curve, the bigger it is, the more flat the curve is
     void setTension(float t);
 	
 	/// get internal sprite
-	CC_SYNTHESIZE_READONLY(CCSprite*, m_sprite, Sprite);
+	CC_SYNTHESIZE_READONLY(CCSprite*, m_sprite, PatternSprite);
 };
 
 NS_CC_END

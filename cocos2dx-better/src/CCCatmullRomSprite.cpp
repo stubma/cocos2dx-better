@@ -29,6 +29,7 @@ NS_CC_BEGIN
 CCCatmullRomSprite::CCCatmullRomSprite(CCSprite* sprite) :
 m_sprite(NULL),
 m_dirty(false),
+m_allVisible(true),
 m_tension(0.1f),
 m_atlas(NULL) {
 	CCAssert(sprite != NULL, "CCCatmullRomSprite doesn't accept NULL sprite");
@@ -105,8 +106,27 @@ void CCCatmullRomSprite::draw() {
     ccGLBlendFunc(bf.src, bf.dst);
 	
     // draw
-	if(m_atlas)
-		m_atlas->drawQuadsEx();
+	if(m_atlas) {
+        if(m_allVisible) {
+            m_atlas->drawQuadsEx();
+        } else {
+            int startIndex = 0;
+            int sc = getSegmentCount();
+            for(int i = 0; i < sc; i++) {
+                bool visible = isSegmentVisible(i);
+                if(!visible) {
+                    int endIndex = m_segmentQuadIndices[i];
+                    m_atlas->drawNumberOfQuadsEx(endIndex - startIndex, startIndex);
+                    startIndex = m_segmentQuadIndices[i + 1];
+                }
+            }
+            
+            // last
+            if(m_atlas->getTotalQuads() > startIndex) {
+                m_atlas->drawNumberOfQuadsEx(m_atlas->getTotalQuads() - startIndex, startIndex);
+            }
+        }
+    }
 	
 	// profile end
     CC_PROFILER_STOP_CATEGORY(kCCProfilerCategorySprite, "CCCatmullRomSprite - draw");
@@ -130,8 +150,9 @@ void CCCatmullRomSprite::updateAtlas() {
     // populate points
     populatePoints(m_controlPoints, m_points);
     
-    // clear atlas
+    // clear
 	m_atlas->removeAllQuads();
+    m_segmentQuadIndices.clear();
     
     // basic check, at least we need two points
     int pc = m_points.getCount();
@@ -169,7 +190,14 @@ void CCCatmullRomSprite::updateAtlas() {
 	float headPos = 0;
     
     // populate quads
+    int segIndex = 0;
     for(int i = 2; i < pc; i++) {
+        // save quad index
+        if(m_segmentPointIndices[segIndex] == i - 2) {
+            m_segmentQuadIndices.push_back(m_atlas->getTotalQuads());
+            segIndex++;
+        }
+        
         // third point
         CCPoint p2 = m_points.getPointAt(i);
         
@@ -288,10 +316,14 @@ void CCCatmullRomSprite::populateQuad(const CCPoint& bl, const CCPoint& br, cons
 void CCCatmullRomSprite::populatePoints(const CCPointList& controlPoints, CCPointList& points) {
     // clear
     points.clear();
+    m_segmentPointIndices.clear();
     
     // populate points segment by segment
     int totalSeg = controlPoints.getCount() - 1;
     for(int curSeg = 0; curSeg < totalSeg; curSeg++) {
+        // add start index of segment
+        m_segmentPointIndices.push_back(points.getCount());
+        
         // four control points
         CCPoint cp0 = controlPoints.getPointAt(curSeg - 1);
         CCPoint cp1 = controlPoints.getPointAt(curSeg);
@@ -314,11 +346,40 @@ void CCCatmullRomSprite::populatePoints(const CCPointList& controlPoints, CCPoin
     
     // last point
     points.addPoint(controlPoints.getPointAt(controlPoints.getCount() - 1));
+    
+    // last placeholder
+    m_segmentPointIndices[totalSeg] = points.getCount();
 }
 
 void CCCatmullRomSprite::setTension(float t) {
     m_tension = t;
     m_dirty = true;
+}
+
+bool CCCatmullRomSprite::isSegmentVisible(int sIndex) {
+    map<int, bool>::iterator iter = m_segmentVisibilities.find(sIndex);
+    if(iter != m_segmentVisibilities.end())
+        return iter->second;
+    else
+        return true;
+}
+
+void CCCatmullRomSprite::setSegmentVisible(int sIndex, bool visible) {
+    if(!visible) {
+        m_segmentVisibilities[sIndex] = visible;
+        m_allVisible = false;
+    } else {
+        map<int, bool>::iterator iter = m_segmentVisibilities.find(sIndex);
+        if(iter != m_segmentVisibilities.end()) {
+            m_segmentVisibilities.erase(iter);
+        }
+        m_allVisible = m_segmentVisibilities.empty();
+    }
+}
+
+void CCCatmullRomSprite::resetSegmentVisibility() {
+    m_segmentVisibilities.clear();
+    m_allVisible = true;
 }
 
 NS_CC_END

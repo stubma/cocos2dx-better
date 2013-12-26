@@ -348,7 +348,7 @@ void CCCatmullRomSprite::populatePoints(const CCPointList& controlPoints, CCPoin
     points.addPoint(controlPoints.getPointAt(controlPoints.getCount() - 1));
     
     // last placeholder
-    m_segmentPointIndices[totalSeg] = points.getCount();
+    m_segmentPointIndices.push_back(points.getCount());
 }
 
 void CCCatmullRomSprite::setTension(float t) {

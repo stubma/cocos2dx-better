@@ -108,8 +108,7 @@ void CCCatmullRomSprite::draw() {
     // draw
 	if(m_atlas) {
         if(m_allVisible) {
-            CCLOG("total quad: %d", m_atlas->getTotalQuads());
-//            m_atlas->drawQuadsEx();
+            m_atlas->drawQuadsEx();
         } else {
             int startIndex = 0;
             int sc = getSegmentCount();

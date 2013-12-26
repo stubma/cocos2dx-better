@@ -33,7 +33,7 @@ class CCTextureAtlasEx;
 
 /**
  * A node which can render a image pattern as a strip, the strip can be curve in
- * in any shape. The strip can be described by a series of points.
+ * in any shape. The strip can be described by a series of control points.
  *
  * \note
  * Because it is a curve, so this sprite has a zero content size. However you can
@@ -92,10 +92,18 @@ public:
     inline ccBlendFunc getBlendFunc(void) { return m_sprite->getBlendFunc(); }
 	virtual void draw();
     
-    /// add a control point to point list, cause sprite redraw
+    /**
+     * add a control point to point list, cause sprite redraw
+     * 
+     * @param p point to be added
+     */
     void addControlPoint(const CCPoint& p);
     
-    /// set a new point list, cause sprite redraw
+    /**
+     * set a new point list, cause sprite redraw
+     * 
+     * @param pa point list
+     */
     void setControlPoints(CCPointArray& pa);
     
     /// set tension of curve, the bigger it is, the more flat the curve is

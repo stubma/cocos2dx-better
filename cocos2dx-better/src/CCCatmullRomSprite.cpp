@@ -188,7 +188,12 @@ void CCCatmullRomSprite::updateAtlas() {
         float rm01 = ccpToAngle(m) - ccpToAngle(v10);
         
         // the actual base width of joint
-        float w = fabsf(halfWidth / sinf(rm01));
+        // but we must prevent the base width to be too large
+        float s = sinf(rm01);
+        float w = MAX_FLOAT;
+        if(s != 0)
+            w = fabsf(halfWidth / s);
+        w = MIN(halfWidth * 2, w);
         
         // a corner situation when v01 is in third quadrant and v12 is in fourth quadrant
         if(v01.x < 0 && SIGN(v01.x) == SIGN(v12.x) && SIGN(v01.y) != SIGN(v12.y)) {

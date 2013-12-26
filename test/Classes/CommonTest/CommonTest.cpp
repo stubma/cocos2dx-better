@@ -216,7 +216,9 @@ void CommonCatmullRomSprite::onEnter()
     m_curve->addControlPoint(ccp(origin.x + visibleSize.width / 5,
                                 origin.y + visibleSize.height / 2));
     addChild(m_curve);
-    m_curve->setSegmentVisible(2, false);
+    
+    // you can hide some segment
+//    m_curve->setSegmentVisible(2, false);
     
     setTouchEnabled(true);
     setTouchMode(kCCTouchesOneByOne);

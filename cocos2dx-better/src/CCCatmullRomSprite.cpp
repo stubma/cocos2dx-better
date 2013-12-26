@@ -108,7 +108,8 @@ void CCCatmullRomSprite::draw() {
     // draw
 	if(m_atlas) {
         if(m_allVisible) {
-            m_atlas->drawQuadsEx();
+            CCLOG("total quad: %d", m_atlas->getTotalQuads());
+//            m_atlas->drawQuadsEx();
         } else {
             int startIndex = 0;
             int sc = getSegmentCount();
@@ -277,14 +278,14 @@ void CCCatmullRomSprite::populateQuad(const CCPoint& bl, const CCPoint& br, cons
     ccV3F_C4B_T2F_Quad quad = m_sprite->getQuad();
     
     // vertices
-    quad.bl.vertices.x = bl.x * (1 - verStartP) + br.x * verStartP;
-    quad.bl.vertices.y = bl.y * (1 - verStartP) + br.y * verStartP;
-    quad.br.vertices.x = bl.x * (1 - verEndP) + br.x * verEndP;
-    quad.br.vertices.y = bl.y * (1 - verEndP) + br.y * verEndP;
-    quad.tl.vertices.x = tl.x * (1 - verStartP) + tr.x * verStartP;
-    quad.tl.vertices.y = tl.y * (1 - verStartP) + tr.y * verStartP;
-    quad.tr.vertices.x = tl.x * (1 - verEndP) + tr.x * verEndP;
-    quad.tr.vertices.y = tl.y * (1 - verEndP) + tr.y * verEndP;
+    quad.bl.vertices.x = CCUtils::lerp(bl.x, br.x, verStartP);
+    quad.bl.vertices.y = CCUtils::lerp(bl.y, br.y, verStartP);
+    quad.br.vertices.x = CCUtils::lerp(bl.x, br.x, verEndP);
+    quad.br.vertices.y = CCUtils::lerp(bl.y, br.y, verEndP);
+    quad.tl.vertices.x = CCUtils::lerp(tl.x, tr.x, verStartP);
+    quad.tl.vertices.y = CCUtils::lerp(tl.y, tr.y, verStartP);
+    quad.tr.vertices.x = CCUtils::lerp(tl.x, tr.x, verEndP);
+    quad.tr.vertices.y = CCUtils::lerp(tl.y, tr.y, verEndP);
     
     // save texcoords, bl and tl
     if(m_sprite->isTextureRectRotated()) {
@@ -292,19 +293,19 @@ void CCCatmullRomSprite::populateQuad(const CCPoint& bl, const CCPoint& br, cons
         float brv = quad.br.texCoords.v;
         float tlv = quad.tl.texCoords.v;
         float trv = quad.tr.texCoords.v;
-        quad.bl.texCoords.v = blv * (1 - texStartP) + brv * texStartP;
-        quad.tl.texCoords.v = tlv * (1 - texStartP) + trv * texStartP;
-        quad.br.texCoords.v = blv * (1 - texEndP) + brv * texEndP;
-        quad.tr.texCoords.v = tlv * (1 - texEndP) + trv * texEndP;
+        quad.bl.texCoords.v = CCUtils::lerp(blv, brv, texStartP);
+        quad.tl.texCoords.v = CCUtils::lerp(tlv, trv, texStartP);
+        quad.br.texCoords.v = CCUtils::lerp(blv, brv, texEndP);
+        quad.tr.texCoords.v = CCUtils::lerp(tlv, trv, texEndP);
     } else {
         float blu = quad.bl.texCoords.u;
         float bru = quad.br.texCoords.u;
         float tlu = quad.tl.texCoords.u;
         float tru = quad.tr.texCoords.u;
-        quad.bl.texCoords.u = blu * (1 - texStartP) + bru * texStartP;
-        quad.tl.texCoords.u = tlu * (1 - texStartP) + tru * texStartP;
-        quad.br.texCoords.u = blu * (1 - texEndP) + bru * texEndP;
-        quad.tr.texCoords.u = tlu * (1 - texEndP) + tru * texEndP;
+        quad.bl.texCoords.u = CCUtils::lerp(blu, bru, texStartP);
+        quad.tl.texCoords.u = CCUtils::lerp(tlu, tru, texStartP);
+        quad.br.texCoords.u = CCUtils::lerp(blu, bru, texEndP);
+        quad.tr.texCoords.u = CCUtils::lerp(tlu, tru, texEndP);
     }
     
     // add quad

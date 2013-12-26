@@ -215,10 +215,6 @@ void CommonCatmullRomSprite::onEnter()
                                 origin.y + visibleSize.height / 10));
     m_curve->addControlPoint(ccp(origin.x + visibleSize.width / 5,
                                 origin.y + visibleSize.height / 2));
-    m_curve->addControlPoint(ccp(origin.x + visibleSize.width / 5 + 2,
-                                 origin.y + visibleSize.height / 2 - 2));
-    m_curve->addControlPoint(ccp(origin.x + visibleSize.width / 5 - 44,
-                                 origin.y + visibleSize.height / 2 + 44));
     addChild(m_curve);
     
     setTouchEnabled(true);

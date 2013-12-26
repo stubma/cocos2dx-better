@@ -259,16 +259,25 @@ void CCCatmullRomSprite::populateQuad(const CCPoint& bl, const CCPoint& br, cons
     quad.tr.vertices.y = tl.y * (1 - verEndP) + tr.y * verEndP;
     
     // save texcoords, bl and tl
-    float blu = quad.bl.texCoords.u;
-    float bru = quad.br.texCoords.u;
-    float tlu = quad.tl.texCoords.u;
-    float tru = quad.tr.texCoords.u;
-    quad.bl.texCoords.u = blu * (1 - texStartP) + bru * texStartP;
-    quad.tl.texCoords.u = tlu * (1 - texStartP) + tru * texStartP;
-    quad.br.texCoords.u = blu * (1 - texEndP) + bru * texEndP;
-    quad.tr.texCoords.u = tlu * (1 - texEndP) + tru * texEndP;
-    
-	CCLOG("bl: %f", quad.bl.vertices.x);
+    if(m_sprite->isTextureRectRotated()) {
+        float blv = quad.bl.texCoords.v;
+        float brv = quad.br.texCoords.v;
+        float tlv = quad.tl.texCoords.v;
+        float trv = quad.tr.texCoords.v;
+        quad.bl.texCoords.v = blv * (1 - texStartP) + brv * texStartP;
+        quad.tl.texCoords.v = tlv * (1 - texStartP) + trv * texStartP;
+        quad.br.texCoords.v = blv * (1 - texEndP) + brv * texEndP;
+        quad.tr.texCoords.v = tlv * (1 - texEndP) + trv * texEndP;
+    } else {
+        float blu = quad.bl.texCoords.u;
+        float bru = quad.br.texCoords.u;
+        float tlu = quad.tl.texCoords.u;
+        float tru = quad.tr.texCoords.u;
+        quad.bl.texCoords.u = blu * (1 - texStartP) + bru * texStartP;
+        quad.tl.texCoords.u = tlu * (1 - texStartP) + tru * texStartP;
+        quad.br.texCoords.u = blu * (1 - texEndP) + bru * texEndP;
+        quad.tr.texCoords.u = tlu * (1 - texEndP) + tru * texEndP;
+    }
     
     // add quad
     while(m_atlas->getTotalQuads() >= m_atlas->getCapacity())

@@ -23,6 +23,8 @@
  ****************************************************************************/
 #include "CCCatmullRomSprite.h"
 #include "CCTextureAtlasEx.h"
+#include "CCUtils.h"
+#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 

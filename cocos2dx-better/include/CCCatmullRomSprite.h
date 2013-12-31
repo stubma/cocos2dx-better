@@ -27,6 +27,8 @@
 #include "cocos2d.h"
 #include "CCPointList.h"
 
+using namespace std;
+
 NS_CC_BEGIN
 
 class CCTextureAtlasEx;

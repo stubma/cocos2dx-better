@@ -172,6 +172,16 @@ public:
 	CCLayer* createScrollContent(const CCSize& size);
 };
 
+class CommonSlider : public CommonDemo
+{
+private:
+    void onValueChanged(CCObject* obj, CCControlEvent event);
+    
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonTiledSprite : public CommonDemo
 {
 public:

@@ -28,6 +28,9 @@ LOCAL_MODULE := cocos2dx-better
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(call all-cpp-files-under,thirdparty) \
 	$(call all-c-files-under,thirdparty/) \
+	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension/CCControl.cpp \
+	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension/CCControlUtils.cpp \
+	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension/CCInvocation.cpp \
 	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/Layouts/UILayoutDefine.cpp \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature) \
@@ -38,6 +41,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android/jni \
 	$(COCOSDENSHION_ROOT)/include \
 	$(COCOS2DX_EXT_ROOT) \
+	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension \
 	$(COCOS2DX_EXT_ROOT)/CCBReader \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/animation \

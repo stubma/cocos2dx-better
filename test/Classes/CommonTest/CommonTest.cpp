@@ -17,6 +17,7 @@ TESTLAYER_CREATE_FUNC(CommonResourceLoader);
 TESTLAYER_CREATE_FUNC(CommonRookieGuide);
 TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonScrollView);
+TESTLAYER_CREATE_FUNC(CommonSlider);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
 TESTLAYER_CREATE_FUNC(CommonToast);
 TESTLAYER_CREATE_FUNC(CommonTreeFadeInOut);
@@ -37,6 +38,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonRookieGuide),
     CF(CommonShake),
 	CF(CommonScrollView),
+    CF(CommonSlider),
     CF(CommonTiledSprite),
     CF(CommonToast),
 	CF(CommonTreeFadeInOut),
@@ -937,6 +939,69 @@ CCLayer* CommonScrollView::createScrollContent(const CCSize& size) {
 std::string CommonScrollView::subtitle()
 {
     return "Scroll View (Support Fling)";
+}
+
+//------------------------------------------------------------------
+//
+// Slider
+//
+//------------------------------------------------------------------
+void CommonSlider::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    setOpacity(127);
+	setColor(ccRED);
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+    // Add the slider
+    CCSlider* slider = CCSlider::create(CCSprite::create("Images/sliderTrack.png"),
+                                        CCSprite::create("Images/sliderThumb.png"),
+                                        CCSprite::create("Images/sliderProgress.png"));
+    slider->setMinimumValue(0.0f);
+    slider->setMaximumValue(5.0f);
+    slider->setPosition(ccp(origin.x + visibleSize.width / 2,
+                            origin.y + visibleSize.height * 3 / 5));
+    slider->addTargetWithActionForControlEvents(this, cccontrol_selector(CommonSlider::onValueChanged), CCControlEventValueChanged);
+    addChild(slider);
+    
+    // value label of slider
+    CCLabelTTF* value = CCLabelTTF::create("0", "Helvetica", 20 / CC_CONTENT_SCALE_FACTOR());
+    value->setPosition(ccp(origin.x + visibleSize.width / 2,
+                              CCUtils::getPoint(slider, 0.5f, 1).y + 15 / CC_CONTENT_SCALE_FACTOR()));
+    addChild(value);
+    slider->setUserData(value);
+    
+    // discrete slider, without progress
+    slider = CCSlider::create(CCSprite::create("Images/sliderTrack.png"),
+                              CCSprite::create("Images/sliderThumb.png"));
+    slider->setMaximumValue(20);
+    slider->setDiscreteMode(true);
+    slider->setPosition(ccp(origin.x + visibleSize.width / 2,
+                            origin.y + visibleSize.height * 2 / 5));
+    slider->addTargetWithActionForControlEvents(this, cccontrol_selector(CommonSlider::onValueChanged), CCControlEventValueChanged);
+    addChild(slider);
+    
+    // value label for discrete slider
+    value = CCLabelTTF::create("0", "Helvetica", 20 / CC_CONTENT_SCALE_FACTOR());
+    value->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           CCUtils::getPoint(slider, 0.5f, 1).y + 15 / CC_CONTENT_SCALE_FACTOR()));
+    addChild(value);
+    slider->setUserData(value);
+}
+
+void CommonSlider::onValueChanged(CCObject* obj, CCControlEvent event) {
+    CCSlider* slider = (CCSlider*)obj;
+    char buf[32];
+    sprintf(buf, "%f", slider->getValue());
+    ((CCLabelTTF*)slider->getUserData())->setString(buf);
+}
+
+std::string CommonSlider::subtitle()
+{
+    return "Slider";
 }
 
 //------------------------------------------------------------------

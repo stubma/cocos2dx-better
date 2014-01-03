@@ -58,7 +58,11 @@
 		9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D1185591DB0063E8A1 /* CCUtils.cpp */; };
 		9239690C185591DB0063E8A1 /* CCVelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */; };
 		9239690D185591DB0063E8A1 /* VolatileTexture_richlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D3185591DB0063E8A1 /* VolatileTexture_richlabel.cpp */; };
+		923EB319187660A800BAB114 /* CCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923EB2E8187660A800BAB114 /* CCControl.cpp */; };
+		923EB322187660A800BAB114 /* CCControlUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923EB2FB187660A800BAB114 /* CCControlUtils.cpp */; };
+		923EB323187660A800BAB114 /* CCInvocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923EB2FD187660A800BAB114 /* CCInvocation.cpp */; };
 		92405C39182B641700E46357 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92405C38182B641700E46357 /* MediaPlayer.framework */; };
+		9243CD301876553D0069BE2E /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9243CD2E1876553D0069BE2E /* CCSlider.cpp */; };
 		924A8ACF1856B3BA00681A4D /* CCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924A8AA61856B3B900681A4D /* CCData.cpp */; };
 		924A8BBE1856B45E00681A4D /* CCArmatureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924A8B371856B45E00681A4D /* CCArmatureAnimation.cpp */; };
 		924A8BBF1856B45E00681A4D /* CCProcessBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924A8B391856B45E00681A4D /* CCProcessBase.cpp */; };
@@ -301,7 +305,15 @@
 		923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCVelocityTracker.cpp; sourceTree = "<group>"; };
 		923968D3185591DB0063E8A1 /* VolatileTexture_richlabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VolatileTexture_richlabel.cpp; sourceTree = "<group>"; };
 		923968D4185591DB0063E8A1 /* VolatileTexture_richlabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolatileTexture_richlabel.h; sourceTree = "<group>"; };
+		923EB2E8187660A800BAB114 /* CCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControl.cpp; sourceTree = "<group>"; };
+		923EB2E9187660A800BAB114 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
+		923EB2FB187660A800BAB114 /* CCControlUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControlUtils.cpp; sourceTree = "<group>"; };
+		923EB2FC187660A800BAB114 /* CCControlUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlUtils.h; sourceTree = "<group>"; };
+		923EB2FD187660A800BAB114 /* CCInvocation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCInvocation.cpp; sourceTree = "<group>"; };
+		923EB2FE187660A800BAB114 /* CCInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInvocation.h; sourceTree = "<group>"; };
 		92405C38182B641700E46357 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		9243CD2E1876553D0069BE2E /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
+		9243CD31187655650069BE2E /* CCSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSlider.h; sourceTree = "<group>"; };
 		924A8AA61856B3B900681A4D /* CCData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCData.cpp; sourceTree = "<group>"; };
 		924A8AA71856B3B900681A4D /* CCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCData.h; sourceTree = "<group>"; };
 		924A8ADE1856B3D700681A4D /* ExtensionMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ExtensionMacros.h; path = "../../cocos2d-x/extensions/ExtensionMacros.h"; sourceTree = "<group>"; };
@@ -637,6 +649,7 @@
 				92396890185591DB0063E8A1 /* CCTextureAtlasEx.h */,
 				92396891185591DB0063E8A1 /* CCTiledSprite.h */,
 				9222C628186925F600226B34 /* CCCatmullRomSprite.h */,
+				9243CD31187655650069BE2E /* CCSlider.h */,
 				92396892185591DB0063E8A1 /* CCToast.h */,
 			);
 			name = ui;
@@ -704,6 +717,7 @@
 				923968C5185591DB0063E8A1 /* CCSpriteEx.cpp */,
 				923968CD185591DB0063E8A1 /* CCTiledSprite.cpp */,
 				9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */,
+				9243CD2E1876553D0069BE2E /* CCSlider.cpp */,
 				923968CE185591DB0063E8A1 /* CCToast.cpp */,
 			);
 			name = ui;
@@ -755,11 +769,34 @@
 			name = texture;
 			sourceTree = "<group>";
 		};
+		923EB2E6187660A800BAB114 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				923EB2E7187660A800BAB114 /* CCControlExtension */,
+			);
+			name = GUI;
+			path = "../../cocos2d-x/extensions/GUI";
+			sourceTree = "<group>";
+		};
+		923EB2E7187660A800BAB114 /* CCControlExtension */ = {
+			isa = PBXGroup;
+			children = (
+				923EB2E8187660A800BAB114 /* CCControl.cpp */,
+				923EB2E9187660A800BAB114 /* CCControl.h */,
+				923EB2FB187660A800BAB114 /* CCControlUtils.cpp */,
+				923EB2FC187660A800BAB114 /* CCControlUtils.h */,
+				923EB2FD187660A800BAB114 /* CCInvocation.cpp */,
+				923EB2FE187660A800BAB114 /* CCInvocation.h */,
+			);
+			path = CCControlExtension;
+			sourceTree = "<group>";
+		};
 		924A8A901856B3AB00681A4D /* cocos2d-x-extensions */ = {
 			isa = PBXGroup;
 			children = (
 				924A8BF01856B48900681A4D /* cocos-ext.h */,
 				924A8ADE1856B3D700681A4D /* ExtensionMacros.h */,
+				923EB2E6187660A800BAB114 /* GUI */,
 				924A8B291856B45E00681A4D /* CocoStudio */,
 				924A8A911856B3B900681A4D /* CCBReader */,
 			);
@@ -1336,9 +1373,12 @@
 				92F68E6F1855A7C800C97188 /* CCResultSet.cpp in Sources */,
 				92F68E5D18559EC100C97188 /* Timers.cpp in Sources */,
 				923968F8185591DB0063E8A1 /* CCProgressHUD.cpp in Sources */,
+				923EB323187660A800BAB114 /* CCInvocation.cpp in Sources */,
+				923EB322187660A800BAB114 /* CCControlUtils.cpp in Sources */,
 				92396901185591DB0063E8A1 /* CCSpriteEx.cpp in Sources */,
 				92F68E5F18559EC100C97188 /* VectorImpl.cpp in Sources */,
 				92F68F291855BDE200C97188 /* CCMWFileData.cpp in Sources */,
+				923EB319187660A800BAB114 /* CCControl.cpp in Sources */,
 				92F68F391855BDE200C97188 /* CCSPXSprite.cpp in Sources */,
 				92F68F371855BDE200C97188 /* CCSPXLoader.cpp in Sources */,
 				92F68E5C18559EC100C97188 /* String8.cpp in Sources */,
@@ -1429,6 +1469,7 @@
 				92F68E6E1855A7C800C97188 /* CCDatabase.cpp in Sources */,
 				92F68F2D1855BDE200C97188 /* CCSPX3Action.cpp in Sources */,
 				92F68F361855BDE200C97188 /* CCSPXFrame.cpp in Sources */,
+				9243CD301876553D0069BE2E /* CCSlider.cpp in Sources */,
 				92E8F4AD185BFF4D000A1D59 /* CCTCPSocketHub.cpp in Sources */,
 				924A8BCE1856B45E00681A4D /* CCTransformHelp.cpp in Sources */,
 				92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */,
@@ -1520,6 +1561,7 @@
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/support/tinyxml2",
 					"$(SRCROOT)/../../cocos2d-x/CocosDenshion/include",
 					"$(SRCROOT)/../../cocos2d-x/extensions",
+					"$(SRCROOT)/../../cocos2d-x/extensions/GUI/CCControlExtension",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "cocos2dx-better";
@@ -1543,6 +1585,7 @@
 					"$(SRCROOT)/../../cocos2d-x/cocos2dx/support/tinyxml2",
 					"$(SRCROOT)/../../cocos2d-x/CocosDenshion/include",
 					"$(SRCROOT)/../../cocos2d-x/extensions",
+					"$(SRCROOT)/../../cocos2d-x/extensions/GUI/CCControlExtension",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "cocos2dx-better";

@@ -210,8 +210,6 @@ bool CCSlider::isTouchInside(CCTouch* touch) {
     
     // rect in parent space
     CCRect rect = boundingBox();
-    rect.size.width += m_thumbSprite->getContentSize().width;
-    rect.origin.x -= m_thumbSprite->getContentSize().width / 2;
     
     // check contain or not
     return rect.containsPoint(touchLocation);

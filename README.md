@@ -1,6 +1,6 @@
 Better Cocos2d-x
 ===============
-The cocos2dx-common is renamed to cocos2dx-better!
+The cocos2dx-common is renamed to cocos2dx-better and combined with my other extensions.
 
 Purpose
 ===============
@@ -13,23 +13,20 @@ Cocos2d-x is a good engine, but:
 * it lacked some features and third-party tool support
 * it has bugs and fixing comes too slowly, probably because they are focus on 3.0 branch.
 
-You want a better cocos2d-x, so am I. Furthermore, I don't want to modify its code because it may introduce extra work to
-sync code. So I give you my solution, a well-designed extension, without touching cocos2d-x code.
+Furthermore, I don't want to modify its code because it may introduce extra work to sync code. Here is my solution: a well-designed extension, without touching cocos2d-x code.
 
 Features
 ===========
-I don't want to list all features because it is too many! The best way to understand what it can do is running its test project. The test project supports ONLY iOS and android. I don't use Windows a lot so there are some basic features missing for Windows. If you are a Windows guy, do it yourself and GOOD LUCK.
+I don't want to list all features because it is too many. The best way to understand what it can do is running its test project. The test project supports ONLY iOS and Android. I don't use Windows a lot so there are some basic features missing for Windows. If you are a Windows guy, do it yourself and GOOD LUCK.
 
-However, even the test project doesn't show all its capabilities. Sure I will add more test if necessary.
+However, even the test project doesn't show all its capabilities. I will add more tests if necessary.
 
-Requirement
+How to use
 ===========
 cocos2dx-better project refers cocos2d-x project. You must clone cocos2d-x repository to a folder named "cocos2d-x", 
 and then clone cocos2dx-better in the same parent folder.
 
-How to use
-===========
-For iOS:
+<b>For iOS:</b>
 * drag cocos2dx-better project into your project
 * you need set up proper include path, here is mine:
 
@@ -50,7 +47,7 @@ $(SRCROOT)/../../cocos2d-x/CocosDenshion/include
 * add other necessary frameworks to your project, view test project for the detail list
 * if you encounter objc runtime error, change "Compile Source As" to "Objective-C++". If you have pure c library, create a new target for it
 
-For Android:
+<b>For Android:</b>
 * import cocos2dx-better module in your Android.mk
 * you must set a proper NDK_MODULE_PATH environment, below is my setting:
 

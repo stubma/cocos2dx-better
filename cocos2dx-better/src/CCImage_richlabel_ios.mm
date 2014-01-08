@@ -1040,15 +1040,15 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         
         // create frame
         // no need to create it if measurement mode
-        CGMutablePathRef path = NULL;
         CTFrameRef frame = NULL;
         if(!pInfo->sizeOnly) {
-            path = CGPathCreateMutable();
+            CGMutablePathRef path = CGPathCreateMutable();
             CGPathAddRect(path, NULL, CGRectMake(0, 0, dim.width, dim.height));
             frame = CTFramesetterCreateFrame(fs,
                                              CFRangeMake(0, 0),
                                              path,
                                              NULL);
+            CFRelease(path);
         }
         
         // compute the padding needed by shadow and stroke
@@ -1158,8 +1158,6 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         CFRelease(defaultFont);
         if(frame)
             CFRelease(frame);
-        if(path)
-            CFRelease(path);
         CFRelease(paraStyle);
 		free(plain);
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {

@@ -747,6 +747,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                                            CFRangeMake(imageStart, span.pos - imageStart),
                                                            kCTRunDelegateAttributeName,
                                                            delegate);
+                            CFRelease(delegate);
                             
                             // register image, if it starts with '/', treat it as an external image
                             NSString* imageName = [NSString stringWithCString:span.imageName

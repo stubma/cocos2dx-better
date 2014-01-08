@@ -1039,12 +1039,17 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         }
         
         // create frame
-        CGMutablePathRef path = CGPathCreateMutable();
-        CGPathAddRect(path, NULL, CGRectMake(0, 0, dim.width, dim.height));
-        CTFrameRef frame = CTFramesetterCreateFrame(fs,
-                                                    CFRangeMake(0, 0),
-                                                    path,
-                                                    NULL);
+        // no need to create it if measurement mode
+        CGMutablePathRef path = NULL;
+        CTFrameRef frame = NULL;
+        if(!pInfo->sizeOnly) {
+            path = CGPathCreateMutable();
+            CGPathAddRect(path, NULL, CGRectMake(0, 0, dim.width, dim.height));
+            frame = CTFramesetterCreateFrame(fs,
+                                             CFRangeMake(0, 0),
+                                             path,
+                                             NULL);
+        }
         
         // compute the padding needed by shadow and stroke
         float shadowStrokePaddingX = 0.0f;
@@ -1075,7 +1080,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 		}
         
 		// allocate data for bitmap
-        // but don't do that if only measure
+        // but don't do that if in measurement mode
         unsigned char* data = NULL;
         CGContextRef context = NULL;
         if(!pInfo->sizeOnly) {
@@ -1151,8 +1156,10 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         CFRelease(plainCFAStr);
         CFRelease(fs);
         CFRelease(defaultFont);
-        CFRelease(frame);
-        CFRelease(path);
+        if(frame)
+            CFRelease(frame);
+        if(path)
+            CFRelease(path);
         CFRelease(paraStyle);
 		free(plain);
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {

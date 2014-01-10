@@ -67,6 +67,8 @@
 #include "CCProgressHUD.h"
 #include "CCCatmullRomSprite.h"
 #include "CCSlider.h"
+#include "CCJumpByEx.h"
+#include "CCJumpToEx.h"
 
 // db
 #include "CCDatabase.h"

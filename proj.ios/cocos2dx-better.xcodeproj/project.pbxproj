@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92042B1B187FE0CD0064262D /* CCJumpToEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92042B19187FE0CD0064262D /* CCJumpToEx.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
 		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
+		922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922399E9187FD793006AD199 /* CCJumpByEx.cpp */; };
 		923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */; };
 		923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */; };
 		923968DF185591DB0063E8A1 /* CCAssetInputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */; };
@@ -199,10 +201,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		92042B19187FE0CD0064262D /* CCJumpToEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJumpToEx.cpp; sourceTree = "<group>"; };
+		92042B1C187FE0E80064262D /* CCJumpToEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJumpToEx.h; sourceTree = "<group>"; };
 		9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCatmullRomSprite.cpp; sourceTree = "<group>"; };
 		9222C628186925F600226B34 /* CCCatmullRomSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCatmullRomSprite.h; sourceTree = "<group>"; };
 		9222C62D18693F3200226B34 /* CCPointList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPointList.cpp; sourceTree = "<group>"; };
 		9222C62F18693F4000226B34 /* CCPointList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPointList.h; sourceTree = "<group>"; };
+		922399E9187FD793006AD199 /* CCJumpByEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJumpByEx.cpp; sourceTree = "<group>"; };
+		922399EC187FD7B3006AD199 /* CCJumpByEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJumpByEx.h; sourceTree = "<group>"; };
 		9239686E185591DB0063E8A1 /* CCAssetInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream.h; sourceTree = "<group>"; };
 		9239686F185591DB0063E8A1 /* CCAssetOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream.h; sourceTree = "<group>"; };
 		92396870185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
@@ -583,6 +589,8 @@
 			children = (
 				92396872185591DB0063E8A1 /* CCClipIn.h */,
 				92396873185591DB0063E8A1 /* CCClipOut.h */,
+				922399EC187FD7B3006AD199 /* CCJumpByEx.h */,
+				92042B1C187FE0E80064262D /* CCJumpToEx.h */,
 				9239687F185591DB0063E8A1 /* CCMissile.h */,
 				9239688B185591DB0063E8A1 /* CCShake.h */,
 				92396893185591DB0063E8A1 /* CCTreeFadeIn.h */,
@@ -669,6 +677,8 @@
 			children = (
 				923968A7185591DB0063E8A1 /* CCClipIn.cpp */,
 				923968A8185591DB0063E8A1 /* CCClipOut.cpp */,
+				922399E9187FD793006AD199 /* CCJumpByEx.cpp */,
+				92042B19187FE0CD0064262D /* CCJumpToEx.cpp */,
 				923968B8185591DB0063E8A1 /* CCMissile.cpp */,
 				923968C3185591DB0063E8A1 /* CCShake.cpp */,
 				923968CF185591DB0063E8A1 /* CCTreeFadeIn.cpp */,
@@ -1360,6 +1370,7 @@
 				9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */,
 				923968F2185591DB0063E8A1 /* CCMemoryInputStream.cpp in Sources */,
 				92F68F251855BDE200C97188 /* CCAuroraFileData.cpp in Sources */,
+				92042B1B187FE0CD0064262D /* CCJumpToEx.cpp in Sources */,
 				92F68F281855BDE200C97188 /* CCAuroraSprite.cpp in Sources */,
 				92F68F321855BDE200C97188 /* CCSPX3Sprite.cpp in Sources */,
 				923968E5185591DB0063E8A1 /* CCCalendar.cpp in Sources */,
@@ -1425,6 +1436,7 @@
 				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,
 				92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */,
 				92F68F351855BDE200C97188 /* CCSPXFileData.cpp in Sources */,
+				922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */,
 				92F68F2F1855BDE200C97188 /* CCSPX3Frame.cpp in Sources */,
 				92F68EAF1855AD4400C97188 /* yajl_lex.c in Sources */,
 				9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */,

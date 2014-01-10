@@ -6,6 +6,7 @@ TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
 TESTLAYER_CREATE_FUNC(CommonClipInOut);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
+TESTLAYER_CREATE_FUNC(CommonJumpEx);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
 TESTLAYER_CREATE_FUNC(CommonMenuItemColor);
@@ -27,6 +28,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonCatmullRomSprite),
     CF(CommonClipInOut),
 	CF(CommonGradientSprite),
+    CF(CommonJumpEx),
 	CF(CommonLocale),
     CF(CommonLocalization),
     CF(CommonMenuItemColor),
@@ -359,6 +361,50 @@ void CommonGradientSprite::onEnter()
 std::string CommonGradientSprite::subtitle()
 {
     return "Gradient Sprite";
+}
+
+//------------------------------------------------------------------
+//
+// JumpBy Extended
+//
+//------------------------------------------------------------------
+void CommonJumpEx::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+	// grossini 1
+	CCSprite* s = CCSprite::create("Images/grossini.png");
+	s->setPosition(ccp(origin.x + visibleSize.width / 4,
+					   origin.y + visibleSize.height / 5));
+	addChild(s);
+    
+    // jump it
+    CCPoint delta = ccp(origin.x + visibleSize.width / 4,
+                        origin.y + visibleSize.height * 2 / 5);
+    CCJumpByEx* jump = CCJumpByEx::create(1, delta, visibleSize.height / 2, 1, true, 90);
+    CCFiniteTimeAction* rJump = (CCFiniteTimeAction*)jump->reverse()->autorelease();
+    s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(jump, rJump)));
+    
+    // grossini 2
+	s = CCSprite::create("Images/grossini.png");
+	s->setPosition(ccp(origin.x + visibleSize.width * 3 / 4,
+					   origin.y + visibleSize.height / 5));
+	addChild(s);
+    
+    // jump it
+    CCPoint dst = ccp(origin.x + visibleSize.width / 2,
+                      origin.y + visibleSize.height * 3 / 5);
+    jump = CCJumpToEx::create(1, dst, visibleSize.height / 2, 1, true, 90);
+    rJump = CCJumpToEx::create(1, s->getPosition(), visibleSize.height / 2, 1, true, 90);
+    s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(jump, rJump)));
+}
+
+std::string CommonJumpEx::subtitle()
+{
+    return "JumpBy/JumpTo Ex";
 }
 
 //------------------------------------------------------------------

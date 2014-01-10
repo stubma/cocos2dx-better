@@ -49,9 +49,9 @@ void CCTreeFadeIn::fadeInRecursively(CCNode* n, float time) {
 			if(p) {
 				p->setOpacity((GLubyte)(255 * time));
 			}
+            
+            fadeInRecursively(child, time);
 		}
-        
-        fadeInRecursively(child, time);
     }
 }
 

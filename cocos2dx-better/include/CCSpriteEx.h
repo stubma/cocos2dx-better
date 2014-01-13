@@ -30,7 +30,9 @@
 NS_CC_BEGIN
 
 /**
- * In general, class with Ex suffix is my workaround for cocos2d design defect
+ * In general, class with Ex suffix is my workaround for cocos2d design defect.
+ * This ex class is designed for:
+ * 1. sometime I want to keep blend function after change texture, original CCSprite can't
  */
 class CC_DLL CCSpriteEx : public CCSprite {
 protected:

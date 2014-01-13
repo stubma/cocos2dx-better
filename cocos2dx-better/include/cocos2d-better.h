@@ -69,6 +69,7 @@
 #include "CCSlider.h"
 #include "CCJumpByEx.h"
 #include "CCJumpToEx.h"
+#include "CCLayerClip.h"
 
 // db
 #include "CCDatabase.h"

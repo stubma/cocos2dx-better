@@ -64,6 +64,7 @@
 		923EB322187660A800BAB114 /* CCControlUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923EB2FB187660A800BAB114 /* CCControlUtils.cpp */; };
 		923EB323187660A800BAB114 /* CCInvocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923EB2FD187660A800BAB114 /* CCInvocation.cpp */; };
 		92405C39182B641700E46357 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92405C38182B641700E46357 /* MediaPlayer.framework */; };
+		9243819B1883E43100ECA91A /* CCLayerClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924381991883E43100ECA91A /* CCLayerClip.cpp */; };
 		9243CD301876553D0069BE2E /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9243CD2E1876553D0069BE2E /* CCSlider.cpp */; };
 		924A8ACF1856B3BA00681A4D /* CCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924A8AA61856B3B900681A4D /* CCData.cpp */; };
 		924A8BBE1856B45E00681A4D /* CCArmatureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924A8B371856B45E00681A4D /* CCArmatureAnimation.cpp */; };
@@ -318,6 +319,8 @@
 		923EB2FD187660A800BAB114 /* CCInvocation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCInvocation.cpp; sourceTree = "<group>"; };
 		923EB2FE187660A800BAB114 /* CCInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInvocation.h; sourceTree = "<group>"; };
 		92405C38182B641700E46357 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		924381991883E43100ECA91A /* CCLayerClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLayerClip.cpp; sourceTree = "<group>"; };
+		9243819C1883E46B00ECA91A /* CCLayerClip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLayerClip.h; sourceTree = "<group>"; };
 		9243CD2E1876553D0069BE2E /* CCSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSlider.cpp; sourceTree = "<group>"; };
 		9243CD31187655650069BE2E /* CCSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSlider.h; sourceTree = "<group>"; };
 		924A8AA61856B3B900681A4D /* CCData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCData.cpp; sourceTree = "<group>"; };
@@ -646,6 +649,7 @@
 			children = (
 				92396870185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.h */,
 				92396876185591DB0063E8A1 /* CCGradientSprite.h */,
+				9243819C1883E46B00ECA91A /* CCLayerClip.h */,
 				92396877185591DB0063E8A1 /* CCLayerMultiplexEx.h */,
 				9239687E185591DB0063E8A1 /* CCMenuItemColor.h */,
 				92396884185591DB0063E8A1 /* CCProgressHUD.h */,
@@ -714,6 +718,7 @@
 				923968AC185591DB0063E8A1 /* CCImage_richlabel.h */,
 				923968AD185591DB0063E8A1 /* CCImage_richlabel_android.cpp */,
 				923968AE185591DB0063E8A1 /* CCImage_richlabel_ios.mm */,
+				924381991883E43100ECA91A /* CCLayerClip.cpp */,
 				923968AF185591DB0063E8A1 /* CCLayerMultiplexEx.cpp */,
 				923968B6185591DB0063E8A1 /* CCMenuItemColor.cpp */,
 				923968B7185591DB0063E8A1 /* CCMenuItemColorStateListener.h */,
@@ -1403,6 +1408,7 @@
 				924A8BC41856B45E00681A4D /* CCBatchNode.cpp in Sources */,
 				92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */,
 				92396904185591DB0063E8A1 /* CCTexture2D_richlabel.cpp in Sources */,
+				9243819B1883E43100ECA91A /* CCLayerClip.cpp in Sources */,
 				92396908185591DB0063E8A1 /* CCToast.cpp in Sources */,
 				924A8BBF1856B45E00681A4D /* CCProcessBase.cpp in Sources */,
 				923968FD185591DB0063E8A1 /* CCScroller.cpp in Sources */,

@@ -34,7 +34,17 @@ CCLayerClip::~CCLayerClip() {
 
 CCLayerClip* CCLayerClip::create() {
     CCLayerClip* l = new CCLayerClip();
-    if(l->init()) {
+    if(l->initWithColor(cc4TRANSPARENT)) {
+        return (CCLayerClip*)l->autorelease();
+    }
+    
+    l->release();
+    return NULL;
+}
+
+CCLayerClip* CCLayerClip::create(const ccColor4B& color) {
+    CCLayerClip* l = new CCLayerClip();
+    if(l->initWithColor(color)) {
         return (CCLayerClip*)l->autorelease();
     }
     
@@ -44,7 +54,7 @@ CCLayerClip* CCLayerClip::create() {
 
 void CCLayerClip::visit() {
     if(m_clipRect.equals(CCRectZero)) {
-        CCLayer::visit();
+        CCLayerColor::visit();
     } else {
         glEnable(GL_SCISSOR_TEST);
 		glScissor(m_clipRect.origin.x,
@@ -52,32 +62,34 @@ void CCLayerClip::visit() {
 				  m_clipRect.size.width,
 				  m_clipRect.size.height);
 		
-		CCLayer::visit();
+		CCLayerColor::visit();
 		
 		glDisable(GL_SCISSOR_TEST);
     }
 }
 
 void CCLayerClip::setPosition(const CCPoint &position) {
-    CCLayer::setPosition(position);
+    CCLayerColor::setPosition(position);
     updateClipRect();
 }
 
 void CCLayerClip::setContentSize(const CCSize& contentSize) {
-    CCLayer::setContentSize(contentSize);
+    CCLayerColor::setContentSize(contentSize);
     updateClipRect();
 }
 
 void CCLayerClip::updateClipRect() {
-    const CCSize& frameSize = CCEGLView::sharedOpenGLView()->getFrameSize();
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    const CCPoint& pos = getPosition();
-    const CCSize& size = getContentSize();
-    m_clipRect = CCRectMake((pos.x - origin.x) / visibleSize.width * frameSize.width,
-                            (pos.y - origin.y) / visibleSize.height * frameSize.height,
-                            size.width / visibleSize.width * frameSize.width,
-                            size.height / visibleSize.height * frameSize.height);
+    const CCRect& viewRect = CCEGLView::sharedOpenGLView()->getViewPortRect();
+    CCRect bound = CCUtils::getBoundingBoxInWorldSpace(this);
+    float scaleX = CCEGLView::sharedOpenGLView()->getScaleX();
+    float scaleY = CCEGLView::sharedOpenGLView()->getScaleY();
+    bound.origin.x *= scaleX;
+    bound.origin.y *= scaleY;
+    bound.origin.x += viewRect.origin.x;
+    bound.origin.y += viewRect.origin.y;
+    bound.size.width *= scaleX;
+    bound.size.height *= scaleY;
+    m_clipRect = bound;
 }
 
 NS_CC_END

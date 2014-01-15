@@ -73,6 +73,13 @@ public:
     virtual string subtitle();
 };
 
+class CommonLayerClip : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonLocale : public CommonDemo
 {
 public:

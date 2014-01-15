@@ -7,6 +7,7 @@ TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
 TESTLAYER_CREATE_FUNC(CommonClipInOut);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonJumpEx);
+TESTLAYER_CREATE_FUNC(CommonLayerClip);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
 TESTLAYER_CREATE_FUNC(CommonMenuItemColor);
@@ -29,6 +30,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonClipInOut),
 	CF(CommonGradientSprite),
     CF(CommonJumpEx),
+    CF(CommonLayerClip),
 	CF(CommonLocale),
     CF(CommonLocalization),
     CF(CommonMenuItemColor),
@@ -282,21 +284,21 @@ void CommonClipInOut::onEnter()
     addChild(n, 1);
     
     CCClipIn* in1 = CCClipIn::create(2);
-    CCClipOut* out1 = (CCClipOut*)in1->reverse()->autorelease();
+    CCClipOut* out1 = (CCClipOut*)in1->reverse();
     CCClipIn* in2 = CCClipIn::create(2, ccp(1, 1));
-    CCClipOut* out2 = (CCClipOut*)in2->reverse()->autorelease();
+    CCClipOut* out2 = (CCClipOut*)in2->reverse();
     CCClipIn* in3 = CCClipIn::create(2, ccp(-1, 1));
-    CCClipOut* out3 = (CCClipOut*)in3->reverse()->autorelease();
+    CCClipOut* out3 = (CCClipOut*)in3->reverse();
     CCClipIn* in4 = CCClipIn::create(2, ccp(-1, -1));
-    CCClipOut* out4 = (CCClipOut*)in4->reverse()->autorelease();
+    CCClipOut* out4 = (CCClipOut*)in4->reverse();
     CCClipIn* in5 = CCClipIn::create(2, ccp(1, -1));
-    CCClipOut* out5 = (CCClipOut*)in5->reverse()->autorelease();
+    CCClipOut* out5 = (CCClipOut*)in5->reverse();
     CCClipIn* in6 = CCClipIn::create(2, ccp(0, -1));
-    CCClipOut* out6 = (CCClipOut*)in6->reverse()->autorelease();
+    CCClipOut* out6 = (CCClipOut*)in6->reverse();
     CCClipIn* in7 = CCClipIn::create(2, ccp(0, 1));
-    CCClipOut* out7 = (CCClipOut*)in7->reverse()->autorelease();
+    CCClipOut* out7 = (CCClipOut*)in7->reverse();
     CCClipIn* in8 = CCClipIn::create(2, ccp(-1, 0));
-    CCClipOut* out8 = (CCClipOut*)in8->reverse()->autorelease();
+    CCClipOut* out8 = (CCClipOut*)in8->reverse();
     n->runAction(CCSequence::create(in1,
                                     out1,
                                     in2,
@@ -385,7 +387,7 @@ void CommonJumpEx::onEnter()
     CCPoint delta = ccp(origin.x + visibleSize.width / 4,
                         origin.y + visibleSize.height * 2 / 5);
     CCJumpByEx* jump = CCJumpByEx::create(1, delta, visibleSize.height / 2, 1, true, 90);
-    CCFiniteTimeAction* rJump = (CCFiniteTimeAction*)jump->reverse()->autorelease();
+    CCFiniteTimeAction* rJump = (CCFiniteTimeAction*)jump->reverse();
     s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(jump, rJump)));
     
     // grossini 2
@@ -405,6 +407,46 @@ void CommonJumpEx::onEnter()
 std::string CommonJumpEx::subtitle()
 {
     return "JumpBy/JumpTo Ex";
+}
+
+//------------------------------------------------------------------
+//
+// Layer Clip
+//
+//------------------------------------------------------------------
+void CommonLayerClip::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    // clip layer
+    CCSprite* flag = CCSprite::create("Images/usa_flag.jpg");
+    CCLayerClip* layer = CCLayerClip::create(cc4RED);
+    layer->ignoreAnchorPointForPosition(false);
+    layer->setContentSize(CCSizeMake(visibleSize.width / 2,
+                                     flag->getContentSize().height));
+    layer->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 2));
+    addChild(layer);
+    
+    // add flag to clip layer
+    flag->setAnchorPoint(ccp(0, 0.5f));
+    flag->setPosition(ccp(layer->getContentSize().width,
+                           layer->getContentSize().height / 2));
+    layer->addChild(flag);
+    
+    // let flag move to see clip effect
+    CCMoveBy* move = CCMoveBy::create(5, ccp(-flag->getContentSize().width - layer->getContentSize().width, 0));
+    CCFiniteTimeAction* back = (CCFiniteTimeAction*)move->reverse();
+    CCSequence* seq = CCSequence::createWithTwoActions(move, back);
+    flag->runAction(CCRepeatForever::create(seq));
+}
+
+std::string CommonLayerClip::subtitle()
+{
+    return "Layer Clip";
 }
 
 //------------------------------------------------------------------

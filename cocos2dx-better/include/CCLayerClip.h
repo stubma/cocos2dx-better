@@ -35,16 +35,25 @@ NS_CC_BEGIN
  * like to modify cocos2d-x code. So, writing a new class is better than
  * changing CCNode code.
  */
-class CC_DLL CCLayerClip : public CCLayer {
+class CC_DLL CCLayerClip : public CCLayerColor {
 protected:
     CCLayerClip();
+    
+    /// update clip rectangle
+    void updateClipRect();
     
 public:
     virtual ~CCLayerClip();
     static CCLayerClip* create();
+    static CCLayerClip* create(const ccColor4B& color);
     
     // override super
     virtual void visit();
+    virtual void setPosition(const CCPoint &position);
+    virtual void setContentSize(const CCSize& contentSize);
+    
+    /// clip rectangle
+    CC_SYNTHESIZE_PASS_BY_REF(CCRect, m_clipRect, ClipRect);
 };
 
 NS_CC_END

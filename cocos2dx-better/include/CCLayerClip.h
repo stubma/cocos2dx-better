@@ -36,6 +36,10 @@ NS_CC_BEGIN
  * changing CCNode code.
  */
 class CC_DLL CCLayerClip : public CCLayerColor {
+private:
+    /// clip rect dirty flag
+    bool m_clipDirty;
+    
 protected:
     CCLayerClip();
     

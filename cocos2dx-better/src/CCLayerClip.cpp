@@ -26,7 +26,8 @@
 NS_CC_BEGIN
 
 CCLayerClip::CCLayerClip() :
-m_clipRect(CCRectZero) {
+m_clipRect(CCRectZero),
+m_clipDirty(false) {
 }
 
 CCLayerClip::~CCLayerClip() {
@@ -53,6 +54,13 @@ CCLayerClip* CCLayerClip::create(const ccColor4B& color) {
 }
 
 void CCLayerClip::visit() {
+    // update clip rect if dirty
+    if(m_clipDirty) {
+        updateClipRect();
+        m_clipDirty = false;
+    }
+    
+    // if clip rect is zero, don't clip
     if(m_clipRect.equals(CCRectZero)) {
         CCLayerColor::visit();
     } else {
@@ -70,12 +78,12 @@ void CCLayerClip::visit() {
 
 void CCLayerClip::setPosition(const CCPoint &position) {
     CCLayerColor::setPosition(position);
-    updateClipRect();
+    m_clipDirty = true;
 }
 
 void CCLayerClip::setContentSize(const CCSize& contentSize) {
     CCLayerColor::setContentSize(contentSize);
-    updateClipRect();
+    m_clipDirty = true;
 }
 
 void CCLayerClip::updateClipRect() {

@@ -60,7 +60,7 @@ public:
     CC_SYNTHESIZE_PASS_BY_REF(CCRect, m_clipRect, ClipRect);
     
     /// a flag can set clipping enablement
-    CC_SYNTHESIZE_BOOL_SETTER(m_clipEnabled, ClipEnabled);
+    CC_SYNTHESIZE_BOOL(m_clipEnabled, ClipEnabled);
 };
 
 NS_CC_END

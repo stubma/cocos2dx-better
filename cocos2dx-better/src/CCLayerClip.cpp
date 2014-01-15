@@ -27,7 +27,8 @@ NS_CC_BEGIN
 
 CCLayerClip::CCLayerClip() :
 m_clipRect(CCRectZero),
-m_clipDirty(false) {
+m_clipDirty(false),
+m_clipEnabled(true) {
 }
 
 CCLayerClip::~CCLayerClip() {
@@ -61,7 +62,7 @@ void CCLayerClip::visit() {
     }
     
     // if clip rect is zero, don't clip
-    if(m_clipRect.equals(CCRectZero)) {
+    if(!m_clipEnabled || m_clipRect.equals(CCRectZero)) {
         CCLayerColor::visit();
     } else {
         glEnable(GL_SCISSOR_TEST);

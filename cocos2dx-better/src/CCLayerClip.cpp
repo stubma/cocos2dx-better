@@ -25,7 +25,8 @@
 
 NS_CC_BEGIN
 
-CCLayerClip::CCLayerClip() {
+CCLayerClip::CCLayerClip() :
+m_clipRect(CCRectZero) {
 }
 
 CCLayerClip::~CCLayerClip() {
@@ -39,6 +40,44 @@ CCLayerClip* CCLayerClip::create() {
     
     l->release();
     return NULL;
+}
+
+void CCLayerClip::visit() {
+    if(m_clipRect.equals(CCRectZero)) {
+        CCLayer::visit();
+    } else {
+        glEnable(GL_SCISSOR_TEST);
+		glScissor(m_clipRect.origin.x,
+				  m_clipRect.origin.y,
+				  m_clipRect.size.width,
+				  m_clipRect.size.height);
+		
+		CCLayer::visit();
+		
+		glDisable(GL_SCISSOR_TEST);
+    }
+}
+
+void CCLayerClip::setPosition(const CCPoint &position) {
+    CCLayer::setPosition(position);
+    updateClipRect();
+}
+
+void CCLayerClip::setContentSize(const CCSize& contentSize) {
+    CCLayer::setContentSize(contentSize);
+    updateClipRect();
+}
+
+void CCLayerClip::updateClipRect() {
+    const CCSize& frameSize = CCEGLView::sharedOpenGLView()->getFrameSize();
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    const CCPoint& pos = getPosition();
+    const CCSize& size = getContentSize();
+    m_clipRect = CCRectMake((pos.x - origin.x) / visibleSize.width * frameSize.width,
+                            (pos.y - origin.y) / visibleSize.height * frameSize.height,
+                            size.width / visibleSize.width * frameSize.width,
+                            size.height / visibleSize.height * frameSize.height);
 }
 
 NS_CC_END

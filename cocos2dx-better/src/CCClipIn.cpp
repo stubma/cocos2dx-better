@@ -120,9 +120,7 @@ void CCClipIn::update(float time) {
 }
 
 CCActionInterval* CCClipIn::reverse() {
-    CCClipOut* r = CCClipOut::create(getDuration(), ccp(-m_direction.x, -m_direction.y));
-    r->retain();
-    return r;
+    return CCClipOut::create(getDuration(), ccp(-m_direction.x, -m_direction.y));
 }
 
 NS_CC_END

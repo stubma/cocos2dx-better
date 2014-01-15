@@ -89,9 +89,7 @@ void CCJumpByEx::update(float time) {
 }
 
 CCActionInterval* CCJumpByEx::reverse() {
-    CCJumpByEx* ret = CCJumpByEx::create(getDuration(), -m_delta, m_height, m_nJumps, m_autoHeadOn, 180 - m_initAngle);
-    CC_SAFE_RETAIN(ret);
-    return ret;
+    return CCJumpByEx::create(getDuration(), -m_delta, m_height, m_nJumps, m_autoHeadOn, 180 - m_initAngle);
 }
 
 NS_CC_END

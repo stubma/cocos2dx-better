@@ -25,6 +25,8 @@
 #define __CCLayerClip_h__
 
 #include "cocos2d.h"
+#include "CCMoreMacros.h"
+#include "ccMoreTypes.h"
 
 NS_CC_BEGIN
 

@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCLayerClip.h"
+#include "CCUtils.h"
 
 NS_CC_BEGIN
 

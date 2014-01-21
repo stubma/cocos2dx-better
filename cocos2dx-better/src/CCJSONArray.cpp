@@ -25,6 +25,7 @@
 #include "CCJSONValue.h"
 #include "CCJSONParser.h"
 #include "CCUtils.h"
+#include "CCMemoryOutputStream.h"
 
 NS_CC_BEGIN
 
@@ -258,6 +259,12 @@ string CCJSONArray::optString(int index, const char* def) {
 	}
 
 	return CCJSONValue::castToString(m_array.at(index));
+}
+
+string CCJSONArray::toString() {
+    CCMemoryOutputStream mos;
+    output(&mos);
+    return string(mos.getBuffer(), mos.getLength());
 }
 
 void CCJSONArray::output(CCAssetOutputStream* aos, int level) {

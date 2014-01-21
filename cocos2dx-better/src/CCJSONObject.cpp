@@ -26,6 +26,7 @@
 #include "CCJSONParser.h"
 #include "CCJSONValue.h"
 #include "CCUtils.h"
+#include "CCMemoryOutputStream.h"
 
 NS_CC_BEGIN
 
@@ -391,6 +392,12 @@ const char* CCJSONObject::keyAt(int index) {
 	}
 
 	return m_keyvalues.at(index).k;
+}
+
+string CCJSONObject::toString() {
+    CCMemoryOutputStream mos;
+    output(&mos);
+    return string(mos.getBuffer(), mos.getLength());
 }
 
 void CCJSONObject::output(CCAssetOutputStream* aos, int level) {

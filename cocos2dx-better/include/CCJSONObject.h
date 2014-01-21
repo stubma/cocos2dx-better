@@ -125,6 +125,9 @@ public:
 	 * @param level indentation level
 	 */
 	void output(CCAssetOutputStream* aos, int level = 1);
+    
+    /// serialize json object into a string
+    string toString();
 
 	/**
 	 * Add a null value for a key

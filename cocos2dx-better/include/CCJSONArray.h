@@ -152,6 +152,9 @@ public:
 	 * @param level indentation level
 	 */
 	void output(CCAssetOutputStream* aos, int level = 1);
+    
+    /// convert to a string
+    string toString();
 
 	/**
 	 * Get boolean value at given index

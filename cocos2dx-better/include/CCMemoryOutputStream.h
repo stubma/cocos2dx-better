@@ -57,11 +57,12 @@ protected:
      * @param release true means it will be released by memory output stream
      */
     CCMemoryOutputStream(char* buffer, size_t capacity, bool release);
-
+    
     /// ensure capacity is enough after write \c len bytes
     void ensureCapacity(size_t len);
 
 public:
+    CCMemoryOutputStream();
     virtual ~CCMemoryOutputStream();
 
     /**

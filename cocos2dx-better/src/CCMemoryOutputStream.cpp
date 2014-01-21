@@ -27,11 +27,19 @@
 NS_CC_BEGIN
 
 CCMemoryOutputStream::CCMemoryOutputStream(char* buffer, size_t capacity, bool release) :
-		m_buffer(buffer),
-		m_capacity(capacity),
-		m_length(0),
-		m_position(0),
-		m_release(release) {
+m_buffer(buffer),
+m_capacity(capacity),
+m_length(0),
+m_position(0),
+m_release(release) {
+}
+
+CCMemoryOutputStream::CCMemoryOutputStream() :
+m_capacity(1024),
+m_buffer((char*)malloc(m_capacity * sizeof(char))),
+m_length(0),
+m_position(0),
+m_release(true) {
 }
 
 CCMemoryOutputStream::~CCMemoryOutputStream() {

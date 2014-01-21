@@ -26,7 +26,6 @@
 NS_CC_BEGIN
 
 #define DEFAULT_SIZE 0x1000
-#define DEFAULT_INCREASE_SIZE 200
 
 CCByteBuffer::CCByteBuffer() :
 m_buffer(NULL),
@@ -75,15 +74,6 @@ void CCByteBuffer::reserve(size_t res) {
 	m_bufferSize = res;
 }
 
-template<typename T>
-T CCByteBuffer::read() {
-	if(m_readPos + sizeof(T) > m_writePos)
-		return (T)0;
-	T ret = *(T*)&m_buffer[m_readPos];
-	m_readPos += sizeof(T);
-	return ret;
-}
-
 size_t CCByteBuffer::read(uint8 * buffer, size_t len) {
 	if(m_readPos + len > m_writePos)
 		len = (m_writePos - m_readPos);
@@ -127,74 +117,6 @@ void CCByteBuffer::readLine(string& dest) {
 			break;
 		dest += c;
 	}
-}
-
-template<typename T>
-size_t CCByteBuffer::readVector(size_t vsize, vector<T>& v) {
-	v.clear();
-	while(vsize--) {
-		T t = read<T>();
-		v.push_back(t);
-	}
-	return v.size();
-}
-
-template<typename T>
-size_t CCByteBuffer::writeVector(const vector<T>& v) {
-	for(typename vector<T>::const_iterator i = v.begin(); i != v.end(); i++) {
-		write<T>(*i);
-	}
-	return v.size();
-}
-
-template<typename T>
-size_t CCByteBuffer::readList(size_t vsize, list<T>& v) {
-	v.clear();
-	while(vsize--) {
-		T t = read<T>();
-		v.push_back(t);
-	}
-	return v.size();
-}
-
-template<typename T>
-size_t CCByteBuffer::writeList(const list<T>& v) {
-	for(typename list<T>::const_iterator i = v.begin(); i != v.end(); i++) {
-		write<T>(*i);
-	}
-	return v.size();
-}
-
-template <typename K, typename V>
-size_t CCByteBuffer::readMap(size_t msize, map<K, V>& m) {
-	m.clear();
-	while(msize--) {
-		K k = read<K>();
-		V v = read<V>();
-		m.insert(make_pair(k, v));
-	}
-	return m.size();
-}
-
-template <typename K, typename V>
-size_t CCByteBuffer::writeMap(const map<K, V>& m) {
-	for(typename map<K, V>::const_iterator i = m.begin(); i != m.end(); i++) {
-		write<K>(i->first);
-		write<V>(i->second);
-	}
-	return m.size();
-}
-
-template<typename T>
-void CCByteBuffer::write(const T& data) {
-	size_t new_size = m_writePos + sizeof(T);
-	if(new_size > m_bufferSize) {
-		new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;
-		reserve(new_size);
-	}
-	
-	*(T*)&m_buffer[m_writePos] = data;
-	m_writePos += sizeof(T);
 }
 
 void CCByteBuffer::write(const uint8* data, size_t size) {

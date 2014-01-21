@@ -35,6 +35,9 @@ NS_CC_BEGIN
  * Byte buffer
  */
 class CC_DLL CCByteBuffer : public CCObject {
+private:
+    static const int DEFAULT_INCREASE_SIZE = 200;
+    
 protected:
 	/// buffer pointer
     uint8* m_buffer;
@@ -85,7 +88,13 @@ public:
 	 *
      * @return the bytes read
      */
-    template<typename T> T read();
+    template<typename T> T read() {
+        if(m_readPos + sizeof(T) > m_writePos)
+            return (T)0;
+        T ret = *(T*)&m_buffer[m_readPos];
+        m_readPos += sizeof(T);
+        return ret;
+    }
 	
 	/// skip bytes, move read position forward
     void skip(size_t len);
@@ -117,8 +126,17 @@ public:
 	 *
      * @param T data The data to be written
      */
-    template<typename T> void write(const T& data);
-	
+    template<typename T> void write(const T& data) {
+        size_t new_size = m_writePos + sizeof(T);
+        if(new_size > m_bufferSize) {
+            new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;
+            reserve(new_size);
+        }
+        
+        *(T*)&m_buffer[m_writePos] = data;
+        m_writePos += sizeof(T);
+    }
+    
     /** writes x bytes to the buffer, while checking for overflows
      * @param ptr the data to be written
      * @param size byte count
@@ -154,22 +172,60 @@ public:
     void setWritePos(size_t p) { if(p <= m_bufferSize) m_writePos = p; }
 	
 	/// write a vector
-    template<typename T> size_t writeVector(const vector<T>& v);
+    template<typename T> size_t writeVector(const vector<T>& v) {
+        for(typename vector<T>::const_iterator i = v.begin(); i != v.end(); i++) {
+            write<T>(*i);
+        }
+        return v.size();
+    }
 	
 	/// read a vector
-    template<typename T> size_t readVector(size_t vsize, vector<T>& v);
+    template<typename T> size_t readVector(size_t vsize, vector<T>& v) {
+        v.clear();
+        while(vsize--) {
+            T t = read<T>();
+            v.push_back(t);
+        }
+        return v.size();
+    }
 	
 	/// write a list
-    template<typename T> size_t writeList(const list<T>& v);
+    template<typename T> size_t writeList(const list<T>& v) {
+        for(typename list<T>::const_iterator i = v.begin(); i != v.end(); i++) {
+            write<T>(*i);
+        }
+        return v.size();
+    }
 	
 	/// read a list
-    template<typename T> size_t readList(size_t vsize, list<T>& v);
+    template<typename T> size_t readList(size_t vsize, list<T>& v) {
+        v.clear();
+        while(vsize--) {
+            T t = read<T>();
+            v.push_back(t);
+        }
+        return v.size();
+    }
 	
 	/// write a map
-    template <typename K, typename V> size_t writeMap(const map<K, V>& m);
+    template <typename K, typename V> size_t writeMap(const map<K, V>& m) {
+        for(typename map<K, V>::const_iterator i = m.begin(); i != m.end(); i++) {
+            write<K>(i->first);
+            write<V>(i->second);
+        }
+        return m.size();
+    }
 	
 	/// read a map
-    template <typename K, typename V> size_t readMap(size_t msize, map<K, V>& m);
+    template <typename K, typename V> size_t readMap(size_t msize, map<K, V>& m) {
+        m.clear();
+        while(msize--) {
+            K k = read<K>();
+            V v = read<V>();
+            m.insert(make_pair(k, v));
+        }
+        return m.size();
+    }
 };
 
 NS_CC_END

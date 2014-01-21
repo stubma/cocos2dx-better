@@ -139,6 +139,13 @@ void CCTCPSocketHub::registerCallback(int tag, CCTCPSocketListener* callback) {
 	m_listenerMap[tag] = callback;
 }
 
+void CCTCPSocketHub::unregisterCallback(int tag) {
+    CCTCPSocketListenerMap::iterator iter = m_listenerMap.find(tag);
+    if(iter != m_listenerMap.end()) {
+        m_listenerMap.erase(iter);
+    }
+}
+
 bool CCTCPSocketHub::sendPacket(int tag, CCByteBuffer* packet) {
 	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		if ((*iter)->getTag() == tag) {

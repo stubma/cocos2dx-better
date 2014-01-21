@@ -74,6 +74,9 @@ public:
 	
     /// register callback, it doesn't retain the callback
     void registerCallback(int tag, CCTCPSocketListener* callback);
+    
+    /// unregister callback
+    void unregisterCallback(int tag);
 	
     /// add socket to hub
     bool addSocket(CCTCPSocket* socket);

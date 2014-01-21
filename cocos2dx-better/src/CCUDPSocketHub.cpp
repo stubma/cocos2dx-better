@@ -123,6 +123,13 @@ void CCUDPSocketHub::registerCallback(int tag, CCUDPSocketListener* callback) {
 	m_listenerMap[tag] = callback;
 }
 
+void CCUDPSocketHub::unregisterCallback(int tag) {
+    CCUDPSocketListenerMap::iterator iter = m_listenerMap.find(tag);
+    if(iter != m_listenerMap.end()) {
+        m_listenerMap.erase(iter);
+    }
+}
+
 bool CCUDPSocketHub::sendPacket(int tag, CCByteBuffer* packet) {
 	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		if ((*iter)->getTag() == tag) {

@@ -28,9 +28,7 @@ LOCAL_MODULE := cocos2dx-better
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(call all-cpp-files-under,thirdparty) \
 	$(call all-c-files-under,thirdparty/) \
-	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension/CCControl.cpp \
-	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension/CCControlUtils.cpp \
-	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension/CCInvocation.cpp \
+	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension) \
 	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/Layouts/UILayoutDefine.cpp \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature) \

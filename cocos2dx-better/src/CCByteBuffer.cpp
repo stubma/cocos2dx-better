@@ -74,6 +74,14 @@ void CCByteBuffer::reserve(size_t res) {
 	m_bufferSize = res;
 }
 
+void CCByteBuffer::compact() {
+    if(m_readPos > 0) {
+        memmove(m_buffer, m_buffer + m_readPos, available());
+        m_writePos -= m_readPos;
+        m_readPos = 0;
+    }
+}
+
 size_t CCByteBuffer::read(uint8 * buffer, size_t len) {
 	if(m_readPos + len > m_writePos)
 		len = (m_writePos - m_readPos);
@@ -159,6 +167,11 @@ void CCByteBuffer::skip(size_t len) {
 	if(m_readPos + len > m_writePos)
 		len = (m_writePos - m_readPos);
 	m_readPos += len;
+}
+
+void CCByteBuffer::revoke(size_t len) {
+    m_readPos -= len;
+    m_readPos = MAX(0, m_readPos);
 }
 
 void CCByteBuffer::ensureCanWrite(uint32 size) {

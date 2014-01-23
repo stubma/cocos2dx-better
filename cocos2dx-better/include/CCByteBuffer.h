@@ -81,7 +81,7 @@ public:
     const uint8* getBuffer() { return m_buffer; }
 	
     /// Gets the readable content size.
-    uint32 available() { return m_writePos; }
+    uint32 available() { return m_writePos - m_readPos; }
 	
     /** 
 	 * Reads sizeof(T) bytes from the buffer
@@ -98,6 +98,12 @@ public:
 	
 	/// skip bytes, move read position forward
     void skip(size_t len);
+    
+    /// move read pos back
+    void revoke(size_t len);
+    
+    /// move available data to start of buffer
+    void compact();
 	
     /**
 	 * Reads x bytes from the buffer, if len exceeds max available bytes, only available bytes

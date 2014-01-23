@@ -132,7 +132,11 @@ public:
 	/// flush write buffer, send them now
     bool flush();
 	
-	/// check is there any data can be read
+	/**
+     * check is there any data can be read
+     *
+     * @return true means socket is valid and readable, false means socket is closed.
+     */
     bool hasAvailable();
 	
 	/// destroy socket

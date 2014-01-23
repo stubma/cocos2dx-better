@@ -103,9 +103,9 @@ void CCTCPSocketHub::update(float delta) {
 	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		CCTCPSocket* pSocket = *iter;
 		int tag = pSocket->getTag();
+        bool connected = pSocket->isConnected();
 		if (!pSocket->hasAvailable()) {
-			if(pSocket->isConnected()) {
-				pSocket->setConnected(false);
+			if(pSocket->isConnected() != connected) {
 				CCTCPSocketListener* l = getListener(tag);
 				if(l)
 					l->onTCPSocketDisconnected(tag);

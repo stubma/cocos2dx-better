@@ -136,6 +136,10 @@ void NetworkDemo::backCallback(CCObject* pSender)
 // TCP Socket
 //
 //------------------------------------------------------------------
+NetworkTCP::~NetworkTCP() {
+    CC_SAFE_RELEASE(m_hub);
+}
+
 void NetworkTCP::onEnter()
 {
     NetworkDemo::onEnter();
@@ -166,7 +170,7 @@ void NetworkTCP::onEnter()
 	m_hub = CCTCPSocketHub::create();
 	m_hub->registerCallback(1, this);
 	m_hub->createSocket("192.168.1.104", 6000, 1);
-	addChild(m_hub);
+    CC_SAFE_RETAIN(m_hub);
 }
 
 void NetworkTCP::onSendClicked(CCObject* sender) {
@@ -206,6 +210,10 @@ std::string NetworkTCP::subtitle()
 // UDP Socket
 //
 //------------------------------------------------------------------
+NetworkUDP::~NetworkUDP() {
+    CC_SAFE_RELEASE(m_hub);
+}
+
 void NetworkUDP::onEnter()
 {
     NetworkDemo::onEnter();
@@ -236,7 +244,7 @@ void NetworkUDP::onEnter()
 	m_hub = CCUDPSocketHub::create();
 	m_hub->registerCallback(1, this);
 	m_hub->createSocket("192.168.1.104", 9000, 1);
-	addChild(m_hub);
+    CC_SAFE_RETAIN(m_hub);
 }
 
 void NetworkUDP::onSendClicked(CCObject* sender) {

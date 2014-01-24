@@ -49,6 +49,7 @@ private:
 	void onSendClicked(CCObject* sender);
 	
 public:
+    virtual ~NetworkTCP();
     virtual void onEnter();
     virtual string subtitle();
 
@@ -68,6 +69,7 @@ private:
 	void onSendClicked(CCObject* sender);
 	
 public:
+    virtual ~NetworkUDP();
     virtual void onEnter();
     virtual string subtitle();
 	

@@ -26,12 +26,13 @@
 NS_CC_BEGIN
 
 CCUDPSocketHub::CCUDPSocketHub() {
-	scheduleUpdate();
+    CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
+    s->scheduleSelector(schedule_selector(CCUDPSocketHub::mainLoop), this, 0, false);
 };
 
 CCUDPSocketHub::~CCUDPSocketHub() {
 	CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
-	s->unscheduleUpdateForTarget(this);
+	s->unscheduleSelector(schedule_selector(CCUDPSocketHub::mainLoop), this);
 	
 	for (CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++iter) {
 		int tag = (*iter)->getTag();
@@ -99,7 +100,7 @@ CCUDPSocket* CCUDPSocketHub::getSocket(int tag) {
 	return NULL;
 }
 
-void CCUDPSocketHub::update(float delta) {
+void CCUDPSocketHub::mainLoop(float delta) {
 	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		CCUDPSocket* pSocket = *iter;
 		int tag = pSocket->getTag();

@@ -35,7 +35,7 @@ NS_CC_BEGIN
  * It manages a group of sockets and monitor them in every update. The update loop is started
  * after hub is created.
  */
-class CC_DLL CCUDPSocketHub : public CCNode {
+class CC_DLL CCUDPSocketHub : public CCObject {
 private:
 	// buffer
 	char m_buffer[kCCSocketMaxPacketSize];
@@ -52,13 +52,13 @@ protected:
 	/// find a listener for a tag
 	CCUDPSocketListener* getListener(int tag);
 	
+    /// listen on socket, read and write if necessary
+    void mainLoop(float delta);
+    
 public:
     virtual ~CCUDPSocketHub();
 	
 	static CCUDPSocketHub* create();
-	
-	// override super
-    virtual void update(float delta);
 	
 	/**
 	 * create socket instance and auto add it to hub

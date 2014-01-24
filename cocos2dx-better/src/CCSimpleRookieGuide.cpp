@@ -46,7 +46,7 @@ void CCSimpleRookieGuide::fadeIn(float duration, float delay) {
     
     // other runs fade in
     CCTreeFadeIn* fadeIn = CCTreeFadeIn::create(duration);
-    fadeIn->excludeNode(m_content);
+    fadeIn->excludeNode(m_content, false);
     runAction(CCSequence::createWithTwoActions(CCDelayTime::create(delay),
                                                fadeIn));
 }

@@ -26,6 +26,10 @@
 
 NS_CC_BEGIN
 
+CCTreeFadeIn::CCTreeFadeIn() :
+m_recursivelyExclude(true) {
+}
+
 CCTreeFadeIn* CCTreeFadeIn::create(float d) {
     CCTreeFadeIn* pAction = new CCTreeFadeIn();
     pAction->initWithDuration(d);
@@ -51,7 +55,9 @@ void CCTreeFadeIn::fadeInRecursively(CCNode* n, float time) {
 			}
             
             fadeInRecursively(child, time);
-		}
+		} else if(!m_recursivelyExclude) {
+            fadeInRecursively(child, time);
+        }
     }
 }
 
@@ -59,8 +65,9 @@ CCActionInterval* CCTreeFadeIn::reverse(void) {
     return CCTreeFadeOut::create(m_fDuration);
 }
 
-void CCTreeFadeIn::excludeNode(CCNode* n) {
+void CCTreeFadeIn::excludeNode(CCNode* n, bool recursively) {
 	m_excludeList.addObject(n);
+    m_recursivelyExclude = recursively;
 }
 
 NS_CC_END

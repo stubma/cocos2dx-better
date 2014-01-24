@@ -33,8 +33,13 @@ class CC_DLL CCTreeFadeIn : public CCFadeIn {
 private:
 	/// excluded node list
 	CCArray m_excludeList;
+    
+    /// true means children of excluded node will also be excluded
+    bool m_recursivelyExclude;
 	
 protected:
+    CCTreeFadeIn();
+    
     /// fade in recursively
     void fadeInRecursively(CCNode* n, float time);
     
@@ -46,7 +51,7 @@ public:
     virtual CCActionInterval* reverse(void);
 	
 	/// add excluded node
-	void excludeNode(CCNode* n);
+	void excludeNode(CCNode* n, bool recursively = true);
 };
 
 NS_CC_END

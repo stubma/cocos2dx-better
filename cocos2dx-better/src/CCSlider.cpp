@@ -126,8 +126,8 @@ void CCSlider::setProgressSprite(CCSprite* progress) {
 
 void CCSlider::setValue(float v) {
     m_value = clampf(v, m_minimumValue, m_maximumValue);
-    int intValue = (int)m_value;
     if(m_discreteMode) {
+        int intValue = (int)(m_value + 0.5f);
         if(m_intValue != intValue) {
             m_intValue = intValue;
             m_value = intValue;
@@ -135,7 +135,7 @@ void CCSlider::setValue(float v) {
             sendActionsForControlEvents(CCControlEventValueChanged);
         }
     } else {
-        m_intValue = intValue;
+        m_intValue = (int)m_value;
         updateSpritesForValueChange();
         sendActionsForControlEvents(CCControlEventValueChanged);
     }

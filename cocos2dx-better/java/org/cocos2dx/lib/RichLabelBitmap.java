@@ -330,7 +330,7 @@ public class RichLabelBitmap {
                     }
                     case IMAGE:
                     {
-                    	if(openSpan != null) {  
+                    	if(openSpan != null && !TextUtils.isEmpty(openSpan.imageName)) {  
                     		// if imageName starts with '/', treat it like external image
                     		Bitmap bitmap = null;
                     		boolean external = openSpan.imageName.startsWith("/");

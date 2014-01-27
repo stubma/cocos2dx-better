@@ -354,6 +354,14 @@ public:
 	 * @return array pointer contains all children node whose tag matched, array is auto released
 	 */
 	static CCArray* getChildrenByTag(CCNode* parent, int tag);
+	
+	/**
+	 * remove child node with specified tag, it can remove more than one child as long as the tag matched
+	 * 
+	 * @param parent parent node
+	 * @param tag tag
+	 */
+	static void removeChildrenByTag(CCNode* parent, int tag);
     
     /**
      * get CPU freqency, in Hz

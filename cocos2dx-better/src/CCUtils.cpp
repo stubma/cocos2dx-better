@@ -1000,6 +1000,16 @@ CCArray* CCUtils::getChildrenByTag(CCNode* parent, int tag) {
 	return ret;
 }
 
+void CCUtils::removeChildrenByTag(CCNode* parent, int tag) {
+	CCObject* obj;
+	CCARRAY_FOREACH_REVERSE(parent->getChildren(), obj) {
+		CCNode* child = (CCNode*)obj;
+		if(child->getTag() == tag) {
+			child->removeFromParent();
+		}
+	}
+}
+
 double CCUtils::pround(double x, int precision) {
     double div = pow(10, -precision);
     return floor(x / div + 0.5) * div;

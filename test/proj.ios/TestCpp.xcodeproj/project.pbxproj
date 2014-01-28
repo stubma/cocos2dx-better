@@ -484,6 +484,7 @@
 					"$(SRCROOT)/../../cocos2dx-better/include",
 					"$(SRCROOT)/../../../cocos2d-x/extensions",
 					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCControlExtension",
+					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCEditBox",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -523,6 +524,7 @@
 					"$(SRCROOT)/../../cocos2dx-better/include",
 					"$(SRCROOT)/../../../cocos2d-x/extensions",
 					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCControlExtension",
+					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCEditBox",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

@@ -90,6 +90,13 @@
 		9255B8A718556DE400797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A618556DE400797255 /* AVFoundation.framework */; };
 		9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A818556DF000797255 /* AudioToolbox.framework */; };
 		9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B418556E5400797255 /* OpenAL.framework */; };
+		9261AC3518978224001028B5 /* CCEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2718978224001028B5 /* CCEditBox.cpp */; };
+		9261AC3618978224001028B5 /* CCEditBoxImplAndroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2A18978224001028B5 /* CCEditBoxImplAndroid.cpp */; };
+		9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2D18978224001028B5 /* CCEditBoxImplIOS.mm */; };
+		9261AC3818978224001028B5 /* CCEditBoxImplMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2F18978224001028B5 /* CCEditBoxImplMac.mm */; };
+		9261AC3918978224001028B5 /* CCEditBoxImplNone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3018978224001028B5 /* CCEditBoxImplNone.cpp */; };
+		9261AC3A18978224001028B5 /* CCEditBoxImplTizen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3118978224001028B5 /* CCEditBoxImplTizen.cpp */; };
+		9261AC3B18978224001028B5 /* CCEditBoxImplWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3318978224001028B5 /* CCEditBoxImplWin.cpp */; };
 		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
 		9288DF27188F98A400C14965 /* CCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF0E188F98A400C14965 /* CCControl.cpp */; };
 		9288DF28188F98A400C14965 /* CCControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF10188F98A400C14965 /* CCControlButton.cpp */; };
@@ -388,6 +395,20 @@
 		9255B8A818556DF000797255 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9255B8AA18556DFD00797255 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		9255B8B418556E5400797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		9261AC2718978224001028B5 /* CCEditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBox.cpp; sourceTree = "<group>"; };
+		9261AC2818978224001028B5 /* CCEditBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBox.h; sourceTree = "<group>"; };
+		9261AC2918978224001028B5 /* CCEditBoxImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImpl.h; sourceTree = "<group>"; };
+		9261AC2A18978224001028B5 /* CCEditBoxImplAndroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBoxImplAndroid.cpp; sourceTree = "<group>"; };
+		9261AC2B18978224001028B5 /* CCEditBoxImplAndroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImplAndroid.h; sourceTree = "<group>"; };
+		9261AC2C18978224001028B5 /* CCEditBoxImplIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImplIOS.h; sourceTree = "<group>"; };
+		9261AC2D18978224001028B5 /* CCEditBoxImplIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCEditBoxImplIOS.mm; sourceTree = "<group>"; };
+		9261AC2E18978224001028B5 /* CCEditBoxImplMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImplMac.h; sourceTree = "<group>"; };
+		9261AC2F18978224001028B5 /* CCEditBoxImplMac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCEditBoxImplMac.mm; sourceTree = "<group>"; };
+		9261AC3018978224001028B5 /* CCEditBoxImplNone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBoxImplNone.cpp; sourceTree = "<group>"; };
+		9261AC3118978224001028B5 /* CCEditBoxImplTizen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBoxImplTizen.cpp; sourceTree = "<group>"; };
+		9261AC3218978224001028B5 /* CCEditBoxImplTizen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImplTizen.h; sourceTree = "<group>"; };
+		9261AC3318978224001028B5 /* CCEditBoxImplWin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBoxImplWin.cpp; sourceTree = "<group>"; };
+		9261AC3418978224001028B5 /* CCEditBoxImplWin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImplWin.h; sourceTree = "<group>"; };
 		9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocket.cpp; sourceTree = "<group>"; };
 		92662272185B3E1500DC8DEC /* CCTCPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocket.h; sourceTree = "<group>"; };
 		92662277185B42CF00DC8DEC /* CCByteBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCByteBuffer.h; sourceTree = "<group>"; };
@@ -816,6 +837,7 @@
 			isa = PBXGroup;
 			children = (
 				9288DF0D188F98A400C14965 /* CCControlExtension */,
+				9261AC2618978224001028B5 /* CCEditBox */,
 			);
 			name = GUI;
 			path = "../../cocos2d-x/extensions/GUI";
@@ -1006,6 +1028,27 @@
 				9255B8A418556DA600797255 /* libCocosDenshion.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9261AC2618978224001028B5 /* CCEditBox */ = {
+			isa = PBXGroup;
+			children = (
+				9261AC2718978224001028B5 /* CCEditBox.cpp */,
+				9261AC2818978224001028B5 /* CCEditBox.h */,
+				9261AC2918978224001028B5 /* CCEditBoxImpl.h */,
+				9261AC2A18978224001028B5 /* CCEditBoxImplAndroid.cpp */,
+				9261AC2B18978224001028B5 /* CCEditBoxImplAndroid.h */,
+				9261AC2C18978224001028B5 /* CCEditBoxImplIOS.h */,
+				9261AC2D18978224001028B5 /* CCEditBoxImplIOS.mm */,
+				9261AC2E18978224001028B5 /* CCEditBoxImplMac.h */,
+				9261AC2F18978224001028B5 /* CCEditBoxImplMac.mm */,
+				9261AC3018978224001028B5 /* CCEditBoxImplNone.cpp */,
+				9261AC3118978224001028B5 /* CCEditBoxImplTizen.cpp */,
+				9261AC3218978224001028B5 /* CCEditBoxImplTizen.h */,
+				9261AC3318978224001028B5 /* CCEditBoxImplWin.cpp */,
+				9261AC3418978224001028B5 /* CCEditBoxImplWin.h */,
+			);
+			path = CCEditBox;
 			sourceTree = "<group>";
 		};
 		9266226D185B3DAC00DC8DEC /* network */ = {
@@ -1415,6 +1458,7 @@
 				924A8BC91856B45E00681A4D /* CCColliderDetector.cpp in Sources */,
 				923968E9185591DB0063E8A1 /* CCGestureRecognizer.cpp in Sources */,
 				92F68E5918559EC100C97188 /* Atomic.cpp in Sources */,
+				9261AC3618978224001028B5 /* CCEditBoxImplAndroid.cpp in Sources */,
 				9288DF29188F98A400C14965 /* CCControlColourPicker.cpp in Sources */,
 				92F68F341855BDE200C97188 /* CCSPXAction.cpp in Sources */,
 				924A8BC51856B45E00681A4D /* CCDecorativeDisplay.cpp in Sources */,
@@ -1422,12 +1466,15 @@
 				923968E8185591DB0063E8A1 /* CCDrawingPrimitivesEx.cpp in Sources */,
 				9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */,
 				923968F2185591DB0063E8A1 /* CCMemoryInputStream.cpp in Sources */,
+				9261AC3918978224001028B5 /* CCEditBoxImplNone.cpp in Sources */,
 				92F68F251855BDE200C97188 /* CCAuroraFileData.cpp in Sources */,
 				92042B1B187FE0CD0064262D /* CCJumpToEx.cpp in Sources */,
+				9261AC3B18978224001028B5 /* CCEditBoxImplWin.cpp in Sources */,
 				92F68F281855BDE200C97188 /* CCAuroraSprite.cpp in Sources */,
 				92F68F321855BDE200C97188 /* CCSPX3Sprite.cpp in Sources */,
 				923968E5185591DB0063E8A1 /* CCCalendar.cpp in Sources */,
 				9288DF2F188F98A400C14965 /* CCControlSwitch.cpp in Sources */,
+				9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */,
 				92F68E5B18559EC100C97188 /* SharedBuffer.cpp in Sources */,
 				924A8BC81856B45E00681A4D /* CCSkin.cpp in Sources */,
 				923968FB185591DB0063E8A1 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */,
@@ -1456,10 +1503,12 @@
 				9288DF31188F98A400C14965 /* CCInvocation.cpp in Sources */,
 				92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */,
 				92396904185591DB0063E8A1 /* CCTexture2D_richlabel.cpp in Sources */,
+				9261AC3A18978224001028B5 /* CCEditBoxImplTizen.cpp in Sources */,
 				9243819B1883E43100ECA91A /* CCLayerClip.cpp in Sources */,
 				9288DF2C188F98A400C14965 /* CCControlSaturationBrightnessPicker.cpp in Sources */,
 				92396908185591DB0063E8A1 /* CCToast.cpp in Sources */,
 				924A8BBF1856B45E00681A4D /* CCProcessBase.cpp in Sources */,
+				9261AC3818978224001028B5 /* CCEditBoxImplMac.mm in Sources */,
 				923968FD185591DB0063E8A1 /* CCScroller.cpp in Sources */,
 				923968FF185591DB0063E8A1 /* CCShake.cpp in Sources */,
 				92396903185591DB0063E8A1 /* CCTapGestureRecognizer.cpp in Sources */,
@@ -1523,6 +1572,7 @@
 				92F68F201855BDE200C97188 /* CCAFCSprite.cpp in Sources */,
 				9288DF28188F98A400C14965 /* CCControlButton.cpp in Sources */,
 				92F68F2A1855BDE200C97188 /* CCMWLoader.cpp in Sources */,
+				9261AC3518978224001028B5 /* CCEditBox.cpp in Sources */,
 				92396909185591DB0063E8A1 /* CCTreeFadeIn.cpp in Sources */,
 				92F68F1B1855BDE200C97188 /* CCAFCAnimation.cpp in Sources */,
 				92F68EAE1855AD4400C97188 /* yajl_gen.c in Sources */,
@@ -1636,6 +1686,7 @@
 					"$(SRCROOT)/../../cocos2d-x/CocosDenshion/include",
 					"$(SRCROOT)/../../cocos2d-x/extensions",
 					"$(SRCROOT)/../../cocos2d-x/extensions/GUI/CCControlExtension",
+					"$(SRCROOT)/../../cocos2d-x/extensions/GUI/CCEditBox",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "cocos2dx-better";
@@ -1660,6 +1711,7 @@
 					"$(SRCROOT)/../../cocos2d-x/CocosDenshion/include",
 					"$(SRCROOT)/../../cocos2d-x/extensions",
 					"$(SRCROOT)/../../cocos2d-x/extensions/GUI/CCControlExtension",
+					"$(SRCROOT)/../../cocos2d-x/extensions/GUI/CCEditBox",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "cocos2dx-better";

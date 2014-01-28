@@ -29,6 +29,7 @@ LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(call all-cpp-files-under,thirdparty) \
 	$(call all-c-files-under,thirdparty/) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension) \
+	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox) \
 	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/Layouts/UILayoutDefine.cpp \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature) \
@@ -40,6 +41,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOSDENSHION_ROOT)/include \
 	$(COCOS2DX_EXT_ROOT) \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension \
+	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox \
 	$(COCOS2DX_EXT_ROOT)/CCBReader \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/animation \

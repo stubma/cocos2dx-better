@@ -35,14 +35,14 @@ m_focusImage(NULL) {
 CCAutoRenderMenuItemSprite::~CCAutoRenderMenuItemSprite() {
 }
 
-CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* sprite, CCObject* target, SEL_MenuHandler selector) {
+CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCNode* sprite, CCObject* target, SEL_MenuHandler selector) {
 	CCAutoRenderMenuItemSprite* pRet = new CCAutoRenderMenuItemSprite();
     pRet->initWithNormalSprite(sprite, NULL, NULL, target, selector);
     pRet->autorelease();
     return pRet;
 }
 
-CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalImage, CCSprite* focusImage) {
+CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCNode* normalImage, CCNode* focusImage) {
     CCAutoRenderMenuItemSprite* pRet = new CCAutoRenderMenuItemSprite();
     pRet->initWithNormalSprite(normalImage, NULL, NULL, NULL, NULL);
     pRet->setFocusImage(focusImage);
@@ -50,7 +50,7 @@ CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalI
     return pRet;
 }
 
-CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalImage, CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector) {
+CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCNode* normalImage, CCNode* focusImage, CCObject* target, SEL_MenuHandler selector) {
 	CCAutoRenderMenuItemSprite* pRet = new CCAutoRenderMenuItemSprite();
     pRet->initWithNormalSprite(normalImage, NULL, NULL, target, selector);
 	pRet->setFocusImage(focusImage);
@@ -58,8 +58,8 @@ CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalI
     return pRet;
 }
 
-CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalImage, CCSprite* selectedImage,
-															   CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector) {
+CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCNode* normalImage, CCNode* selectedImage,
+															   CCNode* focusImage, CCObject* target, SEL_MenuHandler selector) {
 	CCAutoRenderMenuItemSprite* pRet = new CCAutoRenderMenuItemSprite();
     pRet->initWithNormalSprite(normalImage, selectedImage, NULL, target, selector);
 	pRet->setFocusImage(focusImage);
@@ -67,8 +67,8 @@ CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalI
     return pRet;
 }
 
-CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCSprite* normalImage, CCSprite* selectedImage, CCSprite* disabledImage,
-															   CCSprite* focusImage, CCObject* target, SEL_MenuHandler selector) {
+CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCNode* normalImage, CCNode* selectedImage, CCNode* disabledImage,
+															   CCNode* focusImage, CCObject* target, SEL_MenuHandler selector) {
 	CCAutoRenderMenuItemSprite* pRet = new CCAutoRenderMenuItemSprite();
     pRet->initWithNormalSprite(normalImage, selectedImage, disabledImage, target, selector);
 	pRet->setFocusImage(focusImage);
@@ -168,7 +168,7 @@ void CCAutoRenderMenuItemSprite::setFocus(bool flag) {
 	updateImagesVisibility();
 }
 
-void CCAutoRenderMenuItemSprite::setFocusImage(CCSprite* focusImage) {
+void CCAutoRenderMenuItemSprite::setFocusImage(CCNode* focusImage) {
 	if (focusImage != m_focusImage) {
         if (focusImage) {
             addChild(focusImage, 0);

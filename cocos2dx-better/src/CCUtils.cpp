@@ -270,6 +270,15 @@ string CCUtils::deletePathExtension(const string& path) {
 	}
 }
 
+string CCUtils::getPathExtension(const string& path) {
+	ssize_t end = lastDotIndex(path);
+	if(end >= 0) {
+		return path.substr(end);
+	} else {
+		return "";
+	}
+}
+
 bool CCUtils::deleteFile(string path) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 	string mappedPath = mapLocalPath(path);
@@ -1181,6 +1190,36 @@ void CCUtils::stopInternalMusic() {
 #else
     CCLOGERROR("CCUtils::playInternalMusic is not implemented for this platform, please finish it");
 #endif
+}
+
+string CCUtils::makeScreenshot(CCNode* root, const string& path) {
+	// check extension
+	string ext = getPathExtension(path);
+	bool png = ext == ".png";
+	bool jpg = ext == ".jpg" || ext == ".jpeg";
+	if(!png && !jpg)
+		jpg = true;
+	
+	// get render root
+	CCNode* renderNode = root;
+	CCRect bound;
+	if(renderNode)
+		bound = getBoundingBoxInWorldSpace(renderNode);
+	else
+		renderNode = CCDirector::sharedDirector()->getRunningScene();
+	
+	// render in texture
+	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+	CCRenderTexture* screen = CCRenderTexture::create(winSize.width, winSize.height);
+	screen->begin();
+	renderNode->visit();
+	screen->end();
+	
+	// save buffer
+	screen->saveToFile(path.c_str(), png ? kCCImageFormatPNG : kCCImageFormatJPEG);
+	
+	// full path
+	return CCFileUtils::sharedFileUtils()->getWritablePath() + path;
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

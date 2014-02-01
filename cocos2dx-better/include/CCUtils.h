@@ -142,6 +142,9 @@ public:
 	 */
 	static string deletePathExtension(const string& path);
 	
+	/// get path extension, with a dot started string. or empty string if no extension
+	static string getPathExtension(const string& path);
+	
 	/**
 	 * map path to different platform, for example, a path "/sdcard/a.png" will be:
 	 * 1. in android, it is /sdcard/a.png
@@ -404,6 +407,19 @@ public:
 	
 	/// is internal music playing
 	static bool isInternalMusicPlaying();
+	
+	/**
+	 * capture screen and save it to a image file. The file type will auto determined by extension, and 
+	 * only jpg, jpeg, png is supported. Other extensions will be ignored and save as jpg. The image file will be
+	 * same size as window size (also known as design size).
+	 *
+	 * @param root the start node to be captured, so that you can only capture part of screen. However, final image
+	 *		file is always window size. If root is NULL, whole screen will be captured.
+	 * @param path the relative path of image file, it will be mapped to platform writable path. In iOS, it is ~/Documents,
+	 *		in Android, it is cache dir
+	 * @return full path of saved image file
+	 */
+	static string makeScreenshot(CCNode* root, const string& path);
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

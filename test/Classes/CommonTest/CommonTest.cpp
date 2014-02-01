@@ -17,8 +17,9 @@ TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonRichLabel2);
 TESTLAYER_CREATE_FUNC(CommonResourceLoader);
 TESTLAYER_CREATE_FUNC(CommonRookieGuide);
-TESTLAYER_CREATE_FUNC(CommonShake);
+TESTLAYER_CREATE_FUNC(CommonScreenshot);
 TESTLAYER_CREATE_FUNC(CommonScrollView);
+TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonSlider);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
 TESTLAYER_CREATE_FUNC(CommonToast);
@@ -40,8 +41,9 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonRichLabel2),
 	CF(CommonResourceLoader),
     CF(CommonRookieGuide),
-    CF(CommonShake),
+	CF(CommonScreenshot),
 	CF(CommonScrollView),
+    CF(CommonShake),
     CF(CommonSlider),
     CF(CommonTiledSprite),
     CF(CommonToast),
@@ -954,27 +956,62 @@ void CommonRookieGuide::onGuideClicked() {
 
 //------------------------------------------------------------------
 //
-// Shake
+// Screenshot
 //
 //------------------------------------------------------------------
-void CommonShake::onEnter()
+void CommonScreenshot::onEnter()
 {
     CommonDemo::onEnter();
-
+	m_shot = NULL;
+	
+	setOpacity(255);
+	setColor(ccRED);
+	
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
+	// grossini
 	CCSprite* s = CCSprite::create("Images/grossini.png");
 	s->setPosition(ccp(origin.x + visibleSize.width / 2,
 					   origin.y + visibleSize.height / 2));
 	addChild(s);
 	
-	s->runAction(CCRepeatForever::create(CCShake::create(1, 5)));
+	// rotate grossini
+	s->runAction(CCRepeatForever::create(CCRotateBy::create(5, 360)));
+	
+	// hint
+    CCToast* t = CCToast::create(this, CCLabelTTF::create("Touch to capture screen", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()));
+    t->setPosition(ccp(origin.x + visibleSize.width / 2,
+                       origin.y + visibleSize.height / 5));
+	
+	// enable touch
+	setTouchEnabled(true);
+	setTouchMode(kCCTouchesOneByOne);
 }
 
-std::string CommonShake::subtitle()
+std::string CommonScreenshot::subtitle()
 {
-    return "Shake";
+    return "Screenshot";
+}
+
+bool CommonScreenshot::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+	// only shot this layer
+	string path = CCUtils::makeScreenshot(this, "a.jpg");
+	
+	// remove old screenshot texture
+	CCTextureCache::sharedTextureCache()->removeTextureForKey(path.c_str());
+	
+	// create sprite from screenshot, to avoid to capturing it, we add it to scene
+	// another way is setting unwanted node to invisible before makeScreeshot
+	if(m_shot)
+		m_shot->removeFromParent();
+	m_shot = CCSprite::create(path.c_str());
+	m_shot->setAnchorPoint(CCPointZero);
+	m_shot->setPosition(CCDirector::sharedDirector()->getVisibleOrigin());
+	m_shot->setScale(0.25f);
+	getParent()->addChild(m_shot);
+	
+	return true;
 }
 
 //------------------------------------------------------------------
@@ -1027,6 +1064,31 @@ CCLayer* CommonScrollView::createScrollContent(const CCSize& size) {
 std::string CommonScrollView::subtitle()
 {
     return "Scroll View (Support Fling)";
+}
+
+//------------------------------------------------------------------
+//
+// Shake
+//
+//------------------------------------------------------------------
+void CommonShake::onEnter()
+{
+    CommonDemo::onEnter();
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCSprite* s = CCSprite::create("Images/grossini.png");
+	s->setPosition(ccp(origin.x + visibleSize.width / 2,
+					   origin.y + visibleSize.height / 2));
+	addChild(s);
+	
+	s->runAction(CCRepeatForever::create(CCShake::create(1, 5)));
+}
+
+std::string CommonShake::subtitle()
+{
+    return "Shake";
 }
 
 //------------------------------------------------------------------

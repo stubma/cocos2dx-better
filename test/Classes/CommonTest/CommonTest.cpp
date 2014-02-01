@@ -6,6 +6,7 @@ TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
 TESTLAYER_CREATE_FUNC(CommonClipInOut);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
+TESTLAYER_CREATE_FUNC(CommonImagePicker);
 TESTLAYER_CREATE_FUNC(CommonJumpEx);
 TESTLAYER_CREATE_FUNC(CommonLayerClip);
 TESTLAYER_CREATE_FUNC(CommonLocale);
@@ -30,6 +31,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonCatmullRomSprite),
     CF(CommonClipInOut),
 	CF(CommonGradientSprite),
+	CF(CommonImagePicker),
     CF(CommonJumpEx),
     CF(CommonLayerClip),
 	CF(CommonLocale),
@@ -365,6 +367,57 @@ void CommonGradientSprite::onEnter()
 std::string CommonGradientSprite::subtitle()
 {
     return "Gradient Sprite";
+}
+
+//------------------------------------------------------------------
+//
+// Image Picker
+//
+//------------------------------------------------------------------
+void CommonImagePicker::onEnter()
+{
+    CommonDemo::onEnter();
+	m_photo = NULL;
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	// hint
+    CCToast* t = CCToast::create(this, CCLabelTTF::create("Touch to bring image picker out", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()));
+    t->setPosition(ccp(origin.x + visibleSize.width / 2,
+                       origin.y + visibleSize.height / 5));
+	
+	// enable touch
+	setTouchEnabled(true);
+	setTouchMode(kCCTouchesOneByOne);
+}
+
+std::string CommonImagePicker::subtitle()
+{
+    return "Image Picker";
+}
+
+bool CommonImagePicker::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+	CCImagePicker::pickFromFrontCamera("a.jpg", this, 100, 100);
+	
+	return true;
+}
+
+void CommonImagePicker::onImagePicked(const string& fullPath, int w, int h) {
+	if(m_photo)
+		m_photo->removeFromParent();
+	
+	CCTextureCache::sharedTextureCache()->removeTextureForKey(fullPath.c_str());
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	m_photo = CCSprite::create(fullPath.c_str());
+	m_photo->setPosition(ccp(origin.x + visibleSize.width / 2,
+							 origin.y + visibleSize.height / 2));
+	addChild(m_photo);
+}
+
+void CommonImagePicker::onImagePickingCancelled() {
+	CCLOG("onImagePickingCancelled");
 }
 
 //------------------------------------------------------------------

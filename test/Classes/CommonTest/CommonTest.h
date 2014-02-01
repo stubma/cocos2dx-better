@@ -66,6 +66,21 @@ public:
     virtual string subtitle();
 };
 
+class CommonImagePicker : public CommonDemo, public CCImagePickerCallback
+{
+private:
+	CCSprite* m_photo;
+	
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+	
+	// image picker callback
+	virtual void onImagePicked(const string& fullPath, int w, int h);
+	virtual void onImagePickingCancelled();
+};
+
 class CommonJumpEx : public CommonDemo
 {
 public:

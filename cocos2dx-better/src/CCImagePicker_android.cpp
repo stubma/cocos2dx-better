@@ -21,10 +21,36 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#ifdef __OBJC__
-	#import <Foundation/Foundation.h>
-	#import <UIKit/UIKit.h>
-    #include "CCMoreMacros.h"
-    #include "CCUtils.h"
-#endif
+#include "CCImagePicker.h"
+
+NS_CC_BEGIN
+
+bool CCImagePicker::hasCamera() {
+	return false;
+}
+
+bool CCImagePicker::hasFrontCamera() {
+	return false;
+}
+
+void CCImagePicker::pickFromCamera(const string& path, CCImagePickerCallback* callback, int w, int h, bool front, bool keepRatio) {
+	
+}
+
+void CCImagePicker::pickFromCamera(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
+	
+}
+
+void CCImagePicker::pickFromFrontCamera(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
+	
+}
+
+void CCImagePicker::pickFromAlbum(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
+	
+}
+
+NS_CC_END
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

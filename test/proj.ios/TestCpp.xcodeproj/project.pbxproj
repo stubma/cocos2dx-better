@@ -23,6 +23,7 @@
 		9255B8AD18556E1800797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8AC18556E1800797255 /* AVFoundation.framework */; };
 		9255B8B118556E2000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B018556E2000797255 /* AudioToolbox.framework */; };
 		9255B8B318556E2800797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B218556E2800797255 /* OpenAL.framework */; };
+		92575520189CE37E007D2369 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9257551F189CE37E007D2369 /* Images.xcassets */; };
 		92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3D175D9B0700E63472 /* CoreText.framework */; };
 		92A670F516E893AF008BE79D /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 92A670F416E893AF008BE79D /* Images */; };
 		92A6710016E895FF008BE79D /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A670EF16E8922A008BE79D /* libcocos2dx.a */; };
@@ -103,6 +104,7 @@
 		9255B8AC18556E1800797255 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9255B8B018556E2000797255 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9255B8B218556E2800797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		9257551F189CE37E007D2369 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TestCpp/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		92984F3D175D9B0700E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92A670E716E8922A008BE79D /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92A670F416E893AF008BE79D /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9257551F189CE37E007D2369 /* Images.xcassets */,
 				92F68ECD1855B60F00C97188 /* Files */,
 				920B54871762FA0F0096B254 /* font */,
 				92A670F416E893AF008BE79D /* Images */,
@@ -412,6 +415,7 @@
 				D41A0AD1160F154A004552AE /* Default-568h@2x.png in Resources */,
 				D446FD6E16102124000ADA7B /* Default@2x.png in Resources */,
 				92A670F516E893AF008BE79D /* Images in Resources */,
+				92575520189CE37E007D2369 /* Images.xcassets in Resources */,
 				920B54881762FA0F0096B254 /* font in Resources */,
 				92505572176FFADC00E42708 /* strings in Resources */,
 			);
@@ -459,6 +463,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -501,6 +507,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;

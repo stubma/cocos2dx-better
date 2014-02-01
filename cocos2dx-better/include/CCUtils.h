@@ -444,7 +444,12 @@ public:
     static void putParcelableExtra(jobject intent, const char* name, jobject value);
     static void startActivity(jobject intent);
     static void sendBroadcast(jobject intent);
-#endif
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+	/// find view controller which contains given view
+	static UIViewController* findViewController(UIView* view);
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 };
 
 NS_CC_END

@@ -90,6 +90,8 @@
 		9255B8A718556DE400797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A618556DE400797255 /* AVFoundation.framework */; };
 		9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A818556DF000797255 /* AudioToolbox.framework */; };
 		9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B418556E5400797255 /* OpenAL.framework */; };
+		9257551C189CD846007D2369 /* CCImagePicker_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9257551B189CD846007D2369 /* CCImagePicker_ios.mm */; };
+		9257551E189CDB6B007D2369 /* CCImagePicker_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9257551D189CDB6B007D2369 /* CCImagePicker_android.cpp */; };
 		9261AC3518978224001028B5 /* CCEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2718978224001028B5 /* CCEditBox.cpp */; };
 		9261AC3618978224001028B5 /* CCEditBoxImplAndroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2A18978224001028B5 /* CCEditBoxImplAndroid.cpp */; };
 		9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2D18978224001028B5 /* CCEditBoxImplIOS.mm */; };
@@ -395,6 +397,10 @@
 		9255B8A818556DF000797255 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9255B8AA18556DFD00797255 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		9255B8B418556E5400797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		92575519189CD672007D2369 /* CCImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCImagePicker.h; sourceTree = "<group>"; };
+		9257551A189CD73C007D2369 /* CCImagePickerCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCImagePickerCallback.h; sourceTree = "<group>"; };
+		9257551B189CD846007D2369 /* CCImagePicker_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImagePicker_ios.mm; sourceTree = "<group>"; };
+		9257551D189CDB6B007D2369 /* CCImagePicker_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker_android.cpp; sourceTree = "<group>"; };
 		9261AC2718978224001028B5 /* CCEditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBox.cpp; sourceTree = "<group>"; };
 		9261AC2818978224001028B5 /* CCEditBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBox.h; sourceTree = "<group>"; };
 		9261AC2918978224001028B5 /* CCEditBoxImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImpl.h; sourceTree = "<group>"; };
@@ -689,6 +695,8 @@
 				9222C62F18693F4000226B34 /* CCPointList.h */,
 				92396895185591DB0063E8A1 /* CCUtils.h */,
 				92396896185591DB0063E8A1 /* CCVelocityTracker.h */,
+				92575519189CD672007D2369 /* CCImagePicker.h */,
+				9257551A189CD73C007D2369 /* CCImagePickerCallback.h */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -749,6 +757,8 @@
 				923968A9185591DB0063E8A1 /* CCDrawingPrimitivesEx.cpp */,
 				923968B0185591DB0063E8A1 /* CCLocale.cpp */,
 				923968B1185591DB0063E8A1 /* CCLocalization.cpp */,
+				9257551B189CD846007D2369 /* CCImagePicker_ios.mm */,
+				9257551D189CDB6B007D2369 /* CCImagePicker_android.cpp */,
 				923968B3185591DB0063E8A1 /* CCMD5.cpp */,
 				923968BC185591DB0063E8A1 /* CCResourceLoader.cpp */,
 				923968C1185591DB0063E8A1 /* CCScroller.cpp */,
@@ -1475,6 +1485,7 @@
 				923968E5185591DB0063E8A1 /* CCCalendar.cpp in Sources */,
 				9288DF2F188F98A400C14965 /* CCControlSwitch.cpp in Sources */,
 				9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */,
+				9257551C189CD846007D2369 /* CCImagePicker_ios.mm in Sources */,
 				92F68E5B18559EC100C97188 /* SharedBuffer.cpp in Sources */,
 				924A8BC81856B45E00681A4D /* CCSkin.cpp in Sources */,
 				923968FB185591DB0063E8A1 /* CCRichLabelTTFLinkStateSynchronizer.cpp in Sources */,
@@ -1515,6 +1526,7 @@
 				92F68F1E1855BDE200C97188 /* CCAFCFileData.cpp in Sources */,
 				9239690A185591DB0063E8A1 /* CCTreeFadeOut.cpp in Sources */,
 				923968E2185591DB0063E8A1 /* CCAssetOutputStream_android.cpp in Sources */,
+				9257551E189CDB6B007D2369 /* CCImagePicker_android.cpp in Sources */,
 				9288DF30188F98A400C14965 /* CCControlUtils.cpp in Sources */,
 				92F68F301855BDE200C97188 /* CCSPX3Loader.cpp in Sources */,
 				923968F1185591DB0063E8A1 /* CCMD5.cpp in Sources */,

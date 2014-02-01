@@ -70,6 +70,8 @@
 #include "CCJumpByEx.h"
 #include "CCJumpToEx.h"
 #include "CCLayerClip.h"
+#include "CCImagePicker.h"
+#include "CCImagePickerCallback.h"
 
 // db
 #include "CCDatabase.h"

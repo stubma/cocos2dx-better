@@ -21,10 +21,33 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#ifndef __CCImagePickerCallback__
+#define __CCImagePickerCallback__
 
-#ifdef __OBJC__
-	#import <Foundation/Foundation.h>
-	#import <UIKit/UIKit.h>
-    #include "CCMoreMacros.h"
-    #include "CCUtils.h"
-#endif
+#include "cocos2d.h"
+
+using namespace std;
+
+NS_CC_BEGIN
+
+/// interface of CCImagePicker event
+class CC_DLL CCImagePickerCallback {
+public:
+	/**
+	 * Invoked when image is picked
+	 *
+	 * @param fullPath the picked image is saved into an image file, and this is image file absolute path
+	 * @param w image width in pixel
+	 * @param h image height in pixel
+	 */
+	virtual void onImagePicked(const string& fullPath, int w, int h) = 0;
+	
+	/**
+	 * invoked when image picking cancelled
+	 */
+	virtual void onImagePickingCancelled() = 0;
+};
+
+NS_CC_END
+
+#endif // __CCImagePickerCallback__

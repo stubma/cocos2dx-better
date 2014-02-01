@@ -51,13 +51,13 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/utils
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2 \
-	$(LOCAL_PATH)/thirdparty/aosp
+	$(LOCAL_PATH)/thirdparty/aosp \
+	$(LOCAL_PATH)/thirdparty/yajl/include
 LOCAL_EXPORT_LDLIBS := -L$(LOCAL_PATH)/thirdparty/system_libs/$(TARGET_ARCH) -lsqlite -llog
 LOCAL_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
-LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static yajl
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static
 
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,cocos2dx)
 $(call import-module,CocosDenshion/android)
-$(call import-module,cocos2dx-better/thirdparty/yajl)

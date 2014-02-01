@@ -398,7 +398,10 @@ std::string CommonImagePicker::subtitle()
 }
 
 bool CommonImagePicker::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
-	CCImagePicker::pickFromFrontCamera("a.jpg", this, 100, 100);
+    if(CCImagePicker::hasFrontCamera())
+    	CCImagePicker::pickFromFrontCamera("a.jpg", this, 100, 100);
+    else if(CCImagePicker::hasCamera())
+        CCImagePicker::pickFromCamera("a.jpg", this, 100, 100);
 	
 	return true;
 }
@@ -406,7 +409,7 @@ bool CommonImagePicker::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 void CommonImagePicker::onImagePicked(const string& fullPath, int w, int h) {
 	if(m_photo)
 		m_photo->removeFromParent();
-	
+
 	CCTextureCache::sharedTextureCache()->removeTextureForKey(fullPath.c_str());
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();

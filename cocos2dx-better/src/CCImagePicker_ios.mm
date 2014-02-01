@@ -247,14 +247,6 @@ void CCImagePicker::pickFromCamera(const string& path, CCImagePickerCallback* ca
 #endif
 }
 
-void CCImagePicker::pickFromCamera(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
-	pickFromCamera(path, callback, w, h, false, keepRatio);
-}
-
-void CCImagePicker::pickFromFrontCamera(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
-	pickFromCamera(path, callback, w, h, true, keepRatio);
-}
-
 void CCImagePicker::pickFromAlbum(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
 	// acquire a view controller
 	UIView* view = [EAGLView sharedEGLView];

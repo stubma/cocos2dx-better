@@ -16,8 +16,6 @@
 
 package org.cocos2dx.lib.cropimage;
 
-import org.cocos2dx.testcpp.R;
-
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -25,6 +23,7 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -50,13 +49,10 @@ class HighlightView {
     }
 
     private void init() {
-        android.content.res.Resources resources = mContext.getResources();
-        mResizeDrawableWidth =
-                resources.getDrawable(R.drawable.camera_crop_width);
-        mResizeDrawableHeight =
-                resources.getDrawable(R.drawable.camera_crop_height);
-        mResizeDrawableDiagonal =
-                resources.getDrawable(R.drawable.indicator_autocrop);
+    	Images.ensureBitmaps(mContext.getContext());
+        mResizeDrawableWidth = new BitmapDrawable(Images.b_camera_crop_width);
+        mResizeDrawableHeight = new BitmapDrawable(Images.b_camera_crop_height);
+        mResizeDrawableDiagonal = new BitmapDrawable(Images.b_indicator_autocrop);
     }
 
     boolean mIsFocused;

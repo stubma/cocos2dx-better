@@ -407,6 +407,7 @@ public class CropImage extends MonitoredActivity {
         if (mAllImages != null) {
             mAllImages.close();
         }
+        Images.releaseBitmaps();
         super.onDestroy();
     }
 

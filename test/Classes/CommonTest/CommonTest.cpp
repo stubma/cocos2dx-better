@@ -401,7 +401,7 @@ bool CommonImagePicker::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 	if(CCImagePicker::hasFrontCamera())
 		CCImagePicker::pickFromFrontCamera("a.jpg", this, 100, 100);
 	else if(CCImagePicker::hasCamera())
-		CCImagePicker::pickFromCamera("a.jpg", this, 100, 100);
+		CCImagePicker::pickFromCamera("a.png", this, 100, 100);
 	else
 		CCImagePicker::pickFromAlbum("a.jpg", this, 100, 100);
 	

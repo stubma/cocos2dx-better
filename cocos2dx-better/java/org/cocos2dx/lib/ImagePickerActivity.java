@@ -4,6 +4,7 @@ import org.cocos2dx.lib.cropimage.CropImageIntentBuilder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap.CompressFormat;
 import android.hardware.Camera.CameraInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,16 @@ public class ImagePickerActivity extends Activity {
 		}
 	}
 	
+	private boolean isPNG() {
+		String path = ImagePicker.sDestFile.getAbsolutePath();
+		int lastDot = path.lastIndexOf('.');
+		if(lastDot == -1) {
+			return false;
+		} else {
+			return path.substring(lastDot + 1).equalsIgnoreCase("png");
+		}
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(requestCode) {
@@ -42,6 +53,8 @@ public class ImagePickerActivity extends Activity {
 		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(ImagePicker.sExpectedWidth, 
 		            		ImagePicker.sExpectedHeight, uri);
 		            cropImage.setSourceImage(selectedImage);
+		            if(isPNG())
+		            	cropImage.setOutputFormat(CompressFormat.PNG.toString());
 		            startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
 				} else {
 					// callback
@@ -57,6 +70,8 @@ public class ImagePickerActivity extends Activity {
 		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(ImagePicker.sExpectedWidth, 
 		            		ImagePicker.sExpectedHeight, uri);
 		            cropImage.setSourceImage(uri);
+		            if(isPNG())
+		            	cropImage.setOutputFormat(CompressFormat.PNG.toString());
 		            startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
 				} else {
 					// callback

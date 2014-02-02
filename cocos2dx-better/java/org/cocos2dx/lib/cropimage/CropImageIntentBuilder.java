@@ -19,6 +19,7 @@ package org.cocos2dx.lib.cropimage;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -45,7 +46,8 @@ public class CropImageIntentBuilder {
     private static final String EXTRA_SCALE = "scale";
     private static final String EXTRA_SCALE_UP_IF_NEEDED = "scaleUpIfNeeded";
     private static final String EXTRA_NO_FACE_DETECTION = "noFaceDetection";
-
+    private static final String EXTRA_OUTPUT_FORMAT = "outputFormat";
+    
     private static final int DEFAULT_SCALE = 1;
 
     private boolean scale = true;
@@ -53,6 +55,7 @@ public class CropImageIntentBuilder {
     private boolean doFaceDetection = true;
     private Uri sourceImage;
     private Bitmap bitmap;
+    private String outputFormat = CompressFormat.JPEG.toString();
 
     private final int aspectX;
     private final int aspectY;
@@ -127,6 +130,7 @@ public class CropImageIntentBuilder {
         intent.putExtra(EXTRA_SCALE, this.scale);
         intent.putExtra(EXTRA_SCALE_UP_IF_NEEDED, this.scaleUpIfNeeded);
         intent.putExtra(EXTRA_NO_FACE_DETECTION, !this.doFaceDetection);
+        intent.putExtra(EXTRA_OUTPUT_FORMAT, this.outputFormat);
 
         if (this.bitmap != null) {
             intent.putExtra(EXTRA_BITMAP_DATA, this.bitmap);
@@ -209,4 +213,8 @@ public class CropImageIntentBuilder {
 
         return this;
     }
+
+	public void setOutputFormat(String outputFormat) {
+		this.outputFormat = outputFormat;
+	}
 }

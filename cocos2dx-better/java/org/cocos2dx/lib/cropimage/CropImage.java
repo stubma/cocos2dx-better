@@ -57,7 +57,7 @@ import android.widget.Toast;
  */
 public class CropImage extends MonitoredActivity {
     private static final String TAG = "CropImage";
-
+    
     // These are various options can be specified in the intent.
     private Bitmap.CompressFormat mOutputFormat =
             Bitmap.CompressFormat.JPEG; // only used with mSaveUri

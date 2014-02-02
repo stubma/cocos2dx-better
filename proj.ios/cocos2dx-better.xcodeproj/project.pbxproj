@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		92042B1B187FE0CD0064262D /* CCJumpToEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92042B19187FE0CD0064262D /* CCJumpToEx.cpp */; };
+		9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
 		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
 		922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922399E9187FD793006AD199 /* CCJumpByEx.cpp */; };
@@ -222,6 +223,7 @@
 /* Begin PBXFileReference section */
 		92042B19187FE0CD0064262D /* CCJumpToEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJumpToEx.cpp; sourceTree = "<group>"; };
 		92042B1C187FE0E80064262D /* CCJumpToEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJumpToEx.h; sourceTree = "<group>"; };
+		9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
 		9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCatmullRomSprite.cpp; sourceTree = "<group>"; };
 		9222C628186925F600226B34 /* CCCatmullRomSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCatmullRomSprite.h; sourceTree = "<group>"; };
 		9222C62D18693F3200226B34 /* CCPointList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPointList.cpp; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 				923968A9185591DB0063E8A1 /* CCDrawingPrimitivesEx.cpp */,
 				923968B0185591DB0063E8A1 /* CCLocale.cpp */,
 				923968B1185591DB0063E8A1 /* CCLocalization.cpp */,
+				9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */,
 				9257551B189CD846007D2369 /* CCImagePicker_ios.mm */,
 				9257551D189CDB6B007D2369 /* CCImagePicker_android.cpp */,
 				923968B3185591DB0063E8A1 /* CCMD5.cpp */,
@@ -1556,6 +1559,7 @@
 				922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */,
 				92F68F2F1855BDE200C97188 /* CCSPX3Frame.cpp in Sources */,
 				92F68EAF1855AD4400C97188 /* yajl_lex.c in Sources */,
+				9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */,
 				9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */,
 				92F68F331855BDE200C97188 /* CCSPX3TileSet.cpp in Sources */,
 				924A8BC61856B45E00681A4D /* CCDisplayFactory.cpp in Sources */,

@@ -16,6 +16,7 @@
 
 package org.cocos2dx.lib.cropimage;
 
+import static org.cocos2dx.lib.cropimage.Strings.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -24,7 +25,6 @@ import java.util.concurrent.CountDownLatch;
 
 import org.cocos2dx.lib.cropimage.gallery.IImage;
 import org.cocos2dx.lib.cropimage.gallery.IImageList;
-import org.cocos2dx.testcpp.R;
 
 import android.app.WallpaperManager;
 import android.content.ContentResolver;
@@ -118,7 +118,7 @@ public class CropImage extends MonitoredActivity {
     	
     	// save button
     	Button save = new Button(this);
-    	save.setText(R.string.crop_save_text);
+    	save.setText(L("crop_save_text"));
     	llp = new LinearLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()), 
     			LayoutParams.WRAP_CONTENT);
     	save.setLayoutParams(llp);
@@ -134,7 +134,7 @@ public class CropImage extends MonitoredActivity {
     	
     	// discard button
     	Button discard = new Button(this);
-    	discard.setText(R.string.crop_discard_text);
+    	discard.setText(L("crop_discard_text"));
     	llp = new LinearLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()), 
     			LayoutParams.WRAP_CONTENT);
     	discard.setLayoutParams(llp);
@@ -232,8 +232,7 @@ public class CropImage extends MonitoredActivity {
 
         mImageView.setImageBitmapResetBase(mBitmap, true);
 
-        Util.startBackgroundJob(this, null,
-                getResources().getString(R.string.runningFaceDetection),
+        Util.startBackgroundJob(this, null, L("runningFaceDetection"),
                 new Runnable() {
             public void run() {
                 final CountDownLatch latch = new CountDownLatch(1);
@@ -361,11 +360,11 @@ public class CropImage extends MonitoredActivity {
             finish();
         } else {
             final Bitmap b = croppedImage;
-            final int msdId = mSetWallpaper
-                    ? R.string.wallpaper
-                    : R.string.savingImage;
+            final String msdId = mSetWallpaper
+                    ? "wallpaper"
+                    : "savingImage";
             Util.startBackgroundJob(this, null,
-                    getResources().getString(msdId),
+                    L(msdId),
                     new Runnable() {
                 public void run() {
                     saveOutput(b);
@@ -600,7 +599,7 @@ public class CropImage extends MonitoredActivity {
 
                     if (mNumFaces > 1) {
                         Toast t = Toast.makeText(CropImage.this,
-                                R.string.multiface_crop_help,
+                                L("multiface_crop_help"),
                                 Toast.LENGTH_SHORT);
                         t.show();
                     }

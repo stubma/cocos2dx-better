@@ -34,6 +34,9 @@ NS_CC_BEGIN
 /**
  * Image picker wrapper. Picked image will be saved into a file and caller should provide a callback
  * to get the file path.
+ * 
+ * \note
+ * It supports Android 2.3+, but parameter keepRatio is not supported in Android.
  */
 class CC_DLL CCImagePicker {
 	/**

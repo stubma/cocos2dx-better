@@ -63,3 +63,48 @@ source.dir=src;${user.home}/../../${c2dx.root}/cocos2dx/platform/android/java/sr
 ```
 
 If not clear, refer to demo code.
+
+How to use CCImagePicker
+==========================
+Recently I added a CCImagePicker wrapper, it supports iOS and Android. In iOS, just use it. In Android, don't forget to config something:
+* register activities in AndroidManifest.xml, below is an example, you can change some attribute if you like.
+
+```
+<activity
+    android:name="org.cocos2dx.lib.cropimage.CropImage"
+    android:configChanges="keyboardHidden|orientation"
+    android:screenOrientation="portrait"
+    android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+</activity>
+<activity
+    android:name="org.cocos2dx.lib.ImagePickerActivity"
+    android:configChanges="keyboardHidden|orientation"
+    android:screenOrientation="portrait"
+    android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+</activity>
+```
+
+* add necessary permission
+
+```
+<uses-permission android:name="android.permission.CAMERA" />
+```
+
+* add feature declaration
+
+```
+<uses-feature
+    android:name="android.hardware.camera"
+    android:required="false" />
+<uses-feature
+    android:name="android.hardware.camera.front"
+    android:required="false" />
+```
+
+* in Android.mk, you must link cocos2dx-better library with whole archive option, something like below:
+
+```
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx-better
+```
+
+And that is it! No more settings needed. Easy to use, powerful, view its demo for fun!

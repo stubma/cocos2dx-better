@@ -46,10 +46,14 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -67,6 +71,11 @@ public class CropImage extends MonitoredActivity {
     private boolean mDoFaceDetection = true;
     private boolean mCircleCrop = false;
     private final Handler mHandler = new Handler();
+    
+    // id of views
+    private static final int ID_CROP_VIEW = 100;
+    private static final int ID_DISCARD = 101;
+    private static final int ID_SAVE = 102;
 
     // These options specifiy the output image size and whether we should
     // scale the output to fit it (or just crop it).
@@ -85,6 +94,55 @@ public class CropImage extends MonitoredActivity {
 
     private IImageList mAllImages;
     private IImage mImage;
+    
+    View createContentView() {
+    	// top
+    	LinearLayout top = new LinearLayout(this);
+    	top.setOrientation(LinearLayout.VERTICAL);
+    	
+    	// crop view
+    	CropImageView cropView = new CropImageView(this, null);
+    	cropView.setBackgroundColor(0x55000000);
+    	LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+    	llp.weight = 1;
+    	cropView.setLayoutParams(llp);
+    	cropView.setId(ID_CROP_VIEW);
+    	top.addView(cropView);
+    	
+    	// button bar
+    	LinearLayout buttonBar = new LinearLayout(this);
+    	buttonBar.setOrientation(LinearLayout.HORIZONTAL);
+    	llp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    	buttonBar.setLayoutParams(llp);
+    	top.addView(buttonBar);
+    	
+    	// save button
+    	Button save = new Button(this);
+    	save.setText(R.string.crop_save_text);
+    	llp = new LinearLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()), 
+    			LayoutParams.WRAP_CONTENT);
+    	save.setLayoutParams(llp);
+    	save.setId(ID_SAVE);
+    	buttonBar.addView(save);
+    	
+    	// fill
+    	View fill = new View(this);
+    	llp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
+    	llp.weight = 1;
+    	fill.setLayoutParams(llp);
+    	buttonBar.addView(fill);
+    	
+    	// discard button
+    	Button discard = new Button(this);
+    	discard.setText(R.string.crop_discard_text);
+    	llp = new LinearLayout.LayoutParams((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics()), 
+    			LayoutParams.WRAP_CONTENT);
+    	discard.setLayoutParams(llp);
+    	discard.setId(ID_DISCARD);
+    	buttonBar.addView(discard);
+    	
+    	return top;
+    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -92,9 +150,9 @@ public class CropImage extends MonitoredActivity {
         mContentResolver = getContentResolver();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.cropimage);
+        setContentView(createContentView());
 
-        mImageView = (CropImageView) findViewById(R.id.image);
+        mImageView = (CropImageView) findViewById(ID_CROP_VIEW);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -149,7 +207,7 @@ public class CropImage extends MonitoredActivity {
         // Make UI fullscreen.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        findViewById(R.id.discard).setOnClickListener(
+        findViewById(ID_DISCARD).setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         setResult(RESULT_CANCELED);
@@ -157,7 +215,7 @@ public class CropImage extends MonitoredActivity {
                     }
                 });
 
-        findViewById(R.id.save).setOnClickListener(
+        findViewById(ID_SAVE).setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         onSaveClicked();
@@ -412,7 +470,6 @@ public class CropImage extends MonitoredActivity {
     }
 
     Runnable mRunFaceDetection = new Runnable() {
-        @SuppressWarnings("hiding")
         float mScale = 1F;
         Matrix mImageMatrix;
         FaceDetector.Face[] mFaces = new FaceDetector.Face[3];

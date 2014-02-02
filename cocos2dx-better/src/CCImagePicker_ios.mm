@@ -136,8 +136,14 @@
 	if(!png && !jpg)
 		jpg = true;
 	
-	// save cg image to file
+	// ensure parent folder is all created
 	string fullPath = CCFileUtils::sharedFileUtils()->getWritablePath() + self.path;
+	NSString* nsPath = [NSString stringWithUTF8String:fullPath.c_str()];
+	NSString* parentPath = [nsPath stringByDeletingLastPathComponent];
+	NSFileManager* fm = [NSFileManager defaultManager];
+	[fm createDirectoryAtPath:parentPath withIntermediateDirectories:YES attributes:Nil error:nil];
+	
+	// save cg image to file
 	UIImage* uiImage = [UIImage imageWithCGImage:cropImage];
 	if(png) {
 		NSData* pngData = UIImagePNGRepresentation(uiImage);

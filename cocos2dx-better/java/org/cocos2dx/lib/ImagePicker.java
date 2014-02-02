@@ -9,6 +9,7 @@ import android.hardware.Camera.CameraInfo;
 import android.os.Environment;
 
 public class ImagePicker {
+	static boolean sFromAlbum;
 	static long sCallback;
 	static String sPath;
 	static int sExpectedWidth;
@@ -33,6 +34,7 @@ public class ImagePicker {
 	}
 
 	static void pickFromCamera(String path, long callback, int w, int h, boolean front, boolean keepRatio) {
+		sFromAlbum = false;
 		sCallback = callback;
 		sPath = path;
 		sExpectedWidth = w;
@@ -56,6 +58,7 @@ public class ImagePicker {
 	}
 
 	static void pickFromAlbum(String path, long callback, int w, int h, boolean keepRatio) {
+		sFromAlbum = true;
 		sCallback = callback;
 		sPath = path;
 		sExpectedWidth = w;
@@ -70,6 +73,11 @@ public class ImagePicker {
 		if(!sDestFile.getParentFile().exists()) {
 			sDestFile.getParentFile().mkdirs();
 		}
+		
+		// start a delegate activity, it will call other activity to finish camera and crop process
+		Context ctx = Cocos2dxActivity.getContext();
+		Intent intent = new Intent(ctx, ImagePickerActivity.class);
+		ctx.startActivity(intent);
 	}
 	
 	static void onImagePicked() {

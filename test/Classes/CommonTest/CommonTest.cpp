@@ -398,10 +398,12 @@ std::string CommonImagePicker::subtitle()
 }
 
 bool CommonImagePicker::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
-    if(CCImagePicker::hasFrontCamera())
-    	CCImagePicker::pickFromFrontCamera("a.jpg", this, 100, 100);
-    else if(CCImagePicker::hasCamera())
-        CCImagePicker::pickFromCamera("a.jpg", this, 100, 100);
+	if(CCImagePicker::hasFrontCamera())
+		CCImagePicker::pickFromFrontCamera("a.jpg", this, 100, 100);
+	else if(CCImagePicker::hasCamera())
+		CCImagePicker::pickFromCamera("a.jpg", this, 100, 100);
+	else
+		CCImagePicker::pickFromAlbum("a.jpg", this, 100, 100);
 	
 	return true;
 }

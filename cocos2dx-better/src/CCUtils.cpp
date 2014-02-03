@@ -1192,7 +1192,7 @@ void CCUtils::stopInternalMusic() {
 #endif
 }
 
-string CCUtils::makeScreenshot(CCNode* root, const string& path) {
+string CCUtils::makeScreenshot(CCNode* root, const string& path, bool needStencil) {
 	// check extension
 	string ext = getPathExtension(path);
 	bool png = ext == ".png";
@@ -1210,7 +1210,10 @@ string CCUtils::makeScreenshot(CCNode* root, const string& path) {
 	
 	// render in texture
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-	CCRenderTexture* screen = CCRenderTexture::create(winSize.width, winSize.height);
+	CCRenderTexture* screen = CCRenderTexture::create(winSize.width,
+													  winSize.height,
+													  kCCTexture2DPixelFormat_RGBA8888,
+													  needStencil ? GL_DEPTH24_STENCIL8 : 0);
 	screen->begin();
 	renderNode->visit();
 	screen->end();

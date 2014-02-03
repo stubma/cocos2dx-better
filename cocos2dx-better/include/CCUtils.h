@@ -417,9 +417,10 @@ public:
 	 *		file is always window size. If root is NULL, whole screen will be captured.
 	 * @param path the relative path of image file, it will be mapped to platform writable path. In iOS, it is ~/Documents,
 	 *		in Android, it is cache dir
+	 * @param needStencil true if you want a stencil attachment, by default it is false
 	 * @return full path of saved image file
 	 */
-	static string makeScreenshot(CCNode* root, const string& path);
+	static string makeScreenshot(CCNode* root, const string& path, bool needStencil = false);
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

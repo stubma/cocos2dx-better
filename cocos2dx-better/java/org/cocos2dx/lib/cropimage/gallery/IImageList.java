@@ -16,9 +16,9 @@
 
 package org.cocos2dx.lib.cropimage.gallery;
 
-import android.net.Uri;
-
 import java.util.HashMap;
+
+import android.net.Uri;
 
 //
 // ImageList and Image classes have one-to-one correspondence.

@@ -19,23 +19,6 @@ package org.cocos2dx.lib.cropimage;
 // Don't have access to private DRM classes
 //import com.android.camera.gallery.DrmImageList;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.location.Location;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
-// Don't have access to private DRM classes
-//import android.provider.DrmStore;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
-import android.util.Log;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -53,6 +36,23 @@ import org.cocos2dx.lib.cropimage.gallery.ImageListUber;
 import org.cocos2dx.lib.cropimage.gallery.SingleImageList;
 import org.cocos2dx.lib.cropimage.gallery.VideoList;
 import org.cocos2dx.lib.cropimage.gallery.VideoObject;
+
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.location.Location;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
+// Don't have access to private DRM classes
+//import android.provider.DrmStore;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
+import android.util.Log;
 
 /**
  * ImageManager is used to retrieve and store images

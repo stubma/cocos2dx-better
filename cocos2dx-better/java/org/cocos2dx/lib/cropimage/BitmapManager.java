@@ -16,15 +16,15 @@
 
 package org.cocos2dx.lib.cropimage;
 
+import java.io.FileDescriptor;
+import java.util.WeakHashMap;
+
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Video;
 import android.util.Log;
-
-import java.io.FileDescriptor;
-import java.util.WeakHashMap;
 
 /**
  * This class provides several utilities to cancel bitmap decoding.

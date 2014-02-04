@@ -16,8 +16,6 @@
 
 package org.cocos2dx.lib.cropimage.gallery;
 
-import android.net.Uri;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,6 +23,8 @@ import java.util.PriorityQueue;
 
 import org.cocos2dx.lib.cropimage.ImageManager;
 import org.cocos2dx.lib.cropimage.Util;
+
+import android.net.Uri;
 
 /**
  * A union of different <code>IImageList</code>. This class can merge several

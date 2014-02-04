@@ -16,17 +16,17 @@
 
 package org.cocos2dx.lib.cropimage.gallery;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.database.Cursor;
-import android.net.Uri;
-import android.util.Log;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.cocos2dx.lib.cropimage.ImageManager;
 import org.cocos2dx.lib.cropimage.Util;
+
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.database.Cursor;
+import android.net.Uri;
+import android.util.Log;
 
 /**
  * A collection of <code>BaseImage</code>s.

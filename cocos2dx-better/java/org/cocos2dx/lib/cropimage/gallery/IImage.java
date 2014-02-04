@@ -16,10 +16,10 @@
 
 package org.cocos2dx.lib.cropimage.gallery;
 
+import java.io.InputStream;
+
 import android.graphics.Bitmap;
 import android.net.Uri;
-
-import java.io.InputStream;
 
 /**
  * The interface of all images used in gallery.

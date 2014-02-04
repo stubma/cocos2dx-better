@@ -16,6 +16,11 @@
 
 package org.cocos2dx.lib.cropimage.gallery;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.cocos2dx.lib.cropimage.BitmapManager;
+
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -23,11 +28,6 @@ import android.net.Uri;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Video;
 import android.util.Log;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.cocos2dx.lib.cropimage.BitmapManager;
 
 /**
  * Represents a particular video and provides access to the underlying data and

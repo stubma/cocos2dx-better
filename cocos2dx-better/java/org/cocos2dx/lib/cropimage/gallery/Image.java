@@ -16,6 +16,11 @@
 
 package org.cocos2dx.lib.cropimage.gallery;
 
+import java.io.IOException;
+
+import org.cocos2dx.lib.cropimage.BitmapManager;
+import org.cocos2dx.lib.cropimage.Util;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
@@ -26,11 +31,6 @@ import android.provider.BaseColumns;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.util.Log;
-
-import java.io.IOException;
-
-import org.cocos2dx.lib.cropimage.BitmapManager;
-import org.cocos2dx.lib.cropimage.Util;
 
 /**
  * The class for normal images in gallery.

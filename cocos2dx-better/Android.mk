@@ -52,6 +52,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2 \
 	$(LOCAL_PATH)/thirdparty/aosp \
+	$(LOCAL_PATH)/thirdparty/entities \
 	$(LOCAL_PATH)/thirdparty/yajl/include
 LOCAL_EXPORT_LDLIBS := -L$(LOCAL_PATH)/thirdparty/system_libs/$(TARGET_ARCH) -lsqlite -llog
 LOCAL_LDLIBS := $(LOCAL_EXPORT_LDLIBS)

@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCUtils.h"
+#include "entities.h"
 #include "CCMoreMacros.h"
 #include "CCMD5.h"
 #include "CCImage_richlabel.h"
@@ -104,6 +105,14 @@ void CCUtils::replaceChar(string& s, char c, char sub) {
     
     s.copy(buf, len);
     delete buf;
+}
+
+string CCUtils::decodeHtmlEntities(const string& src) {
+	char* dest = (char*)calloc(src.length() + 1, sizeof(char));
+	decode_html_entities_utf8(dest, src.c_str());
+	string decoded = string(dest);
+	free(dest);
+	return decoded;
 }
 
 int CCUtils::getNumDigits(int num) {

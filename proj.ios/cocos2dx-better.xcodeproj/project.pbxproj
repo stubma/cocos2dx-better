@@ -61,6 +61,7 @@
 		9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D1185591DB0063E8A1 /* CCUtils.cpp */; };
 		9239690C185591DB0063E8A1 /* CCVelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */; };
 		9239690D185591DB0063E8A1 /* VolatileTexture_richlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D3185591DB0063E8A1 /* VolatileTexture_richlabel.cpp */; };
+		923C785C18A120B500DD8D9A /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = 923C785A18A120B500DD8D9A /* entities.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		92405C39182B641700E46357 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92405C38182B641700E46357 /* MediaPlayer.framework */; };
 		9243819B1883E43100ECA91A /* CCLayerClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924381991883E43100ECA91A /* CCLayerClip.cpp */; };
 		9243CD301876553D0069BE2E /* CCSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9243CD2E1876553D0069BE2E /* CCSlider.cpp */; };
@@ -332,6 +333,8 @@
 		923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCVelocityTracker.cpp; sourceTree = "<group>"; };
 		923968D3185591DB0063E8A1 /* VolatileTexture_richlabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VolatileTexture_richlabel.cpp; sourceTree = "<group>"; };
 		923968D4185591DB0063E8A1 /* VolatileTexture_richlabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolatileTexture_richlabel.h; sourceTree = "<group>"; };
+		923C785A18A120B500DD8D9A /* entities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entities.c; sourceTree = "<group>"; };
+		923C785B18A120B500DD8D9A /* entities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
 		92405C38182B641700E46357 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		924381991883E43100ECA91A /* CCLayerClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLayerClip.cpp; sourceTree = "<group>"; };
 		9243819C1883E46B00ECA91A /* CCLayerClip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLayerClip.h; sourceTree = "<group>"; };
@@ -846,6 +849,15 @@
 			name = texture;
 			sourceTree = "<group>";
 		};
+		923C785918A120B500DD8D9A /* entities */ = {
+			isa = PBXGroup;
+			children = (
+				923C785A18A120B500DD8D9A /* entities.c */,
+				923C785B18A120B500DD8D9A /* entities.h */,
+			);
+			path = entities;
+			sourceTree = "<group>";
+		};
 		923EB2E6187660A800BAB114 /* GUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -1181,6 +1193,7 @@
 		92F68E4018559EC100C97188 /* thirdparty */ = {
 			isa = PBXGroup;
 			children = (
+				923C785918A120B500DD8D9A /* entities */,
 				92F68E921855AD4400C97188 /* yajl */,
 				92F68E4118559EC100C97188 /* aosp */,
 			);
@@ -1464,6 +1477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				923C785C18A120B500DD8D9A /* entities.c in Sources */,
 				924A8BD01856B45E00681A4D /* CCUtilMath.cpp in Sources */,
 				92F68EAA1855AD4400C97188 /* yajl.c in Sources */,
 				924A8BC21856B45E00681A4D /* CCBone.cpp in Sources */,

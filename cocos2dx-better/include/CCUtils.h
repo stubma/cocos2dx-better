@@ -90,6 +90,9 @@ public:
 	 * @param sub char to be replaced to
 	 */
     static void replaceChar(string& s, char c, char sub);
+	
+	/// decode html entities in a string and return a decoded string
+	static string decodeHtmlEntities(const string& src);
     
     /**
      * get digit of a number. For example: 0 returns 1, 12 returns 2,

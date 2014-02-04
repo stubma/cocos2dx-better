@@ -29,10 +29,6 @@
 #include <math.h>
 #include <ctype.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* POINTER defines a generic pointer type */
 typedef unsigned char* POINTER;
 
@@ -279,6 +275,8 @@ static void MD5Final(unsigned char digest[16], MD5_CTX *context) {
 	/* Zeroize sensitive information. */
 	MD5_memset ((POINTER)context, 0, sizeof (*context));
 }
+	
+NS_CC_BEGIN
 
 string CCMD5::md5(const char* s) {
 	char* buffer = (char*)calloc(33, sizeof(char));
@@ -319,7 +317,5 @@ const char* CCMD5::md5(const void* data, size_t len) {
 
 	return (const char*)buffer;
 }
-
-#ifdef __cplusplus
-}
-#endif
+	
+NS_CC_END

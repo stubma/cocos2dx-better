@@ -27,6 +27,10 @@
 #include "cocos2d.h"
 #include <stddef.h>
 
+using namespace std;
+
+NS_CC_BEGIN
+
 /**
  * MD5 utilities
  */
@@ -49,5 +53,7 @@ public:
 	 */
 	static const char* md5(const void* data, size_t len);
 };
+
+NS_CC_END
 
 #endif // __CCMD5_h__

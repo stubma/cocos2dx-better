@@ -280,7 +280,7 @@ static void MD5Final(unsigned char digest[16], MD5_CTX *context) {
 	MD5_memset ((POINTER)context, 0, sizeof (*context));
 }
 
-const char* CCMD5::md5(const char* s) {
+string CCMD5::md5(const char* s) {
 	char* buffer = (char*)calloc(33, sizeof(char));
 
 	// update md5
@@ -295,7 +295,11 @@ const char* CCMD5::md5(const char* s) {
 		sprintf(&(buffer[2 * i]), "%02x", (unsigned char)digest[i]);
 	}
 
-	return (const char*)buffer;
+	// create string
+	string ret = string(buffer);
+	free(buffer);
+
+	return ret;
 }
 
 const char* CCMD5::md5(const void* data, size_t len) {

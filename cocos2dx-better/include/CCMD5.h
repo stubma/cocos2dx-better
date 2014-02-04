@@ -38,7 +38,7 @@ public:
 	 * @param s C string
 	 * @return md5 string, caller should release it
 	 */
-	static const char* md5(const char* s);
+	static string md5(const char* s);
 
 	/**
 	 * calculate md5 for a binary data

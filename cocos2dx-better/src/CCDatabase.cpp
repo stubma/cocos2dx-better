@@ -166,7 +166,7 @@ void CCDatabase::clearCachedStatements() {
 
 bool CCDatabase::databaseOpened() {
     if (!m_db) {
-        CCLOGWARN("The CCDatabase %d is not open.", this);
+        CCLOGWARN("The CCDatabase %p is not open.", this);
         return false;
     }
 
@@ -424,7 +424,7 @@ void CCDatabase::postResultSetClosed(CCResultSet* rs) {
 }
 
 void CCDatabase::warnInUse() {
-    CCLOGWARN("The CCDatabase %d is currently in use.", this);
+    CCLOGWARN("The CCDatabase %p is currently in use.", this);
 }
 
 string CCDatabase::lastErrorMessage() {

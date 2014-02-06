@@ -279,6 +279,11 @@ static void MD5Final(unsigned char digest[16], MD5_CTX *context) {
 NS_CC_BEGIN
 
 string CCMD5::md5(const char* s) {
+	// return empty for a empty source
+	if(!s || strlen(s) <= 0)
+		return "";
+	
+	// allocate buffer for md5 string
 	char* buffer = (char*)calloc(33, sizeof(char));
 
 	// update md5

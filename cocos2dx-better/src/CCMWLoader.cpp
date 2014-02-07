@@ -271,8 +271,7 @@ CCMWFileData* CCMWLoader::load(const char* data, size_t length, float resScale) 
 CCMWFileData* CCMWLoader::load(const char* path) {
 	// load data and call other method to parse anu file
 	unsigned long len;
-	string mappedPath = CCUtils::mapLocalPath(path);
-	char* raw = (char*)CCFileUtils::sharedFileUtils()->getFileData(mappedPath.c_str(), "rb", &len);
+	char* raw = (char*)CCFileUtils::sharedFileUtils()->getFileData(path, "rb", &len);
 	CCMWFileData* data = load(raw, (size_t)len, 1 / CC_CONTENT_SCALE_FACTOR());
 	data->m_path = path;
 	free(raw);

@@ -424,6 +424,18 @@ public:
 	 * @return full path of saved image file
 	 */
 	static string makeScreenshot(CCNode* root, const string& path, bool needStencil = false);
+    
+    /**
+	 * Show a confirm dialog and the dialog is backed by system, so its UI is platform-dependent
+	 *
+	 * @param title title text
+	 * @param msg content text
+	 * @param positiveButton text of positive button, default is NULL which means it is "OK"
+	 * @param negativeButton text of negative button, default is NULL which means it is "Cancel"
+	 * @param onOK callback when ok button is clicked
+	 * @param onCancel callback when cancel button is clicked
+	 */
+	static void showSystemConfirmDialog(const char* title, const char* msg, const char* positiveButton = NULL, const char* negativeButton = NULL, CCCallFunc* onOK = NULL, CCCallFunc* onCancel = NULL);
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

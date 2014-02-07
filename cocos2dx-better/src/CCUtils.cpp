@@ -23,12 +23,14 @@
  ****************************************************************************/
 #include "CCUtils.h"
 #include "entities.h"
+#include "CCLocale.h"
 #include "CCMoreMacros.h"
 #include "CCMD5.h"
 #include "CCImage_richlabel.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     #include <sys/sysctl.h>
     #import <MediaPlayer/MediaPlayer.h>
+    #import "CCSystemConfirmDialogDelegate.h"
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     #include <sys/sysctl.h>
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -36,6 +38,12 @@
 #endif
 
 NS_CC_BEGIN
+
+// built-in strings
+#define S_CANCEL_EN "Cancel"
+#define S_CANCEL_ZH "取消"
+#define S_OK_EN "OK"
+#define S_OK_ZH "确定"
 
 CCUtils::StringList CCUtils::s_tmpStringList;
 CCArray CCUtils::s_tmpArray;
@@ -1232,6 +1240,84 @@ string CCUtils::makeScreenshot(CCNode* root, const string& path, bool needStenci
 	
 	// full path
 	return CCFileUtils::sharedFileUtils()->getWritablePath() + path;
+}
+
+void CCUtils::showSystemConfirmDialog(const char* title, const char* msg, const char* positiveButton, const char* negativeButton, CCCallFunc* onOK, CCCallFunc* onCancel) {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+	NSString* cancelButtonTitle = negativeButton ? [NSString stringWithUTF8String:negativeButton] : nil;
+	NSString* okButtonTitle = positiveButton ? [NSString stringWithUTF8String:positiveButton] : nil;
+    string lan = CCLocale::sharedLocale()->getISOLanguage();
+	if(cancelButtonTitle == nil) {
+		if(lan == "zh")
+			cancelButtonTitle = @S_CANCEL_ZH;
+		else
+			cancelButtonTitle = @S_CANCEL_EN;
+	}
+	if(okButtonTitle == nil) {
+		if(lan == "zh")
+			okButtonTitle = @S_OK_ZH;
+		else
+			okButtonTitle = @S_OK_EN;
+	}
+    
+	// create alert view
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithUTF8String:title]
+													message:[NSString stringWithUTF8String:msg]
+												   delegate:[[CCSystemConfirmDialogDelegate alloc] initWithOK:onOK cancel:onCancel]
+										  cancelButtonTitle:cancelButtonTitle
+										  otherButtonTitles:okButtonTitle, nil];
+	[alert performSelectorOnMainThread:@selector(show)
+							withObject:nil
+						 waitUntilDone:NO];
+    
+    // release
+#if !__has_feature(objc_arc)
+    [alert release];
+#endif
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // find method
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t,
+                                   "org/cocos2dx/lib/SystemUtils",
+                                   "showConfirmDialog",
+                                   "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)V");
+    
+	// ensure positive button and negative button not null
+	const char* posBtn = positiveButton;
+	const char* negBtn = negativeButton;
+	string lan = CCLocale::sharedLocale()->getISOLanguage();
+	if(!posBtn) {
+		if(lan == "zh")
+			posBtn = S_OK_ZH;
+		else
+			posBtn = S_OK_EN;
+	}
+	if(!negBtn) {
+		if(lan == "zh")
+			negBtn = S_CANCEL_ZH;
+		else
+			negBtn = S_CANCEL_EN;
+	}
+    
+	// create jstring
+	jstring jTitle = title ? t.env->NewStringUTF(title) : NULL;
+	jstring jMsg = msg ? t.env->NewStringUTF(msg) : NULL;
+	jstring jPositiveButton = t.env->NewStringUTF(posBtn);
+	jstring jNegativeButton = t.env->NewStringUTF(negBtn);
+    
+	// call java side
+    t.env->CallStaticVoidMethod(t.classID, t.methodID, jTitle, jMsg, jPositiveButton, jNegativeButton, (long)onOK, (long)onCancel);
+    
+	// delete reference
+	if(jTitle)
+		t.env->DeleteLocalRef(jTitle);
+	if(jMsg)
+		t.env->DeleteLocalRef(jMsg);
+    t.env->DeleteLocalRef(jPositiveButton);
+    t.env->DeleteLocalRef(jNegativeButton);
+#else
+    CCLOGERROR("CCUtils::showSystemConfirmDialog is not implemented for this platform, please finish it");
+#endif
 }
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

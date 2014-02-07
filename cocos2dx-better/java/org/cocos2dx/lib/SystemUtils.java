@@ -5,6 +5,11 @@ import java.io.InputStream;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+
 /**
  * (c) 2010 Nicolas Gramlich (c) 2011 Zynga Inc.
  * 
@@ -69,4 +74,53 @@ public class SystemUtils {
 			throw new Exception(e);
 		}
 	}
+	
+	static void showConfirmDialog(final String title, final String text, final String positiveButton, final String negativeButton, 
+			final long okFunc, final long cancelFunc) {
+		nativeRetain(okFunc);
+		nativeRetain(cancelFunc);
+		
+		final Cocos2dxActivity act = (Cocos2dxActivity)Cocos2dxActivity.getContext();
+		act.runOnUiThread(new Runnable() {
+			public void run() {
+				AlertDialog.Builder builder = new Builder(act);
+				if(title != null)
+					builder.setTitle(title);
+				if(text != null)
+					builder.setMessage(text);
+				if(positiveButton != null) {
+					builder.setPositiveButton(positiveButton, new OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							act.runOnGLThread(new Runnable() {
+								@Override
+								public void run() {
+									nativeExecuteCallFunc(okFunc);
+									nativeRelease(okFunc);
+								}
+							});
+						}
+					});
+				}
+				if(negativeButton != null) {
+					builder.setNegativeButton(negativeButton, new OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							act.runOnGLThread(new Runnable() {
+								@Override
+								public void run() {
+									nativeExecuteCallFunc(cancelFunc);
+									nativeRelease(cancelFunc);
+								}
+							});
+						}
+					});
+				}
+
+				builder.show();
+			}
+		});
+	}
+	
+	private static native void nativeExecuteCallFunc(long func);
+	private static native void nativeRetain(long obj);
+	private static native void nativeRelease(long obj);
 }

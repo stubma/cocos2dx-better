@@ -35,7 +35,7 @@ class CCTexture2D;
 /**
  * @typedef CCAFCClipMappingRuleType
  *
- * Definition of all clip mapping rule supported by WiEngine AFC feature
+ * Definition of all clip mapping rule supported by cocos2dx-better AFC feature
  */
 typedef enum {
 	/**

@@ -38,7 +38,7 @@ NS_CC_BEGIN
  *
  * \par
  * This class supports exported file of SpriteX 2011 2011. SpriteX 2011 uses an incompatible file format with
- * 3.9.4, so WiEngine creates \link CCSPX3Sprite CCSPX3Sprite\endlink.
+ * 3.9.4, so we creates \link CCSPX3Sprite CCSPX3Sprite\endlink.
  *
  * \note
  * \link CCSPX3Sprite CCSPX3Sprite\endlink doesn't support clip mapping

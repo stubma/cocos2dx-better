@@ -306,7 +306,7 @@ CCAFCAnimation* CCSPX3Manager::getAnimationData(CCSPX3FileData* spx, int animInd
 					case SPX_POLYGON:
 					case SPX_ARC:
 					case SPX_PIE:
-						// WiEngine currently doesn't support such shapes
+						// cocos2dx-better currently doesn't support such shapes
 						break;
 				}
 			}

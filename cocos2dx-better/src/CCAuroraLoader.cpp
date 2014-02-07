@@ -75,7 +75,7 @@ CCAuroraFileData* CCAuroraLoader::load(const char* data, size_t length, float re
 
 	// currently we only support version 3
 	if(afd->m_version != BS_VERSION_3) {
-		CCLOGWARN("CCAuroraLoader::load: currently WiEngine only support version 3 BSprite file");
+		CCLOGWARN("CCAuroraLoader::load: currently cocos2dx-better only support version 3 BSprite file");
 		return afd;
 	}
 

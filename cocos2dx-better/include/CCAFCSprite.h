@@ -439,9 +439,6 @@ public:
 	/**
 	 * Get data of current animation
 	 *
-	 * \note
-	 * Returned info is auto scaled by WiEngine on the basis of density
-	 *
 	 * @return \link CCAFCAnimation CCAFCAnimation\endlink
 	 */
 	CCAFCAnimation* getCurrentAnimationData() { return m_animationData; }

@@ -77,7 +77,7 @@ typedef struct CCSPX3Patch {
 		 */
 		struct {
 			/**
-			 * drawing mode, useless in WiEngine
+			 * drawing mode, not used for now
 			 */
 			int mode;
 

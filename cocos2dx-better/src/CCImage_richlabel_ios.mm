@@ -797,7 +797,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                 // release data provider
                                 CGDataProviderRelease(imgDataProvider);
                             } else {
-                                UIImage* image = [UIImage imageNamed:imageName];
+								string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(span.imageName);
+                                UIImage* image = [UIImage imageWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()]];
                                 [s_imageMap setValue:image forKey:imageName];
                             }
                         }

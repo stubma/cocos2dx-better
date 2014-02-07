@@ -340,7 +340,10 @@ public class RichLabelBitmap {
                     				is = new FileInputStream(openSpan.imageName);
                     			} else {
                     				AssetManager am = Cocos2dxHelper.getAssetManager();
-                    				is = am.open(openSpan.imageName);
+                    				String fullPath = nativeFullPathForFilename(openSpan.imageName);
+                    				if(fullPath.startsWith("assets/"))
+                    					fullPath = fullPath.substring("assets/".length());
+                    				is = am.open(fullPath);
                     			}
 								bitmap = BitmapFactory.decodeStream(is);
 							} catch (Throwable e) {
@@ -1036,4 +1039,5 @@ public class RichLabelBitmap {
 			float x, float y, float width, float height, int tag);
 	private native static void nativeSaveShadowStrokePadding(float x, float y);
 	private native static void nativeResetBitmapDC();
+	private native static String nativeFullPathForFilename(String filename);
 }

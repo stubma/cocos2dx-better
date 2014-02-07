@@ -27,6 +27,8 @@
 #include <jni.h>
 #include "JniHelper.h"
 
+using namespace std;
+
 NS_CC_BEGIN
 
 class CLBitmapDC {
@@ -273,6 +275,12 @@ extern "C" {
     	CLBitmapDC& bitmapDC = sharedCLBitmapDC();
     	bitmapDC.m_linkMetas.clear();
     	bitmapDC.m_shadowStrokePadding = CCPointZero;
+    }
+    
+    JNIEXPORT jstring JNICALL Java_org_cocos2dx_lib_RichLabelBitmap_nativeFullPathForFilename(JNIEnv* env, jclass clazz, jstring filename) {
+    	string fn = JniHelper::jstring2string(filename);
+    	string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fn.c_str());
+    	return env->NewStringUTF(path.c_str());
     }
 }
 

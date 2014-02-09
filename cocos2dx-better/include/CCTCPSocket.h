@@ -31,6 +31,7 @@
 #include <errno.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "CCMoreMacros.h"
 
 using namespace std;
 
@@ -66,10 +67,13 @@ private:
 	/// tag of this socket
     int m_tag;
 	
-	/// true means socket is connected
-	bool m_connected;
+	/// block time for waiting socket connection
+	int m_blockSec;
 	
 private:
+	// we wait here until socket is connected or failed
+	static void* waitingConnectThreadEntry(void* arg);
+	
 	/// receive data from socket until no more data or buffer full, or error
 	bool recvFromSock();
 	
@@ -149,7 +153,10 @@ public:
     int getTag() { return m_tag; }
 	
 	/// is connected?
-	bool isConnected() { return m_connected; }
+	CC_SYNTHESIZE_READONLY_BOOL(m_connected, Connected);
+	
+	/// is already connected?
+	CC_SYNTHESIZE_BOOL(m_alreadyConnected, AlreadyConnected);
 };
 
 NS_CC_END

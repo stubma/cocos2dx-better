@@ -22,11 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCTCPSocket.h"
+#include <pthread.h>
 
 NS_CC_BEGIN
 
 CCTCPSocket::CCTCPSocket() :
 m_sock(kCCSocketInvalid),
+m_alreadyConnected(false),
 m_connected(false) {
     memset(m_outBuf, 0, sizeof(m_outBuf));
     memset(m_inBuf, 0, sizeof(m_inBuf));
@@ -48,6 +50,41 @@ CCTCPSocket* CCTCPSocket::create(const string& hostname, int port, int tag, int 
 
 void CCTCPSocket::closeSocket() {
     close(m_sock);
+}
+
+void* CCTCPSocket::waitingConnectThreadEntry(void* arg) {
+	// autorelease pool
+	CCThread thread;
+	thread.createAutoreleasePool();
+	
+	// get socket
+	CCTCPSocket* s = (CCTCPSocket*)arg;
+	
+	// select it
+	timeval timeout;
+	timeout.tv_sec = s->m_blockSec;
+	timeout.tv_usec = 0;
+	fd_set writeset, exceptset;
+	FD_ZERO(&writeset);
+	FD_ZERO(&exceptset);
+	FD_SET(s->m_sock, &writeset);
+	FD_SET(s->m_sock, &exceptset);
+	int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
+	if (ret < 0) {
+		s->destroy();
+	} else {
+		ret = FD_ISSET(s->m_sock, &exceptset);
+		if(ret) {
+			s->destroy();
+		} else {
+			s->m_connected = true;
+		}
+	}
+	
+	// release
+	s->autorelease();
+	
+	return NULL;
 }
 
 bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, bool keepAlive) {
@@ -104,27 +141,6 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
 		}
     }
 	
-	// select it
-	timeval timeout;
-	timeout.tv_sec = blockSec;
-	timeout.tv_usec = 0;
-	fd_set writeset, exceptset;
-	FD_ZERO(&writeset);
-	FD_ZERO(&exceptset);
-	FD_SET(m_sock, &writeset);
-	FD_SET(m_sock, &exceptset);
-	int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
-	if (ret <= 0) {
-		closeSocket();
-		return false;
-	} else {
-		ret = FD_ISSET(m_sock, &exceptset);
-		if(ret) {
-			closeSocket();
-			return false;
-		}
-	}
-	
 	// reset buffer
     m_inBufLen = 0;
     m_inBufStart = 0;
@@ -138,6 +154,12 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
 	
 	// save tag
     m_tag = tag;
+	
+	// select it, we must retain self to avoid pthread access an released object
+	m_blockSec = blockSec;
+	CC_SAFE_RETAIN(this);
+	pthread_t thread;
+	pthread_create(&thread, NULL, waitingConnectThreadEntry, (void*)this);
 	
     return true;
 }

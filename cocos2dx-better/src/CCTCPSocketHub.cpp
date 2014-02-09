@@ -104,34 +104,44 @@ void CCTCPSocketHub::mainLoop(float delta) {
 	for(CCTCPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
 		CCTCPSocket* pSocket = *iter;
 		int tag = pSocket->getTag();
-        bool connected = pSocket->isConnected();
-		if (!pSocket->hasAvailable()) {
-			if(pSocket->isConnected() != connected) {
+		if(pSocket->isConnected()) {
+			// connected event
+			if(!pSocket->isAlreadyConnected()) {
 				CCTCPSocketListener* l = getListener(tag);
 				if(l)
-					l->onTCPSocketDisconnected(tag);
+					l->onTCPSocketConnected(tag);
+				pSocket->setAlreadyConnected(true);
 			}
+			
+			// check if any data is readable
+			if (!pSocket->hasAvailable()) {
+				if(!pSocket->isConnected()) {
+					CCTCPSocketListener* l = getListener(tag);
+					if(l)
+						l->onTCPSocketDisconnected(tag);
+				}
+				CC_SAFE_RELEASE(*iter);
+				m_lstSocket.erase(iter);
+				break;
+			}
+			
+			// read data
+			while (true) {
+				int read = pSocket->receiveData(m_buffer, kCCSocketMaxPacketSize);
+				if (read <= 0)
+					break;
+				CCByteBuffer packet;
+				packet.write((uint8*)m_buffer, read);
+				
+				CCTCPSocketListener* l = getListener(tag);
+				if(l) {
+					l->onTCPSocketData(tag, packet);
+				}
+			}
+		} else if(pSocket->getSocket() == kCCSocketInvalid) {
 			CC_SAFE_RELEASE(*iter);
 			m_lstSocket.erase(iter);
 			break;
-		} else if(!pSocket->isConnected()) {
-			pSocket->setConnected(true);
-			CCTCPSocketListener* l = getListener(tag);
-			if(l)
-				l->onTCPSocketConnected(tag);
-		}
-		
-		while (true) {
-			int read = pSocket->receiveData(m_buffer, kCCSocketMaxPacketSize);
-			if (read <= 0)
-				break;
-			CCByteBuffer packet;
-			packet.write((uint8*)m_buffer, read);
-			
-			CCTCPSocketListener* l = getListener(tag);
-			if(l) {
-				l->onTCPSocketData(tag, packet);
-			}
 		}
 	}
 }

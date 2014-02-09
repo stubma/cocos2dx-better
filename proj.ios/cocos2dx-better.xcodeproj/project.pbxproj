@@ -102,6 +102,7 @@
 		9261AC3A18978224001028B5 /* CCEditBoxImplTizen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3118978224001028B5 /* CCEditBoxImplTizen.cpp */; };
 		9261AC3B18978224001028B5 /* CCEditBoxImplWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3318978224001028B5 /* CCEditBoxImplWin.cpp */; };
 		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
+		9276E0E718A732240045B318 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0E618A732240045B318 /* StoreKit.framework */; };
 		9288DF27188F98A400C14965 /* CCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF0E188F98A400C14965 /* CCControl.cpp */; };
 		9288DF28188F98A400C14965 /* CCControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF10188F98A400C14965 /* CCControlButton.cpp */; };
 		9288DF29188F98A400C14965 /* CCControlColourPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF12188F98A400C14965 /* CCControlColourPicker.cpp */; };
@@ -115,7 +116,6 @@
 		9288DF31188F98A400C14965 /* CCInvocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF23188F98A400C14965 /* CCInvocation.cpp */; };
 		9288DF32188F98A400C14965 /* CCScale9Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF25188F98A400C14965 /* CCScale9Sprite.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
-		929DAA4718A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 929DAA4618A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
 		92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */; };
@@ -426,6 +426,7 @@
 		92662272185B3E1500DC8DEC /* CCTCPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocket.h; sourceTree = "<group>"; };
 		92662277185B42CF00DC8DEC /* CCByteBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCByteBuffer.h; sourceTree = "<group>"; };
 		92662279185B437200DC8DEC /* CCNetworkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCNetworkCommon.h; sourceTree = "<group>"; };
+		9276E0E618A732240045B318 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		92774AD316EF1C7A008E67C8 /* cocos2dx-better-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-better-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		9288DF0E188F98A400C14965 /* CCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControl.cpp; sourceTree = "<group>"; };
 		9288DF0F188F98A400C14965 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
@@ -453,8 +454,6 @@
 		9288DF25188F98A400C14965 /* CCScale9Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScale9Sprite.cpp; sourceTree = "<group>"; };
 		9288DF26188F98A400C14965 /* CCScale9Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScale9Sprite.h; sourceTree = "<group>"; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		929DAA4518A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSystemConfirmDialogDelegate.h; sourceTree = "<group>"; };
-		929DAA4618A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCSystemConfirmDialogDelegate.mm; sourceTree = "<group>"; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92BF0FFB18A71F320088121F /* CCUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUtils.mm; sourceTree = "<group>"; };
@@ -600,6 +599,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9276E0E718A732240045B318 /* StoreKit.framework in Frameworks */,
 				92F68E751855A7F600C97188 /* libsqlite3.dylib in Frameworks */,
 				9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */,
 				9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */,
@@ -775,8 +775,6 @@
 				923968BC185591DB0063E8A1 /* CCResourceLoader.cpp */,
 				923968C1185591DB0063E8A1 /* CCScroller.cpp */,
 				923968D1185591DB0063E8A1 /* CCUtils.cpp */,
-				929DAA4518A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.h */,
-				929DAA4618A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm */,
 				9222C62D18693F3200226B34 /* CCPointList.cpp */,
 				923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */,
 			);
@@ -1167,6 +1165,7 @@
 		92B516E616E86020009F3536 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9276E0E618A732240045B318 /* StoreKit.framework */,
 				92F68E741855A7F600C97188 /* libsqlite3.dylib */,
 				9255B8B418556E5400797255 /* OpenAL.framework */,
 				9255B8AA18556DFD00797255 /* CoreAudio.framework */,
@@ -1591,7 +1590,6 @@
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
 				923968ED185591DB0063E8A1 /* CCLayerMultiplexEx.cpp in Sources */,
 				923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
-				929DAA4718A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm in Sources */,
 				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,
 				92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */,
 				92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */,

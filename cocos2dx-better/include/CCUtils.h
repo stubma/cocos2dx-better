@@ -49,10 +49,6 @@ private:
     
 private:
 	static unsigned char UnitScalarToByte(float x);
-    
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    static jbyteArray getFirstSignatureBytes();
-#endif
 	
 public:
     /**

@@ -58,7 +58,7 @@ import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 
-public class RichLabelBitmap {
+public class CCImage_richlabel {
 	/* The values are the same as cocos2dx/platform/CCImage.h. */
 	private static final int HORIZONTALALIGN_LEFT = 1;
 	private static final int HORIZONTALALIGN_RIGHT = 2;

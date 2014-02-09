@@ -22,8 +22,6 @@
 		923968E8185591DB0063E8A1 /* CCDrawingPrimitivesEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A9185591DB0063E8A1 /* CCDrawingPrimitivesEx.cpp */; };
 		923968E9185591DB0063E8A1 /* CCGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968AA185591DB0063E8A1 /* CCGestureRecognizer.cpp */; };
 		923968EA185591DB0063E8A1 /* CCGradientSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968AB185591DB0063E8A1 /* CCGradientSprite.cpp */; };
-		923968EB185591DB0063E8A1 /* CCImage_richlabel_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968AD185591DB0063E8A1 /* CCImage_richlabel_android.cpp */; };
-		923968EC185591DB0063E8A1 /* CCImage_richlabel_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 923968AE185591DB0063E8A1 /* CCImage_richlabel_ios.mm */; };
 		923968ED185591DB0063E8A1 /* CCLayerMultiplexEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968AF185591DB0063E8A1 /* CCLayerMultiplexEx.cpp */; };
 		923968EE185591DB0063E8A1 /* CCLocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968B0185591DB0063E8A1 /* CCLocale.cpp */; };
 		923968EF185591DB0063E8A1 /* CCLocalization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968B1185591DB0063E8A1 /* CCLocalization.cpp */; };
@@ -102,6 +100,7 @@
 		9276E0F318A76B190045B318 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0F218A76B190045B318 /* libpthread.dylib */; };
 		9276E10218A77A890045B318 /* CCAssetInputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10118A77A890045B318 /* CCAssetInputStream_ios.mm */; };
 		9276E10518A77E240045B318 /* CCAssetOutputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10418A77E240045B318 /* CCAssetOutputStream_ios.mm */; };
+		9276E10718A77F600045B318 /* CCImage_richlabel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10618A77F600045B318 /* CCImage_richlabel.mm */; };
 		9288DF27188F98A400C14965 /* CCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF0E188F98A400C14965 /* CCControl.cpp */; };
 		9288DF28188F98A400C14965 /* CCControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF10188F98A400C14965 /* CCControlButton.cpp */; };
 		9288DF29188F98A400C14965 /* CCControlColourPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF12188F98A400C14965 /* CCControlColourPicker.cpp */; };
@@ -286,8 +285,6 @@
 		923968AA185591DB0063E8A1 /* CCGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGestureRecognizer.cpp; sourceTree = "<group>"; };
 		923968AB185591DB0063E8A1 /* CCGradientSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGradientSprite.cpp; sourceTree = "<group>"; };
 		923968AC185591DB0063E8A1 /* CCImage_richlabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCImage_richlabel.h; sourceTree = "<group>"; };
-		923968AD185591DB0063E8A1 /* CCImage_richlabel_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImage_richlabel_android.cpp; sourceTree = "<group>"; };
-		923968AE185591DB0063E8A1 /* CCImage_richlabel_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImage_richlabel_ios.mm; sourceTree = "<group>"; };
 		923968AF185591DB0063E8A1 /* CCLayerMultiplexEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLayerMultiplexEx.cpp; sourceTree = "<group>"; };
 		923968B0185591DB0063E8A1 /* CCLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocale.cpp; sourceTree = "<group>"; };
 		923968B1185591DB0063E8A1 /* CCLocalization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLocalization.cpp; sourceTree = "<group>"; };
@@ -423,6 +420,7 @@
 		9276E10118A77A890045B318 /* CCAssetInputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetInputStream_ios.mm; sourceTree = "<group>"; };
 		9276E10318A77E240045B318 /* CCAssetOutputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_ios.h; sourceTree = "<group>"; };
 		9276E10418A77E240045B318 /* CCAssetOutputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetOutputStream_ios.mm; sourceTree = "<group>"; };
+		9276E10618A77F600045B318 /* CCImage_richlabel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImage_richlabel.mm; sourceTree = "<group>"; };
 		92774AD316EF1C7A008E67C8 /* cocos2dx-better-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-better-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		9288DF0E188F98A400C14965 /* CCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControl.cpp; sourceTree = "<group>"; };
 		9288DF0F188F98A400C14965 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
@@ -784,8 +782,6 @@
 				923968A5185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp */,
 				923968AB185591DB0063E8A1 /* CCGradientSprite.cpp */,
 				923968AC185591DB0063E8A1 /* CCImage_richlabel.h */,
-				923968AD185591DB0063E8A1 /* CCImage_richlabel_android.cpp */,
-				923968AE185591DB0063E8A1 /* CCImage_richlabel_ios.mm */,
 				924381991883E43100ECA91A /* CCLayerClip.cpp */,
 				923968AF185591DB0063E8A1 /* CCLayerMultiplexEx.cpp */,
 				923968B6185591DB0063E8A1 /* CCMenuItemColor.cpp */,
@@ -1194,6 +1190,7 @@
 				9276E10118A77A890045B318 /* CCAssetInputStream_ios.mm */,
 				9276E10318A77E240045B318 /* CCAssetOutputStream_ios.h */,
 				9276E10418A77E240045B318 /* CCAssetOutputStream_ios.mm */,
+				9276E10618A77F600045B318 /* CCImage_richlabel.mm */,
 				92BF0FFB18A71F320088121F /* CCUtils.mm */,
 			);
 			path = ios;
@@ -1565,14 +1562,13 @@
 				92F68F241855BDE200C97188 /* CCArcticSprite.cpp in Sources */,
 				924A8BC31856B45E00681A4D /* CCDatas.cpp in Sources */,
 				92F68E5A18559EC100C97188 /* Input.cpp in Sources */,
-				923968EC185591DB0063E8A1 /* CCImage_richlabel_ios.mm in Sources */,
 				92F68E8E1855ACE400C97188 /* CCJSONArray.cpp in Sources */,
 				923968FC185591DB0063E8A1 /* CCRookieGuide.cpp in Sources */,
 				92F68EB21855AD4400C97188 /* yajl_version.c in Sources */,
 				923968F4185591DB0063E8A1 /* CCMenuItemColor.cpp in Sources */,
 				923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */,
+				9276E10718A77F600045B318 /* CCImage_richlabel.mm in Sources */,
 				923968F6185591DB0063E8A1 /* CCPanGestureRecognizer.cpp in Sources */,
-				923968EB185591DB0063E8A1 /* CCImage_richlabel_android.cpp in Sources */,
 				92396905185591DB0063E8A1 /* CCTextureAtlasEx.cpp in Sources */,
 				92F68F311855BDE200C97188 /* CCSPX3Manager.cpp in Sources */,
 				923968F0185591DB0063E8A1 /* CCLongPressGestureRecognizer.cpp in Sources */,

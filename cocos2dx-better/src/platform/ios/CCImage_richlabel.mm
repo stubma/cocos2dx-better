@@ -21,8 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-
 #include "CCImage_richlabel.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -1276,5 +1274,3 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
 }
 
 NS_CC_END
-
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS

@@ -117,6 +117,7 @@
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		929DAA4718A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 929DAA4618A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
+		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
 		92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */; };
 		92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */; };
 		92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */; };
@@ -456,6 +457,7 @@
 		929DAA4618A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCSystemConfirmDialogDelegate.mm; sourceTree = "<group>"; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		92BF0FFB18A71F320088121F /* CCUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUtils.mm; sourceTree = "<group>"; };
 		92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUDPSocket.cpp; sourceTree = "<group>"; };
 		92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocket.h; sourceTree = "<group>"; };
 		92D36590185D58710049AF37 /* CCUDPSocketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocketListener.h; sourceTree = "<group>"; };
@@ -635,6 +637,7 @@
 		92396898185591DB0063E8A1 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				92BF0FF518A71EF80088121F /* platform */,
 				92396914185592A30063E8A1 /* action */,
 				92F68EFB1855BDCC00C97188 /* afcanim */,
 				92F68E6A1855A7A600C97188 /* db */,
@@ -1187,6 +1190,22 @@
 			path = cocos2dxdb;
 			sourceTree = "<group>";
 		};
+		92BF0FF518A71EF80088121F /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				92BF0FF918A71EF80088121F /* ios */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		92BF0FF918A71EF80088121F /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				92BF0FFB18A71F320088121F /* CCUtils.mm */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
 		92DFBC1116E860D00016648F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1575,6 +1594,7 @@
 				929DAA4718A4A0DA004AA7DA /* CCSystemConfirmDialogDelegate.mm in Sources */,
 				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,
 				92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */,
+				92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */,
 				92F68F351855BDE200C97188 /* CCSPXFileData.cpp in Sources */,
 				922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */,
 				92F68F2F1855BDE200C97188 /* CCSPX3Frame.cpp in Sources */,

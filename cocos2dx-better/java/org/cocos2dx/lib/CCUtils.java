@@ -1,3 +1,26 @@
+/****************************************************************************
+ Author: Luma (stubma@gmail.com)
+ 
+ https://github.com/stubma/cocos2dx-better
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
 package org.cocos2dx.lib;
 
 import java.io.IOException;
@@ -9,14 +32,10 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.net.Uri;
 
-/**
- * (c) 2010 Nicolas Gramlich (c) 2011 Zynga Inc.
- * 
- * @author Nicolas Gramlich
- * @since 15:50:31 - 14.07.2010
- */
-public class SystemUtils {
+public class CCUtils {
 	public static final String BOGOMIPS_PATTERN = "BogoMIPS[\\s]*:[\\s]*(\\d+\\.\\d+)[\\s]*\n";
 	public static final String MEMTOTAL_PATTERN = "MemTotal[\\s]*:[\\s]*(\\d+)[\\s]*kB\n";
 	public static final String MEMFREE_PATTERN = "MemFree[\\s]*:[\\s]*(\\d+)[\\s]*kB\n";
@@ -27,7 +46,7 @@ public class SystemUtils {
 	 */
 	public static int getCPUFrequencyMax() throws Exception {
 		try {
-	        return SystemUtils.readSystemFileAsInt("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq") * 1000;
+	        return CCUtils.readSystemFileAsInt("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq") * 1000;
         } catch (Exception e) {
         	return 0;
         }
@@ -118,6 +137,14 @@ public class SystemUtils {
 				builder.show();
 			}
 		});
+	}
+	
+	public void openAppInStore() {
+		String pkg = Cocos2dxActivity.getContext().getPackageName();
+		String url = String.format("https://play.google.com/store/apps/details?id=%s", pkg);
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
+		Cocos2dxActivity.getContext().startActivity(intent);
 	}
 	
 	private static native void nativeExecuteCallFunc(long func);

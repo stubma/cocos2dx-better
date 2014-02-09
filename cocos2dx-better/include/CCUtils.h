@@ -437,6 +437,14 @@ public:
 	 */
 	static void showSystemConfirmDialog(const char* title, const char* msg, const char* positiveButton = NULL, const char* negativeButton = NULL, CCCallFunc* onOK = NULL, CCCallFunc* onCancel = NULL);
 	
+	/**
+	 * open app in platform-specific store
+	 *
+	 * @param appId the app id, in iOS, it is a number identifier you should get it from itunes connect.
+	 *		but for android, this parameter is ignored.
+	 */
+	static void openAppInStore(const string& appId);
+	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv
 	static JNIEnv* getJNIEnv();

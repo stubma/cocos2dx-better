@@ -1098,7 +1098,7 @@ int CCUtils::getCpuHz() {
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // get package manager
     JniMethodInfo t;
-    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/SystemUtils", "getCPUFrequencyMax", "()I");
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCUtils", "getCPUFrequencyMax", "()I");
 	return t.env->CallStaticIntMethod(t.classID, t.methodID);
 #else
     return 0;
@@ -1278,7 +1278,7 @@ void CCUtils::showSystemConfirmDialog(const char* title, const char* msg, const 
     // find method
     JniMethodInfo t;
     JniHelper::getStaticMethodInfo(t,
-                                   "org/cocos2dx/lib/SystemUtils",
+                                   "org/cocos2dx/lib/CCUtils",
                                    "showConfirmDialog",
                                    "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)V");
     

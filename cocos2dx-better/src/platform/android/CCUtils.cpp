@@ -371,7 +371,7 @@ void CCUtils::showSystemConfirmDialog(const char* title, const char* msg, const 
 	jstring jNegativeButton = t.env->NewStringUTF(negBtn);
 
 	// call java side
-    t.env->CallStaticVoidMethod(t.classID, t.methodID, jTitle, jMsg, jPositiveButton, jNegativeButton, (long)onOK, (long)onCancel);
+    t.env->CallStaticVoidMethod(t.classID, t.methodID, jTitle, jMsg, jPositiveButton, jNegativeButton, (jlong)onOK, (jlong)onCancel);
 
 	// delete reference
 	if(jTitle)

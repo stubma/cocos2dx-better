@@ -139,7 +139,7 @@ public class CCUtils {
 		});
 	}
 	
-	public void openAppInStore() {
+	public static void openAppInStore() {
 		String pkg = Cocos2dxActivity.getContext().getPackageName();
 		String url = String.format("https://play.google.com/store/apps/details?id=%s", pkg);
 		Intent intent = new Intent(Intent.ACTION_VIEW);

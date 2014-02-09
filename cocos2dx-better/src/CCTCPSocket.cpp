@@ -114,7 +114,7 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
 	FD_SET(m_sock, &writeset);
 	FD_SET(m_sock, &exceptset);
 	int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
-	if (ret == 0 || ret < 0) {
+	if (ret <= 0) {
 		closeSocket();
 		return false;
 	} else {

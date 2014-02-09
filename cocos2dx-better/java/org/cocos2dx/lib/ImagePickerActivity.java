@@ -42,14 +42,14 @@ public class ImagePickerActivity extends Activity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		
-		if(ImagePicker.sFromAlbum) {
+		if(CCImagePicker.sFromAlbum) {
 			Intent intent = new Intent(Intent.ACTION_PICK);
 			intent.setType("image/*");
 			startActivityForResult(intent, REQ_SELECT_PHOTO);
 		} else {
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(ImagePicker.sDestFile));
-			if(ImagePicker.sFront) {
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(CCImagePicker.sDestFile));
+			if(CCImagePicker.sFront) {
 				intent.putExtra("android.intent.extras.CAMERA_FACING", CameraInfo.CAMERA_FACING_FRONT);
 			}
 			startActivityForResult(intent, REQ_CAPTURE_IMAGE); 
@@ -57,7 +57,7 @@ public class ImagePickerActivity extends Activity {
 	}
 	
 	private boolean isPNG() {
-		String path = ImagePicker.sDestFile.getAbsolutePath();
+		String path = CCImagePicker.sDestFile.getAbsolutePath();
 		int lastDot = path.lastIndexOf('.');
 		if(lastDot == -1) {
 			return false;
@@ -72,16 +72,16 @@ public class ImagePickerActivity extends Activity {
 			case REQ_SELECT_PHOTO:
 				if(resultCode == RESULT_OK) {
 					Uri selectedImage = data.getData();
-					Uri uri = Uri.fromFile(ImagePicker.sDestFile);
-		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(ImagePicker.sExpectedWidth, 
-		            		ImagePicker.sExpectedHeight, uri);
+					Uri uri = Uri.fromFile(CCImagePicker.sDestFile);
+		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(CCImagePicker.sExpectedWidth, 
+		            		CCImagePicker.sExpectedHeight, uri);
 		            cropImage.setSourceImage(selectedImage);
 		            if(isPNG())
 		            	cropImage.setOutputFormat(CompressFormat.PNG.toString());
 		            startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
 				} else {
 					// callback
-					ImagePicker.onImagePickingCancelled();
+					CCImagePicker.onImagePickingCancelled();
 					
 					// finish self
 					finish();
@@ -89,16 +89,16 @@ public class ImagePickerActivity extends Activity {
 				break;
 			case REQ_CAPTURE_IMAGE:
 				if(resultCode == RESULT_OK) {
-		            Uri uri = Uri.fromFile(ImagePicker.sDestFile);
-		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(ImagePicker.sExpectedWidth, 
-		            		ImagePicker.sExpectedHeight, uri);
+		            Uri uri = Uri.fromFile(CCImagePicker.sDestFile);
+		            CropImageIntentBuilder cropImage = new CropImageIntentBuilder(CCImagePicker.sExpectedWidth, 
+		            		CCImagePicker.sExpectedHeight, uri);
 		            cropImage.setSourceImage(uri);
 		            if(isPNG())
 		            	cropImage.setOutputFormat(CompressFormat.PNG.toString());
 		            startActivityForResult(cropImage.getIntent(this), REQ_CROP_IMAGE);
 				} else {
 					// callback
-					ImagePicker.onImagePickingCancelled();
+					CCImagePicker.onImagePickingCancelled();
 					
 					// finish self
 					finish();
@@ -107,9 +107,9 @@ public class ImagePickerActivity extends Activity {
 				break;
 			case REQ_CROP_IMAGE:
 				if(resultCode == RESULT_OK) {
-					ImagePicker.onImagePicked();
+					CCImagePicker.onImagePicked();
 				} else {
-					ImagePicker.onImagePickingCancelled();
+					CCImagePicker.onImagePickingCancelled();
 				}
 				
 				// finish self

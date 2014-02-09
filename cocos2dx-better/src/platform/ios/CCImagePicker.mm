@@ -21,8 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-
 #include "CCImagePicker.h"
 #import <UIKit/UIKit.h>
 #import "EAGLView.h"
@@ -289,5 +287,3 @@ void CCImagePicker::pickFromAlbum(const string& path, CCImagePickerCallback* cal
 }
 
 NS_CC_END
-
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS

@@ -81,7 +81,7 @@ public:
 extern "C" {
 #endif
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_lib_ImagePicker_nativeOnImagePicked
+JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImagePicker_nativeOnImagePicked
   (JNIEnv * env, jclass clazz, jlong callback, jstring fullPath, jint w, jint h) {
 	CCImagePickerCallback* c = (CCImagePickerCallback*)callback;
 	if(c) {
@@ -89,7 +89,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_ImagePicker_nativeOnImagePicked
 	}
 }
 
-JNIEXPORT void JNICALL Java_org_cocos2dx_lib_ImagePicker_nativeOnImagePickingCancelled
+JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImagePicker_nativeOnImagePickingCancelled
   (JNIEnv * env, jclass clazz, jlong callback) {
 	CCImagePickerCallback* c = (CCImagePickerCallback*)callback;
 	if(c) {

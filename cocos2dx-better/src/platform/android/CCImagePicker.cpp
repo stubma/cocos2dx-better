@@ -21,8 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
 #include "CCImagePicker.h"
 #include "JniHelper.h"
 
@@ -30,30 +28,28 @@ NS_CC_BEGIN
 
 bool CCImagePicker::hasCamera() {
 	JniMethodInfo t;
-	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/ImagePicker", "hasCamera", "()Z");
+	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCImagePicker", "hasCamera", "()Z");
 	return t.env->CallStaticBooleanMethod(t.classID, t.methodID);
 }
 
 bool CCImagePicker::hasFrontCamera() {
 	JniMethodInfo t;
-	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/ImagePicker", "hasFrontCamera", "()Z");
+	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCImagePicker", "hasFrontCamera", "()Z");
 	return t.env->CallStaticBooleanMethod(t.classID, t.methodID);
 }
 
 void CCImagePicker::pickFromCamera(const string& path, CCImagePickerCallback* callback, int w, int h, bool front, bool keepRatio) {
 	JniMethodInfo t;
-	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/ImagePicker", "pickFromCamera", "(Ljava/lang/String;JIIZZ)V");
+	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCImagePicker", "pickFromCamera", "(Ljava/lang/String;JIIZZ)V");
 	jstring jPath = t.env->NewStringUTF(path.c_str());
 	t.env->CallStaticVoidMethod(t.classID, t.methodID, jPath, (jlong)callback, w, h, front, keepRatio);
 }
 
 void CCImagePicker::pickFromAlbum(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
 	JniMethodInfo t;
-	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/ImagePicker", "pickFromAlbum", "(Ljava/lang/String;JIIZ)V");
+	JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCImagePicker", "pickFromAlbum", "(Ljava/lang/String;JIIZ)V");
 	jstring jPath = t.env->NewStringUTF(path.c_str());
 	t.env->CallStaticVoidMethod(t.classID, t.methodID, jPath, (jlong)callback, w, h, keepRatio);
 }
 
 NS_CC_END
-
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

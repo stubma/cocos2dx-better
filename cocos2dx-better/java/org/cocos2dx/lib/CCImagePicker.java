@@ -31,7 +31,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.os.Environment;
 
-public class ImagePicker {
+public class CCImagePicker {
 	static boolean sFromAlbum;
 	static long sCallback;
 	static String sPath;

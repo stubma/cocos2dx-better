@@ -440,6 +440,10 @@ public:
 	/**
 	 * open app in platform-specific store
 	 *
+	 * \note 
+	 * for now, in android, it just open google play web page. For other third-party android market, it is
+	 * quite a bit challenge to support them.
+	 *
 	 * @param appId the app id, in iOS, it is a number identifier you should get it from itunes connect.
 	 *		but for android, this parameter is ignored.
 	 */

@@ -21,70 +21,52 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifdef ANDROID
+#ifndef __CCAssetOutputStream_android_h__
+#define __CCAssetOutputStream_android_h__
 
-#ifndef __CCAssetInputStream_android_h__
-#define __CCAssetInputStream_android_h__
-
-#include "CCAssetInputStream.h"
+#include "CCAssetOutputStream.h"
 #include <stdio.h>
 
 NS_CC_BEGIN
 
 /**
- * android implementation of input stream
- *
- * \note
- * currently we just load all data into memory
+ * Android implementation of output stream
  */
-class CCAssetInputStream_android : public CCAssetInputStream {
-	friend class CCAssetInputStream;
+class CCAssetOutputStream_android : public CCAssetOutputStream {
+	friend class CCAssetOutputStream;
 
 private:
-    /// buffer
-    char* m_buffer;
-    
-	/// length of file
-	size_t m_length;
-    
-    /// position
-    size_t m_position;
+	/// FILE pointer used for file path
+	FILE* m_fp;
 
 protected:
-	/**
+	/**x
 	 * constructor
 	 *
-	 * @param path file path
+	 * @param path write file path
+	 * @param append append file
 	 */
-	CCAssetInputStream_android(const string& path);
+	CCAssetOutputStream_android(const string& path, bool append = false);
 
 public:
-	virtual ~CCAssetInputStream_android();
+	virtual ~CCAssetOutputStream_android();
 
-	/// @see CCAssetInputStream::getBuffer
-	virtual char* getBuffer();
-
-	/// @see CCAssetInputStream::getPosition
-	virtual size_t getPosition();
-
-	/// @see CCAssetInputStream::getLength
-	virtual size_t getLength();
-
-	/// @see CCAssetInputStream::available
-	virtual size_t available();
-
-	/// @see CCAssetInputStream::close
+	/// @see CCAssetOutputStream::close
 	virtual void close();
 
-	/// @see CCAssetInputStream::read
-	virtual ssize_t read(char* buffer, size_t length);
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const char* data, size_t len);
 
-	/// @see CCAssetInputStream::seek
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const int* data, size_t len);
+
+	/// @see CCAssetOutputStream::getPosition
+	virtual size_t getPosition();
+
+	/// @see CCAssetOutputStream::seek
 	virtual size_t seek(int offset, int mode);
 };
 
 NS_CC_END
 
-#endif // __CCAssetInputStream_android_h__
-
-#endif // ANDROID
+#endif // __CCAssetOutputStream_android_h__

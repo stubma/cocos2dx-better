@@ -21,29 +21,32 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifdef CC_TARGET_OS_IPHONE
-
-#ifndef __CCAssetInputStream_ios_h__
-#define __CCAssetInputStream_ios_h__
+#ifndef __CCAssetInputStream_android_h__
+#define __CCAssetInputStream_android_h__
 
 #include "CCAssetInputStream.h"
 #include <stdio.h>
-#import <Foundation/Foundation.h>
 
 NS_CC_BEGIN
 
 /**
- * iOS implementation of input stream
+ * android implementation of input stream
+ *
+ * \note
+ * currently we just load all data into memory
  */
-class CCAssetInputStream_ios : public CCAssetInputStream {
+class CCAssetInputStream_android : public CCAssetInputStream {
 	friend class CCAssetInputStream;
 
 private:
-    /// file handle in iOS
-	NSFileHandle* m_handle;
-
+    /// buffer
+    char* m_buffer;
+    
 	/// length of file
 	size_t m_length;
+    
+    /// position
+    size_t m_position;
 
 protected:
 	/**
@@ -51,10 +54,10 @@ protected:
 	 *
 	 * @param path file path
 	 */
-	CCAssetInputStream_ios(const string& path);
+	CCAssetInputStream_android(const string& path);
 
 public:
-	virtual ~CCAssetInputStream_ios();
+	virtual ~CCAssetInputStream_android();
 
 	/// @see CCAssetInputStream::getBuffer
 	virtual char* getBuffer();
@@ -80,6 +83,4 @@ public:
 
 NS_CC_END
 
-#endif // __CCAssetInputStream_ios_h__
-
-#endif // CC_TARGET_OS_IPHONE
+#endif // __CCAssetInputStream_android_h__

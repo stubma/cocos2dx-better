@@ -21,8 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-
 #ifndef __CCAssetOutputStream_ios_h__
 #define __CCAssetOutputStream_ios_h__
 
@@ -76,5 +74,3 @@ public:
 NS_CC_END
 
 #endif // __CCAssetOutputStream_ios_h__
-
-#endif // CC_TARGET_PLATFORM == CC_PLATFORM_IOS

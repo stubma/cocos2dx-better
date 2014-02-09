@@ -14,11 +14,7 @@
 		922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922399E9187FD793006AD199 /* CCJumpByEx.cpp */; };
 		923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */; };
 		923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */; };
-		923968DF185591DB0063E8A1 /* CCAssetInputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */; };
-		923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.mm */; };
 		923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A0185591DB0063E8A1 /* CCAssetOutputStream.cpp */; };
-		923968E2185591DB0063E8A1 /* CCAssetOutputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A1185591DB0063E8A1 /* CCAssetOutputStream_android.cpp */; };
-		923968E3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm */; };
 		923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A5185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp */; };
 		923968E5185591DB0063E8A1 /* CCCalendar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A6185591DB0063E8A1 /* CCCalendar.cpp */; };
 		923968E6185591DB0063E8A1 /* CCClipIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A7185591DB0063E8A1 /* CCClipIn.cpp */; };
@@ -104,6 +100,8 @@
 		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
 		9276E0E718A732240045B318 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0E618A732240045B318 /* StoreKit.framework */; };
 		9276E0F318A76B190045B318 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0F218A76B190045B318 /* libpthread.dylib */; };
+		9276E10218A77A890045B318 /* CCAssetInputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10118A77A890045B318 /* CCAssetInputStream_ios.mm */; };
+		9276E10518A77E240045B318 /* CCAssetOutputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10418A77E240045B318 /* CCAssetOutputStream_ios.mm */; };
 		9288DF27188F98A400C14965 /* CCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF0E188F98A400C14965 /* CCControl.cpp */; };
 		9288DF28188F98A400C14965 /* CCControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF10188F98A400C14965 /* CCControlButton.cpp */; };
 		9288DF29188F98A400C14965 /* CCControlColourPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF12188F98A400C14965 /* CCControlColourPicker.cpp */; };
@@ -279,15 +277,7 @@
 		92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAndroidStringsParser.cpp; sourceTree = "<group>"; };
 		9239689A185591DB0063E8A1 /* CCAndroidStringsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAndroidStringsParser.h; sourceTree = "<group>"; };
 		9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream.cpp; sourceTree = "<group>"; };
-		9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream_android.cpp; sourceTree = "<group>"; };
-		9239689D185591DB0063E8A1 /* CCAssetInputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_android.h; sourceTree = "<group>"; };
-		9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetInputStream_ios.mm; sourceTree = "<group>"; };
-		9239689F185591DB0063E8A1 /* CCAssetInputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_ios.h; sourceTree = "<group>"; };
 		923968A0185591DB0063E8A1 /* CCAssetOutputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream.cpp; sourceTree = "<group>"; };
-		923968A1185591DB0063E8A1 /* CCAssetOutputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream_android.cpp; sourceTree = "<group>"; };
-		923968A2185591DB0063E8A1 /* CCAssetOutputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_android.h; sourceTree = "<group>"; };
-		923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetOutputStream_ios.mm; sourceTree = "<group>"; };
-		923968A4185591DB0063E8A1 /* CCAssetOutputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_ios.h; sourceTree = "<group>"; };
 		923968A5185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAutoRenderMenuItemSprite.cpp; sourceTree = "<group>"; };
 		923968A6185591DB0063E8A1 /* CCCalendar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCalendar.cpp; sourceTree = "<group>"; };
 		923968A7185591DB0063E8A1 /* CCClipIn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCClipIn.cpp; sourceTree = "<group>"; };
@@ -429,6 +419,10 @@
 		92662279185B437200DC8DEC /* CCNetworkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCNetworkCommon.h; sourceTree = "<group>"; };
 		9276E0E618A732240045B318 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9276E0F218A76B190045B318 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
+		9276E10018A77A890045B318 /* CCAssetInputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_ios.h; sourceTree = "<group>"; };
+		9276E10118A77A890045B318 /* CCAssetInputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetInputStream_ios.mm; sourceTree = "<group>"; };
+		9276E10318A77E240045B318 /* CCAssetOutputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_ios.h; sourceTree = "<group>"; };
+		9276E10418A77E240045B318 /* CCAssetOutputStream_ios.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetOutputStream_ios.mm; sourceTree = "<group>"; };
 		92774AD316EF1C7A008E67C8 /* cocos2dx-better-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-better-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		9288DF0E188F98A400C14965 /* CCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControl.cpp; sourceTree = "<group>"; };
 		9288DF0F188F98A400C14965 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
@@ -829,15 +823,7 @@
 			isa = PBXGroup;
 			children = (
 				9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */,
-				9239689C185591DB0063E8A1 /* CCAssetInputStream_android.cpp */,
-				9239689D185591DB0063E8A1 /* CCAssetInputStream_android.h */,
-				9239689E185591DB0063E8A1 /* CCAssetInputStream_ios.mm */,
-				9239689F185591DB0063E8A1 /* CCAssetInputStream_ios.h */,
 				923968A0185591DB0063E8A1 /* CCAssetOutputStream.cpp */,
-				923968A1185591DB0063E8A1 /* CCAssetOutputStream_android.cpp */,
-				923968A2185591DB0063E8A1 /* CCAssetOutputStream_android.h */,
-				923968A3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm */,
-				923968A4185591DB0063E8A1 /* CCAssetOutputStream_ios.h */,
 				923968B4185591DB0063E8A1 /* CCMemoryInputStream.cpp */,
 				923968B5185591DB0063E8A1 /* CCMemoryOutputStream.cpp */,
 			);
@@ -1204,6 +1190,10 @@
 		92BF0FF918A71EF80088121F /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				9276E10018A77A890045B318 /* CCAssetInputStream_ios.h */,
+				9276E10118A77A890045B318 /* CCAssetInputStream_ios.mm */,
+				9276E10318A77E240045B318 /* CCAssetOutputStream_ios.h */,
+				9276E10418A77E240045B318 /* CCAssetOutputStream_ios.mm */,
 				92BF0FFB18A71F320088121F /* CCUtils.mm */,
 			);
 			path = ios;
@@ -1508,7 +1498,6 @@
 				924A8BD01856B45E00681A4D /* CCUtilMath.cpp in Sources */,
 				92F68EAA1855AD4400C97188 /* yajl.c in Sources */,
 				924A8BC21856B45E00681A4D /* CCBone.cpp in Sources */,
-				923968E3185591DB0063E8A1 /* CCAssetOutputStream_ios.mm in Sources */,
 				924A8BC91856B45E00681A4D /* CCColliderDetector.cpp in Sources */,
 				923968E9185591DB0063E8A1 /* CCGestureRecognizer.cpp in Sources */,
 				92F68E5918559EC100C97188 /* Atomic.cpp in Sources */,
@@ -1548,7 +1537,6 @@
 				92F68F371855BDE200C97188 /* CCSPXLoader.cpp in Sources */,
 				92F68E5C18559EC100C97188 /* String8.cpp in Sources */,
 				924A8BCB1856B45E00681A4D /* CCArmatureDefine.cpp in Sources */,
-				923968DF185591DB0063E8A1 /* CCAssetInputStream_android.cpp in Sources */,
 				923968EF185591DB0063E8A1 /* CCLocalization.cpp in Sources */,
 				924A8BC01856B45E00681A4D /* CCTween.cpp in Sources */,
 				92F68F261855BDE200C97188 /* CCAuroraLoader.cpp in Sources */,
@@ -1565,11 +1553,11 @@
 				924A8BBF1856B45E00681A4D /* CCProcessBase.cpp in Sources */,
 				9261AC3818978224001028B5 /* CCEditBoxImplMac.mm in Sources */,
 				923968FD185591DB0063E8A1 /* CCScroller.cpp in Sources */,
+				9276E10218A77A890045B318 /* CCAssetInputStream_ios.mm in Sources */,
 				923968FF185591DB0063E8A1 /* CCShake.cpp in Sources */,
 				92396903185591DB0063E8A1 /* CCTapGestureRecognizer.cpp in Sources */,
 				92F68F1E1855BDE200C97188 /* CCAFCFileData.cpp in Sources */,
 				9239690A185591DB0063E8A1 /* CCTreeFadeOut.cpp in Sources */,
-				923968E2185591DB0063E8A1 /* CCAssetOutputStream_android.cpp in Sources */,
 				9257551E189CDB6B007D2369 /* CCImagePicker_android.cpp in Sources */,
 				9288DF30188F98A400C14965 /* CCControlUtils.cpp in Sources */,
 				92F68F301855BDE200C97188 /* CCSPX3Loader.cpp in Sources */,
@@ -1648,6 +1636,7 @@
 				9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */,
 				9288DF2D188F98A400C14965 /* CCControlSlider.cpp in Sources */,
 				92F68E6E1855A7C800C97188 /* CCDatabase.cpp in Sources */,
+				9276E10518A77E240045B318 /* CCAssetOutputStream_ios.mm in Sources */,
 				92F68F2D1855BDE200C97188 /* CCSPX3Action.cpp in Sources */,
 				92F68F361855BDE200C97188 /* CCSPXFrame.cpp in Sources */,
 				9243CD301876553D0069BE2E /* CCSlider.cpp in Sources */,
@@ -1655,7 +1644,6 @@
 				924A8BCE1856B45E00681A4D /* CCTransformHelp.cpp in Sources */,
 				92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */,
 				924A8BED1856B45E00681A4D /* DictionaryHelper.cpp in Sources */,
-				923968E0185591DB0063E8A1 /* CCAssetInputStream_ios.mm in Sources */,
 				92F68E911855ACE400C97188 /* CCJSONValue.cpp in Sources */,
 				9288DF32188F98A400C14965 /* CCScale9Sprite.cpp in Sources */,
 				92F68EAC1855AD4400C97188 /* yajl_buf.c in Sources */,

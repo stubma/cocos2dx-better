@@ -21,8 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifdef ANDROID
-
 #include "CCAssetInputStream_android.h"
 #include <errno.h>
 
@@ -95,5 +93,3 @@ size_t CCAssetInputStream_android::seek(int offset, int mode) {
 }
 
 NS_CC_END
-
-#endif // ANDROID

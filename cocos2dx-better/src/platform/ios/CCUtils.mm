@@ -107,6 +107,8 @@
 #pragma mark -
 #pragma mark CCUtils implementation on iOS
 
+NS_CC_BEGIN
+
 void CCUtils::openAppInStore(const string& appId) {
 	if([[UIDevice currentDevice].systemVersion floatValue] < 6.0f) {
 		NSString* urlStr = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/us/app/id%s?mt=8", appId.c_str()];
@@ -311,3 +313,5 @@ bool CCUtils::deleteFile(string path) {
 	[fm removeItemAtPath:p error:&error];
 	return error == nil;
 }
+
+NS_CC_END

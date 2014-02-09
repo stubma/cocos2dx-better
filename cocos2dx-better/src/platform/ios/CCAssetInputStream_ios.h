@@ -21,56 +21,61 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifdef ANDROID
+#ifndef __CCAssetInputStream_ios_h__
+#define __CCAssetInputStream_ios_h__
 
-#ifndef __CCAssetOutputStream_android_h__
-#define __CCAssetOutputStream_android_h__
-
-#include "CCAssetOutputStream.h"
+#include "CCAssetInputStream.h"
 #include <stdio.h>
+#import <Foundation/Foundation.h>
 
 NS_CC_BEGIN
 
 /**
- * Android implementation of output stream
+ * iOS implementation of input stream
  */
-class CCAssetOutputStream_android : public CCAssetOutputStream {
-	friend class CCAssetOutputStream;
+class CCAssetInputStream_ios : public CCAssetInputStream {
+	friend class CCAssetInputStream;
 
 private:
-	/// FILE pointer used for file path
-	FILE* m_fp;
+    /// file handle in iOS
+	NSFileHandle* m_handle;
+
+	/// length of file
+	size_t m_length;
 
 protected:
-	/**x
+	/**
 	 * constructor
 	 *
-	 * @param path write file path
-	 * @param append append file
+	 * @param path file path
 	 */
-	CCAssetOutputStream_android(const string& path, bool append = false);
+	CCAssetInputStream_ios(const string& path);
 
 public:
-	virtual ~CCAssetOutputStream_android();
+	virtual ~CCAssetInputStream_ios();
 
-	/// @see CCAssetOutputStream::close
-	virtual void close();
+	/// @see CCAssetInputStream::getBuffer
+	virtual char* getBuffer();
 
-	/// @see CCAssetOutputStream::write
-	virtual ssize_t write(const char* data, size_t len);
-
-	/// @see CCAssetOutputStream::write
-	virtual ssize_t write(const int* data, size_t len);
-
-	/// @see CCAssetOutputStream::getPosition
+	/// @see CCAssetInputStream::getPosition
 	virtual size_t getPosition();
 
-	/// @see CCAssetOutputStream::seek
+	/// @see CCAssetInputStream::getLength
+	virtual size_t getLength();
+
+	/// @see CCAssetInputStream::available
+	virtual size_t available();
+
+	/// @see CCAssetInputStream::close
+	virtual void close();
+
+	/// @see CCAssetInputStream::read
+	virtual ssize_t read(char* buffer, size_t length);
+
+	/// @see CCAssetInputStream::seek
 	virtual size_t seek(int offset, int mode);
 };
 
 NS_CC_END
 
-#endif // __CCAssetOutputStream_android_h__
-
-#endif // #if ANDROID
+#endif // __CCAssetInputStream_ios_h__

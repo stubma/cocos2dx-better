@@ -50,6 +50,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/physics \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/utils
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
+	$(LOCAL_PATH)/src/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2 \
 	$(LOCAL_PATH)/thirdparty/aosp \
 	$(LOCAL_PATH)/thirdparty/entities \

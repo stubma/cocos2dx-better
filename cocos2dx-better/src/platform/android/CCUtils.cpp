@@ -333,6 +333,13 @@ void CCUtils::stopInternalMusic() {
     // TODO not easy on Android
 }
 
+void CCUtils::openUrl(const string& url) {
+    JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCUtils", "openUrl", "(Ljava/lang/String;)V");
+    jstring jUrl = t.env->NewStringUTF(url.c_str());
+	t.env->CallStaticVoidMethod(t.classID, t.methodID, jUrl);
+}
+
 void CCUtils::openAppInStore(const string& appId) {
     JniMethodInfo t;
     JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCUtils", "openAppInStore", "()V");

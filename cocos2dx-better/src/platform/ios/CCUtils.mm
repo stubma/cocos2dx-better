@@ -109,6 +109,11 @@
 
 NS_CC_BEGIN
 
+void CCUtils::openUrl(const string& url) {
+    NSURL* nsUrl = [NSURL URLWithString:[NSString stringWithUTF8String:url.c_str()]];
+    [[UIApplication sharedApplication] openURL:nsUrl];
+}
+
 void CCUtils::openAppInStore(const string& appId) {
     // XXX: for now we still use web, later we will change
 //	if([[UIDevice currentDevice].systemVersion floatValue] < 6.0f) {

@@ -444,6 +444,9 @@ public:
 	 *		but for android, this parameter is ignored.
 	 */
 	static void openAppInStore(const string& appId);
+    
+    /// open an url
+    static void openUrl(const string& url);
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

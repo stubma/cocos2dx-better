@@ -110,22 +110,23 @@
 NS_CC_BEGIN
 
 void CCUtils::openAppInStore(const string& appId) {
-	if([[UIDevice currentDevice].systemVersion floatValue] < 6.0f) {
+    // XXX: for now we still use web, later we will change
+//	if([[UIDevice currentDevice].systemVersion floatValue] < 6.0f) {
 		NSString* urlStr = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/us/app/id%s?mt=8", appId.c_str()];
 		NSURL* url = [NSURL URLWithString:urlStr];
 		[[UIApplication sharedApplication] openURL:url];
-	} else {
-		SKStoreProductViewController* storeProductVC = [[SKStoreProductViewController alloc] init];
-		storeProductVC.delegate = [[SKStoreProductViewControllerDelegate_openAppInStore alloc] init];
-		NSDictionary* dict = [NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:appId.c_str()]
-														 forKey:SKStoreProductParameterITunesItemIdentifier];
-		[storeProductVC loadProductWithParameters:dict completionBlock:^(BOOL result, NSError* error) {
-			if (result) {
-				UIViewController* vc = CCUtils::findViewController([EAGLView sharedEGLView]);
-				[vc presentViewController:storeProductVC animated:YES completion:nil];
-			}
-		}];
-	}
+//	} else {
+//		SKStoreProductViewController* storeProductVC = [[SKStoreProductViewController alloc] init];
+//		storeProductVC.delegate = [[SKStoreProductViewControllerDelegate_openAppInStore alloc] init];
+//		NSDictionary* dict = [NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:appId.c_str()]
+//														 forKey:SKStoreProductParameterITunesItemIdentifier];
+//		[storeProductVC loadProductWithParameters:dict completionBlock:^(BOOL result, NSError* error) {
+//			if (result) {
+//				UIViewController* vc = CCUtils::findViewController([EAGLView sharedEGLView]);
+//				[vc presentViewController:storeProductVC animated:YES completion:nil];
+//			}
+//		}];
+//	}
 }
 
 UIViewController* CCUtils::findViewController(UIView* view) {

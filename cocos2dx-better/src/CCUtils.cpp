@@ -444,6 +444,17 @@ CCRect CCUtils::getBoundingBoxInWorldSpace(CCNode* node) {
 	return r;
 }
 
+CCRect CCUtils::getCenterRect(CCSpriteFrame* f) {
+    const CCSize& size = f->getOriginalSize();
+    return CCRectMake(size.width / 2, size.height / 2, 1, 1);
+}
+
+CCRect CCUtils::getCenterRect(const string& frameName) {
+    CCSpriteFrame* f = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(frameName.c_str());
+    const CCSize& size = f->getOriginalSize();
+    return CCRectMake(size.width / 2, size.height / 2, 1, 1);
+}
+
 void CCUtils::setTreeOpacity(CCNode* n, int o) {
 	// self
 	CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(n);

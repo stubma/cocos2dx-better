@@ -234,6 +234,18 @@ public:
 	
 	/// get bounding box in world space
 	static CCRect getBoundingBoxInWorldSpace(CCNode* node);
+    
+    /**
+     * most of time, we just need the center part of a scalable image,
+     * so this method auto return center rect for you
+     */
+    static CCRect getCenterRect(const string& frameName);
+    
+    /**
+     * most of time, we just need the center part of a scalable image,
+     * so this method auto return center rect for you
+     */
+    static CCRect getCenterRect(CCSpriteFrame* f);
 	
 	/// change opacity recursively
 	static void setTreeOpacity(CCNode* n, int o);

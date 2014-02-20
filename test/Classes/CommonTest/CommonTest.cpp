@@ -4,15 +4,12 @@
 
 TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
-TESTLAYER_CREATE_FUNC(CommonClipInOut);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonImagePicker);
-TESTLAYER_CREATE_FUNC(CommonJumpEx);
 TESTLAYER_CREATE_FUNC(CommonLayerClip);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
 TESTLAYER_CREATE_FUNC(CommonMenuItemColor);
-TESTLAYER_CREATE_FUNC(CommonMissile);
 TESTLAYER_CREATE_FUNC(CommonProgressHUD);
 TESTLAYER_CREATE_FUNC(CommonRichLabel);
 TESTLAYER_CREATE_FUNC(CommonRichLabel2);
@@ -20,24 +17,19 @@ TESTLAYER_CREATE_FUNC(CommonResourceLoader);
 TESTLAYER_CREATE_FUNC(CommonRookieGuide);
 TESTLAYER_CREATE_FUNC(CommonScreenshot);
 TESTLAYER_CREATE_FUNC(CommonScrollView);
-TESTLAYER_CREATE_FUNC(CommonShake);
 TESTLAYER_CREATE_FUNC(CommonSlider);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
 TESTLAYER_CREATE_FUNC(CommonToast);
-TESTLAYER_CREATE_FUNC(CommonTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
     CF(CommonCalendar),
     CF(CommonCatmullRomSprite),
-    CF(CommonClipInOut),
 	CF(CommonGradientSprite),
 	CF(CommonImagePicker),
-    CF(CommonJumpEx),
     CF(CommonLayerClip),
 	CF(CommonLocale),
     CF(CommonLocalization),
     CF(CommonMenuItemColor),
-    CF(CommonMissile),
     CF(CommonProgressHUD),
 	CF(CommonRichLabel),
     CF(CommonRichLabel2),
@@ -45,11 +37,9 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonRookieGuide),
 	CF(CommonScreenshot),
 	CF(CommonScrollView),
-    CF(CommonShake),
     CF(CommonSlider),
     CF(CommonTiledSprite),
     CF(CommonToast),
-	CF(CommonTreeFadeInOut),
 };
 
 static int sceneIdx=-1;
@@ -263,72 +253,6 @@ void CommonCatmullRomSprite::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) 
 
 //------------------------------------------------------------------
 //
-// Clip In & Out
-//
-//------------------------------------------------------------------
-void CommonClipInOut::onEnter()
-{
-    CommonDemo::onEnter();
-    
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    
-    CCClippingNode* n = CCClippingNode::create();
-    CCSprite* flag = CCSprite::create("Images/usa_flag.jpg");
-    CCDrawNode* stencil = CCDrawNode::create();
-    n->setStencil(stencil);
-    flag->setAnchorPoint(CCPointZero);
-    flag->setPosition(CCPointZero);
-    n->addChild(flag);
-    n->ignoreAnchorPointForPosition(false);
-    n->setAnchorPoint(ccp(0.5f, 0.5f));
-    n->setContentSize(flag->getContentSize());
-    n->setPosition(ccp(origin.x + visibleSize.width / 2,
-                       origin.y + visibleSize.height / 2));
-    addChild(n, 1);
-    
-    CCClipIn* in1 = CCClipIn::create(2);
-    CCClipOut* out1 = (CCClipOut*)in1->reverse();
-    CCClipIn* in2 = CCClipIn::create(2, ccp(1, 1));
-    CCClipOut* out2 = (CCClipOut*)in2->reverse();
-    CCClipIn* in3 = CCClipIn::create(2, ccp(-1, 1));
-    CCClipOut* out3 = (CCClipOut*)in3->reverse();
-    CCClipIn* in4 = CCClipIn::create(2, ccp(-1, -1));
-    CCClipOut* out4 = (CCClipOut*)in4->reverse();
-    CCClipIn* in5 = CCClipIn::create(2, ccp(1, -1));
-    CCClipOut* out5 = (CCClipOut*)in5->reverse();
-    CCClipIn* in6 = CCClipIn::create(2, ccp(0, -1));
-    CCClipOut* out6 = (CCClipOut*)in6->reverse();
-    CCClipIn* in7 = CCClipIn::create(2, ccp(0, 1));
-    CCClipOut* out7 = (CCClipOut*)in7->reverse();
-    CCClipIn* in8 = CCClipIn::create(2, ccp(-1, 0));
-    CCClipOut* out8 = (CCClipOut*)in8->reverse();
-    n->runAction(CCSequence::create(in1,
-                                    out1,
-                                    in2,
-                                    out2,
-                                    in3,
-                                    out3,
-                                    in4,
-                                    out4,
-                                    in5,
-                                    out5,
-                                    in6,
-                                    out6,
-                                    in7,
-                                    out7,
-                                    in8,
-                                    out8,
-                                    NULL));
-}
-
-std::string CommonClipInOut::subtitle()
-{
-    return "Clip In & Out";
-}
-
-//------------------------------------------------------------------
-//
 // Gradient Sprite
 //
 //------------------------------------------------------------------
@@ -423,50 +347,6 @@ void CommonImagePicker::onImagePicked(const string& fullPath, int w, int h) {
 
 void CommonImagePicker::onImagePickingCancelled() {
 	CCLOG("onImagePickingCancelled");
-}
-
-//------------------------------------------------------------------
-//
-// JumpBy Extended
-//
-//------------------------------------------------------------------
-void CommonJumpEx::onEnter()
-{
-    CommonDemo::onEnter();
-    
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    
-	// grossini 1
-	CCSprite* s = CCSprite::create("Images/grossini.png");
-	s->setPosition(ccp(origin.x + visibleSize.width / 4,
-					   origin.y + visibleSize.height / 5));
-	addChild(s);
-    
-    // jump it
-    CCPoint delta = ccp(origin.x + visibleSize.width / 4,
-                        origin.y + visibleSize.height * 2 / 5);
-    CCJumpByEx* jump = CCJumpByEx::create(1, delta, visibleSize.height / 2, 1, true, 90);
-    CCFiniteTimeAction* rJump = (CCFiniteTimeAction*)jump->reverse();
-    s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(jump, rJump)));
-    
-    // grossini 2
-	s = CCSprite::create("Images/grossini.png");
-	s->setPosition(ccp(origin.x + visibleSize.width * 3 / 4,
-					   origin.y + visibleSize.height / 5));
-	addChild(s);
-    
-    // jump it
-    CCPoint dst = ccp(origin.x + visibleSize.width / 2,
-                      origin.y + visibleSize.height * 3 / 5);
-    jump = CCJumpToEx::create(1, dst, visibleSize.height / 2, 1, true, 90);
-    rJump = CCJumpToEx::create(1, s->getPosition(), visibleSize.height / 2, 1, true, 90);
-    s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(jump, rJump)));
-}
-
-std::string CommonJumpEx::subtitle()
-{
-    return "JumpBy/JumpTo Ex";
 }
 
 //------------------------------------------------------------------
@@ -594,65 +474,6 @@ void CommonMenuItemColor::onEnter()
 std::string CommonMenuItemColor::subtitle()
 {
     return "Color Menu Item";
-}
-
-//------------------------------------------------------------------
-//
-// Missile
-//
-//------------------------------------------------------------------
-void CommonMissile::onEnter()
-{
-    CommonDemo::onEnter();
-    
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    
-    // target
-    CCSprite* grossini = CCSprite::create("Images/grossini.png");
-    grossini->setPosition(ccp(origin.x + visibleSize.width / 8,
-                              origin.y + visibleSize.height / 8));
-    grossini->setTag(1);
-    addChild(grossini);
-    
-    // move target
-    CCMoveTo* m1 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width * 7 / 8,
-                                           origin.y + visibleSize.height / 8));
-    CCMoveTo* m2 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width * 7 / 8,
-                                           origin.y + visibleSize.height * 7 / 8));
-    CCMoveTo* m3 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width / 8,
-                                           origin.y + visibleSize.height * 7 / 8));
-    CCMoveTo* m4 = CCMoveTo::create(2, ccp(origin.x + visibleSize.width / 8,
-                                           origin.y + visibleSize.height / 8));
-    CCSequence* seq = CCSequence::create(m1, m2, m3, m4, NULL);
-    grossini->runAction(CCRepeatForever::create(seq));
-    
-    // missile
-    CCSprite* m = CCSprite::create("Images/r1.png");
-    m->setPosition(ccp(origin.x + visibleSize.width / 2,
-                       origin.y + visibleSize.height / 2));
-    addChild(m);
-    
-    // run missile action
-    CCMissile* action = CCMissile::create(130, grossini, 0,
-                                          CCCallFunc::create(this, callfunc_selector(CommonMissile::onHit)));
-    m->runAction(action);
-}
-
-void CommonMissile::onHit() {
-    getChildByTag(1)->stopAllActions();
-    
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-    CCLabelTTF* label = CCLabelTTF::create("Hit!!", "Helvetica", 24);
-    label->setPosition(ccp(origin.x + visibleSize.width / 2,
-                           origin.y + visibleSize.height / 2));
-    addChild(label);
-}
-
-std::string CommonMissile::subtitle()
-{
-    return "Missile";
 }
 
 //------------------------------------------------------------------
@@ -1126,31 +947,6 @@ std::string CommonScrollView::subtitle()
 
 //------------------------------------------------------------------
 //
-// Shake
-//
-//------------------------------------------------------------------
-void CommonShake::onEnter()
-{
-    CommonDemo::onEnter();
-	
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-	
-	CCSprite* s = CCSprite::create("Images/grossini.png");
-	s->setPosition(ccp(origin.x + visibleSize.width / 2,
-					   origin.y + visibleSize.height / 2));
-	addChild(s);
-	
-	s->runAction(CCRepeatForever::create(CCShake::create(1, 5)));
-}
-
-std::string CommonShake::subtitle()
-{
-    return "Shake";
-}
-
-//------------------------------------------------------------------
-//
 // Slider
 //
 //------------------------------------------------------------------
@@ -1286,35 +1082,4 @@ bool CommonToast::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 std::string CommonToast::subtitle()
 {
     return "Toast";
-}
-
-//------------------------------------------------------------------
-//
-// Tree Fade In/Out
-//
-//------------------------------------------------------------------
-void CommonTreeFadeInOut::onEnter()
-{
-    CommonDemo::onEnter();
-	
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-	
-	CCSprite* s = CCSprite::create("Images/grossini.png");
-	s->setPosition(ccp(origin.x + visibleSize.width / 2,
-					   origin.y + visibleSize.height / 2));
-	addChild(s);
-	
-	CCSprite* s2 = CCSprite::create("Images/grossini.png");
-	s->addChild(s2);
-	
-	CCSprite* s3 = CCSprite::create("Images/grossini.png");
-	s2->addChild(s3);
-	
-	s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(CCTreeFadeOut::create(2), CCTreeFadeIn::create(2))));
-}
-
-std::string CommonTreeFadeInOut::subtitle()
-{
-    return "Tree Fade In/Out";
 }

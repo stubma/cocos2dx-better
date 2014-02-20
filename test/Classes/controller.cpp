@@ -16,6 +16,8 @@ static TestScene* CreateTestScene(int nIdx)
     {
         case TEST_COMMON:
             pScene = new CommonTestScene(); break;
+        case TEST_ACTION:
+            pScene = new ActionTestScene(); break;
         case TEST_ANIM:
             pScene = new AnimTestScene(); break;
         case TEST_DB:

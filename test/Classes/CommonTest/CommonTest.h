@@ -52,13 +52,6 @@ public:
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
 };
 
-class CommonClipInOut : public CommonDemo
-{
-public:
-    virtual void onEnter();
-    virtual string subtitle();
-};
-
 class CommonGradientSprite : public CommonDemo
 {
 public:
@@ -79,13 +72,6 @@ public:
 	// image picker callback
 	virtual void onImagePicked(const string& fullPath, int w, int h);
 	virtual void onImagePickingCancelled();
-};
-
-class CommonJumpEx : public CommonDemo
-{
-public:
-    virtual void onEnter();
-    virtual string subtitle();
 };
 
 class CommonLayerClip : public CommonDemo
@@ -114,15 +100,6 @@ class CommonMenuItemColor : public CommonDemo
 public:
     virtual void onEnter();
     virtual string subtitle();
-};
-
-class CommonMissile : public CommonDemo
-{
-public:
-    virtual void onEnter();
-    virtual string subtitle();
-    
-    void onHit();
 };
 
 class CommonProgressHUD : public CommonDemo
@@ -205,13 +182,6 @@ public:
 	CCLayer* createScrollContent(const CCSize& size);
 };
 
-class CommonShake : public CommonDemo
-{	
-public:
-    virtual void onEnter();
-    virtual string subtitle();
-};
-
 class CommonSlider : public CommonDemo
 {
 private:
@@ -235,13 +205,6 @@ public:
     virtual void onEnter();
     virtual string subtitle();
     virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
-};
-
-class CommonTreeFadeInOut : public CommonDemo
-{
-public:
-    virtual void onEnter();
-    virtual string subtitle();
 };
 
 #endif

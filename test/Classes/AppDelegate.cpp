@@ -23,18 +23,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     CCSize screenSize = CCEGLView::sharedOpenGLView()->getFrameSize();
 
-    CCSize designSize = CCSizeMake(480, 320);
-    CCFileUtils* pFileUtils = CCFileUtils::sharedFileUtils();
-    
-    if (screenSize.height > 320)
-    {
-        CCSize resourceSize = CCSizeMake(960, 640);
-        std::vector<std::string> searchPaths;
-        searchPaths.push_back("hd");
-        pFileUtils->setSearchPaths(searchPaths);
-        pDirector->setContentScaleFactor(resourceSize.height/designSize.height);
-    }
-
+    CCSize designSize = CCSizeMake(720, 480);
     CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
 
     // set FPS. the default value is 1.0/60 if you don't call this

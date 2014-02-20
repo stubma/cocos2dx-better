@@ -30,6 +30,13 @@ public:
     void backCallback(CCObject* pSender);
 };
 
+class ActionFlash : public ActionDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class ActionClipInOut : public ActionDemo
 {
 public:

@@ -486,6 +486,7 @@
 					"$(SRCROOT)/../../../cocos2d-x/extensions",
 					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCControlExtension",
 					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCEditBox",
+					"$(SRCROOT)/../../../cocos2d-x/extensions/CocoStudio/Armature",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -528,6 +529,7 @@
 					"$(SRCROOT)/../../../cocos2d-x/extensions",
 					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCControlExtension",
 					"$(SRCROOT)/../../../cocos2d-x/extensions/GUI/CCEditBox",
+					"$(SRCROOT)/../../../cocos2d-x/extensions/CocoStudio/Armature",
 				);
 				INFOPLIST_FILE = "Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

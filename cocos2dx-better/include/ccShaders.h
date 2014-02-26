@@ -21,26 +21,11 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ccShader_flash_frag_h__
-#define __ccShader_flash_frag_h__
+#ifndef __ccShaders__
+#define __ccShaders__
 
-static const char* ccShader_flash_frag = "\n\
-    #ifdef GL_ES \n\
-    precision lowp float; \n\
-    #endif \n\
-    \n\
-    varying vec4 v_fragmentColor; \n\
-    varying vec2 v_texCoord; \n\
-    uniform sampler2D CC_Texture0; \n\
-    uniform vec3 CC_flashColor; \n\
-    uniform float CC_flashTime; \n\
-    \n\
-    void main()	{ \n\
-        gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord); \n\
-        if(gl_FragColor.a > 0.0) { \n\
-            vec3 deltaColor = (CC_flashColor - gl_FragColor.xyz) * CC_flashTime; \n\
-            gl_FragColor.xyz += deltaColor; \n\
-        } \n\
-    }";
+// flash effect shaders
+extern const char* ccShader_flash_vert;
+extern const char* ccShader_flash_frag;
 
-#endif // __ccShader_flash_frag_h__
+#endif // __ccShaders__

@@ -22,8 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCFlash.h"
-#include "ccShader_flash_frag.h"
-#include "ccShader_flash_vert.h"
+#include "ccShaders.h"
 
 NS_CC_BEGIN
 

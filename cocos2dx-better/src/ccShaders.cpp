@@ -21,20 +21,22 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ccShader_flash_vert_h__
-#define __ccShader_flash_vert_h__
 
-static const char* ccShader_flash_vert = " \n\
+////////////////////////////////////////////////////////////
+// flash effect shader
+////////////////////////////////////////////////////////////
+
+const char* ccShader_flash_vert = " \n\
     attribute vec4 a_position; \n\
     attribute vec2 a_texCoord; \n\
     attribute vec4 a_color; \n\
     \n\
     #ifdef GL_ES \n\
-    varying lowp vec4 v_fragmentColor; \n\
-    varying mediump vec2 v_texCoord; \n\
+        varying lowp vec4 v_fragmentColor; \n\
+        varying mediump vec2 v_texCoord; \n\
     #else \n\
-    varying vec4 v_fragmentColor; \n\
-    varying vec2 v_texCoord; \n\
+        varying vec4 v_fragmentColor; \n\
+        varying vec2 v_texCoord; \n\
     #endif \n\
     \n\
     void main()	{ \n\
@@ -43,4 +45,21 @@ static const char* ccShader_flash_vert = " \n\
         v_texCoord = a_texCoord; \n\
     }";
 
-#endif // __ccShader_flash_vert_h__
+const char* ccShader_flash_frag = "\n\
+    #ifdef GL_ES \n\
+        precision lowp float; \n\
+    #endif \n\
+    \n\
+    varying vec4 v_fragmentColor; \n\
+    varying vec2 v_texCoord; \n\
+    uniform sampler2D CC_Texture0; \n\
+    uniform vec3 CC_flashColor; \n\
+    uniform float CC_flashTime; \n\
+    \n\
+    void main()	{ \n\
+        gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord); \n\
+        if(gl_FragColor.a > 0.0) { \n\
+            vec3 deltaColor = (CC_flashColor - gl_FragColor.xyz) * CC_flashTime; \n\
+            gl_FragColor.xyz += deltaColor; \n\
+        } \n\
+    }";

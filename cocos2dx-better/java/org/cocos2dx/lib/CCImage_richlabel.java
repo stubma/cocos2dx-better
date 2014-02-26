@@ -361,13 +361,13 @@ public class CCImage_richlabel {
 								if(openSpan.scaleX != 1 || openSpan.scaleY != 1 || contentScaleFactor != 1) {
 									float dstW = openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX);
 									float dstH = openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY);
-									dstW *= contentScaleFactor;
-									dstH *= contentScaleFactor;
 									Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
 											(int)dstW,
 											(int)dstH,
 											true);
-									bitmap.recycle();
+									if(scaled != bitmap) {
+										bitmap.recycle();
+									}
 									bitmap = scaled;
 								}
 							}

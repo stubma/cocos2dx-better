@@ -102,6 +102,12 @@ typedef struct {
     bool sizeOnly;
 } tImageInfo;
 
+/// get screen scale
+static float getScreenScale() {
+    UIScreen* s = [UIScreen mainScreen];
+    return s.scale;
+}
+
 ////////////////////////////////////////
 // run delegate callback
 
@@ -113,7 +119,7 @@ static CGFloat getAscent(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return span.height != 0 ? span.height : (image.size.height * span.scaleY);
+    return span.height != 0 ? span.height : (image.size.height * span.scaleY / getScreenScale());
 }
 
 static CGFloat getDescent(void* refCon) {
@@ -125,7 +131,7 @@ static CGFloat getWidth(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return span.width != 0 ? span.width : (image.size.width * span.scaleX);
+    return span.width != 0 ? span.width : (image.size.width * span.scaleX / getScreenScale());
 }
 
 static CTRunDelegateCallbacks s_runDelegateCallbacks = {
@@ -514,8 +520,8 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
                             UIImage* image = [s_imageMap objectForKey:imageName];
                             CGRect rect = CGRectMake(offsetX + origin[i].x,
                                                      origin[i].y,
-                                                     span.width != 0 ? span.width : (image.size.width * span.scaleX),
-                                                     span.height != 0 ? span.height : (image.size.height * span.scaleY));
+                                                     span.width != 0 ? span.width : (image.size.width * span.scaleX / getScreenScale()),
+                                                     span.height != 0 ? span.height : (image.size.height * span.scaleY / getScreenScale()));
                             CGContextDrawImage(context, rect, image.CGImage);
                             break;
                         }

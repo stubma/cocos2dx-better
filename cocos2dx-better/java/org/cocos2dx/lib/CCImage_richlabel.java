@@ -53,7 +53,6 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -113,11 +112,13 @@ public class CCImage_richlabel {
 		public String fontName;
 		
 		// only for image
+		// offsetY follow opengl rule
 		public String imageName;
 		public float scaleX;
 		public float scaleY;
 		public float width;
 		public float height;
+		public float offsetY;
 		
 	    // for link tag
 	    int normalBgColor;
@@ -375,7 +376,7 @@ public class CCImage_richlabel {
                     		// register bitmap and set span for it
                     		if(bitmap != null) {
 								imageMap.put(span.imageName, bitmap);
-								rich.setSpan(new ImageSpan(bitmap, DynamicDrawableSpan.ALIGN_BASELINE), 
+								rich.setSpan(new CCImageSpan(bitmap, DynamicDrawableSpan.ALIGN_BASELINE, openSpan.offsetY), 
 									openSpan.pos,
 									span.pos,
 									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -919,6 +920,7 @@ public class CCImage_richlabel {
 	                            	span.imageName = parts[0];
 	                            	span.scaleX = span.scaleY = 1;
 	                            	span.width = span.height = 0;
+	                            	span.offsetY = 0;
 	                            	
 	                            	// if parts more than one, parse attributes
 	                            	if(parts.length > 1) {
@@ -936,6 +938,8 @@ public class CCImage_richlabel {
 	                            						span.width = Float.parseFloat(pair[1]);
 	                            					} else if("h".equals(pair[0])) {
 	                            						span.height = Float.parseFloat(pair[1]);
+	                            					} else if("offsety".equals(pair[0])) {
+	                            						span.offsetY = Float.parseFloat(pair[1]);
 	                            					}
 	                            				} catch (NumberFormatException e) {
 	                            				}

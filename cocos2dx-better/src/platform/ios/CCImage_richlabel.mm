@@ -66,11 +66,13 @@ typedef struct Span {
     char* fontName;
     
     // only used for image
+    // offsetY follow opengl rule
     char* imageName;
     float scaleX;
 	float scaleY;
 	float width;
 	float height;
+    float offsetY;
     
     // for link tag
     int normalBgColor;
@@ -119,11 +121,14 @@ static CGFloat getAscent(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return span.height != 0 ? span.height : (image.size.height * span.scaleY / getScreenScale());
+    float ascent = span.height != 0 ? span.height : (image.size.height * span.scaleY / getScreenScale());
+    ascent += span.offsetY;
+    return ascent;
 }
 
 static CGFloat getDescent(void* refCon) {
-    return 0;
+    Span& span = *(Span*)refCon;
+    return -span.offsetY;
 }
 
 static CGFloat getWidth(void* refCon) {
@@ -391,6 +396,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 // set default
                                 span.scaleX = span.scaleY = 1;
 								span.width = span.height = 0;
+                                span.offsetY = 0;
                                 
                                 // if has other parts, check
                                 if([parts count] > 1) {
@@ -411,7 +417,9 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 												span.width = [value floatValue];
 											} else if([@"h" isEqualToString:key]) {
 												span.height = [value floatValue];
-											}
+											} else if([@"offsety" isEqualToString:key]) {
+                                                span.offsetY = [value floatValue];
+                                            }
                                         }
                                     }
                                 }
@@ -519,7 +527,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
                                                                      encoding:NSUTF8StringEncoding];
                             UIImage* image = [s_imageMap objectForKey:imageName];
                             CGRect rect = CGRectMake(offsetX + origin[i].x,
-                                                     origin[i].y,
+                                                     origin[i].y + span.offsetY / getScreenScale(),
                                                      span.width != 0 ? span.width : (image.size.width * span.scaleX / getScreenScale()),
                                                      span.height != 0 ? span.height : (image.size.height * span.scaleY / getScreenScale()));
                             CGContextDrawImage(context, rect, image.CGImage);

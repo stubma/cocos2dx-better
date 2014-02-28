@@ -51,7 +51,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.DynamicDrawableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
@@ -335,12 +334,11 @@ public class CCImage_richlabel {
                     		// register bitmap and set span for it
                     		Bitmap bitmap = createSpanImage(openSpan);
                     		if(bitmap != null) {
-								imageMap.put(span.imageName, bitmap);
+								imageMap.put(openSpan.imageName, bitmap);
 								rich.setSpan(new PlaceholderImageSpan(bitmap.getWidth(), bitmap.getHeight(), openSpan.offsetY), 
 									openSpan.pos,
 									span.pos,
 									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-								bitmap.recycle();
                     		}
                     		
                     		openSpan = null;
@@ -573,7 +571,7 @@ public class CCImage_richlabel {
 			// line ascent and descent and the arguments passed to ImageSpan.draw is incorrect! so
 			// I have to postpone image renderring. The ImageSpan is replaced by PlaceholderImageSpan
 			// to reserve correct room for image
-			renderEmbededImages(c, layout, plain, spans);
+			renderEmbededImages(c, layout, plain, spans, imageMap);
 			
 			// extract link meta info
 			extractLinkMeta(layout, spans, contentScaleFactor);
@@ -593,7 +591,11 @@ public class CCImage_richlabel {
 		}
 	}
 	
-	private static void renderEmbededImages(Canvas c, StaticLayout layout, String plain, List<Span> spans) {
+	private static void renderEmbededImages(Canvas c, StaticLayout layout, String plain, List<Span> spans, Map<String, Bitmap> imageMap) {
+		// quick reject
+		if(imageMap.isEmpty())
+			return;
+		
 		// get line count
 		int lineCount = layout.getLineCount();
 		
@@ -625,13 +627,12 @@ public class CCImage_richlabel {
                     // get span, if one image span matched index, draw the image
                     for(Span span : spans) {
                         if(span.type == SpanType.IMAGE && !span.close && span.pos == j) {
-                        	Bitmap bitmap = createSpanImage(span);
+                        	Bitmap bitmap = imageMap.get(span.imageName);
                         	if(bitmap != null) {
                         		c.drawBitmap(bitmap, 
                         				offsetX + origin[i].x, 
                         				origin[i].y - span.offsetY - bitmap.getHeight(), 
                         				null);
-                        		bitmap.recycle();
                         	}
                             break;
                         }

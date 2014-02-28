@@ -331,55 +331,16 @@ public class CCImage_richlabel {
                     }
                     case IMAGE:
                     {
-                    	if(openSpan != null && !TextUtils.isEmpty(openSpan.imageName)) {  
-                    		// if imageName starts with '/', treat it like external image
-                    		Bitmap bitmap = null;
-                    		boolean external = openSpan.imageName.startsWith("/");
-                    		InputStream is = null;
-                    		try {
-                    			if(external) {
-                    				is = new FileInputStream(openSpan.imageName);
-                    			} else {
-                    				AssetManager am = Cocos2dxHelper.getAssetManager();
-                    				String fullPath = nativeFullPathForFilename(openSpan.imageName);
-                    				if(fullPath.startsWith("assets/"))
-                    					fullPath = fullPath.substring("assets/".length());
-                    				is = am.open(fullPath);
-                    			}
-								bitmap = BitmapFactory.decodeStream(is);
-							} catch (Throwable e) {
-							} finally {
-								if(is != null) {
-									try {
-										is.close();
-									} catch (IOException e) {
-									}
-								}
-							}
-                    		
-                    		// scale image if necessary
-							if(bitmap != null) {
-								if(openSpan.scaleX != 1 || openSpan.scaleY != 1 || contentScaleFactor != 1) {
-									float dstW = openSpan.width != 0 ? (int)openSpan.width : (int)(bitmap.getWidth() * openSpan.scaleX);
-									float dstH = openSpan.height != 0 ? (int)openSpan.height : (int)(bitmap.getHeight() * openSpan.scaleY);
-									Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
-											(int)dstW,
-											(int)dstH,
-											true);
-									if(scaled != bitmap) {
-										bitmap.recycle();
-									}
-									bitmap = scaled;
-								}
-							}
-                    		
+                    	if(openSpan != null) {  
                     		// register bitmap and set span for it
+                    		Bitmap bitmap = createSpanImage(openSpan);
                     		if(bitmap != null) {
 								imageMap.put(span.imageName, bitmap);
-								rich.setSpan(new CCImageSpan(bitmap, DynamicDrawableSpan.ALIGN_BASELINE, openSpan.offsetY), 
+								rich.setSpan(new PlaceholderImageSpan(bitmap.getWidth(), bitmap.getHeight(), openSpan.offsetY), 
 									openSpan.pos,
 									span.pos,
 									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+								bitmap.recycle();
                     		}
                     		
                     		openSpan = null;
@@ -607,6 +568,13 @@ public class CCImage_richlabel {
 				layout.draw(c);
 			}
 			
+			// render embedded image
+			// Note: I do it here because I want to support image y offset, but y offset may change
+			// line ascent and descent and the arguments passed to ImageSpan.draw is incorrect! so
+			// I have to postpone image renderring. The ImageSpan is replaced by PlaceholderImageSpan
+			// to reserve correct room for image
+			renderEmbededImages(c, layout, plain, spans);
+			
 			// extract link meta info
 			extractLinkMeta(layout, spans, contentScaleFactor);
 			
@@ -624,6 +592,54 @@ public class CCImage_richlabel {
 			}
 		}
 	}
+	
+	private static void renderEmbededImages(Canvas c, StaticLayout layout, String plain, List<Span> spans) {
+		// get line count
+		int lineCount = layout.getLineCount();
+		
+		// get line origin
+		PointF[] origin = new PointF[lineCount];
+		for(int i = 0; i < lineCount; i++) {
+			origin[i] = new PointF();
+			origin[i].x = layout.getLineLeft(i);
+			origin[i].y = layout.getLineBaseline(i);
+		}
+		
+		// get line range
+		Point[] range = new Point[lineCount];
+		for(int i = 0; i < lineCount; i++) {
+			range[i] = new Point();
+			range[i].x = layout.getLineStart(i);
+			range[i].y = layout.getLineEnd(i);
+		}
+        
+        // iterate every line
+        for (int i = 0; i < lineCount; i++) {
+            // find image placeholder
+            for(int j = range[i].x; j < range[i].y; j++) {
+                // if placeholder matched, render this image
+                if(plain.charAt(j) == 0xfffc) {
+                    // get offset
+                	float offsetX = layout.getPrimaryHorizontal(j);
+                    
+                    // get span, if one image span matched index, draw the image
+                    for(Span span : spans) {
+                        if(span.type == SpanType.IMAGE && !span.close && span.pos == j) {
+                        	Bitmap bitmap = createSpanImage(span);
+                        	if(bitmap != null) {
+                        		c.drawBitmap(bitmap, 
+                        				offsetX + origin[i].x, 
+                        				origin[i].y - span.offsetY - bitmap.getHeight(), 
+                        				null);
+                        		bitmap.recycle();
+                        	}
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
 	
 	private static void extractLinkMeta(StaticLayout layout, List<Span> spans, float contentScaleFactor) {
 		// get line count
@@ -996,6 +1012,55 @@ public class CCImage_richlabel {
 		
 		// return plain str
 		return plain.toString();
+	}
+	
+	private static Bitmap createSpanImage(Span span) {
+		// if imageName starts with '/', treat it like external image
+		Bitmap bitmap = null;
+		
+		// name checking
+		if(TextUtils.isEmpty(span.imageName))
+			return bitmap;
+		
+		// find and load image
+		boolean external = span.imageName.startsWith("/");
+		InputStream is = null;
+		try {
+			if(external) {
+				is = new FileInputStream(span.imageName);
+			} else {
+				AssetManager am = Cocos2dxHelper.getAssetManager();
+				String fullPath = nativeFullPathForFilename(span.imageName);
+				if(fullPath.startsWith("assets/"))
+					fullPath = fullPath.substring("assets/".length());
+				is = am.open(fullPath);
+			}
+			bitmap = BitmapFactory.decodeStream(is);
+		} catch (Throwable e) {
+		} finally {
+			if(is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+		
+		// scale image if necessary
+		if(bitmap != null) {
+			float dstW = span.width != 0 ? (int)span.width : (int)(bitmap.getWidth() * span.scaleX);
+			float dstH = span.height != 0 ? (int)span.height : (int)(bitmap.getHeight() * span.scaleY);
+			Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
+					(int)dstW,
+					(int)dstH,
+					true);
+			if(scaled != bitmap) {
+				bitmap.recycle();
+			}
+			bitmap = scaled;
+		}
+		
+		return bitmap;
 	}
 	
 	private static int parseColor(String text, int start, int len) {

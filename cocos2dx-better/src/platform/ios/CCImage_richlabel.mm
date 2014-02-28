@@ -104,12 +104,6 @@ typedef struct {
     bool sizeOnly;
 } tImageInfo;
 
-/// get screen scale
-static float getScreenScale() {
-    UIScreen* s = [UIScreen mainScreen];
-    return s.scale;
-}
-
 ////////////////////////////////////////
 // run delegate callback
 
@@ -121,7 +115,7 @@ static CGFloat getAscent(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    float ascent = span.height != 0 ? span.height : (image.size.height * span.scaleY / getScreenScale());
+    float ascent = span.height != 0 ? span.height : (image.size.height * span.scaleY);
     ascent += span.offsetY;
     return ascent;
 }
@@ -136,7 +130,7 @@ static CGFloat getWidth(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return span.width != 0 ? span.width : (image.size.width * span.scaleX / getScreenScale());
+    return span.width != 0 ? span.width : (image.size.width * span.scaleX);
 }
 
 static CTRunDelegateCallbacks s_runDelegateCallbacks = {
@@ -527,9 +521,9 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
                                                                      encoding:NSUTF8StringEncoding];
                             UIImage* image = [s_imageMap objectForKey:imageName];
                             CGRect rect = CGRectMake(offsetX + origin[i].x,
-                                                     origin[i].y + span.offsetY / getScreenScale(),
-                                                     span.width != 0 ? span.width : (image.size.width * span.scaleX / getScreenScale()),
-                                                     span.height != 0 ? span.height : (image.size.height * span.scaleY / getScreenScale()));
+                                                     origin[i].y + span.offsetY,
+                                                     span.width != 0 ? span.width : (image.size.width * span.scaleX),
+                                                     span.height != 0 ? span.height : (image.size.height * span.scaleY));
                             CGContextDrawImage(context, rect, image.CGImage);
                             break;
                         }

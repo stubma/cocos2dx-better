@@ -54,14 +54,14 @@ CCScrollView::CCScrollView()
 , m_fMinScale(0.0f)
 , m_fMaxScale(0.0f)
 {
-	m_tracker = CCVelocityTracker::create();
-	m_tracker->retain();
+
 }
 
 CCScrollView::~CCScrollView()
 {
-    m_pTouches->release();
-	m_tracker->release();
+    CC_SAFE_RELEASE(m_pTouches);
+    this->unregisterScriptHandler(kScrollViewScroll);
+    this->unregisterScriptHandler(kScrollViewZoom);
 }
 
 CCScrollView* CCScrollView::create(CCSize size, CCNode* container/* = NULL*/)
@@ -120,6 +120,7 @@ bool CCScrollView::initWithViewSize(CCSize size, CCNode *container/* = NULL*/)
         
         this->addChild(m_pContainer);
         m_fMinScale = m_fMaxScale = 1.0f;
+        m_mapScriptHandler.clear();
         return true;
     }
     return false;
@@ -373,9 +374,7 @@ void CCScrollView::deaccelerateScrolling(float dt)
     float newX, newY;
     CCPoint maxInset, minInset;
     
-	float dx = m_tScrollDistance.x * dt;
-	float dy = m_tScrollDistance.y * dt;
-    m_pContainer->setPosition(ccpAdd(m_pContainer->getPosition(), ccp(dx, dy)));
+    m_pContainer->setPosition(ccpAdd(m_pContainer->getPosition(), m_tScrollDistance));
     
     if (m_bBounceable)
     {
@@ -388,12 +387,16 @@ void CCScrollView::deaccelerateScrolling(float dt)
         minInset = this->minContainerOffset();
     }
     
-	//check to see if offset lies within the inset bounds
+    //check to see if offset lies within the inset bounds
     newX     = MIN(m_pContainer->getPosition().x, maxInset.x);
     newX     = MAX(newX, minInset.x);
     newY     = MIN(m_pContainer->getPosition().y, maxInset.y);
     newY     = MAX(newY, minInset.y);
     
+    newX = m_pContainer->getPosition().x;
+    newY = m_pContainer->getPosition().y;
+    
+    m_tScrollDistance     = ccpSub(m_tScrollDistance, ccp(newX - m_pContainer->getPosition().x, newY - m_pContainer->getPosition().y));
     m_tScrollDistance     = ccpMult(m_tScrollDistance, SCROLL_DEACCEL_RATE);
     this->setContentOffset(ccp(newX,newY));
     
@@ -623,9 +626,6 @@ bool CCScrollView::ccTouchBegan(CCTouch* touch, CCEvent* event)
         m_bDragging     = true; //dragging started
         m_tScrollDistance = ccp(0.0f, 0.0f);
         m_fTouchLength    = 0.0f;
-		
-		// track velocity
-		m_tracker->addTouchBegan(touch);
     }
     else if (m_pTouches->count() == 2)
     {
@@ -648,11 +648,7 @@ void CCScrollView::ccTouchMoved(CCTouch* touch, CCEvent* event)
     if (m_pTouches->containsObject(touch))
     {
         if (m_pTouches->count() == 1 && m_bDragging)
-        {
-			// velocity
-			m_tracker->addTouchMoved(touch);
-			
-			// scrolling
+        { // scrolling
             CCPoint moveDistance, newPoint, maxInset, minInset;
             CCRect  frame;
             float newX, newY;
@@ -733,9 +729,6 @@ void CCScrollView::ccTouchEnded(CCTouch* touch, CCEvent* event)
     {
         if (m_pTouches->count() == 1 && m_bTouchMoved)
         {
-			m_tracker->computeCurrentVelocity(1000);
-			m_tScrollDistance.x = m_tracker->getXVelocity();
-			m_tScrollDistance.y = m_tracker->getYVelocity();
             this->schedule(schedule_selector(CCScrollView::deaccelerateScrolling));
         }
         m_pTouches->removeObject(touch);
@@ -789,4 +782,27 @@ CCRect CCScrollView::getViewRect()
     return CCRectMake(screenPos.x, screenPos.y, m_tViewSize.width*scaleX, m_tViewSize.height*scaleY);
 }
 
+void CCScrollView::registerScriptHandler(int nFunID,int nScriptEventType)
+{
+    this->unregisterScriptHandler(nScriptEventType);
+    m_mapScriptHandler[nScriptEventType] = nFunID;
+}
+void CCScrollView::unregisterScriptHandler(int nScriptEventType)
+{
+    std::map<int,int>::iterator iter = m_mapScriptHandler.find(nScriptEventType);
+    
+    if (m_mapScriptHandler.end() != iter)
+    {
+        m_mapScriptHandler.erase(iter);
+    }
+}
+int  CCScrollView::getScriptHandler(int nScriptEventType)
+{
+    std::map<int,int>::iterator iter = m_mapScriptHandler.find(nScriptEventType);
+    
+    if (m_mapScriptHandler.end() != iter)
+        return iter->second;
+    
+    return 0;
+}
 NS_CC_END

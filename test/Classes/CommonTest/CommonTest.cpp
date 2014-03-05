@@ -16,7 +16,6 @@ TESTLAYER_CREATE_FUNC(CommonRichLabel2);
 TESTLAYER_CREATE_FUNC(CommonResourceLoader);
 TESTLAYER_CREATE_FUNC(CommonRookieGuide);
 TESTLAYER_CREATE_FUNC(CommonScreenshot);
-TESTLAYER_CREATE_FUNC(CommonScrollView);
 TESTLAYER_CREATE_FUNC(CommonSlider);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
 TESTLAYER_CREATE_FUNC(CommonToast);
@@ -36,7 +35,6 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonResourceLoader),
     CF(CommonRookieGuide),
 	CF(CommonScreenshot),
-	CF(CommonScrollView),
     CF(CommonSlider),
     CF(CommonTiledSprite),
     CF(CommonToast),
@@ -891,58 +889,6 @@ bool CommonScreenshot::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 	getParent()->addChild(m_shot);
 	
 	return true;
-}
-
-//------------------------------------------------------------------
-//
-// Scroll View
-//
-//------------------------------------------------------------------
-void CommonScrollView::onEnter()
-{
-    CommonDemo::onEnter();
-	
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-	
-	CCSize size = CCSizeMake(visibleSize.width * 4 / 5, visibleSize.height * 3 / 5);
-	CCScrollView* scroll = CCScrollView::create(size);
-    scroll->ignoreAnchorPointForPosition(false);
-    scroll->setAnchorPoint(ccp(0.5f, 0.5f));
-    scroll->setPosition(ccp(origin.x + visibleSize.width / 2,
-							origin.y + visibleSize.height / 2));
-    scroll->setDirection(kCCScrollViewDirectionVertical);
-    scroll->setBounceable(false);
-    addChild(scroll);
-	
-	CCLayer* content = createScrollContent(size);
-    scroll->addChild(content);
-    scroll->setContentSize(content->getContentSize());
-    scroll->setContentOffset(scroll->minContainerOffset());
-}
-
-CCLayer* CommonScrollView::createScrollContent(const CCSize& size) {
-	CCLayerColor* layer = CCLayerColor::create(ccc4(255, 0, 0, 255));
-	
-	float y = 0;
-	char buf[64];
-	for(int i = 0; i < 100; i++) {
-		sprintf(buf, "test label %d", i);
-		CCLabelTTF* label = CCLabelTTF::create(buf, "Helvetica", 24);
-		label->setAnchorPoint(ccp(0, 0));
-		label->setPosition(ccp(0, y));
-		layer->addChild(label);
-		
-		y += label->getContentSize().height + 10 / CC_CONTENT_SCALE_FACTOR();
-	}
-	
-	layer->setContentSize(CCSizeMake(size.width, y));
-	return layer;
-}
-
-std::string CommonScrollView::subtitle()
-{
-    return "Scroll View (Support Fling)";
 }
 
 //------------------------------------------------------------------

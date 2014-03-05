@@ -25,7 +25,6 @@
 #define __CCSCROLLVIEW_H__
 
 #include "cocos2d.h"
-#include "CCVelocityTracker.h"
 
 NS_CC_BEGIN
 
@@ -42,8 +41,11 @@ typedef enum {
 } CCScrollViewDirection;
 
 class CCScrollView;
-
-class CC_DLL CCScrollViewDelegate
+/**
+ *  @js NA
+ *  @lua NA
+ */
+class CCScrollViewDelegate
 {
 public:
     virtual ~CCScrollViewDelegate() {}
@@ -53,13 +55,22 @@ public:
 
 
 /**
- * ScrollView support for cocos2d for iphone.
- * It provides scroll view functionalities to cocos2d projects natively.
+ * This is a copy of CCScrollView, and I copy it to fix something. I don't add Ex suffix here, so I change
+ * its namespace to cocos2d
+ * Fix bug:
+ * 1. if bouncable is false, it can't fling
  */
-class CC_DLL CCScrollView : public CCLayer
+class CCScrollView : public CCLayer
 {
 public:
+    /**
+     *  @js ctor
+     */
     CCScrollView();
+    /**
+     *  @js NA
+     *  @lua NA
+     */
     virtual ~CCScrollView();
 
     bool init();
@@ -193,17 +204,14 @@ public:
      */
     bool isClippingToBounds() { return m_bClippingToBounds; }
     void setClippingToBounds(bool bClippingToBounds) { m_bClippingToBounds = bClippingToBounds; }
-
+    /**
+     *  @js NA
+     */
     virtual void visit();
     virtual void addChild(CCNode * child, int zOrder, int tag);
     virtual void addChild(CCNode * child, int zOrder);
     virtual void addChild(CCNode * child);
     void setTouchEnabled(bool e);
-    
-    // scale
-    CC_SYNTHESIZE(float, m_fMinScale, MinScale);
-    CC_SYNTHESIZE(float, m_fMaxScale, MaxScale);
-    
 private:
     /**
      * Relocates the container at the proper offset, in bounds of max/min offsets.
@@ -255,10 +263,6 @@ protected:
      * max zoom scale
      */
     float m_fMaxZoomScale;
-	
-	// velocity
-	CCVelocityTracker* m_tracker;
-	
     /**
      * scroll view delegate
      */
@@ -320,12 +324,26 @@ protected:
      * Hence, this scroll view will use a separate size property.
      */
     CCSize m_tViewSize;
-    
+    /**
+     * max and min scale
+     */
+    float m_fMinScale, m_fMaxScale;
     /**
      * scissor rect for parent, just for restoring GL_SCISSOR_BOX
      */
     CCRect m_tParentScissorRect;
     bool m_bScissorRestored;
+public:
+    enum ScrollViewScriptEventType
+    {
+        kScrollViewScroll   = 0,
+        kScrollViewZoom,
+    };
+    void registerScriptHandler(int nFunID,int nScriptEventType);
+    void unregisterScriptHandler(int nScriptEventType);
+    int  getScriptHandler(int nScriptEventType);
+private:
+    std::map<int,int> m_mapScriptHandler;
 };
 
 // end of GUI group

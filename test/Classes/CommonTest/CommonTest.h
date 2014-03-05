@@ -174,14 +174,6 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 };
 
-class CommonScrollView : public CommonDemo
-{
-public:
-    virtual void onEnter();
-    virtual string subtitle();
-	CCLayer* createScrollContent(const CCSize& size);
-};
-
 class CommonSlider : public CommonDemo
 {
 private:

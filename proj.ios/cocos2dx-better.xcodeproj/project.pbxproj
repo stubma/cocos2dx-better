@@ -232,6 +232,7 @@
 		9222C62F18693F4000226B34 /* CCPointList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPointList.h; sourceTree = "<group>"; };
 		922399E9187FD793006AD199 /* CCJumpByEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJumpByEx.cpp; sourceTree = "<group>"; };
 		922399EC187FD7B3006AD199 /* CCJumpByEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJumpByEx.h; sourceTree = "<group>"; };
+		922D3C8618C970B200E9AA9E /* CCCallFuncT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncT.h; sourceTree = "<group>"; };
 		9234735E18BD865A009DDBEF /* ccShaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShaders.h; sourceTree = "<group>"; };
 		9234736018BD86A4009DDBEF /* ccShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ccShaders.cpp; sourceTree = "<group>"; };
 		9239686E185591DB0063E8A1 /* CCAssetInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream.h; sourceTree = "<group>"; };
@@ -674,6 +675,7 @@
 				9239688B185591DB0063E8A1 /* CCShake.h */,
 				92396893185591DB0063E8A1 /* CCTreeFadeIn.h */,
 				92396894185591DB0063E8A1 /* CCTreeFadeOut.h */,
+				922D3C8618C970B200E9AA9E /* CCCallFuncT.h */,
 			);
 			name = action;
 			sourceTree = "<group>";

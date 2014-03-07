@@ -78,6 +78,7 @@
 #include "CCShake.h"
 #include "CCTreeFadeIn.h"
 #include "CCTreeFadeOut.h"
+#include "CCCallFuncT.h"
 
 // db
 #include "CCDatabase.h"

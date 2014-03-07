@@ -37,6 +37,19 @@ public:
     virtual string subtitle();
 };
 
+class CommonCallFuncT : public CommonDemo
+{
+private:
+    CCLabelTTF* m_label;
+    
+private:
+    void randomChangeLabel(int n);
+    
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonCatmullRomSprite : public CommonDemo
 {
 private:

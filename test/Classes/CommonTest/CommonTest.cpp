@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 
 TESTLAYER_CREATE_FUNC(CommonCalendar);
+TESTLAYER_CREATE_FUNC(CommonCallFuncT);
 TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonImagePicker);
@@ -22,6 +23,7 @@ TESTLAYER_CREATE_FUNC(CommonToast);
 
 static NEWTESTFUNC createFunctions[] = {
     CF(CommonCalendar),
+    CF(CommonCallFuncT),
     CF(CommonCatmullRomSprite),
 	CF(CommonGradientSprite),
 	CF(CommonImagePicker),
@@ -193,6 +195,43 @@ void CommonCalendar::onEnter()
 std::string CommonCalendar::subtitle()
 {
     return "Calendar";
+}
+
+//------------------------------------------------------------------
+//
+// CallFuncT
+//
+//------------------------------------------------------------------
+void CommonCallFuncT::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    m_label = CCLabelTTF::create("0", "Helvetica", 14);
+    m_label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                             origin.y + visibleSize.height / 2));
+    addChild(m_label);
+    
+    runAction(CCSequence::create(CCDelayTime::create(1),
+                                 CCCallFuncT<int>::create(this, (CCCallFuncT<int>::SEL_CallFuncT)&CommonCallFuncT::randomChangeLabel, CCRANDOM_0_1() * 1000),
+                                 NULL));
+}
+
+void CommonCallFuncT::randomChangeLabel(int n) {
+    char buf[32];
+    sprintf(buf, "%d", n);
+    m_label->setString(buf);
+    
+    runAction(CCSequence::create(CCDelayTime::create(1),
+                                 CCCallFuncT<int>::create(this, (CCCallFuncT<int>::SEL_CallFuncT)&CommonCallFuncT::randomChangeLabel, CCRANDOM_0_1() * 1000),
+                                 NULL));
+}
+
+std::string CommonCallFuncT::subtitle()
+{
+    return "CallFuncT";
 }
 
 //------------------------------------------------------------------

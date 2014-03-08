@@ -332,15 +332,20 @@ public class CCImage_richlabel {
                     {
                     	if(openSpan != null) {  
                     		// register bitmap and set span for it
+                    		// even bitmap is null, span is always set
                     		Bitmap bitmap = createSpanImage(openSpan);
+                    		int bw = 0, bh = 0;
                     		if(bitmap != null) {
 								imageMap.put(openSpan.imageName, bitmap);
-								rich.setSpan(new PlaceholderImageSpan(bitmap.getWidth(), bitmap.getHeight(), openSpan.offsetY), 
-									openSpan.pos,
-									span.pos,
-									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+								bw = bitmap.getWidth();
+								bh = bitmap.getHeight();
                     		}
+                    		rich.setSpan(new PlaceholderImageSpan(bw, bh, openSpan.offsetY), 
+                    				openSpan.pos,
+                    				span.pos,
+                    				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     		
+                    		// nullify open span
                     		openSpan = null;
                     	}
                     	break;

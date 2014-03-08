@@ -115,7 +115,7 @@ static CGFloat getAscent(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    float ascent = span.height != 0 ? span.height : (image.size.height * span.scaleY);
+    float ascent = span.height != 0 ? span.height : (image ? (image.size.height * span.scaleY) : 0);
     ascent += span.offsetY;
     return ascent;
 }
@@ -130,7 +130,7 @@ static CGFloat getWidth(void* refCon) {
     NSString* name = [NSString stringWithCString:span.imageName
                                         encoding:NSUTF8StringEncoding];
     UIImage* image = [s_imageMap objectForKey:name];
-    return span.width != 0 ? span.width : (image.size.width * span.scaleX);
+    return span.width != 0 ? span.width : (image ? (image.size.width * span.scaleX) : 0);
 }
 
 static CTRunDelegateCallbacks s_runDelegateCallbacks = {
@@ -520,11 +520,13 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
                             NSString* imageName = [NSString stringWithCString:span.imageName
                                                                      encoding:NSUTF8StringEncoding];
                             UIImage* image = [s_imageMap objectForKey:imageName];
-                            CGRect rect = CGRectMake(offsetX + origin[i].x,
-                                                     origin[i].y + span.offsetY,
-                                                     span.width != 0 ? span.width : (image.size.width * span.scaleX),
-                                                     span.height != 0 ? span.height : (image.size.height * span.scaleY));
-                            CGContextDrawImage(context, rect, image.CGImage);
+							if(image) {
+								CGRect rect = CGRectMake(offsetX + origin[i].x,
+														 origin[i].y + span.offsetY,
+														 span.width != 0 ? span.width : (image.size.width * span.scaleX),
+														 span.height != 0 ? span.height : (image.size.height * span.scaleY));
+								CGContextDrawImage(context, rect, image.CGImage);
+							}
                             break;
                         }
                     }
@@ -756,8 +758,11 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                             CFRelease(delegate);
                             
                             // register image, if it starts with '/', treat it as an external image
+							// if image name is empty, skip loading
                             NSString* imageName = [NSString stringWithCString:span.imageName
                                                                      encoding:NSUTF8StringEncoding];
+							if([imageName length] <= 0)
+								break;
                             if([imageName characterAtIndex:0] == '/') {
                                 // map image path to sandbox
                                 NSString* path = [@"~/Documents" stringByExpandingTildeInPath];

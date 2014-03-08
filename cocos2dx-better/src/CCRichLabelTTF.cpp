@@ -345,6 +345,18 @@ bool CCRichLabelTTF::updateTexture()
     rect.size   = m_pobTexture->getContentSize();
     this->setTextureRect(rect);
 	
+	// save image rects
+	const vector<CCRect>& imageRects = tex->getImageRects();
+	m_imageRects.clear();
+	m_imageRects.insert(m_imageRects.begin(), imageRects.begin(), imageRects.end());
+	for(vector<CCRect>::iterator iter = m_imageRects.begin(); iter != m_imageRects.end(); iter++) {
+		CCRect& r = *iter;
+		r.origin.x /= CC_CONTENT_SCALE_FACTOR();
+		r.origin.y /= CC_CONTENT_SCALE_FACTOR();
+		r.size.width /= CC_CONTENT_SCALE_FACTOR();
+		r.size.height /= CC_CONTENT_SCALE_FACTOR();
+	}
+	
 	// create link menu
 	CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
 	const LinkMetaList& linkMetas = tex->getLinkMetas();
@@ -391,6 +403,27 @@ bool CCRichLabelTTF::updateTexture()
     
     //ok
     return true;
+}
+
+CCRect CCRichLabelTTF::getImageBound(int index) {
+	if(index < 0 || index >= m_imageRects.size())
+		return CCRectZero;
+	
+	return m_imageRects.at(index);
+}
+
+CCRect CCRichLabelTTF::getImageBoundInParentSpace(int index) {
+	CCRect r = getImageBound(index);
+	CCAffineTransform t = nodeToParentTransform();
+	r = CCRectApplyAffineTransform(r, t);
+	return r;
+}
+
+CCRect CCRichLabelTTF::getImageBoundInWorldSpace(int index) {
+	CCRect r = getImageBound(index);
+	CCAffineTransform t = nodeToWorldTransform();
+	r = CCRectApplyAffineTransform(r, t);
+	return r;
 }
 
 void CCRichLabelTTF::enableShadow(const CCSize &shadowOffset, int shadowColor, float shadowBlur, bool updateTexture)

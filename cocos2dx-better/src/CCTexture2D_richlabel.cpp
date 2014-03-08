@@ -162,6 +162,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 		// save info needed by rich label
 		m_shadowStrokePadding = pImage->getShadowStrokePadding();
 		m_linkMetas = pImage->getLinkMetas();
+		m_imageRects = pImage->getImageRects();
 	} while (0);
 	
 	CC_SAFE_RELEASE(pImage);

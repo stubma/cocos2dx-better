@@ -491,7 +491,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 	return plain;
 }
 
-static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans) {
+static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans, vector<CCRect>& imageRects) {
     if([s_imageMap count] > 0) {
         // get line count and their origin
         CFArrayRef linesArray = CTFrameGetLines(frame);
@@ -526,6 +526,18 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
 														 span.width != 0 ? span.width : (image.size.width * span.scaleX),
 														 span.height != 0 ? span.height : (image.size.height * span.scaleY));
 								CGContextDrawImage(context, rect, image.CGImage);
+								
+								// save rect
+								imageRects.push_back(CCRectMake(rect.origin.x,
+																rect.origin.y,
+																rect.size.width,
+																rect.size.height));
+							} else {
+								// save rect
+								imageRects.push_back(CCRectMake(offsetX + origin[i].x,
+																origin[i].y + span.offsetY,
+																span.width,
+																span.height));
 							}
                             break;
                         }
@@ -632,7 +644,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
     free(range);
 }
 
-static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas) {
+static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas, vector<CCRect>* imageRects) {
     bool bRet = false;
     do {
         CC_BREAK_IF(!pText || !pInfo);
@@ -1150,7 +1162,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             CTFrameDraw(frame, context);
 			
             // if has cached images, try render those images
-            renderEmbededImages(context, frame, plain, spans);
+            renderEmbededImages(context, frame, plain, spans, *imageRects);
             
             // if has link tag, build link info
             if(linkMetas)
@@ -1241,7 +1253,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorB             = textTintB;
     info.sizeOnly = false;
     
-    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas))
+    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas, &m_imageRects))
     {
         return false;
     }
@@ -1280,7 +1292,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
     info.tintColorB             = 0;
     info.sizeOnly = true;
     
-    if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, NULL, NULL)) {
+    if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, NULL, NULL, NULL)) {
         return CCSizeZero;
     }
     return CCSizeMake(info.width, info.height);

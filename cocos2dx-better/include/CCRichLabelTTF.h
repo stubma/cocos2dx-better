@@ -28,6 +28,8 @@
 #include "CCGradientSprite.h"
 #include "ccMoreTypes.h"
 
+using namespace std;
+
 NS_CC_BEGIN
 
 class CCTexture2D_richlabel;
@@ -74,6 +76,9 @@ class CC_DLL CCRichLabelTTF : public CCGradientSprite, public CCLabelProtocol {
 private:
 	/// menu item state listener
 	CCRichLabelTTFLinkStateSynchronizer* m_stateListener;
+	
+	/// rectangle of every embeded image
+	vector<CCRect> m_imageRects;
 	
 protected:
     CCRichLabelTTF();
@@ -202,6 +207,15 @@ public:
 	
 	/// set touch event priority of link menu
 	void setLinkPriority(int p);
+	
+	/// get image bound in self space
+	CCRect getImageBound(int index);
+	
+	/// get image bound in parent space
+	CCRect getImageBoundInParentSpace(int index);
+	
+	/// get image bound in world space
+	CCRect getImageBoundInWorldSpace(int index);
     
 private:
     bool updateTexture();

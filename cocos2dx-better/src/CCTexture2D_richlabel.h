@@ -54,6 +54,9 @@ public:
 	
 	/// link meta list
 	CC_SYNTHESIZE_READONLY_PASS_BY_REF(LinkMetaList, m_linkMetas, LinkMetas);
+	
+	/// image meta list
+	CC_SYNTHESIZE_READONLY_PASS_BY_REF(vector<CCRect>, m_imageRects, ImageRects);
 };
 
 NS_CC_END

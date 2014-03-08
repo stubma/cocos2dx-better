@@ -96,6 +96,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 
 		// save info needed by label
 		m_linkMetas = dc.m_linkMetas;
+		m_imageRects = dc.m_imageRects;
 		m_shadowStrokePadding = dc.m_shadowStrokePadding;
 	} while(0);
 

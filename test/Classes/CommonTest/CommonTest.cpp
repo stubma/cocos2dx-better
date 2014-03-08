@@ -643,6 +643,18 @@ void CommonRichLabel::onEnter()
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height * 2 / 5));
 	addChild(label);
+	
+	// now create a grossini in placeholder place and move it
+	CCRect r = label->getImageBound(1);
+	CCSprite* g = CCSprite::create("Images/grossini.png");
+	g->setScale(r.size.width / g->getContentSize().width);
+	g->setScale(r.size.height / g->getContentSize().height);
+	g->setAnchorPoint(CCPointZero);
+	g->setPosition(r.origin);
+	label->addChild(g);
+	g->runAction(CCRepeatForever::create(CCSequence::create(CCMoveBy::create(0.5f, ccp(0, 10)),
+															CCMoveBy::create(0.5f, ccp(0, -10)),
+															NULL)));
     
     // font tag test
     label = CCRichLabelTTF::create("H[i][b][u]ell[/u][/b][/i]o[size=20][font=font/Arial Rounded MT Bold.ttf]H[i]ell[/i]o[/font][/size]",

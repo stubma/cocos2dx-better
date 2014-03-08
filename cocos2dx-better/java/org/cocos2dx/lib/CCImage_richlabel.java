@@ -607,6 +607,9 @@ public class CCImage_richlabel {
 		// get line count
 		int lineCount = layout.getLineCount();
 		
+		// total height
+		float totalHeight = layout.getHeight();
+		
 		// get line origin
 		PointF[] origin = new PointF[lineCount];
 		for(int i = 0; i < lineCount; i++) {
@@ -641,6 +644,18 @@ public class CCImage_richlabel {
                         				offsetX + origin[i].x, 
                         				origin[i].y - span.offsetY - bitmap.getHeight(), 
                         				null);
+                        		
+                        		// save image rect
+                        		nativeSaveImageRect(offsetX + origin[i].x, 
+                        				totalHeight - origin[i].y + span.offsetY,
+                        				bitmap.getWidth(),
+                        				bitmap.getHeight());
+                        	} else {
+                        		// save image rect
+                        		nativeSaveImageRect(offsetX + origin[i].x, 
+                        				totalHeight - origin[i].y + span.offsetY,
+                        				span.width,
+                        				span.height);
                         	}
                             break;
                         }
@@ -1115,6 +1130,7 @@ public class CCImage_richlabel {
 	private static native void nativeInitBitmapDC(int pWidth, int pHeight, byte[] pPixels);
 	private native static void nativeSaveLinkMeta(int normalBgColor, int selectedBgColor, 
 			float x, float y, float width, float height, int tag);
+	private native static void nativeSaveImageRect(float x, float y, float w, float h);
 	private native static void nativeSaveShadowStrokePadding(float x, float y);
 	private native static void nativeResetBitmapDC();
 	private native static String nativeFullPathForFilename(String filename);

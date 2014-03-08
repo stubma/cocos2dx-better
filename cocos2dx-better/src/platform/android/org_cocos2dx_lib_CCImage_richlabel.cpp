@@ -49,6 +49,11 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeInitBitmap
 	}
 }
 
+JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeSaveImageRect(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat w, jfloat h) {
+	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
+	bitmapDC.m_imageRects.push_back(CCRectMake(x, y, w, h));
+}
+
 JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeSaveLinkMeta(JNIEnv* env, jclass clazz, jint normalBgColor, jint selectedBgColor,
 		jfloat x, jfloat y, jfloat width, jfloat height, jint tag) {
 	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
@@ -73,6 +78,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeSaveShadow
 JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeResetBitmapDC(JNIEnv* env, jclass clazz) {
 	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
 	bitmapDC.m_linkMetas.clear();
+	bitmapDC.m_imageRects.clear();
 	bitmapDC.m_shadowStrokePadding = CCPointZero;
 }
 

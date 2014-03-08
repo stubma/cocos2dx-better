@@ -26,6 +26,8 @@
 
 #include "cocos2d.h"
 
+using namespace std;
+
 /**
  * Meta info of a link area, only used for link tag
  */
@@ -42,7 +44,7 @@ typedef struct LinkMeta {
     float width;
     float height;
 } LinkMeta;
-typedef std::vector<LinkMeta> LinkMetaList;
+typedef vector<LinkMeta> LinkMetaList;
 
 NS_CC_BEGIN
 
@@ -91,6 +93,9 @@ public:
 	
 	/// link meta list
 	CC_SYNTHESIZE_READONLY_PASS_BY_REF(LinkMetaList, m_linkMetas, LinkMetas);
+	
+	/// image meta list
+	CC_SYNTHESIZE_READONLY_PASS_BY_REF(vector<CCRect>, m_imageRects, ImageRects);
 };
 
 NS_CC_END

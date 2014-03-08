@@ -36,6 +36,9 @@ public:
 	// link meta list
 	LinkMetaList m_linkMetas;
 
+	// image rect list
+	vector<CCRect> m_imageRects;
+
 	// shadow stroke padding
 	CCPoint m_shadowStrokePadding;
 

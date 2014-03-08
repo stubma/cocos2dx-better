@@ -55,9 +55,10 @@ class CCRichLabelTTFLinkStateSynchronizer;
  *      If image path starts with a '/', which means an absolute path, CCRichLabelTFF treats it like an external image.
  *      For now, the image must NOT be in an atlas. Optional attributes: scale, scalex, scaley, w, h, offsety.
  *      In iOS, the absolute path will be redirected to ~/Documents, so "/sdcard/a.png" will be "~/Document/sdcard/a.png"
- *		1. w/h: If w is specified, x scale property will be ignored. If h is specified, y scale property will be ignored.
- *      2. scale/scalex/scaley: image scale, if scale x and y is same, you can just set scale
- *      3. offsety: image vertical offset, following opengl rule. So positive value will move image up.
+ *			1. w/h: If w is specified, x scale property will be ignored. If h is specified, y scale property will be ignored.
+ *			2. scale/scalex/scaley: image scale, if scale x and y is same, you can just set scale
+ *			3. offsety: image vertical offset, following opengl rule. So positive value will move image up.
+ *		The image name can be empty or anything not existent if you just want to add a placeholder
  * [link bg=aarrggbb bg_click=aarrggbb][/link]: set one segment can be clicked as a hyperlink. bg and bg_click are
  *		optional and they will be transparent color if not set. Link tag doesn't add any decoration, you must use other
  *		tag to add visual style for clickable area.

@@ -339,6 +339,9 @@ public class CCImage_richlabel {
 								imageMap.put(openSpan.imageName, bitmap);
 								bw = bitmap.getWidth();
 								bh = bitmap.getHeight();
+                    		} else {
+                    			bw = (int)openSpan.width;
+                    			bh = (int)openSpan.height;
                     		}
                     		rich.setSpan(new PlaceholderImageSpan(bw, bh, openSpan.offsetY), 
                     				openSpan.pos,

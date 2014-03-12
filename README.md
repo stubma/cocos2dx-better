@@ -108,3 +108,9 @@ LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx-better
 ```
 
 And that is it! No more settings needed. Easy to use, powerful, view its demo for fun!
+
+Optional
+==================
+Some optional codes is in cocos2dx-better/optional folder. Those code by default is not compiled into cocos2dx-better library because they may depend on other components.
+
+* B2DebugDraw: it is box2d debug drawing layer, it requires box2d

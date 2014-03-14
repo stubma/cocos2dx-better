@@ -24,8 +24,28 @@
 #ifndef __ccShaders__
 #define __ccShaders__
 
-// flash effect shaders
-extern const char* ccShader_flash_vert;
-extern const char* ccShader_flash_frag;
+NS_CC_BEGIN
+
+// shader keys
+#define kCCShader_flash "kCCShader_flash"
+
+/// a custom shader management helper
+class CC_DLL CCShaders {
+private:
+	/// load one custom shader by key
+	static void loadCustomShader(const string& key);
+	
+public:
+	/// load all custom shaders
+	static void loadCustomShaders();
+	
+	/// program for key
+	static CCGLProgram* programForKey(const string& key);
+	
+	/// flash
+	static void setFlash(float r, float g, float b, float t);
+};
+
+NS_CC_END
 
 #endif // __ccShaders__

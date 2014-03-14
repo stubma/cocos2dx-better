@@ -66,7 +66,7 @@
 #include "CCImagePickerCallback.h"
 
 // shader
-#include "ccShaders.h"
+#include "CCShaders.h"
 
 // action
 #include "CCClipIn.h"

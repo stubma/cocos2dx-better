@@ -22,33 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCFlash.h"
-#include "ccShaders.h"
+#include "CCShaders.h"
 
 NS_CC_BEGIN
 
-#define SHADER_KEY "ccShader_flash"
-#define kCCUniformFlashColor "CC_flashColor"
-#define kCCUniformFlashTime "CC_flashTime"
-
-static GLint CC_flashColor_pos = -1;
-static GLint CC_flashTime_pos = -1;
-
 CCFlash::CCFlash() :
 m_oldProgram(NULL) {
-    // cache shader if not
-    if(!CCShaderCache::sharedShaderCache()->programForKey(SHADER_KEY)) {
-        CCGLProgram* p = new CCGLProgram();
-        p->initWithVertexShaderByteArray(ccShader_flash_vert, ccShader_flash_frag);
-        p->addAttribute(kCCAttributeNamePosition, kCCVertexAttrib_Position);
-        p->addAttribute(kCCAttributeNameColor, kCCVertexAttrib_Color);
-        p->addAttribute(kCCAttributeNameTexCoord, kCCVertexAttrib_TexCoords);
-        p->link();
-        CC_flashColor_pos = p->getUniformLocationForName(kCCUniformFlashColor);
-        CC_flashTime_pos = p->getUniformLocationForName(kCCUniformFlashTime);
-        p->updateUniforms();
-        p->autorelease();
-        CCShaderCache::sharedShaderCache()->addProgram(p, SHADER_KEY);
-    }
 }
 
 CCFlash::~CCFlash() {
@@ -82,10 +61,7 @@ void CCFlash::update(float time) {
     }
     
     // shader, set
-    CCGLProgram* p = CCShaderCache::sharedShaderCache()->programForKey(SHADER_KEY);
-    p->use();
-    p->setUniformLocationWith3f(CC_flashColor_pos, m_r, m_g, m_b);
-    p->setUniformLocationWith1f(CC_flashTime_pos, t);
+	CCShaders::setFlash(m_r, m_g, m_b, t);
 }
 
 void CCFlash::startWithTarget(CCNode *pTarget) {
@@ -97,7 +73,7 @@ void CCFlash::startWithTarget(CCNode *pTarget) {
     }
     
     // set new program
-    pTarget->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(SHADER_KEY));
+    pTarget->setShaderProgram(CCShaders::programForKey(kCCShader_flash));
 }
 
 void CCFlash::stop() {

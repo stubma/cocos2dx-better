@@ -25,8 +25,6 @@
 #include "ccShader_flash_vert.h"
 #include "ccShader_flash_frag.h"
 
-using namespace std;
-
 NS_CC_BEGIN
 
 void CCShaders::loadCustomShaders() {

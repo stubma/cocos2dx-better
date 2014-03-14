@@ -24,6 +24,10 @@
 #ifndef __ccShaders__
 #define __ccShaders__
 
+#include "cocos2d.h"
+
+using namespace std;
+
 NS_CC_BEGIN
 
 // shader keys

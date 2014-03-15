@@ -119,6 +119,7 @@
 		92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */; };
 		92CE277718B5EE35006E5B71 /* CCFlash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE277518B5EE35006E5B71 /* CCFlash.cpp */; };
 		92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */; };
+		92E6629718D3E73300C8A01E /* CCBlur.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E6629518D3E73300C8A01E /* CCBlur.cpp */; };
 		92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */; };
 		92E8F4AD185BFF4D000A1D59 /* CCTCPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */; };
 		92F68E5918559EC100C97188 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4318559EC100C97188 /* Atomic.cpp */; };
@@ -463,7 +464,11 @@
 		92D36594185D58D60049AF37 /* CCUDPSocketHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocketHub.h; sourceTree = "<group>"; };
 		92DB70C818D3402700F2EF58 /* ccShader_flash_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_flash_frag.h; sourceTree = "<group>"; };
 		92DB70CA18D349F100F2EF58 /* ccShader_flash_vert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_flash_vert.h; sourceTree = "<group>"; };
+		92DB70CB18D34A8600F2EF58 /* ccShader_blur_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_blur_frag.h; sourceTree = "<group>"; };
+		92DB70CC18D34B1200F2EF58 /* ccShader_blur_vert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_blur_vert.h; sourceTree = "<group>"; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
+		92E6629518D3E73300C8A01E /* CCBlur.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBlur.cpp; sourceTree = "<group>"; };
+		92E6629818D3E75D00C8A01E /* CCBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCBlur.h; sourceTree = "<group>"; };
 		92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCByteBuffer.cpp; sourceTree = "<group>"; };
 		92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocketHub.cpp; sourceTree = "<group>"; };
 		92E8F4AE185BFF5D000A1D59 /* CCTCPSocketHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocketHub.h; sourceTree = "<group>"; };
@@ -621,8 +626,10 @@
 			isa = PBXGroup;
 			children = (
 				9234736018BD86A4009DDBEF /* CCShaders.cpp */,
-				92DB70C818D3402700F2EF58 /* ccShader_flash_frag.h */,
 				92DB70CA18D349F100F2EF58 /* ccShader_flash_vert.h */,
+				92DB70C818D3402700F2EF58 /* ccShader_flash_frag.h */,
+				92DB70CC18D34B1200F2EF58 /* ccShader_blur_vert.h */,
+				92DB70CB18D34A8600F2EF58 /* ccShader_blur_frag.h */,
 			);
 			name = shader;
 			sourceTree = "<group>";
@@ -670,6 +677,7 @@
 		9239690E185591E20063E8A1 /* action */ = {
 			isa = PBXGroup;
 			children = (
+				92E6629818D3E75D00C8A01E /* CCBlur.h */,
 				92396872185591DB0063E8A1 /* CCClipIn.h */,
 				92396873185591DB0063E8A1 /* CCClipOut.h */,
 				92CE277818B5EE81006E5B71 /* CCFlash.h */,
@@ -763,6 +771,7 @@
 		92396914185592A30063E8A1 /* action */ = {
 			isa = PBXGroup;
 			children = (
+				92E6629518D3E73300C8A01E /* CCBlur.cpp */,
 				923968A7185591DB0063E8A1 /* CCClipIn.cpp */,
 				923968A8185591DB0063E8A1 /* CCClipOut.cpp */,
 				92CE277518B5EE35006E5B71 /* CCFlash.cpp */,
@@ -1606,6 +1615,7 @@
 				924A8BCD1856B45E00681A4D /* CCSpriteFrameCacheHelper.cpp in Sources */,
 				923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */,
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
+				92E6629718D3E73300C8A01E /* CCBlur.cpp in Sources */,
 				923968ED185591DB0063E8A1 /* CCLayerMultiplexEx.cpp in Sources */,
 				923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
 				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,

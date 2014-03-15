@@ -24,11 +24,20 @@
 #include "CCShaders.h"
 #include "ccShader_flash_vert.h"
 #include "ccShader_flash_frag.h"
+#include "ccShader_blur_vert.h"
+#include "ccShader_blur_frag.h"
+
+#define LOAD_PROGRAM_IF(name) \
+	if(key == kCCShader_##name) \
+		p->initWithVertexShaderByteArray(ccShader_##name##_vert, ccShader_##name##_frag)
+#define ADD_UNIFORM(name) \
+	sUniform_pos_CC_##name = p->getUniformLocationForName(kCCUniform_##name)
 
 NS_CC_BEGIN
 
 void CCShaders::loadCustomShaders() {
 	loadCustomShader(kCCShader_flash);
+	loadCustomShader(kCCShader_blur);
 }
 
 void CCShaders::loadCustomShader(const string& key) {
@@ -36,9 +45,8 @@ void CCShaders::loadCustomShader(const string& key) {
 		// load shader
         CCGLProgram* p = new CCGLProgram();
 		p->autorelease();
-		if(key == kCCShader_flash) {
-			p->initWithVertexShaderByteArray(ccShader_flash_vert, ccShader_flash_frag);
-		}
+		LOAD_PROGRAM_IF(flash);
+		LOAD_PROGRAM_IF(blur);
 		
 		// add attribute
 		if(false) {
@@ -54,8 +62,11 @@ void CCShaders::loadCustomShader(const string& key) {
 		
 		// add custom uniform
 		if(key == kCCShader_flash) {
-			sUniform_pos_CC_flashColor = p->getUniformLocationForName(kCCUniformFlashColor);
-			sUniform_pos_CC_flashTime = p->getUniformLocationForName(kCCUniformFlashTime);
+			ADD_UNIFORM(flashColor);
+			ADD_UNIFORM(flashTime);
+		} else if(key == kCCShader_blur) {
+			ADD_UNIFORM(blurSize);
+			ADD_UNIFORM(blurSubtract);
 		}
 		
 		// add standard uniforms
@@ -77,6 +88,14 @@ void CCShaders::setFlash(float r, float g, float b, float t) {
     p->use();
     p->setUniformLocationWith3f(sUniform_pos_CC_flashColor, r, g, b);
     p->setUniformLocationWith1f(sUniform_pos_CC_flashTime, t);
+}
+
+void CCShaders::setBlur(CCSize nodeSize, CCSize blurSize, ccColor4F blurSubtract) {
+	loadCustomShader(kCCShader_blur);
+    CCGLProgram* p = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_blur);
+    p->use();
+	p->setUniformLocationWith2f(sUniform_pos_CC_blurSize, blurSize.width / nodeSize.width, blurSize.height / nodeSize.height);
+	p->setUniformLocationWith4f(sUniform_pos_CC_blurSubtract, blurSubtract.r, blurSubtract.g, blurSubtract.b, blurSubtract.a);
 }
 
 NS_CC_END

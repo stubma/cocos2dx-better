@@ -21,32 +21,55 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ccShader_flash_frag_h__
-#define __ccShader_flash_frag_h__
+#ifndef __CCBlur__
+#define __CCBlur__
 
-#define kCCUniform_flashColor "CC_flashColor"
-#define kCCUniform_flashTime "CC_flashTime"
+#include "cocos2d.h"
 
-static GLint sUniform_pos_CC_flashColor = -1;
-static GLint sUniform_pos_CC_flashTime = -1;
+NS_CC_BEGIN
 
-const char* ccShader_flash_frag = "\n\
-	#ifdef GL_ES \n\
-	precision lowp float; \n\
-	#endif \n\
-	\n\
-	varying vec4 v_fragmentColor; \n\
-	varying vec2 v_texCoord; \n\
-	uniform sampler2D CC_Texture0; \n\
-	uniform vec3 CC_flashColor; \n\
-	uniform float CC_flashTime; \n\
-	\n\
-	void main()	{ \n\
-		gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord); \n\
-		if(gl_FragColor.a > 0.0) { \n\
-			vec3 deltaColor = (CC_flashColor - gl_FragColor.xyz) * CC_flashTime; \n\
-			gl_FragColor.xyz += deltaColor; \n\
-		} \n\
-	}";
+/**
+ * Blur a sprite. You need set a delta blur size
+ */
+class CC_DLL CCBlur : public CCActionInterval {
+private:
+    /// old program
+    CCGLProgram* m_oldProgram;
+    
+    /// start blur size
+	CCSize m_startBlurSize;
+	
+	/// end blur size
+	CCSize m_endBlurSize;
+	
+	/// delta size
+	CCSize m_deltaBlurSize;
+    
+protected:
+    CCBlur();
+    
+public:
+    virtual ~CCBlur();
+    
+    /**
+     * create a CCBlur instance
+     *
+     * @param duration action duration time
+     * @param c the Blur color
+     */
+    static CCBlur* create(float duration, CCSize startBlurSize, CCSize endBlurSize);
+    
+    /// init self
+    bool initWithBlurSize(float d, CCSize startBlurSize, CCSize endBlurSize);
+    
+    // override super
+    virtual void update(float time);
+    virtual void startWithTarget(CCNode *pTarget);
+    virtual void stop();
+    virtual CCObject* copyWithZone(CCZone* pZone);
+    virtual CCActionInterval* reverse();
+};
 
-#endif // __ccShader_flash_frag_h__
+NS_CC_END
+
+#endif /* defined(__CCBlur__) */

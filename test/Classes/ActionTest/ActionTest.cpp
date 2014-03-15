@@ -6,6 +6,7 @@
 #include "utils/CCArmatureDataManager.h"
 #include "display/CCSkin.h"
 
+TESTLAYER_CREATE_FUNC(ActionBlur);
 TESTLAYER_CREATE_FUNC(ActionClipInOut);
 TESTLAYER_CREATE_FUNC(ActionFlash);
 TESTLAYER_CREATE_FUNC(ActionJumpEx);
@@ -14,6 +15,7 @@ TESTLAYER_CREATE_FUNC(ActionShake);
 TESTLAYER_CREATE_FUNC(ActionTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
+	CF(ActionBlur),
     CF(ActionClipInOut),
     CF(ActionFlash),
     CF(ActionJumpEx),
@@ -140,6 +142,31 @@ void ActionDemo::backCallback(CCObject* pSender)
     s->addChild( backAction() );
     CCDirector::sharedDirector()->replaceScene(s);
     s->release();
+}
+
+//------------------------------------------------------------------
+//
+// Blur
+//
+//------------------------------------------------------------------
+void ActionBlur::onEnter()
+{
+    ActionDemo::onEnter();
+	
+    CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo("Files/Cowboy.ExportJson");
+    CCArmature* armature = CCArmature::create("Cowboy");
+    armature->getAnimation()->playWithIndex(0);
+    armature->setPosition(ccp(VisibleRect::center().x, VisibleRect::center().y));
+    armature->setScale(0.2f);
+    addChild(armature);
+    
+    armature->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(CCBlur::create(2, CCSizeZero, CCSizeMake(6, 6)),
+																				 CCBlur::create(2, CCSizeMake(6, 6), CCSizeZero))));
+}
+
+std::string ActionBlur::subtitle()
+{
+    return "Blur";
 }
 
 //------------------------------------------------------------------

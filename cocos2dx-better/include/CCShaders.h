@@ -32,6 +32,7 @@ NS_CC_BEGIN
 
 // shader keys
 #define kCCShader_flash "kCCShader_flash"
+#define kCCShader_blur "kCCShader_blur"
 
 /// a custom shader management helper
 class CC_DLL CCShaders {
@@ -48,6 +49,9 @@ public:
 	
 	/// flash
 	static void setFlash(float r, float g, float b, float t);
+	
+	/// blur
+	static void setBlur(CCSize nodeSize, CCSize blurSize, ccColor4F blurSubtract = cc4fTRANSPARENT);
 };
 
 NS_CC_END

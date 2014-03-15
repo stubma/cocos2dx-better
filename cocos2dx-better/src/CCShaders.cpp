@@ -26,6 +26,8 @@
 #include "ccShader_flash_frag.h"
 #include "ccShader_blur_vert.h"
 #include "ccShader_blur_frag.h"
+#include "ccShader_laser_vert.h"
+#include "ccShader_laser_frag.h"
 
 #define LOAD_PROGRAM_IF(name) \
 	if(key == kCCShader_##name) \
@@ -35,11 +37,6 @@
 
 NS_CC_BEGIN
 
-void CCShaders::loadCustomShaders() {
-	loadCustomShader(kCCShader_flash);
-	loadCustomShader(kCCShader_blur);
-}
-
 void CCShaders::loadCustomShader(const string& key) {
     if(!CCShaderCache::sharedShaderCache()->programForKey(key.c_str())) {
 		// load shader
@@ -47,6 +44,7 @@ void CCShaders::loadCustomShader(const string& key) {
 		p->autorelease();
 		LOAD_PROGRAM_IF(flash);
 		LOAD_PROGRAM_IF(blur);
+		LOAD_PROGRAM_IF(laser);
 		
 		// add attribute
 		if(false) {

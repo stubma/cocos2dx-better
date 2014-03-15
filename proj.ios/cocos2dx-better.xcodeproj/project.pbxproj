@@ -469,6 +469,8 @@
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E6629518D3E73300C8A01E /* CCBlur.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBlur.cpp; sourceTree = "<group>"; };
 		92E6629818D3E75D00C8A01E /* CCBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCBlur.h; sourceTree = "<group>"; };
+		92E8D06818D4203800121DCC /* ccShader_laser_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_laser_frag.h; sourceTree = "<group>"; };
+		92E8D06918D420D100121DCC /* ccShader_laser_vert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_laser_vert.h; sourceTree = "<group>"; };
 		92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCByteBuffer.cpp; sourceTree = "<group>"; };
 		92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocketHub.cpp; sourceTree = "<group>"; };
 		92E8F4AE185BFF5D000A1D59 /* CCTCPSocketHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocketHub.h; sourceTree = "<group>"; };
@@ -630,6 +632,8 @@
 				92DB70C818D3402700F2EF58 /* ccShader_flash_frag.h */,
 				92DB70CC18D34B1200F2EF58 /* ccShader_blur_vert.h */,
 				92DB70CB18D34A8600F2EF58 /* ccShader_blur_frag.h */,
+				92E8D06918D420D100121DCC /* ccShader_laser_vert.h */,
+				92E8D06818D4203800121DCC /* ccShader_laser_frag.h */,
 			);
 			name = shader;
 			sourceTree = "<group>";

@@ -120,6 +120,7 @@
 		92CE277718B5EE35006E5B71 /* CCFlash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE277518B5EE35006E5B71 /* CCFlash.cpp */; };
 		92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */; };
 		92E6629718D3E73300C8A01E /* CCBlur.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E6629518D3E73300C8A01E /* CCBlur.cpp */; };
+		92E8D06C18D4366200121DCC /* CCLaserSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8D06A18D4366200121DCC /* CCLaserSprite.cpp */; };
 		92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */; };
 		92E8F4AD185BFF4D000A1D59 /* CCTCPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */; };
 		92F68E5918559EC100C97188 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4318559EC100C97188 /* Atomic.cpp */; };
@@ -471,6 +472,8 @@
 		92E6629818D3E75D00C8A01E /* CCBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCBlur.h; sourceTree = "<group>"; };
 		92E8D06818D4203800121DCC /* ccShader_laser_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_laser_frag.h; sourceTree = "<group>"; };
 		92E8D06918D420D100121DCC /* ccShader_laser_vert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_laser_vert.h; sourceTree = "<group>"; };
+		92E8D06A18D4366200121DCC /* CCLaserSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLaserSprite.cpp; sourceTree = "<group>"; };
+		92E8D06D18D4368D00121DCC /* CCLaserSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLaserSprite.h; sourceTree = "<group>"; };
 		92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCByteBuffer.cpp; sourceTree = "<group>"; };
 		92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocketHub.cpp; sourceTree = "<group>"; };
 		92E8F4AE185BFF5D000A1D59 /* CCTCPSocketHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocketHub.h; sourceTree = "<group>"; };
@@ -747,6 +750,7 @@
 				92396876185591DB0063E8A1 /* CCGradientSprite.h */,
 				9243819C1883E46B00ECA91A /* CCLayerClip.h */,
 				92396877185591DB0063E8A1 /* CCLayerMultiplexEx.h */,
+				92E8D06D18D4368D00121DCC /* CCLaserSprite.h */,
 				9239687E185591DB0063E8A1 /* CCMenuItemColor.h */,
 				92396884185591DB0063E8A1 /* CCProgressHUD.h */,
 				92396887185591DB0063E8A1 /* CCRichLabelTTF.h */,
@@ -817,6 +821,7 @@
 				923968AC185591DB0063E8A1 /* CCImage_richlabel.h */,
 				924381991883E43100ECA91A /* CCLayerClip.cpp */,
 				923968AF185591DB0063E8A1 /* CCLayerMultiplexEx.cpp */,
+				92E8D06A18D4366200121DCC /* CCLaserSprite.cpp */,
 				923968B6185591DB0063E8A1 /* CCMenuItemColor.cpp */,
 				923968B7185591DB0063E8A1 /* CCMenuItemColorStateListener.h */,
 				923968BB185591DB0063E8A1 /* CCProgressHUD.cpp */,
@@ -1686,6 +1691,7 @@
 				924A8BED1856B45E00681A4D /* DictionaryHelper.cpp in Sources */,
 				92F68E911855ACE400C97188 /* CCJSONValue.cpp in Sources */,
 				9288DF32188F98A400C14965 /* CCScale9Sprite.cpp in Sources */,
+				92E8D06C18D4366200121DCC /* CCLaserSprite.cpp in Sources */,
 				92F68EAC1855AD4400C97188 /* yajl_buf.c in Sources */,
 				92F68F271855BDE200C97188 /* CCAuroraManager.cpp in Sources */,
 				92396900185591DB0063E8A1 /* CCSimpleRookieGuide.cpp in Sources */,

@@ -64,6 +64,7 @@
 #include "CCLayerClip.h"
 #include "CCImagePicker.h"
 #include "CCImagePickerCallback.h"
+#include "CCLaserSprite.h"
 
 // shader
 #include "CCShaders.h"

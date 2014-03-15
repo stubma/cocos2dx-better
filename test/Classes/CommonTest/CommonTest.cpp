@@ -7,6 +7,7 @@ TESTLAYER_CREATE_FUNC(CommonCallFuncT);
 TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
 TESTLAYER_CREATE_FUNC(CommonImagePicker);
+TESTLAYER_CREATE_FUNC(CommonLaserSprite);
 TESTLAYER_CREATE_FUNC(CommonLayerClip);
 TESTLAYER_CREATE_FUNC(CommonLocale);
 TESTLAYER_CREATE_FUNC(CommonLocalization);
@@ -27,6 +28,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonCatmullRomSprite),
 	CF(CommonGradientSprite),
 	CF(CommonImagePicker),
+	CF(CommonLaserSprite),
     CF(CommonLayerClip),
 	CF(CommonLocale),
     CF(CommonLocalization),
@@ -384,6 +386,30 @@ void CommonImagePicker::onImagePicked(const string& fullPath, int w, int h) {
 
 void CommonImagePicker::onImagePickingCancelled() {
 	CCLOG("onImagePickingCancelled");
+}
+
+//------------------------------------------------------------------
+//
+// Laser Sprite
+//
+//------------------------------------------------------------------
+void CommonLaserSprite::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+	// laser 1
+	CCLaserSprite* laser1 = CCLaserSprite::create(10, visibleSize.height);
+	laser1->setPosition(ccp(origin.x + visibleSize.width / 2,
+							origin.y + visibleSize.height / 2));
+	addChild(laser1);
+}
+
+std::string CommonLaserSprite::subtitle()
+{
+    return "Laser Sprite";
 }
 
 //------------------------------------------------------------------

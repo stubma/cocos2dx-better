@@ -87,6 +87,13 @@ public:
 	virtual void onImagePickingCancelled();
 };
 
+class CommonLaserSprite : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonLayerClip : public CommonDemo
 {
 public:

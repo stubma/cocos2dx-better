@@ -25,6 +25,7 @@
 #define __ccShaders__
 
 #include "cocos2d.h"
+#include "ccMoreTypes.h"
 
 using namespace std;
 

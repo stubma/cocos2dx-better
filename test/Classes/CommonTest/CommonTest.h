@@ -89,9 +89,13 @@ public:
 
 class CommonLaserSprite : public CommonDemo
 {
+private:
+	CCLaserSprite* m_laser1;
+	
 public:
     virtual void onEnter();
     virtual string subtitle();
+	virtual void update(float delta);
 };
 
 class CommonLayerClip : public CommonDemo

@@ -41,11 +41,9 @@ public:
 	virtual bool initWithTexture(CCTexture2D *pTexture);
 	virtual void setTexture(CCTexture2D *texture);
 	
-	/// expected width
-	CC_PROPERTY(float, m_expectedWidth, ExpectedWidth);
-	
-	/// expected height
-	CC_PROPERTY(float, m_expectedHeight, ExpectedHeight);
+	// set width and height
+	void setWidth(float w);
+	void setHeight(float h);
 };
 
 NS_CC_END

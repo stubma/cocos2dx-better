@@ -401,15 +401,36 @@ void CommonLaserSprite::onEnter()
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
     
 	// laser 1
-	CCLaserSprite* laser1 = CCLaserSprite::create(10, visibleSize.height);
-	laser1->setPosition(ccp(origin.x + visibleSize.width / 2,
-							origin.y + visibleSize.height / 2));
-	addChild(laser1);
+	m_laser1 = CCLaserSprite::create(10, visibleSize.height);
+	m_laser1->setAnchorPoint(ccp(0.5f, 0));
+	m_laser1->setPosition(ccp(origin.x + visibleSize.width / 2,
+							  origin.y));
+	addChild(m_laser1);
+	
+	scheduleUpdate();
 }
 
 std::string CommonLaserSprite::subtitle()
 {
     return "Laser Sprite";
+}
+
+void CommonLaserSprite::update(float delta) {
+	static bool add = false;
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCSize size = m_laser1->getContentSize();
+	if(add) {
+		size.height++;
+		if(size.height >= visibleSize.height) {
+			add = false;
+		}
+	} else {
+		size.height--;
+		if(size.height <= visibleSize.height / 2) {
+			add = true;
+		}
+	}
+	m_laser1->setHeight(size.height);
 }
 
 //------------------------------------------------------------------

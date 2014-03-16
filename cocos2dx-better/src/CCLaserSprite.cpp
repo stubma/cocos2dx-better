@@ -46,8 +46,9 @@ CCLaserSprite::~CCLaserSprite() {
 CCLaserSprite* CCLaserSprite::create(float w, float h) {
 	CCLaserSprite* s = new CCLaserSprite();
 	s->initWithTexture(NULL);
-	s->setExpectedWidth(w);
-	s->setExpectedHeight(h);
+	s->setContentSize(CCSizeMake(w, h));
+	s->setTextureRect(CCRectMake(0, 0, w, h));
+	s->setTextureCoords(CCRectMake(0, 0, 2, 2));
 	return (CCLaserSprite*)s->autorelease();
 }
 
@@ -83,22 +84,20 @@ void CCLaserSprite::setTexture(CCTexture2D *texture) {
 	}
 }
 
-void CCLaserSprite::setExpectedHeight(float var) {
-	m_expectedHeight = var;
-	setScaleY(m_expectedHeight / getContentSize().height);
+void CCLaserSprite::setWidth(float w) {
+	CCSize size = getContentSize();
+	size.width = w;
+	setContentSize(size);
+	setTextureRect(CCRectMake(0, 0, w, size.height));
+	setTextureCoords(CCRectMake(0, 0, 2, 2));
 }
 
-float CCLaserSprite::getExpectedHeight() {
-	return m_expectedHeight;
-}
-
-void CCLaserSprite::setExpectedWidth(float var) {
-	m_expectedWidth = var;
-	setScaleX(m_expectedWidth / getContentSize().width);
-}
-
-float CCLaserSprite::getExpectedWidth() {
-	return m_expectedWidth;
+void CCLaserSprite::setHeight(float h) {
+	CCSize size = getContentSize();
+	size.height = h;
+	setContentSize(size);
+	setTextureRect(CCRectMake(0, 0, size.width, h));
+	setTextureCoords(CCRectMake(0, 0, 2, 2));
 }
 
 NS_CC_END

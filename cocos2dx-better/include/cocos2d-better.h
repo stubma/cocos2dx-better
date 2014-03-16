@@ -65,6 +65,8 @@
 #include "CCImagePicker.h"
 #include "CCImagePickerCallback.h"
 #include "CCLaserSprite.h"
+#include "CCSecureUserDefault.h"
+#include "CCBase64.h"
 
 // shader
 #include "CCShaders.h"

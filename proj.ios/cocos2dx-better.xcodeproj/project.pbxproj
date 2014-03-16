@@ -12,6 +12,8 @@
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
 		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
 		922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922399E9187FD793006AD199 /* CCJumpByEx.cpp */; };
+		9225951518D5862600E200AE /* CCSecureUserDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951318D5862600E200AE /* CCSecureUserDefault.cpp */; };
+		9225951918D5896000E200AE /* CCBase64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951718D5896000E200AE /* CCBase64.cpp */; };
 		9234736118BD86A4009DDBEF /* CCShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9234736018BD86A4009DDBEF /* CCShaders.cpp */; };
 		923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */; };
 		923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */; };
@@ -234,6 +236,10 @@
 		9222C62F18693F4000226B34 /* CCPointList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPointList.h; sourceTree = "<group>"; };
 		922399E9187FD793006AD199 /* CCJumpByEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCJumpByEx.cpp; sourceTree = "<group>"; };
 		922399EC187FD7B3006AD199 /* CCJumpByEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCJumpByEx.h; sourceTree = "<group>"; };
+		9225951318D5862600E200AE /* CCSecureUserDefault.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSecureUserDefault.cpp; sourceTree = "<group>"; };
+		9225951618D5864A00E200AE /* CCSecureUserDefault.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSecureUserDefault.h; sourceTree = "<group>"; };
+		9225951718D5896000E200AE /* CCBase64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBase64.cpp; sourceTree = "<group>"; };
+		9225951A18D5897700E200AE /* CCBase64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCBase64.h; sourceTree = "<group>"; };
 		922D3C8618C970B200E9AA9E /* CCCallFuncT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncT.h; sourceTree = "<group>"; };
 		9234735E18BD865A009DDBEF /* CCShaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShaders.h; sourceTree = "<group>"; };
 		9234736018BD86A4009DDBEF /* CCShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShaders.cpp; sourceTree = "<group>"; };
@@ -726,6 +732,7 @@
 		92396911185591EE0063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				9225951A18D5897700E200AE /* CCBase64.h */,
 				92396871185591DB0063E8A1 /* CCCalendar.h */,
 				92396874185591DB0063E8A1 /* CCDrawingPrimitivesEx.h */,
 				92396878185591DB0063E8A1 /* CCLocale.h */,
@@ -739,6 +746,7 @@
 				92396896185591DB0063E8A1 /* CCVelocityTracker.h */,
 				92575519189CD672007D2369 /* CCImagePicker.h */,
 				9257551A189CD73C007D2369 /* CCImagePickerCallback.h */,
+				9225951618D5864A00E200AE /* CCSecureUserDefault.h */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -796,6 +804,7 @@
 		92396915185592A80063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				9225951718D5896000E200AE /* CCBase64.cpp */,
 				92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */,
 				9239689A185591DB0063E8A1 /* CCAndroidStringsParser.h */,
 				923968A6185591DB0063E8A1 /* CCCalendar.cpp */,
@@ -809,6 +818,7 @@
 				923968D1185591DB0063E8A1 /* CCUtils.cpp */,
 				9222C62D18693F3200226B34 /* CCPointList.cpp */,
 				923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */,
+				9225951318D5862600E200AE /* CCSecureUserDefault.cpp */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1629,6 +1639,7 @@
 				923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
 				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,
 				92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */,
+				9225951518D5862600E200AE /* CCSecureUserDefault.cpp in Sources */,
 				92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */,
 				92F68F351855BDE200C97188 /* CCSPXFileData.cpp in Sources */,
 				922399EB187FD793006AD199 /* CCJumpByEx.cpp in Sources */,
@@ -1688,6 +1699,7 @@
 				92E8F4AD185BFF4D000A1D59 /* CCTCPSocketHub.cpp in Sources */,
 				924A8BCE1856B45E00681A4D /* CCTransformHelp.cpp in Sources */,
 				92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */,
+				9225951918D5896000E200AE /* CCBase64.cpp in Sources */,
 				924A8BED1856B45E00681A4D /* DictionaryHelper.cpp in Sources */,
 				92F68E911855ACE400C97188 /* CCJSONValue.cpp in Sources */,
 				9288DF32188F98A400C14965 /* CCScale9Sprite.cpp in Sources */,

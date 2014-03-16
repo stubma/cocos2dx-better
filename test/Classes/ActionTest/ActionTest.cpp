@@ -3,8 +3,8 @@
 #include "cocos2d.h"
 #include "cocos2d-better.h"
 #include "CCArmature.h"
-#include "utils/CCArmatureDataManager.h"
-#include "display/CCSkin.h"
+#include "CCArmatureDataManager.h"
+#include "CCSkin.h"
 
 TESTLAYER_CREATE_FUNC(ActionBlur);
 TESTLAYER_CREATE_FUNC(ActionClipInOut);

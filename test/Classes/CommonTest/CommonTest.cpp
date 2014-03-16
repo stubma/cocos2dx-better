@@ -1,6 +1,9 @@
 #include "CommonTest.h"
 #include "../testResource.h"
 #include "cocos2d.h"
+#include "cocos-ext.h"
+
+using namespace cocos2d::ui;
 
 TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonCallFuncT);
@@ -18,6 +21,7 @@ TESTLAYER_CREATE_FUNC(CommonRichLabel2);
 TESTLAYER_CREATE_FUNC(CommonResourceLoader);
 TESTLAYER_CREATE_FUNC(CommonRookieGuide);
 TESTLAYER_CREATE_FUNC(CommonScreenshot);
+TESTLAYER_CREATE_FUNC(CommonScrollBar);
 TESTLAYER_CREATE_FUNC(CommonSlider);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
 TESTLAYER_CREATE_FUNC(CommonToast);
@@ -39,6 +43,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonResourceLoader),
     CF(CommonRookieGuide),
 	CF(CommonScreenshot),
+	CF(CommonScrollBar),
     CF(CommonSlider),
     CF(CommonTiledSprite),
     CF(CommonToast),
@@ -927,6 +932,40 @@ std::string CommonRookieGuide::subtitle()
 
 void CommonRookieGuide::onGuideClicked() {
     CCLOG("guide clicked!");
+}
+
+//------------------------------------------------------------------
+//
+// ScrollBar
+//
+//------------------------------------------------------------------
+void CommonScrollBar::onEnter()
+{
+    CommonDemo::onEnter();
+	
+	TouchGroup* tg = TouchGroup::create();
+	addChild(tg);
+	
+	// load scrollview layout
+	Layout* _layout = static_cast<Layout*>(GUIReader::shareReader()->widgetFromJsonFile("cocosgui/UIEditorTest/UIScrollView_Editor/UIScrollView_Vertical_Editor/ui_scrollview_editor_1.json"));
+	tg->addWidget(_layout);
+	CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+	CCSize rootSize = _layout->getSize();
+	tg->setPosition(CCPoint((screenSize.width - rootSize.width) / 2,
+							(screenSize.height - rootSize.height) / 2));
+	
+	// hide title
+	Label* _sceneTitle = static_cast<Label*>(UIHelper::seekWidgetByName(_layout, "UItest"));
+	_sceneTitle->setVisible(false);
+	
+	// hide back
+	Label* back_label = static_cast<Label*>(UIHelper::seekWidgetByName(_layout, "back"));
+	back_label->setVisible(false);
+}
+
+std::string CommonScrollBar::subtitle()
+{
+    return "ScrollBar";
 }
 
 //------------------------------------------------------------------

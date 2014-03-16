@@ -113,6 +113,21 @@ static inline ccSize ccsz(const float w, const float h) {
 	return s;
 }
 
+// insets
+typedef struct ccInsets {
+	float top;
+	float left;
+	float right;
+	float bottom;
+} ccInsets;
+static const ccInsets cciZero = { 0, 0, 0, 0 };
+static inline ccInsets cci(float t, float l, float r, float b) {
+	ccInsets i = {
+		t, l, r, b
+	};
+	return i;
+}
+
 // rich font definition, support shadow color
 struct ccRichFontDefinition : public ccFontDefinition {
     // font shadow color

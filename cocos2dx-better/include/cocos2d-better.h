@@ -31,7 +31,6 @@
 #include "CCUtils.h"
 #include "CCMD5.h"
 #include "CCScroller.h"
-#include "CCScrollView.h"
 #include "CCAutoRenderMenuItemSprite.h"
 #include "CCMenuItemColor.h"
 #include "CCDrawingPrimitivesEx.h"
@@ -67,6 +66,7 @@
 #include "CCLaserSprite.h"
 #include "CCSecureUserDefault.h"
 #include "CCBase64.h"
+#include "CCScrollBar.h"
 
 // shader
 #include "CCShaders.h"

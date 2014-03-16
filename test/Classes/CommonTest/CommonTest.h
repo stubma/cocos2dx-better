@@ -198,6 +198,13 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 };
 
+class CommonScrollBar : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class CommonSlider : public CommonDemo
 {
 private:

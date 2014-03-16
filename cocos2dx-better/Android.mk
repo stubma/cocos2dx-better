@@ -28,13 +28,12 @@ LOCAL_MODULE := cocos2dx-better
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(call all-cpp-files-under,thirdparty) \
 	$(call all-c-files-under,thirdparty/) \
+	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension) \
+	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCScrollView) \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox/CCEditBox.cpp \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox/CCEditBoxImplAndroid.cpp \
-	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp \
-	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/Layouts/UILayoutDefine.cpp \
-	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature) \
-	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/Json)
+	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(LOCAL_PATH)/include/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android \
@@ -43,13 +42,26 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOS2DX_EXT_ROOT) \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox \
+	$(COCOS2DX_EXT_ROOT)/GUI/CCScrollView \
 	$(COCOS2DX_EXT_ROOT)/CCBReader \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Action \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/animation \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/datas \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/display \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/physics \
-	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/utils
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Armature/utils \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/BaseClasses \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/Layouts \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/System \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/GUI/UIWidgets \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Json \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Json/rapidjson \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Json/rapidjson/internal \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Reader \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Reader/WidgetReader \
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Trigger
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 	$(LOCAL_PATH)/src \
 	$(LOCAL_PATH)/src/platform/android \

@@ -53,15 +53,17 @@ protected:
 public:
 	virtual ~CCScrollBar();
 	static CCScrollBar* create(CCScale9Sprite* track, CCScale9Sprite* thumb);
+	static CCScrollBar* create(CCScale9Sprite* track, CCSprite* thumb);
 	
 	/// init
 	virtual bool initWithTrackAndThumb(CCScale9Sprite* track, CCScale9Sprite* thumb);
+	virtual bool initWithTrackAndFixedThumb(CCScale9Sprite* track, CCSprite* thumb);
 	
-	/// attach scrollbar to Cocostudio ScrollView
+	/// attach scrollbar to CocoStudio ScrollView
 	void attachToUIScrollView(ScrollView* scrollView, ccInsets insets = cciZero, bool horizontal = false);
 	
 	/// attach scrollbar to CCScrollView
-	void attachToScrollView(CCScrollView* scrollView, ccInsets insets = cciZero, bool horizontal = false);
+	void attachToCCScrollView(CCScrollView* scrollView, ccInsets insets = cciZero, bool horizontal = false);
 	
 	/// track bar
 	CC_SYNTHESIZE_RETAIN(CCScale9Sprite*, m_track, Track);
@@ -69,8 +71,14 @@ public:
 	/// thumb
 	CC_SYNTHESIZE_RETAIN(CCScale9Sprite*, m_thumb, Thumb);
 	
+	/// unscalable thumb
+	CC_SYNTHESIZE_RETAIN(CCSprite*, m_fixedThumb, FixedThumb);
+	
 	/// is horizontal?
 	CC_SYNTHESIZE_BOOL(m_horizontal, Horizontal);
+	
+	/// auto fade?
+	CC_SYNTHESIZE_BOOL(m_autoFade, AutoFade);
 };
 
 NS_CC_END

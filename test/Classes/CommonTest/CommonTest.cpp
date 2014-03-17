@@ -961,6 +961,16 @@ void CommonScrollBar::onEnter()
 	// hide back
 	Label* back_label = static_cast<Label*>(UIHelper::seekWidgetByName(_layout, "back"));
 	back_label->setVisible(false);
+	
+	// scroll view
+	ScrollView* sv = (ScrollView*)UIHelper::seekWidgetByName(_layout, "ScrollView_1137");
+	
+	// vertical bar
+	CCScale9Sprite* track = CCScale9Sprite::create("Images/track.png");
+	CCSprite* thumb = CCSprite::create("Images/thumb.png");
+	CCScrollBar* vsb = CCScrollBar::create(track, thumb);
+	vsb->setAutoFade(true);
+	vsb->attachToUIScrollView(sv, cci(5, 5, 5, 5));
 }
 
 std::string CommonScrollBar::subtitle()

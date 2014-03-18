@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="12" height="12" tilewidth="101" tileheight="171">
  <tileset firstgid="1" name="Untitled" tilewidth="101" tileheight="171" spacing="2" margin="2">
-  <image source="ortho_test1.png"/>
+  <image source="ortho_test1.png" width="1024" height="1024"/>
  </tileset>
  <tileset firstgid="46" name="tileset2" tilewidth="101" tileheight="171" spacing="2" margin="2">
-  <image source="ortho_test1_bw.png"/>
+  <image source="ortho_test1_bw.png" width="1024" height="1024"/>
  </tileset>
  <layer name="Layer 0" width="12" height="12">
   <data encoding="base64" compression="gzip">

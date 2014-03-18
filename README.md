@@ -36,9 +36,7 @@ $(SRCROOT)/../../cocos2d-x/cocos2dx/include
 $(SRCROOT)/../../cocos2d-x/cocos2dx
 $(SRCROOT)/../../cocos2d-x/cocos2dx/platform/ios
 $(SRCROOT)/../../cocos2d-x/cocos2dx/kazmath/include
-$(SRCROOT)/../../cocos2d-x/extensions/CocoStudio/Armature 
-$(SRCROOT)/../../cocos2d-x/extensions 
-$(SRCROOT)/../../cocos2d-x/extensions/GUI/CCControlExtension
+$(SRCROOT)/../../cocos2d-x/extensions (set it recursive)
 $(SRCROOT)/../../cocos2dx-better/cocos2dx-better/include 
 $(SRCROOT)/../../cocos2d-x/CocosDenshion/include
 ```

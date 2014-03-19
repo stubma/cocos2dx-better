@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCSpriteEx.h"
+#include "CBSprite.h"
 
 static unsigned char cc_2x2_white_image[] = {
     // RGBA8888
@@ -35,16 +35,16 @@ static unsigned char cc_2x2_white_image[] = {
 
 NS_CC_BEGIN
 
-CCSpriteEx::CCSpriteEx() :
+CBSprite::CBSprite() :
 m_shouldUpdateBlendFunc(true) {
 }
 
-CCSpriteEx::~CCSpriteEx() {
+CBSprite::~CBSprite() {
 }
 
-CCSpriteEx* CCSpriteEx::createWithTexture(CCTexture2D *pTexture)
+CBSprite* CBSprite::createWithTexture(CCTexture2D *pTexture)
 {
-    CCSpriteEx *pobSprite = new CCSpriteEx();
+    CBSprite *pobSprite = new CBSprite();
     if (pobSprite && pobSprite->initWithTexture(pTexture))
     {
         pobSprite->autorelease();
@@ -54,9 +54,9 @@ CCSpriteEx* CCSpriteEx::createWithTexture(CCTexture2D *pTexture)
     return NULL;
 }
 
-CCSpriteEx* CCSpriteEx::createWithTexture(CCTexture2D *pTexture, const CCRect& rect)
+CBSprite* CBSprite::createWithTexture(CCTexture2D *pTexture, const CCRect& rect)
 {
-    CCSpriteEx *pobSprite = new CCSpriteEx();
+    CBSprite *pobSprite = new CBSprite();
     if (pobSprite && pobSprite->initWithTexture(pTexture, rect))
     {
         pobSprite->autorelease();
@@ -66,9 +66,9 @@ CCSpriteEx* CCSpriteEx::createWithTexture(CCTexture2D *pTexture, const CCRect& r
     return NULL;
 }
 
-CCSpriteEx* CCSpriteEx::create(const char *pszFileName)
+CBSprite* CBSprite::create(const char *pszFileName)
 {
-    CCSpriteEx *pobSprite = new CCSpriteEx();
+    CBSprite *pobSprite = new CBSprite();
     if (pobSprite && pobSprite->initWithFile(pszFileName))
     {
         pobSprite->autorelease();
@@ -78,9 +78,9 @@ CCSpriteEx* CCSpriteEx::create(const char *pszFileName)
     return NULL;
 }
 
-CCSpriteEx* CCSpriteEx::create(const char *pszFileName, const CCRect& rect)
+CBSprite* CBSprite::create(const char *pszFileName, const CCRect& rect)
 {
-    CCSpriteEx *pobSprite = new CCSpriteEx();
+    CBSprite *pobSprite = new CBSprite();
     if (pobSprite && pobSprite->initWithFile(pszFileName, rect))
     {
         pobSprite->autorelease();
@@ -90,9 +90,9 @@ CCSpriteEx* CCSpriteEx::create(const char *pszFileName, const CCRect& rect)
     return NULL;
 }
 
-CCSpriteEx* CCSpriteEx::createWithSpriteFrame(CCSpriteFrame *pSpriteFrame)
+CBSprite* CBSprite::createWithSpriteFrame(CCSpriteFrame *pSpriteFrame)
 {
-    CCSpriteEx *pobSprite = new CCSpriteEx();
+    CBSprite *pobSprite = new CBSprite();
     if (pSpriteFrame && pobSprite && pobSprite->initWithSpriteFrame(pSpriteFrame))
     {
         pobSprite->autorelease();
@@ -102,7 +102,7 @@ CCSpriteEx* CCSpriteEx::createWithSpriteFrame(CCSpriteFrame *pSpriteFrame)
     return NULL;
 }
 
-CCSpriteEx* CCSpriteEx::createWithSpriteFrameName(const char *pszSpriteFrameName)
+CBSprite* CBSprite::createWithSpriteFrameName(const char *pszSpriteFrameName)
 {
     CCSpriteFrame *pFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(pszSpriteFrameName);
     
@@ -115,9 +115,9 @@ CCSpriteEx* CCSpriteEx::createWithSpriteFrameName(const char *pszSpriteFrameName
     return createWithSpriteFrame(pFrame);
 }
 
-CCSpriteEx* CCSpriteEx::create()
+CBSprite* CBSprite::create()
 {
-    CCSpriteEx *pSprite = new CCSpriteEx();
+    CBSprite *pSprite = new CBSprite();
     if (pSprite && pSprite->init())
     {
         pSprite->autorelease();
@@ -127,7 +127,7 @@ CCSpriteEx* CCSpriteEx::create()
     return NULL;
 }
 
-void CCSpriteEx::setTexture(CCTexture2D *texture) {
+void CBSprite::setTexture(CCTexture2D *texture) {
 	// If batchnode, then texture id should be the same
     CCAssert(! m_pobBatchNode || texture->getName() == m_pobBatchNode->getTexture()->getName(), "CCSprite: Batched sprites should use the same texture as the batchnode");
     // accept texture==nil as argument

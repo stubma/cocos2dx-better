@@ -21,21 +21,25 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCLayerMultiplexEx__
-#define __CCLayerMultiplexEx__
+#ifndef __CBLayerMultiplex__
+#define __CBLayerMultiplex__
 
 #include "cocos2d.h"
 
 NS_CC_BEGIN
 
 /**
- * In general, class with Ex suffix is my workaround for cocos2d design defect
  * This class is a new implementation for CCLayerMultiplex and it use setVisible
  * to control sub layer visibility. Original class use addChild/removeChild and that
  * is defective because sub layer may lose onExit event. Maybe you don't think losing
  * onExit matters but in some situation it causes memory leak.
+ *
+ * \note
+ * Sometimes I find defect in cocos2d-x and want to create a new class to workaround it,
+ * so I will choose CB prefix instead of CC. I use Ex suffix before but I don't like it anymore.
+ * CB stands cocos2dx-better.
  */
-class CC_DLL CCLayerMultiplexEx : public CCLayer {
+class CC_DLL CBLayerMultiplex : public CCLayer {
 protected:
     unsigned int m_nEnabledLayer;
     CCArray*     m_pLayers;
@@ -45,35 +49,35 @@ public:
      * @js ctor
      * @lua NA
      */
-    CCLayerMultiplexEx();
+    CBLayerMultiplex();
 	
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~CCLayerMultiplexEx();
+    virtual ~CBLayerMultiplex();
 	
     /**
      * @js NA
      */
-    static CCLayerMultiplexEx* create();
+    static CBLayerMultiplex* create();
     
     /** creates a CCMultiplexLayer with an array of layers.
      * @since v2.1
      * @js NA
      */
-    static CCLayerMultiplexEx* createWithArray(CCArray* arrayOfLayers);
+    static CBLayerMultiplex* createWithArray(CCArray* arrayOfLayers);
 	
     /** creates a CCLayerMultiplex with one or more layers using a variable argument list.
      * @lua NA
      */
-    static CCLayerMultiplexEx* create(CCLayer* layer, ... );
+    static CBLayerMultiplex* create(CCLayer* layer, ... );
 	
     /**
      * lua script can not init with undetermined number of variables
      * so add these functions to be used with lua.
      */
-    static CCLayerMultiplexEx* createWithLayer(CCLayer* layer);
+    static CBLayerMultiplex* createWithLayer(CCLayer* layer);
 	
     void addLayer(CCLayer* layer);
 	
@@ -103,4 +107,4 @@ public:
 
 NS_CC_END
 
-#endif /* defined(__CCLayerMultiplexEx__) */
+#endif /* defined(__CBLayerMultiplex__) */

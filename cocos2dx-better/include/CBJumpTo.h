@@ -21,52 +21,55 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCJumpByEx_h__
-#define __CCJumpByEx_h__
+#ifndef __CBJumpTo_h__
+#define __CBJumpTo_h__
 
 #include "cocos2d.h"
+#include "CBJumpBy.h"
 #include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 
 /**
- * To enhance or fix original CCJumpBy, features added:
+ * To enhance or fix original CCJumpTo, features added:
  * 1. the sprite can be auto rotated along the moving path
+ * 2. CCJumpTo can't be reentrant, this can
+ *
+ * \note
+ * Sometimes I find defect in cocos2d-x and want to create a new class to workaround it,
+ * so I will choose CB prefix instead of CC. I use Ex suffix before but I don't like it anymore.
+ * CB stands cocos2dx-better.
  */
-class CC_DLL CCJumpByEx : public CCJumpBy {
+class CC_DLL CBJumpTo : public CBJumpBy {
 protected:
-    CCJumpByEx();
+    CBJumpTo();
     
 public:
-    virtual ~CCJumpByEx();
+    virtual ~CBJumpTo();
     
     /**
-     * create a CCJumpByEx
+     * create a CBJumpTo
      *
      * @param duration duration time
-     * @param position delta
+     * @param position dest position
      * @param height jump height
      * @param jumps jump count
      * @param autoHeadOn optional, true means sprite will auto rotated along
      *      the path
      * @param initAngle optional, sprite initial angle in degree, x axis will be 0 and
      *      positive value means counter-clockwise
-     * @return CCJumpByEx instance
+     * @return CBJumpTo instance
      */
-    static CCJumpByEx* create(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn = false, float initAngle = 0);
-    
-    /// initialization
-    bool initWithDuration(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn, float initAngle);
+    static CBJumpTo* create(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn = false, float initAngle = 0);
     
     // override super
     virtual CCObject* copyWithZone(CCZone* pZone);
-    virtual void update(float time);
+    virtual void startWithTarget(CCNode *pTarget);
     virtual CCActionInterval* reverse();
     
-    CC_SYNTHESIZE_BOOL(m_autoHeadOn, AutoHeadOn);
-    CC_SYNTHESIZE(float, m_initAngle, InitAngle);
+    CC_SYNTHESIZE_PASS_BY_REF(CCPoint, m_destPosition, DestPosition);
 };
 
 NS_CC_END
 
-#endif /* defined(__CCJumpByEx_h__) */
+#endif /* defined(__CBJumpTo_h__) */

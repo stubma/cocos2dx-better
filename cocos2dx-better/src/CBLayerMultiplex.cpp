@@ -21,24 +21,24 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCLayerMultiplexEx.h"
+#include "CBLayerMultiplex.h"
 
 NS_CC_BEGIN
 
-CCLayerMultiplexEx::CCLayerMultiplexEx() :
+CBLayerMultiplex::CBLayerMultiplex() :
 m_nEnabledLayer(0),
 m_pLayers(NULL) {
 }
 
-CCLayerMultiplexEx::~CCLayerMultiplexEx() {
+CBLayerMultiplex::~CBLayerMultiplex() {
 	CC_SAFE_RELEASE(m_pLayers);
 }
 
-CCLayerMultiplexEx* CCLayerMultiplexEx::create(CCLayer * layer, ...) {
+CBLayerMultiplex* CBLayerMultiplex::create(CCLayer * layer, ...) {
     va_list args;
     va_start(args, layer);
 	
-    CCLayerMultiplexEx* pMultiplexLayer = new CCLayerMultiplexEx();
+    CBLayerMultiplex* pMultiplexLayer = new CBLayerMultiplex();
     if(pMultiplexLayer && pMultiplexLayer->initWithLayers(layer, args))
     {
         pMultiplexLayer->autorelease();
@@ -51,12 +51,12 @@ CCLayerMultiplexEx* CCLayerMultiplexEx::create(CCLayer * layer, ...) {
     return NULL;
 }
 
-CCLayerMultiplexEx* CCLayerMultiplexEx::createWithLayer(CCLayer* layer) {
-    return CCLayerMultiplexEx::create(layer, NULL);
+CBLayerMultiplex* CBLayerMultiplex::createWithLayer(CCLayer* layer) {
+    return CBLayerMultiplex::create(layer, NULL);
 }
 
-CCLayerMultiplexEx* CCLayerMultiplexEx::create() {
-    CCLayerMultiplexEx* pRet = new CCLayerMultiplexEx();
+CBLayerMultiplex* CBLayerMultiplex::create() {
+    CBLayerMultiplex* pRet = new CBLayerMultiplex();
     if (pRet && pRet->init()) {
         pRet->autorelease();
     } else {
@@ -65,9 +65,9 @@ CCLayerMultiplexEx* CCLayerMultiplexEx::create() {
     return pRet;
 }
 
-CCLayerMultiplexEx* CCLayerMultiplexEx::createWithArray(CCArray* arrayOfLayers)
+CBLayerMultiplex* CBLayerMultiplex::createWithArray(CCArray* arrayOfLayers)
 {
-    CCLayerMultiplexEx* pRet = new CCLayerMultiplexEx();
+    CBLayerMultiplex* pRet = new CBLayerMultiplex();
     if (pRet && pRet->initWithArray(arrayOfLayers)) {
         pRet->autorelease();
     } else {
@@ -76,14 +76,14 @@ CCLayerMultiplexEx* CCLayerMultiplexEx::createWithArray(CCArray* arrayOfLayers)
     return pRet;
 }
 
-void CCLayerMultiplexEx::addLayer(CCLayer* layer) {
+void CBLayerMultiplex::addLayer(CCLayer* layer) {
     CCAssert(m_pLayers, "");
     m_pLayers->addObject(layer);
 	addChild(layer);
 	layer->setVisible(false);
 }
 
-bool CCLayerMultiplexEx::initWithLayers(CCLayer *layer, va_list params) {
+bool CBLayerMultiplex::initWithLayers(CCLayer *layer, va_list params) {
     if (CCLayer::init()) {
         m_pLayers = CCArray::createWithCapacity(5);
         m_pLayers->retain();
@@ -108,7 +108,7 @@ bool CCLayerMultiplexEx::initWithLayers(CCLayer *layer, va_list params) {
     return false;
 }
 
-bool CCLayerMultiplexEx::initWithArray(CCArray* arrayOfLayers) {
+bool CBLayerMultiplex::initWithArray(CCArray* arrayOfLayers) {
     if (CCLayer::init()) {
         m_pLayers = CCArray::createWithCapacity(arrayOfLayers->count());
         m_pLayers->addObjectsFromArray(arrayOfLayers);
@@ -129,7 +129,7 @@ bool CCLayerMultiplexEx::initWithArray(CCArray* arrayOfLayers) {
     return false;
 }
 
-void CCLayerMultiplexEx::switchTo(unsigned int n) {
+void CBLayerMultiplex::switchTo(unsigned int n) {
     CCAssert( n < m_pLayers->count(), "Invalid index in MultiplexLayer switchTo message" );
 	
     ((CCNode*)m_pLayers->objectAtIndex(m_nEnabledLayer))->setVisible(false);
@@ -139,7 +139,7 @@ void CCLayerMultiplexEx::switchTo(unsigned int n) {
     ((CCNode*)m_pLayers->objectAtIndex(n))->setVisible(true);
 }
 
-CCLayer* CCLayerMultiplexEx::layerAt(int n) {
+CCLayer* CBLayerMultiplex::layerAt(int n) {
     CCAssert( n < m_pLayers->count(), "Invalid index in MultiplexLayer layerAt message" );
     return (CCLayer*)m_pLayers->objectAtIndex(n);
 }

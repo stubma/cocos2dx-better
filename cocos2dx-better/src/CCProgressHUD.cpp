@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCProgressHUD.h"
-#include "CCDrawingPrimitivesEx.h"
+#include "CBDrawingPrimitives.h"
 
 NS_CC_BEGIN
 

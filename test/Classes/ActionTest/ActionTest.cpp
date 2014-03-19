@@ -280,7 +280,7 @@ void ActionJumpEx::onEnter()
     // jump it
     CCPoint delta = ccp(origin.x + visibleSize.width / 4,
                         origin.y + visibleSize.height * 2 / 5);
-    CCJumpByEx* jump = CCJumpByEx::create(1, delta, visibleSize.height / 2, 1, true, 90);
+    CBJumpBy* jump = CBJumpBy::create(1, delta, visibleSize.height / 2, 1, true, 90);
     CCFiniteTimeAction* rJump = (CCFiniteTimeAction*)jump->reverse();
     s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(jump, rJump)));
     
@@ -293,8 +293,8 @@ void ActionJumpEx::onEnter()
     // jump it
     CCPoint dst = ccp(origin.x + visibleSize.width / 2,
                       origin.y + visibleSize.height * 3 / 5);
-    jump = CCJumpToEx::create(1, dst, visibleSize.height / 2, 1, true, 90);
-    rJump = CCJumpToEx::create(1, s->getPosition(), visibleSize.height / 2, 1, true, 90);
+    jump = CBJumpTo::create(1, dst, visibleSize.height / 2, 1, true, 90);
+    rJump = CBJumpTo::create(1, s->getPosition(), visibleSize.height / 2, 1, true, 90);
     s->runAction(CCRepeatForever::create(CCSequence::createWithTwoActions(jump, rJump)));
 }
 

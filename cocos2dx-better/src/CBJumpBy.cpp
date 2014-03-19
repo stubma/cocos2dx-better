@@ -21,19 +21,19 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCJumpByEx.h"
+#include "CBJumpBy.h"
 
 NS_CC_BEGIN
 
-CCJumpByEx::CCJumpByEx() :
+CBJumpBy::CBJumpBy() :
 m_autoHeadOn(false),
 m_initAngle(0) {
 }
 
-CCJumpByEx::~CCJumpByEx() {
+CBJumpBy::~CBJumpBy() {
 }
 
-bool CCJumpByEx::initWithDuration(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn, float initAngle) {
+bool CBJumpBy::initWithDuration(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn, float initAngle) {
     if (CCJumpBy::initWithDuration(duration, position, height, jumps)) {
         m_autoHeadOn = autoHeadOn;
         m_initAngle = initAngle;
@@ -43,24 +43,24 @@ bool CCJumpByEx::initWithDuration(float duration, const CCPoint& position, float
     return false;
 }
 
-CCJumpByEx* CCJumpByEx::create(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn, float initAngle) {
-    CCJumpByEx* j = new CCJumpByEx();
+CBJumpBy* CBJumpBy::create(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn, float initAngle) {
+    CBJumpBy* j = new CBJumpBy();
     if(j->initWithDuration(duration, position, height, jumps, autoHeadOn, initAngle)) {
-        return (CCJumpByEx*)j->autorelease();
+        return (CBJumpBy*)j->autorelease();
     }
     
     j->release();
     return j;
 }
 
-CCObject* CCJumpByEx::copyWithZone(CCZone* pZone) {
+CCObject* CBJumpBy::copyWithZone(CCZone* pZone) {
     CCZone* pNewZone = NULL;
-    CCJumpByEx* pCopy = NULL;
+    CBJumpBy* pCopy = NULL;
     if(pZone && pZone->m_pCopyObject) {
         //in case of being called at sub class
-        pCopy = (CCJumpByEx*)(pZone->m_pCopyObject);
+        pCopy = (CBJumpBy*)(pZone->m_pCopyObject);
     } else {
-        pCopy = new CCJumpByEx();
+        pCopy = new CBJumpBy();
         pZone = pNewZone = new CCZone(pCopy);
     }
     
@@ -72,7 +72,7 @@ CCObject* CCJumpByEx::copyWithZone(CCZone* pZone) {
     return pCopy;
 }
 
-void CCJumpByEx::update(float time) {
+void CBJumpBy::update(float time) {
     // old and new position
     CCPoint oldPos = m_previousPos;
     CCJumpBy::update(time);
@@ -88,8 +88,8 @@ void CCJumpByEx::update(float time) {
     }
 }
 
-CCActionInterval* CCJumpByEx::reverse() {
-    return CCJumpByEx::create(getDuration(), -m_delta, m_height, m_nJumps, m_autoHeadOn, 180 - m_initAngle);
+CCActionInterval* CBJumpBy::reverse() {
+    return CBJumpBy::create(getDuration(), -m_delta, m_height, m_nJumps, m_autoHeadOn, 180 - m_initAngle);
 }
 
 NS_CC_END

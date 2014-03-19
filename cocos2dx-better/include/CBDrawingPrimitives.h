@@ -21,50 +21,17 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCJumpToEx_h__
-#define __CCJumpToEx_h__
+#ifndef __CBDrawingPrimitives_h__
+#define __CBDrawingPrimitives_h__
 
 #include "cocos2d.h"
-#include "CCJumpByEx.h"
-#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 
-/**
- * To enhance or fix original CCJumpTo, features added:
- * 1. the sprite can be auto rotated along the moving path
- * 2. CCJumpTo can't be reentrant, this can
- */
-class CC_DLL CCJumpToEx : public CCJumpByEx {
-protected:
-    CCJumpToEx();
-    
-public:
-    virtual ~CCJumpToEx();
-    
-    /**
-     * create a CCJumpToEx
-     *
-     * @param duration duration time
-     * @param position dest position
-     * @param height jump height
-     * @param jumps jump count
-     * @param autoHeadOn optional, true means sprite will auto rotated along
-     *      the path
-     * @param initAngle optional, sprite initial angle in degree, x axis will be 0 and
-     *      positive value means counter-clockwise
-     * @return CCJumpToEx instance
-     */
-    static CCJumpToEx* create(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn = false, float initAngle = 0);
-    
-    // override super
-    virtual CCObject* copyWithZone(CCZone* pZone);
-    virtual void startWithTarget(CCNode *pTarget);
-    virtual CCActionInterval* reverse();
-    
-    CC_SYNTHESIZE_PASS_BY_REF(CCPoint, m_destPosition, DestPosition);
-};
+void ccDrawColor4BEx(GLubyte r, GLubyte g, GLubyte b, GLubyte a);
+void ccDrawSolidCircle(const CCPoint& center, float radius, float angle, unsigned int segments, bool drawLineToCenter, float scaleX, float scaleY);
+void ccDrawSolidRoundRect(CCPoint origin, CCPoint destination, float cornerRadius, ccColor4B color);
 
 NS_CC_END
 
-#endif /* defined(__CCJumpToEx_h__) */
+#endif // __CBDrawingPrimitives_h__

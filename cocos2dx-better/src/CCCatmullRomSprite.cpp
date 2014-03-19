@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCCatmullRomSprite.h"
-#include "CCTextureAtlasEx.h"
+#include "CBTextureAtlas.h"
 #include "CCUtils.h"
 #include "CCMoreMacros.h"
 
@@ -41,7 +41,7 @@ m_atlas(NULL) {
 	CC_SAFE_RETAIN(m_sprite);
     
 	// atlas
-	m_atlas = CCTextureAtlasEx::createWithTexture(m_sprite->getTexture(), kDefaultSpriteBatchCapacity);
+	m_atlas = CBTextureAtlas::createWithTexture(m_sprite->getTexture(), kDefaultSpriteBatchCapacity);
 	CC_SAFE_RETAIN(m_atlas);
     
 	// shader program

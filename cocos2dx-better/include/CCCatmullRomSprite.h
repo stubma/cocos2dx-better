@@ -31,7 +31,7 @@ using namespace std;
 
 NS_CC_BEGIN
 
-class CCTextureAtlasEx;
+class CBTextureAtlas;
 
 /**
  * A node which can render a image pattern as a strip, the strip can be curve in
@@ -51,7 +51,7 @@ private:
 	bool m_dirty;
 	
 	/// atlas
-	CCTextureAtlasEx* m_atlas;
+	CBTextureAtlas* m_atlas;
     
     /// control point list
     CCPointList m_controlPoints;

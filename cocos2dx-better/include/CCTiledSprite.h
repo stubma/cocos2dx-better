@@ -28,7 +28,7 @@
 
 NS_CC_BEGIN
 
-class CCTextureAtlasEx;
+class CBTextureAtlas;
 
 /**
  * A node which can tile a texture in vertical and horizontal direction.
@@ -51,7 +51,7 @@ private:
 	bool m_dirty;
 	
 	/// atlas
-	CCTextureAtlasEx* m_atlas;
+	CBTextureAtlas* m_atlas;
 	
 private:
 	/// update atlas

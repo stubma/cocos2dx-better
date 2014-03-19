@@ -216,7 +216,7 @@ public:
 	
 	/**
 	 * a customized factory method to create CCSpriteBatchNode, the new batch node will have a 
-	 * CCTextureAtlasEx so that we can workaround the multiple texture render bug
+	 * CBTextureAtlas so that we can workaround the multiple texture render bug
 	 */
 	static CCSpriteBatchNode* createBatchNode(CCTexture2D* tex);
 

@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCSpriteEx__
-#define __CCSpriteEx__
+#ifndef __CBSprite__
+#define __CBSprite__
 
 #include "cocos2d.h"
 #include "CCMoreMacros.h"
@@ -30,25 +30,29 @@
 NS_CC_BEGIN
 
 /**
- * In general, class with Ex suffix is my workaround for cocos2d design defect.
- * This ex class is designed for:
+ * This class fixed:
  * 1. sometime I want to keep blend function after change texture, original CCSprite can't
+ *
+ * \note
+ * Sometimes I find defect in cocos2d-x and want to create a new class to workaround it,
+ * so I will choose CB prefix instead of CC. I use Ex suffix before but I don't like it anymore.
+ * CB stands cocos2dx-better.
  */
-class CC_DLL CCSpriteEx : public CCSprite {
+class CC_DLL CBSprite : public CCSprite {
 protected:
-	CCSpriteEx();
+	CBSprite();
 	
 public:
-	virtual ~CCSpriteEx();
+	virtual ~CBSprite();
 	
 	// just copy super
-	static CCSpriteEx* create();
-    static CCSpriteEx* create(const char *pszFileName);
-    static CCSpriteEx* create(const char *pszFileName, const CCRect& rect);
-    static CCSpriteEx* createWithTexture(CCTexture2D *pTexture);
-    static CCSpriteEx* createWithTexture(CCTexture2D *pTexture, const CCRect& rect);
-    static CCSpriteEx* createWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
-    static CCSpriteEx* createWithSpriteFrameName(const char *pszSpriteFrameName);
+	static CBSprite* create();
+    static CBSprite* create(const char *pszFileName);
+    static CBSprite* create(const char *pszFileName, const CCRect& rect);
+    static CBSprite* createWithTexture(CCTexture2D *pTexture);
+    static CBSprite* createWithTexture(CCTexture2D *pTexture, const CCRect& rect);
+    static CBSprite* createWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
+    static CBSprite* createWithSpriteFrameName(const char *pszSpriteFrameName);
 	
 	/**
 	 * setTexture will trigger updateBlendFunc. In multipack textures (a feature supported
@@ -65,4 +69,4 @@ public:
 
 NS_CC_END
 
-#endif /* defined(__CCSpriteEx__) */
+#endif /* defined(__CBSprite__) */

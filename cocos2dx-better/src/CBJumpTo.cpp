@@ -21,35 +21,35 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCJumpToEx.h"
+#include "CBJumpTo.h"
 
 NS_CC_BEGIN
 
-CCJumpToEx::CCJumpToEx() {
+CBJumpTo::CBJumpTo() {
 }
 
-CCJumpToEx::~CCJumpToEx() {
+CBJumpTo::~CBJumpTo() {
 }
 
-CCJumpToEx* CCJumpToEx::create(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn, float initAngle) {
-    CCJumpToEx* j = new CCJumpToEx();
+CBJumpTo* CBJumpTo::create(float duration, const CCPoint& position, float height, unsigned int jumps, bool autoHeadOn, float initAngle) {
+    CBJumpTo* j = new CBJumpTo();
     if(j->initWithDuration(duration, position, height, jumps, autoHeadOn, initAngle)) {
         j->m_destPosition = position;
-        return (CCJumpToEx*)j->autorelease();
+        return (CBJumpTo*)j->autorelease();
     }
     
     j->release();
     return j;
 }
 
-CCObject* CCJumpToEx::copyWithZone(CCZone* pZone) {
+CCObject* CBJumpTo::copyWithZone(CCZone* pZone) {
     CCZone* pNewZone = NULL;
-    CCJumpToEx* pCopy = NULL;
+    CBJumpTo* pCopy = NULL;
     if(pZone && pZone->m_pCopyObject) {
         //in case of being called at sub class
-        pCopy = (CCJumpToEx*)(pZone->m_pCopyObject);
+        pCopy = (CBJumpTo*)(pZone->m_pCopyObject);
     } else {
-        pCopy = new CCJumpToEx();
+        pCopy = new CBJumpTo();
         pZone = pNewZone = new CCZone(pCopy);
     }
     
@@ -61,13 +61,13 @@ CCObject* CCJumpToEx::copyWithZone(CCZone* pZone) {
     return pCopy;
 }
 
-void CCJumpToEx::startWithTarget(CCNode *pTarget) {
-    CCJumpByEx::startWithTarget(pTarget);
+void CBJumpTo::startWithTarget(CCNode *pTarget) {
+    CBJumpBy::startWithTarget(pTarget);
     m_delta = ccp(m_destPosition.x - m_startPosition.x, m_destPosition.y - m_startPosition.y);
 }
 
-CCActionInterval* CCJumpToEx::reverse() {
-    CCLOGERROR("CCJumpToEx doesn't have reverse action");
+CCActionInterval* CBJumpTo::reverse() {
+    CCLOGERROR("CBJumpTo doesn't have reverse action");
     return NULL;
 }
 

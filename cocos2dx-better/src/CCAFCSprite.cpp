@@ -26,7 +26,7 @@
 #include "CCAFCFileData.h"
 #include "CCAFCClipMapping.h"
 #include <stdarg.h>
-#include "CCTextureAtlasEx.h"
+#include "CBTextureAtlas.h"
 #include "CCUtils.h"
 
 NS_CC_BEGIN
@@ -82,7 +82,7 @@ CCAFCSprite::~CCAFCSprite() {
 
 CCSpriteBatchNode* CCAFCSprite::createBatchNode(CCTexture2D* tex) {
 	CCSpriteBatchNode* bn = CCSpriteBatchNode::createWithTexture(tex);
-	CCTextureAtlasEx* atlas = new CCTextureAtlasEx();
+	CBTextureAtlas* atlas = new CBTextureAtlas();
 	atlas->initWithTexture(tex, kDefaultSpriteBatchCapacity);
 	atlas->autorelease();
 	bn->setTextureAtlas(atlas);
@@ -157,7 +157,7 @@ void CCAFCSprite::draw() {
 			if(sheet != lastSheet) {
 				// draw last sheet
 				if(numOfQuads != 0) {
-                    CCTextureAtlasEx* atlas = (CCTextureAtlasEx*)lastSheet->getTextureAtlas();
+                    CBTextureAtlas* atlas = (CBTextureAtlas*)lastSheet->getTextureAtlas();
                     int* pMarker = (int*)lastSheet->getUserData();
                     atlas->drawNumberOfQuadsEx(numOfQuads, *pMarker);
                     *pMarker += numOfQuads;
@@ -174,7 +174,7 @@ void CCAFCSprite::draw() {
     
     // draw last sheet
 	if(numOfQuads != 0) {
-        CCTextureAtlasEx* atlas = (CCTextureAtlasEx*)lastSheet->getTextureAtlas();
+        CBTextureAtlas* atlas = (CBTextureAtlas*)lastSheet->getTextureAtlas();
         int* pMarker = (int*)lastSheet->getUserData();
         atlas->drawNumberOfQuadsEx(numOfQuads, *pMarker);
 	}

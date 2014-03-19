@@ -24,25 +24,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "CCTextureAtlasEx.h"
+#include "CBTextureAtlas.h"
 
 //According to some tests GL_TRIANGLE_STRIP is slower, MUCH slower. Probably I'm doing something very wrong
 
-// implementation CCTextureAtlasEx
+// implementation CBTextureAtlas
 
 NS_CC_BEGIN
 
-CCTextureAtlasEx::CCTextureAtlasEx() {
+CBTextureAtlas::CBTextureAtlas() {
 }
 
-CCTextureAtlasEx::~CCTextureAtlasEx() {
+CBTextureAtlas::~CBTextureAtlas() {
 }
 
 // TextureAtlas - alloc & init
 
-CCTextureAtlasEx * CCTextureAtlasEx::create(const char* file, unsigned int capacity)
+CBTextureAtlas * CBTextureAtlas::create(const char* file, unsigned int capacity)
 {
-    CCTextureAtlasEx * pTextureAtlas = new CCTextureAtlasEx();
+    CBTextureAtlas * pTextureAtlas = new CBTextureAtlas();
     if(pTextureAtlas && pTextureAtlas->initWithFile(file, capacity))
     {
         pTextureAtlas->autorelease();
@@ -52,9 +52,9 @@ CCTextureAtlasEx * CCTextureAtlasEx::create(const char* file, unsigned int capac
     return NULL;
 }
 
-CCTextureAtlasEx * CCTextureAtlasEx::createWithTexture(CCTexture2D *texture, unsigned int capacity)
+CBTextureAtlas * CBTextureAtlas::createWithTexture(CCTexture2D *texture, unsigned int capacity)
 {
-    CCTextureAtlasEx * pTextureAtlas = new CCTextureAtlasEx();
+    CBTextureAtlas * pTextureAtlas = new CBTextureAtlas();
     if (pTextureAtlas && pTextureAtlas->initWithTexture(texture, capacity))
     {
         pTextureAtlas->autorelease();
@@ -64,17 +64,17 @@ CCTextureAtlasEx * CCTextureAtlasEx::createWithTexture(CCTexture2D *texture, uns
     return NULL;
 }
 
-void CCTextureAtlasEx::drawQuadsEx()
+void CBTextureAtlas::drawQuadsEx()
 {
     this->drawNumberOfQuadsEx(m_uTotalQuads, 0);
 }
 
-void CCTextureAtlasEx::drawNumberOfQuadsEx(unsigned int n)
+void CBTextureAtlas::drawNumberOfQuadsEx(unsigned int n)
 {
     this->drawNumberOfQuadsEx(n, 0);
 }
 
-void CCTextureAtlasEx::drawNumberOfQuadsEx(unsigned int n, unsigned int start)
+void CBTextureAtlas::drawNumberOfQuadsEx(unsigned int n, unsigned int start)
 {    
     if (0 == n) 
     {

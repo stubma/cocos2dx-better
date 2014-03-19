@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCTextureAtlasEx_h__
-#define __CCTextureAtlasEx_h__
+#ifndef __CBTextureAtlas_h__
+#define __CBTextureAtlas_h__
 
 #include "cocos2d.h"
 
@@ -32,24 +32,29 @@ NS_CC_BEGIN
  * Workround version of original CCTextureAtlas, it fixes bugs:
  * 1. VBO bug in Samsung Galaxy (I9001). However, the workaround is not compatible in iOS. Finally I
  * have to remove vbo support
+ *
+ * \note
+ * Sometimes I find defect in cocos2d-x and want to create a new class to workaround it,
+ * so I will choose CB prefix instead of CC. I use Ex suffix before but I don't like it anymore.
+ * CB stands cocos2dx-better.
  */
-class CC_DLL CCTextureAtlasEx : public CCTextureAtlas {
+class CC_DLL CBTextureAtlas : public CCTextureAtlas {
 public:
-    CCTextureAtlasEx();
-    virtual ~CCTextureAtlasEx();
+    CBTextureAtlas();
+    virtual ~CBTextureAtlas();
 
     /** 
      * creates a TextureAtlas with an filename and with an initial capacity for Quads.
      * The TextureAtlas capacity can be increased in runtime.
      */
-    static CCTextureAtlasEx* create(const char* file , unsigned int capacity);
+    static CBTextureAtlas* create(const char* file , unsigned int capacity);
 
    /** 
     * creates a TextureAtlas with a previously initialized Texture2D object, and
     * with an initial capacity for n Quads. 
     * The TextureAtlas capacity can be increased in runtime.
     */
-    static CCTextureAtlasEx* createWithTexture(CCTexture2D *texture, unsigned int capacity);
+    static CBTextureAtlas* createWithTexture(CCTexture2D *texture, unsigned int capacity);
 
     /** 
      * draws n quads
@@ -83,6 +88,6 @@ public:
 
 NS_CC_END
 
-#endif //__CCTextureAtlasEx_h__
+#endif //__CBTextureAtlas_h__
 
 

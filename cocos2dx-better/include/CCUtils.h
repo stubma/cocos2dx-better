@@ -30,6 +30,9 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	#include <jni.h>
 #endif
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    #import <UIKit/UIKit.h>
+#endif
 
 using namespace std;
 

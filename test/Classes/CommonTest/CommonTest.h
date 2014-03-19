@@ -205,6 +205,14 @@ public:
     virtual string subtitle();
 };
 
+class CommonScrollBar2 : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+    CCLayer* createScrollContent(const CCSize& size);
+};
+
 class CommonSlider : public CommonDemo
 {
 private:

@@ -37,7 +37,7 @@ NS_CC_BEGIN
 /**
  * A scroll bar can be used with CCScrollView or UIScrollView(CocoStudio ScrollView)
  */
-class CC_DLL CCScrollBar : public CCLayer {
+class CC_DLL CCScrollBar : public CCLayer, public CCScrollViewDelegate {
 private:
     /// timer to fade out
     float m_fadeOutTimer;
@@ -64,6 +64,8 @@ public:
 	
     // override super
     virtual void update(float delta);
+    virtual void scrollViewDidScroll(CCScrollView* view);
+    virtual void scrollViewDidZoom(CCScrollView* view);
     
 	/// init
 	virtual bool initWithTrackAndThumb(CCScale9Sprite* track, CCScale9Sprite* thumb);

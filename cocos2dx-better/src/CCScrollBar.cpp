@@ -172,12 +172,20 @@ void CCScrollBar::attachToUIScrollView(ScrollView* scrollView, ccInsets insets, 
 }
 
 void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets, bool horizontal) {
+    // it must have parent node
+    CCNode* svParent = scrollView->getParent();
+    if(!svParent) {
+        CCLOGWARN("CCScrollView must be added to one node before calling attachToCCScrollView");
+        return;
+    }
+    
 	// save flag
 	m_horizontal = horizontal;
 	
 	// add to scroll view
 	float thumbLength = 0;
-	CCSize svSize = scrollView->getContentSize();
+    CCPoint svOrigin = CCUtils::getOrigin(scrollView);
+	CCSize svSize = scrollView->getViewSize();
 	CCSize innerSize = scrollView->getContainer()->getContentSize();
 	CCSize sbSize;
 	if(horizontal) {
@@ -185,9 +193,9 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
 							svSize.width - insets.left - insets.right);
 		setContentSize(sbSize);
 		setAnchorPoint(ccp(0, 0.5f));
-		setPosition(ccp(svSize.width / 2, insets.bottom));
+		setPosition(ccp(svOrigin.x + svSize.width / 2, svOrigin.y + insets.bottom));
 		setRotation(-90);
-		scrollView->addChild(this, MAX_INT);
+        svParent->addChild(this, MAX_INT);
 		
 		// thumb length
 		if(m_fixedThumb)
@@ -199,8 +207,8 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
 							svSize.height - insets.top - insets.bottom);
 		setContentSize(sbSize);
 		setAnchorPoint(ccp(1, 0.5f));
-		setPosition(ccp(svSize.width - insets.right, svSize.height / 2));
-		scrollView->addChild(this, MAX_INT);
+		setPosition(ccp(svOrigin.x + svSize.width - insets.right, svOrigin.y + svSize.height / 2));
+		svParent->addChild(this, MAX_INT);
 		
 		// thumb length
 		if(m_fixedThumb)
@@ -239,10 +247,13 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
 	
 	// sync thumb position
 	syncThumbPositionForCCScrollView(scrollView);
+    
+    // delegate
+    scrollView->setDelegate(this);
 }
 
 void CCScrollBar::syncThumbPositionForCCScrollView(CCScrollView* scrollView) {
-	CCSize svSize = scrollView->getContentSize();
+	CCSize svSize = scrollView->getViewSize();
 	CCSize innerSize = scrollView->getContainer()->getContentSize();
 	CCSize sbSize = getContentSize();
 	CCSize thumbSize = m_thumb ? m_thumb->getContentSize() : m_fixedThumb->getContentSize();
@@ -310,6 +321,20 @@ void CCScrollBar::update(float delta) {
             }
         }
     }
+}
+
+void CCScrollBar::scrollViewDidScroll(CCScrollView* view) {
+    syncThumbPositionForCCScrollView(view);
+    
+    // reset timer to fade out
+    stopActionByTag(TAG_FADE_OUT);
+    CCUtils::setOpacityRecursively(this, 255);
+    m_fadingOut = false;
+    m_fadeOutTimer = 0;
+}
+
+void CCScrollBar::scrollViewDidZoom(CCScrollView* view) {
+    
 }
 
 NS_CC_END

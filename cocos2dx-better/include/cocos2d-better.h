@@ -146,4 +146,7 @@
 #include "CCUDPSocketListener.h"
 #include "CCUDPSocketHub.h"
 
+// tmx
+#include "CBTMXObject.h"
+
 #endif // __cocos2d_better_h__

@@ -21,56 +21,66 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CBTMXObject.h"
+#include "CBTMXObjectGroup.h"
 
 NS_CC_BEGIN
 
-CBTMXObject::CBTMXObject() :
-m_type(NORMAL) {
+CBTMXObjectGroup::CBTMXObjectGroup() :
+m_offsetX(0),
+m_offsetY(0),
+m_color(0xffffffff),
+m_opacity(1) {
 }
 
-CBTMXObject::~CBTMXObject() {
+CBTMXObjectGroup::~CBTMXObjectGroup() {
 }
 
-CBTMXObject* CBTMXObject::create() {
-	CBTMXObject* o = new CBTMXObject();
-	return (CBTMXObject*)o->autorelease();
+CBTMXObjectGroup* CBTMXObjectGroup::create() {
+	CBTMXObjectGroup* g = new CBTMXObjectGroup();
+	return (CBTMXObjectGroup*)g->autorelease();
 }
 
-string CBTMXObject::getProperty(const string& key) {
-	CCString* p = (CCString*)m_properties.objectForKey(key);
+void CBTMXObjectGroup::addProperty(const string& key, const string& value) {
+	if(!m_properties.objectForKey(key)) {
+		m_properties.setObject(CCString::create(value), key);
+	}
+}
+
+string CBTMXObjectGroup::getProperty(const string& name) {
+	CCString* p = (CCString*)m_properties.objectForKey(name);
 	if(p)
 		return p->getCString();
 	else
 		return "";
 }
 
-CCPoint CBTMXObject::getPosition() {
-	string xs = getProperty("x");
-	string ys = getProperty("y");
-	CCPoint p = CCPointZero;
-	if(!xs.empty())
-		sscanf(xs.c_str(), "%f", &p.x);
-	if(!ys.empty())
-		sscanf(ys.c_str(), "%f", &p.y);
-	return p;
+CBTMXObject* CBTMXObjectGroup::newObject() {
+	CBTMXObject* to = CBTMXObject::create();
+	m_objects.addObject(to);
+    return to;
 }
 
-CCSize CBTMXObject::getSize() {
-	string ws = getProperty("width");
-	string hs = getProperty("height");
-	CCSize s = CCSizeZero;
-	if(!ws.empty())
-		sscanf(ws.c_str(), "%f", &s.width);
-	if(!hs.empty())
-		sscanf(hs.c_str(), "%f", &s.height);
-	return s;
-}
-
-void CBTMXObject::addProperty(const string& key, const string& value) {
-	if(!m_properties.objectForKey(key)) {
-		m_properties.setObject(CCString::create(value), key);
+CBTMXObject* CBTMXObjectGroup::getObject(const string& name) {
+	CCObject* obj;
+	CCARRAY_FOREACH(&m_objects, obj) {
+		CBTMXObject* to = (CBTMXObject*)obj;
+		string toName = to->getProperty("name");
+		if(toName == name)
+			return to;
 	}
+	
+	return NULL;
+}
+
+CBTMXObject* CBTMXObjectGroup::getObjectAt(int index) {
+	if(index < 0 || index >= m_objects.count())
+		return NULL;
+	else
+		return (CBTMXObject*)m_objects.objectAtIndex(index);
+}
+
+void CBTMXObjectGroup::setOpacity(float opacity) {
+	m_opacity = MIN(1, MAX(0, opacity));
 }
 
 NS_CC_END

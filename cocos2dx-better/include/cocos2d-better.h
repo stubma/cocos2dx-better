@@ -148,5 +148,6 @@
 
 // tmx
 #include "CBTMXObject.h"
+#include "CBTMXObjectGroup.h"
 
 #endif // __cocos2d_better_h__

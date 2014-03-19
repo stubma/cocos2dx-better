@@ -181,6 +181,7 @@
 		92E8F4AD185BFF4D000A1D59 /* CCTCPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */; };
 		92EDA10918D9E83B0022E196 /* CBTMXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EDA10718D9E83B0022E196 /* CBTMXObject.cpp */; };
 		92EDA10D18D9ED780022E196 /* CBTMXObjectGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */; };
+		92EDA11118D9F2350022E196 /* CBTMXLayerInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92EDA10F18D9F2350022E196 /* CBTMXLayerInfo.cpp */; };
 		92F68E5918559EC100C97188 /* Atomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4318559EC100C97188 /* Atomic.cpp */; };
 		92F68E5A18559EC100C97188 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4718559EC100C97188 /* Input.cpp */; };
 		92F68E5B18559EC100C97188 /* SharedBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E4A18559EC100C97188 /* SharedBuffer.cpp */; };
@@ -657,6 +658,8 @@
 		92EDA10A18D9E86E0022E196 /* CBTMXObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXObject.h; sourceTree = "<group>"; };
 		92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXObjectGroup.cpp; sourceTree = "<group>"; };
 		92EDA10E18D9ED9C0022E196 /* CBTMXObjectGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXObjectGroup.h; sourceTree = "<group>"; };
+		92EDA10F18D9F2350022E196 /* CBTMXLayerInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXLayerInfo.cpp; sourceTree = "<group>"; };
+		92EDA11218D9F2500022E196 /* CBTMXLayerInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXLayerInfo.h; sourceTree = "<group>"; };
 		92F68E4218559EC100C97188 /* android_input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = android_input.h; sourceTree = "<group>"; };
 		92F68E4318559EC100C97188 /* Atomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Atomic.cpp; sourceTree = "<group>"; };
 		92F68E4418559EC100C97188 /* Atomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atomic.h; sourceTree = "<group>"; };
@@ -1744,6 +1747,7 @@
 		92EDA10518D9E6C70022E196 /* tmx */ = {
 			isa = PBXGroup;
 			children = (
+				92EDA11218D9F2500022E196 /* CBTMXLayerInfo.h */,
 				92EDA10A18D9E86E0022E196 /* CBTMXObject.h */,
 				92EDA10E18D9ED9C0022E196 /* CBTMXObjectGroup.h */,
 			);
@@ -1753,6 +1757,7 @@
 		92EDA10618D9E6DB0022E196 /* tmx */ = {
 			isa = PBXGroup;
 			children = (
+				92EDA10F18D9F2350022E196 /* CBTMXLayerInfo.cpp */,
 				92EDA10718D9E83B0022E196 /* CBTMXObject.cpp */,
 				92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */,
 			);
@@ -2056,6 +2061,7 @@
 				9261AC3618978224001028B5 /* CCEditBoxImplAndroid.cpp in Sources */,
 				9225960618D5BBF600E200AE /* UIListView.cpp in Sources */,
 				9288DF29188F98A400C14965 /* CCControlColourPicker.cpp in Sources */,
+				92EDA11118D9F2350022E196 /* CBTMXLayerInfo.cpp in Sources */,
 				92F68F341855BDE200C97188 /* CCSPXAction.cpp in Sources */,
 				92F68E901855ACE400C97188 /* CCJSONParser.cpp in Sources */,
 				923968E8185591DB0063E8A1 /* CBDrawingPrimitives.cpp in Sources */,

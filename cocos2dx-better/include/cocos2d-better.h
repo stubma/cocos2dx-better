@@ -149,5 +149,6 @@
 // tmx
 #include "CBTMXObject.h"
 #include "CBTMXObjectGroup.h"
+#include "CBTMXLayerInfo.h"
 
 #endif // __cocos2d_better_h__

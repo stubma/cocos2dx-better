@@ -975,7 +975,7 @@ void CommonScrollBar::onEnter()
 
 std::string CommonScrollBar::subtitle()
 {
-    return "ScrollBar";
+    return "ScrollBar - Works with CocoStudio ScrollView";
 }
 
 //------------------------------------------------------------------

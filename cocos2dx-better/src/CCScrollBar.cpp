@@ -23,13 +23,19 @@
  ****************************************************************************/
 #include "CCScrollBar.h"
 #include "CCUtils.h"
+#include "CCTreeFadeOut.h"
 
 NS_CC_BEGIN
+
+#define FADE_OUT_TIME 1
+#define TAG_FADE_OUT 1000
 
 CCScrollBar::CCScrollBar() :
 m_thumb(NULL),
 m_track(NULL),
 m_fixedThumb(NULL),
+m_fadingOut(false),
+m_fadeOutTimer(0),
 m_autoFade(false) {
 	
 }
@@ -64,6 +70,9 @@ bool CCScrollBar::initWithTrackAndFixedThumb(CCScale9Sprite* track, CCSprite* th
 	setTrack(track);
 	setFixedThumb(thumb);
 	
+    // update
+    scheduleUpdate();
+    
 	return true;
 }
 
@@ -78,6 +87,9 @@ bool CCScrollBar::initWithTrackAndThumb(CCScale9Sprite* track, CCScale9Sprite* t
 	// save track and thumb
 	setTrack(track);
 	setThumb(thumb);
+    
+    // update
+    scheduleUpdate();
 	
 	return true;
 }
@@ -279,7 +291,25 @@ void CCScrollBar::onUIScrollViewEvent(CCObject* sender, ScrollviewEventType e) {
 	if(e == SCROLLVIEW_EVENT_SCROLLING) {
 		ScrollView* scrollView = (ScrollView*)sender;
 		syncThumbPositionForUIScrollView(scrollView);
+        
+        // reset timer to fade out
+        stopActionByTag(TAG_FADE_OUT);
+        CCUtils::setOpacityRecursively(this, 255);
+        m_fadingOut = false;
+        m_fadeOutTimer = 0;
 	}
+}
+
+void CCScrollBar::update(float delta) {
+    if(m_autoFade) {
+        if(!m_fadingOut) {
+            m_fadeOutTimer += delta;
+            if(m_fadeOutTimer >= FADE_OUT_TIME) {
+                runAction(CCTreeFadeOut::create(0.5f));
+                m_fadingOut = true;
+            }
+        }
+    }
 }
 
 NS_CC_END

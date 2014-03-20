@@ -39,16 +39,6 @@ NS_CC_BEGIN
  * To avoid name conflict, I use CB prefix which stands for cocos2dx-better
  */
 class CC_DLL CBTMXTileSetInfo : public CCObject {
-public:
-	/// tile flags, it is not TMX standard, just give you a way to flip tile
-	enum TileFlags {
-		FLIP_H = 0x80000000,
-		FLIP_V = 0x40000000,
-		FLIP_DIAGONAL = 0x20000000,
-		FLIP_ALL = (FLIP_H | FLIP_V | FLIP_DIAGONAL),
-		FLIP_MASK = ~(FLIP_ALL)
-	};
-	
 protected:
 	CBTMXTileSetInfo();
 	

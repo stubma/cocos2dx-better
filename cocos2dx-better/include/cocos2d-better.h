@@ -151,5 +151,6 @@
 #include "CBTMXObjectGroup.h"
 #include "CBTMXLayerInfo.h"
 #include "CBTMXTileSetInfo.h"
+#include "CBTMXMapInfo.h"
 
 #endif // __cocos2d_better_h__

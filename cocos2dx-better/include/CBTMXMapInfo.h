@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CBTMXLayerInfo_h__
-#define __CBTMXLayerInfo_h__
+#ifndef __CBTMXMapInfo_h__
+#define __CBTMXMapInfo_h__
 
 #include "cocos2d.h"
 #include "CCMoreMacros.h"
@@ -30,21 +30,37 @@
 using namespace std;
 
 NS_CC_BEGIN
+	
+/// orientation of map
+typedef enum {
+	ORIENTATION_ORTHOGONAL = 1,
+	ORIENTATION_ISOMETRIC,
+	ORIENTATION_HEXAGONAL
+} cbTMXOrientation;
+
+/// tile flags, it is not TMX standard, just give you a way to flip tile
+typedef enum {
+	FLIP_H = 0x80000000,
+	FLIP_V = 0x40000000,
+	FLIP_DIAGONAL = 0x20000000,
+	FLIP_ALL = (FLIP_H | FLIP_V | FLIP_DIAGONAL),
+	FLIP_MASK = ~(FLIP_ALL)
+} cbTileFlags;
 
 /**
- * Info of a TMX layer
+ * Info of a map
  *
  * \note
  * This is a re-implementation for TMX map. Cocos2d-x TMX support is defective, so I write my own.
  * To avoid name conflict, I use CB prefix which stands for cocos2dx-better
  */
-class CC_DLL CBTMXLayerInfo : public CCObject {
+class CC_DLL CBTMXMapInfo : public CCObject {
 protected:
-	CBTMXLayerInfo();
+	CBTMXMapInfo();
 	
 public:
-	virtual ~CBTMXLayerInfo();
-	static CBTMXLayerInfo* create();
+	virtual ~CBTMXMapInfo();
+	static CBTMXMapInfo* create();
 	
 	/**
 	 * Get a property value by a key
@@ -62,40 +78,49 @@ public:
 	 */
 	void addProperty(const string& key, const string& value);
 	
-	/// layer name
-	CC_SYNTHESIZE(string, m_name, Name);
+	/// find tileset index by a gid
+	int getTileSetIndex(int gid);
 	
-	/// tile width of layer
-	CC_SYNTHESIZE(int, m_layerWidth, LayerWidth);
+	/// get tile property, return empty string if no property found
+	string getTileProperty(int gid, const string& key);
 	
-	/// tile height of layer
-	CC_SYNTHESIZE(int, m_layerHeight, LayerHeight);
+	/// add tile property
+	void addTileProperty(int gid, const string& key, const string& value);
 	
-	/// tile gid array
-	CC_SYNTHESIZE(int*, m_tiles, Tiles);
+	/// tmx filename
+	CC_SYNTHESIZE(string, m_filename, TMXFilename);
 	
-	/// is layer visible
-	CC_SYNTHESIZE_BOOL(m_visible, Visible);
+	/// map orientation
+	CC_SYNTHESIZE(cbTMXOrientation, m_orientation, Orientation);
 	
-	/// layer alpha
-	CC_SYNTHESIZE(int, m_alpha, Alpha);
+	/// map width in tiles
+	CC_SYNTHESIZE(int, m_mapWidth, MapWidth);
 	
-	/// min gid of this layer
-	CC_SYNTHESIZE(int, m_minGid, MinGid);
+	/// map height in tiles
+	CC_SYNTHESIZE(int, m_mapHeight, MapHeight);
 	
-	/// max gid of this layer
-	CC_SYNTHESIZE(int, m_maxGid, MaxGid);
+	/// tiles width in pixels
+	CC_SYNTHESIZE(float, m_tileWidth, TileWidth);
+	
+	/// tiles height in pixels
+	CC_SYNTHESIZE(float, m_tileHeight, TileHeight);
+	
+	/// layer info list
+	CC_SYNTHESIZE(CCArray, m_layers, Layers);
+	
+	/// tileset info list
+	CC_SYNTHESIZE(CCArray, m_tilesets, TileSets);
+	
+	/// ObjectGroup list
+	CC_SYNTHESIZE(CCArray, m_objectGroups, ObjectGroups);
 	
 	/// property dict
 	CC_SYNTHESIZE_PASS_BY_REF_NC(CCDictionary, m_properties, Properties);
 	
-	/// x offset
-	CC_SYNTHESIZE(float, m_offsetX, OffsetX);
-	
-	/// y offset
-	CC_SYNTHESIZE(float, m_offsetY, OffsetY);
+	/// tile property dict, key is gid, value is a dict
+	CC_SYNTHESIZE_PASS_BY_REF_NC(CCDictionary, m_tileProperties, TileProperties);
 };
 
 NS_CC_END
 
-#endif // __CBTMXLayerInfo_h__
+#endif // __CBTMXMapInfo_h__

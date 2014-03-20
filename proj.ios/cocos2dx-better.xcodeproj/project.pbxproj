@@ -166,6 +166,7 @@
 		9288DF31188F98A400C14965 /* CCInvocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF23188F98A400C14965 /* CCInvocation.cpp */; };
 		9288DF32188F98A400C14965 /* CCScale9Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF25188F98A400C14965 /* CCScale9Sprite.cpp */; };
 		928BB05B18DB184200670A3B /* CBTMXTileSetInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */; };
+		928BB05F18DB288700670A3B /* CBTMXMapInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
@@ -623,6 +624,8 @@
 		9288DF26188F98A400C14965 /* CCScale9Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScale9Sprite.h; sourceTree = "<group>"; };
 		928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXTileSetInfo.cpp; sourceTree = "<group>"; };
 		928BB05C18DB186400670A3B /* CBTMXTileSetInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXTileSetInfo.h; sourceTree = "<group>"; };
+		928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXMapInfo.cpp; sourceTree = "<group>"; };
+		928BB06018DB28A500670A3B /* CBTMXMapInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXMapInfo.h; sourceTree = "<group>"; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1751,6 +1754,7 @@
 			isa = PBXGroup;
 			children = (
 				92EDA11218D9F2500022E196 /* CBTMXLayerInfo.h */,
+				928BB06018DB28A500670A3B /* CBTMXMapInfo.h */,
 				92EDA10A18D9E86E0022E196 /* CBTMXObject.h */,
 				92EDA10E18D9ED9C0022E196 /* CBTMXObjectGroup.h */,
 				928BB05C18DB186400670A3B /* CBTMXTileSetInfo.h */,
@@ -1762,6 +1766,7 @@
 			isa = PBXGroup;
 			children = (
 				92EDA10F18D9F2350022E196 /* CBTMXLayerInfo.cpp */,
+				928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */,
 				92EDA10718D9E83B0022E196 /* CBTMXObject.cpp */,
 				92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */,
 				928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */,
@@ -2071,6 +2076,7 @@
 				92F68E901855ACE400C97188 /* CCJSONParser.cpp in Sources */,
 				923968E8185591DB0063E8A1 /* CBDrawingPrimitives.cpp in Sources */,
 				9225960218D5BBF600E200AE /* UILayoutParameter.cpp in Sources */,
+				928BB05F18DB288700670A3B /* CBTMXMapInfo.cpp in Sources */,
 				9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */,
 				923968F2185591DB0063E8A1 /* CCMemoryInputStream.cpp in Sources */,
 				9234736118BD86A4009DDBEF /* CCShaders.cpp in Sources */,

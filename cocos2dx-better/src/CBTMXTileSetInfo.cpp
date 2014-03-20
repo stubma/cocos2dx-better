@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CBTMXTileSetInfo.h"
+#include "CBTMXMapInfo.h"
 
 NS_CC_BEGIN
 

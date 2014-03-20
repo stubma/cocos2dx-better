@@ -21,30 +21,23 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CBTMXLayerInfo.h"
+#include "CBTMXMapInfo.h"
+#include "CBTMXTileSetInfo.h"
 
 NS_CC_BEGIN
 
-CBTMXLayerInfo::CBTMXLayerInfo() :
-m_tiles(NULL) {
+CBTMXMapInfo::CBTMXMapInfo() {
 }
 
-CBTMXLayerInfo::~CBTMXLayerInfo() {
-	CC_SAFE_FREE(m_tiles);
+CBTMXMapInfo::~CBTMXMapInfo() {
 }
 
-CBTMXLayerInfo* CBTMXLayerInfo::create() {
-	CBTMXLayerInfo* li = new CBTMXLayerInfo();
-	return (CBTMXLayerInfo*)li->autorelease();
+CBTMXMapInfo* CBTMXMapInfo::create() {
+	CBTMXMapInfo* m = new CBTMXMapInfo();
+	return (CBTMXMapInfo*)m->autorelease();
 }
 
-void CBTMXLayerInfo::addProperty(const string& key, const string& value) {
-	if(!m_properties.objectForKey(key)) {
-		m_properties.setObject(CCString::create(value), key);
-	}
-}
-
-string CBTMXLayerInfo::getProperty(const string& key) {
+string CBTMXMapInfo::getProperty(const string& key) {
 	CCString* p = (CCString*)m_properties.objectForKey(key);
 	if(p)
 		return p->getCString();
@@ -52,4 +45,46 @@ string CBTMXLayerInfo::getProperty(const string& key) {
 		return "";
 }
 
+void CBTMXMapInfo::addProperty(const string& key, const string& value) {
+	if(!m_properties.objectForKey(key)) {
+		m_properties.setObject(CCString::create(value), key);
+	}
+}
+
+int CBTMXMapInfo::getTileSetIndex(int gid) {
+	int count = m_tilesets.count();
+	for(int i = 0; i < count; i++) {
+		CBTMXTileSetInfo* tileset = (CBTMXTileSetInfo*)m_tilesets.objectAtIndex(i);
+		if(tileset->getFirstGid() > gid)
+			return i - 1;
+	}
+	return m_tilesets.count() - 1;
+}
+
+string CBTMXMapInfo::getTileProperty(int gid, const string& key) {
+	char buf[32];
+	sprintf(buf, "%d", gid);
+	CCDictionary* props = (CCDictionary*)m_tileProperties.objectForKey(buf);
+	if(props) {
+		CCString* p = (CCString*)props->objectForKey(key);
+		if(p)
+			return p->getCString();
+		else
+			return "";
+	} else {
+		return "";
+	}
+}
+
+void CBTMXMapInfo::addTileProperty(int gid, const string& key, const string& value) {
+	char buf[32];
+	sprintf(buf, "%d", gid);
+	CCDictionary* props = (CCDictionary*)m_tileProperties.objectForKey(buf);
+	if(!props) {
+		props = CCDictionary::create();
+		m_tileProperties.setObject(props, buf);
+	}
+	props->setObject(CCString::create(value), key);
+}
+	
 NS_CC_END

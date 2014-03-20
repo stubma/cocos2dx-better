@@ -106,13 +106,13 @@ public:
 	CC_SYNTHESIZE(float, m_tileHeight, TileHeight);
 	
 	/// layer info list
-	CC_SYNTHESIZE(CCArray, m_layers, Layers);
+	CC_SYNTHESIZE_PASS_BY_REF_NC(CCArray, m_layers, Layers);
 	
 	/// tileset info list
-	CC_SYNTHESIZE(CCArray, m_tilesets, TileSets);
+	CC_SYNTHESIZE_PASS_BY_REF_NC(CCArray, m_tilesets, TileSets);
 	
 	/// ObjectGroup list
-	CC_SYNTHESIZE(CCArray, m_objectGroups, ObjectGroups);
+	CC_SYNTHESIZE_PASS_BY_REF_NC(CCArray, m_objectGroups, ObjectGroups);
 	
 	/// property dict
 	CC_SYNTHESIZE_PASS_BY_REF_NC(CCDictionary, m_properties, Properties);

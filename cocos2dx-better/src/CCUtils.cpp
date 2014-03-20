@@ -814,4 +814,20 @@ string CCUtils::makeScreenshot(CCNode* root, const string& path, bool needStenci
 	return CCFileUtils::sharedFileUtils()->getWritablePath() + path;
 }
 
+string CCUtils::trim(const string& s) {
+	// null checking
+	if(s.empty())
+		return s;
+	
+	// trim tail and head
+	size_t start = 0;
+	size_t end = s.length();
+    while(end > 0 && isspace(s.at(end - 1)))
+		end--;
+    while(isspace(s.at(start)))
+		start++;
+	
+	return s.substr(start, end - start);
+}
+
 NS_CC_END

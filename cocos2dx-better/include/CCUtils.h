@@ -72,6 +72,9 @@ public:
 	 */
 	static const char* copy(const char* src, int start, size_t len);
     
+	/// trim leading and tail space character
+	static string trim(const string& s);
+	
 	/// convert string to lowercase
 	static void toLowercase(string& s);
     

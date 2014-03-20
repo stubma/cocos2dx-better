@@ -72,7 +72,7 @@ public:
 	/// margin of tileset atlas image, in pixels
 	CC_SYNTHESIZE(float, m_margin, Margin);
 	
-	/// tileset source image path, relative to tmx file
+	/// tileset source image path, can be relative or absolute, depends on tmx file path
 	CC_SYNTHESIZE(string, m_sourceImagePath, SourceImagePath);
 	
 	/// atlas image pixel width

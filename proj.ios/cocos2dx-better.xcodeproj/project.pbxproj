@@ -167,6 +167,7 @@
 		9288DF32188F98A400C14965 /* CCScale9Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF25188F98A400C14965 /* CCScale9Sprite.cpp */; };
 		928BB05B18DB184200670A3B /* CBTMXTileSetInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */; };
 		928BB05F18DB288700670A3B /* CBTMXMapInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */; };
+		928BB06318DB2E2F00670A3B /* CBTMXLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
@@ -626,6 +627,8 @@
 		928BB05C18DB186400670A3B /* CBTMXTileSetInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXTileSetInfo.h; sourceTree = "<group>"; };
 		928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXMapInfo.cpp; sourceTree = "<group>"; };
 		928BB06018DB28A500670A3B /* CBTMXMapInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXMapInfo.h; sourceTree = "<group>"; };
+		928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXLoader.cpp; sourceTree = "<group>"; };
+		928BB06218DB2E2F00670A3B /* CBTMXLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBTMXLoader.h; sourceTree = "<group>"; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1770,6 +1773,8 @@
 				92EDA10718D9E83B0022E196 /* CBTMXObject.cpp */,
 				92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */,
 				928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */,
+				928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */,
+				928BB06218DB2E2F00670A3B /* CBTMXLoader.h */,
 			);
 			name = tmx;
 			sourceTree = "<group>";
@@ -2194,6 +2199,7 @@
 				92F68F351855BDE200C97188 /* CCSPXFileData.cpp in Sources */,
 				928BB05B18DB184200670A3B /* CBTMXTileSetInfo.cpp in Sources */,
 				9225960718D5BBF600E200AE /* UIPageView.cpp in Sources */,
+				928BB06318DB2E2F00670A3B /* CBTMXLoader.cpp in Sources */,
 				922399EB187FD793006AD199 /* CBJumpBy.cpp in Sources */,
 				922595F418D5BBF600E200AE /* CCArmatureDefine.cpp in Sources */,
 				92F68F2F1855BDE200C97188 /* CCSPX3Frame.cpp in Sources */,

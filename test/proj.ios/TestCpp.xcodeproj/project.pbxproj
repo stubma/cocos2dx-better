@@ -33,6 +33,7 @@
 		92A6710316E89667008BE79D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A6710216E89667008BE79D /* libz.dylib */; };
 		92A6712116E8BA5F008BE79D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A6712016E8BA5F008BE79D /* libsqlite3.dylib */; };
 		92CF92B1175B51970014CDF1 /* CommonTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CF92AF175B51970014CDF1 /* CommonTest.cpp */; };
+		92DEC97F18DC54E100A9A384 /* TMXTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DEC97D18DC54E100A9A384 /* TMXTest.cpp */; };
 		92DFF091182F12E6006C4ECD /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92DFF090182F12E6006C4ECD /* MediaPlayer.framework */; };
 		92E8F4B3185C30C8000A1D59 /* NetworkTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4B1185C30C8000A1D59 /* NetworkTest.cpp */; };
 		92F68E7D1855A84400C97188 /* DBTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68E7B1855A84400C97188 /* DBTest.cpp */; };
@@ -99,6 +100,8 @@
 		92A6712016E8BA5F008BE79D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		92CF92AF175B51970014CDF1 /* CommonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommonTest.cpp; sourceTree = "<group>"; };
 		92CF92B0175B51970014CDF1 /* CommonTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTest.h; sourceTree = "<group>"; };
+		92DEC97D18DC54E100A9A384 /* TMXTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMXTest.cpp; sourceTree = "<group>"; };
+		92DEC97E18DC54E100A9A384 /* TMXTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMXTest.h; sourceTree = "<group>"; };
 		92DFF090182F12E6006C4ECD /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		92E8F4B1185C30C8000A1D59 /* NetworkTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkTest.cpp; sourceTree = "<group>"; };
 		92E8F4B2185C30C8000A1D59 /* NetworkTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkTest.h; sourceTree = "<group>"; };
@@ -165,6 +168,7 @@
 				92F68EBD1855B4D000C97188 /* JSONTest */,
 				92E8F4B0185C30C8000A1D59 /* NetworkTest */,
 				92F68E7A1855A84400C97188 /* DBTest */,
+				92DEC97C18DC54E100A9A384 /* TMXTest */,
 				92CF92AE175B51970014CDF1 /* CommonTest */,
 				15AA9F3A15B7EF960033D6C2 /* AppDelegate.cpp */,
 				15AA9CAA15B7EC460033D6C2 /* controller.cpp */,
@@ -264,6 +268,16 @@
 			);
 			name = CommonTest;
 			path = ../Classes/CommonTest;
+			sourceTree = "<group>";
+		};
+		92DEC97C18DC54E100A9A384 /* TMXTest */ = {
+			isa = PBXGroup;
+			children = (
+				92DEC97D18DC54E100A9A384 /* TMXTest.cpp */,
+				92DEC97E18DC54E100A9A384 /* TMXTest.h */,
+			);
+			name = TMXTest;
+			path = ../Classes/TMXTest;
 			sourceTree = "<group>";
 		};
 		92E8F4B0185C30C8000A1D59 /* NetworkTest */ = {
@@ -393,6 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				92DEC97F18DC54E100A9A384 /* TMXTest.cpp in Sources */,
 				92F68E7D1855A84400C97188 /* DBTest.cpp in Sources */,
 				1D3623260D0F684500981E51 /* testsAppDelegate.mm in Sources */,
 				92668E4A18B5B1190065B75F /* ActionTest.cpp in Sources */,

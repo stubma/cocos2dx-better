@@ -26,6 +26,8 @@ static TestScene* CreateTestScene(int nIdx)
             pScene = new JSONTestScene(); break;
 		case TEST_NETWORK:
 			pScene = new NetworkTestScene(); break;
+		case TEST_TMX:
+			pScene = new TMXTestScene(); break;
         default:
             break;
     }

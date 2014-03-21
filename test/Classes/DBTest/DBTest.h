@@ -8,15 +8,6 @@ using namespace std;
 USING_NS_CC;
 
 
-enum
-{
-    DB_CREATE_DATABASE_LAYER = 0,
-	DB_SQL_FILE_LAYER,
-	DB_TRANSACTION_LAYER,
-    DB_LAYER_COUNT,
-};
-
-
 // the class inherit from TestScene
 // every Scene each test used must inherit from TestScene,
 // make sure the test have the menu item for back to main menu

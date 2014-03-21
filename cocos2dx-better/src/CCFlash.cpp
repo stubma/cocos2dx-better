@@ -77,7 +77,9 @@ void CCFlash::startWithTarget(CCNode *pTarget) {
 }
 
 void CCFlash::stop() {
-    getTarget()->setShaderProgram(m_oldProgram);
+    if(getTarget()) {
+        getTarget()->setShaderProgram(m_oldProgram);
+    }
     CCActionInterval::stop();
 }
 

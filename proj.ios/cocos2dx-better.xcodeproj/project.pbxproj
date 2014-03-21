@@ -178,6 +178,8 @@
 		92DC8F1E18D5DDA200632F44 /* CCSorting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DC8F1718D5DDA200632F44 /* CCSorting.cpp */; };
 		92DC8F1F18D5DDA200632F44 /* CCTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DC8F1918D5DDA200632F44 /* CCTableView.cpp */; };
 		92DC8F2018D5DDA200632F44 /* CCTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DC8F1B18D5DDA200632F44 /* CCTableViewCell.cpp */; };
+		92DEC98218DC5E3200A9A384 /* CBTMXLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DEC98018DC5E3200A9A384 /* CBTMXLayer.cpp */; };
+		92DEC98A18DC820B00A9A384 /* CBSpriteBatchNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92DEC98818DC820B00A9A384 /* CBSpriteBatchNode.cpp */; };
 		92E6629718D3E73300C8A01E /* CCBlur.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E6629518D3E73300C8A01E /* CCBlur.cpp */; };
 		92E8D06C18D4366200121DCC /* CCLaserSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8D06A18D4366200121DCC /* CCLaserSprite.cpp */; };
 		92E8F4A8185BE68A000A1D59 /* CCByteBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */; };
@@ -628,7 +630,6 @@
 		928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXMapInfo.cpp; sourceTree = "<group>"; };
 		928BB06018DB28A500670A3B /* CBTMXMapInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXMapInfo.h; sourceTree = "<group>"; };
 		928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXLoader.cpp; sourceTree = "<group>"; };
-		928BB06218DB2E2F00670A3B /* CBTMXLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBTMXLoader.h; sourceTree = "<group>"; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -652,6 +653,11 @@
 		92DC8F1A18D5DDA200632F44 /* CCTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTableView.h; sourceTree = "<group>"; };
 		92DC8F1B18D5DDA200632F44 /* CCTableViewCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTableViewCell.cpp; sourceTree = "<group>"; };
 		92DC8F1C18D5DDA200632F44 /* CCTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTableViewCell.h; sourceTree = "<group>"; };
+		92DEC98018DC5E3200A9A384 /* CBTMXLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXLayer.cpp; sourceTree = "<group>"; };
+		92DEC98318DC5FB400A9A384 /* CBTMXLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXLayer.h; sourceTree = "<group>"; };
+		92DEC98418DC5FCE00A9A384 /* CBTMXLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXLoader.h; sourceTree = "<group>"; };
+		92DEC98818DC820B00A9A384 /* CBSpriteBatchNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBSpriteBatchNode.cpp; sourceTree = "<group>"; };
+		92DEC98918DC820B00A9A384 /* CBSpriteBatchNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBSpriteBatchNode.h; sourceTree = "<group>"; };
 		92DFBC1016E860D00016648F /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = "../../cocos2d-x/cocos2dx/proj.ios/cocos2dx.xcodeproj"; sourceTree = "<group>"; };
 		92E6629518D3E73300C8A01E /* CCBlur.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBlur.cpp; sourceTree = "<group>"; };
 		92E6629818D3E75D00C8A01E /* CCBlur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCBlur.h; sourceTree = "<group>"; };
@@ -1756,11 +1762,13 @@
 		92EDA10518D9E6C70022E196 /* tmx */ = {
 			isa = PBXGroup;
 			children = (
+				92DEC98318DC5FB400A9A384 /* CBTMXLayer.h */,
 				92EDA11218D9F2500022E196 /* CBTMXLayerInfo.h */,
 				928BB06018DB28A500670A3B /* CBTMXMapInfo.h */,
 				92EDA10A18D9E86E0022E196 /* CBTMXObject.h */,
 				92EDA10E18D9ED9C0022E196 /* CBTMXObjectGroup.h */,
 				928BB05C18DB186400670A3B /* CBTMXTileSetInfo.h */,
+				92DEC98418DC5FCE00A9A384 /* CBTMXLoader.h */,
 			);
 			name = tmx;
 			sourceTree = "<group>";
@@ -1768,13 +1776,15 @@
 		92EDA10618D9E6DB0022E196 /* tmx */ = {
 			isa = PBXGroup;
 			children = (
+				92DEC98818DC820B00A9A384 /* CBSpriteBatchNode.cpp */,
+				92DEC98918DC820B00A9A384 /* CBSpriteBatchNode.h */,
+				92DEC98018DC5E3200A9A384 /* CBTMXLayer.cpp */,
 				92EDA10F18D9F2350022E196 /* CBTMXLayerInfo.cpp */,
 				928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */,
 				92EDA10718D9E83B0022E196 /* CBTMXObject.cpp */,
 				92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */,
 				928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */,
 				928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */,
-				928BB06218DB2E2F00670A3B /* CBTMXLoader.h */,
 			);
 			name = tmx;
 			sourceTree = "<group>";
@@ -2092,6 +2102,7 @@
 				92042B1B187FE0CD0064262D /* CBJumpTo.cpp in Sources */,
 				9261AC3B18978224001028B5 /* CCEditBoxImplWin.cpp in Sources */,
 				92F68F281855BDE200C97188 /* CCAuroraSprite.cpp in Sources */,
+				92DEC98218DC5E3200A9A384 /* CBTMXLayer.cpp in Sources */,
 				9225961918D5BBF600E200AE /* LabelAtlasReader.cpp in Sources */,
 				922595E618D5BBF600E200AE /* CCActionObject.cpp in Sources */,
 				922595F018D5BBF600E200AE /* CCDisplayManager.cpp in Sources */,
@@ -2265,6 +2276,7 @@
 				9225961318D5BBF600E200AE /* DictionaryHelper.cpp in Sources */,
 				92F68F2D1855BDE200C97188 /* CCSPX3Action.cpp in Sources */,
 				922595F218D5BBF600E200AE /* CCColliderDetector.cpp in Sources */,
+				92DEC98A18DC820B00A9A384 /* CBSpriteBatchNode.cpp in Sources */,
 				92F68F361855BDE200C97188 /* CCSPXFrame.cpp in Sources */,
 				9243CD301876553D0069BE2E /* CCSlider.cpp in Sources */,
 				92E8F4AD185BFF4D000A1D59 /* CCTCPSocketHub.cpp in Sources */,

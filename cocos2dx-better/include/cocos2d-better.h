@@ -152,5 +152,7 @@
 #include "CBTMXLayerInfo.h"
 #include "CBTMXTileSetInfo.h"
 #include "CBTMXMapInfo.h"
+#include "CBTMXLoader.h"
+#include "CBTMXLayer.h"
 
 #endif // __cocos2d_better_h__

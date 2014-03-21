@@ -80,6 +80,9 @@ public:
 	
 	/// atlas image pixel height
 	CC_SYNTHESIZE(float, m_imageHeight, ImageHeight);
+	
+	/// texture
+	CC_SYNTHESIZE(CCTexture2D*, m_texture, Texture);
 };
 
 NS_CC_END

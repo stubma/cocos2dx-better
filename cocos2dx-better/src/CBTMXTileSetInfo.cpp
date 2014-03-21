@@ -26,7 +26,8 @@
 
 NS_CC_BEGIN
 
-CBTMXTileSetInfo::CBTMXTileSetInfo() {
+CBTMXTileSetInfo::CBTMXTileSetInfo() :
+m_texture(NULL) {
 }
 
 CBTMXTileSetInfo::~CBTMXTileSetInfo() {

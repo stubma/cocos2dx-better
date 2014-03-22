@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="10" height="10" tilewidth="101" tileheight="171">
+ <tileset firstgid="1" name="ortho_test1" tilewidth="101" tileheight="171" spacing="2" margin="2">
+  <image source="ortho_test1.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="块层 1" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFlABmIGYFYl4C6piAmAWI2QioAwAJRAAi
+  </data>
+ </layer>
+</map>

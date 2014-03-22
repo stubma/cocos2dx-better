@@ -76,5 +76,14 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 };
 
+class TMXOrthogonalFlipDemo : public TMXBaseDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	virtual CBTMXTileMap* createMap();
+	
+	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+};
 
 #endif

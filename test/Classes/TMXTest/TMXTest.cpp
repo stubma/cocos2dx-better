@@ -5,11 +5,13 @@
 TESTLAYER_CREATE_FUNC(TMXHexagonalDemo);
 TESTLAYER_CREATE_FUNC(TMXIsometricDemo);
 TESTLAYER_CREATE_FUNC(TMXOrthogonalDemo);
+TESTLAYER_CREATE_FUNC(TMXOrthogonalFlipDemo);
 
 static NEWTESTFUNC createFunctions[] = {
 	CF(TMXHexagonalDemo),
     CF(TMXIsometricDemo),
-	CF(TMXOrthogonalDemo)
+	CF(TMXOrthogonalDemo),
+	CF(TMXOrthogonalFlipDemo)
 };
 
 static int sceneIdx=-1;
@@ -317,6 +319,47 @@ bool TMXOrthogonalDemo::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 		CCRotateBy* rotate = CCRotateBy::create(2.f, 360);
 		sprite->runAction(rotate);
 	}
+	
+	return true;
+}
+
+//------------------------------------------------------------------
+//
+// Orthogonal, to test flip
+//
+//------------------------------------------------------------------
+void TMXOrthogonalFlipDemo::onEnter()
+{
+    TMXBaseDemo::onEnter();
+}
+
+CBTMXTileMap* TMXOrthogonalFlipDemo::createMap() {
+	return CBTMXTileMap::createWithXMLFile("tmx/ortho_flip_test.tmx");
+}
+
+std::string TMXOrthogonalFlipDemo::subtitle()
+{
+    return "Orthogonal - Multiple Tilesets";
+}
+
+bool TMXOrthogonalFlipDemo::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+	TMXBaseDemo::ccTouchBegan(pTouch, pEvent);
+	
+	CBTMXLayer* layer = (CBTMXLayer*)m_map->getLayerAt(0);
+	CCPoint loc = layer->convertToNodeSpace(m_lastLoc);
+	ccPosition d = layer->getTileCoordinateAt(loc.x, loc.y);
+	int gid = layer->getGidAt(d.x, d.y);
+	int pureGid = gid & kCBTMXTileFlagFlipMask;
+	if((gid & kCBTMXTileFlagFlipAll) == kCBTMXTileFlagFlipAll)
+		layer->updateTileAt(pureGid, d.x, d.y);
+	else if((gid & kCBTMXTileFlagFlipH) == kCBTMXTileFlagFlipH)
+		layer->updateTileAt(pureGid | kCBTMXTileFlagFlipV, d.x, d.y);
+	else if((gid & kCBTMXTileFlagFlipV) == kCBTMXTileFlagFlipV)
+		layer->updateTileAt(pureGid | kCBTMXTileFlagFlipDiagonal, d.x, d.y);
+	else if((gid & kCBTMXTileFlagFlipDiagonal) == kCBTMXTileFlagFlipDiagonal)
+		layer->updateTileAt(pureGid | kCBTMXTileFlagFlipAll, d.x, d.y);
+	else
+		layer->updateTileAt(pureGid | kCBTMXTileFlagFlipH, d.x, d.y);
 	
 	return true;
 }

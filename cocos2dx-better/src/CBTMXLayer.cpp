@@ -70,11 +70,11 @@ m_alphaFuncValue(0) {
 	
 	// set content size
 	switch(m_mapInfo->getOrientation()) {
-		case ORIENTATION_ISOMETRIC:
-		case ORIENTATION_ORTHOGONAL:
+		case kCBTMXOrientationIsometric:
+		case kCBTMXOrientationOrthogonal:
 			setContentSize(CCSizeMake(m_layerWidth * m_tileWidth, m_layerHeight * m_tileHeight));
 			break;
-		case ORIENTATION_HEXAGONAL:
+		case kCBTMXOrientationHexagonal:
 			setContentSize(CCSizeMake(m_layerWidth * m_tileWidth * 3 / 4 + m_tileWidth / 4,
 									  m_layerHeight * m_tileHeight + (m_layerWidth > 1 ? (m_tileHeight / 2) : 0)));
 			break;
@@ -132,11 +132,11 @@ CCPoint CBTMXLayer::getPositionForHexAt(int posX, int posY) {
 
 CCPoint CBTMXLayer::getPositionAt(int x, int y) {
 	switch(m_mapInfo->getOrientation()) {
-		case ORIENTATION_ORTHOGONAL:
+		case kCBTMXOrientationOrthogonal:
 			return getPositionForOrthoAt(x, y);
-		case ORIENTATION_ISOMETRIC:
+		case kCBTMXOrientationIsometric:
 			return getPositionForIsoAt(x, y);
-		case ORIENTATION_HEXAGONAL:
+		case kCBTMXOrientationHexagonal:
 			return getPositionForHexAt(x, y);
 		default:
 			return CCPointZero;
@@ -149,13 +149,13 @@ ccPosition CBTMXLayer::getTileCoordinateAt(float x, float y) {
 		return d;
 	
 	switch(m_mapInfo->getOrientation()) {
-		case ORIENTATION_ORTHOGONAL:
+		case kCBTMXOrientationOrthogonal:
 		{
 			d.x = x / m_tileWidth;
 			d.y = m_layerHeight - (int)(y / m_tileHeight) - 1;
 			break;
 		}
-		case ORIENTATION_ISOMETRIC:
+		case kCBTMXOrientationIsometric:
 		{
 			// convert position relative to left-bottom to a position relative to top rhombus
 			CCPoint top = getPositionForIsoAt(0, 0);
@@ -169,7 +169,7 @@ ccPosition CBTMXLayer::getTileCoordinateAt(float x, float y) {
 			d.y = (int)((m_tileWidth * y - m_tileHeight * x) / m_tileWidth / m_tileHeight);
 			break;
 		}
-		case ORIENTATION_HEXAGONAL:
+		case kCBTMXOrientationHexagonal:
 		{
 			// convert position relative to left-bottom to a position to top-left
 			CCPoint top = getPositionForHexAt(0, 0);
@@ -235,14 +235,14 @@ float CBTMXLayer::getVertexZAt(int x, int y) {
 	int maxVal = 0;
 	if(m_useAutomaticVertexZ) {
 		switch(m_mapInfo->getOrientation()) {
-			case ORIENTATION_ISOMETRIC:
+			case kCBTMXOrientationIsometric:
 				maxVal = m_layerWidth + m_layerHeight;
 				ret = -(maxVal - (x + y));
 				break;
-			case ORIENTATION_ORTHOGONAL:
+			case kCBTMXOrientationOrthogonal:
 				ret = -(m_layerHeight - y);
 				break;
-			case ORIENTATION_HEXAGONAL:
+			case kCBTMXOrientationHexagonal:
 				// TODO TMX Hexagonal zOrder not supported
 				break;
 			default:
@@ -270,21 +270,16 @@ void CBTMXLayer::setupTileSprite(CCSprite* sprite, ccPosition pos, int gid) {
     sprite->setRotation(0.0f);
 	
     // Rotation in tiled is achieved using 3 flipped states, flipping across the horizontal, vertical, and diagonal axes of the tiles.
-    if(gid & FLIP_DIAGONAL) {
-        // put the anchor in the middle for ease of rotation.
-        sprite->setAnchorPoint(ccp(0.5f, 0.5f));
-        sprite->setPosition(ccp(spritePos.x + sprite->getContentSize().height / 2,
-								spritePos.y + sprite->getContentSize().width / 2 ));
-		
+    if(gid & kCBTMXTileFlagFlipDiagonal) {
 		// get flag
-        int flag = gid & (FLIP_H | FLIP_V);
+        int flag = gid & (kCBTMXTileFlagFlipH | kCBTMXTileFlagFlipV);
 		
         // handle the 4 diagonally flipped states.
-        if (flag == FLIP_H) {
+        if (flag == kCBTMXTileFlagFlipH) {
             sprite->setRotation(90.0f);
-        } else if(flag == FLIP_V) {
+        } else if(flag == kCBTMXTileFlagFlipV) {
             sprite->setRotation(270.0f);
-        } else if (flag == (FLIP_V | FLIP_H)) {
+        } else if (flag == (kCBTMXTileFlagFlipV | kCBTMXTileFlagFlipH)) {
             sprite->setRotation(90.0f);
             sprite->setFlipX(true);
         } else {
@@ -292,10 +287,10 @@ void CBTMXLayer::setupTileSprite(CCSprite* sprite, ccPosition pos, int gid) {
             sprite->setFlipX(true);
         }
     } else {
-        if(gid & FLIP_H) {
+        if(gid & kCBTMXTileFlagFlipH) {
             sprite->setFlipX(true);
         }
-        if(gid & FLIP_V) {
+        if(gid & kCBTMXTileFlagFlipV) {
             sprite->setFlipY(true);
         }
     }
@@ -352,15 +347,15 @@ void CBTMXLayer::parseInternalProperties() {
 CCPoint CBTMXLayer::calculateLayerOffset(float x, float y) {
 	CCPoint ret = CCPointZero;
 	switch(m_mapInfo->getOrientation()) {
-		case ORIENTATION_ORTHOGONAL:
+		case kCBTMXOrientationOrthogonal:
 			ret.x = x * m_tileWidth;
 			ret.y = y * m_tileHeight;
 			break;
-		case ORIENTATION_ISOMETRIC:
+		case kCBTMXOrientationIsometric:
 			ret.x = (m_tileWidth / 2) * (x - y);
 			ret.y = (m_tileHeight / 2) * (-x - y);
 			break;
-		case ORIENTATION_HEXAGONAL:
+		case kCBTMXOrientationHexagonal:
 			// TODO offset for hexagonal map not implemented yet
 			break;
 	}

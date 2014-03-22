@@ -52,18 +52,20 @@ void CBTMXMapInfo::addProperty(const string& key, const string& value) {
 }
 
 int CBTMXMapInfo::getTileSetIndex(int gid) {
+	int pureGid = gid & kCBTMXTileFlagFlipMask;
 	int count = m_tilesets.count();
 	for(int i = 0; i < count; i++) {
 		CBTMXTileSetInfo* tileset = (CBTMXTileSetInfo*)m_tilesets.objectAtIndex(i);
-		if(tileset->getFirstGid() > gid)
+		if(tileset->getFirstGid() > pureGid)
 			return i - 1;
 	}
 	return m_tilesets.count() - 1;
 }
 
 string CBTMXMapInfo::getTileProperty(int gid, const string& key) {
+	int pureGid = gid & kCBTMXTileFlagFlipMask;
 	char buf[32];
-	sprintf(buf, "%d", gid);
+	sprintf(buf, "%d", pureGid);
 	CCDictionary* props = (CCDictionary*)m_tileProperties.objectForKey(buf);
 	if(props) {
 		CCString* p = (CCString*)props->objectForKey(key);
@@ -77,8 +79,9 @@ string CBTMXMapInfo::getTileProperty(int gid, const string& key) {
 }
 
 void CBTMXMapInfo::addTileProperty(int gid, const string& key, const string& value) {
+	int pureGid = gid & kCBTMXTileFlagFlipMask;
 	char buf[32];
-	sprintf(buf, "%d", gid);
+	sprintf(buf, "%d", pureGid);
 	CCDictionary* props = (CCDictionary*)m_tileProperties.objectForKey(buf);
 	if(!props) {
 		props = CCDictionary::create();

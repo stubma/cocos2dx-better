@@ -33,18 +33,18 @@ NS_CC_BEGIN
 	
 /// orientation of map
 typedef enum {
-	ORIENTATION_ORTHOGONAL = 1,
-	ORIENTATION_ISOMETRIC,
-	ORIENTATION_HEXAGONAL
+	kCBTMXOrientationOrthogonal = 1,
+	kCBTMXOrientationIsometric,
+	kCBTMXOrientationHexagonal
 } cbTMXOrientation;
 
 /// tile flags, it is not TMX standard, just give you a way to flip tile
 typedef enum {
-	FLIP_H = 0x80000000,
-	FLIP_V = 0x40000000,
-	FLIP_DIAGONAL = 0x20000000,
-	FLIP_ALL = (FLIP_H | FLIP_V | FLIP_DIAGONAL),
-	FLIP_MASK = ~(FLIP_ALL)
+	kCBTMXTileFlagFlipH = 0x80000000,
+	kCBTMXTileFlagFlipV = 0x40000000,
+	kCBTMXTileFlagFlipDiagonal = 0x20000000,
+	kCBTMXTileFlagFlipAll = (kCBTMXTileFlagFlipH | kCBTMXTileFlagFlipV | kCBTMXTileFlagFlipDiagonal),
+	kCBTMXTileFlagFlipMask = ~(kCBTMXTileFlagFlipAll)
 } cbTileFlags;
 
 /**

@@ -171,11 +171,11 @@ void CBTMXTileMap::setDebugDrawObjects(bool flag) {
 
 CCPoint CBTMXTileMap::nodeToTMXSpace(CCPoint p) {
 	switch(m_mapInfo->getOrientation()) {
-		case ORIENTATION_ORTHOGONAL:
-		case ORIENTATION_HEXAGONAL:
+		case kCBTMXOrientationOrthogonal:
+		case kCBTMXOrientationHexagonal:
 			// ortho and hex is simple, just convert origin
 			return ccp(p.x, getContentSize().height - p.y);
-		case ORIENTATION_ISOMETRIC:
+		case kCBTMXOrientationIsometric:
 		{
 			// iso map origin is at top vertex of (0, 0) tile, and x&y axis follows edges of that tile
 			float x = m_mapHeight * m_tileHeight - p.y - (m_mapWidth * m_tileWidth / 4 - p.x / 2);
@@ -189,11 +189,11 @@ CCPoint CBTMXTileMap::nodeToTMXSpace(CCPoint p) {
 
 CCPoint CBTMXTileMap::tmxToNodeSpace(CCPoint p) {
 	switch(m_mapInfo->getOrientation()) {
-		case ORIENTATION_ORTHOGONAL:
-		case ORIENTATION_HEXAGONAL:
+		case kCBTMXOrientationOrthogonal:
+		case kCBTMXOrientationHexagonal:
 			// ortho and hex is simple, just convert origin
 			return ccp(p.x, getContentSize().height - p.y);
-		case ORIENTATION_ISOMETRIC:
+		case kCBTMXOrientationIsometric:
 		{
 			// iso map origin is at top vertex of (0, 0) tile, and x&y axis follows edges of that tile
 			float x = m_mapWidth * m_tileWidth / 2 + p.x - p.y;

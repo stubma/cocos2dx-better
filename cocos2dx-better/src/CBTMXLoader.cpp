@@ -199,11 +199,11 @@ void CBTMXLoader::startElement(void* ctx, const char* name, const char** atts) {
 						break;
 					case ATTR_ORIENTATION:
 						if(!strcmp(value, "orthogonal"))
-							m_map->setOrientation(ORIENTATION_ORTHOGONAL);
+							m_map->setOrientation(kCBTMXOrientationOrthogonal);
 						else if(!strcmp(value, "isometric"))
-							m_map->setOrientation(ORIENTATION_ISOMETRIC);
+							m_map->setOrientation(kCBTMXOrientationIsometric);
 						else if(!strcmp(value, "hexagonal"))
-							m_map->setOrientation(ORIENTATION_HEXAGONAL);
+							m_map->setOrientation(kCBTMXOrientationHexagonal);
 						else {
 							CCLOGERROR("Unsupported orientation: %s", value);
 						}

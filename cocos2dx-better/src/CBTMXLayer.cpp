@@ -562,6 +562,10 @@ void CBTMXLayer::setTileAt(int tilesetIndex, int gid, int x, int y, int z) {
 }
 
 void CBTMXLayer::setTileAt(int gid, int x, int y) {
+	// basic validation
+	if(x < 0 || x >= m_layerWidth || y < 0 || y >= m_layerHeight)
+		return;
+	
     // decide tileset index
     int tilesetIndex = m_mapInfo->getTileSetIndex(gid);
     

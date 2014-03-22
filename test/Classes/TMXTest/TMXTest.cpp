@@ -5,12 +5,14 @@
 TESTLAYER_CREATE_FUNC(TMXHexagonalDemo);
 TESTLAYER_CREATE_FUNC(TMXIsometricDemo);
 TESTLAYER_CREATE_FUNC(TMXOrthogonalDemo);
+TESTLAYER_CREATE_FUNC(TMXOrthogonalEditDemo);
 TESTLAYER_CREATE_FUNC(TMXOrthogonalFlipDemo);
 
 static NEWTESTFUNC createFunctions[] = {
 	CF(TMXHexagonalDemo),
     CF(TMXIsometricDemo),
 	CF(TMXOrthogonalDemo),
+	CF(TMXOrthogonalEditDemo),
 	CF(TMXOrthogonalFlipDemo)
 };
 
@@ -318,6 +320,43 @@ bool TMXOrthogonalDemo::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 		sprite->setRotation(0);
 		CCRotateBy* rotate = CCRotateBy::create(2.f, 360);
 		sprite->runAction(rotate);
+	}
+	
+	return true;
+}
+
+//------------------------------------------------------------------
+//
+// Orthogonal, touch to add or delete
+//
+//------------------------------------------------------------------
+void TMXOrthogonalEditDemo::onEnter()
+{
+    TMXBaseDemo::onEnter();
+}
+
+CBTMXTileMap* TMXOrthogonalEditDemo::createMap() {
+	return CBTMXTileMap::createWithXMLFile("tmx/ortho_flip_test.tmx");
+}
+
+std::string TMXOrthogonalEditDemo::subtitle()
+{
+    return "Orthogonal - Touch to Add/Delete";
+}
+
+bool TMXOrthogonalEditDemo::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+	TMXBaseDemo::ccTouchBegan(pTouch, pEvent);
+	
+	CBTMXLayer* layer = (CBTMXLayer*)m_map->getLayerAt(0);
+	CCPoint loc = layer->convertToNodeSpace(m_lastLoc);
+	ccPosition d = layer->getTileCoordinateAt(loc.x, loc.y);
+	int gid = layer->getGidAt(d.x, d.y);
+	if(gid <= 0) {
+		// add
+		layer->setTileAt(CCRANDOM_0_X_INT(40) + 1, d.x, d.y);
+	} else {
+		// delete
+		layer->removeTileAt(d.x, d.y);
 	}
 	
 	return true;

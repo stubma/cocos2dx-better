@@ -50,17 +50,4 @@ CBSpriteBatchNode::CBSpriteBatchNode() {
 CBSpriteBatchNode::~CBSpriteBatchNode() {
 }
 
-void CBSpriteBatchNode::insertQuadFromSprite(CCSprite *sprite, unsigned int index) {
-	CCSpriteBatchNode::insertQuadFromSprite(sprite, index);
-}
-
-void CBSpriteBatchNode::updateQuadFromSprite(CCSprite *sprite, unsigned int index) {
-	CCSpriteBatchNode::updateQuadFromSprite(sprite, index);
-}
-
-CBSpriteBatchNode * CBSpriteBatchNode::addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag) {
-	CCSpriteBatchNode::addSpriteWithoutQuad(child, z, aTag);
-	return this;
-}
-
 NS_CC_END

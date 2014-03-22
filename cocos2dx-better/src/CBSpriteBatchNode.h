@@ -34,11 +34,16 @@ using namespace std;
 
 NS_CC_BEGIN
 
+class CBTMXLayer;
+
 /** 
- * XXX: copy CCSpriteBatchNode because my TMX need some protected method of it, so I changed them to public
+ * XXX: copy CCSpriteBatchNode because my TMX need some protected method of it,
+ * so let CBTMXLayer be his friend class
  */
 class CC_DLL CBSpriteBatchNode : public CCSpriteBatchNode
 {
+	friend class CBTMXLayer;
+	
 public:
     CBSpriteBatchNode();
     virtual ~CBSpriteBatchNode();
@@ -59,22 +64,6 @@ public:
     static CBSpriteBatchNode* create(const char* fileImage) {
         return CBSpriteBatchNode::create(fileImage, kDefaultSpriteBatchCapacity);
     }
-
-public:
-    /** Inserts a quad at a certain index into the texture atlas. The CCSprite won't be added into the children array.
-     This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
-     For example: a tile map (CCTMXMap) or a label with lots of characters (CCLabelBMFont)
-     */
-    void insertQuadFromSprite(CCSprite *sprite, unsigned int index);
-    /** Updates a quad at a certain index into the texture atlas. The CCSprite won't be added into the children array.
-     This method should be called only when you are dealing with very big AtlasSrite and when most of the CCSprite won't be updated.
-     For example: a tile map (CCTMXMap) or a label with lots of characters (CCLabelBMFont)
-     */
-    void updateQuadFromSprite(CCSprite *sprite, unsigned int index);
-    /* This is the opposite of "addQuadFromSprite.
-    It add the sprite to the children and descendants array, but it doesn't update add it to the texture atlas
-    */
-    CBSpriteBatchNode * addSpriteWithoutQuad(CCSprite*child, unsigned int z, int aTag);
 };
 
 // end of sprite_nodes group

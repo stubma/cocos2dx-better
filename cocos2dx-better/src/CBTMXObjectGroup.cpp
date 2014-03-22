@@ -64,8 +64,7 @@ CBTMXObject* CBTMXObjectGroup::getObject(const string& name) {
 	CCObject* obj;
 	CCARRAY_FOREACH(&m_objects, obj) {
 		CBTMXObject* to = (CBTMXObject*)obj;
-		string toName = to->getProperty("name");
-		if(toName == name)
+		if(to->getName() == name)
 			return to;
 	}
 	

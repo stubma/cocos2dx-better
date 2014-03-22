@@ -87,6 +87,8 @@
 		9225962618D5BBF600E200AE /* TriggerMng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922595DD18D5BBF600E200AE /* TriggerMng.cpp */; };
 		9225962718D5BBF600E200AE /* TriggerObj.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922595DF18D5BBF600E200AE /* TriggerObj.cpp */; };
 		9234736118BD86A4009DDBEF /* CCShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9234736018BD86A4009DDBEF /* CCShaders.cpp */; };
+		923713F118DD1453006879DE /* CBTMXTileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923713EF18DD1453006879DE /* CBTMXTileMap.cpp */; };
+		923713F818DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923713F618DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp */; };
 		923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */; };
 		923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9239689B185591DB0063E8A1 /* CCAssetInputStream.cpp */; };
 		923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968A0185591DB0063E8A1 /* CCAssetOutputStream.cpp */; };
@@ -465,6 +467,10 @@
 		922D3C8618C970B200E9AA9E /* CCCallFuncT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncT.h; sourceTree = "<group>"; };
 		9234735E18BD865A009DDBEF /* CCShaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShaders.h; sourceTree = "<group>"; };
 		9234736018BD86A4009DDBEF /* CCShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShaders.cpp; sourceTree = "<group>"; };
+		923713EF18DD1453006879DE /* CBTMXTileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXTileMap.cpp; sourceTree = "<group>"; };
+		923713F218DD1538006879DE /* CBTMXTileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXTileMap.h; sourceTree = "<group>"; };
+		923713F618DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXObjectDebugRenderer.cpp; sourceTree = "<group>"; };
+		923713F718DD22D6006879DE /* CBTMXObjectDebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBTMXObjectDebugRenderer.h; sourceTree = "<group>"; };
 		9239686E185591DB0063E8A1 /* CCAssetInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream.h; sourceTree = "<group>"; };
 		9239686F185591DB0063E8A1 /* CCAssetOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream.h; sourceTree = "<group>"; };
 		92396870185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAutoRenderMenuItemSprite.h; sourceTree = "<group>"; };
@@ -1762,6 +1768,7 @@
 		92EDA10518D9E6C70022E196 /* tmx */ = {
 			isa = PBXGroup;
 			children = (
+				923713F218DD1538006879DE /* CBTMXTileMap.h */,
 				92DEC98318DC5FB400A9A384 /* CBTMXLayer.h */,
 				92EDA11218D9F2500022E196 /* CBTMXLayerInfo.h */,
 				928BB06018DB28A500670A3B /* CBTMXMapInfo.h */,
@@ -1778,6 +1785,7 @@
 			children = (
 				92DEC98818DC820B00A9A384 /* CBSpriteBatchNode.cpp */,
 				92DEC98918DC820B00A9A384 /* CBSpriteBatchNode.h */,
+				923713EF18DD1453006879DE /* CBTMXTileMap.cpp */,
 				92DEC98018DC5E3200A9A384 /* CBTMXLayer.cpp */,
 				92EDA10F18D9F2350022E196 /* CBTMXLayerInfo.cpp */,
 				928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */,
@@ -1785,6 +1793,8 @@
 				92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */,
 				928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */,
 				928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */,
+				923713F618DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp */,
+				923713F718DD22D6006879DE /* CBTMXObjectDebugRenderer.h */,
 			);
 			name = tmx;
 			sourceTree = "<group>";
@@ -2157,6 +2167,7 @@
 				9225960318D5BBF600E200AE /* CocosGUI.cpp in Sources */,
 				9225962518D5BBF600E200AE /* TriggerBase.cpp in Sources */,
 				923968FD185591DB0063E8A1 /* CCScroller.cpp in Sources */,
+				923713F118DD1453006879DE /* CBTMXTileMap.cpp in Sources */,
 				9276E10218A77A890045B318 /* CCAssetInputStream_ios.mm in Sources */,
 				923968FF185591DB0063E8A1 /* CCShake.cpp in Sources */,
 				92396903185591DB0063E8A1 /* CCTapGestureRecognizer.cpp in Sources */,
@@ -2200,6 +2211,7 @@
 				923968E4185591DB0063E8A1 /* CCAutoRenderMenuItemSprite.cpp in Sources */,
 				9225961E18D5BBF600E200AE /* LoadingBarReader.cpp in Sources */,
 				9225962718D5BBF600E200AE /* TriggerObj.cpp in Sources */,
+				923713F818DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp in Sources */,
 				9225960018D5BBF600E200AE /* UILayout.cpp in Sources */,
 				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,
 				922595E218D5BBF600E200AE /* CCActionFrame.cpp in Sources */,

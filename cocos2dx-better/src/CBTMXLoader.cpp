@@ -426,8 +426,13 @@ void CBTMXLoader::startElement(void* ctx, const char* name, const char** atts) {
 						group->setOffsetY(atof(value) / CC_CONTENT_SCALE_FACTOR());
 						break;
 					case ATTR_COLOR:
-						group->setColor(atoi(value));
+					{
+						int color;
+						sscanf(value, "#%x", &color);
+						color |= 0xff000000;
+						group->setColor(color);
 						break;
+					}
 					case ATTR_OPACITY:
 						group->setOpacity(atof(value));
 						break;
@@ -454,32 +459,33 @@ void CBTMXLoader::startElement(void* ctx, const char* name, const char** atts) {
 				// check attr
 				switch(attr) {
 					case ATTR_NAME:
+						object->setName(value);
+						break;
 					case ATTR_TYPE:
-						object->addProperty(key, value);
+						object->setType(value);
 						break;
 					case ATTR_X:
 					{
 						float x = atof(value) / CC_CONTENT_SCALE_FACTOR();
-						char buf[30];
-						sprintf(buf, "%f", x);
-						object->addProperty(key, buf);
+						object->getPosition().x = x;
 						break;
 					}
 					case ATTR_Y:
 					{
 						float y = atof(value) / CC_CONTENT_SCALE_FACTOR();
-						char buf[30];
-						sprintf(buf, "%f", y);
-						object->addProperty(key, buf);
+						object->getPosition().y = y;
 						break;
 					}
 					case ATTR_WIDTH:
+					{
+						float w = atof(value) / CC_CONTENT_SCALE_FACTOR();
+						object->getSize().width = w;
+						break;
+					}
 					case ATTR_HEIGHT:
 					{
-						float f = atof(value) / CC_CONTENT_SCALE_FACTOR();
-						char buf[30];
-						sprintf(buf, "%f", f);
-						object->addProperty(key, buf);
+						float h = atof(value) / CC_CONTENT_SCALE_FACTOR();
+						object->getSize().height = h;
 						break;
 					}
 					default:
@@ -500,10 +506,10 @@ void CBTMXLoader::startElement(void* ctx, const char* name, const char** atts) {
 					// set type
 					switch(topTag()) {
 						case POLYGON:
-							object->setType(CBTMXObject::POLYGON);
+							object->setShape(CBTMXObject::POLYGON);
 							break;
 						case POLYLINE:
-							object->setType(CBTMXObject::POLYLINE);
+							object->setShape(CBTMXObject::POLYLINE);
 							break;
 						default:
 							break;
@@ -565,7 +571,6 @@ void CBTMXLoader::textHandler(void* ctx, const char* s, int len) {
 		case DATA:
 		{
 			// decode
-			int len = 0;
 			char* tmp = (char*)calloc(len + 1, sizeof(char));
 			strncpy(tmp, (const char*)s, len);
 			string tmpS = tmp;

@@ -42,7 +42,7 @@ NS_CC_BEGIN
 class CC_DLL CBTMXObject : public CCObject {
 public:
 	/// object type
-	enum Type {
+	enum Shape {
 		/// Normal object, just a collection of key-value pairs
 		NORMAL,
 		
@@ -76,21 +76,6 @@ public:
 	 */
 	void addProperty(const string& key, const string& value);
 	
-	/**
-	 * A quick way to get object position
-	 *
-	 * @return position, in tmx map space. For orthogonal and hexagonal, the origin is top-left,
-	 *		for isometic, the origin is the top rhombus
-	 */
-	CCPoint getPosition();
-	
-	/**
-	 * A quick way to get object size, but not all objects have a size
-	 *
-	 * @return size of object
-	 */
-	CCSize getSize();
-	
 	/// property dict
 	CC_SYNTHESIZE_PASS_BY_REF_NC(CCDictionary, m_properties, Properties);
 	
@@ -98,7 +83,19 @@ public:
 	CC_SYNTHESIZE_PASS_BY_REF_NC(CCPointList, m_points, Points);
 	
 	/// object type
-	CC_SYNTHESIZE(Type, m_type, Type);
+	CC_SYNTHESIZE(Shape, m_shape, Shape);
+	
+	/// name
+	CC_SYNTHESIZE_PASS_BY_REF_NC(string, m_name, Name);
+	
+	/// type
+	CC_SYNTHESIZE_PASS_BY_REF_NC(string, m_type, Type);
+	
+	/// position
+	CC_SYNTHESIZE_PASS_BY_REF_NC(CCPoint, m_pos, Position);
+	
+	/// size
+	CC_SYNTHESIZE_PASS_BY_REF_NC(CCSize, m_size, Size);
 };
 
 NS_CC_END

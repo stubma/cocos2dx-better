@@ -35,10 +35,12 @@ m_layerInfo(NULL),
 m_reusedTile(NULL),
 m_tileWidth(mapInfo->getTileWidth()),
 m_tileHeight(mapInfo->getTileHeight()),
-m_batchNodes((CBSpriteBatchNode**)calloc(mapInfo->getTileSets().count(), sizeof(CBSpriteBatchNode*))),
+m_batchNodes(NULL),
 m_tiles(NULL),
 m_atlasInfos(NULL),
 m_useAutomaticVertexZ(false),
+m_minGid(MAX_INT),
+m_maxGid(0),
 m_vertexZ(0),
 m_alphaFuncValue(0) {
 	// retain map info
@@ -53,13 +55,14 @@ m_alphaFuncValue(0) {
     m_layerHeight = m_layerInfo->getLayerHeight();
     m_tiles = m_layerInfo->getTiles();
     setOpacity(m_layerInfo->getAlpha());
-    m_minGid = m_layerInfo->getMinGid();
-    m_maxGid = m_layerInfo->getMaxGid();
     
     // allocate memory for atlas indices
     size_t size = m_layerInfo->getLayerWidth() * m_layerInfo->getLayerHeight() * sizeof(TileSetAtlasInfo);
     m_atlasInfos = (TileSetAtlasInfo*)malloc(size);
     memset(m_atlasInfos, 0xff, size);
+	
+	// memory for batch node array
+	m_batchNodes = (CBSpriteBatchNode**)calloc(mapInfo->getTileSets().count(), sizeof(CBSpriteBatchNode*));
 	
 	// set anchor percent
 	setAnchorPoint(CCPointZero);
@@ -98,7 +101,11 @@ CBTMXLayer::~CBTMXLayer() {
 
 CBTMXLayer* CBTMXLayer::create(int layerIndex, CBTMXMapInfo* mapInfo) {
 	CBTMXLayer* l = new CBTMXLayer(layerIndex, mapInfo);
-	return (CBTMXLayer*)l->autorelease();
+	if(l->init()) {
+		return (CBTMXLayer*)l->autorelease();
+	}
+	l->release();
+	return NULL;
 }
 
 CCPoint CBTMXLayer::getPositionForOrthoAt(int posX, int posY) {

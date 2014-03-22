@@ -26,7 +26,13 @@
 NS_CC_BEGIN
 
 CBTMXLayerInfo::CBTMXLayerInfo() :
-m_tiles(NULL) {
+m_tiles(NULL),
+m_layerHeight(0),
+m_layerWidth(0),
+m_alpha(255),
+m_visible(true),
+m_offsetX(0),
+m_offsetY(0) {
 }
 
 CBTMXLayerInfo::~CBTMXLayerInfo() {

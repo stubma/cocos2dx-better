@@ -26,7 +26,9 @@
 NS_CC_BEGIN
 
 CBTMXObject::CBTMXObject() :
-m_type(NORMAL) {
+m_shape(NORMAL),
+m_pos(CCPointZero),
+m_size(CCSizeZero) {
 }
 
 CBTMXObject::~CBTMXObject() {
@@ -43,28 +45,6 @@ string CBTMXObject::getProperty(const string& key) {
 		return p->getCString();
 	else
 		return "";
-}
-
-CCPoint CBTMXObject::getPosition() {
-	string xs = getProperty("x");
-	string ys = getProperty("y");
-	CCPoint p = CCPointZero;
-	if(!xs.empty())
-		sscanf(xs.c_str(), "%f", &p.x);
-	if(!ys.empty())
-		sscanf(ys.c_str(), "%f", &p.y);
-	return p;
-}
-
-CCSize CBTMXObject::getSize() {
-	string ws = getProperty("width");
-	string hs = getProperty("height");
-	CCSize s = CCSizeZero;
-	if(!ws.empty())
-		sscanf(ws.c_str(), "%f", &s.width);
-	if(!hs.empty())
-		sscanf(hs.c_str(), "%f", &s.height);
-	return s;
 }
 
 void CBTMXObject::addProperty(const string& key, const string& value) {

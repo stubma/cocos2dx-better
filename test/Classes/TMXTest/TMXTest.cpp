@@ -1,7 +1,6 @@
 #include "TMXTest.h"
 #include "../testResource.h"
 #include "cocos2d.h"
-#include "cocos2d-better.h"
 
 TESTLAYER_CREATE_FUNC(TMXISOParsing);
 
@@ -138,11 +137,51 @@ void TMXISOParsing::onEnter()
 {
     TMXDemo::onEnter();
 
-    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	// add map
+	m_map = CBTMXTileMap::createWithXMLFile("tmx/iso_test1.tmx");
+	m_map->setPosition(origin);
+	m_map->setDebugDrawObjects(true);
+	addChild(m_map);
+	
+	// print some properties
+	CBTMXObjectGroup* og = m_map->getObjectGroup("Object Layer 1");
+	CCLOG("object group property: weather: %s", og->getProperty("weather").c_str());
+	CCLOG("object count: %d", og->getObjectCount());
+	CBTMXObject* obj = og->getObjectAt(0);
+	CCLOG("first object name: %s, type: %s, favorite: %s",
+		  obj->getName().c_str(),
+		  obj->getType().c_str(),
+		  obj->getProperty("favorite").c_str());
+	
+	setTouchEnabled(true);
+	setTouchMode(kCCTouchesOneByOne);
 }
 
 std::string TMXISOParsing::subtitle()
 {
     return "Isometric";
+}
+
+bool TMXISOParsing::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+	m_lastLoc = pTouch->getLocation();
+	return true;
+}
+
+void TMXISOParsing::ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent) {
+	CCPoint location = pTouch->getLocation();
+	CCPoint delta = ccpSub(location, m_lastLoc);
+	m_lastLoc = location;
+	
+	CCPoint pos = m_map->getPosition();
+	m_map->setPosition(ccpAdd(pos, delta));
+}
+
+void TMXISOParsing::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent) {
+	
+}
+
+void TMXISOParsing::ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent) {
+	
 }

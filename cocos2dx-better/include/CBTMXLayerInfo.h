@@ -80,12 +80,6 @@ public:
 	/// layer alpha
 	CC_SYNTHESIZE(int, m_alpha, Alpha);
 	
-	/// min gid of this layer
-	CC_SYNTHESIZE(int, m_minGid, MinGid);
-	
-	/// max gid of this layer
-	CC_SYNTHESIZE(int, m_maxGid, MaxGid);
-	
 	/// property dict
 	CC_SYNTHESIZE_PASS_BY_REF_NC(CCDictionary, m_properties, Properties);
 	

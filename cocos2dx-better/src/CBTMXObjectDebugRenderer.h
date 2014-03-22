@@ -21,42 +21,40 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CBTMXTileSetInfo.h"
-#include "CBTMXMapInfo.h"
+#ifndef __CBTMXObjectDebugRenderer_h__
+#define __CBTMXObjectDebugRenderer_h__
+
+#include "cocos2d.h"
+#include "CCPointList.h"
 
 NS_CC_BEGIN
 
-CBTMXTileSetInfo::CBTMXTileSetInfo() :
-m_texture(NULL),
-m_imageHeight(0),
-m_imageWidth(0),
-m_spacing(0),
-m_margin(0),
-m_tileHeight(0),
-m_tileWidth(0),
-m_firstGid(0) {
-}
+class CBTMXTileMap;
 
-CBTMXTileSetInfo::~CBTMXTileSetInfo() {
-}
-
-CBTMXTileSetInfo* CBTMXTileSetInfo::create() {
-	CBTMXTileSetInfo* t = new CBTMXTileSetInfo();
-	return (CBTMXTileSetInfo*)t->autorelease();
-}
-
-CCRect CBTMXTileSetInfo::getRect(int gid) {
-	CCRect rect = CCRectZero;
-	rect.size.width = m_tileWidth;
-	rect.size.height = m_tileHeight;
+/**
+ * Debug layer for rendering tmx objects
+ */
+class CBTMXObjectDebugRenderer : public CCNode {
+protected:
+	CBTMXObjectDebugRenderer();
 	
-	gid &= FLIP_MASK;
-	gid -= m_firstGid;
-	int maxX = (int)((m_imageWidth - m_margin * 2 + m_spacing) / (m_tileWidth + m_spacing));
-	rect.origin.x = (gid % maxX) * (m_tileWidth + m_spacing) + m_margin;
-	rect.origin.y = (gid / maxX) * (m_tileHeight + m_spacing) + m_margin;
+public:
+	virtual ~CBTMXObjectDebugRenderer();
+	static CBTMXObjectDebugRenderer* create(CBTMXTileMap* m);
 	
-	return rect;
-}
+	// init
+	virtual bool initWithMap(CBTMXTileMap* map);
+	
+	// override super
+	virtual void draw();
+	
+	// tmx tile map
+	CC_SYNTHESIZE(CBTMXTileMap*, m_map, Map);
+	
+	// point buffer
+	CC_SYNTHESIZE(CCPointList, m_vertices, Vertices);
+};
 
 NS_CC_END
+
+#endif // __CBTMXObjectDebugRenderer_h__

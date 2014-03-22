@@ -285,7 +285,7 @@ void TMXOrthogonalDemo::onEnter()
 }
 
 CBTMXTileMap* TMXOrthogonalDemo::createMap() {
-	return CBTMXTileMap::createWithXMLFile("tmx/orthogonal_test5.tmx");
+	return CBTMXTileMap::createWithXMLFile("tmx/ortho_multi_tileset.tmx");
 }
 
 std::string TMXOrthogonalDemo::subtitle()

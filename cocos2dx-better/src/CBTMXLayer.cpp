@@ -256,6 +256,29 @@ float CBTMXLayer::getVertexZAt(int x, int y) {
 	return ret;
 }
 
+void CBTMXLayer::setTileColorAt(ccColor4B c, int x, int y) {
+	// get gid
+	int gid = getGidAt(x, y);
+	if(gid <= 0)
+		return;
+	
+	// get tileset index and rect
+	int tilesetIndex = m_mapInfo->getTileSetIndex(gid);
+	CBTMXTileSetInfo* tileset = (CBTMXTileSetInfo*)m_mapInfo->getTileSets().objectAtIndex(tilesetIndex);
+	CCRect rect = tileset->getRect(gid);
+	CBSpriteBatchNode* bn = m_batchNodes[tilesetIndex];
+	
+	// get sprite
+	CCSprite* tile = reusedTile(rect, bn);
+	setupTileSprite(tile, ccpos(x, y), gid);
+	tile->setColor(ccc3(c.r, c.g, c.b));
+	tile->setOpacity(c.a);
+	
+	// update
+	int z = x + y * m_layerWidth;
+	bn->updateQuadFromSprite(tile, m_atlasInfos[z].atlasIndex);
+}
+
 void CBTMXLayer::setupTileSprite(CCSprite* sprite, ccPosition pos, int gid) {
 	CCPoint spritePos = getPositionAt(pos.x, pos.y);
     sprite->setPosition(ccp(spritePos.x + sprite->getContentSize().width / 2,

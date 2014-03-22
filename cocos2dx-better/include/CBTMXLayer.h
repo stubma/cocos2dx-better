@@ -260,6 +260,9 @@ public:
 	 */
 	CCPoint getPositionAt(int x, int y);
 	
+	/// change color of a tile
+	void setTileColorAt(ccColor4B c, int x, int y);
+	
 	/// layer tiles in x axis
 	CC_SYNTHESIZE(int, m_layerWidth, LayerWidth);
 	

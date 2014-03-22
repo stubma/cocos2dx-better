@@ -41,7 +41,6 @@ class CBTMXObjectGroup;
  * enhancement:
  * 1. supports multiple tileset
  * 2. supports object and debug render
- * 3. can change color of tile map
  *
  * \note
  * This is a re-implementation for TMX map. Cocos2d-x TMX support is defective, so I write my own.

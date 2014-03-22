@@ -465,6 +465,10 @@ void CBTMXLayer::removeTile(CCSprite* sprite) {
 }
 
 void CBTMXLayer::removeTileAt(int x, int y) {
+	// basic validation
+	if(x < 0 || x >= m_layerWidth || y < 0 || y >= m_layerHeight)
+		return;
+	
 	// find index
 	int z = x + y * m_layerWidth;
 	int index = m_atlasInfos[z].atlasIndex;
@@ -591,6 +595,10 @@ void CBTMXLayer::setTileAt(int gid, int x, int y) {
 }
 
 void CBTMXLayer::updateTileAt(int gid, int x, int y) {
+	// basic validation
+	if(x < 0 || x >= m_layerWidth || y < 0 || y >= m_layerHeight)
+		return;
+	
     // decide tileset index
     int tilesetIndex = m_mapInfo->getTileSetIndex(gid);
     

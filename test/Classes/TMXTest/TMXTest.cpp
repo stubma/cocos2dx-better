@@ -339,7 +339,7 @@ CBTMXTileMap* TMXOrthogonalFlipDemo::createMap() {
 
 std::string TMXOrthogonalFlipDemo::subtitle()
 {
-    return "Orthogonal - Multiple Tilesets";
+    return "Orthogonal - Tile Flip";
 }
 
 bool TMXOrthogonalFlipDemo::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {

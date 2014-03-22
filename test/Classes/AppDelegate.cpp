@@ -25,6 +25,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     CCSize designSize = CCSizeMake(720, 480);
     CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
+//	CCDirector::sharedDirector()->setContentScaleFactor(1.5f);
 	
     // set FPS. the default value is 1.0/60 if you don't call this
     pDirector->setAnimationInterval(1.0 / 60);

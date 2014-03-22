@@ -30,20 +30,51 @@ public:
     void backCallback(CCObject* pSender);
 };
 
-class TMXISOParsing : public TMXDemo
-{
-private:
+class TMXBaseDemo : public TMXDemo {
+protected:
+	CCSprite* m_sprite;
 	CBTMXTileMap* m_map;
 	CCPoint m_lastLoc;
 	
 public:
     virtual void onEnter();
-    virtual string subtitle();
+	virtual CBTMXTileMap* createMap() = 0;
 	
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
 };
+
+class TMXHexagonalDemo : public TMXBaseDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	virtual CBTMXTileMap* createMap();
+	
+	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+};
+
+class TMXIsometricDemo : public TMXBaseDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	virtual CBTMXTileMap* createMap();
+	
+	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+};
+
+class TMXOrthogonalDemo : public TMXBaseDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+	virtual CBTMXTileMap* createMap();
+	
+	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+};
+
 
 #endif

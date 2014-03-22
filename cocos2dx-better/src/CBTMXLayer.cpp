@@ -258,9 +258,9 @@ float CBTMXLayer::getVertexZAt(int x, int y) {
 
 void CBTMXLayer::setupTileSprite(CCSprite* sprite, ccPosition pos, int gid) {
 	CCPoint spritePos = getPositionAt(pos.x, pos.y);
-    sprite->setPosition(spritePos);
+    sprite->setPosition(ccp(spritePos.x + sprite->getContentSize().width / 2,
+							spritePos.y + sprite->getContentSize().height / 2));
     sprite->setVertexZ(getVertexZAt(pos.x, pos.y));
-    sprite->setAnchorPoint(CCPointZero);
 	sprite->setColor(getColor());
     sprite->setOpacity(getOpacity());
 	
@@ -268,7 +268,6 @@ void CBTMXLayer::setupTileSprite(CCSprite* sprite, ccPosition pos, int gid) {
     sprite->setFlipX(false);
     sprite->setFlipY(false);
     sprite->setRotation(0.0f);
-    sprite->setAnchorPoint(ccp(0, 0));
 	
     // Rotation in tiled is achieved using 3 flipped states, flipping across the horizontal, vertical, and diagonal axes of the tiles.
     if(gid & FLIP_DIAGONAL) {
@@ -653,12 +652,13 @@ CCSprite* CBTMXLayer::tileAt(int x, int y) {
 		
 		// if not exist, create a new
 		if(!tile) {
+			CCPoint origin = getPositionAt(x, y);
 			tile = new CCSprite();
             tile->initWithTexture(bn->getTextureAtlas()->getTexture(), rect);
             tile->setBatchNode(bn);
-            tile->setPosition(getPositionAt(x, y));
+            tile->setPosition(ccp(origin.x + tile->getContentSize().width / 2,
+								  origin.y + tile->getContentSize().height / 2));
             tile->setVertexZ(getVertexZAt(x, y));
-            tile->setAnchorPoint(CCPointZero);
 			tile->setColor(getColor());
             tile->setOpacity(getOpacity());
 			

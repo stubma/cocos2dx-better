@@ -158,7 +158,7 @@ typedef enum {
     FAIL
 } TagParseState;
 
-static int parseColor(const unichar* p, int len) {
+static int parseColor(const unichar* p, NSUInteger len) {
 	int color = 0;
 	for(int i = 0; i < len; i++) {
 		color <<= 4;
@@ -175,8 +175,8 @@ static int parseColor(const unichar* p, int len) {
 	return color;
 }
 
-static SpanType checkTagName(unichar* p, int start, int end) {
-    int len = end - start;
+static SpanType checkTagName(unichar* p, NSUInteger start, NSUInteger end) {
+    NSUInteger len = end - start;
     switch(len) {
         case 1:
             if(p[start] == 'b') {
@@ -227,14 +227,14 @@ static SpanType checkTagName(unichar* p, int start, int end) {
 }
 
 // if parse failed, endTagPos will be len, otherwise it is end tag position
-static SpanType checkTag(unichar* p, int start, int len, int* endTagPos, int* dataStart, int* dataEnd, bool* close) {
+static SpanType checkTag(unichar* p, NSUInteger start, NSUInteger len, NSUInteger* endTagPos, NSUInteger* dataStart, NSUInteger* dataEnd, bool* close) {
     SpanType type = UNKNOWN;
     TagParseState state = READY;
-    int tagNameStart, tagNameEnd;
+    NSUInteger tagNameStart, tagNameEnd;
     *close = false;
     *endTagPos = len;
     *dataStart = -1;
-    int i = start;
+    NSUInteger i = start;
     while(i < len) {
         switch (state) {
             case READY:
@@ -308,14 +308,14 @@ static SpanType checkTag(unichar* p, int start, int len, int* endTagPos, int* da
 static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
     // get unichar of string
     NSString* ns = [NSString stringWithUTF8String:pText];
-    int uniLen = [ns length];
+    NSUInteger uniLen = [ns length];
     unichar* uniText = (unichar*)malloc(uniLen * sizeof(unichar));
     [ns getCharacters:uniText range:NSMakeRange(0, uniLen)];
     
     bool inImageTag = false;
 	int plainLen = 0;
 	unichar* plain = (unichar*)malloc(sizeof(unichar) * uniLen);
-	for(int i = 0; i < uniLen; i++) {
+	for(NSUInteger i = 0; i < uniLen; i++) {
 		unichar c = uniText[i];
 		switch(c) {
 			case '\\':
@@ -333,7 +333,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 			{
                 // parse the tag
                 Span span;
-                int endTagPos, dataStart, dataEnd;
+                NSUInteger endTagPos, dataStart, dataEnd;
                 SpanType type = checkTag(uniText, i, uniLen, &endTagPos, &dataStart, &dataEnd, &span.close);
                 
                 // fill span info
@@ -364,7 +364,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 NSString* font = [NSString stringWithCharacters:uniText + dataStart
                                                                          length:dataEnd - dataStart];
                                 const char* cFont = [font cStringUsingEncoding:NSUTF8StringEncoding];
-                                int len = strlen(cFont);
+                                size_t len = strlen(cFont);
                                 span.fontName = (char*)calloc(sizeof(char), len + 1);
                                 strcpy(span.fontName, cFont);
                                 break;
@@ -383,7 +383,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 NSArray* parts = [name componentsSeparatedByString:@" "];
                                 name = [parts objectAtIndex:0];
                                 const char* cName = [name cStringUsingEncoding:NSUTF8StringEncoding];
-                                int len = strlen(cName);
+                                size_t len = strlen(cName);
                                 span.imageName = (char*)calloc(sizeof(char), len + 1);
                                 strcpy(span.imageName, cName);
                                 
@@ -394,8 +394,8 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 
                                 // if has other parts, check
                                 if([parts count] > 1) {
-                                    int count = [parts count];
-                                    for(int i = 1; i < count; i++) {
+                                    NSUInteger count = [parts count];
+                                    for(NSUInteger i = 1; i < count; i++) {
                                         NSString* part = [parts objectAtIndex:i];
                                         NSArray* pair = [part componentsSeparatedByString:@"="];
                                         if([pair count] == 2) {
@@ -495,7 +495,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
     if([s_imageMap count] > 0) {
         // get line count and their origin
         CFArrayRef linesArray = CTFrameGetLines(frame);
-        int lineCount = CFArrayGetCount(linesArray);
+        CFIndex lineCount = CFArrayGetCount(linesArray);
         CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
         CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
         
@@ -506,8 +506,8 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
             CFRange range = CTLineGetStringRange(line);
             
             // find image placeholder
-            int end = range.location + range.length;
-            for(int j = range.location; j < end; j++) {
+            CFIndex end = range.location + range.length;
+            for(CFIndex j = range.location; j < end; j++) {
                 // if placeholder matched, render this image
                 if(plain[j] == 0xfffc) {
                     // get offset
@@ -554,7 +554,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
 static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& linkMetas) {
     // get line count and their origin
     CFArrayRef linesArray = CTFrameGetLines(frame);
-    int lineCount = CFArrayGetCount(linesArray);
+    CFIndex lineCount = CFArrayGetCount(linesArray);
     CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
     CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
     
@@ -574,8 +574,8 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
     // find every link span
     LinkMeta meta;
 	int tag = 0;
-    int linkStart, linkEnd;
-    int startLine, endLine;
+    CFIndex linkStart, linkEnd;
+    CFIndex startLine, endLine;
     for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
         Span& span = *iter;
         if(span.type == LINK) {
@@ -608,7 +608,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
 				while(startLine <= endLine) {
 					CGFloat ascent;
                     CGFloat descent;
-					int charEnd = linkEnd;
+					CFIndex charEnd = linkEnd;
 					if(startLine < endLine)
 						charEnd = range[startLine].location + range[startLine].length;
                     CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, startLine);
@@ -675,7 +675,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                                               uniLen);
         CFMutableAttributedStringRef plainCFAStr = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
         CFAttributedStringReplaceString(plainCFAStr, CFRangeMake(0, 0), plainCFStr);
-        int plainLen = CFAttributedStringGetLength(plainCFAStr);
+        CFIndex plainLen = CFAttributedStringGetLength(plainCFAStr);
         
         // font and color stack
         int defaultColor = 0xff000000

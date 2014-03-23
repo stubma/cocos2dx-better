@@ -683,20 +683,21 @@ public class CCImage_richlabel {
                         	}
                         	
                         	// draw, if null, just save rect
+                        	// getPrimaryHorizontal already includes origin x, so no need to add it
                         	if(bitmap != null) {
                         		c.drawBitmap(bitmap, 
-                        				offsetX + origin[i].x, 
+                        				offsetX, 
                         				origin[i].y - span.offsetY - bitmap.getHeight(), 
                         				null);
                         		
                         		// save image rect
-                        		nativeSaveImageRect(offsetX + origin[i].x, 
+                        		nativeSaveImageRect(offsetX, 
                         				totalHeight - origin[i].y + span.offsetY,
                         				bitmap.getWidth(),
                         				bitmap.getHeight());
                         	} else {
                         		// save image rect
-                        		nativeSaveImageRect(offsetX + origin[i].x, 
+                        		nativeSaveImageRect(offsetX, 
                         				totalHeight - origin[i].y + span.offsetY,
                         				span.width,
                         				span.height);

@@ -70,6 +70,11 @@ class CCRichLabelTTFLinkStateSynchronizer;
  * CCRichLabelTFF is a subclass of CCGradientSprite, so it also can set a gradient
  * effect.
  *
+ * \par
+ * Android version will hold a bitmap for encountered atlas, but it only holds last one. If a new atlas image is 
+ * parsed, previous one will be released and current will be held. For better performance, you should put images which
+ * will be embedded in a rich label into one atlas image.
+ *
  * \note
  * Currently it only supports iOS and Android, please do it yourself if you want other platform.
  */

@@ -88,6 +88,52 @@ JNIEXPORT jstring JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeFullPat
 	return env->NewStringUTF(path.c_str());
 }
 
+JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeGetSpriteFrameInfo
+  (JNIEnv * env, jclass clazz, jstring jPlist, jstring jAtlas, jstring jImageName, jobject jFrame) {
+	// get c string
+	const char* plist = (const char*)env->GetStringUTFChars(jPlist, NULL);
+	const char* atlas = (const char*)env->GetStringUTFChars(jAtlas, NULL);
+	const char* imageName = (const char*)env->GetStringUTFChars(jImageName, NULL);
+
+	// get sprite frame
+	CCSpriteFrameCache* fc = CCSpriteFrameCache::sharedSpriteFrameCache();
+	fc->addSpriteFramesWithFile(plist, atlas);
+	CCSpriteFrame* frame = fc->spriteFrameByName(imageName);
+
+	// get java frame info
+	jclass frameClass = env->FindClass("org/cocos2dx/lib/CCImage_richlabel$AtlasFrame");
+	jfieldID fid_x = env->GetFieldID(frameClass, "x", "I");
+	jfieldID fid_y = env->GetFieldID(frameClass, "y", "I");
+	jfieldID fid_w = env->GetFieldID(frameClass, "w", "I");
+	jfieldID fid_h = env->GetFieldID(frameClass, "h", "I");
+	jfieldID fid_offsetX = env->GetFieldID(frameClass, "offsetX", "I");
+	jfieldID fid_offsetY = env->GetFieldID(frameClass, "offsetY", "I");
+	jfieldID fid_sourceWidth = env->GetFieldID(frameClass, "sourceWidth", "I");
+	jfieldID fid_sourceHeight = env->GetFieldID(frameClass, "sourceHeight", "I");
+	jfieldID fid_rotated = env->GetFieldID(frameClass, "rotated", "Z");
+
+	// copy frame info to java object
+	const CCSize& sourceSize = frame->getOriginalSizeInPixels();
+	bool rotated = frame->isRotated();
+	const CCRect& frameRect = frame->getRectInPixels();
+	const CCPoint& offset = frame->getOffsetInPixels();
+	env->SetIntField(jFrame, fid_x, (int)frameRect.origin.x);
+	env->SetIntField(jFrame, fid_y, (int)frameRect.origin.y);
+	env->SetIntField(jFrame, fid_w, (int)frameRect.size.width);
+	env->SetIntField(jFrame, fid_h, (int)frameRect.size.height);
+	env->SetIntField(jFrame, fid_offsetX, (int)offset.x);
+	env->SetIntField(jFrame, fid_offsetY, (int)offset.y);
+	env->SetIntField(jFrame, fid_sourceWidth, (int)sourceSize.width);
+	env->SetIntField(jFrame, fid_sourceHeight, (int)sourceSize.height);
+	env->SetBooleanField(jFrame, fid_rotated, rotated);
+
+	// release
+	env->DeleteLocalRef(frameClass);
+	env->ReleaseStringUTFChars(jPlist, plist);
+	env->ReleaseStringUTFChars(jAtlas, atlas);
+	env->ReleaseStringUTFChars(jImageName, imageName);
+}
+
 #ifdef __cplusplus
 }
 #endif

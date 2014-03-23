@@ -43,6 +43,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.Layout.Alignment;
 import android.text.Spannable;
@@ -67,6 +69,10 @@ public class CCImage_richlabel {
 	
 	private static final char TAG_START = '[';
 	private static final char TAG_END = ']';
+	
+	// to avoid loading same atlas frequently, keeping many bitmaps may not safe so we only keep last one
+	private static Bitmap sLastAtlas = null;
+	private static String sLastAtlasName = null;
 	
 	private enum SpanType {
 		UNKNOWN,
@@ -95,6 +101,18 @@ public class CCImage_richlabel {
 	    float height;
 	}
 	
+	public static class AtlasFrame {
+		public int x;
+		public int y;
+		public int w;
+		public int h;
+		public int offsetX;
+		public int offsetY;
+		public int sourceWidth;
+		public int sourceHeight;
+		public boolean rotated;
+	}
+	
 	// span info
 	final static class Span {
 		public SpanType type;
@@ -113,11 +131,14 @@ public class CCImage_richlabel {
 		// only for image
 		// offsetY follow opengl rule
 		public String imageName;
+		public String plist;
+		public String atlas;
 		public float scaleX;
 		public float scaleY;
 		public float width;
 		public float height;
 		public float offsetY;
+		public AtlasFrame frame; // only when image is in an atlas
 		
 	    // for link tag
 	    int normalBgColor;
@@ -333,16 +354,25 @@ public class CCImage_richlabel {
                     	if(openSpan != null) {  
                     		// register bitmap and set span for it
                     		// even bitmap is null, span is always set
-                    		Bitmap bitmap = createSpanImage(openSpan);
                     		int bw = 0, bh = 0;
-                    		if(bitmap != null) {
-								imageMap.put(openSpan.imageName, bitmap);
-								bw = bitmap.getWidth();
-								bh = bitmap.getHeight();
+                    		if(!TextUtils.isEmpty(openSpan.plist) && !TextUtils.isEmpty(openSpan.atlas)) {
+                    			openSpan.frame = new AtlasFrame();
+                    			nativeGetSpriteFrameInfo(openSpan.plist, openSpan.atlas, openSpan.imageName, openSpan.frame);
+                    			bw = (int)(openSpan.width != 0 ? openSpan.width : (openSpan.frame.sourceWidth * openSpan.scaleX));
+                    			bh = (int)(openSpan.height != 0 ? openSpan.height : (openSpan.frame.sourceHeight * openSpan.scaleY));
                     		} else {
-                    			bw = (int)openSpan.width;
-                    			bh = (int)openSpan.height;
+                        		Bitmap bitmap = createSpanImage(openSpan);
+                        		if(bitmap != null) {
+    								imageMap.put(openSpan.imageName, bitmap);
+    								bw = bitmap.getWidth();
+    								bh = bitmap.getHeight();
+                        		} else {
+                        			bw = (int)openSpan.width;
+                        			bh = (int)openSpan.height;
+                        		}
                     		}
+
+                    		// set a placeholder span
                     		rich.setSpan(new PlaceholderImageSpan(bw, bh, openSpan.offsetY), 
                     				openSpan.pos,
                     				span.pos,
@@ -625,7 +655,7 @@ public class CCImage_richlabel {
 			range[i].x = layout.getLineStart(i);
 			range[i].y = layout.getLineEnd(i);
 		}
-        
+		
         // iterate every line
         for (int i = 0; i < lineCount; i++) {
             // find image placeholder
@@ -638,7 +668,18 @@ public class CCImage_richlabel {
                     // get span, if one image span matched index, draw the image
                     for(Span span : spans) {
                         if(span.type == SpanType.IMAGE && !span.close && span.pos == j) {
-                        	Bitmap bitmap = imageMap.get(span.imageName);
+                        	Bitmap bitmap = null;
+                        	if(span.frame != null) {
+                        		bitmap = imageMap.get(span.imageName);
+                        		if(bitmap == null) {
+                        			bitmap = extractFrameFromAtlas(span);
+                        			imageMap.put(span.imageName, bitmap);
+                        		}
+                        	} else {
+                            	bitmap = imageMap.get(span.imageName);
+                        	}
+                        	
+                        	// draw, if null, just save rect
                         	if(bitmap != null) {
                         		c.drawBitmap(bitmap, 
                         				offsetX + origin[i].x, 
@@ -656,7 +697,8 @@ public class CCImage_richlabel {
                         				totalHeight - origin[i].y + span.offsetY,
                         				span.width,
                         				span.height);
-                        	}
+                        	}   
+
                             break;
                         }
                     }
@@ -980,6 +1022,10 @@ public class CCImage_richlabel {
 	                            						span.height = Float.parseFloat(pair[1]);
 	                            					} else if("offsety".equals(pair[0])) {
 	                            						span.offsetY = Float.parseFloat(pair[1]);
+	                            					} else if("plist".equals(pair[0])) {
+	                            						span.plist = pair[1];
+	                            					} else if("atlas".equals(pair[0])) {
+	                            						span.atlas = pair[1];
 	                            					}
 	                            				} catch (NumberFormatException e) {
 	                            				}
@@ -1036,6 +1082,95 @@ public class CCImage_richlabel {
 		
 		// return plain str
 		return plain.toString();
+	}
+	
+	private static Bitmap extractFrameFromAtlas(Span span) {	
+		Bitmap bitmap = null;
+		
+		// check cache first
+		Bitmap atlas = null;
+		if(span.atlas.equals(sLastAtlasName)) {
+			atlas = sLastAtlas;
+		} else {
+			if(sLastAtlas != null && !sLastAtlas.isRecycled()) {
+				sLastAtlas.recycle();
+			}
+			sLastAtlas = null;
+		}
+		
+		// find and load atlas image
+		if(atlas == null) {
+			boolean external = span.atlas.startsWith("/");
+			InputStream is = null;
+			try {
+				if(external) {
+					is = new FileInputStream(span.atlas);
+				} else {
+					AssetManager am = Cocos2dxHelper.getAssetManager();
+					String fullPath = nativeFullPathForFilename(span.atlas);
+					if(fullPath.startsWith("assets/"))
+						fullPath = fullPath.substring("assets/".length());
+					is = am.open(fullPath);
+				}
+				atlas = BitmapFactory.decodeStream(is);
+				sLastAtlas = atlas;
+				sLastAtlasName = span.atlas;
+			} catch (Throwable e) {
+			} finally {
+				if(is != null) {
+					try {
+						is.close();
+					} catch (IOException e) {
+					}
+				}
+			}
+		}
+
+		// create final bitmap
+		bitmap = Bitmap.createBitmap(span.frame.sourceWidth, span.frame.sourceHeight, Config.ARGB_8888);
+		Canvas c = new Canvas(bitmap);
+		
+		// transform
+		c.translate(span.frame.sourceWidth / 2, span.frame.sourceHeight / 2);
+		c.translate(span.frame.offsetX, span.frame.offsetY);
+		if(span.frame.rotated) {
+			c.rotate(-90);
+		}
+		
+		// rect of frame
+		Rect src = new Rect(span.frame.x, 
+				span.frame.y,
+				span.frame.x + span.frame.w,
+				span.frame.y + span.frame.h);
+		if(span.frame.rotated) {
+			src.right = span.frame.x + span.frame.h;
+			src.bottom = span.frame.y + span.frame.w;
+		}
+		
+		// dst rect
+		Rect dst = new Rect(-src.width() / 2,
+				-src.height() / 2,
+				src.width() / 2,
+				src.height() / 2);
+		
+		// draw
+		c.drawBitmap(atlas, src, dst, null);
+		
+		// create scaled image
+		float scaleX = span.width != 0 ? (span.width / span.frame.sourceWidth) : span.scaleX;
+		float scaleY = span.height != 0 ? (span.height / span.frame.sourceHeight) : span.scaleY;
+		if(scaleX != 1 || scaleY != 1) {
+			Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 
+					(int)(span.frame.sourceWidth * scaleX), 
+					(int)(span.frame.sourceHeight * scaleY), 
+					true);
+			if(scaled != bitmap) {
+				bitmap.recycle();
+			}
+			bitmap = scaled;
+		}
+		
+		return bitmap;
 	}
 	
 	private static Bitmap createSpanImage(Span span) {
@@ -1134,4 +1269,5 @@ public class CCImage_richlabel {
 	private native static void nativeSaveShadowStrokePadding(float x, float y);
 	private native static void nativeResetBitmapDC();
 	private native static String nativeFullPathForFilename(String filename);
+	private native static void nativeGetSpriteFrameInfo(String plist, String atlas, String imageName, AtlasFrame frame);
 }

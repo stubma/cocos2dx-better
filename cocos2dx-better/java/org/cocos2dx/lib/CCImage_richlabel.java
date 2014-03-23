@@ -360,6 +360,9 @@ public class CCImage_richlabel {
                     			nativeGetSpriteFrameInfo(openSpan.plist, openSpan.atlas, openSpan.imageName, openSpan.frame);
                     			bw = (int)(openSpan.width != 0 ? openSpan.width : (openSpan.frame.sourceWidth * openSpan.scaleX));
                     			bh = (int)(openSpan.height != 0 ? openSpan.height : (openSpan.frame.sourceHeight * openSpan.scaleY));
+                    			
+                    			// just put a null bitmap in map to let it knows there is embedded image
+                    			imageMap.put(openSpan.imageName, null);
                     		} else {
                         		Bitmap bitmap = createSpanImage(openSpan);
                         		if(bitmap != null) {
@@ -623,7 +626,7 @@ public class CCImage_richlabel {
 		
 		// release cached images
 		for(Bitmap b : imageMap.values()) {
-			if(!b.isRecycled()) {
+			if(b != null && !b.isRecycled()) {
 				b.recycle();
 			}
 		}

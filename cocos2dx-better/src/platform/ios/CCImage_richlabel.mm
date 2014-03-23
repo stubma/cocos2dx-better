@@ -853,14 +853,17 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 								// register image, if it starts with '/', treat it as an external image
 								// if image name is empty, skip loading
 								// if image is in an atlas, we need load that atlas and get sprite frame, however we don't load atlas image now
+								NSString* imageName = [NSString stringWithCString:span.imageName
+																		 encoding:NSUTF8StringEncoding];
 								if(span.plist && span.atlas) {
 									CCSpriteFrameCache* fc = CCSpriteFrameCache::sharedSpriteFrameCache();
 									fc->addSpriteFramesWithFile(span.plist, span.atlas);
 									span.frame = fc->spriteFrameByName(span.imageName);
 									openSpan->frame = span.frame;
+									
+									// just put a dummy object in image map to let it knows there is some embedded image to be rendered
+									[s_imageMap setObject:[NSNumber numberWithInt:0] forKey:imageName];
 								} else {
-									NSString* imageName = [NSString stringWithCString:span.imageName
-																			 encoding:NSUTF8StringEncoding];
 									if([imageName length] <= 0)
 										break;
 									if([imageName characterAtIndex:0] == '/') {

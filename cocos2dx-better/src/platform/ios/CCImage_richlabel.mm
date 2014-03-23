@@ -68,11 +68,14 @@ typedef struct Span {
     // only used for image
     // offsetY follow opengl rule
     char* imageName;
+	char* plist;
+	char* atlas;
     float scaleX;
 	float scaleY;
 	float width;
 	float height;
     float offsetY;
+	CCSpriteFrame* frame; // only used when image is in a atlas
     
     // for link tag
     int normalBgColor;
@@ -111,11 +114,18 @@ typedef struct {
 static NSMutableDictionary* s_imageMap = [[NSMutableDictionary alloc] init];
 
 static CGFloat getAscent(void* refCon) {
+	float ascent = 0;
     Span& span = *(Span*)refCon;
-    NSString* name = [NSString stringWithCString:span.imageName
-                                        encoding:NSUTF8StringEncoding];
-    UIImage* image = [s_imageMap objectForKey:name];
-    float ascent = span.height != 0 ? span.height : (image ? (image.size.height * span.scaleY) : 0);
+	if(span.frame) {
+		const CCSize& size = span.frame->getOriginalSizeInPixels();
+		ascent = span.height != 0 ? span.height : (size.height * span.scaleY);
+	} else {
+		NSString* name = [NSString stringWithCString:span.imageName
+											encoding:NSUTF8StringEncoding];
+		UIImage* image = [s_imageMap objectForKey:name];
+		ascent = span.height != 0 ? span.height : (image ? (image.size.height * span.scaleY) : 0);
+	}
+
     ascent += span.offsetY;
     return ascent;
 }
@@ -127,10 +137,15 @@ static CGFloat getDescent(void* refCon) {
 
 static CGFloat getWidth(void* refCon) {
     Span& span = *(Span*)refCon;
-    NSString* name = [NSString stringWithCString:span.imageName
-                                        encoding:NSUTF8StringEncoding];
-    UIImage* image = [s_imageMap objectForKey:name];
-    return span.width != 0 ? span.width : (image ? (image.size.width * span.scaleX) : 0);
+	if(span.frame) {
+		const CCSize& size = span.frame->getOriginalSizeInPixels();
+		return span.width != 0 ? span.width : (size.width * span.scaleX);
+	} else {
+		NSString* name = [NSString stringWithCString:span.imageName
+											encoding:NSUTF8StringEncoding];
+		UIImage* image = [s_imageMap objectForKey:name];
+		return span.width != 0 ? span.width : (image ? (image.size.width * span.scaleX) : 0);
+	}
 }
 
 static CTRunDelegateCallbacks s_runDelegateCallbacks = {
@@ -391,6 +406,9 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                 span.scaleX = span.scaleY = 1;
 								span.width = span.height = 0;
                                 span.offsetY = 0;
+								span.plist = NULL;
+								span.atlas = NULL;
+								span.frame = NULL;
                                 
                                 // if has other parts, check
                                 if([parts count] > 1) {
@@ -413,7 +431,11 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 												span.height = [value floatValue];
 											} else if([@"offsety" isEqualToString:key]) {
                                                 span.offsetY = [value floatValue];
-                                            }
+                                            } else if([@"plist" isEqualToString:key]) {
+												span.plist = (char*)CCUtils::copy([value cStringUsingEncoding:NSUTF8StringEncoding]);
+											} else if([@"atlas" isEqualToString:key]) {
+												span.atlas = (char*)CCUtils::copy([value cStringUsingEncoding:NSUTF8StringEncoding]);
+											}
                                         }
                                     }
                                 }
@@ -491,6 +513,63 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 	return plain;
 }
 
+static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* frame) {
+	string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(atlasFile);
+	UIImage* frameImage = nil;
+	UIImage* image = [UIImage imageWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()]];
+	if(image) {
+		// get frame info
+		const CCSize& sourceSize = frame->getOriginalSizeInPixels();
+		bool rotated = frame->isRotated();
+		const CCRect& frameRect = frame->getRectInPixels();
+		const CCPoint& offset = frame->getOffsetInPixels();
+
+		unsigned char* data = new unsigned char[(int)(sourceSize.width * sourceSize.height * 4)];
+		memset(data, 0, (int)(sourceSize.width * sourceSize.height * 4));
+		
+		// create context
+		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+		CGContextRef ctx = CGBitmapContextCreate(data,
+												 sourceSize.width,
+												 sourceSize.height,
+												 8,
+												 sourceSize.width * 4,
+												 colorSpace,
+												 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+		
+		// start context and setup transform
+		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(sourceSize.width / 2, sourceSize.height / 2));
+		CGContextConcatCTM(ctx, CGAffineTransformMakeTranslation(offset.x, -offset.y));
+		if(rotated) {
+			CGContextConcatCTM(ctx, CGAffineTransformMakeRotation(CC_DEGREES_TO_RADIANS(90)));
+		}
+		
+		// get partial image
+		CGRect rect = CGRectMake(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
+		if(rotated)
+			swap(rect.size.width, rect.size.height);
+		CGImageRef frameCGImage = CGImageCreateWithImageInRect(image.CGImage, rect);
+		
+		// draw frame
+		CGContextDrawImage(ctx,
+						   CGRectMake(-rect.size.width / 2, -rect.size.height / 2, rect.size.width, rect.size.height),
+						   frameCGImage);
+
+		// get final image
+		CGImageRef cgImage = CGBitmapContextCreateImage(ctx);
+		frameImage = [UIImage imageWithCGImage:cgImage];
+		
+		// end
+		CGImageRelease(frameCGImage);
+		CGImageRelease(cgImage);
+		CGContextRelease(ctx);
+		CGColorSpaceRelease(colorSpace);
+		free(data);
+	}
+	
+	return frameImage;
+}
+
 static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans, vector<CCRect>& imageRects) {
     if([s_imageMap count] > 0) {
         // get line count and their origin
@@ -517,9 +596,16 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
                     for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
                         Span& span = *iter;
                         if(span.type == IMAGE && !span.close && span.pos == j) {
-                            NSString* imageName = [NSString stringWithCString:span.imageName
-                                                                     encoding:NSUTF8StringEncoding];
-                            UIImage* image = [s_imageMap objectForKey:imageName];
+							UIImage* image = nil;
+							if(span.frame) {
+								image = extractFrameFromAtlas(span.atlas, span.frame);
+							} else {
+								NSString* imageName = [NSString stringWithCString:span.imageName
+																		 encoding:NSUTF8StringEncoding];
+								image = [s_imageMap objectForKey:imageName];
+							}
+							
+							// if image is got, render, if not, just save rect
 							if(image) {
 								CGRect rect = CGRectMake(offsetX + origin[i].x,
 														 origin[i].y + span.offsetY,
@@ -539,6 +625,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
 																span.width,
 																span.height));
 							}
+
                             break;
                         }
                     }
@@ -691,7 +778,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         int colorStart = 0;
         int fontStart = 0;
         int underlineStart = -1;
-        int imageStart = -1;
+		Span* openSpan = NULL;
         CGColorSpaceRef colorSpace  = CGColorSpaceCreateDeviceRGB();
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
@@ -761,69 +848,80 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                     }
                     case IMAGE:
                     {
-                        if(imageStart > -1) {
-                            CTRunDelegateRef delegate = CTRunDelegateCreate(&s_runDelegateCallbacks, &span);
+                        if(openSpan->pos > -1) {
+							do {
+								// register image, if it starts with '/', treat it as an external image
+								// if image name is empty, skip loading
+								// if image is in an atlas, we need load that atlas and get sprite frame, however we don't load atlas image now
+								if(span.plist && span.atlas) {
+									CCSpriteFrameCache* fc = CCSpriteFrameCache::sharedSpriteFrameCache();
+									fc->addSpriteFramesWithFile(span.plist, span.atlas);
+									span.frame = fc->spriteFrameByName(span.imageName);
+									openSpan->frame = span.frame;
+								} else {
+									NSString* imageName = [NSString stringWithCString:span.imageName
+																			 encoding:NSUTF8StringEncoding];
+									if([imageName length] <= 0)
+										break;
+									if([imageName characterAtIndex:0] == '/') {
+										// map image path to sandbox
+										NSString* path = [@"~/Documents" stringByExpandingTildeInPath];
+										path = [path stringByAppendingPathComponent:imageName];
+										
+										// check image extension
+										NSString* pathWithoutExt = [path stringByDeletingPathExtension];
+										NSString* ext = [path substringFromIndex:[pathWithoutExt length]];
+										bool png = [ext compare:@".png" options:NSCaseInsensitiveSearch] == NSOrderedSame;
+										bool jpg = [ext compare:@".jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
+										[ext compare:@".jpeg" options:NSCaseInsensitiveSearch] == NSOrderedSame;
+										
+										// try to load its data
+										NSData* nsData = [NSData dataWithContentsOfFile:path];
+										if(!nsData)
+											break;
+										
+										// create CGImage from data
+										CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)nsData);
+										CGImageRef cgImage = NULL;
+										if(png) {
+											cgImage = CGImageCreateWithPNGDataProvider(imgDataProvider,
+																					   NULL,
+																					   true,
+																					   kCGRenderingIntentDefault);
+										} else if(jpg) {
+											cgImage = CGImageCreateWithJPEGDataProvider(imgDataProvider,
+																						NULL,
+																						true,
+																						kCGRenderingIntentDefault);
+										} else {
+											// unsupported image format
+											break;
+										}
+										
+										// create UIImage and register it
+										if(cgImage) {
+											UIImage* image = [UIImage imageWithCGImage:cgImage];
+											CGImageRelease(cgImage);
+											[s_imageMap setValue:image forKey:imageName];
+										}
+										
+										// release data provider
+										CGDataProviderRelease(imgDataProvider);
+									} else {
+										string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(span.imageName);
+										UIImage* image = [UIImage imageWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()]];
+										[s_imageMap setValue:image forKey:imageName];
+									}
+								}
+							} while(0);
+							
+							// create a run delegate for image span so that the width and height can be customized
+							CTRunDelegateRef delegate = CTRunDelegateCreate(&s_runDelegateCallbacks, &span);
                             CFAttributedStringSetAttribute(plainCFAStr,
-                                                           CFRangeMake(imageStart, span.pos - imageStart),
+                                                           CFRangeMake(openSpan->pos, span.pos - openSpan->pos),
                                                            kCTRunDelegateAttributeName,
                                                            delegate);
                             CFRelease(delegate);
-                            
-                            // register image, if it starts with '/', treat it as an external image
-							// if image name is empty, skip loading
-                            NSString* imageName = [NSString stringWithCString:span.imageName
-                                                                     encoding:NSUTF8StringEncoding];
-							if([imageName length] <= 0)
-								break;
-                            if([imageName characterAtIndex:0] == '/') {
-                                // map image path to sandbox
-                                NSString* path = [@"~/Documents" stringByExpandingTildeInPath];
-                                path = [path stringByAppendingPathComponent:imageName];
-                                
-                                // check image extension
-                                NSString* pathWithoutExt = [path stringByDeletingPathExtension];
-                                NSString* ext = [path substringFromIndex:[pathWithoutExt length]];
-                                bool png = [ext compare:@".png" options:NSCaseInsensitiveSearch] == NSOrderedSame;
-                                bool jpg = [ext compare:@".jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
-                                    [ext compare:@".jpeg" options:NSCaseInsensitiveSearch] == NSOrderedSame;
-                                
-                                // try to load its data
-                                NSData* nsData = [NSData dataWithContentsOfFile:path];
-                                if(!nsData)
-                                    break;
-                                
-                                // create CGImage from data
-                                CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)nsData);
-                                CGImageRef cgImage = NULL;
-                                if(png) {
-                                    cgImage = CGImageCreateWithPNGDataProvider(imgDataProvider,
-                                                                               NULL,
-                                                                               true,
-                                                                               kCGRenderingIntentDefault);
-                                } else if(jpg) {
-                                    cgImage = CGImageCreateWithJPEGDataProvider(imgDataProvider,
-                                                                                NULL,
-                                                                                true,
-                                                                                kCGRenderingIntentDefault);
-                                } else {
-                                    // unsupported image format
-                                    break;
-                                }
-                                
-                                // create UIImage and register it
-                                if(cgImage) {
-                                    UIImage* image = [UIImage imageWithCGImage:cgImage];
-                                    CGImageRelease(cgImage);
-                                    [s_imageMap setValue:image forKey:imageName];
-                                }
-                                
-                                // release data provider
-                                CGDataProviderRelease(imgDataProvider);
-                            } else {
-								string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(span.imageName);
-                                UIImage* image = [UIImage imageWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()]];
-                                [s_imageMap setValue:image forKey:imageName];
-                            }
                         }
                         break;
                     }
@@ -831,6 +929,9 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                         break;
                 }
             } else {
+				// save open span pointer
+				openSpan = &span;
+				
                 switch(span.type) {
                     case COLOR:
                     {
@@ -955,11 +1056,6 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                     case UNDERLINE:
                     {
                         underlineStart = span.pos;
-                        break;
-                    }
-                    case IMAGE:
-                    {
-                        imageStart = span.pos;
                         break;
                     }
                     default:
@@ -1187,9 +1283,11 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
             Span& span = *iter;
             if(span.type == FONT && !span.close) {
-                free(span.fontName);
+                CC_SAFE_FREE(span.fontName);
             } else if(span.type == IMAGE && !span.close) {
-                free(span.imageName);
+                CC_SAFE_FREE(span.imageName);
+				CC_SAFE_FREE(span.plist);
+				CC_SAFE_FREE(span.atlas);
             }
         }
         [s_imageMap removeAllObjects];

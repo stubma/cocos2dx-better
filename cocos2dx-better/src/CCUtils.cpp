@@ -771,14 +771,16 @@ CCSize CCUtils::measureRichString(const char* pText,
                                   int maxWidth,
                                   float shadowOffsetX,
                                   float shadowOffsetY,
-                                  float strokeSize) {
+                                  float strokeSize,
+								  CCResourceLoader::DECRYPT_FUNC decryptFunc) {
     return CCImage_richlabel::measureRichString(pText,
                                                 pFontName,
                                                 nSize,
                                                 maxWidth,
                                                 shadowOffsetX,
                                                 shadowOffsetY,
-                                                strokeSize);
+                                                strokeSize,
+												decryptFunc);
 }
 
 string CCUtils::makeScreenshot(CCNode* root, const string& path, bool needStencil) {

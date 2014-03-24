@@ -27,6 +27,7 @@
 #include "cocos2d.h"
 #include <string>
 #include "ccMoreTypes.h"
+#include "CCResourceLoader.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	#include <jni.h>
 #endif
@@ -407,6 +408,7 @@ public:
      * @param shadowOffsetX shadow x offset, optional
      * @param shadowOffsetY shadow y offset, optional
      * @param strokeSize border line width, optional
+	 * @param decryptFunc if label has embedded images and they are encrypted, you must provide a decrypt function
      */
     static CCSize measureRichString(const char* pText,
                                     const char* pFontName = NULL,
@@ -414,7 +416,8 @@ public:
                                     int maxWidth = 0,
                                     float shadowOffsetX = 0,
                                     float shadowOffsetY = 0,
-                                    float strokeSize = 0);
+                                    float strokeSize = 0,
+									CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL);
     
     /// start to play internal music randomly
     static void playInternalMusic();

@@ -25,6 +25,7 @@
 #define __CCImage_richlabel__
 
 #include "cocos2d.h"
+#include "CCResourceLoader.h"
 
 using namespace std;
 
@@ -58,7 +59,9 @@ public:
     
     /**
      * Measure a rich string size without creating a OpenGL texture. Measured size
-     * will be exactly same as content size of rich label node.
+     * will be exactly same as content size of rich label node. Well, it may not exactly same
+     * as content size if content scale factor is not 1, but the deviation will be less than 1
+     * pixel
      */
     static CCSize measureRichString(const char* pText,
                                     const char* pFontName = NULL,
@@ -66,7 +69,8 @@ public:
                                     int maxWidth = 0,
                                     float shadowOffsetX = 0,
                                     float shadowOffsetY = 0,
-                                    float strokeSize = 0);
+                                    float strokeSize = 0,
+									CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL);
 	
 	bool initWithRichStringShadowStroke(const char *    pText,
 										int             nWidth      = 0,
@@ -86,7 +90,8 @@ public:
 										float strokeR               = 1,
 										float strokeG               = 1,
 										float strokeB               = 1,
-										float strokeSize            = 1);
+										float strokeSize            = 1,
+										CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL);
     
 	/// shadow and stroke padding value
 	CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCPoint, m_shadowStrokePadding, ShadowStrokePadding);

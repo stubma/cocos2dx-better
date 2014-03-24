@@ -513,10 +513,27 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 	return plain;
 }
 
-static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* frame) {
+static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* frame, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
 	string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(atlasFile);
 	UIImage* frameImage = nil;
-	UIImage* image = [UIImage imageWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()]];
+	
+	// try to load its data
+	NSData* nsData = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:path.c_str()]];
+	if(!nsData)
+		return frameImage;
+	
+	// decrypt
+	if(decryptFunc) {
+		int decLen;
+		const char* dec = (*decryptFunc)((const char*)[nsData bytes], (int)[nsData length], &decLen);
+		nsData = [NSData dataWithBytes:dec length:decLen];
+		free((void*)dec);
+	}
+	
+	// get final image from data
+	UIImage* image = [UIImage imageWithData:nsData];
+	
+	// draw part of it to get normal frame image
 	if(image) {
 		// get frame info
 		const CCSize& sourceSize = frame->getOriginalSizeInPixels();
@@ -570,7 +587,7 @@ static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* fram
 	return frameImage;
 }
 
-static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans, vector<CCRect>& imageRects) {
+static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans, vector<CCRect>& imageRects, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
     if([s_imageMap count] > 0) {
         // get line count and their origin
         CFArrayRef linesArray = CTFrameGetLines(frame);
@@ -598,7 +615,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
                         if(span.type == IMAGE && !span.close && span.pos == j) {
 							UIImage* image = nil;
 							if(span.frame) {
-								image = extractFrameFromAtlas(span.atlas, span.frame);
+								image = extractFrameFromAtlas(span.atlas, span.frame, decryptFunc);
 							} else {
 								NSString* imageName = [NSString stringWithCString:span.imageName
 																		 encoding:NSUTF8StringEncoding];
@@ -731,7 +748,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
     free(range);
 }
 
-static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas, vector<CCRect>* imageRects) {
+static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas, vector<CCRect>* imageRects, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
     bool bRet = false;
     do {
         CC_BREAK_IF(!pText || !pInfo);
@@ -857,7 +874,26 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 																		 encoding:NSUTF8StringEncoding];
 								if(span.plist && span.atlas) {
 									CCSpriteFrameCache* fc = CCSpriteFrameCache::sharedSpriteFrameCache();
-									fc->addSpriteFramesWithFile(span.plist, span.atlas);
+									if(!fc->spriteFrameByName(span.imageName)) {
+										if(decryptFunc) {
+											// load encryptd data
+											unsigned long len;
+											char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(span.atlas, "rb", &len);
+											
+											// create texture
+											int decLen;
+											const char* dec = (*decryptFunc)(data, (int)len, &decLen);
+											CCImage* image = new CCImage();
+											image->initWithImageData((void*)dec, decLen);
+											image->autorelease();
+											CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, span.atlas);
+											
+											// add
+											fc->addSpriteFramesWithFile(span.plist, tex);
+										} else {
+											fc->addSpriteFramesWithFile(span.plist, span.atlas);
+										}
+									}
 									span.frame = fc->spriteFrameByName(span.imageName);
 									openSpan->frame = span.frame;
 									
@@ -882,6 +918,14 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 										NSData* nsData = [NSData dataWithContentsOfFile:path];
 										if(!nsData)
 											break;
+										
+										// decrypt
+										if(decryptFunc) {
+											int decLen;
+											const char* dec = (*decryptFunc)((const char*)[nsData bytes], (int)[nsData length], &decLen);
+											nsData = [NSData dataWithBytes:dec length:decLen];
+											free((void*)dec);
+										}
 										
 										// create CGImage from data
 										CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)nsData);
@@ -1261,7 +1305,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             CTFrameDraw(frame, context);
 			
             // if has cached images, try render those images
-            renderEmbededImages(context, frame, plain, spans, *imageRects);
+            renderEmbededImages(context, frame, plain, spans, *imageRects, decryptFunc);
             
             // if has link tag, build link info
             if(linkMetas)
@@ -1335,7 +1379,8 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														float strokeR,
 														float strokeG,
 														float strokeB,
-														float strokeSize) {
+														float strokeSize,
+														CCResourceLoader::DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = nWidth;
     info.height                 = nHeight;
@@ -1354,7 +1399,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorB             = textTintB;
     info.sizeOnly = false;
     
-    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas, &m_imageRects))
+    if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas, &m_imageRects, decryptFunc))
     {
         return false;
     }
@@ -1374,7 +1419,8 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             int maxWidth,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
-                                            float strokeSize) {
+                                            float strokeSize,
+											CCResourceLoader::DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = maxWidth;
     info.height                 = 0;
@@ -1393,7 +1439,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
     info.tintColorB             = 0;
     info.sizeOnly = true;
     
-    if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, NULL, NULL, NULL)) {
+    if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, NULL, NULL, NULL, decryptFunc)) {
         return CCSizeZero;
     }
     return CCSizeMake(info.width, info.height);

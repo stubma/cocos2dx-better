@@ -24,6 +24,7 @@
 #include "CCImage_richlabel.h"
 #include <jni.h>
 #include "JniHelper.h"
+#include "CCResourceLoader.h"
 
 using namespace std;
 USING_NS_CC;
@@ -54,6 +55,9 @@ public:
 	// this data will pass to CCImage, so it should NOT be released in this class
 	unsigned char* m_pData;
 
+	// decrypt function
+	CCResourceLoader::DECRYPT_FUNC m_decryptFunc;
+
 protected:
 	CLBitmapDC();
 
@@ -65,7 +69,7 @@ public:
 	bool getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
 			float textTintR = 1.0, float textTintG = 1.0, float textTintB = 1.0, bool shadow = false, float shadowDeltaX = 0.0, float shadowDeltaY = 0.0, int shadowColor = 0,
 			float shadowBlur = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
-					0.0, float strokeSize = 0.0, bool sizeOnly = false);
+					0.0, float strokeSize = 0.0, CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL, bool sizeOnly = false);
 
 	bool getBitmapFromJava(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize);
 

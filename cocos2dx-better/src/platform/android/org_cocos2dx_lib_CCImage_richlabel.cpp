@@ -80,6 +80,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeResetBitma
 	bitmapDC.m_linkMetas.clear();
 	bitmapDC.m_imageRects.clear();
 	bitmapDC.m_shadowStrokePadding = CCPointZero;
+	bitmapDC.m_decryptFunc = NULL;
 }
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeFullPathForFilename(JNIEnv* env, jclass clazz, jstring filename) {
@@ -96,8 +97,28 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeGetSpriteF
 	const char* imageName = (const char*)env->GetStringUTFChars(jImageName, NULL);
 
 	// get sprite frame
+	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
 	CCSpriteFrameCache* fc = CCSpriteFrameCache::sharedSpriteFrameCache();
-	fc->addSpriteFramesWithFile(plist, atlas);
+	if(!fc->spriteFrameByName(imageName)) {
+		if(bitmapDC.m_decryptFunc) {
+			// load encryptd data
+			unsigned long len;
+			char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(atlas, "rb", &len);
+
+			// create texture
+			int decLen;
+			const char* dec = (*bitmapDC.m_decryptFunc)(data, (int)len, &decLen);
+			CCImage* image = new CCImage();
+			image->initWithImageData((void*)dec, decLen);
+			image->autorelease();
+			CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, atlas);
+
+			// add
+			fc->addSpriteFramesWithFile(plist, tex);
+		} else {
+			fc->addSpriteFramesWithFile(plist, atlas);
+		}
+	}
 	CCSpriteFrame* frame = fc->spriteFrameByName(imageName);
 
 	// get java frame info
@@ -132,6 +153,34 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeGetSpriteF
 	env->ReleaseStringUTFChars(jPlist, plist);
 	env->ReleaseStringUTFChars(jAtlas, atlas);
 	env->ReleaseStringUTFChars(jImageName, imageName);
+}
+
+JNIEXPORT jbyteArray JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeDecryptData(JNIEnv* env, jclass clazz, jbyteArray jInput) {
+	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
+	if(bitmapDC.m_decryptFunc) {
+		// get c array
+		const char* input = (const char*)env->GetByteArrayElements(jInput, NULL);
+
+		// decrypt
+		int decLen;
+		const char* dec = (*bitmapDC.m_decryptFunc)(input, (int)env->GetArrayLength(jInput), &decLen);
+
+		// free c array
+		env->ReleaseByteArrayElements(jInput, (jbyte*)input, JNI_ABORT);
+
+		// create new array
+		jbyteArray ret = env->NewByteArray(decLen);
+		env->SetByteArrayRegion(ret, 0, decLen, (const jbyte*)dec);
+
+		// free
+		free((void*)dec);
+
+		// return
+		return ret;
+	}
+
+	// not encrypted? just return input
+	return jInput;
 }
 
 #ifdef __cplusplus

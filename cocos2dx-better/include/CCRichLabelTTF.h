@@ -27,6 +27,7 @@
 #include "cocos2d.h"
 #include "CCGradientSprite.h"
 #include "ccMoreTypes.h"
+#include "CCResourceLoader.h"
 
 using namespace std;
 
@@ -86,6 +87,10 @@ private:
 	/// rectangle of every embeded image
 	vector<CCRect> m_imageRects;
 	
+	/// decrypt func, used to decrypt resource
+	/// it will be used when there is embedded image and the image is encrypted
+	CCResourceLoader::DECRYPT_FUNC m_decryptFunc;
+	
 protected:
     CCRichLabelTTF();
 	
@@ -98,25 +103,25 @@ public:
 	/** 
 	 * Creates an label.
      */
-    static CCRichLabelTTF* create();
+    static CCRichLabelTTF* create(CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL);
 	
 	/**
 	 * creates a CCRichLabelTTF with a font name and font size in points
      */
-    static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize);
+    static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize, CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL);
     
     /** 
 	 * creates a CCRichLabelTTF from a fontname, horizontal alignment, dimension in points,  and font size in points.
      */
     static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize,
-                               const CCSize& dimensions, CCTextAlignment hAlignment);
+                               const CCSize& dimensions, CCTextAlignment hAlignment, CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL);
 	
     /** 
 	 * creates a CCRichLabelTTF from a fontname, alignment, dimension in points and font size in points
      */
     static CCRichLabelTTF* create(const char *string, const char *fontName, float fontSize,
                                const CCSize& dimensions, CCTextAlignment hAlignment,
-                               CCVerticalTextAlignment vAlignment);
+                               CCVerticalTextAlignment vAlignment, CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL);
     
     /**
      * To recreate rich labels, because CCRichLabelTTF is a custom visual node, the 
@@ -129,16 +134,16 @@ public:
 	const char* description();
 	
     /** initializes the CCRichLabelTTF with a font name and font size */
-    bool initWithString(const char *string, const char *fontName, float fontSize);
+    bool initWithString(const char *string, const char *fontName, float fontSize, CCResourceLoader::DECRYPT_FUNC decryptFunc);
     
     /** initializes the CCRichLabelTTF with a font name, alignment, dimension and font size */
     bool initWithString(const char *string, const char *fontName, float fontSize,
-                        const CCSize& dimensions, CCTextAlignment hAlignment);
+                        const CCSize& dimensions, CCTextAlignment hAlignment, CCResourceLoader::DECRYPT_FUNC decryptFunc);
 	
     /** initializes the CCRichLabelTTF with a font name, alignment, dimension and font size */
     bool initWithString(const char *string, const char *fontName, float fontSize,
                         const CCSize& dimensions, CCTextAlignment hAlignment,
-                        CCVerticalTextAlignment vAlignment);
+                        CCVerticalTextAlignment vAlignment, CCResourceLoader::DECRYPT_FUNC decryptFunc);
     
     /** initializes the CCRichLabelTTF with a font name, alignment, dimension and font size */
     bool initWithStringAndTextDefinition(const char *string, ccRichFontDefinition &textDefinition);
@@ -167,7 +172,7 @@ public:
     void setFontFillColor(const ccColor3B &tintColor, bool mustUpdateTexture = true);
 
     /** initializes the CCRichLabelTTF */
-    bool init();
+    bool init(CCResourceLoader::DECRYPT_FUNC decryptFunc);
 	
     /** changes the string to render
 	 * @warning Changing the string is as expensive as creating a new CCRichLabelTTF. To obtain better performance use CCLabelAtlas

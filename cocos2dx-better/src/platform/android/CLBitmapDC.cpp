@@ -27,6 +27,7 @@ CLBitmapDC CLBitmapDC::s_BmpDC;
 
 CLBitmapDC::CLBitmapDC() :
 m_pData(NULL),
+m_decryptFunc(NULL),
 m_nWidth(0),
 m_nHeight(0),
 m_shadowStrokePadding(CCPointZero) {
@@ -45,10 +46,10 @@ bool CLBitmapDC::getBitmapFromJava(const char *text, int nWidth, int nHeight, CC
 
 bool CLBitmapDC::getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowDeltaX, float shadowDeltaY, int shadowColor,
-		float shadowBlur, bool stroke, float strokeColorR, float strokeColorG, float strokeColorB, float strokeSize, bool sizeOnly) {
+		float shadowBlur, bool stroke, float strokeColorR, float strokeColorG, float strokeColorB, float strokeSize, CCResourceLoader::DECRYPT_FUNC decryptFunc, bool sizeOnly) {
 	JniMethodInfo methodInfo;
 	if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/CCImage_richlabel", "createRichLabelBitmap",
-			"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFIFZFFFFFZ)V")) {
+			"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFIFZFFFFFZZ)V")) {
 		CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
 		return false;
 	}
@@ -73,7 +74,7 @@ bool CLBitmapDC::getBitmapFromJavaShadowStroke(const char *text, int nWidth, int
 	jstring jstrFont = methodInfo.env->NewStringUTF(fullPathOrFontName.c_str());
 
 	methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstrText, jstrFont, (int) fontSize, textTintR, textTintG, textTintB,
-			eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowColor, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR(), sizeOnly);
+			eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowColor, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR(), decryptFunc != NULL, sizeOnly);
 
 	methodInfo.env->DeleteLocalRef(jstrText);
 	methodInfo.env->DeleteLocalRef(jstrFont);

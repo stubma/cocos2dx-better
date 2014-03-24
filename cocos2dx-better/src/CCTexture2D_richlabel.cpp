@@ -153,7 +153,8 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 												  strokeColorR,
 												  strokeColorG,
 												  strokeColorB,
-												  strokeSize);
+												  strokeSize,
+												  textDefinition->decryptFunc);
 		
 		
 		CC_BREAK_IF(!bRet);

@@ -23,6 +23,7 @@
  ****************************************************************************/
 package org.cocos2dx.lib;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -208,7 +209,7 @@ public class CCImage_richlabel {
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
-	        final float strokeB, final float strokeSize, float contentScaleFactor, boolean sizeOnly) {
+	        final float strokeB, final float strokeSize, float contentScaleFactor, boolean encrypted, boolean sizeOnly) {
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		
@@ -364,7 +365,7 @@ public class CCImage_richlabel {
                     			// just put a null bitmap in map to let it knows there is embedded image
                     			imageMap.put(openSpan.imageName, null);
                     		} else {
-                        		Bitmap bitmap = createSpanImage(openSpan);
+                        		Bitmap bitmap = createSpanImage(openSpan, encrypted);
                         		if(bitmap != null) {
     								imageMap.put(openSpan.imageName, bitmap);
     								bw = bitmap.getWidth();
@@ -612,7 +613,7 @@ public class CCImage_richlabel {
 			// line ascent and descent and the arguments passed to ImageSpan.draw is incorrect! so
 			// I have to postpone image renderring. The ImageSpan is replaced by PlaceholderImageSpan
 			// to reserve correct room for image
-			renderEmbededImages(c, layout, plain, spans, imageMap);
+			renderEmbededImages(c, layout, plain, spans, imageMap, encrypted);
 			
 			// extract link meta info
 			extractLinkMeta(layout, spans, contentScaleFactor);
@@ -632,7 +633,7 @@ public class CCImage_richlabel {
 		}
 	}
 	
-	private static void renderEmbededImages(Canvas c, StaticLayout layout, String plain, List<Span> spans, Map<String, Bitmap> imageMap) {
+	private static void renderEmbededImages(Canvas c, StaticLayout layout, String plain, List<Span> spans, Map<String, Bitmap> imageMap, boolean encrypted) {
 		// quick reject
 		if(imageMap.isEmpty())
 			return;
@@ -675,7 +676,7 @@ public class CCImage_richlabel {
                         	if(span.frame != null) {
                         		bitmap = imageMap.get(span.imageName);
                         		if(bitmap == null) {
-                        			bitmap = extractFrameFromAtlas(span);
+                        			bitmap = extractFrameFromAtlas(span, encrypted);
                         			imageMap.put(span.imageName, bitmap);
                         		}
                         	} else {
@@ -1088,7 +1089,7 @@ public class CCImage_richlabel {
 		return plain.toString();
 	}
 	
-	private static Bitmap extractFrameFromAtlas(Span span) {	
+	private static Bitmap extractFrameFromAtlas(Span span, boolean encrypted) {	
 		Bitmap bitmap = null;
 		
 		// check cache first
@@ -1116,7 +1117,27 @@ public class CCImage_richlabel {
 						fullPath = fullPath.substring("assets/".length());
 					is = am.open(fullPath);
 				}
-				atlas = BitmapFactory.decodeStream(is);
+				
+				// decode directly or decrypt first
+				if(encrypted) {
+					// load encrypted data
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					byte[] buf = new byte[32000];
+					for(int i = 0; i != -1; i = is.read(buf)) {
+						baos.write(buf, 0, i);
+					}
+					
+					// get decrypted data
+					buf = baos.toByteArray();
+					buf = nativeDecryptData(buf);
+					
+					// decode
+					atlas = BitmapFactory.decodeByteArray(buf, 0, buf.length);
+				} else {
+					atlas = BitmapFactory.decodeStream(is);
+				}
+				
+				// cache last bitmap
 				sLastAtlas = atlas;
 				sLastAtlasName = span.atlas;
 			} catch (Throwable e) {
@@ -1177,7 +1198,7 @@ public class CCImage_richlabel {
 		return bitmap;
 	}
 	
-	private static Bitmap createSpanImage(Span span) {
+	private static Bitmap createSpanImage(Span span, boolean encrypted) {
 		// if imageName starts with '/', treat it like external image
 		Bitmap bitmap = null;
 		
@@ -1198,7 +1219,26 @@ public class CCImage_richlabel {
 					fullPath = fullPath.substring("assets/".length());
 				is = am.open(fullPath);
 			}
-			bitmap = BitmapFactory.decodeStream(is);
+			
+			// if encrypted, need call native procedure to get decrypted data
+			// if not, just decode
+			if(encrypted) {
+				// load encrypted data
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				byte[] buf = new byte[2048];
+				for(int i = 0; i != -1; i = is.read(buf)) {
+					baos.write(buf, 0, i);
+				}
+				
+				// get decrypted data
+				buf = baos.toByteArray();
+				buf = nativeDecryptData(buf);
+				
+				// decode
+				bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
+			} else {
+				bitmap = BitmapFactory.decodeStream(is);
+			}
 		} catch (Throwable e) {
 		} finally {
 			if(is != null) {
@@ -1274,4 +1314,5 @@ public class CCImage_richlabel {
 	private native static void nativeResetBitmapDC();
 	private native static String nativeFullPathForFilename(String filename);
 	private native static void nativeGetSpriteFrameInfo(String plist, String atlas, String imageName, AtlasFrame frame);
+	private native static byte[] nativeDecryptData(byte[] buf);
 }

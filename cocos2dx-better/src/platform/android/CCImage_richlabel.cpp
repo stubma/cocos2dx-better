@@ -25,6 +25,7 @@
 #include <jni.h>
 #include "JniHelper.h"
 #include "CLBitmapDC.h"
+#include "CCResourceLoader.h"
 
 using namespace std;
 NS_CC_BEGIN
@@ -49,7 +50,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, int shadowColor, float shadowBlur,
-		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize) {
+		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
 	bool bRet = false;
 	do {
 		CC_BREAK_IF(!pText);
@@ -75,6 +76,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
                                                       strokeG,
                                                       strokeB,
                                                       strokeSize,
+                                                      decryptFunc,
                                                       false));
 
 		// assign the dc.m_pData to m_pData in order to save time
@@ -109,7 +111,8 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             int maxWidth,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
-                                            float strokeSize) {
+                                            float strokeSize,
+                                            CCResourceLoader::DECRYPT_FUNC decryptFunc) {
     CCSize size = CCSizeZero;
 	do {
 		CC_BREAK_IF(!pText);
@@ -135,6 +138,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                                       0,
                                                       0,
                                                       strokeSize,
+                                                      decryptFunc,
                                                       true));
 		size.width = dc.m_nWidth;
 		size.height = dc.m_nHeight;

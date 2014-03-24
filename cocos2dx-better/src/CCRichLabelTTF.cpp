@@ -57,6 +57,7 @@ m_shadowColor(0xff333333),
 m_strokeEnabled(false),
 m_textFillColor(ccWHITE),
 m_stateListener(NULL),
+m_decryptFunc(NULL),
 m_textChanging(true) {
 	m_stateListener = new CCRichLabelTTFLinkStateSynchronizer(this);
 }
@@ -84,10 +85,10 @@ void CCRichLabelTTF::reloadAll() {
     CCTextureCache_richlabel::reloadAllTextures();
 }
 
-CCRichLabelTTF * CCRichLabelTTF::create()
+CCRichLabelTTF * CCRichLabelTTF::create(CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
     CCRichLabelTTF * pRet = new CCRichLabelTTF();
-    if (pRet && pRet->init())
+    if (pRet && pRet->init(decryptFunc))
     {
         pRet->autorelease();
     }
@@ -98,24 +99,24 @@ CCRichLabelTTF * CCRichLabelTTF::create()
     return pRet;
 }
 
-CCRichLabelTTF * CCRichLabelTTF::create(const char *string, const char *fontName, float fontSize)
+CCRichLabelTTF * CCRichLabelTTF::create(const char *string, const char *fontName, float fontSize, CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
     return CCRichLabelTTF::create(string, fontName, fontSize,
-                              CCSizeZero, kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop);
+                              CCSizeZero, kCCTextAlignmentCenter, kCCVerticalTextAlignmentTop, decryptFunc);
 }
 
 CCRichLabelTTF * CCRichLabelTTF::create(const char *string, const char *fontName, float fontSize,
-                                const CCSize& dimensions, CCTextAlignment hAlignment)
+                                const CCSize& dimensions, CCTextAlignment hAlignment, CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
-    return CCRichLabelTTF::create(string, fontName, fontSize, dimensions, hAlignment, kCCVerticalTextAlignmentTop);
+    return CCRichLabelTTF::create(string, fontName, fontSize, dimensions, hAlignment, kCCVerticalTextAlignmentTop, decryptFunc);
 }
 
 CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName, float fontSize,
                                const CCSize &dimensions, CCTextAlignment hAlignment,
-                               CCVerticalTextAlignment vAlignment)
+                               CCVerticalTextAlignment vAlignment, CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
     CCRichLabelTTF *pRet = new CCRichLabelTTF();
-    if(pRet && pRet->initWithString(string, strcmp(fontName, "") == 0 ? "Helvetica" : fontName , fontSize, dimensions, hAlignment, vAlignment))
+    if(pRet && pRet->initWithString(string, strcmp(fontName, "") == 0 ? "Helvetica" : fontName , fontSize, dimensions, hAlignment, vAlignment, decryptFunc))
     {
         pRet->autorelease();
         return pRet;
@@ -124,26 +125,26 @@ CCRichLabelTTF* CCRichLabelTTF::create(const char *string, const char *fontName,
     return NULL;
 }
 
-bool CCRichLabelTTF::init()
+bool CCRichLabelTTF::init(CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
-    return this->initWithString("", "Helvetica", 12);
+    return this->initWithString("", "Helvetica", 12, decryptFunc);
 }
 
 bool CCRichLabelTTF::initWithString(const char *label, const char *fontName, float fontSize,
-                                const CCSize& dimensions, CCTextAlignment alignment)
+                                const CCSize& dimensions, CCTextAlignment alignment, CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
-    return this->initWithString(label, fontName, fontSize, dimensions, alignment, kCCVerticalTextAlignmentTop);
+    return this->initWithString(label, fontName, fontSize, dimensions, alignment, kCCVerticalTextAlignmentTop, decryptFunc);
 }
 
-bool CCRichLabelTTF::initWithString(const char *label, const char *fontName, float fontSize)
+bool CCRichLabelTTF::initWithString(const char *label, const char *fontName, float fontSize, CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
     return this->initWithString(label, fontName, fontSize,
-                                CCSizeZero, kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+                                CCSizeZero, kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop, decryptFunc);
 }
 
 bool CCRichLabelTTF::initWithString(const char *string, const char *fontName, float fontSize,
                                 const CCSize &dimensions, CCTextAlignment hAlignment,
-                                CCVerticalTextAlignment vAlignment)
+                                CCVerticalTextAlignment vAlignment, CCResourceLoader::DECRYPT_FUNC decryptFunc)
 {
     if (CCGradientSprite::init())
     {
@@ -155,6 +156,7 @@ bool CCRichLabelTTF::initWithString(const char *string, const char *fontName, fl
         m_vAlignment  = vAlignment;
         m_pFontName   = new std::string(fontName);
         m_fFontSize   = fontSize;
+		m_decryptFunc = decryptFunc;
         
         this->setString(string);
         
@@ -602,6 +604,8 @@ void CCRichLabelTTF::_updateWithTextDefinition(ccRichFontDefinition & textDefini
 ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolution)
 {
     ccRichFontDefinition texDef;
+	
+	texDef.decryptFunc = m_decryptFunc;
     
     if (adjustForResolution)
         texDef.m_fontSize       =  m_fFontSize * CC_CONTENT_SCALE_FACTOR();

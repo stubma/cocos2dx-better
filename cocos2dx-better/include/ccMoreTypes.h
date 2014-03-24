@@ -25,6 +25,7 @@
 #define __ccMoreTypes_h__
 
 #include "cocos2d.h"
+#include "CCResourceLoader.h"
 
 USING_NS_CC;
 
@@ -132,6 +133,9 @@ static inline ccInsets cci(float t, float l, float r, float b) {
 struct ccRichFontDefinition : public ccFontDefinition {
     // font shadow color
     int m_shadowColor;
+	
+	// decrypt func for embedded image
+	CCResourceLoader::DECRYPT_FUNC decryptFunc;
 };
 
 // color constants

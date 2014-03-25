@@ -98,7 +98,7 @@ int CCSecureUserDefault::getIntegerForKey(const char* pKey, int defaultValue) {
 		const char* plain = getSecureValue(pKey, NULL);
 		int result = defaultValue;
 		if(plain) {
-			scanf(plain, "%d", &result);
+			sscanf(plain, "%d", &result);
 		}
 		
 		// free
@@ -122,7 +122,7 @@ float CCSecureUserDefault::getFloatForKey(const char* pKey, float defaultValue) 
 		const char* plain = getSecureValue(pKey, NULL);
 		float result = defaultValue;
 		if(plain) {
-			scanf(plain, "%f", &result);
+			sscanf(plain, "%f", &result);
 		}
 		
 		// free
@@ -146,7 +146,7 @@ double CCSecureUserDefault::getDoubleForKey(const char* pKey, double defaultValu
 		const char* plain = getSecureValue(pKey, NULL);
 		double result = defaultValue;
 		if(plain) {
-			scanf(plain, "%lf", &result);
+			sscanf(plain, "%lf", &result);
 		}
 		
 		// free

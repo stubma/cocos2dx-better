@@ -191,6 +191,8 @@ public:
     
     float getFontSize();
     void setFontSize(float fontSize);
+	
+	void setDecryptFunc(CCResourceLoader::DECRYPT_FUNC func) { m_decryptFunc = func; }
     
     const char* getFontName();
     void setFontName(const char *fontName);

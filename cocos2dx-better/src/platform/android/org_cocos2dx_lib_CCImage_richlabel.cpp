@@ -80,7 +80,6 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeResetBitma
 	bitmapDC.m_linkMetas.clear();
 	bitmapDC.m_imageRects.clear();
 	bitmapDC.m_shadowStrokePadding = CCPointZero;
-	bitmapDC.m_decryptFunc = NULL;
 }
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeFullPathForFilename(JNIEnv* env, jclass clazz, jstring filename) {

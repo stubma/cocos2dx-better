@@ -526,9 +526,10 @@ static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* fram
 	if(decryptFunc) {
 		int decLen;
 		const char* dec = (*decryptFunc)((const char*)[nsData bytes], (int)[nsData length], &decLen);
-		nsData = [NSData dataWithBytes:dec length:decLen];
-		if([nsData bytes] != dec)
+		if([nsData bytes] != dec) {
+			nsData = [NSData dataWithBytes:dec length:decLen];
 			free((void*)dec);
+		}
 	}
 	
 	// get final image from data
@@ -929,9 +930,10 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 										if(decryptFunc) {
 											int decLen;
 											const char* dec = (*decryptFunc)((const char*)[nsData bytes], (int)[nsData length], &decLen);
-											nsData = [NSData dataWithBytes:dec length:decLen];
-											if([nsData bytes] != dec)
+											if([nsData bytes] != dec) {
+												nsData = [NSData dataWithBytes:dec length:decLen];
 												free((void*)dec);
+											}
 										}
 										
 										// create CGImage from data

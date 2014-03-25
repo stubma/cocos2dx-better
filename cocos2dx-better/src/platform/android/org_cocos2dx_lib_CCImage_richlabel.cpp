@@ -170,9 +170,6 @@ JNIEXPORT jbyteArray JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeDecr
 		int decLen;
 		const char* dec = (*bitmapDC.m_decryptFunc)(input, (int)env->GetArrayLength(jInput), &decLen);
 
-		// free c array
-		env->ReleaseByteArrayElements(jInput, (jbyte*)input, JNI_ABORT);
-
 		// create new array
 		jbyteArray ret = env->NewByteArray(decLen);
 		env->SetByteArrayRegion(ret, 0, decLen, (const jbyte*)dec);
@@ -180,6 +177,7 @@ JNIEXPORT jbyteArray JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeDecr
 		// free
 		if(input != dec)
 			free((void*)dec);
+		env->ReleaseByteArrayElements(jInput, (jbyte*)input, JNI_ABORT);
 
 		// return
 		return ret;

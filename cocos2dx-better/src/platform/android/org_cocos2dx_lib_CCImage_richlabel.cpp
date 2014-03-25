@@ -115,6 +115,11 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeGetSpriteF
 
 			// add
 			fc->addSpriteFramesWithFile(plist, tex);
+
+			// free
+			if(data != dec)
+				free((void*)dec);
+			free(data);
 		} else {
 			fc->addSpriteFramesWithFile(plist, atlas);
 		}
@@ -173,7 +178,8 @@ JNIEXPORT jbyteArray JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeDecr
 		env->SetByteArrayRegion(ret, 0, decLen, (const jbyte*)dec);
 
 		// free
-		free((void*)dec);
+		if(input != dec)
+			free((void*)dec);
 
 		// return
 		return ret;

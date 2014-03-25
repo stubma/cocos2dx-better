@@ -57,6 +57,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fon
 	tempDef.m_vertAlignment = vAlignment;
 	tempDef.m_fontFillColor = ccWHITE;
     tempDef.m_shadowColor = 0;
+	tempDef.decryptFunc = NULL;
     
 	return initWithRichString(text, &tempDef);
 	

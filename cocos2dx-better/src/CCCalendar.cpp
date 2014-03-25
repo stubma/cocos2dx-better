@@ -121,7 +121,6 @@ int CCCalendar::getYear() {
     int ret = env->CallIntMethod(c, CALENDAR_GET, YEAR);
     env->DeleteLocalRef(c);
     return ret;
-	return 0;
 #else
     CCLOGERROR("CCCalendar::getYear is not implemented for this platform, please finish it");
     return 0;

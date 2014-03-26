@@ -29,7 +29,7 @@
 NS_CC_BEGIN
 
 template <typename T>
-class CCCallFuncT : public CCCallFunc {
+class CC_DLL CCCallFuncT : public CCCallFunc {
 public:
     /// function pointer of target
     typedef void (CCObject::*SEL_CallFuncT)(T);

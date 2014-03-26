@@ -563,6 +563,7 @@
 		923968D4185591DB0063E8A1 /* VolatileTexture_richlabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolatileTexture_richlabel.h; sourceTree = "<group>"; };
 		923C785A18A120B500DD8D9A /* entities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entities.c; sourceTree = "<group>"; };
 		923C785B18A120B500DD8D9A /* entities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
+		923DBA9518E2A91D00BD442F /* CCCallFuncNT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncNT.h; sourceTree = "<group>"; };
 		92405C38182B641700E46357 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		924381991883E43100ECA91A /* CCLayerClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLayerClip.cpp; sourceTree = "<group>"; };
 		9243819C1883E46B00ECA91A /* CCLayerClip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCLayerClip.h; sourceTree = "<group>"; };
@@ -1346,6 +1347,7 @@
 				92396893185591DB0063E8A1 /* CCTreeFadeIn.h */,
 				92396894185591DB0063E8A1 /* CCTreeFadeOut.h */,
 				922D3C8618C970B200E9AA9E /* CCCallFuncT.h */,
+				923DBA9518E2A91D00BD442F /* CCCallFuncNT.h */,
 			);
 			name = action;
 			sourceTree = "<group>";

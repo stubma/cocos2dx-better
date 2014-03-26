@@ -82,6 +82,7 @@
 #include "CCTreeFadeIn.h"
 #include "CCTreeFadeOut.h"
 #include "CCCallFuncT.h"
+#include "CCCallFuncNT.h"
 #include "CCBlur.h"
 
 // db

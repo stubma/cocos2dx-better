@@ -63,8 +63,13 @@ source.dir=src;${user.home}/../../${c2dx.root}/cocos2dx/platform/android/java/sr
 * in Android.mk, you must link cocos2dx-better library with whole archive option, something like below:
 
 ```
+... more
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx-better
+include $(BUILD_SHARED_LIBRARY)
+$(call import-module,cocos2dx-better)
 ```
+
+You need only to import cocos2dx-better module because cocos2dx-better module already imports cocos2d-x module.
 
 If not clear, refer to demo code.
 

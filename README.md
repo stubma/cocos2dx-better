@@ -60,6 +60,12 @@ export NDK_MODULE_PATH=$C2DX_ROOT:${C2DX_ROOT}/cocos2dx/platform/third_party/and
 source.dir=src;${user.home}/../../${c2dx.root}/cocos2dx/platform/android/java/src;${user.home}/../../${c2dx.root}/../cocos2dx-better/cocos2dx-better/java
 ```
 
+* in Android.mk, you must link cocos2dx-better library with whole archive option, something like below:
+
+```
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx-better
+```
+
 If not clear, refer to demo code.
 
 How to use CCImagePicker
@@ -97,12 +103,6 @@ Recently I added a CCImagePicker wrapper, it supports iOS and Android. In iOS, j
 <uses-feature
     android:name="android.hardware.camera.front"
     android:required="false" />
-```
-
-* in Android.mk, you must link cocos2dx-better library with whole archive option, something like below:
-
-```
-LOCAL_WHOLE_STATIC_LIBRARIES += cocos2dx-better
 ```
 
 And that is it! No more settings needed. Easy to use, powerful, view its demo for fun!

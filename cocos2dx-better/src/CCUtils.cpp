@@ -549,10 +549,92 @@ int64_t CCUtils::currentTimeMillis() {
 	return when;
 }
 
+const CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
+    // remove head and tailing brace, bracket, parentheses
+    size_t start = 0;
+    size_t end = s.length() - 1;
+    char c = s[start];
+    while(c == '{' || c == '[' || c == '(') {
+        start++;
+        c = s[start];
+    }
+    c = s[end];
+    while(c == '}' || c == ']' || c == ')') {
+        end--;
+        c = s[end];
+    }
+    
+    // clear
+    s_tmpArray.removeAllObjects();
+    
+    // iterate string
+    size_t compStart = start;
+    for(size_t i = start; i <= end; i++) {
+        c = s[i];
+        if(c == sep) {
+            s_tmpArray.addObject(CCInteger::create(atoi(s.substr(compStart, i - compStart).c_str())));
+            compStart = i + 1;
+        } else if(c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+            if(compStart == i) {
+                compStart++;
+            }
+        }
+    }
+    
+    // last comp
+    if(compStart <= end) {
+        s_tmpArray.addObject(CCInteger::create(atoi(s.substr(compStart, end - compStart + 1).c_str())));
+    }
+    
+    // return
+    return s_tmpArray;
+}
+
+const CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
+    // remove head and tailing brace, bracket, parentheses
+    size_t start = 0;
+    size_t end = s.length() - 1;
+    char c = s[start];
+    while(c == '{' || c == '[' || c == '(') {
+        start++;
+        c = s[start];
+    }
+    c = s[end];
+    while(c == '}' || c == ']' || c == ')') {
+        end--;
+        c = s[end];
+    }
+    
+    // clear
+    s_tmpArray.removeAllObjects();
+    
+    // iterate string
+    size_t compStart = start;
+    for(size_t i = start; i <= end; i++) {
+        c = s[i];
+        if(c == sep) {
+            s_tmpArray.addObject(CCFloat::create(atof(s.substr(compStart, i - compStart).c_str())));
+            compStart = i + 1;
+        } else if(c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+            if(compStart == i) {
+                compStart++;
+            }
+        }
+    }
+    
+    // last comp
+    if(compStart <= end) {
+        s_tmpArray.addObject(CCFloat::create(atof(s.substr(compStart, end - compStart + 1).c_str())));
+    }
+    
+    // return
+    return s_tmpArray;
+}
+
 CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep) {
     // remove head and tailing brace, bracket, parentheses
-    int start = 0;
-    int end = s.length() - 1;
+    size_t start = 0;
+    size_t end = s.length() - 1;
     char c = s[start];
     while(c == '{' || c == '[' || c == '(') {
         start++;
@@ -568,8 +650,8 @@ CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep
     s_tmpStringList.clear();
     
     // iterate string
-    int compStart = start;
-    for(int i = start; i <= end; i++) {
+    size_t compStart = start;
+    for(size_t i = start; i <= end; i++) {
         c = s[i];
         if(c == sep) {
             s_tmpStringList.push_back(s.substr(compStart, i - compStart));

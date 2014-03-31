@@ -89,7 +89,7 @@ string CCBase64::encode(const void* data, int len) {
 			result[4 * i + 1] = base64Char[((orig[3 * i] & 0x3) << 4) & 0x3F];
 			result[4 * i + 2] = '=';
 		}
-		result[4*i+3] = '=';
+		result[4 * i + 3] = '=';
 	}
 	
 	result[numResultBytes] = '\0';

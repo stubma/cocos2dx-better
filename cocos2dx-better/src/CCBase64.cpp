@@ -96,7 +96,7 @@ string CCBase64::encode(const void* data, int len) {
     string ret = result;
     delete[] result;
     
-	return result;
+	return ret;
 }
 
 const char* CCBase64::decodeAsCString(const string& data, int* outLen) {

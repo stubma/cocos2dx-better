@@ -29,7 +29,6 @@
 
 NS_CC_BEGIN
 
-CCUtils::StringList CCUtils::s_tmpStringList;
 CCArray CCUtils::s_tmpArray;
 
 unsigned char CCUtils::UnitScalarToByte(float x) {
@@ -549,7 +548,7 @@ int64_t CCUtils::currentTimeMillis() {
 	return when;
 }
 
-const CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
+CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
     size_t end = s.length() - 1;
@@ -590,7 +589,7 @@ const CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
     return s_tmpArray;
 }
 
-const CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
+CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
     size_t end = s.length() - 1;
@@ -631,7 +630,7 @@ const CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep)
     return s_tmpArray;
 }
 
-CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep) {
+CCArray& CCUtils::componentsOfString(const string& s, const char sep) {
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
     size_t end = s.length() - 1;
@@ -647,14 +646,14 @@ CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep
     }
     
     // returned string list
-    s_tmpStringList.clear();
+    s_tmpArray.removeAllObjects();
     
     // iterate string
     size_t compStart = start;
     for(size_t i = start; i <= end; i++) {
         c = s[i];
         if(c == sep) {
-            s_tmpStringList.push_back(s.substr(compStart, i - compStart));
+            s_tmpArray.addObject(CCString::create(s.substr(compStart, i - compStart)));
             compStart = i + 1;
         } else if(c == ' ' || c == '\t' || c == '\r' || c == '\n') {
             if(compStart == i) {
@@ -665,68 +664,70 @@ CCUtils::StringList& CCUtils::componentsOfString(const string& s, const char sep
     
     // last comp
     if(compStart <= end) {
-        s_tmpStringList.push_back(s.substr(compStart, end - compStart + 1));
+        s_tmpArray.addObject(CCString::create(s.substr(compStart, end - compStart + 1)));
     }
     
     // return
-    return s_tmpStringList;
+    return s_tmpArray;
 }
 
 CCPoint CCUtils::ccpFromString(const string& s) {
-    StringList comp = componentsOfString(s, ',');
+    CCArray& comp = componentsOfString(s, ',');
     float x = 0, y = 0;
-    if(comp.size() > 0) {
-        x = atof(comp.at(0).c_str());
+    if(comp.count() > 0) {
+        x = atof(((CCString*)comp.objectAtIndex(0))->getCString());
     }
-    if(comp.size() > 1) {
-        y = atof(comp.at(1).c_str());
+    if(comp.count() > 1) {
+        y = atof(((CCString*)comp.objectAtIndex(1))->getCString());
     }
     return ccp(x, y);
 }
 
 CCSize CCUtils::ccsFromString(const string& s) {
-    StringList comp = componentsOfString(s, ',');
+    CCArray& comp = componentsOfString(s, ',');
     float x = 0, y = 0;
-    if(comp.size() > 0) {
-        x = atof(comp.at(0).c_str());
+    if(comp.count() > 0) {
+        x = atof(((CCString*)comp.objectAtIndex(0))->getCString());
     }
-    if(comp.size() > 1) {
-        y = atof(comp.at(1).c_str());
+    if(comp.count() > 1) {
+        y = atof(((CCString*)comp.objectAtIndex(1))->getCString());
     }
     return CCSizeMake(x, y);
 }
 
 CCRect CCUtils::ccrFromString(const string& s) {
-    StringList comp = componentsOfString(s, ',');
+    CCArray& comp = componentsOfString(s, ',');
     float x = 0, y = 0, w = 0, h = 0;
-    if(comp.size() > 0) {
-        x = atof(comp.at(0).c_str());
+    if(comp.count() > 0) {
+        x = atof(((CCString*)comp.objectAtIndex(0))->getCString());
     }
-    if(comp.size() > 1) {
-        y = atof(comp.at(1).c_str());
+    if(comp.count() > 1) {
+        y = atof(((CCString*)comp.objectAtIndex(1))->getCString());
     }
-    if(comp.size() > 2) {
-        w = atof(comp.at(2).c_str());
+    if(comp.count() > 2) {
+        w = atof(((CCString*)comp.objectAtIndex(2))->getCString());
     }
-    if(comp.size() > 3) {
-        h = atof(comp.at(3).c_str());
+    if(comp.count() > 3) {
+        h = atof(((CCString*)comp.objectAtIndex(3))->getCString());
     }
     return CCRectMake(x, y, w, h);
 }
 
 CCArray& CCUtils::arrayFromString(const string& s) {
-    StringList comp = componentsOfString(s, ',');
+    CCArray& comp = componentsOfString(s, ',');
     
     // clear
     s_tmpArray.removeAllObjects();
     
     // iterator components
-    for(StringList::iterator iter = comp.begin(); iter != comp.end(); iter++) {
-        string& cs = *iter;
+    CCObject* obj;
+    CCARRAY_FOREACH(&comp, obj) {
+        CCString* ccs = (CCString*)obj;
+        string cs = ccs->getCString();
         if(cs.length() > 0) {
             if(cs[0] == '\'' || cs[0] == '"') {
-                int start = 1;
-                int end = cs.length() - 1;
+                size_t start = 1;
+                size_t end = cs.length() - 1;
                 if(cs[end] == '\'' || cs[end] == '"') {
                     end--;
                 }

@@ -218,8 +218,8 @@ int CCUtils::getCpuHz() {
     // check
     if(startsWith(hw, "iPhone")) {
         string majorMinor = hw.substr(6);
-        StringList& parts = componentsOfString(majorMinor, ',');
-        int major = atoi(parts.at(0).c_str());
+        CCArray& parts = componentsOfString(majorMinor, ',');
+        int major = atoi(((CCString*)parts.objectAtIndex(0))->getCString());
         if(major < 4)
             return 500000000;
         else if(major == 4)
@@ -228,8 +228,8 @@ int CCUtils::getCpuHz() {
             return 1500000000;
     } else if(startsWith(hw, "iPod")) {
         string majorMinor = hw.substr(4);
-        StringList& parts = componentsOfString(majorMinor, ',');
-        int major = atoi(parts.at(0).c_str());
+        CCArray& parts = componentsOfString(majorMinor, ',');
+        int major = atoi(((CCString*)parts.objectAtIndex(0))->getCString());
         if(major < 4)
             return 500000000;
         else if(major == 4)
@@ -238,8 +238,8 @@ int CCUtils::getCpuHz() {
             return 1500000000;
     } else if(startsWith(hw, "iPad")) {
         string majorMinor = hw.substr(4);
-        StringList& parts = componentsOfString(majorMinor, ',');
-        int major = atoi(parts.at(0).c_str());
+        CCArray& parts = componentsOfString(majorMinor, ',');
+        int major = atoi(((CCString*)parts.objectAtIndex(0))->getCString());
         if(major < 2)
             return 500000000;
         else if(major == 2)

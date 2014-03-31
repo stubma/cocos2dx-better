@@ -293,7 +293,7 @@ public:
      * @param sep separator character
      * @return a const vector, must copy it if you want to keep its content
      */
-    static StringList& componentsOfString(const string& s, const char sep);
+    static CCArray& componentsOfString(const string& s, const char sep);
     
     /**
      * split string into components by a separator
@@ -304,7 +304,7 @@ public:
      * @param sep separator character
      * @return a const CCArray, must copy it if you want to keep its content
      */
-    static const CCArray& intComponentsOfString(const string& s, const char sep);
+    static CCArray& intComponentsOfString(const string& s, const char sep);
     
     /**
      * split string into components by a separator
@@ -315,7 +315,7 @@ public:
      * @param sep separator character
      * @return a const CCArray, must copy it if you want to keep its content
      */
-    static const CCArray& floatComponentsOfString(const string& s, const char sep);
+    static CCArray& floatComponentsOfString(const string& s, const char sep);
     
     /**
      * parse a CCPoint from a string in format {x,y}, such as {3.2,3.4}.

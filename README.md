@@ -117,3 +117,4 @@ Optional
 Some optional codes is in cocos2dx-better/optional folder. Those code by default is not compiled into cocos2dx-better library because they may depend on other components.
 
 * B2DebugDraw: it is box2d debug drawing layer, it requires box2d
+* File templates: it is file templates for Xcode. If you like that, you can copy Templates folder to ~/Library/Developer/Xcode

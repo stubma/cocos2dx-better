@@ -185,6 +185,10 @@ void CCSecureUserDefault::setBoolForKey(const char* pKey, bool value) {
 		const char* enc = (*m_encryptFunc)(value ? "true" : "false", value ? 4 : 5, &encLen);
 		string b64 = CCBase64::encode(enc, encLen);
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
+        
+        // free
+        if(enc && pKey != enc)
+            free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setBoolForKey(pKey, value);
 	}
@@ -198,6 +202,10 @@ void CCSecureUserDefault::setIntegerForKey(const char* pKey, int value) {
 		const char* enc = (*m_encryptFunc)(buf, (int)strlen(buf), &encLen);
 		string b64 = CCBase64::encode(enc, encLen);
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
+        
+        // free
+        if(enc && pKey != enc)
+            free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setIntegerForKey(pKey, value);
 	}
@@ -211,6 +219,10 @@ void CCSecureUserDefault::setFloatForKey(const char* pKey, float value) {
 		const char* enc = (*m_encryptFunc)(buf, (int)strlen(buf), &encLen);
 		string b64 = CCBase64::encode(enc, encLen);
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
+        
+        // free
+        if(enc && pKey != enc)
+            free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setFloatForKey(pKey, value);
 	}
@@ -224,6 +236,10 @@ void CCSecureUserDefault::setDoubleForKey(const char* pKey, double value) {
 		const char* enc = (*m_encryptFunc)(buf, (int)strlen(buf), &encLen);
 		string b64 = CCBase64::encode(enc, encLen);
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
+        
+        // free
+        if(enc && pKey != enc)
+            free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setDoubleForKey(pKey, value);
 	}
@@ -235,6 +251,10 @@ void CCSecureUserDefault::setStringForKey(const char* pKey, const string& value)
 		const char* enc = (*m_encryptFunc)(value.c_str(), (int)value.length(), &encLen);
 		string b64 = CCBase64::encode(enc, encLen);
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
+        
+        // free
+        if(enc && pKey != enc)
+            free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, value);
 	}

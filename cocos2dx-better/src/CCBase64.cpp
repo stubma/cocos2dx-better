@@ -93,6 +93,9 @@ string CCBase64::encode(const void* data, int len) {
 	}
 	
 	result[numResultBytes] = '\0';
+    string ret = result;
+    delete[] result;
+    
 	return result;
 }
 

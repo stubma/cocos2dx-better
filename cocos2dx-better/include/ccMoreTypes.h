@@ -25,11 +25,14 @@
 #define __ccMoreTypes_h__
 
 #include "cocos2d.h"
-#include "CCResourceLoader.h"
 
 USING_NS_CC;
 
 NS_CC_BEGIN
+
+// general function type
+typedef const char* (*CC_DECRYPT_FUNC)(const char*, int, int*);
+typedef const char* (*CC_ENCRYPT_FUNC)(const char*, int, int*);
 
 /// CCPoint constant
 static const CCPoint CCPointCenter = ccp(0.5f, 0.5f);
@@ -135,7 +138,7 @@ struct ccRichFontDefinition : public ccFontDefinition {
     int m_shadowColor;
 	
 	// decrypt func for embedded image
-	CCResourceLoader::DECRYPT_FUNC decryptFunc;
+	CC_DECRYPT_FUNC decryptFunc;
 };
 
 // color constants

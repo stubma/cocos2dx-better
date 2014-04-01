@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include "CLBitmapDC.h"
 
 #ifdef __cplusplus
@@ -189,3 +191,5 @@ JNIEXPORT jbyteArray JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeDecr
 #ifdef __cplusplus
 }
 #endif
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

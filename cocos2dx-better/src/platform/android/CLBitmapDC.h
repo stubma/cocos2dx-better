@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include "CCImage_richlabel.h"
 #include <jni.h>
 #include "JniHelper.h"
@@ -56,7 +58,7 @@ public:
 	unsigned char* m_pData;
 
 	// decrypt function
-	CCResourceLoader::DECRYPT_FUNC m_decryptFunc;
+	CC_DECRYPT_FUNC m_decryptFunc;
 
 protected:
 	CLBitmapDC();
@@ -69,7 +71,7 @@ public:
 	bool getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
 			float textTintR = 1.0, float textTintG = 1.0, float textTintB = 1.0, bool shadow = false, float shadowDeltaX = 0.0, float shadowDeltaY = 0.0, int shadowColor = 0,
 			float shadowBlur = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
-					0.0, float strokeSize = 0.0, CCResourceLoader::DECRYPT_FUNC decryptFunc = NULL, bool sizeOnly = false);
+					0.0, float strokeSize = 0.0, CC_DECRYPT_FUNC decryptFunc = NULL, bool sizeOnly = false);
 
 	bool getBitmapFromJava(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize);
 
@@ -78,3 +80,5 @@ public:
 		return ((value << 8 & 0xffffff00) | (value >> 24 & 0x000000ff));
 	}
 };
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

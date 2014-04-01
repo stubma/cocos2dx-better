@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include <jni.h>
 #include "cocos2d.h"
 #include "cocos2d-better.h"
@@ -56,3 +58,5 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCUtils_nativeRelease
 #ifdef __cplusplus
 }
 #endif
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

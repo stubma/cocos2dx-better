@@ -125,37 +125,40 @@ const char* CCBase64::decode(const string& data, int* outLen) {
 		haveInitedBase64DecodeTable = true;
 	}
 	
+    int k = 0;
+    char* result = NULL;
 	const char* in = data.c_str();
-	unsigned char* out = (unsigned char*)strDupSize(in); // ensures we have enough space
-	int k = 0;
-	size_t jMax = strlen(in) - 3;
-	
-	// in case "in" is not a multiple of 4 bytes (although it should be)
-	for (int j = 0; j < jMax; j += 4) {
-		char inTmp[4], outTmp[4];
-		for (int i = 0; i < 4; ++i) {
-			inTmp[i] = in[i + j];
-			outTmp[i] = base64DecodeTable[(unsigned char)inTmp[i]];
-			if ((outTmp[i] & 0x80) != 0)
-				outTmp[i] = 0; // pretend the input was 'A'
-		}
-		
-		out[k++] = (outTmp[0] << 2) | (outTmp[1] >> 4);
-		out[k++] = (outTmp[1] << 4) | (outTmp[2] >> 2);
-		out[k++] = (outTmp[2] << 6) | outTmp[3];
-	}
-	
-	// length of decoded
-	if(outLen)
-		*outLen = k;
-	
-	// create returned array
-	char* result = NULL;
-	if(k > 0) {
-		result = (char*)malloc(sizeof(char) * k);
-		memmove(result, out, k);
-	}
-	delete[] out;
+    size_t inLen = strlen(in);
+    if(inLen >= 3) {
+        size_t jMax = inLen - 3;
+        unsigned char* out = (unsigned char*)strDupSize(in); // ensures we have enough space
+        
+        // in case "in" is not a multiple of 4 bytes (although it should be)
+        for (int j = 0; j < jMax; j += 4) {
+            char inTmp[4], outTmp[4];
+            for (int i = 0; i < 4; ++i) {
+                inTmp[i] = in[i + j];
+                outTmp[i] = base64DecodeTable[(unsigned char)inTmp[i]];
+                if ((outTmp[i] & 0x80) != 0)
+                    outTmp[i] = 0; // pretend the input was 'A'
+            }
+            
+            out[k++] = (outTmp[0] << 2) | (outTmp[1] >> 4);
+            out[k++] = (outTmp[1] << 4) | (outTmp[2] >> 2);
+            out[k++] = (outTmp[2] << 6) | outTmp[3];
+        }
+        
+        // create returned array
+        if(k > 0) {
+            result = (char*)malloc(sizeof(char) * k);
+            memmove(result, out, k);
+        }
+        delete[] out;
+    }
+    
+    // length of decoded
+    if(outLen)
+        *outLen = k;
 	
 	return result;
 }

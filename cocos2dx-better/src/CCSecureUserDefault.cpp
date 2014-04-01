@@ -42,7 +42,7 @@ CCSecureUserDefault* CCSecureUserDefault::getInstance() {
 	return s_instance;
 }
 
-void CCSecureUserDefault::init(ENCRYPT_FUNC eFunc, DECRYPT_FUNC dFunc) {
+void CCSecureUserDefault::init(CC_ENCRYPT_FUNC eFunc, CC_DECRYPT_FUNC dFunc) {
 	CCSecureUserDefault* d = CCSecureUserDefault::getInstance();
 	d->m_encryptFunc = eFunc;
 	d->m_decryptFunc = dFunc;

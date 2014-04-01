@@ -513,7 +513,7 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
 	return plain;
 }
 
-static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* frame, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
+static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* frame, CC_DECRYPT_FUNC decryptFunc) {
 	string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(atlasFile);
 	UIImage* frameImage = nil;
 	
@@ -589,7 +589,7 @@ static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* fram
 	return frameImage;
 }
 
-static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans, vector<CCRect>& imageRects, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
+static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans, vector<CCRect>& imageRects, CC_DECRYPT_FUNC decryptFunc) {
     if([s_imageMap count] > 0) {
         // get line count and their origin
         CFArrayRef linesArray = CTFrameGetLines(frame);
@@ -750,7 +750,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
     free(range);
 }
 
-static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas, vector<CCRect>* imageRects, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
+static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas, vector<CCRect>* imageRects, CC_DECRYPT_FUNC decryptFunc) {
     bool bRet = false;
     do {
         CC_BREAK_IF(!pText || !pInfo);
@@ -1389,7 +1389,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														float strokeG,
 														float strokeB,
 														float strokeSize,
-														CCResourceLoader::DECRYPT_FUNC decryptFunc) {
+														CC_DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = nWidth;
     info.height                 = nHeight;
@@ -1429,7 +1429,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
                                             float strokeSize,
-											CCResourceLoader::DECRYPT_FUNC decryptFunc) {
+											CC_DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = maxWidth;
     info.height                 = 0;

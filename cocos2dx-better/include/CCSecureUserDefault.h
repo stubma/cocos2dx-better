@@ -25,6 +25,7 @@
 #define __CCSecureUserDefault__
 
 #include "cocos2d.h"
+#include "ccMoreTypes.h"
 
 using namespace std;
 
@@ -34,17 +35,10 @@ NS_CC_BEGIN
  * You can set a decrypt and encrypt method for it. If not set, it is just same as
  * CCUserDefault
  */
-class CC_DLL CCSecureUserDefault {
-public:
-	/// decrypt function pointer
-    typedef const char* (*DECRYPT_FUNC)(const char*, int, int*);
-	
-	/// encrypt function pointer
-    typedef const char* (*ENCRYPT_FUNC)(const char*, int, int*);
-	
+class CC_DLL CCSecureUserDefault {	
 private:
-	DECRYPT_FUNC m_decryptFunc;
-	ENCRYPT_FUNC m_encryptFunc;
+	CC_DECRYPT_FUNC m_decryptFunc;
+	CC_ENCRYPT_FUNC m_encryptFunc;
 	
 protected:
 	CCSecureUserDefault();
@@ -59,7 +53,7 @@ public:
 	static CCSecureUserDefault* getInstance();
 	
 	/// init
-	static void init(ENCRYPT_FUNC eFunc, DECRYPT_FUNC dFunc);
+	static void init(CC_ENCRYPT_FUNC eFunc, CC_DECRYPT_FUNC dFunc);
 	
 	/// default all defaults
     static void purge();

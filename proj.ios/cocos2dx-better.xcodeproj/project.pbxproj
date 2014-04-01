@@ -170,6 +170,15 @@
 		928BB05B18DB184200670A3B /* CBTMXTileSetInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB05918DB184200670A3B /* CBTMXTileSetInfo.cpp */; };
 		928BB05F18DB288700670A3B /* CBTMXMapInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */; };
 		928BB06318DB2E2F00670A3B /* CBTMXLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */; };
+		9292C87918EA5D4200915B3A /* CCAssetInputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C86D18EA5D4200915B3A /* CCAssetInputStream_android.cpp */; };
+		9292C87A18EA5D4200915B3A /* CCAssetOutputStream_android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C86F18EA5D4200915B3A /* CCAssetOutputStream_android.cpp */; };
+		9292C87B18EA5D4200915B3A /* CCImage_richlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87118EA5D4200915B3A /* CCImage_richlabel.cpp */; };
+		9292C87C18EA5D4200915B3A /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87218EA5D4200915B3A /* CCImagePicker.cpp */; };
+		9292C87D18EA5D4200915B3A /* CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87318EA5D4200915B3A /* CCUtils.cpp */; };
+		9292C87E18EA5D4200915B3A /* CLBitmapDC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87418EA5D4200915B3A /* CLBitmapDC.cpp */; };
+		9292C87F18EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87618EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp */; };
+		9292C88018EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87718EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp */; };
+		9292C88118EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87818EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
@@ -637,6 +646,18 @@
 		928BB05D18DB288700670A3B /* CBTMXMapInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXMapInfo.cpp; sourceTree = "<group>"; };
 		928BB06018DB28A500670A3B /* CBTMXMapInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXMapInfo.h; sourceTree = "<group>"; };
 		928BB06118DB2E2F00670A3B /* CBTMXLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXLoader.cpp; sourceTree = "<group>"; };
+		9292C86D18EA5D4200915B3A /* CCAssetInputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetInputStream_android.cpp; sourceTree = "<group>"; };
+		9292C86E18EA5D4200915B3A /* CCAssetInputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_android.h; sourceTree = "<group>"; };
+		9292C86F18EA5D4200915B3A /* CCAssetOutputStream_android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCAssetOutputStream_android.cpp; sourceTree = "<group>"; };
+		9292C87018EA5D4200915B3A /* CCAssetOutputStream_android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_android.h; sourceTree = "<group>"; };
+		9292C87118EA5D4200915B3A /* CCImage_richlabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImage_richlabel.cpp; sourceTree = "<group>"; };
+		9292C87218EA5D4200915B3A /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
+		9292C87318EA5D4200915B3A /* CCUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUtils.cpp; sourceTree = "<group>"; };
+		9292C87418EA5D4200915B3A /* CLBitmapDC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CLBitmapDC.cpp; sourceTree = "<group>"; };
+		9292C87518EA5D4200915B3A /* CLBitmapDC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLBitmapDC.h; sourceTree = "<group>"; };
+		9292C87618EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = org_cocos2dx_lib_CCImage_richlabel.cpp; sourceTree = "<group>"; };
+		9292C87718EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = org_cocos2dx_lib_CCImagePicker.cpp; sourceTree = "<group>"; };
+		9292C87818EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = org_cocos2dx_lib_CCUtils.cpp; sourceTree = "<group>"; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1673,6 +1694,25 @@
 			path = CCControlExtension;
 			sourceTree = "<group>";
 		};
+		9292C86C18EA5D4200915B3A /* android */ = {
+			isa = PBXGroup;
+			children = (
+				9292C86D18EA5D4200915B3A /* CCAssetInputStream_android.cpp */,
+				9292C86E18EA5D4200915B3A /* CCAssetInputStream_android.h */,
+				9292C86F18EA5D4200915B3A /* CCAssetOutputStream_android.cpp */,
+				9292C87018EA5D4200915B3A /* CCAssetOutputStream_android.h */,
+				9292C87118EA5D4200915B3A /* CCImage_richlabel.cpp */,
+				9292C87218EA5D4200915B3A /* CCImagePicker.cpp */,
+				9292C87318EA5D4200915B3A /* CCUtils.cpp */,
+				9292C87418EA5D4200915B3A /* CLBitmapDC.cpp */,
+				9292C87518EA5D4200915B3A /* CLBitmapDC.h */,
+				9292C87618EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp */,
+				9292C87718EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp */,
+				9292C87818EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp */,
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
 		92B516D916E86020009F3536 = {
 			isa = PBXGroup;
 			children = (
@@ -1725,6 +1765,7 @@
 		92BF0FF518A71EF80088121F /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				9292C86C18EA5D4200915B3A /* android */,
 				92BF0FF918A71EF80088121F /* ios */,
 			);
 			path = platform;
@@ -2131,12 +2172,14 @@
 				92F68F231855BDE200C97188 /* CCArcticManager.cpp in Sources */,
 				9225961418D5BBF600E200AE /* GUIReader.cpp in Sources */,
 				92EDA10918D9E83B0022E196 /* CBTMXObject.cpp in Sources */,
+				9292C87D18EA5D4200915B3A /* CCUtils.cpp in Sources */,
 				92F68EB11855AD4400C97188 /* yajl_tree.c in Sources */,
 				92F68EAD1855AD4400C97188 /* yajl_encode.c in Sources */,
 				92F68E6F1855A7C800C97188 /* CCResultSet.cpp in Sources */,
 				92F68E5D18559EC100C97188 /* Timers.cpp in Sources */,
 				923968F8185591DB0063E8A1 /* CCProgressHUD.cpp in Sources */,
 				9225961F18D5BBF600E200AE /* PageViewReader.cpp in Sources */,
+				9292C87918EA5D4200915B3A /* CCAssetInputStream_android.cpp in Sources */,
 				92396901185591DB0063E8A1 /* CBSprite.cpp in Sources */,
 				92F68E5F18559EC100C97188 /* VectorImpl.cpp in Sources */,
 				9288DF2E188F98A400C14965 /* CCControlStepper.cpp in Sources */,
@@ -2156,6 +2199,7 @@
 				92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */,
 				9288DF31188F98A400C14965 /* CCInvocation.cpp in Sources */,
 				92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */,
+				9292C88018EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp in Sources */,
 				92396904185591DB0063E8A1 /* CCTexture2D_richlabel.cpp in Sources */,
 				922595EF18D5BBF600E200AE /* CCDisplayFactory.cpp in Sources */,
 				9261AC3A18978224001028B5 /* CCEditBoxImplTizen.cpp in Sources */,
@@ -2196,6 +2240,7 @@
 				923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */,
 				9276E10718A77F600045B318 /* CCImage_richlabel.mm in Sources */,
 				923968F6185591DB0063E8A1 /* CCPanGestureRecognizer.cpp in Sources */,
+				9292C87A18EA5D4200915B3A /* CCAssetOutputStream_android.cpp in Sources */,
 				922595E518D5BBF600E200AE /* CCActionNode.cpp in Sources */,
 				92396905185591DB0063E8A1 /* CBTextureAtlas.cpp in Sources */,
 				92F68F311855BDE200C97188 /* CCSPX3Manager.cpp in Sources */,
@@ -2217,6 +2262,7 @@
 				9225960018D5BBF600E200AE /* UILayout.cpp in Sources */,
 				92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */,
 				922595E218D5BBF600E200AE /* CCActionFrame.cpp in Sources */,
+				9292C87F18EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp in Sources */,
 				92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */,
 				9225951518D5862600E200AE /* CCSecureUserDefault.cpp in Sources */,
 				922595E418D5BBF600E200AE /* CCActionManager.cpp in Sources */,
@@ -2246,6 +2292,7 @@
 				92F68F1F1855BDE200C97188 /* CCAFCFrame.cpp in Sources */,
 				9225961818D5BBF600E200AE /* ImageViewReader.cpp in Sources */,
 				92F68E701855A7C800C97188 /* CCStatement.cpp in Sources */,
+				9292C87B18EA5D4200915B3A /* CCImage_richlabel.cpp in Sources */,
 				92396906185591DB0063E8A1 /* CCTextureCache_richlabel.cpp in Sources */,
 				92F68F1D1855BDE200C97188 /* CCAFCClipMapping.cpp in Sources */,
 				92396902185591DB0063E8A1 /* CCSwipeGestureRecognizer.cpp in Sources */,
@@ -2274,11 +2321,13 @@
 				9225960F18D5BBF600E200AE /* UILoadingBar.cpp in Sources */,
 				9288DF2A188F98A400C14965 /* CCControlHuePicker.cpp in Sources */,
 				9225960518D5BBF600E200AE /* UITouchGroup.cpp in Sources */,
+				9292C87E18EA5D4200915B3A /* CLBitmapDC.cpp in Sources */,
 				9225960918D5BBF600E200AE /* UIButton.cpp in Sources */,
 				92F68F2C1855BDE200C97188 /* CCMWSprite.cpp in Sources */,
 				92F68F2B1855BDE200C97188 /* CCMWManager.cpp in Sources */,
 				923968E7185591DB0063E8A1 /* CCClipOut.cpp in Sources */,
 				92F68F221855BDE200C97188 /* CCArcticLoader.cpp in Sources */,
+				9292C87C18EA5D4200915B3A /* CCImagePicker.cpp in Sources */,
 				923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */,
 				923968EA185591DB0063E8A1 /* CCGradientSprite.cpp in Sources */,
 				9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */,
@@ -2309,6 +2358,7 @@
 				922595EA18D5BBF600E200AE /* CCArmature.cpp in Sources */,
 				92396900185591DB0063E8A1 /* CCSimpleRookieGuide.cpp in Sources */,
 				922595F318D5BBF600E200AE /* CCArmatureDataManager.cpp in Sources */,
+				9292C88118EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp in Sources */,
 				92DC8F1E18D5DDA200632F44 /* CCSorting.cpp in Sources */,
 				9239690C185591DB0063E8A1 /* CCVelocityTracker.cpp in Sources */,
 				922595F618D5BBF600E200AE /* CCSpriteFrameCacheHelper.cpp in Sources */,

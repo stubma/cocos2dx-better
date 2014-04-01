@@ -55,7 +55,7 @@ CCResourceLoader::~CCResourceLoader() {
     }
 }
 
-unsigned char* CCResourceLoader::loadRaw(const string& name, unsigned long* size, DECRYPT_FUNC decFunc) {
+unsigned char* CCResourceLoader::loadRaw(const string& name, unsigned long* size, CC_DECRYPT_FUNC decFunc) {
     // load encryptd data
 	unsigned long len;
 	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
@@ -82,7 +82,7 @@ unsigned char* CCResourceLoader::loadRaw(const string& name, unsigned long* size
     return (unsigned char*)dec;
 }
 
-char* CCResourceLoader::loadCString(const string& name, DECRYPT_FUNC decFunc) {
+char* CCResourceLoader::loadCString(const string& name, CC_DECRYPT_FUNC decFunc) {
     // load encryptd data
 	unsigned long len;
 	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
@@ -111,7 +111,7 @@ char* CCResourceLoader::loadCString(const string& name, DECRYPT_FUNC decFunc) {
     return ret;
 }
 
-void CCResourceLoader::loadImage(const string& name, DECRYPT_FUNC decFunc) {
+void CCResourceLoader::loadImage(const string& name, CC_DECRYPT_FUNC decFunc) {
 	// load encryptd data
 	unsigned long len;
 	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(name.c_str(), "rb", &len);
@@ -136,7 +136,7 @@ void CCResourceLoader::loadImage(const string& name, DECRYPT_FUNC decFunc) {
 	free(data);
 }
 
-void CCResourceLoader::loadZwoptex(const string& plistName, const string& texName, DECRYPT_FUNC decFunc) {
+void CCResourceLoader::loadZwoptex(const string& plistName, const string& texName, CC_DECRYPT_FUNC decFunc) {
 	// load encryptd data
 	unsigned long len;
 	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(texName.c_str(), "rb", &len);
@@ -184,7 +184,7 @@ void CCResourceLoader::addImageTask(const string& name, float idle) {
     addLoadTask(t);
 }
 
-void CCResourceLoader::addImageTask(const string& name, DECRYPT_FUNC decFunc, float idle) {
+void CCResourceLoader::addImageTask(const string& name, CC_DECRYPT_FUNC decFunc, float idle) {
 	EncryptedImageLoadTask* t = new EncryptedImageLoadTask();
 	t->idle = idle;
 	t->name = name;
@@ -199,7 +199,7 @@ void CCResourceLoader::addBMFontTask(const string& fntFile, float idle) {
     addLoadTask(t);
 }
 
-void CCResourceLoader::addBMFontTask(const string& fntFile, DECRYPT_FUNC decFunc, float idle) {
+void CCResourceLoader::addBMFontTask(const string& fntFile, CC_DECRYPT_FUNC decFunc, float idle) {
     EncryptedBMFontLoadTask* t = new EncryptedBMFontLoadTask();
     t->idle = idle;
     t->name = fntFile;
@@ -222,7 +222,7 @@ void CCResourceLoader::addZwoptexTask(const string& pattern, int start, int end,
 	}
 }
 
-void CCResourceLoader::addZwoptexTask(const string& plistName, const string& texName, DECRYPT_FUNC decFunc, float idle) {
+void CCResourceLoader::addZwoptexTask(const string& plistName, const string& texName, CC_DECRYPT_FUNC decFunc, float idle) {
 	EncryptedZwoptexLoadTask* t = new EncryptedZwoptexLoadTask();
 	t->idle = idle;
 	t->name = plistName;
@@ -231,7 +231,7 @@ void CCResourceLoader::addZwoptexTask(const string& plistName, const string& tex
 	addLoadTask(t);
 }
 
-void CCResourceLoader::addZwoptexTask(const string& plistPattern, const string& texPattern, int start, int end, DECRYPT_FUNC decFunc, float idle) {
+void CCResourceLoader::addZwoptexTask(const string& plistPattern, const string& texPattern, int start, int end, CC_DECRYPT_FUNC decFunc, float idle) {
 	char buf1[512], buf2[512];
 	for(int i = start; i <= end; i++) {
 		sprintf(buf1, plistPattern.c_str(), i);
@@ -334,7 +334,7 @@ void CCResourceLoader::addArmatureTask(string config, float idle) {
     addLoadTask(t);
 }
 
-void CCResourceLoader::addArmatureTask(string plist, string tex, string config, DECRYPT_FUNC func, float idle) {
+void CCResourceLoader::addArmatureTask(string plist, string tex, string config, CC_DECRYPT_FUNC func, float idle) {
     if(!plist.empty() && !tex.empty()) {
         addZwoptexTask(plist, tex, func);
     }

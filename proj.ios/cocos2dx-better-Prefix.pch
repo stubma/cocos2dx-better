@@ -25,6 +25,10 @@
 #ifdef __OBJC__
 	#import <Foundation/Foundation.h>
 	#import <UIKit/UIKit.h>
+#endif
+
+#ifdef __cplusplus
     #include "CCMoreMacros.h"
+    #include "ccMoreTypes.h"
     #include "CCUtils.h"
 #endif

@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include "CCAssetOutputStream_android.h"
 #include <stdio.h>
 #include <errno.h>
@@ -99,3 +101,5 @@ size_t CCAssetOutputStream_android::seek(int offset, int mode) {
 }
 
 NS_CC_END
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

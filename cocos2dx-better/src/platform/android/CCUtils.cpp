@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include "CCUtils.h"
 #include <jni.h>
 #include "JniHelper.h"
@@ -558,3 +560,5 @@ void CCUtils::sendBroadcast(jobject intent) {
     t.env->CallVoidMethod(ctx, t.methodID, intent);
     t.env->DeleteLocalRef(ctx);
 }
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include "CLBitmapDC.h"
 
 CLBitmapDC CLBitmapDC::s_BmpDC;
@@ -46,7 +48,7 @@ bool CLBitmapDC::getBitmapFromJava(const char *text, int nWidth, int nHeight, CC
 
 bool CLBitmapDC::getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowDeltaX, float shadowDeltaY, int shadowColor,
-		float shadowBlur, bool stroke, float strokeColorR, float strokeColorG, float strokeColorB, float strokeSize, CCResourceLoader::DECRYPT_FUNC decryptFunc, bool sizeOnly) {
+		float shadowBlur, bool stroke, float strokeColorR, float strokeColorG, float strokeColorB, float strokeSize, CC_DECRYPT_FUNC decryptFunc, bool sizeOnly) {
 	// save func
 	m_decryptFunc = decryptFunc;
 	
@@ -86,3 +88,5 @@ bool CLBitmapDC::getBitmapFromJavaShadowStroke(const char *text, int nWidth, int
 
 	return true;
 }
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

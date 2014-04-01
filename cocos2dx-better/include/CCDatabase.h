@@ -222,7 +222,7 @@ public:
      * @param func you can provide a decrypt function if the sql file is encrypted
 	 * @return true means execution is ok
 	 */
-	bool executeSQL(string path, CCResourceLoader::DECRYPT_FUNC func = NULL);
+	bool executeSQL(string path, CC_DECRYPT_FUNC func = NULL);
 
 	/**
 	 * execute a sql file in a transaction

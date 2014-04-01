@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #ifndef __CCAssetOutputStream_android_h__
 #define __CCAssetOutputStream_android_h__
 
@@ -70,3 +72,5 @@ public:
 NS_CC_END
 
 #endif // __CCAssetOutputStream_android_h__
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

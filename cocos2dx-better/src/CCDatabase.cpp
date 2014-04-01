@@ -754,7 +754,7 @@ bool CCDatabase::columnExists(string tableName, string columnName) {
     return existent;
 }
 
-bool CCDatabase::executeSQL(string path, CCResourceLoader::DECRYPT_FUNC func) {
+bool CCDatabase::executeSQL(string path, CC_DECRYPT_FUNC func) {
     unsigned long len;
     unsigned char* raw = CCResourceLoader::loadRaw(path, &len, func);
 	bool ret = executeSQL(raw, len);

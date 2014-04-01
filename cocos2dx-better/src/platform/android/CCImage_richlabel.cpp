@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include "CCImage_richlabel.h"
 #include <jni.h>
 #include "JniHelper.h"
@@ -50,7 +52,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, int shadowColor, float shadowBlur,
-		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, CCResourceLoader::DECRYPT_FUNC decryptFunc) {
+		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, CC_DECRYPT_FUNC decryptFunc) {
 	bool bRet = false;
 	do {
 		CC_BREAK_IF(!pText);
@@ -112,7 +114,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
                                             float strokeSize,
-                                            CCResourceLoader::DECRYPT_FUNC decryptFunc) {
+                                            CC_DECRYPT_FUNC decryptFunc) {
     CCSize size = CCSizeZero;
 	do {
 		CC_BREAK_IF(!pText);
@@ -148,3 +150,5 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
 }
 
 NS_CC_END
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

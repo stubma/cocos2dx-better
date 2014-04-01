@@ -218,44 +218,6 @@ bool CCTCPSocket::sendData(void* buf, int size) {
     return true;
 }
 
-//int CCTCPSocket::receiveData(void* buf, int size) {
-//	// basic checking
-//    if(buf == NULL || size <= 0) {
-//        return -1;
-//    }
-//    if (m_socket == kCCSocketInvalid) {
-//        return -1;
-//    }
-//	
-//	// read can be more than buffer size
-//	size = MIN(size, kCCSocketInputBufferDefaultSize);
-//	
-//	// ensure the packet is complete, if not, read again
-//    if (size > m_inBufLen) {
-//        if (!recvFromSock()) {
-//            return -1;
-//        }
-//    }
-//	
-//	// check available
-//	size = MIN(size, m_inBufLen);
-//	
-//	// if the packet is looped, need copy two times
-//    if(m_inBufStart + size > kCCSocketInputBufferDefaultSize) {
-//        int copylen = kCCSocketInputBufferDefaultSize - m_inBufStart;
-//        memcpy(buf, m_inBuf + m_inBufStart, copylen);
-//        memcpy((unsigned char *)buf + copylen, m_inBuf, size - copylen);
-//    } else {
-//        memcpy(buf, m_inBuf + m_inBufStart, size);
-//    }
-//	
-//	// reposition read pos
-//    m_inBufStart = (m_inBufStart + size) % kCCSocketInputBufferDefaultSize;
-//    m_inBufLen -= size;
-//	
-//    return size;
-//}
-
 bool CCTCPSocket::hasError() {
 	int err = errno;
 	if(err != EINPROGRESS && err != EAGAIN) {

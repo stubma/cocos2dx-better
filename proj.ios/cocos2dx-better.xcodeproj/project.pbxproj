@@ -179,6 +179,7 @@
 		9292C87F18EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87618EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp */; };
 		9292C88018EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87718EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp */; };
 		9292C88118EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C87818EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp */; };
+		9292C89218EA9A2D00915B3A /* CCPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9292C89118EA9A2D00915B3A /* CCPacket.cpp */; };
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
@@ -658,6 +659,8 @@
 		9292C87618EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = org_cocos2dx_lib_CCImage_richlabel.cpp; sourceTree = "<group>"; };
 		9292C87718EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = org_cocos2dx_lib_CCImagePicker.cpp; sourceTree = "<group>"; };
 		9292C87818EA5D4200915B3A /* org_cocos2dx_lib_CCUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = org_cocos2dx_lib_CCUtils.cpp; sourceTree = "<group>"; };
+		9292C89118EA9A2D00915B3A /* CCPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPacket.cpp; sourceTree = "<group>"; };
+		9292C89318EA9A3700915B3A /* CCPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCPacket.h; sourceTree = "<group>"; };
 		92984F3A175D904500E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -696,7 +699,6 @@
 		92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCByteBuffer.cpp; sourceTree = "<group>"; };
 		92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTCPSocketHub.cpp; sourceTree = "<group>"; };
 		92E8F4AE185BFF5D000A1D59 /* CCTCPSocketHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocketHub.h; sourceTree = "<group>"; };
-		92E8F4AF185C283B000A1D59 /* CCTCPSocketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocketListener.h; sourceTree = "<group>"; };
 		92EDA10718D9E83B0022E196 /* CBTMXObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXObject.cpp; sourceTree = "<group>"; };
 		92EDA10A18D9E86E0022E196 /* CBTMXObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXObject.h; sourceTree = "<group>"; };
 		92EDA10B18D9ED780022E196 /* CBTMXObjectGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXObjectGroup.cpp; sourceTree = "<group>"; };
@@ -1630,6 +1632,7 @@
 		9266226D185B3DAC00DC8DEC /* network */ = {
 			isa = PBXGroup;
 			children = (
+				9292C89118EA9A2D00915B3A /* CCPacket.cpp */,
 				92E8F4A7185BE68A000A1D59 /* CCByteBuffer.cpp */,
 				9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */,
 				92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */,
@@ -1642,11 +1645,11 @@
 		9266226E185B3DB400DC8DEC /* network */ = {
 			isa = PBXGroup;
 			children = (
+				9292C89318EA9A3700915B3A /* CCPacket.h */,
 				92662272185B3E1500DC8DEC /* CCTCPSocket.h */,
 				92E8F4AE185BFF5D000A1D59 /* CCTCPSocketHub.h */,
 				92662277185B42CF00DC8DEC /* CCByteBuffer.h */,
 				92662279185B437200DC8DEC /* CCNetworkCommon.h */,
-				92E8F4AF185C283B000A1D59 /* CCTCPSocketListener.h */,
 				92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */,
 				92D36594185D58D60049AF37 /* CCUDPSocketHub.h */,
 				92D36590185D58710049AF37 /* CCUDPSocketListener.h */,
@@ -2280,6 +2283,7 @@
 				9225960418D5BBF600E200AE /* UIHelper.cpp in Sources */,
 				92F68F331855BDE200C97188 /* CCSPX3TileSet.cpp in Sources */,
 				923968E6185591DB0063E8A1 /* CCClipIn.cpp in Sources */,
+				9292C89218EA9A2D00915B3A /* CCPacket.cpp in Sources */,
 				92DC8F1D18D5DDA200632F44 /* CCScrollView.cpp in Sources */,
 				92396907185591DB0063E8A1 /* CCTiledSprite.cpp in Sources */,
 				922595FB18D5BBF600E200AE /* CCComAudio.cpp in Sources */,

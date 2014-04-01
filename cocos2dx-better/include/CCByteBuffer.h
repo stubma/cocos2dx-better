@@ -50,6 +50,9 @@ protected:
 	
 	/// buffer memory size
     uint32 m_bufferSize;
+    
+    /// readonly mode
+    bool m_readonly;
 	
 protected:
 	/// Allocates/reallocates buffer with specified size.
@@ -66,6 +69,7 @@ public:
 	CCByteBuffer();
     CCByteBuffer(size_t res);
 	CCByteBuffer(const CCByteBuffer& b);
+    CCByteBuffer(const char* buf, int len);
     virtual ~CCByteBuffer();
 	
 	/// Creates a CCByteBuffer with the default size

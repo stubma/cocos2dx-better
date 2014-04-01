@@ -30,7 +30,7 @@ public:
     void backCallback(CCObject* pSender);
 };
 
-class NetworkTCP : public NetworkDemo, public CCTCPSocketListener
+class NetworkTCP : public NetworkDemo
 {
 private:
 	CCTCPSocketHub* m_hub;
@@ -38,16 +38,15 @@ private:
 	
 private:
 	void onSendClicked(CCObject* sender);
-	
+	void onTCPSocketConnected(CCTCPSocket* s);
+    void onTCPSocketDisonnected(CCTCPSocket* s);
+    void onPacketReceived(CCPacket* p);
+    
 public:
     virtual ~NetworkTCP();
     virtual void onEnter();
+    virtual void onExit();
     virtual string subtitle();
-
-	// CCTCPSocketListener
-	virtual void onTCPSocketConnected(int tag);
-	virtual void onTCPSocketDisconnected(int tag);
-	virtual void onTCPSocketData(int tag, CCByteBuffer& bb);
 };
 
 class NetworkUDP : public NetworkDemo, public CCUDPSocketListener

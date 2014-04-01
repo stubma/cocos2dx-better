@@ -21,23 +21,61 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCTCPSocketListener_h__
-#define __CCTCPSocketListener_h__
+#ifndef __CCPacket__
+#define __CCPacket__
 
 #include "cocos2d.h"
+#include "CCMoreMacros.h"
+
+using namespace std;
 
 NS_CC_BEGIN
 
-class CCByteBuffer;
+#define kCCPacketHeaderLength 24
 
-/// interface to listen tcp socket event
-class CC_DLL CCTCPSocketListener {
+typedef enum {
+    NONE,
+    NOT
+} ccPacketEncryptAlgorithm;
+
+/**
+ * A general packet definition, it will have a header. However, it provides
+ * methods to create a raw packet which has no header.
+ */
+class CC_DLL CCPacket : public CCObject {
 public:
-	virtual void onTCPSocketConnected(int tag) = 0;
-	virtual void onTCPSocketDisconnected(int tag) = 0;
-	virtual void onTCPSocketData(int tag, CCByteBuffer& bb) = 0;
+    typedef struct {
+        char magic[4];
+        int protocolVersion;
+        int serverVersion;
+		int command;
+		int encryptAlgorithm;
+        int length; // data length after header
+    } Header;
+    
+protected:
+    CCPacket();
+    
+    virtual bool initWithStandardBuf(const char* buf, int len);
+    virtual bool initWithRawBuf(const char* buf, int len);
+    
+public:
+    virtual ~CCPacket();
+    static CCPacket* createStandardPacket(const char* buf, int len);
+    static CCPacket* createRawPacket(const char* buf, int len);
+    
+    // allocate memory for body
+    void allocateBody(size_t len);
+    
+    // body length
+    int getBodyLength() { return m_header.length; }
+    
+    CC_SYNTHESIZE_PASS_BY_REF_NC(Header, m_header, Header);
+    CC_SYNTHESIZE(char*, m_body, Body);
+    CC_SYNTHESIZE_READONLY(int, m_packetLength, PacketLength);
+    CC_SYNTHESIZE_READONLY(bool, m_raw, Raw);
 };
 
 NS_CC_END
 
-#endif // __CCTCPSocketListener_h__
+#endif /* defined(__CCPacket__) */

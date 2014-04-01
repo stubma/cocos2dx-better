@@ -138,9 +138,9 @@
 #include "CCSPXLoader.h"
 
 // network
+#include "CCPacket.h"
 #include "CCNetworkCommon.h"
 #include "CCByteBuffer.h"
-#include "CCTCPSocketListener.h"
 #include "CCTCPSocket.h"
 #include "CCTCPSocketHub.h"
 #include "CCUDPSocket.h"

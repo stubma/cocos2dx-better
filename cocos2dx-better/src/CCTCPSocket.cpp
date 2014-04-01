@@ -22,20 +22,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCTCPSocket.h"
-#include <pthread.h>
+#include "CCPacket.h"
+#include "CCTCPSocketHub.h"
 
 NS_CC_BEGIN
 
 CCTCPSocket::CCTCPSocket() :
-m_sock(kCCSocketInvalid),
-m_alreadyConnected(false),
-m_connected(false) {
+m_socket(kCCSocketInvalid),
+m_connected(false),
+m_stop(false) {
     memset(m_outBuf, 0, sizeof(m_outBuf));
     memset(m_inBuf, 0, sizeof(m_inBuf));
 }
 
 CCTCPSocket::~CCTCPSocket() {
-	destroy();
+    closeSocket();
 }
 
 CCTCPSocket* CCTCPSocket::create(const string& hostname, int port, int tag, int blockSec, bool keepAlive) {
@@ -49,10 +50,22 @@ CCTCPSocket* CCTCPSocket::create(const string& hostname, int port, int tag, int 
 }
 
 void CCTCPSocket::closeSocket() {
-    close(m_sock);
+    if(m_socket != kCCSocketInvalid) {
+        close(m_socket);
+        m_socket = kCCSocketInvalid;
+    }
 }
 
-void* CCTCPSocket::waitingConnectThreadEntry(void* arg) {
+void CCTCPSocket::compactInBuf(int consumed) {
+    if(consumed < m_inBufLen) {
+        memmove(m_inBuf, m_inBuf + consumed, m_inBufLen - consumed);
+        m_inBufLen -= consumed;
+    } else {
+        m_inBufLen = 0;
+    }
+}
+
+void* CCTCPSocket::tcpThreadEntry(void* arg) {
 	// autorelease pool
 	CCThread thread;
 	thread.createAutoreleasePool();
@@ -60,26 +73,68 @@ void* CCTCPSocket::waitingConnectThreadEntry(void* arg) {
 	// get socket
 	CCTCPSocket* s = (CCTCPSocket*)arg;
 	
-	// select it
-	timeval timeout;
-	timeout.tv_sec = s->m_blockSec;
-	timeout.tv_usec = 0;
-	fd_set writeset, exceptset;
-	FD_ZERO(&writeset);
-	FD_ZERO(&exceptset);
-	FD_SET(s->m_sock, &writeset);
-	FD_SET(s->m_sock, &exceptset);
-	int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
-	if (ret < 0) {
-		s->destroy();
-	} else {
-		ret = FD_ISSET(s->m_sock, &exceptset);
-		if(ret) {
-			s->destroy();
-		} else {
-			s->m_connected = true;
-		}
-	}
+	// create address
+    sockaddr_in addr_in;
+    memset((void *)&addr_in, 0, sizeof(addr_in));
+    addr_in.sin_family = AF_INET;
+    addr_in.sin_port = htons(s->m_port);
+    addr_in.sin_addr.s_addr = inet_addr(s->m_hostname.c_str());;
+    
+	// connect
+	// if has error, close it
+	// if success, select it with specified timeout
+    if(connect(s->m_socket, (sockaddr*)&addr_in, sizeof(addr_in)) == kCCSocketError && s->hasError()) {
+        s->closeSocket();
+    } else {
+     	// delay 500ms when socket closed
+        struct linger so_linger;
+        so_linger.l_onoff = 1;
+        so_linger.l_linger = 500;
+        setsockopt(s->m_socket, SOL_SOCKET, SO_LINGER, (const char*)&so_linger, sizeof(so_linger));
+        
+        // select it
+        timeval timeout;
+        timeout.tv_sec = s->m_blockSec;
+        timeout.tv_usec = 0;
+        fd_set writeset, exceptset;
+        FD_ZERO(&writeset);
+        FD_ZERO(&exceptset);
+        FD_SET(s->m_socket, &writeset);
+        FD_SET(s->m_socket, &exceptset);
+        int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
+        if (ret < 0) {
+            s->closeSocket();
+        } else {
+            ret = FD_ISSET(s->m_socket, &exceptset);
+            if(ret) {
+                s->closeSocket();
+            } else {
+                s->m_connected = true;
+                s->m_hub->onSocketConnectedThreadSafe(s);
+            }
+        }
+    }
+    
+    // read loop
+    while(!s->m_stop && s->m_connected && s->getSocket() != kCCSocketInvalid) {
+        s->recvFromSock();
+        if(s->m_inBufLen > 0) {
+            CCPacket* p = NULL;
+            if(s->m_hub->isRawPolicy()) {
+                p = CCPacket::createRawPacket(s->m_inBuf, s->m_inBufLen);
+            } else {
+                p = CCPacket::createStandardPacket(s->m_inBuf, s->m_inBufLen);
+            }
+            s->compactInBuf(p->getPacketLength());
+            s->m_hub->onPacketReceivedThreadSafe(p);
+        }
+    }
+    
+    // end
+    if(s->m_connected) {
+        s->m_hub->onSocketDisconnectedThreadSafe(s);
+        s->m_connected = false;
+    }
 	
 	// release
 	s->autorelease();
@@ -94,8 +149,8 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
     }
 	
 	// create tcp socket
-    m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(m_sock == kCCSocketInvalid) {
+    m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if(m_socket == kCCSocketInvalid) {
         closeSocket();
         return false;
     }
@@ -103,63 +158,37 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
     // keep alive or not
     if(keepAlive) {
         int optVal = 1;
-        if(setsockopt(m_sock, SOL_SOCKET, SO_KEEPALIVE, (char*)&optVal, sizeof(optVal))) {
+        if(setsockopt(m_socket, SOL_SOCKET, SO_KEEPALIVE, (char*)&optVal, sizeof(optVal))) {
             closeSocket();
             return false;
         }
     }
-	
-	// non-block mode
-    fcntl(m_sock, F_SETFL, O_NONBLOCK);
-	
-	// validate host name
-    unsigned long serveraddr = inet_addr(hostname.c_str());
+    
+    // validate host name
+    in_addr_t serveraddr = inet_addr(hostname.c_str());
     if(serveraddr == INADDR_NONE) {
         closeSocket();
         return false;
     }
-	
-	// create address
-    sockaddr_in addr_in;
-    memset((void *)&addr_in, 0, sizeof(addr_in));
-    addr_in.sin_family = AF_INET;
-    addr_in.sin_port = htons(port);
-    addr_in.sin_addr.s_addr = serveraddr;
     
-	// connect
-	// if has error, close it
-	// if success, select it with specified timeout
-    if(connect(m_sock, (sockaddr*)&addr_in, sizeof(addr_in)) == kCCSocketError) {
-        if (hasError()) {
-            closeSocket();
-            return false;
-        }
-		
-		// connected
-		if(errno != EINPROGRESS) {
-			m_connected = true;
-		}
-    }
-	
-	// reset buffer
-    m_inBufLen = 0;
-    m_inBufStart = 0;
-    m_outBufLen = 0;
-	
-	// delay 500ms when socket closed
-    struct linger so_linger;
-    so_linger.l_onoff = 1;
-    so_linger.l_linger = 500;
-    setsockopt(m_sock, SOL_SOCKET, SO_LINGER, (const char*)&so_linger, sizeof(so_linger));
-	
-	// save tag
+    // nonblock
+    fcntl(m_socket, F_SETFL, O_NONBLOCK);
+    
+	// save info
+    m_hostname = hostname;
+    m_port = port;
     m_tag = tag;
-	
-	// select it, we must retain self to avoid pthread access an released object
 	m_blockSec = blockSec;
+    
+    // reset buffer
+    m_inBufLen = 0;
+    m_outBufLen = 0;
+    
+    // open a thread to process this socket
+    // should hold it to avoid wrong pointer
 	CC_SAFE_RETAIN(this);
 	pthread_t thread;
-	pthread_create(&thread, NULL, waitingConnectThreadEntry, (void*)this);
+	pthread_create(&thread, NULL, tcpThreadEntry, (void*)this);
 	
     return true;
 }
@@ -169,7 +198,7 @@ bool CCTCPSocket::sendData(void* buf, int size) {
     if(!buf || size <= 0) {
         return false;
     }
-    if (m_sock == kCCSocketInvalid) {
+    if (m_socket == kCCSocketInvalid) {
         return false;
     }
 	
@@ -177,7 +206,7 @@ bool CCTCPSocket::sendData(void* buf, int size) {
     if(m_outBufLen + size > kCCSocketOutputBufferDefaultSize) {
         flush();
         if(m_outBufLen + size > kCCSocketOutputBufferDefaultSize) {
-            destroy();
+            closeSocket();
             return false;
         }
     }
@@ -189,43 +218,43 @@ bool CCTCPSocket::sendData(void* buf, int size) {
     return true;
 }
 
-int CCTCPSocket::receiveData(void* buf, int size) {
-	// basic checking
-    if(buf == NULL || size <= 0) {
-        return -1;
-    }
-    if (m_sock == kCCSocketInvalid) {
-        return -1;
-    }
-	
-	// read can be more than buffer size
-	size = MIN(size, kCCSocketInputBufferDefaultSize);
-	
-	// ensure the packet is complete, if not, read again
-    if (size > m_inBufLen) {
-        if (!recvFromSock()) {
-            return -1;
-        }
-    }
-	
-	// check available
-	size = MIN(size, m_inBufLen);
-	
-	// if the packet is looped, need copy two times
-    if(m_inBufStart + size > kCCSocketInputBufferDefaultSize) {
-        int copylen = kCCSocketInputBufferDefaultSize - m_inBufStart;
-        memcpy(buf, m_inBuf + m_inBufStart, copylen);
-        memcpy((unsigned char *)buf + copylen, m_inBuf, size - copylen);
-    } else {
-        memcpy(buf, m_inBuf + m_inBufStart, size);
-    }
-	
-	// reposition read pos
-    m_inBufStart = (m_inBufStart + size) % kCCSocketInputBufferDefaultSize;
-    m_inBufLen -= size;
-	
-    return size;
-}
+//int CCTCPSocket::receiveData(void* buf, int size) {
+//	// basic checking
+//    if(buf == NULL || size <= 0) {
+//        return -1;
+//    }
+//    if (m_socket == kCCSocketInvalid) {
+//        return -1;
+//    }
+//	
+//	// read can be more than buffer size
+//	size = MIN(size, kCCSocketInputBufferDefaultSize);
+//	
+//	// ensure the packet is complete, if not, read again
+//    if (size > m_inBufLen) {
+//        if (!recvFromSock()) {
+//            return -1;
+//        }
+//    }
+//	
+//	// check available
+//	size = MIN(size, m_inBufLen);
+//	
+//	// if the packet is looped, need copy two times
+//    if(m_inBufStart + size > kCCSocketInputBufferDefaultSize) {
+//        int copylen = kCCSocketInputBufferDefaultSize - m_inBufStart;
+//        memcpy(buf, m_inBuf + m_inBufStart, copylen);
+//        memcpy((unsigned char *)buf + copylen, m_inBuf, size - copylen);
+//    } else {
+//        memcpy(buf, m_inBuf + m_inBufStart, size);
+//    }
+//	
+//	// reposition read pos
+//    m_inBufStart = (m_inBufStart + size) % kCCSocketInputBufferDefaultSize;
+//    m_inBufLen -= size;
+//	
+//    return size;
+//}
 
 bool CCTCPSocket::hasError() {
 	int err = errno;
@@ -238,54 +267,27 @@ bool CCTCPSocket::hasError() {
 
 bool CCTCPSocket::recvFromSock() {
 	// basic check
-	if (m_inBufLen >= kCCSocketInputBufferDefaultSize || m_sock == kCCSocketInvalid) {
+	if (m_inBufLen >= kCCSocketInputBufferDefaultSize || m_socket == kCCSocketInvalid) {
 		return false;
 	}
 	
 	// max byte can be hold by read buffer and the write position
-	// for the first read operation
-	int savelen, savepos;
-	if(m_inBufStart + m_inBufLen < kCCSocketInputBufferDefaultSize){
-		savelen = kCCSocketInputBufferDefaultSize - (m_inBufStart + m_inBufLen);
-	} else {
-		savelen = kCCSocketInputBufferDefaultSize - m_inBufLen;
-	}
+	int savelen = kCCSocketInputBufferDefaultSize - m_inBufLen;
 	
 	// read to buffer end
-	savepos = (m_inBufStart + m_inBufLen) % kCCSocketInputBufferDefaultSize;
-	int inlen = recv(m_sock, m_inBuf + savepos, savelen, 0);
+	int savepos = m_inBufLen;
+	ssize_t inlen = recv(m_socket, m_inBuf + savepos, savelen, 0);
 	if(inlen > 0) {
 		m_inBufLen += inlen;
 		if (m_inBufLen > kCCSocketInputBufferDefaultSize) {
 			return false;
 		}
-		
-		// read second if has more
-		if(inlen == savelen && m_inBufLen < kCCSocketInputBufferDefaultSize) {
-			int savelen = kCCSocketInputBufferDefaultSize - m_inBufLen;
-			int savepos = (m_inBufStart + m_inBufLen) % kCCSocketInputBufferDefaultSize;
-			inlen = recv(m_sock, m_inBuf + savepos, savelen, 0);
-			if(inlen > 0) {
-				m_inBufLen += inlen;
-				if (m_inBufLen > kCCSocketInputBufferDefaultSize) {
-					return false;
-				}
-			} else if(inlen == 0) {
-				destroy();
-				return false;
-			} else {
-				if (hasError()) {
-					destroy();
-					return false;
-				}
-			}
-		}
 	} else if(inlen == 0) {
-		destroy();
+        closeSocket();
 		return false;
 	} else {
 		if (hasError()) {
-			destroy();
+            closeSocket();
 			return false;
 		}
 	}
@@ -295,7 +297,7 @@ bool CCTCPSocket::recvFromSock() {
 
 bool CCTCPSocket::flush() {
 	// basic checking
-	if (m_sock == kCCSocketInvalid) {
+	if (m_socket == kCCSocketInvalid) {
 		return false;
 	}
 	if(m_outBufLen <= 0) {
@@ -303,8 +305,7 @@ bool CCTCPSocket::flush() {
 	}
 	
 	// send
-	int outsize;
-	outsize = send(m_sock, m_outBuf, m_outBufLen, 0);
+	ssize_t outsize = send(m_socket, m_outBuf, m_outBufLen, 0);
 	if(outsize > 0) {
 		// move cursor
 		if(m_outBufLen - outsize > 0) {
@@ -318,7 +319,7 @@ bool CCTCPSocket::flush() {
 		}
 	} else {
 		if (hasError()) {
-			destroy();
+			closeSocket();
 			return false;
 		}
 	}
@@ -328,18 +329,18 @@ bool CCTCPSocket::flush() {
 
 bool CCTCPSocket::hasAvailable() {
 	// basic check
-	if (m_sock == kCCSocketInvalid) {
+	if (m_socket == kCCSocketInvalid) {
 		return false;
 	}
 	
 	char buf[1];
-	int ret = recv(m_sock, buf, 1, MSG_PEEK);
+	ssize_t ret = recv(m_socket, buf, 1, MSG_PEEK);
 	if(ret == 0) {
-		destroy();
+		closeSocket();
 		return false;
 	} else if(ret < 0) {
 		if (hasError()) {
-			destroy();
+			closeSocket();
 			return false;
 		} else {
 			return true;
@@ -347,24 +348,6 @@ bool CCTCPSocket::hasAvailable() {
 	} else {
 		return true;
 	}
-}
-
-void CCTCPSocket::destroy() {
-	// ensure not destroy again
-	if(m_sock == kCCSocketInvalid)
-		return;
-	
-	// close
-	closeSocket();
-	
-	// reset
-	m_sock = kCCSocketInvalid;
-	m_connected = false;
-	m_inBufLen = 0;
-	m_inBufStart = 0;
-	m_outBufLen = 0;
-	memset(m_outBuf, 0, sizeof(m_outBuf));
-	memset(m_inBuf, 0, sizeof(m_inBuf));
 }
 
 NS_CC_END

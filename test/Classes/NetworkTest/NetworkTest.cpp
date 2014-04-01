@@ -137,7 +137,16 @@ void NetworkDemo::backCallback(CCObject* pSender)
 //
 //------------------------------------------------------------------
 NetworkTCP::~NetworkTCP() {
-    CC_SAFE_RELEASE(m_hub);
+    m_hub->stopAll();
+}
+
+void NetworkTCP::onExit() {
+    NetworkDemo::onExit();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->removeObserver(this, kCCNotificationTCPSocketConnected);
+    nc->removeObserver(this, kCCNotificationTCPSocketDisconnected);
+    nc->removeObserver(this, kCCNotificationPacketReceived);
 }
 
 void NetworkTCP::onEnter()
@@ -164,34 +173,41 @@ void NetworkTCP::onEnter()
 	m_recv->setPosition(ccp(origin.x + visibleSize.width / 2,
 							origin.y + visibleSize.height / 5));
 	addChild(m_recv);
+    
+    // notification observer
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, callfuncO_selector(NetworkTCP::onTCPSocketConnected), kCCNotificationTCPSocketConnected, NULL);
+    nc->addObserver(this, callfuncO_selector(NetworkTCP::onTCPSocketDisonnected), kCCNotificationTCPSocketDisconnected, NULL);
+    nc->addObserver(this, callfuncO_selector(NetworkTCP::onPacketReceived), kCCNotificationPacketReceived, NULL);
 	
 	// change ip to your server
 	// registerCallback must be invoked before createSocket otherwise connect event is lost
 	m_hub = CCTCPSocketHub::create();
-	m_hub->registerCallback(1, this);
-	m_hub->createSocket("192.168.1.104", 6000, 1);
-    CC_SAFE_RETAIN(m_hub);
+    m_hub->setRawPolicy(true);
+	m_hub->createSocket("172.16.96.60", 6000, 1);
 }
 
 void NetworkTCP::onSendClicked(CCObject* sender) {
-	static int index = 0;
-	char buf[32];
-	sprintf(buf, "Hello: %d", index++);
-	CCByteBuffer packet;
-	packet.writeLine(buf);
-	m_hub->sendPacket(1, &packet);
+    m_hub->disconnect(1);
+//	static int index = 0;
+//	char buf[32];
+//	sprintf(buf, "Hello: %d", index++);
+//	CCByteBuffer packet;
+//	packet.writeLine(buf);
+//	m_hub->sendPacket(1, &packet);
 }
 
-void NetworkTCP::onTCPSocketConnected(int tag) {
-	CCLOG("connected: %d", tag);
+void NetworkTCP::onTCPSocketConnected(CCTCPSocket* s) {
+    CCLOG("connected: %d", s->getTag());
 }
 
-void NetworkTCP::onTCPSocketDisconnected(int tag) {
-	CCLOG("disconnected: %d", tag);
+void NetworkTCP::onTCPSocketDisonnected(CCTCPSocket* s) {
+    CCLOG("disconnected: %d", s->getTag());
 }
 
-void NetworkTCP::onTCPSocketData(int tag, CCByteBuffer& bb) {
-	string ret;
+void NetworkTCP::onPacketReceived(CCPacket* p) {
+    string ret;
+    CCByteBuffer bb(p->getBody(), p->getBodyLength());
 	bb.readLine(ret);
 	if(!ret.empty()) {
 		char buf[65535];

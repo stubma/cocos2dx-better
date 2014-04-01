@@ -46,9 +46,6 @@ class CC_DLL CCTCPSocket : public CCObject {
 	friend class CCTCPSocketHub;
 	
 private:
-	/// socket handle
-    int m_sock;
-	
     /// write buffer
     char m_outBuf[kCCSocketOutputBufferDefaultSize];
 	
@@ -61,18 +58,12 @@ private:
 	/// available data in read buffer
     int m_inBufLen;
 	
-	/// start reading pos of read buffer, between 0 and (size - 1)
-    int m_inBufStart;
-	
-	/// tag of this socket
-    int m_tag;
-	
 	/// block time for waiting socket connection
 	int m_blockSec;
 	
 private:
 	// we wait here until socket is connected or failed
-	static void* waitingConnectThreadEntry(void* arg);
+	static void* tcpThreadEntry(void* arg);
 	
 	/// receive data from socket until no more data or buffer full, or error
 	bool recvFromSock();
@@ -82,9 +73,9 @@ private:
 	
 	/// close socket
     void closeSocket();
-	
-	/// set connected flag
-	void setConnected(bool flag) { m_connected = flag; }
+    
+    /// compact in buf
+    void compactInBuf(int consumed);
 	
 protected:
 	/**
@@ -124,15 +115,6 @@ public:
 	 */
     bool sendData(void* buf, int size);
 	
-	/**
-	 * receive data and put into a buffer
-	 * 
-	 * @param buf buffer large enough to hold data
-	 * @param size wanted data length
-	 * @return actual read data size, or -1 if fail to read a complete packet
-	 */
-    int receiveData(void* buf, int size);
-	
 	/// flush write buffer, send them now
     bool flush();
 	
@@ -143,20 +125,26 @@ public:
      */
     bool hasAvailable();
 	
-	/// destroy socket
-    void destroy();
-	
-	/// get socket handle
-    int getSocket() const { return m_sock; }
+	/// socket handle
+    CC_SYNTHESIZE_READONLY(int, m_socket, Socket);
     
-	/// get tag
-    int getTag() { return m_tag; }
-	
-	/// is connected?
-	CC_SYNTHESIZE_READONLY_BOOL(m_connected, Connected);
-	
-	/// is already connected?
-	CC_SYNTHESIZE_BOOL(m_alreadyConnected, AlreadyConnected);
+    /// tag
+    CC_SYNTHESIZE_READONLY(int, m_tag, Tag);
+    
+    /// hub reference
+    CC_SYNTHESIZE(CCTCPSocketHub*, m_hub, Hub);
+    
+    /// connected
+    CC_SYNTHESIZE_READONLY_BOOL(m_connected, Connected);
+    
+    /// stop
+    CC_SYNTHESIZE_BOOL(m_stop, Stop);
+    
+    /// server name
+    CC_SYNTHESIZE_READONLY_PASS_BY_REF(string, m_hostname, Hostname);
+    
+    /// port
+    CC_SYNTHESIZE_READONLY(int, m_port, Port);
 };
 
 NS_CC_END

@@ -30,29 +30,42 @@ NS_CC_BEGIN
 CCByteBuffer::CCByteBuffer() :
 m_buffer(NULL),
 m_readPos(0),
-m_writePos(0) {
+m_writePos(0),
+m_readonly(false) {
 	reserve(DEFAULT_SIZE);
 }
 
 CCByteBuffer::CCByteBuffer(size_t res) :
 m_buffer(NULL),
 m_readPos(0),
-m_writePos(0) {
+m_writePos(0),
+m_readonly(false) {
 	reserve(res);
 }
 
 CCByteBuffer::CCByteBuffer(const CCByteBuffer& b) :
 m_buffer(NULL),
 m_readPos(0),
-m_writePos(0) {
+m_writePos(0),
+m_readonly(false) {
 	reserve(b.m_bufferSize);
 	memcpy(b.m_buffer, m_buffer, b.m_writePos);
 	m_readPos = b.m_readPos;
 	m_writePos = b.m_writePos;
 }
 
+CCByteBuffer::CCByteBuffer(const char* buf, int len) :
+m_buffer((uint8*)buf),
+m_readPos(0),
+m_writePos(len),
+m_readonly(true) {
+    
+}
+
 CCByteBuffer::~CCByteBuffer() {
-	CC_SAFE_FREE(m_buffer);
+    if(!m_readonly) {
+        CC_SAFE_FREE(m_buffer);
+    }
 }
 
 CCByteBuffer* CCByteBuffer::create() {
@@ -66,6 +79,9 @@ CCByteBuffer* CCByteBuffer::create(size_t res) {
 }
 
 void CCByteBuffer::reserve(size_t res) {
+    if(m_readonly)
+        return;
+    
 	if(m_buffer)
 		m_buffer = (uint8*)realloc(m_buffer, res);
 	else
@@ -75,6 +91,9 @@ void CCByteBuffer::reserve(size_t res) {
 }
 
 void CCByteBuffer::compact() {
+    if(m_readonly)
+        return;
+    
     if(m_readPos > 0) {
         memmove(m_buffer, m_buffer + m_readPos, available());
         m_writePos -= m_readPos;
@@ -128,6 +147,9 @@ void CCByteBuffer::readLine(string& dest) {
 }
 
 void CCByteBuffer::write(const uint8* data, size_t size) {
+    if(m_readonly)
+        return;
+    
 	size_t new_size = m_writePos + size;
 	if(new_size > m_bufferSize) {
 		new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;
@@ -139,16 +161,25 @@ void CCByteBuffer::write(const uint8* data, size_t size) {
 }
 
 void CCByteBuffer::write(const string& value) {
+    if(m_readonly)
+        return;
+    
 	writeCString(value);
 }
 
 void CCByteBuffer::writeCString(const string& value) {
+    if(m_readonly)
+        return;
+    
 	ensureCanWrite(value.length() + 1);
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length() + 1);
 	m_writePos += (value.length() + 1);
 }
 
 void CCByteBuffer::writePascalString(const string& value) {
+    if(m_readonly)
+        return;
+    
 	ensureCanWrite(value.length() + sizeof(uint16));
 	write<uint16>(value.length());
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length());
@@ -156,6 +187,9 @@ void CCByteBuffer::writePascalString(const string& value) {
 }
 
 void CCByteBuffer::writeLine(const string& value) {
+    if(m_readonly)
+        return;
+    
 	ensureCanWrite(value.length() + 2 * sizeof(char));
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length());
 	m_writePos += value.length();
@@ -170,6 +204,9 @@ void CCByteBuffer::skip(size_t len) {
 }
 
 void CCByteBuffer::revoke(size_t len) {
+    if(m_readonly)
+        return;
+    
     m_readPos -= len;
     m_readPos = MAX(0, m_readPos);
 }

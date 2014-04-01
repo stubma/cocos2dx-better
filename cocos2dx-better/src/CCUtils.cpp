@@ -549,6 +549,13 @@ int64_t CCUtils::currentTimeMillis() {
 }
 
 CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
+    // returned string list
+    s_tmpArray.removeAllObjects();
+    
+    // quick reject
+    if(s.empty())
+        return s_tmpArray;
+    
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
     size_t end = s.length() - 1;
@@ -562,9 +569,6 @@ CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
         end--;
         c = s[end];
     }
-    
-    // clear
-    s_tmpArray.removeAllObjects();
     
     // iterate string
     size_t compStart = start;
@@ -590,6 +594,13 @@ CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
 }
 
 CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
+    // returned string list
+    s_tmpArray.removeAllObjects();
+    
+    // quick reject
+    if(s.empty())
+        return s_tmpArray;
+    
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
     size_t end = s.length() - 1;
@@ -603,9 +614,6 @@ CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
         end--;
         c = s[end];
     }
-    
-    // clear
-    s_tmpArray.removeAllObjects();
     
     // iterate string
     size_t compStart = start;
@@ -631,6 +639,13 @@ CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
 }
 
 CCArray& CCUtils::componentsOfString(const string& s, const char sep) {
+    // returned string list
+    s_tmpArray.removeAllObjects();
+    
+    // quick reject
+    if(s.empty())
+        return s_tmpArray;
+    
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
     size_t end = s.length() - 1;
@@ -644,9 +659,6 @@ CCArray& CCUtils::componentsOfString(const string& s, const char sep) {
         end--;
         c = s[end];
     }
-    
-    // returned string list
-    s_tmpArray.removeAllObjects();
     
     // iterate string
     size_t compStart = start;

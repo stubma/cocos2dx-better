@@ -669,7 +669,6 @@
 		92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocket.h; sourceTree = "<group>"; };
 		92CE277518B5EE35006E5B71 /* CCFlash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFlash.cpp; sourceTree = "<group>"; };
 		92CE277818B5EE81006E5B71 /* CCFlash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCFlash.h; sourceTree = "<group>"; };
-		92D36590185D58710049AF37 /* CCUDPSocketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocketListener.h; sourceTree = "<group>"; };
 		92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUDPSocketHub.cpp; sourceTree = "<group>"; };
 		92D36594185D58D60049AF37 /* CCUDPSocketHub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocketHub.h; sourceTree = "<group>"; };
 		92DB70C818D3402700F2EF58 /* ccShader_flash_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_flash_frag.h; sourceTree = "<group>"; };
@@ -1652,7 +1651,6 @@
 				92662279185B437200DC8DEC /* CCNetworkCommon.h */,
 				92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */,
 				92D36594185D58D60049AF37 /* CCUDPSocketHub.h */,
-				92D36590185D58710049AF37 /* CCUDPSocketListener.h */,
 			);
 			name = network;
 			sourceTree = "<group>";

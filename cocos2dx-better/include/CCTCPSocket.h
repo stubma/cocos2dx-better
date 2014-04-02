@@ -109,12 +109,8 @@ public:
 	 * add packet to send queue
 	 *
 	 * @param p packet
-	 * @return operation success or failed
 	 */
     void sendPacket(CCPacket* p);
-	
-	/// flush write buffer, send them now
-    bool flush();
 	
 	/**
      * check is there any data can be read

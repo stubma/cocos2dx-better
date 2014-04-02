@@ -27,38 +27,63 @@
 #include "cocos2d.h"
 #include "CCUDPSocket.h"
 #include "CCByteBuffer.h"
-#include "CCUDPSocketListener.h"
+#include "CCPacket.h"
+#include <pthread.h>
 
 NS_CC_BEGIN
+
+/// object is a connected socket
+#define kCCNotificationUDPSocketConnected "kCCNotificationUDPSocketConnected"
+
+/// object is disconnected socket
+#define kCCNotificationUDPSocketDisconnected "kCCNotificationUDPSocketDisconnected"
+
+/// object is packet
+#define kCCNotificationPacketReceived "kCCNotificationPacketReceived"
 
 /**
  * It manages a group of sockets and monitor them in every update. The update loop is started
  * after hub is created.
  */
 class CC_DLL CCUDPSocketHub : public CCObject {
+    friend class CCUDPSocket;
+    
 private:
-	// buffer
-	char m_buffer[kCCSocketMaxPacketSize];
-	
-	typedef vector<CCUDPSocket*> CCUDPSocketList;
-	CCUDPSocketList m_lstSocket;
-	
-	typedef map<int, CCUDPSocketListener*> CCUDPSocketListenerMap;
-    CCUDPSocketListenerMap m_listenerMap;
+    /// pthread mutex
+    pthread_mutex_t m_mutex;
+    
+    /// connected sockets
+    CCArray m_connectedSockets;
+    
+    /// disconnected sockets
+    CCArray m_disconnectedSockets;
+    
+    /// packet array
+    CCArray m_packets;
 	
 protected:
 	CCUDPSocketHub();
-	
-	/// find a listener for a tag
-	CCUDPSocketListener* getListener(int tag);
+    
+    /// add socket to hub
+    bool addSocket(CCUDPSocket* socket);
 	
     /// listen on socket, read and write if necessary
     void mainLoop(float delta);
     
+    /// called by tcp socket when it is connected
+    void onSocketConnectedThreadSafe(CCUDPSocket* s);
+    
+    /// called by tcp socket when it is disconnected
+    void onSocketDisconnectedThreadSafe(CCUDPSocket* s);
+    
+    /// called when a socket want to deliver a packet
+    void onPacketReceivedThreadSafe(CCPacket* packet);
+    
 public:
     virtual ~CCUDPSocketHub();
-	
-	static CCUDPSocketHub* create();
+	static CCUDPSocketHub* create(CC_MULTI_ENCRYPT_FUNC encryptFunc = NULL, CC_MULTI_DECRYPT_FUNC decryptFunc = NULL);
+    static CC_MULTI_ENCRYPT_FUNC getEncryptFunc();
+    static CC_MULTI_DECRYPT_FUNC getDecryptFunc();
 	
 	/**
 	 * create socket instance and auto add it to hub
@@ -71,26 +96,24 @@ public:
 	 */
     CCUDPSocket* createSocket(const string& hostname, int port, int tag, int blockSec = kCCSocketDefaultTimeout);
 	
-    /// register callback, it doesn't retain the callback
-    void registerCallback(int tag, CCUDPSocketListener* callback);
-    
-    /// unregister callback
-    void unregisterCallback(int tag);
-    
-    /// add socket to hub
-    bool addSocket(CCUDPSocket* socket);
+    /// stop all
+    void stopAll();
 	
-	/// remove socket by tag
-    bool removeSocket(int tag);
-	
-    // 断开socket
+    /// disconnect socket
     void disconnect(int tag);
 	
 	/// get socket by tag
     CCUDPSocket* getSocket(int tag);
 	
 	/// send a packet
-    bool sendPacket(int tag, CCByteBuffer* packet);
+    void sendPacket(int tag, CCPacket* packet);
+    
+    /// socket array
+    CC_SYNTHESIZE_PASS_BY_REF(CCArray, m_sockets, Sockets);
+    
+    /// raw policy means packet don't have header, just contains a piece of bytes
+    /// so it will be developer's responsibility to parse the packet
+    CC_SYNTHESIZE_BOOL(m_rawPolicy, RawPolicy);
 };
 
 NS_CC_END

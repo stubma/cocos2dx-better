@@ -31,31 +31,46 @@
 #include <errno.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <pthread.h>
 
 using namespace std;
 
 NS_CC_BEGIN
 
+class CCUDPSocketHub;
+class CCPacket;
+
 /**
  * UDP socket
  */
 class CC_DLL CCUDPSocket : public CCObject {
+    friend class CCUDPSocketHub;
+    
 private:
-	/// socket handle
-    int m_sock;
+    /// read buffer, it is a loop buffer
+    char m_inBuf[kCCSocketInputBufferDefaultSize];
 	
-	/// tag of this socket
-    int m_tag;
+	/// available data in read buffer
+    ssize_t m_inBufLen;
+    
+    /// pthread mutex
+    pthread_mutex_t m_mutex;
 	
-	/// server address
-	sockaddr_in m_srvAddr;
-	
+    /// block time for waiting socket connection
+	int m_blockSec;
+    
 private:
+    // we wait here until socket is connected or failed
+	static void* udpThreadEntry(void* arg);
+    
 	/// has error
     bool hasError();
 	
 	/// close socket
     void closeSocket();
+    
+    /// read data from sock
+    void recvFromSock();
 	
 protected:
 	/**
@@ -68,7 +83,7 @@ protected:
 	 * @return true means initialization successful
 	 */
     bool init(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout);
-	
+    
 public:
 	CCUDPSocket();
 	virtual ~CCUDPSocket();
@@ -85,31 +100,38 @@ public:
 	static CCUDPSocket* create(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout);
 	
 	/**
-	 * send data in a buffer
+	 * add packet to send queue
 	 *
-	 * @param buf buffer
-	 * @param size data to be sent
-	 * @return operation success or failed
+	 * @param p packet
 	 */
-    bool sendData(void* buf, int size);
+    void sendPacket(CCPacket* p);
 	
-	/**
-	 * receive data and put into a buffer
-	 *
-	 * @param buf buffer large enough to hold data
-	 * @param size wanted data length
-	 * @return actual read data size, or -1 if fail to read a complete packet
-	 */
-    int receiveData(void* buf, int size);
-	
-	/// destroy socket
-    void destroy();
-	
-	/// get socket handle
-    int getSocket() const { return m_sock; }
+	/// socket handle
+    CC_SYNTHESIZE_READONLY(int, m_socket, Socket);
     
-	/// get tag
-    int getTag() { return m_tag; }
+    /// tag
+    CC_SYNTHESIZE_READONLY(int, m_tag, Tag);
+    
+    /// hub reference
+    CC_SYNTHESIZE(CCUDPSocketHub*, m_hub, Hub);
+    
+    /// connected
+    CC_SYNTHESIZE_READONLY_BOOL(m_connected, Connected);
+    
+    /// stop
+    CC_SYNTHESIZE_BOOL(m_stop, Stop);
+    
+    /// server name
+    CC_SYNTHESIZE_READONLY_PASS_BY_REF(string, m_hostname, Hostname);
+    
+    /// port
+    CC_SYNTHESIZE_READONLY(int, m_port, Port);
+    
+    /// server address
+    CC_SYNTHESIZE_PASS_BY_REF(sockaddr_in, m_srvAddr, ServerAddress);
+    
+    /// send queue
+    CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCArray, m_sendQueue, SendQueue);
 };
 
 NS_CC_END

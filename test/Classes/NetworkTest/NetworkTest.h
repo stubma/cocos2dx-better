@@ -49,7 +49,7 @@ public:
     virtual string subtitle();
 };
 
-class NetworkUDP : public NetworkDemo, public CCUDPSocketListener
+class NetworkUDP : public NetworkDemo
 {
 private:
 	CCUDPSocketHub* m_hub;
@@ -57,16 +57,15 @@ private:
 	
 private:
 	void onSendClicked(CCObject* sender);
-	
+    void onUDPSocketConnected(CCUDPSocket* s);
+    void onUDPSocketDisonnected(CCUDPSocket* s);
+    void onPacketReceived(CCPacket* p);
+    
 public:
     virtual ~NetworkUDP();
     virtual void onEnter();
+    virtual void onExit();
     virtual string subtitle();
-	
-	// CCUDPSocketListener
-	virtual void onUDPSocketClosed(int tag);
-	virtual void onUDPSocketBound(int tag);
-	virtual void onUDPSocketData(int tag, CCByteBuffer& bb);
 };
 
 #endif

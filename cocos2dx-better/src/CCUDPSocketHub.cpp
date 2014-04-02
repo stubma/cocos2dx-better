@@ -25,133 +25,156 @@
 
 NS_CC_BEGIN
 
-CCUDPSocketHub::CCUDPSocketHub() {
+static CC_MULTI_ENCRYPT_FUNC sEncryptFunc = NULL;
+static CC_MULTI_DECRYPT_FUNC sDecryptFunc = NULL;
+
+CCUDPSocketHub::CCUDPSocketHub() :
+m_rawPolicy(false) {
+    pthread_mutex_init(&m_mutex, NULL);
+    
     CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
     s->scheduleSelector(schedule_selector(CCUDPSocketHub::mainLoop), this, 0, false);
 };
 
 CCUDPSocketHub::~CCUDPSocketHub() {
-	CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
-	s->unscheduleSelector(schedule_selector(CCUDPSocketHub::mainLoop), this);
-	
-	for (CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++iter) {
-		int tag = (*iter)->getTag();
-		CC_SAFE_RELEASE(*iter);
-		CCUDPSocketListener* l = getListener(tag);
-		if(l) {
-			l->onUDPSocketClosed(tag);
-		}
-	}
+    // release
+    pthread_mutex_destroy(&m_mutex);
 }
 
-CCUDPSocketHub* CCUDPSocketHub::create() {
+CCUDPSocketHub* CCUDPSocketHub::create(CC_MULTI_ENCRYPT_FUNC encryptFunc, CC_MULTI_DECRYPT_FUNC decryptFunc) {
 	CCUDPSocketHub* h = new CCUDPSocketHub();
+    sEncryptFunc = encryptFunc;
+    sDecryptFunc = decryptFunc;
 	return (CCUDPSocketHub*)h->autorelease();
+}
+
+CC_MULTI_ENCRYPT_FUNC CCUDPSocketHub::getEncryptFunc() {
+    return sEncryptFunc;
+}
+
+CC_MULTI_DECRYPT_FUNC CCUDPSocketHub::getDecryptFunc() {
+    return sDecryptFunc;
 }
 
 CCUDPSocket* CCUDPSocketHub::createSocket(const string& hostname, int port, int tag, int blockSec) {
 	CCUDPSocket* s = CCUDPSocket::create(hostname, port, tag, blockSec);
-	if (s && addSocket(s)) {
-		CCUDPSocketListener* l = getListener(tag);
-		if(l) {
-			l->onUDPSocketBound(tag);
-		}
-	}
-	
+	if(s)
+        addSocket(s);
 	return s;
 }
 
-CCUDPSocketListener* CCUDPSocketHub::getListener(int tag) {
-	CCUDPSocketListenerMap::iterator iter = m_listenerMap.find(tag);
-	if(iter != m_listenerMap.end()) {
-		return iter->second;
-	} else {
-		return NULL;
-	}
+void CCUDPSocketHub::stopAll() {
+    // release socket
+    CCObject* obj;
+    CCARRAY_FOREACH(&m_sockets, obj) {
+        CCUDPSocket* s = (CCUDPSocket*)obj;
+        if(s->isConnected()) {
+            s->m_connected = false;
+            s->closeSocket();
+            CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationUDPSocketDisconnected, s);
+        }
+    }
+    m_sockets.removeAllObjects();
+    
+    // stop update
+    CCScheduler* s = CCDirector::sharedDirector()->getScheduler();
+	s->unscheduleSelector(schedule_selector(CCUDPSocketHub::mainLoop), this);
+}
+
+void CCUDPSocketHub::onSocketConnectedThreadSafe(CCUDPSocket* s) {
+    pthread_mutex_lock(&m_mutex);
+    m_connectedSockets.addObject(s);
+    pthread_mutex_unlock(&m_mutex);
+}
+
+void CCUDPSocketHub::onSocketDisconnectedThreadSafe(CCUDPSocket* s) {
+    pthread_mutex_lock(&m_mutex);
+    m_disconnectedSockets.addObject(s);
+    pthread_mutex_unlock(&m_mutex);
+}
+
+void CCUDPSocketHub::onPacketReceivedThreadSafe(CCPacket* packet) {
+    pthread_mutex_lock(&m_mutex);
+    m_packets.addObject(packet);
+    pthread_mutex_unlock(&m_mutex);
 }
 
 bool CCUDPSocketHub::addSocket(CCUDPSocket* socket) {
-	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
-		if((*iter)->getSocket() == socket->getSocket())
-			return false;
-	}
-	m_lstSocket.push_back(socket);
-	CC_SAFE_RETAIN(socket);
+    CCObject* obj;
+    CCARRAY_FOREACH(&m_sockets, obj) {
+        CCUDPSocket* s = (CCUDPSocket*)obj;
+        if(s->getSocket() == socket->getSocket()) {
+            return false;
+        }
+    }
+    m_sockets.addObject(socket);
+    socket->setHub(this);
 	return true;
 }
 
-bool CCUDPSocketHub::removeSocket(int tag) {
-	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
-		if((*iter)->getTag() == tag) {
-			CC_SAFE_RELEASE(*iter);
-			m_lstSocket.erase(iter);
-			return true;
-		}
-	}
-	return false;
-}
-
 CCUDPSocket* CCUDPSocketHub::getSocket(int tag) {
-	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
-		if((*iter)->getTag() == tag) {
-			return *iter;
-		}
-	}
+    CCObject* obj;
+    CCARRAY_FOREACH(&m_sockets, obj) {
+        CCUDPSocket* s = (CCUDPSocket*)obj;
+        if(s->getTag() == tag) {
+            return s;
+        }
+    }
 	return NULL;
 }
 
 void CCUDPSocketHub::mainLoop(float delta) {
-	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
-		CCUDPSocket* pSocket = *iter;
-		int tag = pSocket->getTag();
-		
-		while (true) {
-			int read = pSocket->receiveData(m_buffer, kCCSocketMaxPacketSize);
-			if (read <= 0)
-				break;
-			CCByteBuffer packet;
-			packet.write((uint8*)m_buffer, read);
-			
-			CCUDPSocketListener* l = getListener(tag);
-			if(l) {
-				l->onUDPSocketData(tag, packet);
-			}
-		}
-	}
+    pthread_mutex_lock(&m_mutex);
+    
+    // notification center
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    
+    // connected events
+    CCObject* obj;
+    CCARRAY_FOREACH(&m_connectedSockets, obj) {
+        CCUDPSocket* s = (CCUDPSocket*)obj;
+        nc->postNotification(kCCNotificationUDPSocketConnected, s);
+    }
+    m_connectedSockets.removeAllObjects();
+    
+    // data event
+    CCARRAY_FOREACH(&m_packets, obj) {
+        CCPacket* p = (CCPacket*)obj;
+        nc->postNotification(kCCNotificationPacketReceived, p);
+    }
+    m_packets.removeAllObjects();
+    
+    // disconnected event
+    CCARRAY_FOREACH(&m_disconnectedSockets, obj) {
+        CCUDPSocket* s = (CCUDPSocket*)obj;
+        nc->postNotification(kCCNotificationUDPSocketDisconnected, s);
+        m_sockets.removeObject(s);
+    }
+    m_disconnectedSockets.removeAllObjects();
+    
+    pthread_mutex_unlock(&m_mutex);
 }
 
-void CCUDPSocketHub::registerCallback(int tag, CCUDPSocketListener* callback) {
-	m_listenerMap[tag] = callback;
-}
-
-void CCUDPSocketHub::unregisterCallback(int tag) {
-    CCUDPSocketListenerMap::iterator iter = m_listenerMap.find(tag);
-    if(iter != m_listenerMap.end()) {
-        m_listenerMap.erase(iter);
+void CCUDPSocketHub::sendPacket(int tag, CCPacket* packet) {
+    CCObject* obj;
+    CCARRAY_FOREACH(&m_sockets, obj) {
+        CCUDPSocket* s = (CCUDPSocket*)obj;
+        if(s->getTag() == tag) {
+            s->sendPacket(packet);
+            break;
+        }
     }
 }
 
-bool CCUDPSocketHub::sendPacket(int tag, CCByteBuffer* packet) {
-	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
-		if ((*iter)->getTag() == tag) {
-			(*iter)->sendData((void*)packet->getBuffer(), packet->available());
-		}
-	}
-	
-	return false;
-}
-
 void CCUDPSocketHub::disconnect(int tag) {
-	for(CCUDPSocketList::iterator iter = m_lstSocket.begin(); iter != m_lstSocket.end(); ++ iter) {
-		if((*iter)->getTag() == tag) {
-			(*iter)->destroy();
-			CCUDPSocketListener* l = getListener(tag);
-			if(l) {
-				l->onUDPSocketClosed(tag);
-			}
-			break;
-		}
-	}
+    CCObject* obj;
+    CCARRAY_FOREACH(&m_sockets, obj) {
+        CCUDPSocket* s = (CCUDPSocket*)obj;
+        if(s->getTag() == tag) {
+            s->setStop(true);
+            break;
+        }
+    }
 }
 
 NS_CC_END

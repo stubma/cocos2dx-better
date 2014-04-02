@@ -47,10 +47,9 @@ NS_CC_BEGIN
  * after hub is created.
  */
 class CC_DLL CCTCPSocketHub : public CCObject {
-private:
-	// buffer
-	char m_buffer[kCCSocketMaxPacketSize];
+    friend class CCTCPSocket;
     
+private:
     /// pthread mutex
     pthread_mutex_t m_mutex;
     
@@ -72,6 +71,15 @@ protected:
     /// add socket to hub
     bool addSocket(CCTCPSocket* socket);
 	
+    /// called by tcp socket when it is connected
+    void onSocketConnectedThreadSafe(CCTCPSocket* s);
+    
+    /// called by tcp socket when it is disconnected
+    void onSocketDisconnectedThreadSafe(CCTCPSocket* s);
+    
+    /// called when a socket want to deliver a packet
+    void onPacketReceivedThreadSafe(CCPacket* packet);
+    
 public:
     virtual ~CCTCPSocketHub();
 	static CCTCPSocketHub* create(CC_MULTI_ENCRYPT_FUNC encryptFunc = NULL, CC_MULTI_DECRYPT_FUNC decryptFunc = NULL);
@@ -101,15 +109,6 @@ public:
 	
 	/// send a packet
     void sendPacket(int tag, CCPacket* packet);
-    
-    /// called by tcp socket when it is connected
-    void onSocketConnectedThreadSafe(CCTCPSocket* s);
-    
-    /// called by tcp socket when it is disconnected
-    void onSocketDisconnectedThreadSafe(CCTCPSocket* s);
-    
-    /// called when a socket want to deliver a packet
-    void onPacketReceivedThreadSafe(CCPacket* packet);
     
     /// socket array
     CC_SYNTHESIZE_PASS_BY_REF(CCArray, m_sockets, Sockets);

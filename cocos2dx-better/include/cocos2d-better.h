@@ -144,7 +144,6 @@
 #include "CCTCPSocket.h"
 #include "CCTCPSocketHub.h"
 #include "CCUDPSocket.h"
-#include "CCUDPSocketListener.h"
 #include "CCUDPSocketHub.h"
 
 // tmx

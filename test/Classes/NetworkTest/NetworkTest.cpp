@@ -225,7 +225,7 @@ std::string NetworkTCP::subtitle()
 //
 //------------------------------------------------------------------
 NetworkUDP::~NetworkUDP() {
-    CC_SAFE_RELEASE(m_hub);
+    m_hub->stopAll();
 }
 
 void NetworkUDP::onEnter()
@@ -253,33 +253,39 @@ void NetworkUDP::onEnter()
 							origin.y + visibleSize.height / 5));
 	addChild(m_recv);
 	
+    // notification observer
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->addObserver(this, callfuncO_selector(NetworkUDP::onUDPSocketConnected), kCCNotificationUDPSocketConnected, NULL);
+    nc->addObserver(this, callfuncO_selector(NetworkUDP::onUDPSocketDisonnected), kCCNotificationUDPSocketDisconnected, NULL);
+    nc->addObserver(this, callfuncO_selector(NetworkUDP::onPacketReceived), kCCNotificationPacketReceived, NULL);
+    
 	// change ip to your server
 	// registerCallback must be invoked before createSocket otherwise bound event is lost
 	m_hub = CCUDPSocketHub::create();
-	m_hub->registerCallback(1, this);
-	m_hub->createSocket("192.168.1.104", 9000, 1);
-    CC_SAFE_RETAIN(m_hub);
+    m_hub->setRawPolicy(true);
+	m_hub->createSocket("192.168.1.106", 9000, 1);
 }
 
-void NetworkUDP::onSendClicked(CCObject* sender) {
-	static int index = 0;
-	char buf[32];
-	sprintf(buf, "Hello: %d", index++);
-	CCByteBuffer packet;
-	packet.writeLine(buf);
-	m_hub->sendPacket(1, &packet);
+void NetworkUDP::onExit() {
+    NetworkDemo::onExit();
+    
+    CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+    nc->removeObserver(this, kCCNotificationUDPSocketConnected);
+    nc->removeObserver(this, kCCNotificationUDPSocketDisconnected);
+    nc->removeObserver(this, kCCNotificationPacketReceived);
 }
 
-void NetworkUDP::onUDPSocketBound(int tag) {
-	CCLOG("bound: %d", tag);
+void NetworkUDP::onUDPSocketConnected(CCUDPSocket* s) {
+    CCLOG("bound: %d", s->getTag());
 }
 
-void NetworkUDP::onUDPSocketClosed(int tag) {
-	CCLOG("closed: %d", tag);
+void NetworkUDP::onUDPSocketDisonnected(CCUDPSocket* s) {
+    CCLOG("closed: %d", s->getTag());
 }
 
-void NetworkUDP::onUDPSocketData(int tag, CCByteBuffer& bb) {
-	string ret;
+void NetworkUDP::onPacketReceived(CCPacket* p) {
+    string ret;
+    CCByteBuffer bb(p->getBuffer(), p->getPacketLength(), p->getPacketLength());
 	bb.readLine(ret);
 	if(!ret.empty()) {
 		char buf[65535];
@@ -288,7 +294,14 @@ void NetworkUDP::onUDPSocketData(int tag, CCByteBuffer& bb) {
 	}
 }
 
-std::string NetworkUDP::subtitle()
-{
+void NetworkUDP::onSendClicked(CCObject* sender) {
+	static int index = 0;
+	char buf[32];
+	sprintf(buf, "Hello: %d\r\n", index++);
+	CCPacket* p = CCPacket::createRawPacket(buf, strlen(buf));
+	m_hub->sendPacket(1, p);
+}
+
+std::string NetworkUDP::subtitle() {
     return "UDP Socket";
 }

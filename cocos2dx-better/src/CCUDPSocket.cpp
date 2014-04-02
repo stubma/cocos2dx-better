@@ -22,15 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCUDPSocket.h"
+#include "CCPacket.h"
+#include "CCUDPSocketHub.h"
 
 NS_CC_BEGIN
 
 CCUDPSocket::CCUDPSocket() :
-m_sock(kCCSocketInvalid),
+m_socket(kCCSocketInvalid),
 m_tag(-1) {
+    pthread_mutex_init(&m_mutex, NULL);
 }
 
 CCUDPSocket::~CCUDPSocket() {
+    pthread_mutex_destroy(&m_mutex);
 }
 
 CCUDPSocket* CCUDPSocket::create(const string& hostname, int port, int tag, int blockSec) {
@@ -43,6 +47,102 @@ CCUDPSocket* CCUDPSocket::create(const string& hostname, int port, int tag, int 
 	return NULL;
 }
 
+void* CCUDPSocket::udpThreadEntry(void* arg) {
+    // autorelease pool
+	CCThread thread;
+	thread.createAutoreleasePool();
+	
+	// get socket
+	CCUDPSocket* s = (CCUDPSocket*)arg;
+	
+    // client address
+	sockaddr_in my_addr;
+	my_addr.sin_family = AF_INET;
+	my_addr.sin_addr.s_addr = INADDR_ANY;
+	my_addr.sin_port = 0;
+	
+	// bind
+	if(bind(s->m_socket, (sockaddr*)&my_addr, sizeof(my_addr)) == kCCSocketError && s->hasError()) {
+        s->closeSocket();
+	} else {
+     	// select it
+        timeval timeout;
+        timeout.tv_sec = s->m_blockSec;
+        timeout.tv_usec = 0;
+        fd_set writeset, exceptset;
+        FD_ZERO(&writeset);
+        FD_ZERO(&exceptset);
+        FD_SET(s->m_socket, &writeset);
+        FD_SET(s->m_socket, &exceptset);
+        int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
+        if (ret == 0 || ret < 0) {
+            s->closeSocket();
+        } else {
+            ret = FD_ISSET(s->m_socket, &exceptset);
+            if(ret) {
+                s->closeSocket();
+            } else {
+                s->m_connected = true;
+                s->m_hub->onSocketConnectedThreadSafe(s);
+            }
+        }
+    }
+	
+	// delay 500ms when socket closed
+    struct linger so_linger;
+    so_linger.l_onoff = 1;
+    so_linger.l_linger = 500;
+    setsockopt(s->m_socket, SOL_SOCKET, SO_LINGER, (const char*)&so_linger, sizeof(so_linger));
+    
+    // read/write loop
+    CCPacket* p = NULL;
+    while(!s->m_stop && s->m_connected && s->getSocket() != kCCSocketInvalid) {
+        s->recvFromSock();
+        if(s->m_inBufLen > 0) {
+            CCPacket* p = NULL;
+            if(s->m_hub->isRawPolicy()) {
+                p = CCPacket::createRawPacket(s->m_inBuf, s->m_inBufLen);
+            } else {
+                p = CCPacket::createStandardPacket(s->m_inBuf, s->m_inBufLen);
+            }
+            s->m_hub->onPacketReceivedThreadSafe(p);
+        }
+        
+        // get packet to be sent
+        if(!p && s->m_sendQueue.count() > 0) {
+            pthread_mutex_lock(&s->m_mutex);
+            p = (CCPacket*)s->m_sendQueue.objectAtIndex(0);
+            CC_SAFE_RETAIN(p);
+            s->m_sendQueue.removeObjectAtIndex(0);
+            pthread_mutex_unlock(&s->m_mutex);
+        }
+        
+        // send current packet
+        if(p) {
+            ssize_t sent = sendto(s->m_socket, p->getBuffer(), p->getPacketLength(), 0, (sockaddr*)&s->m_srvAddr, sizeof(s->m_srvAddr));
+            if(sent >= p->getPacketLength()) {
+                CC_SAFE_RELEASE(p);
+                p = NULL;
+            } else {
+                if (s->hasError()) {
+                    s->closeSocket();
+                }
+            }
+        }
+    }
+    
+    // end
+    if(s->m_connected) {
+        s->m_hub->onSocketDisconnectedThreadSafe(s);
+        s->m_connected = false;
+    }
+	
+	// release
+	s->autorelease();
+	
+	return NULL;
+}
+
 bool CCUDPSocket::init(const string& hostname, int port, int tag, int blockSec) {
 	// check
     if(hostname.empty() || hostname.length() > 15) {
@@ -50,17 +150,17 @@ bool CCUDPSocket::init(const string& hostname, int port, int tag, int blockSec) 
     }
 	
 	// create tcp socket
-    m_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if(m_sock == kCCSocketInvalid) {
+    m_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if(m_socket == kCCSocketInvalid) {
         closeSocket();
         return false;
     }
 	
 	// non-block mode
-    fcntl(m_sock, F_SETFL, O_NONBLOCK);
+    fcntl(m_socket, F_SETFL, O_NONBLOCK);
 	
 	// validate host name
-    unsigned long serveraddr = inet_addr(hostname.c_str());
+    in_addr_t serveraddr = inet_addr(hostname.c_str());
     if(serveraddr == INADDR_NONE) {
         closeSocket();
         return false;
@@ -72,66 +172,31 @@ bool CCUDPSocket::init(const string& hostname, int port, int tag, int blockSec) 
     m_srvAddr.sin_port = htons(port);
     m_srvAddr.sin_addr.s_addr = serveraddr;
 	
-	// client address
-	sockaddr_in my_addr;
-	my_addr.sin_family = AF_INET;
-	my_addr.sin_addr.s_addr = INADDR_ANY;
-	my_addr.sin_port = 0;
-	
-	// bind
-	if(bind(m_sock, (sockaddr*)&my_addr, sizeof(my_addr)) == kCCSocketError) {
-		if (hasError()) {
-            closeSocket();
-            return false;
-        }
-	}
-	
-	// select it
-	timeval timeout;
-	timeout.tv_sec = blockSec;
-	timeout.tv_usec = 0;
-	fd_set writeset, exceptset;
-	FD_ZERO(&writeset);
-	FD_ZERO(&exceptset);
-	FD_SET(m_sock, &writeset);
-	FD_SET(m_sock, &exceptset);
-	int ret = select(FD_SETSIZE, NULL, &writeset, &exceptset, &timeout);
-	if (ret == 0 || ret < 0) {
-		closeSocket();
-		return false;
-	} else {
-		ret = FD_ISSET(m_sock, &exceptset);
-		if(ret) {
-			closeSocket();
-			return false;
-		}
-	}
-	
-	// delay 500ms when socket closed
-    struct linger so_linger;
-    so_linger.l_onoff = 1;
-    so_linger.l_linger = 500;
-    setsockopt(m_sock, SOL_SOCKET, SO_LINGER, (const char*)&so_linger, sizeof(so_linger));
-	
-	// save tag
+	// save info
+    m_hostname = hostname;
+    m_port = port;
     m_tag = tag;
+    m_blockSec = blockSec;
+    m_inBufLen = 0;
 	
+    // open a thread to process this socket
+    // should hold it to avoid wrong pointer
+	CC_SAFE_RETAIN(this);
+	pthread_t thread;
+	pthread_create(&thread, NULL, udpThreadEntry, (void*)this);
+    
 	return true;
 }
 
-bool CCUDPSocket::sendData(void* buf, int size) {
-	ssize_t sent = sendto(m_sock, buf, size, 0, (sockaddr*)&m_srvAddr, sizeof(m_srvAddr));
-	if(sent < size) {
-		return false;
-	} else {
-		return true;
-	}
+void CCUDPSocket::sendPacket(CCPacket* p) {
+    pthread_mutex_lock(&m_mutex);
+    m_sendQueue.addObject(p);
+    pthread_mutex_unlock(&m_mutex);
 }
 
-int CCUDPSocket::receiveData(void* buf, int size) {
+void CCUDPSocket::recvFromSock() {
 	socklen_t len = sizeof(m_srvAddr);
-	int recv = recvfrom(m_sock, buf, size, 0, (sockaddr*)&m_srvAddr, &len);
-	return recv;
+	m_inBufLen = recvfrom(m_socket, m_inBuf, kCCSocketInputBufferDefaultSize, 0, (sockaddr*)&m_srvAddr, &len);
 }
 
 bool CCUDPSocket::hasError() {
@@ -144,16 +209,10 @@ bool CCUDPSocket::hasError() {
 }
 
 void CCUDPSocket::closeSocket() {
-    close(m_sock);
-}
-
-void CCUDPSocket::destroy() {
-	// ensure not destroy again
-	if(m_sock == kCCSocketInvalid)
-		return;
-	
-	// close
-	closeSocket();
+    if(m_socket != kCCSocketInvalid) {
+        close(m_socket);
+        m_socket = kCCSocketInvalid;
+    }
 }
 
 NS_CC_END

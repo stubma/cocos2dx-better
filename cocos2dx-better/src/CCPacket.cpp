@@ -29,17 +29,17 @@
 NS_CC_BEGIN
 
 CCPacket::CCPacket() :
-m_body(NULL),
+m_buffer(NULL),
 m_packetLength(0),
 m_raw(false) {
     memset(&m_header, 0, sizeof(Header));
 }
 
 CCPacket::~CCPacket() {
-    CC_SAFE_FREE(m_body);
+    CC_SAFE_FREE(m_buffer);
 }
 
-CCPacket* CCPacket::createStandardPacket(const char* buf, int len) {
+CCPacket* CCPacket::createStandardPacket(const char* buf, size_t len) {
     if(len < kCCPacketHeaderLength)
         return NULL;
     
@@ -51,23 +51,96 @@ CCPacket* CCPacket::createStandardPacket(const char* buf, int len) {
     return NULL;
 }
 
-CCPacket* CCPacket::createRawPacket(const char* buf, int len) {
+CCPacket* CCPacket::createRawPacket(const char* buf, size_t len, int algorithm) {
     CCPacket* p = new CCPacket();
-    if(p->initWithRawBuf(buf, len)) {
+    if(p->initWithRawBuf(buf, len, algorithm)) {
         return (CCPacket*)p->autorelease();
     }
     CC_SAFE_RELEASE(p);
     return NULL;
 }
 
-bool CCPacket::initWithStandardBuf(const char* buf, int len) {
+CCPacket* CCPacket::createStandardPacket(const string& magic, int command, CCJSONObject* json, int algorithm) {
+    CCPacket* p = new CCPacket();
+    if(p->initWithJson(magic, command, json, 0, 0, algorithm)) {
+        return (CCPacket*)p->autorelease();
+    }
+    CC_SAFE_RELEASE(p);
+    return NULL;
+}
+
+CCPacket* CCPacket::createStandardPacket(const string& magic, int command, CCJSONObject* json, int protocolVersion, int serverVersion, int algorithm) {
+    CCPacket* p = new CCPacket();
+    if(p->initWithJson(magic, command, json, protocolVersion, serverVersion, algorithm)) {
+        return (CCPacket*)p->autorelease();
+    }
+    CC_SAFE_RELEASE(p);
+    return NULL;
+}
+
+bool CCPacket::initWithJson(const string& magic, int command, CCJSONObject* json, int protocolVersion, int serverVersion, int algorithm) {
+    // check magic
+    if(magic.length() < 4)
+        return false;
+    
+    // magic
+    m_header.magic[0] = magic.at(0);
+    m_header.magic[1] = magic.at(1);
+    m_header.magic[2] = magic.at(2);
+    m_header.magic[3] = magic.at(3);
+    
+    // protocol version
+    m_header.protocolVersion = protocolVersion;
+    
+    // server version
+    m_header.serverVersion = serverVersion;
+    
+	// command id
+    m_header.command = command;
+	
+	// no encrypt
+    m_header.encryptAlgorithm = algorithm;
+    
+    // body
+	string bodyStr = json->toString();
+    char* plain = (char*)bodyStr.c_str();
+    if(CCTCPSocketHub::getEncryptFunc() && algorithm != -1) {
+        size_t bodyLen = bodyStr.length();
+        size_t encLen;
+        const char* enc = (*CCTCPSocketHub::getEncryptFunc())(plain, bodyLen, &encLen, algorithm);
+        allocate(encLen + kCCPacketHeaderLength + 1);
+        memcpy(m_buffer + kCCPacketHeaderLength, enc, encLen);
+        if(enc != plain) {
+            free((void*)enc);
+        }
+        
+        // length
+        m_header.length = (int)encLen;
+        m_packetLength = encLen + kCCPacketHeaderLength;
+    } else {
+        m_header.length = (int)bodyStr.length();
+        allocate(bodyStr.length() + kCCPacketHeaderLength + 1);
+        memcpy(m_buffer + kCCPacketHeaderLength, plain, bodyStr.length());
+        m_packetLength = bodyStr.length() + kCCPacketHeaderLength;
+    }
+    
+    // write header
+    writeHeader();
+    
+    // init
+    m_raw = false;
+    
+    return true;
+}
+
+bool CCPacket::initWithStandardBuf(const char* buf, size_t len) {
     // quick check
     if(len < kCCPacketHeaderLength) {
         return false;
     }
     
     // header
-    CCByteBuffer bb(buf, len);
+    CCByteBuffer bb(buf, len, len);
     m_header.magic[0] = bb.read<char>();
     m_header.magic[1] = bb.read<char>();
     m_header.magic[2] = bb.read<char>();
@@ -84,19 +157,19 @@ bool CCPacket::initWithStandardBuf(const char* buf, int len) {
             // read body and try to decode
             char* body = (char*)malloc(m_header.length * sizeof(char));
             bb.read((uint8*)body, m_header.length);
-            int plainLen;
-            char* plain = (char*)(*CCTCPSocketHub::getDecryptFunc())(body, m_header.length, &plainLen);
+            size_t plainLen;
+            char* plain = (char*)(*CCTCPSocketHub::getDecryptFunc())(body, m_header.length, &plainLen, m_header.encryptAlgorithm);
             if(plain != body)
                 free(body);
             
             // copy to body
-            allocateBody(plainLen + 1); // one more 0 bytes make it a c string
-            memcpy(m_body, plain, plainLen);
-            m_header.length = plainLen;
+            allocate(plainLen + kCCPacketHeaderLength + 1); // one more 0 bytes make it a c string
+            memcpy(m_buffer + kCCPacketHeaderLength, plain, plainLen);
+            m_header.length = (int)plainLen;
             free(plain);
         } else {
-            allocateBody(m_header.length + 1);
-            bb.read((uint8*)m_body, m_header.length);
+            allocate(m_header.length + kCCPacketHeaderLength + 1);
+            bb.read((uint8*)m_buffer + kCCPacketHeaderLength, m_header.length);
         }
     } else {
         return false;
@@ -106,25 +179,28 @@ bool CCPacket::initWithStandardBuf(const char* buf, int len) {
     m_raw = false;
     m_packetLength = m_header.length + kCCPacketHeaderLength;
     
+    // write header
+    writeHeader();
+    
     return true;
 }
 
-bool CCPacket::initWithRawBuf(const char* buf, int len) {
-    if(CCTCPSocketHub::getDecryptFunc()) {
+bool CCPacket::initWithRawBuf(const char* buf, size_t len, int algorithm) {
+    if(CCTCPSocketHub::getDecryptFunc() && algorithm != -1) {
         // read body and try to decode
-        int plainLen;
-        char* plain = (char*)(*CCTCPSocketHub::getDecryptFunc())(buf, len, &plainLen);
+        size_t plainLen;
+        char* plain = (char*)(*CCTCPSocketHub::getDecryptFunc())(buf, len, &plainLen, algorithm);
         
         // copy to body
-        allocateBody(plainLen + 1); // one more 0 bytes make it a c string
-        memcpy(m_body, plain, plainLen);
-        m_header.length = plainLen;
+        allocate(plainLen + 1); // one more 0 bytes make it a c string
+        memcpy(m_buffer, plain, plainLen);
+        m_header.length = (int)plainLen;
         if(plain != buf)
             free(plain);
     } else {
-        m_header.length = len;
-        allocateBody(len + 1);
-        memcpy(m_body, buf, len);
+        m_header.length = (int)len;
+        allocate(len + 1);
+        memcpy(m_buffer, buf, len);
     }
     
     // other
@@ -134,8 +210,41 @@ bool CCPacket::initWithRawBuf(const char* buf, int len) {
     return true;
 }
 
-void CCPacket::allocateBody(size_t len) {
-    m_body = (char*)calloc(len, sizeof(char));
+void CCPacket::writeHeader() {
+    CCByteBuffer bb(m_buffer, m_packetLength, 0);
+
+    // magic
+    bb.write<char>(m_header.magic[0]);
+    bb.write<char>(m_header.magic[1]);
+    bb.write<char>(m_header.magic[2]);
+    bb.write<char>(m_header.magic[3]);
+    
+    // protocol version
+    bb.write<int>(htobe32(m_header.protocolVersion));
+    
+    // server version
+    bb.write<int>(htobe32(m_header.serverVersion));
+    
+	// command id
+    bb.write<int>(htobe32(m_header.command));
+	
+	// no encrypt
+	bb.write<int>(htobe32(m_header.encryptAlgorithm));
+    
+    // body length
+    bb.write<int>(htobe32(m_header.length));
+}
+
+const char* CCPacket::getBody() {
+    if(m_raw)
+        return m_buffer;
+    else
+        return m_buffer + kCCPacketHeaderLength;
+}
+
+void CCPacket::allocate(size_t len) {
+    if(!m_buffer)
+        m_buffer = (char*)calloc(len, sizeof(char));
 }
 
 NS_CC_END

@@ -26,17 +26,13 @@
 
 #include "cocos2d.h"
 #include "CCMoreMacros.h"
+#include "CCJSONObject.h"
 
 using namespace std;
 
 NS_CC_BEGIN
 
 #define kCCPacketHeaderLength 24
-
-typedef enum {
-    NONE,
-    NOT
-} ccPacketEncryptAlgorithm;
 
 /**
  * A general packet definition, it will have a header. However, it provides
@@ -56,23 +52,50 @@ public:
 protected:
     CCPacket();
     
-    virtual bool initWithStandardBuf(const char* buf, int len);
-    virtual bool initWithRawBuf(const char* buf, int len);
+    virtual bool initWithStandardBuf(const char* buf, size_t len);
+    virtual bool initWithRawBuf(const char* buf, size_t len, int algorithm);
+    virtual bool initWithJson(const string& magic, int command, CCJSONObject* json, int protocolVersion, int serverVersion, int algorithm);
+    
+    // allocate buffer
+    void allocate(size_t len);
+    
+    // write header
+    void writeHeader();
     
 public:
     virtual ~CCPacket();
-    static CCPacket* createStandardPacket(const char* buf, int len);
-    static CCPacket* createRawPacket(const char* buf, int len);
     
-    // allocate memory for body
-    void allocateBody(size_t len);
+    /**
+     * create a standard format packet which has a header
+     */
+    static CCPacket* createStandardPacket(const char* buf, size_t len);
+    
+    /**
+     * create a raw packet which doesn't have header and the body is raw data received from
+     * socket. you can set algorithm if data is encrypted, by default it is -1 which means no
+     * decryption will be performed
+     */
+    static CCPacket* createRawPacket(const char* buf, size_t len, int algorithm = -1);
+    
+    /**
+     * create a standard packet which body content is from a json object
+     */
+    static CCPacket* createStandardPacket(const string& magic, int command, CCJSONObject* json, int algorithm = -1);
+    
+    /**
+     * create a standard packet which body content is from a json object
+     */
+    static CCPacket* createStandardPacket(const string& magic, int command, CCJSONObject* json, int protocolVersion, int serverVersion, int algorithm = -1);
     
     // body length
     int getBodyLength() { return m_header.length; }
     
+    // get body pointer
+    const char* getBody();
+    
     CC_SYNTHESIZE_PASS_BY_REF_NC(Header, m_header, Header);
-    CC_SYNTHESIZE(char*, m_body, Body);
-    CC_SYNTHESIZE_READONLY(int, m_packetLength, PacketLength);
+    CC_SYNTHESIZE(char*, m_buffer, Buffer);
+    CC_SYNTHESIZE_READONLY(size_t, m_packetLength, PacketLength);
     CC_SYNTHESIZE_READONLY(bool, m_raw, Raw);
 };
 

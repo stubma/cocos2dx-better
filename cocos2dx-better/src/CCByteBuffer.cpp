@@ -31,7 +31,7 @@ CCByteBuffer::CCByteBuffer() :
 m_buffer(NULL),
 m_readPos(0),
 m_writePos(0),
-m_readonly(false) {
+m_external(false) {
 	reserve(DEFAULT_SIZE);
 }
 
@@ -39,7 +39,7 @@ CCByteBuffer::CCByteBuffer(size_t res) :
 m_buffer(NULL),
 m_readPos(0),
 m_writePos(0),
-m_readonly(false) {
+m_external(false) {
 	reserve(res);
 }
 
@@ -47,23 +47,24 @@ CCByteBuffer::CCByteBuffer(const CCByteBuffer& b) :
 m_buffer(NULL),
 m_readPos(0),
 m_writePos(0),
-m_readonly(false) {
+m_external(false) {
 	reserve(b.m_bufferSize);
 	memcpy(b.m_buffer, m_buffer, b.m_writePos);
 	m_readPos = b.m_readPos;
 	m_writePos = b.m_writePos;
 }
 
-CCByteBuffer::CCByteBuffer(const char* buf, int len) :
+CCByteBuffer::CCByteBuffer(const char* buf, size_t bufSize, size_t dataLen) :
 m_buffer((uint8*)buf),
 m_readPos(0),
-m_writePos(len),
-m_readonly(true) {
+m_writePos(dataLen),
+m_external(true),
+m_bufferSize(bufSize) {
     
 }
 
 CCByteBuffer::~CCByteBuffer() {
-    if(!m_readonly) {
+    if(!m_external) {
         CC_SAFE_FREE(m_buffer);
     }
 }
@@ -79,7 +80,7 @@ CCByteBuffer* CCByteBuffer::create(size_t res) {
 }
 
 void CCByteBuffer::reserve(size_t res) {
-    if(m_readonly)
+    if(m_external)
         return;
     
 	if(m_buffer)
@@ -91,9 +92,6 @@ void CCByteBuffer::reserve(size_t res) {
 }
 
 void CCByteBuffer::compact() {
-    if(m_readonly)
-        return;
-    
     if(m_readPos > 0) {
         memmove(m_buffer, m_buffer + m_readPos, available());
         m_writePos -= m_readPos;
@@ -136,7 +134,7 @@ void CCByteBuffer::readPascalString(string& dest) {
 void CCByteBuffer::readLine(string& dest) {
 	dest.clear();
 	char c;
-	while(true)	{
+	while(m_readPos < m_bufferSize)	{
 		c = read<char>();
 		if(c == '\r')
 			continue;
@@ -147,11 +145,12 @@ void CCByteBuffer::readLine(string& dest) {
 }
 
 void CCByteBuffer::write(const uint8* data, size_t size) {
-    if(m_readonly)
-        return;
-    
 	size_t new_size = m_writePos + size;
 	if(new_size > m_bufferSize) {
+        if(m_external) {
+            CCLOGWARN("external mode: buffer size is not enough to write");
+            return;
+        }
 		new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;
 		reserve(new_size);
 	}
@@ -161,36 +160,45 @@ void CCByteBuffer::write(const uint8* data, size_t size) {
 }
 
 void CCByteBuffer::write(const string& value) {
-    if(m_readonly)
-        return;
-    
 	writeCString(value);
 }
 
 void CCByteBuffer::writeCString(const string& value) {
-    if(m_readonly)
-        return;
+    if(m_writePos + value.length() + 1 > m_bufferSize) {
+        if(m_external) {
+            CCLOGWARN("external mode: buffer size is not enough to write");
+            return;
+        }
+        ensureCanWrite(value.length() + 1);
+    }
     
-	ensureCanWrite(value.length() + 1);
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length() + 1);
 	m_writePos += (value.length() + 1);
 }
 
 void CCByteBuffer::writePascalString(const string& value) {
-    if(m_readonly)
-        return;
-    
-	ensureCanWrite(value.length() + sizeof(uint16));
+    if(m_writePos + value.length() + sizeof(uint16) > m_bufferSize) {
+        if(m_external) {
+            CCLOGWARN("external mode: buffer size is not enough to write");
+            return;
+        }
+        ensureCanWrite(value.length() + sizeof(uint16));
+    }
+	
 	write<uint16>(value.length());
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length());
 	m_writePos += value.length();
 }
 
 void CCByteBuffer::writeLine(const string& value) {
-    if(m_readonly)
-        return;
+    if(m_writePos + value.length() + 2 * sizeof(char) > m_bufferSize) {
+        if(m_external) {
+            CCLOGWARN("external mode: buffer size is not enough to write");
+            return;
+        }
+        ensureCanWrite(value.length() + 2 * sizeof(char));
+    }
     
-	ensureCanWrite(value.length() + 2 * sizeof(char));
 	memcpy(&m_buffer[m_writePos], value.c_str(), value.length());
 	m_writePos += value.length();
 	write<char>('\r');
@@ -204,14 +212,11 @@ void CCByteBuffer::skip(size_t len) {
 }
 
 void CCByteBuffer::revoke(size_t len) {
-    if(m_readonly)
-        return;
-    
     m_readPos -= len;
     m_readPos = MAX(0, m_readPos);
 }
 
-void CCByteBuffer::ensureCanWrite(uint32 size) {
+void CCByteBuffer::ensureCanWrite(size_t size) {
 	size_t new_size = m_writePos + size;
 	if(new_size > m_bufferSize) {
 		new_size = (new_size / DEFAULT_INCREASE_SIZE + 1) * DEFAULT_INCREASE_SIZE;

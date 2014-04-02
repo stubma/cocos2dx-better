@@ -25,8 +25,8 @@
 
 NS_CC_BEGIN
 
-static CC_ENCRYPT_FUNC sEncryptFunc = NULL;
-static CC_DECRYPT_FUNC sDecryptFunc = NULL;
+static CC_MULTI_ENCRYPT_FUNC sEncryptFunc = NULL;
+static CC_MULTI_DECRYPT_FUNC sDecryptFunc = NULL;
 
 CCTCPSocketHub::CCTCPSocketHub() :
 m_rawPolicy(false) {
@@ -42,16 +42,18 @@ CCTCPSocketHub::~CCTCPSocketHub() {
     pthread_mutex_destroy(&m_mutex);
 }
 
-CCTCPSocketHub* CCTCPSocketHub::create(CC_ENCRYPT_FUNC encryptFunc, CC_DECRYPT_FUNC decryptFunc) {
+CCTCPSocketHub* CCTCPSocketHub::create(CC_MULTI_ENCRYPT_FUNC encryptFunc, CC_MULTI_DECRYPT_FUNC decryptFunc) {
 	CCTCPSocketHub* h = new CCTCPSocketHub();
+    sEncryptFunc = encryptFunc;
+    sDecryptFunc = decryptFunc;
 	return (CCTCPSocketHub*)h->autorelease();
 }
 
-CC_ENCRYPT_FUNC CCTCPSocketHub::getEncryptFunc() {
+CC_MULTI_ENCRYPT_FUNC CCTCPSocketHub::getEncryptFunc() {
     return sEncryptFunc;
 }
 
-CC_DECRYPT_FUNC CCTCPSocketHub::getDecryptFunc() {
+CC_MULTI_DECRYPT_FUNC CCTCPSocketHub::getDecryptFunc() {
     return sDecryptFunc;
 }
 
@@ -154,16 +156,15 @@ void CCTCPSocketHub::mainLoop(float delta) {
     pthread_mutex_unlock(&m_mutex);
 }
 
-bool CCTCPSocketHub::sendPacket(int tag, CCByteBuffer* packet) {
+void CCTCPSocketHub::sendPacket(int tag, CCPacket* packet) {
     CCObject* obj;
     CCARRAY_FOREACH(&m_sockets, obj) {
         CCTCPSocket* s = (CCTCPSocket*)obj;
         if(s->getTag() == tag) {
-            s->sendData((void*)packet->getBuffer(), packet->available());
-            return s->flush();
+            s->sendPacket(packet);
+            break;
         }
     }
-	return false;
 }
 
 void CCTCPSocketHub::disconnect(int tag) {

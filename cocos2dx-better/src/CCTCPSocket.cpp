@@ -31,12 +31,13 @@ CCTCPSocket::CCTCPSocket() :
 m_socket(kCCSocketInvalid),
 m_connected(false),
 m_stop(false) {
-    memset(m_outBuf, 0, sizeof(m_outBuf));
+    pthread_mutex_init(&m_mutex, NULL);
     memset(m_inBuf, 0, sizeof(m_inBuf));
 }
 
 CCTCPSocket::~CCTCPSocket() {
     closeSocket();
+    pthread_mutex_destroy(&m_mutex);
 }
 
 CCTCPSocket* CCTCPSocket::create(const string& hostname, int port, int tag, int blockSec, bool keepAlive) {
@@ -63,6 +64,12 @@ void CCTCPSocket::compactInBuf(int consumed) {
     } else {
         m_inBufLen = 0;
     }
+}
+
+void CCTCPSocket::sendPacket(CCPacket* p) {
+    pthread_mutex_lock(&m_mutex);
+    m_sendQueue.addObject(p);
+    pthread_mutex_unlock(&m_mutex);
 }
 
 void* CCTCPSocket::tcpThreadEntry(void* arg) {
@@ -115,7 +122,9 @@ void* CCTCPSocket::tcpThreadEntry(void* arg) {
         }
     }
     
-    // read loop
+    // read/write loop
+    CCPacket* p = NULL;
+    ssize_t sent = 0;
     while(!s->m_stop && s->m_connected && s->getSocket() != kCCSocketInvalid) {
         s->recvFromSock();
         if(s->m_inBufLen > 0) {
@@ -127,6 +136,35 @@ void* CCTCPSocket::tcpThreadEntry(void* arg) {
             }
             s->compactInBuf(p->getPacketLength());
             s->m_hub->onPacketReceivedThreadSafe(p);
+        }
+        
+        // get packet to be sent
+        if(!p && s->m_sendQueue.count() > 0) {
+            pthread_mutex_lock(&s->m_mutex);
+            p = (CCPacket*)s->m_sendQueue.objectAtIndex(0);
+            CC_SAFE_RETAIN(p);
+            s->m_sendQueue.removeObjectAtIndex(0);
+            sent = 0;
+            pthread_mutex_unlock(&s->m_mutex);
+        }
+        
+        // send current packet
+        if(p) {
+            ssize_t outsize = send(s->m_socket, p->getBuffer() + sent, p->getPacketLength() - sent, 0);
+            if(outsize > 0) {
+                // move cursor
+                sent += outsize;
+                
+                // any more?
+                if (sent >= p->getPacketLength()) {
+                    CC_SAFE_RELEASE(p);
+                    p = NULL;
+                }
+            } else {
+                if (s->hasError()) {
+                    s->closeSocket();
+                }
+            }
         }
     }
     
@@ -182,38 +220,12 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
     
     // reset buffer
     m_inBufLen = 0;
-    m_outBufLen = 0;
     
     // open a thread to process this socket
     // should hold it to avoid wrong pointer
 	CC_SAFE_RETAIN(this);
 	pthread_t thread;
 	pthread_create(&thread, NULL, tcpThreadEntry, (void*)this);
-	
-    return true;
-}
-
-bool CCTCPSocket::sendData(void* buf, int size) {
-	// basic checking
-    if(!buf || size <= 0) {
-        return false;
-    }
-    if (m_socket == kCCSocketInvalid) {
-        return false;
-    }
-	
-    // buffer size check
-    if(m_outBufLen + size > kCCSocketOutputBufferDefaultSize) {
-        flush();
-        if(m_outBufLen + size > kCCSocketOutputBufferDefaultSize) {
-            closeSocket();
-            return false;
-        }
-    }
-	
-	// append data to buffer
-    memcpy(m_outBuf + m_outBufLen, buf, size);
-    m_outBufLen += size;
 	
     return true;
 }
@@ -250,38 +262,6 @@ bool CCTCPSocket::recvFromSock() {
 	} else {
 		if (hasError()) {
             closeSocket();
-			return false;
-		}
-	}
-	
-	return true;
-}
-
-bool CCTCPSocket::flush() {
-	// basic checking
-	if (m_socket == kCCSocketInvalid) {
-		return false;
-	}
-	if(m_outBufLen <= 0) {
-		return true;
-	}
-	
-	// send
-	ssize_t outsize = send(m_socket, m_outBuf, m_outBufLen, 0);
-	if(outsize > 0) {
-		// move cursor
-		if(m_outBufLen - outsize > 0) {
-			memcpy(m_outBuf, m_outBuf + outsize, m_outBufLen - outsize);
-		}
-		m_outBufLen -= outsize;
-		
-		// any more?
-		if (m_outBufLen < 0) {
-			return false;
-		}
-	} else {
-		if (hasError()) {
-			closeSocket();
 			return false;
 		}
 	}

@@ -31,8 +31,10 @@ USING_NS_CC;
 NS_CC_BEGIN
 
 // general function type
-typedef const char* (*CC_DECRYPT_FUNC)(const char*, int, int*);
-typedef const char* (*CC_ENCRYPT_FUNC)(const char*, int, int*);
+typedef const char* (*CC_DECRYPT_FUNC)(const char* enc, int encLen, int* plainLen);
+typedef const char* (*CC_ENCRYPT_FUNC)(const char* plain, int plainLen, int* encLen);
+typedef const char* (*CC_MULTI_ENCRYPT_FUNC)(const char* enc, size_t encLen, size_t* plainLen, int algorithm);
+typedef const char* (*CC_MULTI_DECRYPT_FUNC)(const char* plain, size_t plainLen, size_t* encLen, int algorithm);
 
 /// CCPoint constant
 static const CCPoint CCPointCenter = ccp(0.5f, 0.5f);

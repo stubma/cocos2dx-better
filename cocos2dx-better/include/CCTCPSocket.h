@@ -32,12 +32,14 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include "CCMoreMacros.h"
+#include <pthread.h>
 
 using namespace std;
 
 NS_CC_BEGIN
 
 class CCTCPSocketHub;
+class CCPacket;
 
 /**
  * TCP socket
@@ -46,12 +48,6 @@ class CC_DLL CCTCPSocket : public CCObject {
 	friend class CCTCPSocketHub;
 	
 private:
-    /// write buffer
-    char m_outBuf[kCCSocketOutputBufferDefaultSize];
-	
-	/// writable data in write buffer
-    int m_outBufLen;
-	
     /// read buffer, it is a loop buffer
     char m_inBuf[kCCSocketInputBufferDefaultSize];
 	
@@ -60,6 +56,9 @@ private:
 	
 	/// block time for waiting socket connection
 	int m_blockSec;
+    
+    /// pthread mutex
+    pthread_mutex_t m_mutex;
 	
 private:
 	// we wait here until socket is connected or failed
@@ -107,13 +106,12 @@ public:
 	static CCTCPSocket* create(const string& hostname, int port, int tag = -1, int blockSec = kCCSocketDefaultTimeout, bool keepAlive = false);
 	
 	/**
-	 * send data in a buffer
+	 * add packet to send queue
 	 *
-	 * @param buf buffer
-	 * @param size data to be sent
+	 * @param p packet
 	 * @return operation success or failed
 	 */
-    bool sendData(void* buf, int size);
+    void sendPacket(CCPacket* p);
 	
 	/// flush write buffer, send them now
     bool flush();
@@ -145,6 +143,9 @@ public:
     
     /// port
     CC_SYNTHESIZE_READONLY(int, m_port, Port);
+    
+    /// send queue
+    CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCArray, m_sendQueue, SendQueue);
 };
 
 NS_CC_END

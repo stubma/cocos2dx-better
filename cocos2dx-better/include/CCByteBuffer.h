@@ -49,10 +49,10 @@ protected:
     size_t m_writePos;
 	
 	/// buffer memory size
-    uint32 m_bufferSize;
+    size_t m_bufferSize;
     
-    /// readonly mode
-    bool m_readonly;
+    /// external mode
+    bool m_external;
 	
 protected:
 	/// Allocates/reallocates buffer with specified size.
@@ -63,13 +63,22 @@ protected:
 	 *
      * @param size number of bytes to fit
      */
-    void ensureCanWrite(uint32 size);
+    void ensureCanWrite(size_t size);
 	
 public:
 	CCByteBuffer();
     CCByteBuffer(size_t res);
 	CCByteBuffer(const CCByteBuffer& b);
-    CCByteBuffer(const char* buf, int len);
+    
+    /**
+     * it wraps an external buffer insteal of allocating memory
+     *
+     * @param buf buffer
+     * @param bufSize total size of buffer
+     * @param dataLen available data in buffer
+     */
+    CCByteBuffer(const char* buf, size_t bufSize, size_t dataLen);
+    
     virtual ~CCByteBuffer();
 	
 	/// Creates a CCByteBuffer with the default size
@@ -85,7 +94,7 @@ public:
     const uint8* getBuffer() { return m_buffer; }
 	
     /// Gets the readable content size.
-    uint32 available() { return m_writePos - m_readPos; }
+    size_t available() { return m_writePos - m_readPos; }
 	
     /** 
 	 * Reads sizeof(T) bytes from the buffer

@@ -188,13 +188,11 @@ void NetworkTCP::onEnter()
 }
 
 void NetworkTCP::onSendClicked(CCObject* sender) {
-    m_hub->disconnect(1);
-//	static int index = 0;
-//	char buf[32];
-//	sprintf(buf, "Hello: %d", index++);
-//	CCByteBuffer packet;
-//	packet.writeLine(buf);
-//	m_hub->sendPacket(1, &packet);
+	static int index = 0;
+	char buf[32];
+	sprintf(buf, "Hello: %d\r\n", index++);
+	CCPacket* p = CCPacket::createRawPacket(buf, strlen(buf));
+	m_hub->sendPacket(1, p);
 }
 
 void NetworkTCP::onTCPSocketConnected(CCTCPSocket* s) {
@@ -207,7 +205,7 @@ void NetworkTCP::onTCPSocketDisonnected(CCTCPSocket* s) {
 
 void NetworkTCP::onPacketReceived(CCPacket* p) {
     string ret;
-    CCByteBuffer bb(p->getBody(), p->getBodyLength());
+    CCByteBuffer bb(p->getBuffer(), p->getPacketLength(), p->getPacketLength());
 	bb.readLine(ret);
 	if(!ret.empty()) {
 		char buf[65535];

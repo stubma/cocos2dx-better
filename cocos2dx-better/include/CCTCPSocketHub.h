@@ -74,9 +74,9 @@ protected:
 	
 public:
     virtual ~CCTCPSocketHub();
-	static CCTCPSocketHub* create(CC_ENCRYPT_FUNC encryptFunc = NULL, CC_DECRYPT_FUNC decryptFunc = NULL);
-    static CC_ENCRYPT_FUNC getEncryptFunc();
-    static CC_DECRYPT_FUNC getDecryptFunc();
+	static CCTCPSocketHub* create(CC_MULTI_ENCRYPT_FUNC encryptFunc = NULL, CC_MULTI_DECRYPT_FUNC decryptFunc = NULL);
+    static CC_MULTI_ENCRYPT_FUNC getEncryptFunc();
+    static CC_MULTI_DECRYPT_FUNC getDecryptFunc();
 	
 	/**
 	 * create socket instance and auto add it to hub
@@ -100,7 +100,7 @@ public:
     CCTCPSocket* getSocket(int tag);
 	
 	/// send a packet
-    bool sendPacket(int tag, CCByteBuffer* packet);
+    void sendPacket(int tag, CCPacket* packet);
     
     /// called by tcp socket when it is connected
     void onSocketConnectedThreadSafe(CCTCPSocket* s);

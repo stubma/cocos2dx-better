@@ -27,13 +27,16 @@ COCOSDENSHION_ROOT=$(COCOS2DX_ROOT)/CocosDenshion
 LOCAL_MODULE := cocos2dx-better
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(call all-cpp-files-under,thirdparty) \
-	$(call all-c-files-under,thirdparty/) \
+	$(call all-c-files-under,thirdparty/aosp) \
+	$(call all-c-files-under,thirdparty/entities) \
+	$(call all-c-files-under,thirdparty/yajl) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCScrollView) \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox/CCEditBox.cpp \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox/CCEditBoxImplAndroid.cpp \
-	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp
+	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp \
+	$(COCOS2DX_EXT_ROOT)/network/HttpClient.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(LOCAL_PATH)/include/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android \
@@ -61,19 +64,22 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Json/rapidjson/internal \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Reader \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Reader/WidgetReader \
-	$(COCOS2DX_EXT_ROOT)/CocoStudio/Trigger
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Trigger \
+	$(COCOS2DX_EXT_ROOT)/network
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 	$(LOCAL_PATH)/src \
 	$(LOCAL_PATH)/src/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2 \
 	$(LOCAL_PATH)/thirdparty/aosp \
 	$(LOCAL_PATH)/thirdparty/entities \
-	$(LOCAL_PATH)/thirdparty/yajl/include
+	$(LOCAL_PATH)/thirdparty/yajl/include \
+	$(LOCAL_PATH)/thirdparty/curl/include
 LOCAL_EXPORT_LDLIBS := -L$(LOCAL_PATH)/thirdparty/system_libs/$(TARGET_ARCH) -lsqlite -llog
 LOCAL_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
-LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static curl
 
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,cocos2dx)
 $(call import-module,CocosDenshion/android)
+$(call import-module,cocos2dx-better/thirdparty/curl)

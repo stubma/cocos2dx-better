@@ -36,26 +36,18 @@ CCAssetOutputStream* CCAssetOutputStream::create(const string& path, bool append
 CCAssetOutputStream_ios::CCAssetOutputStream_ios(const string& path, bool append) :
 		CCAssetOutputStream(path, append),
 		m_handle(nil) {
-    // get mapped path
-    string mappedPath = CCUtils::mapLocalPath(path);
-
-	// is nil?
-	if(mappedPath.empty()) {
-		CCLOGERROR("CCAssetOutputStream: can't map android path %s", path.c_str());
-	} else {
-        NSString* nsPath = [NSString stringWithCString:mappedPath.c_str()
-                                              encoding:NSUTF8StringEncoding];
-		m_handle = [NSFileHandle fileHandleForWritingAtPath:nsPath];
-		if (m_append) {
-			[m_handle seekToEndOfFile];
-		}
-		[m_handle retain];
-
-        // get file length
-		NSFileManager* fm = [NSFileManager defaultManager];
-		NSDictionary* attr = [fm attributesOfItemAtPath:nsPath error:NULL];
-		m_length = [[attr objectForKey:NSFileSize] intValue];
-	}
+    NSString* nsPath = [NSString stringWithCString:path.c_str()
+                                          encoding:NSUTF8StringEncoding];
+    m_handle = [NSFileHandle fileHandleForWritingAtPath:nsPath];
+    if (m_append) {
+        [m_handle seekToEndOfFile];
+    }
+    [m_handle retain];
+    
+    // get file length
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSDictionary* attr = [fm attributesOfItemAtPath:nsPath error:NULL];
+    m_length = [[attr objectForKey:NSFileSize] intValue];
 }
 
 CCAssetOutputStream_ios::~CCAssetOutputStream_ios() {

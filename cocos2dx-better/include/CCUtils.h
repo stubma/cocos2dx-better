@@ -151,21 +151,21 @@ public:
 	/// get path extension, with a dot started string. or empty string if no extension
 	static string getPathExtension(const string& path);
 	
-	/**
-	 * map path to different platform, for example, a path "/sdcard/a.png" will be:
-	 * 1. in android, it is /sdcard/a.png
-	 * 2. in iOS and MacOSX, it will be ~/Documents/sdcard/a.png
-	 * 3. in Windows, it will be [Executable Dir]/sdcard/a.png
-	 *
-	 * for iOS and MacOSX, if path is a relative path, then it will be mapped to app folder, for example, 
-	 * a path "sdcard/a.png" will be:
-	 * 1. in iOS, it will be [app path]/sdcard/a.png
-	 * 2. in Mac OS X, it will [app path]/Contents/Resources/sdcard/a.png
-	 */
-	static string mapLocalPath(string path);
-	
 	/// get parent path of a path
-	static string getParentPath(string path);
+	static string getParentPath(const string& path);
+    
+    /**
+     * map a relative path to absolute external path, do nothing if path is absolute
+     * in iOS, path will be appended to ~/Documents
+     * in Android, path will be appended to internal storage folder
+     */
+    static string externalize(const string& path);
+    
+    /**
+     * Map path to external path, and then check the path existence. If external path is not
+     * existent, it will return the cocos2d-x full path.
+     */
+    static string getExternalOrFullPath(const string& path);
 	
 	/// get package name, in iOS, it retuns bundle id
 	static string getPackageName();
@@ -190,7 +190,7 @@ public:
 	 * @param path must be an absolute path
 	 * @return true means successful
 	 */
-	static bool createIntermediateFolders(string path);
+	static bool createIntermediateFolders(const string& path);
 	
 	/**
 	 * check path existence
@@ -198,7 +198,7 @@ public:
 	 * @param path must be an absolute path
 	 * @return true means path is existent
 	 */
-	static bool isPathExistent(string path);
+	static bool isPathExistent(const string& path);
 	
 	/**
 	 * create a folder at specified absolute path, its parent folder should be existent and this
@@ -207,10 +207,10 @@ public:
 	 * @param path must be an absolute path
 	 * @return true means successful
 	 */
-	static bool createFolder(string path);
+	static bool createFolder(const string& path);
 	
 	/// delete a file
-	static bool deleteFile(string path);
+	static bool deleteFile(const string& path);
 	
 	/// convert rgb to hsv
 	static ccColorHSV ccc32hsv(ccColor3B c);

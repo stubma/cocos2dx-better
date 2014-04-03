@@ -78,9 +78,6 @@ bool CCDatabase::open(int flags) {
 			CCLOGERROR("failed to create containing directory for database");
 			return false;
 		}
-		
-		// map to platform
-		path = CCUtils::mapLocalPath(path);
 	}
 	
 	// create database

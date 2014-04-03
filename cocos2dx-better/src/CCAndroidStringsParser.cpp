@@ -38,12 +38,9 @@ CCAndroidStringsParser* CCAndroidStringsParser::create() {
 }
 
 void CCAndroidStringsParser::parse(const string& path, const CCDictionary& dict) {
-    // map file path
-    string localPath = CCUtils::mapLocalPath(path);
-    
     // get xml string, because tinyxml can't read file in apk
     unsigned long size;
-    unsigned char* data = CCFileUtils::sharedFileUtils()->getFileData(localPath.c_str(), "rb", &size);
+    unsigned char* data = CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "rb", &size);
     
     // load file, if success, visit it
     XMLDocument* doc = new XMLDocument();

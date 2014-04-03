@@ -36,24 +36,16 @@ CCAssetInputStream_ios::CCAssetInputStream_ios(const string& path) :
 		CCAssetInputStream(path),
 		m_handle(nil),
 		m_length(0) {
-	// get mapped path
-    string mappedPath = CCUtils::mapLocalPath(path);
-
-	// is nil?
-	if(mappedPath.empty()) {
-		CCLOGWARN("CCAssetInputStream: can't map android path %s", path.c_str());
-	} else {
-		// open file
-        NSString* nsPath = [NSString stringWithCString:mappedPath.c_str()
-                                              encoding:NSUTF8StringEncoding];
-		m_handle = [NSFileHandle fileHandleForReadingAtPath:nsPath];
-		[m_handle retain];
-
-		// get file length
-		NSFileManager* fm = [NSFileManager defaultManager];
-		NSDictionary* attr = [fm attributesOfItemAtPath:nsPath error:NULL];
-		m_length = [[attr objectForKey:NSFileSize] intValue];
-	}
+    // open file
+    NSString* nsPath = [NSString stringWithCString:path.c_str()
+                                          encoding:NSUTF8StringEncoding];
+    m_handle = [NSFileHandle fileHandleForReadingAtPath:nsPath];
+    [m_handle retain];
+    
+    // get file length
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSDictionary* attr = [fm attributesOfItemAtPath:nsPath error:NULL];
+    m_length = [[attr objectForKey:NSFileSize] intValue];
 }
 
 CCAssetInputStream_ios::~CCAssetInputStream_ios() {

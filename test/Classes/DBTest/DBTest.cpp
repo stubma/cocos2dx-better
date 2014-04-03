@@ -164,7 +164,7 @@ std::string DBCreateDatabase::subtitle()
 }
 
 void DBCreateDatabase::onCreateDatabaseClicked() {
-	string path = "/sdcard/create_database_test.db";
+	string path = CCUtils::externalize("create_database_test.db");
 	
 	// check existence of database
 	if(CCUtils::isPathExistent(path)) {
@@ -188,7 +188,7 @@ void DBCreateDatabase::onCreateDatabaseClicked() {
 }
 
 void DBCreateDatabase::onDeleteDatabaseClicked() {
-	string path = "/sdcard/create_database_test.db";
+	string path = CCUtils::externalize("create_database_test.db");
 	
 	if(CCUtils::deleteFile(path)) {
 		m_hintLabel->setString("database file deleted, you can create it again");
@@ -229,7 +229,7 @@ string DBSQLFile::subtitle()
 }
 
 void DBSQLFile::onExecuteSQLFileClicked() {
-	string path = "/sdcard/sqlfile_test.db";
+	string path = CCUtils::externalize("sqlfile_test.db");
 	if(!CCUtils::isPathExistent(path)) {
 		// create database and open it
 		CCDatabase* db = CCDatabase::create(path);
@@ -244,7 +244,7 @@ void DBSQLFile::onExecuteSQLFileClicked() {
 }
 
 void DBSQLFile::onDeleteDatabaseClicked() {
-	string path = "/sdcard/sqlfile_test.db";
+	string path = CCUtils::externalize("sqlfile_test.db");
 	
 	if(CCUtils::deleteFile(path)) {
 		m_hintLabel->setString("database file deleted, you can create it again");
@@ -289,7 +289,7 @@ void DBTransaction::onEnter()
 	addChild(m_hintLabel);
 	
 	// open database, if it is not there, will create it
-	string path = "/sdcard/transaction_test.db";
+	string path = CCUtils::externalize("transaction_test.db");
 	m_db = CCDatabase::create(path);
 	m_db->open();
 	m_db->retain();

@@ -28,6 +28,7 @@
 #include "CCUDPSocket.h"
 #include "CCByteBuffer.h"
 #include "CCPacket.h"
+#include "ccMoreTypes.h"
 #include <pthread.h>
 
 NS_CC_BEGIN

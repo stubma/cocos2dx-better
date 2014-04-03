@@ -36,27 +36,29 @@
 #define S_OK_EN "OK"
 #define S_OK_ZH "确定"
 
-bool CCUtils::deleteFile(string path) {
+bool CCUtils::deleteFile(const string& path) {
 	return unlink(path.c_str()) == 0;
 }
 
-string CCUtils::mapLocalPath(string path) {
-	return path;
-}
-
-bool CCUtils::createFolder(string path) {
+bool CCUtils::createFolder(const string& path) {
 	return mkdir(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH) == 0;
 }
 
-bool CCUtils::isPathExistent(string path) {
+bool CCUtils::isPathExistent(const string& path) {
 	// if path is empty, directly return
 	if(path.empty())
-		return true;
+		return false;
 
-	// get mapped path
-	string mappedPath = mapLocalPath(path);
+	return access(path.c_str(), 0) == 0;
+}
 
-	return access(mappedPath.c_str(), 0) == 0;
+string CCUtils::externalize(const string& path) {
+    if(!CCFileUtils::sharedFileUtils()->isAbsolutePath(path)) {
+        string internalStorage = getInternalStoragePath();
+        return internalStorage + path;
+    } else {
+        return path;
+    }
 }
 
 string CCUtils::getPackageName() {

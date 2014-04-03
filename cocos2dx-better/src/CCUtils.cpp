@@ -279,7 +279,7 @@ string CCUtils::getPathExtension(const string& path) {
 	}
 }
 
-string CCUtils::getParentPath(string path) {
+string CCUtils::getParentPath(const string& path) {
 	if(path.empty())
 		return "";
 	
@@ -292,7 +292,7 @@ string CCUtils::getParentPath(string path) {
 		return path.substr(0, slash);
 }
 
-bool CCUtils::createIntermediateFolders(string path) {
+bool CCUtils::createIntermediateFolders(const string& path) {
 	string parent = getParentPath(path);
 	bool exist = isPathExistent(parent);
 	bool success = true;
@@ -925,6 +925,19 @@ string CCUtils::trim(const string& s) {
 		start++;
 	
 	return s.substr(start, end - start);
+}
+
+string CCUtils::getExternalOrFullPath(const string& path) {
+    if(CCFileUtils::sharedFileUtils()->isAbsolutePath(path)) {
+        return path;
+    } else {
+        string ext = externalize(path);
+        if(isPathExistent(ext)) {
+            return ext;
+        } else {
+            return CCFileUtils::sharedFileUtils()->fullPathForFilename(path.c_str());
+        }
+    }
 }
 
 NS_CC_END

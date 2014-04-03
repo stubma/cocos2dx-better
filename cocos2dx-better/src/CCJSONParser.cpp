@@ -260,10 +260,8 @@ CCObject* CCJSONParser::load(const char* json, size_t length) {
 }
 
 CCObject* CCJSONParser::load(const string& path) {
-    string mappedPath = CCUtils::mapLocalPath(path);
-    
 	unsigned long len;
-	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(mappedPath.c_str(), "rb", &len);
+	char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(path.c_str(), "rb", &len);
 	CCObject* ret = load(data, (size_t)len);
 	free(data);
 	return ret;

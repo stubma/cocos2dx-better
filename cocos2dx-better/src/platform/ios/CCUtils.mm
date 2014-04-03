@@ -275,45 +275,33 @@ string CCUtils::getPackageName() {
     return [bundleId cStringUsingEncoding:NSUTF8StringEncoding];
 }
 
-bool CCUtils::isPathExistent(string path) {
+bool CCUtils::isPathExistent(const string& path) {
 	// if path is empty, directly return
 	if(path.empty())
-		return true;
+		return false;
 	
-	// get mapped path
-	string mappedPath = mapLocalPath(path);
-	
-	NSString* nsPath = [NSString stringWithFormat:@"%s", mappedPath.c_str()];
+	NSString* nsPath = [NSString stringWithFormat:@"%s", path.c_str()];
 	return [[NSFileManager defaultManager] fileExistsAtPath:nsPath];
 }
 
-bool CCUtils::createFolder(string path) {
-	string mappedPath = mapLocalPath(path);
-	NSString* nsPath = [NSString stringWithFormat:@"%s", mappedPath.c_str()];
+bool CCUtils::createFolder(const string& path) {
+	NSString* nsPath = [NSString stringWithFormat:@"%s", path.c_str()];
 	NSFileManager* fm = [NSFileManager defaultManager];
 	return [fm createDirectoryAtPath:nsPath withIntermediateDirectories:YES attributes:NULL error:NULL];
 }
 
-string CCUtils::mapLocalPath(string path) {
-	if(CCFileUtils::sharedFileUtils()->isAbsolutePath(path)) {
+string CCUtils::externalize(const string& path) {
+	if(!CCFileUtils::sharedFileUtils()->isAbsolutePath(path)) {
 		NSString* nsPath = [NSString stringWithFormat:@"~/Documents/%s", path.c_str()];
 		nsPath = [nsPath stringByExpandingTildeInPath];
 		return [nsPath cStringUsingEncoding:NSUTF8StringEncoding];
 	} else {
-		NSBundle* bundle = [NSBundle mainBundle];
-		NSString* relativePath = [NSString stringWithFormat:@"%s", path.c_str()];
-		NSString* ext = [relativePath pathExtension];
-		NSString* filename = [relativePath lastPathComponent];
-		NSString* filenameWithoutExt = [filename stringByDeletingPathExtension];
-		NSString* dir = [relativePath stringByDeletingLastPathComponent];
-		NSString* path = [bundle pathForResource:filenameWithoutExt ofType:ext inDirectory:dir];
-		return [path cStringUsingEncoding:NSUTF8StringEncoding];
+        return path;
 	}
 }
 
-bool CCUtils::deleteFile(string path) {
-	string mappedPath = mapLocalPath(path);
-	NSString* p = [NSString stringWithFormat:@"%s", mappedPath.c_str()];
+bool CCUtils::deleteFile(const string& path) {
+	NSString* p = [NSString stringWithFormat:@"%s", path.c_str()];
 	NSFileManager* fm = [NSFileManager defaultManager];
 	NSError* error = nil;
 	[fm removeItemAtPath:p error:&error];

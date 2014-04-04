@@ -169,8 +169,9 @@ string CCSecureUserDefault::getStringForKey(const char* pKey, const string& defa
 		// for integer, we save number string
 		const char* plain = getSecureValue(pKey, NULL);
 		if(plain) {
+            string ret = plain;
 			free((void*)plain);
-			return plain;
+			return ret;
 		} else {
 			return defaultValue;
 		}
@@ -187,7 +188,7 @@ void CCSecureUserDefault::setBoolForKey(const char* pKey, bool value) {
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
         
         // free
-        if(enc && pKey != enc)
+        if(enc)
             free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setBoolForKey(pKey, value);
@@ -204,7 +205,7 @@ void CCSecureUserDefault::setIntegerForKey(const char* pKey, int value) {
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
         
         // free
-        if(enc && pKey != enc)
+        if(enc && buf != enc)
             free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setIntegerForKey(pKey, value);
@@ -221,7 +222,7 @@ void CCSecureUserDefault::setFloatForKey(const char* pKey, float value) {
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
         
         // free
-        if(enc && pKey != enc)
+        if(enc && buf != enc)
             free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setFloatForKey(pKey, value);
@@ -238,7 +239,7 @@ void CCSecureUserDefault::setDoubleForKey(const char* pKey, double value) {
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
         
         // free
-        if(enc && pKey != enc)
+        if(enc && buf != enc)
             free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setDoubleForKey(pKey, value);
@@ -253,7 +254,7 @@ void CCSecureUserDefault::setStringForKey(const char* pKey, const string& value)
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, b64);
         
         // free
-        if(enc && pKey != enc)
+        if(enc && value.c_str() != enc)
             free((void*)enc);
 	} else {
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, value);

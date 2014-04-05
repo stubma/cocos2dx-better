@@ -132,7 +132,6 @@
 		9239690C185591DB0063E8A1 /* CCVelocityTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */; };
 		9239690D185591DB0063E8A1 /* VolatileTexture_richlabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923968D3185591DB0063E8A1 /* VolatileTexture_richlabel.cpp */; };
 		923C785C18A120B500DD8D9A /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = 923C785A18A120B500DD8D9A /* entities.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
-		923EE80818ED89BF00E698A3 /* HttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923EE80218ED89BF00E698A3 /* HttpClient.cpp */; };
 		923EEB1418ED916400E698A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		923EECBC18ED921000E698A3 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 923EEB1318ED916400E698A3 /* libcurl.a */; };
 		923EEDCE18ED953900E698A3 /* amigaos.c in Sources */ = {isa = PBXBuildFile; fileRef = 923EECCA18ED953800E698A3 /* amigaos.c */; };
@@ -300,6 +299,7 @@
 		92984F3B175D904500E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3A175D904500E63472 /* CoreText.framework */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
+		92C53CF018EF09AB0045BA9B /* CBHttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C53CEF18EF09AB0045BA9B /* CBHttpClient.cpp */; };
 		92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */; };
 		92CE277718B5EE35006E5B71 /* CCFlash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE277518B5EE35006E5B71 /* CCFlash.cpp */; };
 		92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */; };
@@ -708,19 +708,8 @@
 		923C785A18A120B500DD8D9A /* entities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entities.c; sourceTree = "<group>"; };
 		923C785B18A120B500DD8D9A /* entities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
 		923DBA9518E2A91D00BD442F /* CCCallFuncNT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncNT.h; sourceTree = "<group>"; };
-		923EE80218ED89BF00E698A3 /* HttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpClient.cpp; sourceTree = "<group>"; };
-		923EE80318ED89BF00E698A3 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
-		923EE80418ED89BF00E698A3 /* HttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequest.h; sourceTree = "<group>"; };
-		923EE80518ED89BF00E698A3 /* HttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponse.h; sourceTree = "<group>"; };
 		923EEB1318ED916400E698A3 /* libcurl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcurl.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		923EEB1718ED916400E698A3 /* curl-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "curl-Prefix.pch"; sourceTree = "<group>"; };
-		923EEB1818ED916400E698A3 /* curl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
-		923EEB1A18ED916400E698A3 /* curl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = curl.m; sourceTree = "<group>"; };
 		923EEB2118ED916400E698A3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		923EEB2418ED916400E698A3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		923EEB2B18ED916400E698A3 /* curlTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "curlTests-Info.plist"; sourceTree = "<group>"; };
-		923EEB2D18ED916400E698A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		923EEB2F18ED916400E698A3 /* curlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = curlTests.m; sourceTree = "<group>"; };
 		923EECC018ED953800E698A3 /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
 		923EECC118ED953800E698A3 /* curlbuild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlbuild.h; sourceTree = "<group>"; };
 		923EECC218ED953800E698A3 /* curlrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curlrules.h; sourceTree = "<group>"; };
@@ -1056,6 +1045,10 @@
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92BF0FFB18A71F320088121F /* CCUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUtils.mm; sourceTree = "<group>"; };
+		92C53CEC18EF099D0045BA9B /* CBHttpClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpClient.h; sourceTree = "<group>"; };
+		92C53CED18EF099D0045BA9B /* CBHttpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpRequest.h; sourceTree = "<group>"; };
+		92C53CEE18EF099D0045BA9B /* CBHttpResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpResponse.h; sourceTree = "<group>"; };
+		92C53CEF18EF09AB0045BA9B /* CBHttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBHttpClient.cpp; sourceTree = "<group>"; };
 		92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUDPSocket.cpp; sourceTree = "<group>"; };
 		92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocket.h; sourceTree = "<group>"; };
 		92CE277518B5EE35006E5B71 /* CCFlash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFlash.cpp; sourceTree = "<group>"; };
@@ -1977,54 +1970,6 @@
 			path = "../../cocos2d-x/extensions/GUI";
 			sourceTree = "<group>";
 		};
-		923EE80118ED89BF00E698A3 /* network */ = {
-			isa = PBXGroup;
-			children = (
-				923EE80218ED89BF00E698A3 /* HttpClient.cpp */,
-				923EE80318ED89BF00E698A3 /* HttpClient.h */,
-				923EE80418ED89BF00E698A3 /* HttpRequest.h */,
-				923EE80518ED89BF00E698A3 /* HttpResponse.h */,
-			);
-			name = network;
-			path = "../../cocos2d-x/extensions/network";
-			sourceTree = "<group>";
-		};
-		923EEB1518ED916400E698A3 /* curl */ = {
-			isa = PBXGroup;
-			children = (
-				923EEB1818ED916400E698A3 /* curl.h */,
-				923EEB1A18ED916400E698A3 /* curl.m */,
-				923EEB1618ED916400E698A3 /* Supporting Files */,
-			);
-			path = curl;
-			sourceTree = "<group>";
-		};
-		923EEB1618ED916400E698A3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				923EEB1718ED916400E698A3 /* curl-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		923EEB2918ED916400E698A3 /* curlTests */ = {
-			isa = PBXGroup;
-			children = (
-				923EEB2F18ED916400E698A3 /* curlTests.m */,
-				923EEB2A18ED916400E698A3 /* Supporting Files */,
-			);
-			path = curlTests;
-			sourceTree = "<group>";
-		};
-		923EEB2A18ED916400E698A3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				923EEB2B18ED916400E698A3 /* curlTests-Info.plist */,
-				923EEB2C18ED916400E698A3 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		923EECBD18ED953800E698A3 /* curl */ = {
 			isa = PBXGroup;
 			children = (
@@ -2313,7 +2258,6 @@
 			children = (
 				924A8BF01856B48900681A4D /* cocos-ext.h */,
 				924A8ADE1856B3D700681A4D /* ExtensionMacros.h */,
-				923EE80118ED89BF00E698A3 /* network */,
 				923EB2E6187660A800BAB114 /* GUI */,
 				9225951F18D5BBF600E200AE /* CocoStudio */,
 				924A8A911856B3B900681A4D /* CCBReader */,
@@ -2369,6 +2313,7 @@
 				92E8F4AB185BFF4D000A1D59 /* CCTCPSocketHub.cpp */,
 				92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */,
 				92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */,
+				92C53CEF18EF09AB0045BA9B /* CBHttpClient.cpp */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -2383,6 +2328,9 @@
 				92662279185B437200DC8DEC /* CCNetworkCommon.h */,
 				92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */,
 				92D36594185D58D60049AF37 /* CCUDPSocketHub.h */,
+				92C53CEC18EF099D0045BA9B /* CBHttpClient.h */,
+				92C53CED18EF099D0045BA9B /* CBHttpRequest.h */,
+				92C53CEE18EF099D0045BA9B /* CBHttpResponse.h */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -2454,8 +2402,6 @@
 				9239686D185591DB0063E8A1 /* include */,
 				92396898185591DB0063E8A1 /* src */,
 				92B516EA16E86020009F3536 /* Supporting Files */,
-				923EEB1518ED916400E698A3 /* curl */,
-				923EEB2918ED916400E698A3 /* curlTests */,
 				92B516E616E86020009F3536 /* Frameworks */,
 				92B516E516E86020009F3536 /* Products */,
 			);
@@ -2486,7 +2432,6 @@
 				92405C38182B641700E46357 /* MediaPlayer.framework */,
 				92B516E716E86020009F3536 /* Foundation.framework */,
 				923EEB2118ED916400E698A3 /* XCTest.framework */,
-				923EEB2418ED916400E698A3 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3130,7 +3075,6 @@
 				92F68F211855BDE200C97188 /* CCArcticFileData.cpp in Sources */,
 				9225961B18D5BBF600E200AE /* LabelReader.cpp in Sources */,
 				923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */,
-				923EE80818ED89BF00E698A3 /* HttpClient.cpp in Sources */,
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
 				92E6629718D3E73300C8A01E /* CCBlur.cpp in Sources */,
 				922595EE18D5BBF600E200AE /* CCDecorativeDisplay.cpp in Sources */,
@@ -3186,6 +3130,7 @@
 				92F68E5E18559EC100C97188 /* Unicode.cpp in Sources */,
 				9225961718D5BBF600E200AE /* CheckBoxReader.cpp in Sources */,
 				92F68EB01855AD4400C97188 /* yajl_parser.c in Sources */,
+				92C53CF018EF09AB0045BA9B /* CBHttpClient.cpp in Sources */,
 				924A8ACF1856B3BA00681A4D /* CCData.cpp in Sources */,
 				92F68F201855BDE200C97188 /* CCAFCSprite.cpp in Sources */,
 				9288DF28188F98A400C14965 /* CCControlButton.cpp in Sources */,
@@ -3268,17 +3213,6 @@
 			targetProxy = 923EECBA18ED920700E698A3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		923EEB2C18ED916400E698A3 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				923EEB2D18ED916400E698A3 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		923EEB3218ED916400E698A3 /* Debug */ = {

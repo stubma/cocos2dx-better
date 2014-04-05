@@ -117,7 +117,8 @@ void* CCTCPSocket::tcpThreadEntry(void* arg) {
                 s->closeSocket();
             } else {
                 s->m_connected = true;
-                s->m_hub->onSocketConnectedThreadSafe(s);
+                if(s->m_hub)
+                    s->m_hub->onSocketConnectedThreadSafe(s);
             }
         }
     }
@@ -135,7 +136,8 @@ void* CCTCPSocket::tcpThreadEntry(void* arg) {
                 p = CCPacket::createStandardPacket(s->m_inBuf, s->m_inBufLen);
             }
             s->compactInBuf(p->getPacketLength());
-            s->m_hub->onPacketReceivedThreadSafe(p);
+            if(s->m_hub)
+                s->m_hub->onPacketReceivedThreadSafe(p);
         }
         
         // get packet to be sent
@@ -170,12 +172,16 @@ void* CCTCPSocket::tcpThreadEntry(void* arg) {
     
     // end
     if(s->m_connected) {
-        s->m_hub->onSocketDisconnectedThreadSafe(s);
+        if(s->m_hub)
+            s->m_hub->onSocketDisconnectedThreadSafe(s);
         s->m_connected = false;
     }
 	
 	// release
 	s->autorelease();
+    
+    // exit
+    pthread_exit(NULL);
 	
 	return NULL;
 }
@@ -224,9 +230,10 @@ bool CCTCPSocket::init(const string& hostname, int port, int tag, int blockSec, 
     // open a thread to process this socket
     // should hold it to avoid wrong pointer
 	CC_SAFE_RETAIN(this);
-	pthread_t thread;
+    pthread_t thread;
 	pthread_create(&thread, NULL, tcpThreadEntry, (void*)this);
-	
+	pthread_detach(thread);
+    
     return true;
 }
 

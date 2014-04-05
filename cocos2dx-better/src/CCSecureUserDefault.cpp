@@ -255,7 +255,7 @@ void CCSecureUserDefault::setStringForKey(const char* pKey, const string& value)
         
         // free
         if(enc && value.c_str() != enc)
-            free((void*)enc);
+            free((void*)enc);   
 	} else {
 		CCUserDefault::sharedUserDefault()->setStringForKey(pKey, value);
 	}

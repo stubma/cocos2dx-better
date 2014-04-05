@@ -67,6 +67,8 @@ void CCTCPSocketHub::stopAll() {
             s->closeSocket();
             CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationTCPSocketDisconnected, s);
         }
+        s->setStop(true);
+        s->setHub(NULL);
     }
     m_sockets.removeAllObjects();
     

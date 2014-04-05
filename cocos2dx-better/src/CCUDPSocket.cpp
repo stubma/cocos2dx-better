@@ -139,6 +139,9 @@ void* CCUDPSocket::udpThreadEntry(void* arg) {
 	
 	// release
 	s->autorelease();
+    
+    // exit
+    pthread_exit(NULL);
 	
 	return NULL;
 }
@@ -184,6 +187,7 @@ bool CCUDPSocket::init(const string& hostname, int port, int tag, int blockSec) 
 	CC_SAFE_RETAIN(this);
 	pthread_t thread;
 	pthread_create(&thread, NULL, udpThreadEntry, (void*)this);
+    pthread_detach(thread);
     
 	return true;
 }

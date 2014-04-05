@@ -73,6 +73,8 @@ void CCUDPSocketHub::stopAll() {
             s->closeSocket();
             CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationUDPSocketDisconnected, s);
         }
+        s->setStop(true);
+        s->setHub(NULL);
     }
     m_sockets.removeAllObjects();
     

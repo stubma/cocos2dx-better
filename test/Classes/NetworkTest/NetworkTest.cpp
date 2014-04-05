@@ -3,10 +3,12 @@
 #include "cocos2d.h"
 #include "cocos2d-better.h"
 
+TESTLAYER_CREATE_FUNC(NetworkFileDownloader);
 TESTLAYER_CREATE_FUNC(NetworkTCP);
 TESTLAYER_CREATE_FUNC(NetworkUDP);
 
 static NEWTESTFUNC createFunctions[] = {
+    CF(NetworkFileDownloader),
     CF(NetworkTCP),
 	CF(NetworkUDP)
 };
@@ -129,6 +131,40 @@ void NetworkDemo::backCallback(CCObject* pSender)
     s->addChild( backAction() );
     CCDirector::sharedDirector()->replaceScene(s);
     s->release();
+}
+
+//------------------------------------------------------------------
+//
+// File Downloader
+//
+//------------------------------------------------------------------
+NetworkFileDownloader::~NetworkFileDownloader() {
+
+}
+
+void NetworkFileDownloader::onEnter()
+{
+    NetworkDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    CBHttpClient* client = CBHttpClient::create();
+    CBHttpRequest* req = CBHttpRequest::create();
+    req->setUrl("http://mirrors.cnnic.cn/apache//ant/binaries/apache-ant-1.9.3-bin.zip");
+    req->setRequestType(CBHttpRequest::kHttpGet);
+    req->setResponseCallback(this, cbhttpresponse_selector(NetworkFileDownloader::onHttpDone));
+    client->execute(req);
+}
+
+std::string NetworkFileDownloader::subtitle()
+{
+    return "File Downloader";
+}
+
+void NetworkFileDownloader::onHttpDone(CBHttpResponse* response) {
+    vector<char>* buf = response->getResponseData();
+    CCLOG("returned data size: %ld", buf->size());
 }
 
 //------------------------------------------------------------------

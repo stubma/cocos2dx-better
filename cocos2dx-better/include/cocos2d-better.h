@@ -145,6 +145,9 @@
 #include "CCTCPSocketHub.h"
 #include "CCUDPSocket.h"
 #include "CCUDPSocketHub.h"
+#include "CBHttpClient.h"
+#include "CBHttpRequest.h"
+#include "CBHttpResponse.h"
 
 // tmx
 #include "CBTMXObject.h"

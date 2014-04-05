@@ -35,8 +35,7 @@ LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCScrollView) \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox/CCEditBox.cpp \
 	$(COCOS2DX_EXT_ROOT)/GUI/CCEditBox/CCEditBoxImplAndroid.cpp \
-	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp \
-	$(COCOS2DX_EXT_ROOT)/network/HttpClient.cpp
+	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(LOCAL_PATH)/include/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android \
@@ -64,8 +63,7 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Json/rapidjson/internal \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Reader \
 	$(COCOS2DX_EXT_ROOT)/CocoStudio/Reader/WidgetReader \
-	$(COCOS2DX_EXT_ROOT)/CocoStudio/Trigger \
-	$(COCOS2DX_EXT_ROOT)/network
+	$(COCOS2DX_EXT_ROOT)/CocoStudio/Trigger
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 	$(LOCAL_PATH)/src \
 	$(LOCAL_PATH)/src/platform/android \

@@ -195,7 +195,11 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
 		setAnchorPoint(ccp(0, 0.5f));
 		setPosition(ccp(svOrigin.x + svSize.width / 2, svOrigin.y + insets.bottom));
 		setRotation(-90);
-        svParent->addChild(this, MAX_INT);
+        UIWidget* svpWidght = dynamic_cast<UIWidget*>(svParent);
+        if(svpWidght)
+            svpWidght->addNode(this, MAX_INT);
+        else
+            svParent->addChild(this, MAX_INT);
 		
 		// thumb length
 		if(m_fixedThumb)
@@ -208,7 +212,11 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
 		setContentSize(sbSize);
 		setAnchorPoint(ccp(1, 0.5f));
 		setPosition(ccp(svOrigin.x + svSize.width - insets.right, svOrigin.y + svSize.height / 2));
-		svParent->addChild(this, MAX_INT);
+        UIWidget* svpWidght = dynamic_cast<UIWidget*>(svParent);
+        if(svpWidght)
+            svpWidght->addNode(this, MAX_INT);
+        else
+            svParent->addChild(this, MAX_INT);
 		
 		// thumb length
 		if(m_fixedThumb)

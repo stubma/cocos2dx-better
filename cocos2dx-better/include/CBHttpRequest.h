@@ -31,11 +31,6 @@ using namespace std;
 
 NS_CC_BEGIN
 
-class CBHttpClient;
-class CBHttpResponse;
-typedef void (CCObject::*SEL_CBHttpResponse)(CBHttpResponse* response);
-#define cbhttpresponse_selector(_SELECTOR) (SEL_CBHttpResponse)(&_SELECTOR)
-
 /** 
  @brief defines the object which users must packed for CBHttpClient::send(HttpRequest*) method.
  Please refer to samples/TestCpp/Classes/ExtensionTest/NetworkTest/HttpClientTest.cpp as a sample
@@ -69,19 +64,12 @@ public:
         _url.clear();
         _requestData.clear();
         _tag.clear();
-        _pTarget = NULL;
-        _pSelector = NULL;
         _pUserData = NULL;
     };
     
     /** Destructor */
-    virtual ~CBHttpRequest()
-    {
-        if (_pTarget)
-        {
-            _pTarget->release();
-        }
-    };
+    virtual ~CBHttpRequest() {
+    }
     
     static CBHttpRequest* create() {
         CBHttpRequest* req = new CBHttpRequest();
@@ -160,28 +148,6 @@ public:
     {
         return _pUserData;
     };
-
-    inline void setResponseCallback(CCObject* pTarget, SEL_CBHttpResponse pSelector)
-    {
-        _pTarget = pTarget;
-        _pSelector = pSelector;
-        
-        if (_pTarget)
-        {
-            _pTarget->retain();
-        }
-    }    
-    /** Get the target of callback selector funtion, mainly used by CBHttpClient */
-    inline CCObject* getTarget()
-    {
-        return _pTarget;
-    }
-    
-    /** Get the selector function pointer, mainly used by CBHttpClient */
-    inline SEL_CBHttpResponse getSelector()
-    {
-        return _pSelector;
-    }
     
     /** Set any custom headers **/
     inline void setHeaders(vector<string> pHeaders)
@@ -204,8 +170,6 @@ protected:
     string                 _url;            /// target url that this request is sent to
     vector<char>           _requestData;    /// used for POST
     string                 _tag;            /// user defined tag, to identify different requests in response callback
-    CCObject*          _pTarget;        /// callback target of pSelector function
-    SEL_CBHttpResponse            _pSelector;      /// callback function, e.g. MyLayer::onHttpResponse(CBHttpClient *sender, CBHttpResponse * response)
     void*                       _pUserData;      /// You can add your customed data here 
     vector<string>    _headers;		      /// custom http headers
 };

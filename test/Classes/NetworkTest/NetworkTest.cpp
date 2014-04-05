@@ -153,8 +153,15 @@ void NetworkFileDownloader::onEnter()
     CBHttpRequest* req = CBHttpRequest::create();
     req->setUrl("http://mirrors.cnnic.cn/apache//ant/binaries/apache-ant-1.9.3-bin.zip");
     req->setRequestType(CBHttpRequest::kHttpGet);
-    req->setResponseCallback(this, cbhttpresponse_selector(NetworkFileDownloader::onHttpDone));
     client->execute(req);
+    
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkFileDownloader::onHttpDone), kCCNotificationHttpRequestCompleted, nil);
+}
+
+void NetworkFileDownloader::onExit() {
+    NetworkDemo::onEnter();
+    
+    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpRequestCompleted);
 }
 
 std::string NetworkFileDownloader::subtitle()

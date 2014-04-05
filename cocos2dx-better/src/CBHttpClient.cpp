@@ -233,16 +233,15 @@ public:
     
     /// dispatch end notification
     void dispatchNotification(float delta) {
+        // notification center
+        CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+        
+        // check
         pthread_mutex_lock(&m_mutex);
         
         if(m_done) {
-            CCObject *pTarget = m_ctx->request->getTarget();
-            SEL_CBHttpResponse pSelector = m_ctx->request->getSelector();
-            
-            if (pTarget && pSelector)
-            {
-                (pTarget->*pSelector)(m_ctx->response);
-            }
+            // notification
+            nc->postNotification(kCCNotificationHttpRequestCompleted, m_ctx->response);
             
             // balance retain in httpThreadEntry
             autorelease();

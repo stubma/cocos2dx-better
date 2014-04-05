@@ -35,6 +35,7 @@ class NetworkFileDownloader : public NetworkDemo
 public:
     virtual ~NetworkFileDownloader();
     virtual void onEnter();
+    virtual void onExit();
     virtual string subtitle();
     
     void onHttpDone(CBHttpResponse* response);

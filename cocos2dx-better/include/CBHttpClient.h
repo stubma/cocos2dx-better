@@ -30,6 +30,9 @@
 
 NS_CC_BEGIN
 
+/// object is a CBHttpResponse, you should check success flag of it
+#define kCCNotificationHttpRequestCompleted "kCCNotificationHttpRequestCompleted"
+
 /**
  * A customized version of cocos2d-x extension CBHttpClient class. 
  * What I did:

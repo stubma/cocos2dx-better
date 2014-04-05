@@ -34,6 +34,12 @@ using namespace std;
 
 NS_CC_BEGIN
 
+/// cancel all request
+#define kCCNotificationHttpCancelAll "kCCNotificationHttpCancelAll"
+
+/// cancel one request by tag, object is a CCInteger tag
+#define kCCNotificationHttpCancelOne "kCCNotificationHttpCancelOne"
+
 /// context info
 typedef struct {
     CBHttpRequest* request;
@@ -97,6 +103,11 @@ public:
         CC_SAFE_FREE(m_ctx);
         CC_SAFE_RELEASE(m_data);
         pthread_mutex_destroy(&m_mutex);
+        
+        // listener to some internal notification
+        CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelAll), kCCNotificationHttpCancelAll, nil);
+        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelOne), kCCNotificationHttpCancelOne, nil);
     }
     
     static CURLHandler* create(ccHttpContext* ctx) {
@@ -286,6 +297,10 @@ public:
             // notification
             nc->postNotification(kCCNotificationHttpRequestCompleted, m_ctx->response);
             
+            // unlistener internal notification
+            nc->removeObserver(this, kCCNotificationHttpCancelAll);
+            nc->removeObserver(this, kCCNotificationHttpCancelOne);
+            
             // balance retain in httpThreadEntry
             autorelease();
             
@@ -294,6 +309,16 @@ public:
         }
         
         pthread_mutex_unlock(&m_mutex);
+    }
+    
+    void onCancelAll(CCObject* unused) {
+        m_ctx->request->setCancel(true);
+    }
+    
+    void onCancelOne(CCInteger* tag) {
+        if(m_ctx->request->getTag() == tag->getValue()) {
+            m_ctx->request->setCancel(true);
+        }
     }
 };
 
@@ -384,6 +409,14 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     pthread_t thread;
     pthread_create(&thread, NULL, httpThreadEntry, ctx);
     pthread_detach(thread);
+}
+
+void CBHttpClient::cancel(int tag) {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationHttpCancelOne, CCInteger::create(tag));
+}
+
+void CBHttpClient::cancelAll() {
+    CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationHttpCancelAll);
 }
 
 NS_CC_END

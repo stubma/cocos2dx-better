@@ -149,6 +149,7 @@
 #include "CBHttpClient.h"
 #include "CBHttpRequest.h"
 #include "CBHttpResponse.h"
+#include "CCFileDownloader.h"
 
 // tmx
 #include "CBTMXObject.h"

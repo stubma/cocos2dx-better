@@ -30,8 +30,8 @@ CCAssetOutputStream::CCAssetOutputStream() :
 }
 
 CCAssetOutputStream::CCAssetOutputStream(const string& path, bool append) :
-		m_path(path),
-		m_append(append) {
+m_path(path),
+m_append(append) {
 }
 
 CCAssetOutputStream::~CCAssetOutputStream() {

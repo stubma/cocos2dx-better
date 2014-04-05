@@ -30,6 +30,20 @@ public:
     void backCallback(CCObject* pSender);
 };
 
+class NetworkFileDownloader : public NetworkDemo
+{
+private:
+    CCLabelTTF* m_fileLabel;
+    CCLabelTTF* m_label;
+    
+public:
+    virtual ~NetworkFileDownloader();
+    virtual void onEnter();
+    virtual void onExit();
+    virtual string subtitle();
+    virtual void update(float delta);
+};
+
 class NetworkHttpGet : public NetworkDemo
 {
 private:

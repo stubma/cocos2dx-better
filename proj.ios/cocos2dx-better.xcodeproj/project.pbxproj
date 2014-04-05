@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		920214CE18EFA482007FF1BD /* CBData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CD18EFA482007FF1BD /* CBData.cpp */; };
+		920214D118EFC57E007FF1BD /* CCFileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CF18EFC57E007FF1BD /* CCFileDownloader.cpp */; };
 		92042B1B187FE0CD0064262D /* CBJumpTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92042B19187FE0CD0064262D /* CBJumpTo.cpp */; };
 		9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
@@ -438,6 +439,8 @@
 /* Begin PBXFileReference section */
 		920214CC18EFA47A007FF1BD /* CBData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBData.h; sourceTree = "<group>"; };
 		920214CD18EFA482007FF1BD /* CBData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBData.cpp; sourceTree = "<group>"; };
+		920214CF18EFC57E007FF1BD /* CCFileDownloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFileDownloader.cpp; sourceTree = "<group>"; };
+		920214D218EFC5CF007FF1BD /* CCFileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCFileDownloader.h; sourceTree = "<group>"; };
 		92042B19187FE0CD0064262D /* CBJumpTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBJumpTo.cpp; sourceTree = "<group>"; };
 		92042B1C187FE0E80064262D /* CBJumpTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBJumpTo.h; sourceTree = "<group>"; };
 		9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
@@ -2319,6 +2322,7 @@
 				92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */,
 				92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */,
 				92C53CEF18EF09AB0045BA9B /* CBHttpClient.cpp */,
+				920214CF18EFC57E007FF1BD /* CCFileDownloader.cpp */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -2336,6 +2340,7 @@
 				92C53CEC18EF099D0045BA9B /* CBHttpClient.h */,
 				92C53CED18EF099D0045BA9B /* CBHttpRequest.h */,
 				92C53CEE18EF099D0045BA9B /* CBHttpResponse.h */,
+				920214D218EFC5CF007FF1BD /* CCFileDownloader.h */,
 			);
 			name = network;
 			sourceTree = "<group>";
@@ -3080,6 +3085,7 @@
 				92F68F211855BDE200C97188 /* CCArcticFileData.cpp in Sources */,
 				9225961B18D5BBF600E200AE /* LabelReader.cpp in Sources */,
 				923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */,
+				920214D118EFC57E007FF1BD /* CCFileDownloader.cpp in Sources */,
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
 				92E6629718D3E73300C8A01E /* CCBlur.cpp in Sources */,
 				922595EE18D5BBF600E200AE /* CCDecorativeDisplay.cpp in Sources */,

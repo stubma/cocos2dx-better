@@ -77,6 +77,12 @@ public:
      *      please make sure request->_requestData is clear before calling "execute" here.
      */
     void asyncExecute(CBHttpRequest* request);
+    
+    /// cancel one request which has specified tag
+    void cancel(int tag);
+    
+    /// stop all ongoing http operation
+    void cancelAll();
   
     /// connect timeout
     CC_SYNTHESIZE(float, m_connectTimeout, ConnectTimeout);

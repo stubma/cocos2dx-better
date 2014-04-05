@@ -3,11 +3,13 @@
 #include "cocos2d.h"
 #include "cocos2d-better.h"
 
+TESTLAYER_CREATE_FUNC(NetworkFileDownloader);
 TESTLAYER_CREATE_FUNC(NetworkHttpGet);
 TESTLAYER_CREATE_FUNC(NetworkTCP);
 TESTLAYER_CREATE_FUNC(NetworkUDP);
 
 static NEWTESTFUNC createFunctions[] = {
+    CF(NetworkFileDownloader),
     CF(NetworkHttpGet),
     CF(NetworkTCP),
 	CF(NetworkUDP)
@@ -131,6 +133,66 @@ void NetworkDemo::backCallback(CCObject* pSender)
     s->addChild( backAction() );
     CCDirector::sharedDirector()->replaceScene(s);
     s->release();
+}
+
+//------------------------------------------------------------------
+//
+// File Downloader
+//
+//------------------------------------------------------------------
+NetworkFileDownloader::~NetworkFileDownloader() {
+    CCFileDownloader::purge();
+}
+
+void NetworkFileDownloader::onEnter()
+{
+    NetworkDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    // file name
+    m_fileLabel = CCLabelTTF::create("Current file", "Helvetica", 36 / CC_CONTENT_SCALE_FACTOR());
+    m_fileLabel->setPosition(ccp(origin.x + visibleSize.width / 2,
+                             origin.y + visibleSize.height / 2 + 40 / CC_CONTENT_SCALE_FACTOR()));
+    addChild(m_fileLabel);
+    
+    // label
+    m_label = CCLabelTTF::create("Getting", "Helvetica", 30 / CC_CONTENT_SCALE_FACTOR());
+    m_label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                             origin.y + visibleSize.height / 2));
+    addChild(m_label);
+    
+    // start request in asynchronous mode
+    CCFileDownloader* d = CCFileDownloader::getInstance();
+    d->addFile("http://mirrors.cnnic.cn/apache/ant/binaries/RELEASE-NOTES-1.2"); // small file
+    d->addFile("http://mirrors.cnnic.cn/apache/ant/binaries/apache-ant-1.9.1-bin.zip"); // not exist, 0 size
+    d->addFile("http://mirrors.cnnic.cn/apache/ant/binaries/apache-ant-1.9.3-bin.zip"); // 8 mega bytes
+    d->start();
+    
+    // update
+    scheduleUpdate();
+}
+
+void NetworkFileDownloader::onExit() {
+    NetworkDemo::onEnter();
+}
+
+std::string NetworkFileDownloader::subtitle() {
+    return "File Downloader";
+}
+
+void NetworkFileDownloader::update(float delta) {
+    CCFileDownloader* d = CCFileDownloader::getInstance();
+    if(d->isDownloading()) {
+        m_fileLabel->setString(d->getCurrentDownloadingFileName().c_str());
+        char buf[64];
+        sprintf(buf, "%ld/%ld", d->getCurrentDownloadedSize(), d->getCurrentDownloadingFileSize());
+        m_label->setString(buf);
+    } else {
+        m_fileLabel->setString("Done");
+        m_label->setString("");
+    }
 }
 
 //------------------------------------------------------------------

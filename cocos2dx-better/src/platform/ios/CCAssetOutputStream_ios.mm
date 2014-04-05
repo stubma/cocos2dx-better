@@ -34,10 +34,19 @@ CCAssetOutputStream* CCAssetOutputStream::create(const string& path, bool append
 }
 
 CCAssetOutputStream_ios::CCAssetOutputStream_ios(const string& path, bool append) :
-		CCAssetOutputStream(path, append),
-		m_handle(nil) {
+CCAssetOutputStream(path, append),
+m_handle(nil) {
+    // get path
     NSString* nsPath = [NSString stringWithCString:path.c_str()
                                           encoding:NSUTF8StringEncoding];
+    
+    // if not exist, create it
+    NSFileManager* fm = [NSFileManager defaultManager];
+    if(![fm fileExistsAtPath:nsPath]) {
+        [fm createFileAtPath:nsPath contents:nil attributes:nil];
+    }
+    
+    // create handle
     m_handle = [NSFileHandle fileHandleForWritingAtPath:nsPath];
     if (m_append) {
         [m_handle seekToEndOfFile];
@@ -45,7 +54,6 @@ CCAssetOutputStream_ios::CCAssetOutputStream_ios(const string& path, bool append
     [m_handle retain];
     
     // get file length
-    NSFileManager* fm = [NSFileManager defaultManager];
     NSDictionary* attr = [fm attributesOfItemAtPath:nsPath error:NULL];
     m_length = [[attr objectForKey:NSFileSize] intValue];
 }

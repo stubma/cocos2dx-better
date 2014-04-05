@@ -110,8 +110,7 @@ public:
 	 *
 	 * @param offset offset
 	 * @param mode seek mode
-	 * @return new offset after changed后的实际位置
-	 * \endif
+	 * @return new offset after changed
 	 */
 	virtual size_t seek(int offset, int mode) = 0;
 

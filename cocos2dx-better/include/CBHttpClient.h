@@ -41,6 +41,10 @@ NS_CC_BEGIN
  * 3. not singleton any more
  * 4. changed to cocos2d namespace
  *
+ * \par
+ * You don't need hold a http client, the http request will be executed in a thread so retaining a client
+ * instance or not doesn't matter.
+ *
  * \note
  * Using CB prefix to avoid name conflict, CB stands for cocos2dx-better. When you see a class starts with CB,
  * you should know it is a rewriten class which is better than the original.
@@ -64,9 +68,9 @@ public:
      * execute a request in a sub thread
      *
      * @param request a CBHttpRequest object, which includes url, response callback etc.
-     *      please make sure request->_requestData is clear before calling "send" here.
+     *      please make sure request->_requestData is clear before calling "execute" here.
      */
-    void execute(CBHttpRequest* request);
+    void asyncExecute(CBHttpRequest* request);
   
     /// connect timeout
     CC_SYNTHESIZE(float, m_connectTimeout, ConnectTimeout);

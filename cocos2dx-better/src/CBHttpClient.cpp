@@ -325,7 +325,7 @@ bool CBHttpClient::init() {
     return true;
 }
 
-void CBHttpClient::execute(CBHttpRequest* request) {
+void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     if (!request) {
         return;
     }

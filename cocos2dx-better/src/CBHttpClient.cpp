@@ -91,6 +91,11 @@ public:
     m_headers(NULL) {
         m_data = new CBData();
         CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(CURLHandler::dispatchNotification), this, 0, kCCRepeatForever, 0, false);
+        
+        // listener to some internal notification
+        CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
+        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelAll), kCCNotificationHttpCancelAll, NULL);
+        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelOne), kCCNotificationHttpCancelOne, NULL);
     }
     
     virtual ~CURLHandler() {
@@ -103,11 +108,6 @@ public:
         CC_SAFE_FREE(m_ctx);
         CC_SAFE_RELEASE(m_data);
         pthread_mutex_destroy(&m_mutex);
-        
-        // listener to some internal notification
-        CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelAll), kCCNotificationHttpCancelAll, NULL);
-        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelOne), kCCNotificationHttpCancelOne, NULL);
     }
     
     static CURLHandler* create(ccHttpContext* ctx) {

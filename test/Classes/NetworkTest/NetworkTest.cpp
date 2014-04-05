@@ -201,7 +201,7 @@ void NetworkFileDownloader::update(float delta) {
 //
 //------------------------------------------------------------------
 NetworkHttpGet::~NetworkHttpGet() {
-    
+    CC_SAFE_RELEASE(m_client);
 }
 
 void NetworkHttpGet::onEnter()
@@ -217,12 +217,26 @@ void NetworkHttpGet::onEnter()
                              origin.y + visibleSize.height / 2));
     addChild(m_label);
     
+    // cancel
+	CCMenuItemLabel* item1 = CCMenuItemLabel::create(CCLabelTTF::create("Cancel", "Helvetica", 40 / CC_CONTENT_SCALE_FACTOR()),
+													 this,
+													 menu_selector(NetworkHttpGet::onCancelClicked));
+	item1->setPosition(origin.x + visibleSize.width / 2,
+                       origin.y + visibleSize.height / 2 - 60 / CC_CONTENT_SCALE_FACTOR());
+	CCMenu* menu = CCMenu::create(item1, NULL);
+	menu->setAnchorPoint(CCPointZero);
+	menu->setPosition(CCPointZero);
+	addChild(menu);
+    
     // start request in asynchronous mode
     CBHttpClient* client = CBHttpClient::create();
     CBHttpRequest* req = CBHttpRequest::create();
+    req->setTag(1);
     req->setUrl("http://mirrors.cnnic.cn/apache//ant/binaries/apache-ant-1.9.3-bin.zip");
     req->setMethod(CBHttpRequest::kHttpGet);
     client->asyncExecute(req);
+    m_client = client;
+    CC_SAFE_RETAIN(m_client);
     
     // listener
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpDone), kCCNotificationHttpRequestCompleted, NULL);
@@ -237,6 +251,10 @@ void NetworkHttpGet::onExit() {
     CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpRequestCompleted);
     CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpDataReceived);
     CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpDidReceiveResponse);
+}
+
+void NetworkHttpGet::onCancelClicked(CCObject* sender) {
+    m_client->cancel(1);
 }
 
 std::string NetworkHttpGet::subtitle() {

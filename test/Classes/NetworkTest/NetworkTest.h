@@ -47,9 +47,10 @@ public:
 class NetworkHttpGet : public NetworkDemo
 {
 private:
-    size_t m_fileLen;
-    size_t m_recvLen;
+    int m_fileLen;
+    int m_recvLen;
     CCLabelTTF* m_label;
+    CBHttpClient* m_client;
     
 public:
     virtual ~NetworkHttpGet();
@@ -60,6 +61,7 @@ public:
     void onHttpDone(CBHttpResponse* response);
     void onHttpData(CBHttpResponse* response);
     void onHttpHeaders(CBHttpResponse* response);
+    void onCancelClicked(CCObject* sender);
 };
 
 class NetworkTCP : public NetworkDemo

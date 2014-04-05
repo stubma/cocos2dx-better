@@ -36,6 +36,9 @@ NS_CC_BEGIN
 /// object is a CBHttpResponse, you can get data segment from it
 #define kCCNotificationHttpDataReceived "kCCNotificationHttpDataReceived"
 
+/// when header is all received but before data transimitting. object is a CBHttpResponse and you can get header from it
+#define kCCNotificationHttpDidReceiveResponse "kCCNotificationHttpDidReceiveResponse"
+
 /**
  * A customized version of cocos2d-x extension CBHttpClient class. 
  * What I did:

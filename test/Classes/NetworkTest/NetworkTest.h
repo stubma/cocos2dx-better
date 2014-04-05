@@ -32,6 +32,11 @@ public:
 
 class NetworkHttpGet : public NetworkDemo
 {
+private:
+    size_t m_fileLen;
+    size_t m_recvLen;
+    CCLabelTTF* m_label;
+    
 public:
     virtual ~NetworkHttpGet();
     virtual void onEnter();
@@ -40,6 +45,7 @@ public:
     
     void onHttpDone(CBHttpResponse* response);
     void onHttpData(CBHttpResponse* response);
+    void onHttpHeaders(CBHttpResponse* response);
 };
 
 class NetworkTCP : public NetworkDemo

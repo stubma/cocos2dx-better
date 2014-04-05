@@ -69,17 +69,21 @@ public:
     /// undelivered data
     CBData* m_data;
     
-    /// header
-    CBData* m_header;
+    /// is kCCNotificationHttpDidReceiveResponse delivered?
+    bool isHttpDidReceiveResponseDelivered;
+    
+    /// is header all received?
+    bool isHeaderAllReceived;
     
 public:
     CURLHandler() :
     m_ctx(NULL),
     m_curl(NULL),
     m_done(false),
+    isHttpDidReceiveResponseDelivered(false),
+    isHeaderAllReceived(false),
     m_headers(NULL) {
         m_data = new CBData();
-        m_header = new CBData();
         CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(CURLHandler::dispatchNotification), this, 0, kCCRepeatForever, 0, false);
     }
     
@@ -92,7 +96,6 @@ public:
         CC_SAFE_RELEASE(m_ctx->response);
         CC_SAFE_FREE(m_ctx);
         CC_SAFE_RELEASE(m_data);
-        CC_SAFE_RELEASE(m_header);
         pthread_mutex_destroy(&m_mutex);
     }
     
@@ -113,6 +116,7 @@ public:
         // add data to the end of recvBuffer
         pthread_mutex_lock(&ii->m_mutex);
         ii->m_data->appendBytes((uint8_t*)ptr, sizes);
+        ii->isHeaderAllReceived = true;
         pthread_mutex_unlock(&ii->m_mutex);
         
         // return a value which is different with sizes will abort it
@@ -129,7 +133,12 @@ public:
         
         // add header data
         pthread_mutex_lock(&ii->m_mutex);
-        ii->m_header->appendBytes((uint8_t*)ptr, sizes);
+        string header((const char*)ptr, sizes);
+        CCArray& pair = CCUtils::componentsOfString(header, ':');
+        if(pair.count() == 2) {
+            ii->m_ctx->response->addHeader(((CCString*)pair.objectAtIndex(0))->getCString(),
+                                           ((CCString*)pair.objectAtIndex(1))->getCString());
+        }
         pthread_mutex_unlock(&ii->m_mutex);
         
         // return a value which is different with sizes will abort it
@@ -256,6 +265,23 @@ public:
         // check
         pthread_mutex_lock(&m_mutex);
         
+        // header notification
+        if(!isHttpDidReceiveResponseDelivered && isHeaderAllReceived) {
+            isHttpDidReceiveResponseDelivered = true;
+            nc->postNotification(kCCNotificationHttpDidReceiveResponse, m_ctx->response);
+        }
+        
+        // notification
+        if(m_data->getSize() > 0) {
+            m_ctx->response->setData(m_data);
+            nc->postNotification(kCCNotificationHttpDataReceived, m_ctx->response);
+            
+            // recreate a new data
+            CC_SAFE_RELEASE(m_data);
+            m_data = new CBData();
+        }
+        
+        // is done?
         if(m_done) {
             // notification
             nc->postNotification(kCCNotificationHttpRequestCompleted, m_ctx->response);
@@ -265,16 +291,6 @@ public:
             
             // unschedule dispatcher
             CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(CURLHandler::dispatchNotification), this);
-        } else {
-            // notification
-            if(m_data->getSize() > 0) {
-                m_ctx->response->setData(m_data);
-                nc->postNotification(kCCNotificationHttpDataReceived, m_ctx->response);
-                
-                // recreate a new data
-                CC_SAFE_RELEASE(m_data);
-                m_data = new CBData();
-            }
         }
         
         pthread_mutex_unlock(&m_mutex);

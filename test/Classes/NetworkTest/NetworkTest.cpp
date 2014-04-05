@@ -139,7 +139,7 @@ void NetworkDemo::backCallback(CCObject* pSender)
 //
 //------------------------------------------------------------------
 NetworkHttpGet::~NetworkHttpGet() {
-
+    
 }
 
 void NetworkHttpGet::onEnter()
@@ -149,33 +149,60 @@ void NetworkHttpGet::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
     
+    // label
+    m_label = CCLabelTTF::create("Getting", "Helvetica", 36 / CC_CONTENT_SCALE_FACTOR());
+    m_label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                             origin.y + visibleSize.height / 2));
+    addChild(m_label);
+    
+    // start request in asynchronous mode
     CBHttpClient* client = CBHttpClient::create();
     CBHttpRequest* req = CBHttpRequest::create();
     req->setUrl("http://mirrors.cnnic.cn/apache//ant/binaries/apache-ant-1.9.3-bin.zip");
     req->setMethod(CBHttpRequest::kHttpGet);
     client->asyncExecute(req);
     
+    // listener
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpDone), kCCNotificationHttpRequestCompleted, nil);
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpData), kCCNotificationHttpDataReceived, nil);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpHeaders), kCCNotificationHttpDidReceiveResponse, nil);
 }
 
 void NetworkHttpGet::onExit() {
     NetworkDemo::onEnter();
     
+    // remove listener
     CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpRequestCompleted);
     CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpDataReceived);
+    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpDidReceiveResponse);
 }
 
-std::string NetworkHttpGet::subtitle()
-{
+std::string NetworkHttpGet::subtitle() {
     return "Http Client - Get";
 }
 
+void NetworkHttpGet::onHttpHeaders(CBHttpResponse* response) {
+    string contentLength = response->getHeader("Content-Length");
+    m_fileLen = atoi(contentLength.c_str());
+    m_recvLen = 0;
+    CCLOG("file length is %ld", m_fileLen);
+    
+    char buf[64];
+    sprintf(buf, "%ld/%ld", m_recvLen, m_fileLen);
+    m_label->setString(buf);
+}
+
 void NetworkHttpGet::onHttpData(CBHttpResponse* response) {
+    m_recvLen += response->getData()->getSize();
+    char buf[64];
+    sprintf(buf, "%ld/%ld", m_recvLen, m_fileLen);
+    m_label->setString(buf);
 }
 
 void NetworkHttpGet::onHttpDone(CBHttpResponse* response) {
-    CCLOG("http request done, success: %s", response->isSuccess() ? "true" : "false");
+    char buf[128];
+    sprintf(buf, "done, success: %s", response->isSuccess() ? "true" : "false");
+    m_label->setString(buf);
 }
 
 //------------------------------------------------------------------

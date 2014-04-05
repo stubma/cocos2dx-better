@@ -65,6 +65,17 @@ public:
         m_errorData.appendBytes((uint8_t*)buf, strlen(buf));
     }
     
+    /// add header
+    inline void addHeader(const string& name, const string& value) {
+        m_headers.setObject(CCString::create(CCUtils::trim(value)), name);
+    }
+    
+    /// get header
+    inline string getHeader(const string& name) {
+        CCString* value = (CCString*)m_headers.objectForKey(name);
+        return value ? value->getCString() : "";
+    }
+    
     /// data segment of last receive, it is just used for notification
     CC_SYNTHESIZE(CBData*, m_data, Data);
     
@@ -76,6 +87,9 @@ public:
     
     /// response code
     CC_SYNTHESIZE(int, m_responseCode, ResponseCode);
+    
+    /// header map
+    CC_SYNTHESIZE_PASS_BY_REF(CCDictionary, m_headers, Headers);
 };
 
 NS_CC_END

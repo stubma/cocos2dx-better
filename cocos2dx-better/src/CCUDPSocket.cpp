@@ -83,7 +83,8 @@ void* CCUDPSocket::udpThreadEntry(void* arg) {
                 s->closeSocket();
             } else {
                 s->m_connected = true;
-                s->m_hub->onSocketConnectedThreadSafe(s);
+                if(s->m_hub)
+                    s->m_hub->onSocketConnectedThreadSafe(s);
             }
         }
     }
@@ -100,12 +101,14 @@ void* CCUDPSocket::udpThreadEntry(void* arg) {
         s->recvFromSock();
         if(s->m_inBufLen > 0) {
             CCPacket* p = NULL;
-            if(s->m_hub->isRawPolicy()) {
-                p = CCPacket::createRawPacket(s->m_inBuf, s->m_inBufLen);
-            } else {
-                p = CCPacket::createStandardPacket(s->m_inBuf, s->m_inBufLen);
+            if(s->m_hub) {
+                if(s->m_hub->isRawPolicy()) {
+                    p = CCPacket::createRawPacket(s->m_inBuf, s->m_inBufLen);
+                } else {
+                    p = CCPacket::createStandardPacket(s->m_inBuf, s->m_inBufLen);
+                }
+                s->m_hub->onPacketReceivedThreadSafe(p);
             }
-            s->m_hub->onPacketReceivedThreadSafe(p);
         }
         
         // get packet to be sent
@@ -133,7 +136,8 @@ void* CCUDPSocket::udpThreadEntry(void* arg) {
     
     // end
     if(s->m_connected) {
-        s->m_hub->onSocketDisconnectedThreadSafe(s);
+        if(s->m_hub)
+            s->m_hub->onSocketDisconnectedThreadSafe(s);
         s->m_connected = false;
     }
 	

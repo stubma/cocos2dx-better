@@ -106,8 +106,8 @@ public:
         
         // listener to some internal notification
         CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelAll), kCCNotificationHttpCancelAll, nil);
-        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelOne), kCCNotificationHttpCancelOne, nil);
+        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelAll), kCCNotificationHttpCancelAll, NULL);
+        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelOne), kCCNotificationHttpCancelOne, NULL);
     }
     
     static CURLHandler* create(ccHttpContext* ctx) {

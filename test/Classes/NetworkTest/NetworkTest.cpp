@@ -187,7 +187,7 @@ void NetworkFileDownloader::update(float delta) {
     if(d->isDownloading()) {
         m_fileLabel->setString(d->getCurrentDownloadingFileName().c_str());
         char buf[64];
-        sprintf(buf, "%ld/%ld", d->getCurrentDownloadedSize(), d->getCurrentDownloadingFileSize());
+        sprintf(buf, "%d/%d", d->getCurrentDownloadedSize(), d->getCurrentDownloadingFileSize());
         m_label->setString(buf);
     } else {
         m_fileLabel->setString("Done");
@@ -225,9 +225,9 @@ void NetworkHttpGet::onEnter()
     client->asyncExecute(req);
     
     // listener
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpDone), kCCNotificationHttpRequestCompleted, nil);
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpData), kCCNotificationHttpDataReceived, nil);
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpHeaders), kCCNotificationHttpDidReceiveResponse, nil);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpDone), kCCNotificationHttpRequestCompleted, NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpData), kCCNotificationHttpDataReceived, NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpHeaders), kCCNotificationHttpDidReceiveResponse, NULL);
 }
 
 void NetworkHttpGet::onExit() {
@@ -247,17 +247,17 @@ void NetworkHttpGet::onHttpHeaders(CBHttpResponse* response) {
     string contentLength = response->getHeader("Content-Length");
     m_fileLen = atoi(contentLength.c_str());
     m_recvLen = 0;
-    CCLOG("file length is %ld", m_fileLen);
+    CCLOG("file length is %d", m_fileLen);
     
     char buf[64];
-    sprintf(buf, "%ld/%ld", m_recvLen, m_fileLen);
+    sprintf(buf, "%d/%d", m_recvLen, m_fileLen);
     m_label->setString(buf);
 }
 
 void NetworkHttpGet::onHttpData(CBHttpResponse* response) {
     m_recvLen += response->getData()->getSize();
     char buf[64];
-    sprintf(buf, "%ld/%ld", m_recvLen, m_fileLen);
+    sprintf(buf, "%d/%d", m_recvLen, m_fileLen);
     m_label->setString(buf);
 }
 

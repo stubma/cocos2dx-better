@@ -57,9 +57,9 @@ m_fos(NULL) {
     CC_SAFE_RETAIN(m_client);
     
     // listener
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(CCFileDownloader::onHttpDone), kCCNotificationHttpRequestCompleted, nil);
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(CCFileDownloader::onHttpData), kCCNotificationHttpDataReceived, nil);
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(CCFileDownloader::onHttpHeaders), kCCNotificationHttpDidReceiveResponse, nil);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(CCFileDownloader::onHttpDone), kCCNotificationHttpRequestCompleted, NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(CCFileDownloader::onHttpData), kCCNotificationHttpDataReceived, NULL);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(CCFileDownloader::onHttpHeaders), kCCNotificationHttpDidReceiveResponse, NULL);
 }
 
 CCFileDownloader::~CCFileDownloader() {

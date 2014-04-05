@@ -27,6 +27,7 @@
 #include "cocos2d.h"
 #include "CCMoreMacros.h"
 #include "CBData.h"
+#include "CCUtils.h"
 
 using namespace std;
 

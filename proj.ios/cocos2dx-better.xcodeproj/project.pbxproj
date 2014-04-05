@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		920214CE18EFA482007FF1BD /* CBData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CD18EFA482007FF1BD /* CBData.cpp */; };
 		92042B1B187FE0CD0064262D /* CBJumpTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92042B19187FE0CD0064262D /* CBJumpTo.cpp */; };
 		9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
@@ -435,6 +436,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		920214CC18EFA47A007FF1BD /* CBData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBData.h; sourceTree = "<group>"; };
+		920214CD18EFA482007FF1BD /* CBData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBData.cpp; sourceTree = "<group>"; };
 		92042B19187FE0CD0064262D /* CBJumpTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBJumpTo.cpp; sourceTree = "<group>"; };
 		92042B1C187FE0E80064262D /* CBJumpTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBJumpTo.h; sourceTree = "<group>"; };
 		9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
@@ -1794,6 +1797,7 @@
 		92396911185591EE0063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				920214CC18EFA47A007FF1BD /* CBData.h */,
 				9225951A18D5897700E200AE /* CCBase64.h */,
 				92396871185591DB0063E8A1 /* CCCalendar.h */,
 				92396874185591DB0063E8A1 /* CBDrawingPrimitives.h */,
@@ -1866,6 +1870,7 @@
 		92396915185592A80063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				920214CD18EFA482007FF1BD /* CBData.cpp */,
 				9225951718D5896000E200AE /* CCBase64.cpp */,
 				92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */,
 				9239689A185591DB0063E8A1 /* CCAndroidStringsParser.h */,
@@ -3178,6 +3183,7 @@
 				9225960C18D5BBF600E200AE /* UILabel.cpp in Sources */,
 				922595F118D5BBF600E200AE /* CCSkin.cpp in Sources */,
 				92E8D06C18D4366200121DCC /* CCLaserSprite.cpp in Sources */,
+				920214CE18EFA482007FF1BD /* CBData.cpp in Sources */,
 				92F68EAC1855AD4400C97188 /* yajl_buf.c in Sources */,
 				92F68F271855BDE200C97188 /* CCAuroraManager.cpp in Sources */,
 				922595ED18D5BBF600E200AE /* CCBatchNode.cpp in Sources */,

@@ -26,152 +26,63 @@
 
 #include "cocos2d.h"
 #include "CCMoreMacros.h"
+#include "CBData.h"
 
 using namespace std;
 
 NS_CC_BEGIN
 
-/** 
- @brief defines the object which users must packed for CBHttpClient::send(HttpRequest*) method.
- Please refer to samples/TestCpp/Classes/ExtensionTest/NetworkTest/HttpClientTest.cpp as a sample
- @since v2.0.2
- @js NA
- @lua NA
+/**
+ * Http request
  */
-
-class CC_DLL CBHttpRequest : public CCObject
-{
+class CC_DLL CBHttpRequest : public CCObject {
 public:
-    /** Use this enum type as param in setReqeustType(param) */
-    typedef enum
-    {
+    /// http method definition
+    typedef enum {
         kHttpGet,
         kHttpPost,
         kHttpPut,
         kHttpDelete,
         kHttpUnknown,
-    } HttpRequestType;
+    } HttpMethod;
     
-    /** Constructor 
-        Because HttpRequest object will be used between UI thead and network thread,
-        requestObj->autorelease() is forbidden to avoid crashes in CCAutoreleasePool
-        new/retain/release still works, which means you need to release it manually
-        Please refer to HttpRequestTest.cpp to find its usage
-     */
-    CBHttpRequest()
-    {
-        _requestType = kHttpUnknown;
-        _url.clear();
-        _requestData.clear();
-        _tag.clear();
-        _pUserData = NULL;
-    };
+    CBHttpRequest() {
+        m_method = kHttpUnknown;
+        m_requestData = NULL;
+        m_userData = NULL;
+        m_tag = -1;
+    }
     
     /** Destructor */
     virtual ~CBHttpRequest() {
+        CC_SAFE_RELEASE(m_requestData);
     }
     
     static CBHttpRequest* create() {
         CBHttpRequest* req = new CBHttpRequest();
         return (CBHttpRequest*)req->autorelease();
     }
-            
-    // setter/getters for properties
-     
-    /** Required field for HttpRequest object before being sent.
-        kHttpGet & kHttpPost is currently supported
-     */
-    inline void setRequestType(HttpRequestType type)
-    {
-        _requestType = type;
-    };
-    /** Get back the kHttpGet/Post/... enum value */
-    inline HttpRequestType getRequestType()
-    {
-        return _requestType;
-    };
     
-    /** Required field for HttpRequest object before being sent.
-     */
-    inline void setUrl(const char* url)
-    {
-        _url = url;
-    };
-    /** Get back the setted url */
-    inline const char* getUrl()
-    {
-        return _url.c_str();
-    };
+    /// http method
+    CC_SYNTHESIZE(HttpMethod, m_method, Method);
     
-    /** Option field. You can set your post data here
-     */
-    inline void setRequestData(const char* buffer, unsigned int len)
-    {
-        _requestData.assign(buffer, buffer + len);
-    };
-    /** Get the request data pointer back */
-    inline char* getRequestData()
-    {
-        return &(_requestData.front());
-    }
-    /** Get the size of request data back */
-    inline int getRequestDataSize()
-    {
-        return _requestData.size();
-    }
+    /// url string
+    CC_SYNTHESIZE_PASS_BY_REF(string, m_url, Url);
     
-    /** Option field. You can set a string tag to identify your request, this tag can be found in HttpResponse->getHttpRequest->getTag()
-     */
-    inline void setTag(const char* tag)
-    {
-        _tag = tag;
-    };
-    /** Get the string tag back to identify the request. 
-        The best practice is to use it in your MyClass::onMyHttpRequestCompleted(sender, HttpResponse*) callback
-     */
-    inline const char* getTag()
-    {
-        return _tag.c_str();
-    };
+    /// tag if you want to identify request
+    CC_SYNTHESIZE_PASS_BY_REF(int, m_tag, Tag);
     
-    /** Option field. You can attach a customed data in each request, and get it back in response callback.
-        But you need to new/delete the data pointer manully
-     */
-    inline void setUserData(void* pUserData)
-    {
-        _pUserData = pUserData;
-    };
-    /** Get the pre-setted custom data pointer back.
-        Don't forget to delete it. HttpClient/HttpResponse/HttpRequest will do nothing with this pointer
-     */
-    inline void* getUserData()
-    {
-        return _pUserData;
-    };
+    /// custom data, request doesn't retain it
+    CC_SYNTHESIZE(void*, m_userData, UserData);
     
-    /** Set any custom headers **/
-    inline void setHeaders(vector<string> pHeaders)
-   	{
-   		_headers = pHeaders;
-   	}
-   
-    /** Get custom headers **/
-   	inline vector<string> getHeaders()
-   	{
-   		return _headers;
-   	}
+    /// request data for post and put
+    CC_SYNTHESIZE_RETAIN(CBData*, m_requestData, RequestData);
+    
+    /// header list
+    CC_SYNTHESIZE_PASS_BY_REF(vector<string>, m_headers, Headers);
     
     /// cancel flag, if set, http operation will abort if possible
     CC_SYNTHESIZE_BOOL(m_cancel, Cancel);
-
-protected:
-    // properties
-    HttpRequestType             _requestType;    /// kHttpRequestGet, kHttpRequestPost or other enums
-    string                 _url;            /// target url that this request is sent to
-    vector<char>           _requestData;    /// used for POST
-    string                 _tag;            /// user defined tag, to identify different requests in response callback
-    void*                       _pUserData;      /// You can add your customed data here 
-    vector<string>    _headers;		      /// custom http headers
 };
 
 NS_CC_END

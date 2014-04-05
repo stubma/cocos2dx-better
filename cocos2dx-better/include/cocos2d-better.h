@@ -67,6 +67,7 @@
 #include "CCSecureUserDefault.h"
 #include "CCBase64.h"
 #include "CCScrollBar.h"
+#include "CBData.h"
 
 // shader
 #include "CCShaders.h"

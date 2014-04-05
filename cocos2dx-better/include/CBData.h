@@ -21,63 +21,35 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CBHttpResponse__
-#define __CBHttpResponse__
+#ifndef __CBData__
+#define __CBData__
 
 #include "cocos2d.h"
-#include "CBHttpRequest.h"
-#include "CBData.h"
-#include "CCMoreMacros.h"
-
-using namespace std;
 
 NS_CC_BEGIN
 
 /**
- * Http response
+ * A class which is similar with NSData, it manages a block of memory.
+ * It uses CB prefix because cocos2d-x has a CCData in CCBReader extension
  */
-class CC_DLL CBHttpResponse : public CCObject {
-private:
-    CBData m_errorData;
-    
+class CC_DLL CBData : public CCObject {
 public:
-    CBHttpResponse(CBHttpRequest* request) :
-    m_success(false),
-    m_request(NULL),
-    m_responseCode(0) {
-        m_request = request;
-        CC_SAFE_RETAIN(m_request);
-    }
+    CBData();
+    CBData(uint8_t* bytes, size_t size);
+    CBData(CBData* data);
+    virtual ~CBData();
     
-    bool initWithRequest(CBHttpRequest* request);
+    static CBData* create();
+    static CBData* createWithBytes(uint8_t* bytes, size_t size);
+    static CBData* createWithData(CBData* data);
     
-    virtual ~CBHttpResponse() {
-        CC_SAFE_RELEASE(m_request);
-    }
+    void appendData(CBData* data);
+    void appendBytes(uint8_t* bytes, size_t size);
     
-    /// get error data
-    inline const CBData& getErrorData() {
-        return m_errorData;
-    }
-    
-    /// set error data
-    inline void setErrorData(char* buf) {
-        m_errorData.appendBytes((uint8_t*)buf, strlen(buf));
-    }
-    
-    /// data segment of last receive, it is just used for notification
-    CC_SYNTHESIZE(CBData*, m_data, Data);
-    
-    /// request
-    CC_SYNTHESIZE_READONLY(CBHttpRequest*, m_request, Request);
-    
-    /// sucess flag
-    CC_SYNTHESIZE_BOOL(m_success, Success);
-    
-    /// response code
-    CC_SYNTHESIZE(int, m_responseCode, ResponseCode);
+    CC_SYNTHESIZE(uint8_t*, m_bytes, Bytes);
+    CC_SYNTHESIZE(size_t, m_size, Size);
 };
 
 NS_CC_END
 
-#endif //__CBHttpResponse__
+#endif // __CBData__

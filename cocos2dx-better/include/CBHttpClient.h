@@ -33,6 +33,9 @@ NS_CC_BEGIN
 /// object is a CBHttpResponse, you should check success flag of it
 #define kCCNotificationHttpRequestCompleted "kCCNotificationHttpRequestCompleted"
 
+/// object is a CBHttpResponse, you can get data segment from it
+#define kCCNotificationHttpDataReceived "kCCNotificationHttpDataReceived"
+
 /**
  * A customized version of cocos2d-x extension CBHttpClient class. 
  * What I did:

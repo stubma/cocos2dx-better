@@ -30,15 +30,16 @@ public:
     void backCallback(CCObject* pSender);
 };
 
-class NetworkFileDownloader : public NetworkDemo
+class NetworkHttpGet : public NetworkDemo
 {
 public:
-    virtual ~NetworkFileDownloader();
+    virtual ~NetworkHttpGet();
     virtual void onEnter();
     virtual void onExit();
     virtual string subtitle();
     
     void onHttpDone(CBHttpResponse* response);
+    void onHttpData(CBHttpResponse* response);
 };
 
 class NetworkTCP : public NetworkDemo

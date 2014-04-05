@@ -21,63 +21,54 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CBHttpResponse__
-#define __CBHttpResponse__
-
-#include "cocos2d.h"
-#include "CBHttpRequest.h"
 #include "CBData.h"
-#include "CCMoreMacros.h"
-
-using namespace std;
 
 NS_CC_BEGIN
 
-/**
- * Http response
- */
-class CC_DLL CBHttpResponse : public CCObject {
-private:
-    CBData m_errorData;
-    
-public:
-    CBHttpResponse(CBHttpRequest* request) :
-    m_success(false),
-    m_request(NULL),
-    m_responseCode(0) {
-        m_request = request;
-        CC_SAFE_RETAIN(m_request);
-    }
-    
-    bool initWithRequest(CBHttpRequest* request);
-    
-    virtual ~CBHttpResponse() {
-        CC_SAFE_RELEASE(m_request);
-    }
-    
-    /// get error data
-    inline const CBData& getErrorData() {
-        return m_errorData;
-    }
-    
-    /// set error data
-    inline void setErrorData(char* buf) {
-        m_errorData.appendBytes((uint8_t*)buf, strlen(buf));
-    }
-    
-    /// data segment of last receive, it is just used for notification
-    CC_SYNTHESIZE(CBData*, m_data, Data);
-    
-    /// request
-    CC_SYNTHESIZE_READONLY(CBHttpRequest*, m_request, Request);
-    
-    /// sucess flag
-    CC_SYNTHESIZE_BOOL(m_success, Success);
-    
-    /// response code
-    CC_SYNTHESIZE(int, m_responseCode, ResponseCode);
-};
+CBData::CBData() {
+    m_size = 0;
+    m_bytes = (uint8_t*)malloc(m_size * sizeof(uint8_t));
+}
+
+CBData::CBData(uint8_t* bytes, size_t size) {
+    m_size = size;
+    m_bytes = (uint8_t*)malloc(m_size * sizeof(uint8_t));
+    memcpy(m_bytes, bytes, m_size);
+}
+
+CBData::CBData(CBData* data) {
+    m_size = data->m_size;
+    m_bytes = (uint8_t*)malloc(m_size * sizeof(uint8_t));
+    memcpy(m_bytes, data->m_bytes, m_size);
+}
+
+CBData::~CBData() {
+    CC_SAFE_FREE(m_bytes);
+}
+
+CBData* CBData::create() {
+    CBData* d = new CBData();
+    return (CBData*)d->autorelease();
+}
+
+CBData* CBData::createWithBytes(uint8_t* bytes, size_t size) {
+    CBData* d = new CBData(bytes, size);
+    return (CBData*)d->autorelease();
+}
+
+CBData* CBData::createWithData(CBData* data) {
+    CBData* d = new CBData(data);
+    return (CBData*)d->autorelease();
+}
+
+void CBData::appendData(CBData* data) {
+    appendBytes(data->getBytes(), data->getSize());
+}
+
+void CBData::appendBytes(uint8_t* bytes, size_t size) {
+    m_size += size;
+    m_bytes = (uint8_t*)realloc(m_bytes, m_size);
+    memcpy(m_bytes + m_size - size, bytes, size);
+}
 
 NS_CC_END
-
-#endif //__CBHttpResponse__

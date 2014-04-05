@@ -28,6 +28,7 @@
 #include <errno.h>
 #include "curl/curl.h"
 #include <pthread.h>
+#include "CBData.h"
 
 using namespace std;
 
@@ -65,12 +66,20 @@ public:
     /// done flag
     bool m_done;
     
+    /// undelivered data
+    CBData* m_data;
+    
+    /// header
+    CBData* m_header;
+    
 public:
     CURLHandler() :
     m_ctx(NULL),
     m_curl(NULL),
     m_done(false),
     m_headers(NULL) {
+        m_data = new CBData();
+        m_header = new CBData();
         CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(CURLHandler::dispatchNotification), this, 0, kCCRepeatForever, 0, false);
     }
     
@@ -82,6 +91,8 @@ public:
         CC_SAFE_RELEASE(m_ctx->request);
         CC_SAFE_RELEASE(m_ctx->response);
         CC_SAFE_FREE(m_ctx);
+        CC_SAFE_RELEASE(m_data);
+        CC_SAFE_RELEASE(m_header);
         pthread_mutex_destroy(&m_mutex);
     }
     
@@ -97,12 +108,12 @@ public:
     /// Callback function used by libcurl for collect response data
     static size_t writeData(void* ptr, size_t size, size_t nmemb, void* userdata) {
         CURLHandler* ii = (CURLHandler*)userdata;
-        vector<char> *recvBuffer = (vector<char>*)ii->m_ctx->response->getResponseData();
         size_t sizes = size * nmemb;
         
         // add data to the end of recvBuffer
-        // write data maybe called more than once in a single request
-        recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr+sizes);
+        pthread_mutex_lock(&ii->m_mutex);
+        ii->m_data->appendBytes((uint8_t*)ptr, sizes);
+        pthread_mutex_unlock(&ii->m_mutex);
         
         // return a value which is different with sizes will abort it
         if(ii->m_ctx->request->isCancel())
@@ -114,12 +125,12 @@ public:
     /// Callback function used by libcurl for collect header data
     static size_t writeHeaderData(void* ptr, size_t size, size_t nmemb, void* userdata) {
         CURLHandler* ii = (CURLHandler*)userdata;
-        vector<char>* recvBuffer = (vector<char>*)ii->m_ctx->response->getResponseHeader();
         size_t sizes = size * nmemb;
         
-        // add data to the end of recvBuffer
-        // write data maybe called more than once in a single request
-        recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr+sizes);
+        // add header data
+        pthread_mutex_lock(&ii->m_mutex);
+        ii->m_header->appendBytes((uint8_t*)ptr, sizes);
+        pthread_mutex_unlock(&ii->m_mutex);
         
         // return a value which is different with sizes will abort it
         if(ii->m_ctx->request->isCancel())
@@ -143,19 +154,18 @@ public:
         pthread_mutex_init(&m_mutex, NULL);
         
         /* get custom header data (if set) */
-       	vector<string> headers = ctx->request->getHeaders();
-        if(!headers.empty())
-        {
+       	const vector<string>& headers = ctx->request->getHeaders();
+        if(!headers.empty()) {
             // append custom headers one by one
-            for (vector<string>::iterator it = headers.begin(); it != headers.end(); ++it)
-                m_headers = curl_slist_append(m_headers,it->c_str());
+            for (vector<string>::const_iterator it = headers.begin(); it != headers.end(); ++it)
+                m_headers = curl_slist_append(m_headers, it->c_str());
             
             // set custom headers for curl
             if (curl_easy_setopt(m_curl, CURLOPT_HTTPHEADER, m_headers) != CURLE_OK)
                 return false;
         }
         
-        return curl_easy_setopt(m_curl, CURLOPT_URL, ctx->request->getUrl()) == CURLE_OK &&
+        return curl_easy_setopt(m_curl, CURLOPT_URL, ctx->request->getUrl().c_str()) == CURLE_OK &&
             curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, writeData) == CURLE_OK &&
             curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, this) == CURLE_OK &&
             curl_easy_setopt(m_curl, CURLOPT_HEADERFUNCTION, writeHeaderData) == CURLE_OK &&
@@ -193,15 +203,22 @@ public:
     
     bool processPostTask() {
         curl_easy_setopt(m_curl, CURLOPT_POST, 1);
-        curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, m_ctx->request->getRequestData());
-        curl_easy_setopt(m_curl, CURLOPT_POSTFIELDSIZE, m_ctx->request->getRequestDataSize());
+        CBData* data = m_ctx->request->getRequestData();
+        if(data) {
+            curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, data->getBytes());
+            curl_easy_setopt(m_curl, CURLOPT_POSTFIELDSIZE, data->getSize());
+        }
         return perform();
     }
     
     bool processPutTask() {
         curl_easy_setopt(m_curl, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, m_ctx->request->getRequestData());
-        curl_easy_setopt(m_curl, CURLOPT_POSTFIELDSIZE, m_ctx->request->getRequestDataSize());
+        CBData* data = m_ctx->request->getRequestData();
+        if(data) {
+            curl_easy_setopt(m_curl, CURLOPT_POSTFIELDS, data->getBytes());
+            curl_easy_setopt(m_curl, CURLOPT_POSTFIELDSIZE, data->getSize());
+        }
+
         return perform();
     }
     
@@ -248,6 +265,16 @@ public:
             
             // unschedule dispatcher
             CCDirector::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(CURLHandler::dispatchNotification), this);
+        } else {
+            // notification
+            if(m_data->getSize() > 0) {
+                m_ctx->response->setData(m_data);
+                nc->postNotification(kCCNotificationHttpDataReceived, m_ctx->response);
+                
+                // recreate a new data
+                CC_SAFE_RELEASE(m_data);
+                m_data = new CBData();
+            }
         }
         
         pthread_mutex_unlock(&m_mutex);
@@ -267,7 +294,7 @@ void* CBHttpClient::httpThreadEntry(void* arg) {
         
         // process request
         bool retValue = false;
-        switch (ctx->request->getRequestType()) {
+        switch (ctx->request->getMethod()) {
             case CBHttpRequest::kHttpGet:
                 retValue = curl->processGetTask();
                 break;
@@ -288,10 +315,10 @@ void* CBHttpClient::httpThreadEntry(void* arg) {
         // save response
         response->setResponseCode(curl->m_responseCode);
         if (retValue) {
-            response->setSucceed(true);
+            response->setSuccess(true);
         } else {
-            response->setSucceed(false);
-            response->setErrorBuffer(curl->m_errorBuffer);
+            response->setSuccess(false);
+            response->setErrorData(curl->m_errorBuffer);
         }
         
         // done

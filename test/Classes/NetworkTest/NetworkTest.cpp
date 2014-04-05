@@ -3,12 +3,12 @@
 #include "cocos2d.h"
 #include "cocos2d-better.h"
 
-TESTLAYER_CREATE_FUNC(NetworkFileDownloader);
+TESTLAYER_CREATE_FUNC(NetworkHttpGet);
 TESTLAYER_CREATE_FUNC(NetworkTCP);
 TESTLAYER_CREATE_FUNC(NetworkUDP);
 
 static NEWTESTFUNC createFunctions[] = {
-    CF(NetworkFileDownloader),
+    CF(NetworkHttpGet),
     CF(NetworkTCP),
 	CF(NetworkUDP)
 };
@@ -135,14 +135,14 @@ void NetworkDemo::backCallback(CCObject* pSender)
 
 //------------------------------------------------------------------
 //
-// File Downloader
+// Http Client - Get
 //
 //------------------------------------------------------------------
-NetworkFileDownloader::~NetworkFileDownloader() {
+NetworkHttpGet::~NetworkHttpGet() {
 
 }
 
-void NetworkFileDownloader::onEnter()
+void NetworkHttpGet::onEnter()
 {
     NetworkDemo::onEnter();
     
@@ -152,26 +152,30 @@ void NetworkFileDownloader::onEnter()
     CBHttpClient* client = CBHttpClient::create();
     CBHttpRequest* req = CBHttpRequest::create();
     req->setUrl("http://mirrors.cnnic.cn/apache//ant/binaries/apache-ant-1.9.3-bin.zip");
-    req->setRequestType(CBHttpRequest::kHttpGet);
+    req->setMethod(CBHttpRequest::kHttpGet);
     client->asyncExecute(req);
     
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkFileDownloader::onHttpDone), kCCNotificationHttpRequestCompleted, nil);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpDone), kCCNotificationHttpRequestCompleted, nil);
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(NetworkHttpGet::onHttpData), kCCNotificationHttpDataReceived, nil);
 }
 
-void NetworkFileDownloader::onExit() {
+void NetworkHttpGet::onExit() {
     NetworkDemo::onEnter();
     
     CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpRequestCompleted);
+    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationHttpDataReceived);
 }
 
-std::string NetworkFileDownloader::subtitle()
+std::string NetworkHttpGet::subtitle()
 {
-    return "File Downloader";
+    return "Http Client - Get";
 }
 
-void NetworkFileDownloader::onHttpDone(CBHttpResponse* response) {
-    vector<char>* buf = response->getResponseData();
-    CCLOG("returned data size: %ld", buf->size());
+void NetworkHttpGet::onHttpData(CBHttpResponse* response) {
+}
+
+void NetworkHttpGet::onHttpDone(CBHttpResponse* response) {
+    CCLOG("http request done, success: %s", response->isSuccess() ? "true" : "false");
 }
 
 //------------------------------------------------------------------

@@ -44,7 +44,7 @@ const char* ccShader_flash_frag = "\n\
 	void main()	{ \n\
 		gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord); \n\
 		if(gl_FragColor.a > 0.0) { \n\
-			vec3 deltaColor = (CC_flashColor - gl_FragColor.xyz) * CC_flashTime; \n\
+			vec3 deltaColor = (CC_flashColor - gl_FragColor.xyz) * CC_flashTime * gl_FragColor.a; \n\
 			gl_FragColor.xyz += deltaColor; \n\
 		} \n\
 	}";

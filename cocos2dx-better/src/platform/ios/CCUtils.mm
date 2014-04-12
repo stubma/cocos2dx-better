@@ -21,6 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
 #import "CCUtils.h"
 #import <StoreKit/StoreKit.h>
 #import "EAGLView.h"
@@ -309,3 +311,5 @@ bool CCUtils::deleteFile(const string& path) {
 }
 
 NS_CC_END
+
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS

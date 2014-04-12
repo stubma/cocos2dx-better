@@ -21,76 +21,74 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#include "CCAssetInputStream_ios.h"
+#include "CCAssetOutputStream_mac.h"
+#include <stdio.h>
 #include <errno.h>
 #include "CCUtils.h"
 
 NS_CC_BEGIN
 
-CCAssetInputStream* CCAssetInputStream::create(const string& path) {
-	CCAssetInputStream* ais = new CCAssetInputStream_ios(path);
-	return (CCAssetInputStream*)ais->autorelease();
+CCAssetOutputStream* CCAssetOutputStream::create(const string& path, bool append) {
+	CCAssetOutputStream* aos = new CCAssetOutputStream_mac(path, append);
+	return (CCAssetOutputStream*)aos->autorelease();
 }
 
-CCAssetInputStream_ios::CCAssetInputStream_ios(const string& path) :
-		CCAssetInputStream(path),
-		m_handle(nil),
-		m_length(0) {
-    // open file
+CCAssetOutputStream_mac::CCAssetOutputStream_mac(const string& path, bool append) :
+CCAssetOutputStream(path, append),
+m_handle(nil) {
+    // get path
     NSString* nsPath = [NSString stringWithCString:path.c_str()
                                           encoding:NSUTF8StringEncoding];
-    m_handle = [NSFileHandle fileHandleForReadingAtPath:nsPath];
+    
+    // if not exist, create it
+    NSFileManager* fm = [NSFileManager defaultManager];
+    if(![fm fileExistsAtPath:nsPath]) {
+        [fm createFileAtPath:nsPath contents:nil attributes:nil];
+    }
+    
+    // create handle
+    m_handle = [NSFileHandle fileHandleForWritingAtPath:nsPath];
+    if (m_append) {
+        [m_handle seekToEndOfFile];
+    }
     [m_handle retain];
     
     // get file length
-    NSFileManager* fm = [NSFileManager defaultManager];
     NSDictionary* attr = [fm attributesOfItemAtPath:nsPath error:NULL];
     m_length = [[attr objectForKey:NSFileSize] intValue];
 }
 
-CCAssetInputStream_ios::~CCAssetInputStream_ios() {
+CCAssetOutputStream_mac::~CCAssetOutputStream_mac() {
 	[m_handle closeFile];
 	[m_handle release];
 	m_handle = nil;
 }
 
-size_t CCAssetInputStream_ios::getLength() {
-	return m_length;
+void CCAssetOutputStream_mac::close() {
+	[m_handle closeFile];
+	[m_handle release];
+	m_handle = nil;
 }
 
-size_t CCAssetInputStream_ios::getPosition() {
+ssize_t CCAssetOutputStream_mac::write(const char* data, size_t len) {
+	NSData *nData = [NSData dataWithBytes:data length:len];
+	[m_handle writeData:nData];
+	return [nData length];
+}
+
+ssize_t CCAssetOutputStream_mac::write(const int* data, size_t len) {
+	NSData *nData = [NSData dataWithBytes:data length:len];
+	[m_handle writeData:nData];
+	return [nData length];
+}
+
+size_t CCAssetOutputStream_mac::getPosition() {
 	return [m_handle offsetInFile];
 }
 
-size_t CCAssetInputStream_ios::available() {
-	return m_length - [m_handle offsetInFile];
-}
-
-char* CCAssetInputStream_ios::getBuffer() {
-	size_t len = getLength();
-	char* buf = (char*)malloc(len * sizeof(char));
-
-	NSData* data = [m_handle availableData];
-	memcpy(buf, [data bytes], [data length]);
-
-	return buf;
-}
-
-void CCAssetInputStream_ios::close() {
-	[m_handle closeFile];
-	[m_handle release];
-	m_handle = nil;
-}
-
-ssize_t CCAssetInputStream_ios::read(char* buffer, size_t length) {
-	NSData* data = [m_handle readDataOfLength:length];
-	memcpy(buffer, [data bytes], [data length]);
-	return [data length];
-}
-
-size_t CCAssetInputStream_ios::seek(int offset, int mode) {
+size_t CCAssetOutputStream_mac::seek(int offset, int mode) {
 	switch (mode) {
 		case SEEK_CUR:
 			[m_handle seekToFileOffset:getPosition() + offset];
@@ -108,4 +106,4 @@ size_t CCAssetInputStream_ios::seek(int offset, int mode) {
 
 NS_CC_END
 
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC

@@ -21,20 +21,20 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#include "CCAssetInputStream_ios.h"
+#include "CCAssetInputStream_mac.h"
 #include <errno.h>
 #include "CCUtils.h"
 
 NS_CC_BEGIN
 
 CCAssetInputStream* CCAssetInputStream::create(const string& path) {
-	CCAssetInputStream* ais = new CCAssetInputStream_ios(path);
+	CCAssetInputStream* ais = new CCAssetInputStream_mac(path);
 	return (CCAssetInputStream*)ais->autorelease();
 }
 
-CCAssetInputStream_ios::CCAssetInputStream_ios(const string& path) :
+CCAssetInputStream_mac::CCAssetInputStream_mac(const string& path) :
 		CCAssetInputStream(path),
 		m_handle(nil),
 		m_length(0) {
@@ -50,25 +50,25 @@ CCAssetInputStream_ios::CCAssetInputStream_ios(const string& path) :
     m_length = [[attr objectForKey:NSFileSize] intValue];
 }
 
-CCAssetInputStream_ios::~CCAssetInputStream_ios() {
+CCAssetInputStream_mac::~CCAssetInputStream_mac() {
 	[m_handle closeFile];
 	[m_handle release];
 	m_handle = nil;
 }
 
-size_t CCAssetInputStream_ios::getLength() {
+size_t CCAssetInputStream_mac::getLength() {
 	return m_length;
 }
 
-size_t CCAssetInputStream_ios::getPosition() {
+size_t CCAssetInputStream_mac::getPosition() {
 	return [m_handle offsetInFile];
 }
 
-size_t CCAssetInputStream_ios::available() {
+size_t CCAssetInputStream_mac::available() {
 	return m_length - [m_handle offsetInFile];
 }
 
-char* CCAssetInputStream_ios::getBuffer() {
+char* CCAssetInputStream_mac::getBuffer() {
 	size_t len = getLength();
 	char* buf = (char*)malloc(len * sizeof(char));
 
@@ -78,19 +78,19 @@ char* CCAssetInputStream_ios::getBuffer() {
 	return buf;
 }
 
-void CCAssetInputStream_ios::close() {
+void CCAssetInputStream_mac::close() {
 	[m_handle closeFile];
 	[m_handle release];
 	m_handle = nil;
 }
 
-ssize_t CCAssetInputStream_ios::read(char* buffer, size_t length) {
+ssize_t CCAssetInputStream_mac::read(char* buffer, size_t length) {
 	NSData* data = [m_handle readDataOfLength:length];
 	memcpy(buffer, [data bytes], [data length]);
 	return [data length];
 }
 
-size_t CCAssetInputStream_ios::seek(int offset, int mode) {
+size_t CCAssetInputStream_mac::seek(int offset, int mode) {
 	switch (mode) {
 		case SEEK_CUR:
 			[m_handle seekToFileOffset:getPosition() + offset];
@@ -108,4 +108,4 @@ size_t CCAssetInputStream_ios::seek(int offset, int mode) {
 
 NS_CC_END
 
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC

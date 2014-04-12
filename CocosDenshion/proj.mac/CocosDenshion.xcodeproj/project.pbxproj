@@ -1,0 +1,335 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9243BD4A18F9720A0020966A /* CDAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9243BD3E18F9720A0020966A /* CDAudioManager.h */; };
+		9243BD4B18F9720A0020966A /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9243BD3F18F9720A0020966A /* CDAudioManager.m */; };
+		9243BD4C18F9720A0020966A /* CDConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 9243BD4018F9720A0020966A /* CDConfig.h */; };
+		9243BD4D18F9720A0020966A /* CDOpenALSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 9243BD4118F9720A0020966A /* CDOpenALSupport.h */; };
+		9243BD4E18F9720A0020966A /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9243BD4218F9720A0020966A /* CDOpenALSupport.m */; };
+		9243BD4F18F9720A0020966A /* CDXMacOSXSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 9243BD4318F9720A0020966A /* CDXMacOSXSupport.h */; };
+		9243BD5018F9720A0020966A /* CDXMacOSXSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9243BD4418F9720A0020966A /* CDXMacOSXSupport.mm */; };
+		9243BD5118F9720A0020966A /* CocosDenshion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9243BD4518F9720A0020966A /* CocosDenshion.h */; };
+		9243BD5218F9720A0020966A /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9243BD4618F9720A0020966A /* CocosDenshion.m */; };
+		9243BD5318F9720A0020966A /* SimpleAudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9243BD4718F9720A0020966A /* SimpleAudioEngine.mm */; };
+		9243BD5418F9720A0020966A /* SimpleAudioEngine_objc.h in Headers */ = {isa = PBXBuildFile; fileRef = 9243BD4818F9720A0020966A /* SimpleAudioEngine_objc.h */; };
+		9243BD5518F9720A0020966A /* SimpleAudioEngine_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 9243BD4918F9720A0020966A /* SimpleAudioEngine_objc.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9243BD2A18F96EF80020966A /* Export.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		9243BD2B18F96EF80020966A /* SimpleAudioEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
+		9243BD3E18F9720A0020966A /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
+		9243BD3F18F9720A0020966A /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
+		9243BD4018F9720A0020966A /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
+		9243BD4118F9720A0020966A /* CDOpenALSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
+		9243BD4218F9720A0020966A /* CDOpenALSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOpenALSupport.m; sourceTree = "<group>"; };
+		9243BD4318F9720A0020966A /* CDXMacOSXSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDXMacOSXSupport.h; sourceTree = "<group>"; };
+		9243BD4418F9720A0020966A /* CDXMacOSXSupport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CDXMacOSXSupport.mm; sourceTree = "<group>"; };
+		9243BD4518F9720A0020966A /* CocosDenshion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
+		9243BD4618F9720A0020966A /* CocosDenshion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
+		9243BD4718F9720A0020966A /* SimpleAudioEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleAudioEngine.mm; sourceTree = "<group>"; };
+		9243BD4818F9720A0020966A /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
+		9243BD4918F9720A0020966A /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
+		D87CC2E5154FC6C500AAFE11 /* libCocosDenshion.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocosDenshion.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D87CC2E2154FC6C500AAFE11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4193AF8416C39EB1007E21D7 /* CocosDenshion */ = {
+			isa = PBXGroup;
+			children = (
+				9243BD2918F96EF80020966A /* include */,
+				9243BD3D18F9720A0020966A /* mac */,
+			);
+			name = CocosDenshion;
+			sourceTree = "<group>";
+		};
+		9243BD2918F96EF80020966A /* include */ = {
+			isa = PBXGroup;
+			children = (
+				9243BD2A18F96EF80020966A /* Export.h */,
+				9243BD2B18F96EF80020966A /* SimpleAudioEngine.h */,
+			);
+			name = include;
+			path = "../../../cocos2d-x/CocosDenshion/include";
+			sourceTree = "<group>";
+		};
+		9243BD3D18F9720A0020966A /* mac */ = {
+			isa = PBXGroup;
+			children = (
+				9243BD3E18F9720A0020966A /* CDAudioManager.h */,
+				9243BD3F18F9720A0020966A /* CDAudioManager.m */,
+				9243BD4018F9720A0020966A /* CDConfig.h */,
+				9243BD4118F9720A0020966A /* CDOpenALSupport.h */,
+				9243BD4218F9720A0020966A /* CDOpenALSupport.m */,
+				9243BD4318F9720A0020966A /* CDXMacOSXSupport.h */,
+				9243BD4418F9720A0020966A /* CDXMacOSXSupport.mm */,
+				9243BD4518F9720A0020966A /* CocosDenshion.h */,
+				9243BD4618F9720A0020966A /* CocosDenshion.m */,
+				9243BD4718F9720A0020966A /* SimpleAudioEngine.mm */,
+				9243BD4818F9720A0020966A /* SimpleAudioEngine_objc.h */,
+				9243BD4918F9720A0020966A /* SimpleAudioEngine_objc.m */,
+			);
+			name = mac;
+			path = "../../../cocos2d-x/CocosDenshion/mac";
+			sourceTree = "<group>";
+		};
+		D87CC2BB154FC66100AAFE11 = {
+			isa = PBXGroup;
+			children = (
+				4193AF8416C39EB1007E21D7 /* CocosDenshion */,
+				D87CC2C9154FC66100AAFE11 /* Frameworks */,
+				D87CC2C7154FC66100AAFE11 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D87CC2C7154FC66100AAFE11 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D87CC2E5154FC6C500AAFE11 /* libCocosDenshion.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D87CC2C9154FC66100AAFE11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D87CC2E3154FC6C500AAFE11 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9243BD4A18F9720A0020966A /* CDAudioManager.h in Headers */,
+				9243BD5118F9720A0020966A /* CocosDenshion.h in Headers */,
+				9243BD4C18F9720A0020966A /* CDConfig.h in Headers */,
+				9243BD4D18F9720A0020966A /* CDOpenALSupport.h in Headers */,
+				9243BD4F18F9720A0020966A /* CDXMacOSXSupport.h in Headers */,
+				9243BD5418F9720A0020966A /* SimpleAudioEngine_objc.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D87CC2E4154FC6C500AAFE11 /* CocosDenshion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D87CC2ED154FC6C500AAFE11 /* Build configuration list for PBXNativeTarget "CocosDenshion" */;
+			buildPhases = (
+				D87CC2E1154FC6C500AAFE11 /* Sources */,
+				D87CC2E2154FC6C500AAFE11 /* Frameworks */,
+				D87CC2E3154FC6C500AAFE11 /* Headers */,
+				185ADB8915A3935900CD7CE0 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CocosDenshion;
+			productName = SPII;
+			productReference = D87CC2E5154FC6C500AAFE11 /* libCocosDenshion.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D87CC2BD154FC66100AAFE11 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = SP;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = Cocoachina;
+			};
+			buildConfigurationList = D87CC2C0154FC66100AAFE11 /* Build configuration list for PBXProject "CocosDenshion" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				"zh-Hans",
+				"zh-Hant",
+			);
+			mainGroup = D87CC2BB154FC66100AAFE11;
+			productRefGroup = D87CC2C7154FC66100AAFE11 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D87CC2E4154FC6C500AAFE11 /* CocosDenshion */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		185ADB8915A3935900CD7CE0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D87CC2E1154FC6C500AAFE11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9243BD5518F9720A0020966A /* SimpleAudioEngine_objc.m in Sources */,
+				9243BD5018F9720A0020966A /* CDXMacOSXSupport.mm in Sources */,
+				9243BD5318F9720A0020966A /* SimpleAudioEngine.mm in Sources */,
+				9243BD5218F9720A0020966A /* CocosDenshion.m in Sources */,
+				9243BD4B18F9720A0020966A /* CDAudioManager.m in Sources */,
+				9243BD4E18F9720A0020966A /* CDOpenALSupport.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D87CC2DC154FC66100AAFE11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = c89;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = CC_TARGET_OS_MAC;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = macosx;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D87CC2DD154FC66100AAFE11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = c89;
+				GCC_PREPROCESSOR_DEFINITIONS = CC_TARGET_OS_MAC;
+				GCC_VERSION = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = macosx;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D87CC2EE154FC6C500AAFE11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				DSTROOT = /tmp/SPII.dst;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOS2D_DEBUG=1",
+				);
+				GENERATE_PKGINFO_FILE = NO;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
+				PRODUCT_NAME = CocosDenshion;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/platform/mac $(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/include $(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/kazmath/include $(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/";
+			};
+			name = Debug;
+		};
+		D87CC2EF154FC6C500AAFE11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				DSTROOT = /tmp/SPII.dst;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GENERATE_PKGINFO_FILE = NO;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = /usr/local/include;
+				PRODUCT_NAME = CocosDenshion;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/platform/mac $(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/include $(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/kazmath/include $(PROJECT_DIR)/../../../cocos2d-x/cocos2dx/";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D87CC2C0154FC66100AAFE11 /* Build configuration list for PBXProject "CocosDenshion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D87CC2DC154FC66100AAFE11 /* Debug */,
+				D87CC2DD154FC66100AAFE11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D87CC2ED154FC6C500AAFE11 /* Build configuration list for PBXNativeTarget "CocosDenshion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D87CC2EE154FC6C500AAFE11 /* Debug */,
+				D87CC2EF154FC6C500AAFE11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D87CC2BD154FC66100AAFE11 /* Project object */;
+}

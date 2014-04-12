@@ -21,65 +21,31 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#ifndef __CCAssetInputStream_ios_h__
-#define __CCAssetInputStream_ios_h__
-
-#include "CCAssetInputStream.h"
-#include <stdio.h>
-#import <Foundation/Foundation.h>
+#include "CCImagePicker.h"
+#import <AppKit/AppKit.h>
 
 NS_CC_BEGIN
 
-/**
- * iOS implementation of input stream
- */
-class CCAssetInputStream_ios : public CCAssetInputStream {
-	friend class CCAssetInputStream;
+bool CCImagePicker::hasCamera() {
+    // TODO not implemented
+    return false;
+}
 
-private:
-    /// file handle in iOS
-	NSFileHandle* m_handle;
+bool CCImagePicker::hasFrontCamera() {
+    // TODO not implemented
+    return false;
+}
 
-	/// length of file
-	size_t m_length;
+void CCImagePicker::pickFromCamera(const string& path, CCImagePickerCallback* callback, int w, int h, bool front, bool keepRatio) {
+    // TODO not implemented
+}
 
-protected:
-	/**
-	 * constructor
-	 *
-	 * @param path file path
-	 */
-	CCAssetInputStream_ios(const string& path);
-
-public:
-	virtual ~CCAssetInputStream_ios();
-
-	/// @see CCAssetInputStream::getBuffer
-	virtual char* getBuffer();
-
-	/// @see CCAssetInputStream::getPosition
-	virtual size_t getPosition();
-
-	/// @see CCAssetInputStream::getLength
-	virtual size_t getLength();
-
-	/// @see CCAssetInputStream::available
-	virtual size_t available();
-
-	/// @see CCAssetInputStream::close
-	virtual void close();
-
-	/// @see CCAssetInputStream::read
-	virtual ssize_t read(char* buffer, size_t length);
-
-	/// @see CCAssetInputStream::seek
-	virtual size_t seek(int offset, int mode);
-};
+void CCImagePicker::pickFromAlbum(const string& path, CCImagePickerCallback* callback, int w, int h, bool keepRatio) {
+    // TODO not implemented
+}
 
 NS_CC_END
 
-#endif // __CCAssetInputStream_ios_h__
-
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC

@@ -21,65 +21,60 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#ifndef __CCAssetInputStream_ios_h__
-#define __CCAssetInputStream_ios_h__
+#ifndef __CCAssetOutputStream_mac_h__
+#define __CCAssetOutputStream_mac_h__
 
-#include "CCAssetInputStream.h"
+#include "CCAssetOutputStream.h"
 #include <stdio.h>
 #import <Foundation/Foundation.h>
 
 NS_CC_BEGIN
 
 /**
- * iOS implementation of input stream
+ * iOS implementation of output stream
  */
-class CCAssetInputStream_ios : public CCAssetInputStream {
-	friend class CCAssetInputStream;
+class CCAssetOutputStream_mac : public CCAssetOutputStream {
+	friend class CCAssetOutputStream;
 
 private:
-    /// file handle in iOS
+	/// file handle in iOS
 	NSFileHandle* m_handle;
 
-	/// length of file
-	size_t m_length;
+    /// length of file
+	int m_length;
 
 protected:
 	/**
 	 * constructor
 	 *
-	 * @param path file path
+	 * @param path write file path
+	 * @param append append file
 	 */
-	CCAssetInputStream_ios(const string& path);
+	CCAssetOutputStream_mac(const string& path, bool append = false);
 
 public:
-	virtual ~CCAssetInputStream_ios();
+	virtual ~CCAssetOutputStream_mac();
 
-	/// @see CCAssetInputStream::getBuffer
-	virtual char* getBuffer();
-
-	/// @see CCAssetInputStream::getPosition
-	virtual size_t getPosition();
-
-	/// @see CCAssetInputStream::getLength
-	virtual size_t getLength();
-
-	/// @see CCAssetInputStream::available
-	virtual size_t available();
-
-	/// @see CCAssetInputStream::close
+	/// @see CCAssetOutputStream::close
 	virtual void close();
 
-	/// @see CCAssetInputStream::read
-	virtual ssize_t read(char* buffer, size_t length);
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const char* data, size_t len);
 
-	/// @see CCAssetInputStream::seek
+	/// @see CCAssetOutputStream::write
+	virtual ssize_t write(const int* data, size_t len);
+
+	/// @see CCAssetOutputStream::getPosition
+	virtual size_t getPosition();
+
+	/// @see CCAssetOutputStream::seek
 	virtual size_t seek(int offset, int mode);
 };
 
 NS_CC_END
 
-#endif // __CCAssetInputStream_ios_h__
+#endif // __CCAssetOutputStream_mac_h__
 
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC

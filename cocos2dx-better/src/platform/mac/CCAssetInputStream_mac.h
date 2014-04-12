@@ -21,10 +21,10 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
-#ifndef __CCAssetInputStream_ios_h__
-#define __CCAssetInputStream_ios_h__
+#ifndef __CCAssetInputStream_mac_h__
+#define __CCAssetInputStream_mac_h__
 
 #include "CCAssetInputStream.h"
 #include <stdio.h>
@@ -35,7 +35,7 @@ NS_CC_BEGIN
 /**
  * iOS implementation of input stream
  */
-class CCAssetInputStream_ios : public CCAssetInputStream {
+class CCAssetInputStream_mac : public CCAssetInputStream {
 	friend class CCAssetInputStream;
 
 private:
@@ -51,10 +51,10 @@ protected:
 	 *
 	 * @param path file path
 	 */
-	CCAssetInputStream_ios(const string& path);
+	CCAssetInputStream_mac(const string& path);
 
 public:
-	virtual ~CCAssetInputStream_ios();
+	virtual ~CCAssetInputStream_mac();
 
 	/// @see CCAssetInputStream::getBuffer
 	virtual char* getBuffer();
@@ -80,6 +80,6 @@ public:
 
 NS_CC_END
 
-#endif // __CCAssetInputStream_ios_h__
+#endif // __CCAssetInputStream_mac_h__
 
-#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC

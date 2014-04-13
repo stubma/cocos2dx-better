@@ -98,6 +98,19 @@ void CCUtils::replaceChar(string& s, char c, char sub) {
     delete buf;
 }
 
+string CCUtils::replace(string& s, const string& c, const string& sub) {
+    string ret = s;
+    size_t pos = ret.length();
+    while(true)   {
+        if((pos = ret.rfind(c, pos)) != string::npos)
+            ret = ret.replace(pos, c.length(), sub);
+        else
+            break;
+    }
+    
+    return ret;
+}
+
 string CCUtils::decodeHtmlEntities(const string& src) {
 	char* dest = (char*)calloc(src.length() + 1, sizeof(char));
 	decode_html_entities_utf8(dest, src.c_str());

@@ -90,9 +90,18 @@ public:
 	 *
 	 * @param s string reference, its content will be modified
 	 * @param c char to be replaced
-	 * @param sub char to be replaced to
+	 * @param sub char will be replacement to
 	 */
     static void replaceChar(string& s, char c, char sub);
+    
+    /**
+	 * Replace a sub string with other string
+	 *
+	 * @param s string reference, its content will be modified
+	 * @param c sub string to be replaced
+	 * @param sub string will be replacement to
+	 */
+    static string replace(string& s, const string& c, const string& sub);
 	
 	/// decode html entities in a string and return a decoded string
 	static string decodeHtmlEntities(const string& src);

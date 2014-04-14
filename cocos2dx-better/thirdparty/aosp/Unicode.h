@@ -22,7 +22,7 @@
 
 extern "C" {
 
-#if !defined(TARGET_OS_MAC)
+#if !defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
 typedef uint32_t char32_t;
 typedef uint16_t char16_t;
 #endif

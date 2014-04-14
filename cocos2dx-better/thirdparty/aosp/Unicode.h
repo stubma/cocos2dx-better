@@ -22,7 +22,7 @@
 
 extern "C" {
 
-#if CC_TARGET_PLATFORM != CC_PLATFORM_MAC
+#if !defined(TARGET_OS_MAC)
 typedef uint32_t char32_t;
 typedef uint16_t char16_t;
 #endif

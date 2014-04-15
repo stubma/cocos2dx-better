@@ -26,9 +26,6 @@ COCOS2DX_EXT_ROOT=$(COCOS2DX_ROOT)/extensions
 COCOSDENSHION_ROOT=$(COCOS2DX_ROOT)/CocosDenshion
 LOCAL_MODULE := cocos2dx-better
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
-	$(call all-cpp-files-under,thirdparty) \
-	$(call all-c-files-under,thirdparty/aosp) \
-	$(call all-c-files-under,thirdparty/entities) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCScrollView) \
@@ -66,17 +63,16 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 LOCAL_C_INCLUDES := $(LOCAL_EXPORT_C_INCLUDES) \
 	$(LOCAL_PATH)/src \
 	$(LOCAL_PATH)/src/platform/android \
-	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2 \
-	$(LOCAL_PATH)/thirdparty/aosp \
-	$(LOCAL_PATH)/thirdparty/entities \
-	$(LOCAL_PATH)/thirdparty/curl/include
+	$(COCOS2DX_ROOT)/cocos2dx/support/tinyxml2
 LOCAL_EXPORT_LDLIBS := -L$(LOCAL_PATH)/thirdparty/system_libs/$(TARGET_ARCH) -lsqlite -llog
 LOCAL_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
-LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static curl yajl
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static cocosdenshion_static curl yajl aosp entities
 
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,cocos2dx)
 $(call import-module,CocosDenshion/android)
+$(call import-module,cocos2dx-better/thirdparty/aosp)
 $(call import-module,cocos2dx-better/thirdparty/curl)
+$(call import-module,cocos2dx-better/thirdparty/entities)
 $(call import-module,cocos2dx-better/thirdparty/yajl)

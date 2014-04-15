@@ -374,6 +374,7 @@
 		92F68F371855BDE200C97188 /* CCSPXLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68F181855BDE200C97188 /* CCSPXLoader.cpp */; };
 		92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68F191855BDE200C97188 /* CCSPXManager.cpp */; };
 		92F68F391855BDE200C97188 /* CCSPXSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68F1A1855BDE200C97188 /* CCSPXSprite.cpp */; };
+		92FBFFC618FD5C2900ADCF7E /* CCPinyinUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92FBFFC418FD5C2900ADCF7E /* CCPinyinUtils.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1219,6 +1220,10 @@
 		92F68F181855BDE200C97188 /* CCSPXLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPXLoader.cpp; sourceTree = "<group>"; };
 		92F68F191855BDE200C97188 /* CCSPXManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPXManager.cpp; sourceTree = "<group>"; };
 		92F68F1A1855BDE200C97188 /* CCSPXSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPXSprite.cpp; sourceTree = "<group>"; };
+		92FBFFC418FD5C2900ADCF7E /* CCPinyinUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPinyinUtils.cpp; sourceTree = "<group>"; };
+		92FBFFC518FD5C2900ADCF7E /* CCPinyinUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPinyinUtils.h; sourceTree = "<group>"; };
+		92FBFFC718FD68BE00ADCF7E /* ccUnicodeGBKTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccUnicodeGBKTable.h; sourceTree = "<group>"; };
+		92FBFFC818FD69D600ADCF7E /* ccGBKUnicodeTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccGBKUnicodeTable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1889,6 +1894,10 @@
 				9222C62D18693F3200226B34 /* CCPointList.cpp */,
 				923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */,
 				9225951318D5862600E200AE /* CCSecureUserDefault.cpp */,
+				92FBFFC718FD68BE00ADCF7E /* ccUnicodeGBKTable.h */,
+				92FBFFC818FD69D600ADCF7E /* ccGBKUnicodeTable.h */,
+				92FBFFC418FD5C2900ADCF7E /* CCPinyinUtils.cpp */,
+				92FBFFC518FD5C2900ADCF7E /* CCPinyinUtils.h */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -3141,6 +3150,7 @@
 				92F68E5E18559EC100C97188 /* Unicode.cpp in Sources */,
 				9225961718D5BBF600E200AE /* CheckBoxReader.cpp in Sources */,
 				92F68EB01855AD4400C97188 /* yajl_parser.c in Sources */,
+				92FBFFC618FD5C2900ADCF7E /* CCPinyinUtils.cpp in Sources */,
 				92C53CF018EF09AB0045BA9B /* CBHttpClient.cpp in Sources */,
 				924A8ACF1856B3BA00681A4D /* CCData.cpp in Sources */,
 				92F68F201855BDE200C97188 /* CCAFCSprite.cpp in Sources */,

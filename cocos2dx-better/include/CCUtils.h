@@ -106,6 +106,10 @@ public:
 	/// decode html entities in a string and return a decoded string
 	static string decodeHtmlEntities(const string& src);
     
+    /// convert a chinese string into pinyin string, s must be in utf-8 encoding
+    /// currently gbk chinese is not supported
+    static string getPinyin(const string& s);
+    
     /**
      * get digit of a number. For example: 0 returns 1, 12 returns 2,
      * if number is negative, the negate symbol is not counted

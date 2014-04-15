@@ -26,6 +26,7 @@
 #include "CCLocale.h"
 #include "CCMoreMacros.h"
 #include "CCImage_richlabel.h"
+#include "CCPinyinUtils.h"
 
 NS_CC_BEGIN
 
@@ -119,6 +120,10 @@ string CCUtils::decodeHtmlEntities(const string& src) {
 	return decoded;
 }
 
+string CCUtils::getPinyin(const string& s) {
+    return CCPinyinUtils::chs2Pinyin(s);
+}
+
 int CCUtils::getNumDigits(int num) {
     int d = 1;
     num /= 10;
@@ -133,8 +138,8 @@ ssize_t CCUtils::lastDotIndex(const string& path) {
 	if(path.empty())
 		return -1;
     
-	size_t len = path.length();
-	for(int i = len - 1; i >= 0; i--) {
+	ssize_t len = path.length();
+	for(ssize_t i = len - 1; i >= 0; i--) {
 		if(path[i] == '.')
 			return i;
 	}

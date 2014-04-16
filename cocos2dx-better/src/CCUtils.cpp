@@ -605,6 +605,8 @@ CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
     // last comp
     if(compStart <= end) {
         s_tmpArray.addObject(CCInteger::create(atoi(s.substr(compStart, end - compStart + 1).c_str())));
+    } else if(s[end] == sep) {
+        s_tmpArray.addObject(CCInteger::create(0));
     }
     
     // return
@@ -650,6 +652,8 @@ CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
     // last comp
     if(compStart <= end) {
         s_tmpArray.addObject(CCFloat::create(atof(s.substr(compStart, end - compStart + 1).c_str())));
+    } else if(s[end] == sep) {
+        s_tmpArray.addObject(CCFloat::create(0));
     }
     
     // return
@@ -693,8 +697,11 @@ CCArray& CCUtils::componentsOfString(const string& s, const char sep) {
     }
     
     // last comp
+    // or, if last char is separator, append an empty string
     if(compStart <= end) {
         s_tmpArray.addObject(CCString::create(s.substr(compStart, end - compStart + 1)));
+    } else if(s[end] == sep) {
+        s_tmpArray.addObject(CCString::create(""));
     }
     
     // return

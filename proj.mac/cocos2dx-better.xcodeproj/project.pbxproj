@@ -306,6 +306,7 @@
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
 		92C53CF018EF09AB0045BA9B /* CBHttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C53CEF18EF09AB0045BA9B /* CBHttpClient.cpp */; };
+		92C90F4518FEB60000330E7F /* CCPinyinUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C90F4218FEB60000330E7F /* CCPinyinUtils.cpp */; };
 		92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */; };
 		92CE277718B5EE35006E5B71 /* CCFlash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE277518B5EE35006E5B71 /* CCFlash.cpp */; };
 		92D36593185D58C00049AF37 /* CCUDPSocketHub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92D36591185D58C00049AF37 /* CCUDPSocketHub.cpp */; };
@@ -1066,6 +1067,10 @@
 		92C53CED18EF099D0045BA9B /* CBHttpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpRequest.h; sourceTree = "<group>"; };
 		92C53CEE18EF099D0045BA9B /* CBHttpResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpResponse.h; sourceTree = "<group>"; };
 		92C53CEF18EF09AB0045BA9B /* CBHttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBHttpClient.cpp; sourceTree = "<group>"; };
+		92C90F4118FEB60000330E7F /* ccGBKUnicodeTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccGBKUnicodeTable.h; sourceTree = "<group>"; };
+		92C90F4218FEB60000330E7F /* CCPinyinUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPinyinUtils.cpp; sourceTree = "<group>"; };
+		92C90F4318FEB60000330E7F /* CCPinyinUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPinyinUtils.h; sourceTree = "<group>"; };
+		92C90F4418FEB60000330E7F /* ccUnicodeGBKTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccUnicodeGBKTable.h; sourceTree = "<group>"; };
 		92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUDPSocket.cpp; sourceTree = "<group>"; };
 		92CD1266185D51DB00BF3C30 /* CCUDPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUDPSocket.h; sourceTree = "<group>"; };
 		92CE277518B5EE35006E5B71 /* CCFlash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCFlash.cpp; sourceTree = "<group>"; };
@@ -1895,6 +1900,10 @@
 				923968BC185591DB0063E8A1 /* CCResourceLoader.cpp */,
 				923968C1185591DB0063E8A1 /* CCScroller.cpp */,
 				923968D1185591DB0063E8A1 /* CCUtils.cpp */,
+				92C90F4118FEB60000330E7F /* ccGBKUnicodeTable.h */,
+				92C90F4218FEB60000330E7F /* CCPinyinUtils.cpp */,
+				92C90F4318FEB60000330E7F /* CCPinyinUtils.h */,
+				92C90F4418FEB60000330E7F /* ccUnicodeGBKTable.h */,
 				9222C62D18693F3200226B34 /* CCPointList.cpp */,
 				923968D2185591DB0063E8A1 /* CCVelocityTracker.cpp */,
 				9225951318D5862600E200AE /* CCSecureUserDefault.cpp */,
@@ -3042,6 +3051,7 @@
 				9288DF2E188F98A400C14965 /* CCControlStepper.cpp in Sources */,
 				92F68F291855BDE200C97188 /* CCMWFileData.cpp in Sources */,
 				92F68F391855BDE200C97188 /* CCSPXSprite.cpp in Sources */,
+				92C90F4518FEB60000330E7F /* CCPinyinUtils.cpp in Sources */,
 				9225961D18D5BBF600E200AE /* ListViewReader.cpp in Sources */,
 				92F68F371855BDE200C97188 /* CCSPXLoader.cpp in Sources */,
 				9225960118D5BBF600E200AE /* UILayoutDefine.cpp in Sources */,

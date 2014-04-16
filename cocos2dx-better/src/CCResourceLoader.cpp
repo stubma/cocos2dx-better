@@ -348,7 +348,7 @@ void CCResourceLoader::addArmatureTask(string plistPattern, string texPattern, i
 	for(int i = start; i <= end; i++) {
 		sprintf(buf1, plistPattern.c_str(), i);
 		sprintf(buf2, texPattern.c_str(), i);
-		addZwoptexTask(buf1, buf2, decFunc, idle);
+		addZwoptexTask(buf1, buf2, func, idle);
 	}
     
     if(!config.empty())

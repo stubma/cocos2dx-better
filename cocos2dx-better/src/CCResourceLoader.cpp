@@ -343,6 +343,18 @@ void CCResourceLoader::addArmatureTask(string plist, string tex, string config, 
         addArmatureTask(config);
 }
 
+void CCResourceLoader::addArmatureTask(string plistPattern, string texPattern, int start, int end, string config, CC_DECRYPT_FUNC func, float idle) {
+    char buf1[512], buf2[512];
+	for(int i = start; i <= end; i++) {
+		sprintf(buf1, plistPattern.c_str(), i);
+		sprintf(buf2, texPattern.c_str(), i);
+		addZwoptexTask(buf1, buf2, decFunc, idle);
+	}
+    
+    if(!config.empty())
+        addArmatureTask(config);
+}
+
 void CCResourceLoader::addLoadTask(LoadTask* t) {
     m_loadTaskList.push_back(t);
 }

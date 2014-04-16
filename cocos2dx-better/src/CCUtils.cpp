@@ -571,8 +571,10 @@ CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
     s_tmpArray.removeAllObjects();
     
     // quick reject
-    if(s.empty())
+    if(s.empty()) {
+        s_tmpArray.addObject(CCInteger::create(0));
         return s_tmpArray;
+    }
     
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
@@ -618,8 +620,10 @@ CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
     s_tmpArray.removeAllObjects();
     
     // quick reject
-    if(s.empty())
+    if(s.empty()) {
+        s_tmpArray.addObject(CCFloat::create(0));
         return s_tmpArray;
+    }
     
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;
@@ -665,8 +669,10 @@ CCArray& CCUtils::componentsOfString(const string& s, const char sep) {
     s_tmpArray.removeAllObjects();
     
     // quick reject
-    if(s.empty())
+    if(s.empty()) {
+        s_tmpArray.addObject(CCString::create(""));
         return s_tmpArray;
+    }
     
     // remove head and tailing brace, bracket, parentheses
     size_t start = 0;

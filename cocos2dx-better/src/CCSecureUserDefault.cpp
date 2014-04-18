@@ -74,8 +74,9 @@ bool CCSecureUserDefault::getBoolForKey(const char* pKey, bool defaultValue) {
 		// for bool, we save "true" string
 		const char* plain = getSecureValue(pKey, NULL);
 		bool result = defaultValue;
-		if(plain && !strcmp(plain, "true"))
-			result = true;
+		if(plain) {
+            result = !strcmp(plain, "true");
+        }
 		
 		// free
 		if(plain)

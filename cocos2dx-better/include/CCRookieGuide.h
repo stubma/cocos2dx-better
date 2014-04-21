@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include "CCMoreMacros.h"
+#include "CBDrawNode.h"
 
 using namespace std;
 
@@ -148,7 +149,7 @@ public:
 	CC_SYNTHESIZE(CCLayerColor*, m_content, Content);
 	
 	/// stencil node
-	CC_SYNTHESIZE(CCDrawNode*, m_stencil, Stencil);
+	CC_SYNTHESIZE(CBDrawNode*, m_stencil, Stencil);
     
     /// function invoked on enter and exit
     CC_SYNTHESIZE_RETAIN(CCCallFunc*, m_onExitFunc, OnExitFunc);

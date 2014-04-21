@@ -76,7 +76,7 @@ bool CCRookieGuide::init() {
     }
 	
 	// stencil
-	m_stencil = CCDrawNode::create();
+	m_stencil = CBDrawNode::create();
 	m_stencil->setPosition(CCPointZero);
 	
 	// clipper

@@ -35,7 +35,6 @@ NS_CC_BEGIN
 class CC_DLL CBDrawNode : public CCNode {
 protected:
     GLuint      m_uVao;
-    GLuint      m_uVbo;
     
     unsigned int    m_uBufferCapacity;
     GLsizei         m_nBufferCount;

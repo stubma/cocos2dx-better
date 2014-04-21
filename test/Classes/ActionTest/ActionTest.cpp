@@ -12,6 +12,7 @@ TESTLAYER_CREATE_FUNC(ActionFlash);
 TESTLAYER_CREATE_FUNC(ActionJumpEx);
 TESTLAYER_CREATE_FUNC(ActionMissile);
 TESTLAYER_CREATE_FUNC(ActionShake);
+TESTLAYER_CREATE_FUNC(ActionTrailMove);
 TESTLAYER_CREATE_FUNC(ActionTreeFadeInOut);
 
 static NEWTESTFUNC createFunctions[] = {
@@ -21,6 +22,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(ActionJumpEx),
     CF(ActionMissile),
     CF(ActionShake),
+    CF(ActionTrailMove),
 	CF(ActionTreeFadeInOut),
 };
 
@@ -385,6 +387,30 @@ void ActionShake::onEnter()
 std::string ActionShake::subtitle()
 {
     return "Shake";
+}
+
+
+//------------------------------------------------------------------
+//
+// Trail Move
+//
+//------------------------------------------------------------------
+void ActionTrailMove::onEnter()
+{
+    ActionDemo::onEnter();
+	
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	CCSprite* s = CCSprite::create("Images/grossini.png");
+	s->setPosition(ccp(origin.x + visibleSize.width / 2,
+					   origin.y + visibleSize.height / 2));
+	addChild(s);
+}
+
+std::string ActionTrailMove::subtitle()
+{
+    return "Trail Move";
 }
 
 //------------------------------------------------------------------

@@ -28,6 +28,8 @@
 #include "ccShader_blur_frag.h"
 #include "ccShader_laser_vert.h"
 #include "ccShader_laser_frag.h"
+#include "ccShader_lighting_frag.h"
+#include "ccShader_lighting_vert.h"
 
 #define LOAD_PROGRAM_IF(name) \
 	if(key == kCCShader_##name) \
@@ -65,7 +67,10 @@ void CCShaders::loadCustomShader(const string& key) {
 		} else if(key == kCCShader_blur) {
 			ADD_UNIFORM(blurSize);
 			ADD_UNIFORM(blurSubtract);
-		}
+		} else if(key == kCCShader_lighting) {
+            ADD_UNIFORM(lightingMul);
+            ADD_UNIFORM(lightingAdd);
+        }
 		
 		// add standard uniforms
         p->updateUniforms();
@@ -94,6 +99,14 @@ void CCShaders::setBlur(CCSize nodeSize, CCSize blurSize, ccColor4F blurSubtract
     p->use();
 	p->setUniformLocationWith2f(sUniform_pos_CC_blurSize, blurSize.width / nodeSize.width, blurSize.height / nodeSize.height);
 	p->setUniformLocationWith4f(sUniform_pos_CC_blurSubtract, blurSubtract.r, blurSubtract.g, blurSubtract.b, blurSubtract.a);
+}
+
+void CCShaders::setLighting(ccColor4B mul, ccColor3B add) {
+    loadCustomShader(kCCShader_lighting);
+    CCGLProgram* p = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_lighting);
+    p->use();
+	p->setUniformLocationWith4f(sUniform_pos_CC_lightingMul, mul.r / 255.0f, mul.g / 255.0f, mul.b / 255.0f, mul.a / 255.0f);
+	p->setUniformLocationWith3f(sUniform_pos_CC_lightingAdd, add.r / 255.0f, add.g / 255.0f, add.b / 255.0f);
 }
 
 NS_CC_END

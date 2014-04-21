@@ -21,42 +21,31 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ccShaders__
-#define __ccShaders__
+#ifndef __ccShader_lighting_frag_h__
+#define __ccShader_lighting_frag_h__
 
-#include "cocos2d.h"
-#include "ccMoreTypes.h"
+#define kCCUniform_lightingMul "CC_lightingMul"
+#define kCCUniform_lightingAdd "CC_lightingAdd"
 
-using namespace std;
+static GLint sUniform_pos_CC_lightingMul = -1;
+static GLint sUniform_pos_CC_lightingAdd = -1;
 
-NS_CC_BEGIN
+const char* ccShader_lighting_frag = "\n\
+    #ifdef GL_ES \n\
+        precision lowp float; \n\
+    #endif \n\
+    \n\
+    varying vec4 v_fragmentColor; \n\
+    varying vec2 v_texCoord; \n\
+    uniform sampler2D CC_Texture0; \n\
+    uniform vec4 CC_lightingMul; \n\
+    uniform vec3 CC_lightingAdd; \n\
+    \n\
+    void main()	{ \n\
+        gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord); \n\
+        vec3 c = CC_lightingAdd * gl_FragColor.a; \n\
+        gl_FragColor *= CC_lightingMul; \n\
+        gl_FragColor.xyz += c; \n\
+    }";
 
-// shader keys
-#define kCCShader_flash "kCCShader_flash"
-#define kCCShader_blur "kCCShader_blur"
-#define kCCShader_laser "kCCShader_laser"
-#define kCCShader_lighting "kCCShader_lighting"
-
-/// a custom shader management helper
-class CC_DLL CCShaders {
-private:
-	/// load one custom shader by key
-	static void loadCustomShader(const string& key);
-	
-public:
-	/// program for key
-	static CCGLProgram* programForKey(const string& key);
-	
-	/// flash
-	static void setFlash(float r, float g, float b, float t);
-	
-	/// blur
-	static void setBlur(CCSize nodeSize, CCSize blurSize, ccColor4F blurSubtract = cc4fTRANSPARENT);
-    
-    /// lighting, view ccShader_lighting_frag.h for detail algorithm
-    static void setLighting(ccColor4B mul, ccColor3B add);
-};
-
-NS_CC_END
-
-#endif // __ccShaders__
+#endif // __ccShader_flash_frag_h__

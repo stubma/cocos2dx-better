@@ -11,6 +11,8 @@
 		920214D118EFC57E007FF1BD /* CCFileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CF18EFC57E007FF1BD /* CCFileDownloader.cpp */; };
 		92042B1B187FE0CD0064262D /* CBJumpTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92042B19187FE0CD0064262D /* CBJumpTo.cpp */; };
 		920547BC1904EA450062ADA4 /* CBDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920547BB1904EA450062ADA4 /* CBDrawNode.cpp */; };
+		920547D719050C1E0062ADA4 /* CBArmature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920547D619050C1E0062ADA4 /* CBArmature.cpp */; };
+		920547D919050C3D0062ADA4 /* CCTrailMoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920547D819050C3D0062ADA4 /* CCTrailMoveTo.cpp */; };
 		9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
 		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
@@ -451,6 +453,12 @@
 		92042B1C187FE0E80064262D /* CBJumpTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBJumpTo.h; sourceTree = "<group>"; };
 		920547BA1904EA380062ADA4 /* CBDrawNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBDrawNode.h; sourceTree = "<group>"; };
 		920547BB1904EA450062ADA4 /* CBDrawNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBDrawNode.cpp; sourceTree = "<group>"; };
+		920547D119050BB50062ADA4 /* ccShader_lighting_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_lighting_frag.h; sourceTree = "<group>"; };
+		920547D219050BB50062ADA4 /* ccShader_lighting_vert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_lighting_vert.h; sourceTree = "<group>"; };
+		920547D419050BEE0062ADA4 /* CBArmature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBArmature.h; sourceTree = "<group>"; };
+		920547D619050C1E0062ADA4 /* CBArmature.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBArmature.cpp; sourceTree = "<group>"; };
+		920547D819050C3D0062ADA4 /* CCTrailMoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTrailMoveTo.cpp; sourceTree = "<group>"; };
+		920547DA19050C460062ADA4 /* CCTrailMoveTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTrailMoveTo.h; sourceTree = "<group>"; };
 		9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
 		9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCatmullRomSprite.cpp; sourceTree = "<group>"; };
 		9222C628186925F600226B34 /* CCCatmullRomSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCatmullRomSprite.h; sourceTree = "<group>"; };
@@ -1269,6 +1277,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		920547D319050BE20062ADA4 /* armature */ = {
+			isa = PBXGroup;
+			children = (
+				920547D419050BEE0062ADA4 /* CBArmature.h */,
+			);
+			name = armature;
+			sourceTree = "<group>";
+		};
+		920547D519050C160062ADA4 /* armature */ = {
+			isa = PBXGroup;
+			children = (
+				920547D619050C1E0062ADA4 /* CBArmature.cpp */,
+			);
+			name = armature;
+			sourceTree = "<group>";
+		};
 		9225951F18D5BBF600E200AE /* CocoStudio */ = {
 			isa = PBXGroup;
 			children = (
@@ -1721,6 +1745,8 @@
 				9234736018BD86A4009DDBEF /* CCShaders.cpp */,
 				92DB70CA18D349F100F2EF58 /* ccShader_flash_vert.h */,
 				92DB70C818D3402700F2EF58 /* ccShader_flash_frag.h */,
+				920547D119050BB50062ADA4 /* ccShader_lighting_frag.h */,
+				920547D219050BB50062ADA4 /* ccShader_lighting_vert.h */,
 				92DB70CC18D34B1200F2EF58 /* ccShader_blur_vert.h */,
 				92DB70CB18D34A8600F2EF58 /* ccShader_blur_frag.h */,
 				92E8D06918D420D100121DCC /* ccShader_laser_vert.h */,
@@ -1732,6 +1758,7 @@
 		9239686D185591DB0063E8A1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				920547D319050BE20062ADA4 /* armature */,
 				92EDA10518D9E6C70022E196 /* tmx */,
 				92668E6718B5DC4F0065B75F /* shader */,
 				9239690E185591E20063E8A1 /* action */,
@@ -1753,6 +1780,7 @@
 		92396898185591DB0063E8A1 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				920547D519050C160062ADA4 /* armature */,
 				92EDA10618D9E6DB0022E196 /* tmx */,
 				9234735F18BD869C009DDBEF /* shader */,
 				92BF0FF518A71EF80088121F /* platform */,
@@ -1786,6 +1814,7 @@
 				92396894185591DB0063E8A1 /* CCTreeFadeOut.h */,
 				922D3C8618C970B200E9AA9E /* CCCallFuncT.h */,
 				923DBA9518E2A91D00BD442F /* CCCallFuncNT.h */,
+				920547DA19050C460062ADA4 /* CCTrailMoveTo.h */,
 			);
 			name = action;
 			sourceTree = "<group>";
@@ -1884,6 +1913,7 @@
 				923968C3185591DB0063E8A1 /* CCShake.cpp */,
 				923968CF185591DB0063E8A1 /* CCTreeFadeIn.cpp */,
 				923968D0185591DB0063E8A1 /* CCTreeFadeOut.cpp */,
+				920547D819050C3D0062ADA4 /* CCTrailMoveTo.cpp */,
 			);
 			name = action;
 			sourceTree = "<group>";
@@ -3213,9 +3243,11 @@
 				9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */,
 				9288DF2D188F98A400C14965 /* CCControlSlider.cpp in Sources */,
 				92F68E6E1855A7C800C97188 /* CCDatabase.cpp in Sources */,
+				920547D719050C1E0062ADA4 /* CBArmature.cpp in Sources */,
 				9225961A18D5BBF600E200AE /* LabelBMFontReader.cpp in Sources */,
 				9276E10518A77E240045B318 /* CCAssetOutputStream_ios.mm in Sources */,
 				9225960A18D5BBF600E200AE /* UICheckBox.cpp in Sources */,
+				920547D919050C3D0062ADA4 /* CCTrailMoveTo.cpp in Sources */,
 				9225961318D5BBF600E200AE /* DictionaryHelper.cpp in Sources */,
 				92F68F2D1855BDE200C97188 /* CCSPX3Action.cpp in Sources */,
 				922595F218D5BBF600E200AE /* CCColliderDetector.cpp in Sources */,

@@ -74,6 +74,13 @@ public:
     virtual string subtitle();
 };
 
+class ActionTrailMove : public ActionDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class ActionTreeFadeInOut : public ActionDemo
 {
 public:

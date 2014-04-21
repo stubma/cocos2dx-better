@@ -70,6 +70,9 @@
 #include "CBData.h"
 #include "CBDrawNode.h"
 
+// armature
+#include "CBArmature.h"
+
 // shader
 #include "CCShaders.h"
 
@@ -86,6 +89,7 @@
 #include "CCCallFuncT.h"
 #include "CCCallFuncNT.h"
 #include "CCBlur.h"
+#include "CCTrailMoveTo.h"
 
 // db
 #include "CCDatabase.h"

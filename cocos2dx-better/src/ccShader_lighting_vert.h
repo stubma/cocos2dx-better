@@ -21,42 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ccShaders__
-#define __ccShaders__
+#ifndef __ccShader_lighting_vert_h__
+#define __ccShader_lighting_vert_h__
 
-#include "cocos2d.h"
-#include "ccMoreTypes.h"
+const char* ccShader_lighting_vert = ccPositionTextureColor_vert;
 
-using namespace std;
-
-NS_CC_BEGIN
-
-// shader keys
-#define kCCShader_flash "kCCShader_flash"
-#define kCCShader_blur "kCCShader_blur"
-#define kCCShader_laser "kCCShader_laser"
-#define kCCShader_lighting "kCCShader_lighting"
-
-/// a custom shader management helper
-class CC_DLL CCShaders {
-private:
-	/// load one custom shader by key
-	static void loadCustomShader(const string& key);
-	
-public:
-	/// program for key
-	static CCGLProgram* programForKey(const string& key);
-	
-	/// flash
-	static void setFlash(float r, float g, float b, float t);
-	
-	/// blur
-	static void setBlur(CCSize nodeSize, CCSize blurSize, ccColor4F blurSubtract = cc4fTRANSPARENT);
-    
-    /// lighting, view ccShader_lighting_frag.h for detail algorithm
-    static void setLighting(ccColor4B mul, ccColor3B add);
-};
-
-NS_CC_END
-
-#endif // __ccShaders__
+#endif // __ccShader_lighting_vert_h__

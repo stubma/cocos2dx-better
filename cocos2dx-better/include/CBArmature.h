@@ -21,42 +21,55 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ccShaders__
-#define __ccShaders__
+#ifndef __CBArmature_h__
+#define __CBArmature_h__
 
 #include "cocos2d.h"
-#include "ccMoreTypes.h"
+#include "cocos-ext.h"
 
-using namespace std;
+USING_NS_CC_EXT;
 
 NS_CC_BEGIN
 
-// shader keys
-#define kCCShader_flash "kCCShader_flash"
-#define kCCShader_blur "kCCShader_blur"
-#define kCCShader_laser "kCCShader_laser"
-#define kCCShader_lighting "kCCShader_lighting"
-
-/// a custom shader management helper
-class CC_DLL CCShaders {
-private:
-	/// load one custom shader by key
-	static void loadCustomShader(const string& key);
-	
+/**
+ * to fix
+ * 1. use CBTextureAtlas to avoid vbo compatibility issue
+ */
+class CC_DLL CBArmature : public CCArmature {
 public:
-	/// program for key
-	static CCGLProgram* programForKey(const string& key);
-	
-	/// flash
-	static void setFlash(float r, float g, float b, float t);
-	
-	/// blur
-	static void setBlur(CCSize nodeSize, CCSize blurSize, ccColor4F blurSubtract = cc4fTRANSPARENT);
     
-    /// lighting, view ccShader_lighting_frag.h for detail algorithm
-    static void setLighting(ccColor4B mul, ccColor3B add);
+    /**
+     * Allocates and initializes an armature.
+     * @return An initialized armature which is marked as "autorelease".
+     */
+    static CBArmature *create();
+    
+    /**
+     * Allocates an armature, and use the CCArmatureData named name in CCArmatureDataManager to initializes the armature.
+     *
+     * @param  name CCArmature will use the name to find the CCArmatureData to initializes it.
+     * @return A initialized armature which is marked as "autorelease".
+     */
+    static CBArmature *create(const char *name);
+    
+    static CBArmature *create(const char *name, CCBone *parentBone);
+    
+public:
+    /**
+     *  @js ctor
+     */
+    CBArmature();
+    /**
+     *  @js NA
+     */
+    ~CBArmature(void);
+    
+    virtual void draw();
+    
+    virtual CCTextureAtlas* getTexureAtlasWithTexture(CCTexture2D *texture);
 };
 
 NS_CC_END
 
-#endif // __ccShaders__
+#endif //__CBArmature_h__
+

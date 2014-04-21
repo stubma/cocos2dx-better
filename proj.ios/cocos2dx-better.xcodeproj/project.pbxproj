@@ -10,6 +10,7 @@
 		920214CE18EFA482007FF1BD /* CBData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CD18EFA482007FF1BD /* CBData.cpp */; };
 		920214D118EFC57E007FF1BD /* CCFileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CF18EFC57E007FF1BD /* CCFileDownloader.cpp */; };
 		92042B1B187FE0CD0064262D /* CBJumpTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92042B19187FE0CD0064262D /* CBJumpTo.cpp */; };
+		920547B61904E6690062ADA4 /* CBDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920547B41904E6690062ADA4 /* CBDrawNode.cpp */; };
 		9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
 		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
@@ -444,6 +445,8 @@
 		920214D218EFC5CF007FF1BD /* CCFileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCFileDownloader.h; sourceTree = "<group>"; };
 		92042B19187FE0CD0064262D /* CBJumpTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBJumpTo.cpp; sourceTree = "<group>"; };
 		92042B1C187FE0E80064262D /* CBJumpTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBJumpTo.h; sourceTree = "<group>"; };
+		920547B41904E6690062ADA4 /* CBDrawNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBDrawNode.cpp; sourceTree = "<group>"; };
+		920547B71904E6A20062ADA4 /* CBDrawNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBDrawNode.h; sourceTree = "<group>"; };
 		9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
 		9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCatmullRomSprite.cpp; sourceTree = "<group>"; };
 		9222C628186925F600226B34 /* CCCatmullRomSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCatmullRomSprite.h; sourceTree = "<group>"; };
@@ -1805,6 +1808,7 @@
 		92396911185591EE0063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				920547B71904E6A20062ADA4 /* CBDrawNode.h */,
 				920214CC18EFA47A007FF1BD /* CBData.h */,
 				9225951A18D5897700E200AE /* CCBase64.h */,
 				92396871185591DB0063E8A1 /* CCCalendar.h */,
@@ -1898,6 +1902,7 @@
 				92FBFFC818FD69D600ADCF7E /* ccGBKUnicodeTable.h */,
 				92FBFFC418FD5C2900ADCF7E /* CCPinyinUtils.cpp */,
 				92FBFFC518FD5C2900ADCF7E /* CCPinyinUtils.h */,
+				920547B41904E6690062ADA4 /* CBDrawNode.cpp */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -3078,6 +3083,7 @@
 				92F68E8E1855ACE400C97188 /* CCJSONArray.cpp in Sources */,
 				923968FC185591DB0063E8A1 /* CCRookieGuide.cpp in Sources */,
 				92F68EB21855AD4400C97188 /* yajl_version.c in Sources */,
+				920547B61904E6690062ADA4 /* CBDrawNode.cpp in Sources */,
 				9225961C18D5BBF600E200AE /* LayoutReader.cpp in Sources */,
 				923968F4185591DB0063E8A1 /* CCMenuItemColor.cpp in Sources */,
 				923968DE185591DB0063E8A1 /* CCAssetInputStream.cpp in Sources */,

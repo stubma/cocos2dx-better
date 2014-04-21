@@ -10,6 +10,7 @@
 		920214CE18EFA482007FF1BD /* CBData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CD18EFA482007FF1BD /* CBData.cpp */; };
 		920214D118EFC57E007FF1BD /* CCFileDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920214CF18EFC57E007FF1BD /* CCFileDownloader.cpp */; };
 		92042B1B187FE0CD0064262D /* CBJumpTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92042B19187FE0CD0064262D /* CBJumpTo.cpp */; };
+		920547BC1904EA450062ADA4 /* CBDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920547BB1904EA450062ADA4 /* CBDrawNode.cpp */; };
 		9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
 		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
@@ -448,6 +449,8 @@
 		920214D218EFC5CF007FF1BD /* CCFileDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCFileDownloader.h; sourceTree = "<group>"; };
 		92042B19187FE0CD0064262D /* CBJumpTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBJumpTo.cpp; sourceTree = "<group>"; };
 		92042B1C187FE0E80064262D /* CBJumpTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBJumpTo.h; sourceTree = "<group>"; };
+		920547BA1904EA380062ADA4 /* CBDrawNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBDrawNode.h; sourceTree = "<group>"; };
+		920547BB1904EA450062ADA4 /* CBDrawNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBDrawNode.cpp; sourceTree = "<group>"; };
 		9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
 		9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCatmullRomSprite.cpp; sourceTree = "<group>"; };
 		9222C628186925F600226B34 /* CCCatmullRomSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCatmullRomSprite.h; sourceTree = "<group>"; };
@@ -1814,6 +1817,7 @@
 		92396911185591EE0063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				920547BA1904EA380062ADA4 /* CBDrawNode.h */,
 				920214CC18EFA47A007FF1BD /* CBData.h */,
 				9225951A18D5897700E200AE /* CCBase64.h */,
 				92396871185591DB0063E8A1 /* CCCalendar.h */,
@@ -1887,6 +1891,7 @@
 		92396915185592A80063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				920547BB1904EA450062ADA4 /* CBDrawNode.cpp */,
 				920214CD18EFA482007FF1BD /* CBData.cpp */,
 				9225951718D5896000E200AE /* CCBase64.cpp */,
 				92396899185591DB0063E8A1 /* CCAndroidStringsParser.cpp */,
@@ -3151,6 +3156,7 @@
 				92F68F331855BDE200C97188 /* CCSPX3TileSet.cpp in Sources */,
 				923968E6185591DB0063E8A1 /* CCClipIn.cpp in Sources */,
 				9292C89218EA9A2D00915B3A /* CCPacket.cpp in Sources */,
+				920547BC1904EA450062ADA4 /* CBDrawNode.cpp in Sources */,
 				9243AA0C18F95D970020966A /* CCImagePicker.mm in Sources */,
 				92DC8F1D18D5DDA200632F44 /* CCScrollView.cpp in Sources */,
 				92396907185591DB0063E8A1 /* CCTiledSprite.cpp in Sources */,

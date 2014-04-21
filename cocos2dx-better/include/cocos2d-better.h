@@ -68,6 +68,7 @@
 #include "CCBase64.h"
 #include "CCScrollBar.h"
 #include "CBData.h"
+#include "CBDrawNode.h"
 
 // shader
 #include "CCShaders.h"

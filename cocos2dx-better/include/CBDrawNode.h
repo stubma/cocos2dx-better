@@ -33,10 +33,7 @@ NS_CC_BEGIN
  * 1. vbo or vao has compatibility issue on some android model, so just use basic render method
  */
 class CC_DLL CBDrawNode : public CCNode {
-protected:
-    GLuint      m_uVao;
-    GLuint      m_uVbo;
-    
+protected:    
     unsigned int    m_uBufferCapacity;
     GLsizei         m_nBufferCount;
     ccV2F_C4B_T2F   *m_pBuffer;

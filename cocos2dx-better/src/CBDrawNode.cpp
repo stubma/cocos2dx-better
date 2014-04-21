@@ -93,9 +93,7 @@ static inline ccTex2F __t(const ccVertex2F &v)
 // implementation of CBDrawNode
 
 CBDrawNode::CBDrawNode()
-: m_uVao(0)
-, m_uVbo(0)
-, m_uBufferCapacity(0)
+: m_uBufferCapacity(0)
 , m_nBufferCount(0)
 , m_pBuffer(NULL)
 , m_bDirty(false)
@@ -108,9 +106,6 @@ CBDrawNode::~CBDrawNode()
 {
     free(m_pBuffer);
     m_pBuffer = NULL;
-    
-    glDeleteBuffers(1, &m_uVbo);
-    m_uVbo = 0;
     
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, EVENT_COME_TO_FOREGROUND);
@@ -150,21 +145,6 @@ bool CBDrawNode::init()
     
     ensureCapacity(512);
     
-    glGenBuffers(1, &m_uVbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_uVbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(ccV2F_C4B_T2F)* m_uBufferCapacity, m_pBuffer, GL_STREAM_DRAW);
-    
-    glEnableVertexAttribArray(kCCVertexAttrib_Position);
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, vertices));
-    
-    glEnableVertexAttribArray(kCCVertexAttrib_Color);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, colors));
-    
-    glEnableVertexAttribArray(kCCVertexAttrib_TexCoords);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, texCoords));
-    
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
     CHECK_GL_ERROR_DEBUG();
     
     m_bDirty = true;
@@ -199,10 +179,10 @@ void CBDrawNode::render()
     glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid*)(offset + diff));
     
     glDrawArrays(GL_TRIANGLES, 0, m_nBufferCount);
-    // test end
     
     CC_INCREMENT_GL_DRAWS(1);
     CHECK_GL_ERROR_DEBUG();
+    m_bDirty = false;
 }
 
 void CBDrawNode::draw()

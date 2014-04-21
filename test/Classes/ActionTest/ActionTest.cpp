@@ -402,10 +402,20 @@ void ActionTrailMove::onEnter()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
-	CCSprite* s = CCSprite::create("Images/grossini.png");
-	s->setPosition(ccp(origin.x + visibleSize.width / 2,
+    // atlas
+    CCResourceLoader::loadZwoptex("Images/z_test.plist", "Images/z_test.png", NULL);
+    
+    // sprite
+	CCSprite* s = CCSprite::createWithSpriteFrameName("a.png");
+	s->setPosition(ccp(origin.x + visibleSize.width / 10,
 					   origin.y + visibleSize.height / 2));
 	addChild(s);
+    
+    // run
+    CCPoint dst = ccp(origin.x + visibleSize.width * 9 / 10,
+                      origin.y + visibleSize.height / 2);
+    CCTrailMoveTo* move = CCTrailMoveTo::create(3, dst, "a.png", 200 / CC_CONTENT_SCALE_FACTOR(), 20);
+    s->runAction(move);
 }
 
 std::string ActionTrailMove::subtitle()

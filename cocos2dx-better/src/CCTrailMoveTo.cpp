@@ -25,6 +25,7 @@
 #include "CCShaders.h"
 #include "CBSprite.h"
 #include "CBArmature.h"
+#include "CCUtils.h"
 
 NS_CC_BEGIN
 

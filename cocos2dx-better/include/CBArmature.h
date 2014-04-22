@@ -34,6 +34,8 @@ NS_CC_BEGIN
 /**
  * to fix
  * 1. use CBTextureAtlas to avoid vbo compatibility issue
+ * 2. add a pre draw function so that you can do something before sprite is render, for example, set
+ *   parameters for a custom shader
  */
 class CC_DLL CBArmature : public CCArmature {
 public:
@@ -67,6 +69,9 @@ public:
     virtual void draw();
     
     virtual CCTextureAtlas* getTexureAtlasWithTexture(CCTexture2D *texture);
+    
+    /// predraw function
+    CC_SYNTHESIZE_RETAIN(CCCallFuncO*, m_preDrawFunction, PreDrawFunction);
 };
 
 NS_CC_END

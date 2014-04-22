@@ -407,15 +407,30 @@ void ActionTrailMove::onEnter()
     
     // sprite
 	CCSprite* s = CCSprite::createWithSpriteFrameName("a.png");
-	s->setPosition(ccp(origin.x + visibleSize.width / 10,
-					   origin.y + visibleSize.height / 2));
+	s->setPosition(ccp(origin.x,
+					   origin.y));
 	addChild(s);
     
     // run
-    CCPoint dst = ccp(origin.x + visibleSize.width * 9 / 10,
-                      origin.y + visibleSize.height / 2);
-    CCTrailMoveTo* move = CCTrailMoveTo::createWithSpriteFrameName(3, dst, "a.png", 16 / CC_CONTENT_SCALE_FACTOR(), 20, ccc3(100, 0, 0), ccc3(100, 100, 100));
+    CCPoint dst = ccp(origin.x + visibleSize.width,
+                      origin.y + visibleSize.height);
+    CCTrailMoveTo* move = CCTrailMoveTo::createWithSpriteFrameName(3, dst, "a.png", 16 / CC_CONTENT_SCALE_FACTOR(), 20, ccc3(100, 0, 0), ccc4(100, 100, 100, 255));
     s->runAction(move);
+    
+    // armature
+    CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo("Files/Cowboy.ExportJson");
+    CCArmature* armature = CCArmature::create("Cowboy");
+    armature->getAnimation()->playWithIndex(0);
+    armature->setPosition(ccp(origin.x,
+                              origin.y + visibleSize.height / 2));
+    armature->setScale(-0.2f, 0.2f);
+    addChild(armature);
+    
+    // run
+    dst = ccp(origin.x + visibleSize.width,
+              origin.y + visibleSize.height / 2);
+    CCTrailMoveTo* m = CCTrailMoveTo::createWithArmature(3, dst, "Cowboy", 0, 16 / CC_CONTENT_SCALE_FACTOR(), 7, ccc3(10, 100, 40), ccc4(50, 50, 50, 255));
+    armature->runAction(m);
 }
 
 std::string ActionTrailMove::subtitle()

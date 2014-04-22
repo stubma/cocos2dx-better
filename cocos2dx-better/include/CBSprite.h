@@ -72,7 +72,7 @@ public:
 	CC_SYNTHESIZE_BOOL(m_shouldUpdateBlendFunc, ShouldUpdateBlendFunc);
     
     /// predraw function
-    CC_SYNTHESIZE(CCCallFuncO*, m_preDrawFunction, PreDrawFunction);
+    CC_SYNTHESIZE_RETAIN(CCCallFuncO*, m_preDrawFunction, PreDrawFunction);
 };
 
 NS_CC_END

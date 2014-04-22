@@ -60,6 +60,13 @@
 			remoteGlobalIDString = 92B516E416E86020009F3536;
 			remoteInfo = "cocos2dx-better";
 		};
+		92D666F519063F8800CCB0FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9239691D185593D90063E8A1 /* cocos2dx-better.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 923EEB1318ED916400E698A3;
+			remoteInfo = curl;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -246,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				92396924185593DA0063E8A1 /* libcocos2dx-better.a */,
+				92D666F619063F8800CCB0FC /* libcurl.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -380,6 +388,13 @@
 			fileType = archive.ar;
 			path = "libcocos2dx-better.a";
 			remoteRef = 92396923185593DA0063E8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		92D666F619063F8800CCB0FC /* libcurl.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcurl.a;
+			remoteRef = 92D666F519063F8800CCB0FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

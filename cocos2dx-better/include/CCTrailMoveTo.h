@@ -25,6 +25,7 @@
 #define __CCTrailMoveTo__
 
 #include "cocos2d.h"
+#include "ccMoreTypes.h"
 
 using namespace std;
 
@@ -32,6 +33,10 @@ NS_CC_BEGIN
 
 /**
  * display a trail when object is moving
+ * 
+ * \note
+ * When CCTrailMoveTo is run on a CCArmature, the trail is not added to target so you
+ * must reserve enough z order space for trail
  */
 class CC_DLL CCTrailMoveTo : public CCMoveTo {
 private:
@@ -66,11 +71,17 @@ protected:
     /// sprite name, may be file name or frame name
     string m_spriteName;
     
+    /// current visible armature trail index
+    int m_visibleArmIndex;
+    
 protected:
     CCTrailMoveTo();
     
     /// clean trail when action is done
     void cleanTrails();
+    
+    /// pre draw
+    void onPreDraw(CCObject* sender);
     
 public:
     virtual ~CCTrailMoveTo();
@@ -88,7 +99,7 @@ public:
      * @return CCTrailMoveTo instance
      */
     static CCTrailMoveTo* createWithSpriteFrameName(float duration, const CCPoint& position, const string& trailFrameName,
-                                 float trailDistance, int trailSegments, ccColor3B trailColor = ccWHITE, ccColor3B trailColorScale = ccBLACK);
+                                 float trailDistance, int trailSegments, ccColor3B trailColor = ccWHITE, ccColor4B trailColorScale = cc4BLACK);
     
     /**
      * create CCTrailMoveTo instance
@@ -103,12 +114,53 @@ public:
      * @return CCTrailMoveTo instance
      */
     static CCTrailMoveTo* createWithFileName(float duration, const CCPoint& position, const string& fileName,
-                                                    float trailDistance, int trailSegments, ccColor3B trailColor = ccWHITE, ccColor3B trailColorScale = ccBLACK);
+                                                    float trailDistance, int trailSegments, ccColor3B trailColor = ccWHITE, ccColor4B trailColorScale = cc4BLACK);
     
-    /// initializes the action with duration and trail arguments
+    /**
+     * create CCTrailMoveTo instance, the target must be a CCArmature
+     *
+     * @param duration duration
+     * @param position destination position
+     * @param armatureName armature name
+     * @param animationIndex the animation index will be played
+     * @param trailDistance distance between trails
+     * @param trailSegments segments of trail
+     * @param trailColor trail color, default is white, means no change
+     * @param trailColorScale the color will be multiplied to original color, default is white, means no change
+     * @return CCTrailMoveTo instance
+     */
+    static CCTrailMoveTo* createWithArmature(float duration, const CCPoint& position, const string& armatureName,
+                                             int animationIndex, float trailDistance, int trailSegments,
+                                             ccColor3B trailColor = ccWHITE, ccColor4B trailColorScale = cc4BLACK);
+    
+    /**
+     * create CCTrailMoveTo instance, the target must be a CCArmature
+     *
+     * @param duration duration
+     * @param position destination position
+     * @param armatureName armature name
+     * @param animationName the animation name will be played
+     * @param trailDistance distance between trails
+     * @param trailSegments segments of trail
+     * @param trailColor trail color, default is white, means no change
+     * @param trailColorScale the color will be multiplied to original color, default is white, means no change
+     * @return CCTrailMoveTo instance
+     */
+    static CCTrailMoveTo* createWithArmature(float duration, const CCPoint& position, const string& armatureName,
+                                             const string& animationName, float trailDistance, int trailSegments,
+                                             ccColor3B trailColor = ccWHITE, ccColor4B trailColorScale = cc4BLACK);
+    
     bool initWithDurationAndSpriteTrail(float duration, const CCPoint& position, const string& spriteName,
                                         float trailDistance, int trailSegments, ccColor3B trailColor,
-                                        ccColor3B trailColorScale);
+                                        ccColor4B trailColorScale);
+    
+    bool initWithDurationAndArmatureTrail(float duration, const CCPoint& position, const string& armatureName,
+                                          const string& animationName, float trailDistance, int trailSegments,
+                                          ccColor3B trailColor, ccColor4B trailColorScale);
+    
+    bool initWithDurationAndArmatureTrail(float duration, const CCPoint& position, const string& armatureName,
+                                          int animationIndex, float trailDistance, int trailSegments,
+                                          ccColor3B trailColor, ccColor4B trailColorScale);
     
     // override super
     virtual CCObject* copyWithZone(CCZone* pZone);
@@ -118,7 +170,9 @@ public:
     CC_SYNTHESIZE(float, m_trailDistance, trailDistance);
     CC_SYNTHESIZE(int, m_trailSegments, TrailSegments);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor3B, m_trailColor, TrailColor);
-    CC_SYNTHESIZE_PASS_BY_REF(ccColor3B, m_trailColorScale, TrailColorScale);
+    CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, m_trailColorScale, TrailColorScale);
+    CC_SYNTHESIZE(int, m_animationIndex, AnimationIndex);
+    CC_SYNTHESIZE_PASS_BY_REF(string, m_animationName, AnimationName);
 };
 
 NS_CC_END

@@ -41,6 +41,7 @@ m_preDrawFunction(NULL) {
 }
 
 CBSprite::~CBSprite() {
+    CC_SAFE_RELEASE(m_preDrawFunction);
 }
 
 CBSprite* CBSprite::createWithTexture(CCTexture2D *pTexture)

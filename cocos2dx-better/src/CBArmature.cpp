@@ -26,10 +26,12 @@
 
 NS_CC_BEGIN
 
-CBArmature::CBArmature() {
+CBArmature::CBArmature() :
+m_preDrawFunction(NULL) {
 }
 
 CBArmature::~CBArmature() {
+    CC_SAFE_RELEASE(m_preDrawFunction);
 }
 
 // TextureAtlas - alloc & init
@@ -69,6 +71,9 @@ CBArmature * CBArmature::create(const char *name, CCBone *parentBone) {
 
 void CBArmature::draw()
 {
+    if(m_preDrawFunction)
+        m_preDrawFunction->execute();
+    
     if (m_pParentBone == NULL && m_pBatchNode == NULL)
     {
         CC_NODE_DRAW_SETUP();

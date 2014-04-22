@@ -32,6 +32,8 @@ NS_CC_BEGIN
 /**
  * This class fixed:
  * 1. sometime I want to keep blend function after change texture, original CCSprite can't
+ * 2. add a pre draw function so that you can do something before sprite is render, for example, set
+ *   parameters for a custom shader
  *
  * \note
  * Sometimes I find defect in cocos2d-x and want to create a new class to workaround it,
@@ -54,6 +56,9 @@ public:
     static CBSprite* createWithSpriteFrame(CCSpriteFrame *pSpriteFrame);
     static CBSprite* createWithSpriteFrameName(const char *pszSpriteFrameName);
 	
+    /// to insert a pre draw callback
+    virtual void draw();
+    
 	/**
 	 * setTexture will trigger updateBlendFunc. In multipack textures (a feature supported
 	 * (in TexturePacker), if frames in an animation cross different texture and sprite use
@@ -65,6 +70,9 @@ public:
 	
 	/// true means don't update blend function
 	CC_SYNTHESIZE_BOOL(m_shouldUpdateBlendFunc, ShouldUpdateBlendFunc);
+    
+    /// predraw function
+    CC_SYNTHESIZE(CCCallFuncO*, m_preDrawFunction, PreDrawFunction);
 };
 
 NS_CC_END

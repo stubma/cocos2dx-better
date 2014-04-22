@@ -22,41 +22,54 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCTrailMoveTo.h"
+#include "CCShaders.h"
 
 NS_CC_BEGIN
 
 CCTrailMoveTo::CCTrailMoveTo() :
 m_distance(0) {
-    
 }
 
 CCTrailMoveTo::~CCTrailMoveTo() {
     
 }
 
-CCTrailMoveTo* CCTrailMoveTo::create(float duration, const CCPoint& position, const string& trailFrameName,
-                                     float trailLength, int trailSegments, ccColor3B trailColor,
-                                     ccColor3B trailColorScale) {
+CCTrailMoveTo* CCTrailMoveTo::createWithSpriteFrameName(float duration, const CCPoint& position,
+                                                        const string& trailFrameName,
+                                                        float trailDistance, int trailSegments,
+                                                        ccColor3B trailColor, ccColor3B trailColorScale) {
     CCTrailMoveTo* m = new CCTrailMoveTo();
-    if(m->initWithDurationAndSpriteTrail(duration, position, trailFrameName, trailLength, trailSegments, trailColor, trailColorScale)) {
+    if(m->initWithDurationAndSpriteTrail(duration, position, trailFrameName, trailDistance, trailSegments, trailColor, trailColorScale)) {
+        m->m_mode = SPRITE_FRAME_NAME;
         return (CCTrailMoveTo*)m->autorelease();
     }
     CC_SAFE_RELEASE(m);
     return NULL;
 }
 
-bool CCTrailMoveTo::initWithDurationAndSpriteTrail(float duration, const CCPoint& position, const string& trailFrameName,
-                                                   float trailLength, int trailSegments, ccColor3B trailColor,
+CCTrailMoveTo* CCTrailMoveTo::createWithFileName(float duration, const CCPoint& position, const string& fileName,
+                                         float trailDistance, int trailSegments,
+                                         ccColor3B trailColor, ccColor3B trailColorScale) {
+    CCTrailMoveTo* m = new CCTrailMoveTo();
+    if(m->initWithDurationAndSpriteTrail(duration, position, fileName, trailDistance, trailSegments, trailColor, trailColorScale)) {
+        m->m_mode = FILE_NAME;
+        return (CCTrailMoveTo*)m->autorelease();
+    }
+    CC_SAFE_RELEASE(m);
+    return NULL;
+}
+
+bool CCTrailMoveTo::initWithDurationAndSpriteTrail(float duration, const CCPoint& position, const string& spriteName,
+                                                   float trailDistance, int trailSegments, ccColor3B trailColor,
                                                    ccColor3B trailColorScale) {
     if(!CCMoveTo::initWithDuration(duration, position))
         return false;
     
-    m_trailFrameName = trailFrameName;
-    m_trailLength = trailLength;
+    m_spriteName = spriteName;
+    m_trailDistance = trailDistance;
     m_trailSegments = trailSegments;
     m_trailColor = trailColor;
     m_trailColorScale = trailColorScale;
-    m_trailDistance = m_trailLength / m_trailSegments;
     m_alphaStep = 1.0f / (m_trailSegments + 1);
     m_speed = ccpLength(ccpSub(m_endPosition, m_startPosition)) / m_fDuration;
     
@@ -75,7 +88,8 @@ CCObject* CCTrailMoveTo::copyWithZone(CCZone* pZone) {
     
     CCMoveBy::copyWithZone(pZone);
     
-    pCopy->initWithDurationAndSpriteTrail(m_fDuration, m_endPosition, m_trailFrameName, m_trailLength, m_trailSegments, m_trailColor, m_trailColorScale);
+    pCopy->initWithDurationAndSpriteTrail(m_fDuration, m_endPosition, m_spriteName, m_trailDistance, m_trailSegments, m_trailColor, m_trailColorScale);
+    pCopy->m_mode = m_mode;
     
     CC_SAFE_DELETE(pNewZone);
     return pCopy;
@@ -89,6 +103,10 @@ void CCTrailMoveTo::startWithTarget(CCNode* pTarget) {
     m_direction = ccpNormalize(m_direction);
     m_distance = 0;
     m_end = false;
+    
+    // set color
+    ccColor4B scale = ccc4(m_trailColorScale.r, m_trailColorScale.g, m_trailColorScale.b, 255);
+    CCShaders::setLighting(scale, m_trailColor);
 }
 
 void CCTrailMoveTo::update(float time) {
@@ -101,7 +119,12 @@ void CCTrailMoveTo::update(float time) {
         float d = ccpLength(ccpSub(currentPos, previousPos));
         m_distance += d;
         while(m_trails.count() < m_trailSegments && m_distance >= m_trailDistance) {
-            CCSprite* trail = CCSprite::createWithSpriteFrameName(m_trailFrameName.c_str());
+            CCSprite* trail = NULL;
+            if(m_mode == SPRITE_FRAME_NAME)
+                trail = CCSprite::createWithSpriteFrameName(m_spriteName.c_str());
+            else
+                trail = CCSprite::create(m_spriteName.c_str());
+            trail->setShaderProgram(CCShaders::programForKey(kCCShader_lighting));
             trail->setAnchorPoint(m_pTarget->getAnchorPoint());
             trail->setPosition(m_pTarget->getAnchorPointInPoints());
             m_trails.addObject(trail);
@@ -174,7 +197,8 @@ void CCTrailMoveTo::cleanTrails() {
         trail->release();
         
         // run a action to make trail to target current position
-        trail->runAction(CCMoveTo::create(duration, finalPos));
+        trail->runAction(CCSequence::createWithTwoActions(CCMoveTo::create(duration, finalPos),
+                                                          CCCallFunc::create(trail, callfunc_selector(CCNode::removeFromParent))));
     }
 }
 

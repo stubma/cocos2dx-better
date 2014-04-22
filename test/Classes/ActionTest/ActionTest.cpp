@@ -414,7 +414,7 @@ void ActionTrailMove::onEnter()
     // run
     CCPoint dst = ccp(origin.x + visibleSize.width * 9 / 10,
                       origin.y + visibleSize.height / 2);
-    CCTrailMoveTo* move = CCTrailMoveTo::create(3, dst, "a.png", 200 / CC_CONTENT_SCALE_FACTOR(), 20);
+    CCTrailMoveTo* move = CCTrailMoveTo::createWithSpriteFrameName(3, dst, "a.png", 16 / CC_CONTENT_SCALE_FACTOR(), 20, ccc3(100, 0, 0), ccc3(100, 100, 100));
     s->runAction(move);
 }
 

@@ -47,6 +47,7 @@ void CCShaders::loadCustomShader(const string& key) {
 		LOAD_PROGRAM_IF(flash);
 		LOAD_PROGRAM_IF(blur);
 		LOAD_PROGRAM_IF(laser);
+        LOAD_PROGRAM_IF(lighting);
 		
 		// add attribute
 		if(false) {

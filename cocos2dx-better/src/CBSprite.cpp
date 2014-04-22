@@ -36,7 +36,8 @@ static unsigned char cc_2x2_white_image[] = {
 NS_CC_BEGIN
 
 CBSprite::CBSprite() :
-m_shouldUpdateBlendFunc(true) {
+m_shouldUpdateBlendFunc(true),
+m_preDrawFunction(NULL) {
 }
 
 CBSprite::~CBSprite() {
@@ -158,6 +159,12 @@ void CBSprite::setTexture(CCTexture2D *texture) {
 		if(m_shouldUpdateBlendFunc)
 			updateBlendFunc();
     }
+}
+
+void CBSprite::draw() {
+    if(m_preDrawFunction)
+        m_preDrawFunction->execute();
+    CCSprite::draw();
 }
 
 NS_CC_END

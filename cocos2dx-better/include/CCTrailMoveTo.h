@@ -34,12 +34,16 @@ NS_CC_BEGIN
  * display a trail when object is moving
  */
 class CC_DLL CCTrailMoveTo : public CCMoveTo {
+private:
+    enum Mode {
+        SPRITE_FRAME_NAME,
+        FILE_NAME,
+        ARMATURE
+    };
+    
 protected:
     /// trails
     CCArray m_trails;
-    
-    /// segment distance
-    float m_trailDistance;
     
     /// alpha step
     float m_alphaStep;
@@ -56,6 +60,12 @@ protected:
     /// end flag
     bool m_end;
     
+    /// mode
+    Mode m_mode;
+    
+    /// sprite name, may be file name or frame name
+    string m_spriteName;
+    
 protected:
     CCTrailMoveTo();
     
@@ -71,30 +81,44 @@ public:
      * @param duration duration
      * @param position destination position
      * @param trailFrameName trail sprite frame name, in an atlas
-     * @param trailLength length of trail
+     * @param trailDistance distance between trails
      * @param trailSegments segments of trail
      * @param trailColor trail color, default is white, means no change
      * @param trailColorScale the color will be multiplied to original color, default is white, means no change
      * @return CCTrailMoveTo instance
      */
-    static CCTrailMoveTo* create(float duration, const CCPoint& position, const string& trailFrameName,
-                                 float trailLength, int trailSegments, ccColor3B trailColor = ccWHITE, ccColor3B trailColorScale = ccWHITE);
+    static CCTrailMoveTo* createWithSpriteFrameName(float duration, const CCPoint& position, const string& trailFrameName,
+                                 float trailDistance, int trailSegments, ccColor3B trailColor = ccWHITE, ccColor3B trailColorScale = ccBLACK);
+    
+    /**
+     * create CCTrailMoveTo instance
+     *
+     * @param duration duration
+     * @param position destination position
+     * @param trailFrameName trail sprite frame name, in an atlas
+     * @param trailDistance distance between trails
+     * @param trailSegments segments of trail
+     * @param trailColor trail color, default is white, means no change
+     * @param trailColorScale the color will be multiplied to original color, default is white, means no change
+     * @return CCTrailMoveTo instance
+     */
+    static CCTrailMoveTo* createWithFileName(float duration, const CCPoint& position, const string& fileName,
+                                                    float trailDistance, int trailSegments, ccColor3B trailColor = ccWHITE, ccColor3B trailColorScale = ccBLACK);
     
     /// initializes the action with duration and trail arguments
-    bool initWithDurationAndSpriteTrail(float duration, const CCPoint& position, const string& trailFrameName,
-                                        float trailLength, int trailSegments, ccColor3B trailColor,
+    bool initWithDurationAndSpriteTrail(float duration, const CCPoint& position, const string& spriteName,
+                                        float trailDistance, int trailSegments, ccColor3B trailColor,
                                         ccColor3B trailColorScale);
-
+    
     // override super
     virtual CCObject* copyWithZone(CCZone* pZone);
     virtual void startWithTarget(CCNode* pTarget);
     virtual void update(float time);
     
-    CC_SYNTHESIZE(float, m_trailLength, TrailLength);
+    CC_SYNTHESIZE(float, m_trailDistance, trailDistance);
     CC_SYNTHESIZE(int, m_trailSegments, TrailSegments);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor3B, m_trailColor, TrailColor);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor3B, m_trailColorScale, TrailColorScale);
-    CC_SYNTHESIZE_PASS_BY_REF(string, m_trailFrameName, TrailFrameName);
 };
 
 NS_CC_END

@@ -42,9 +42,9 @@ CCTrailMoveTo::~CCTrailMoveTo() {
 CCTrailMoveTo* CCTrailMoveTo::createWithSpriteFrameName(float duration, const CCPoint& position,
                                                         const string& trailFrameName,
                                                         float trailDistance, int trailSegments,
-                                                        ccColor3B trailColor, ccColor4B trailColorScale) {
+                                                        ccColor3B trailColor, ccColor4B trailColorScale, bool removeWhenDone) {
     CCTrailMoveTo* m = new CCTrailMoveTo();
-    if(m->initWithDurationAndSpriteTrail(duration, position, trailFrameName, trailDistance, trailSegments, trailColor, trailColorScale)) {
+    if(m->initWithDurationAndSpriteTrail(duration, position, trailFrameName, trailDistance, trailSegments, trailColor, trailColorScale, removeWhenDone)) {
         m->m_mode = SPRITE_FRAME_NAME;
         return (CCTrailMoveTo*)m->autorelease();
     }
@@ -54,9 +54,9 @@ CCTrailMoveTo* CCTrailMoveTo::createWithSpriteFrameName(float duration, const CC
 
 CCTrailMoveTo* CCTrailMoveTo::createWithFileName(float duration, const CCPoint& position, const string& fileName,
                                          float trailDistance, int trailSegments,
-                                         ccColor3B trailColor, ccColor4B trailColorScale) {
+                                         ccColor3B trailColor, ccColor4B trailColorScale, bool removeWhenDone) {
     CCTrailMoveTo* m = new CCTrailMoveTo();
-    if(m->initWithDurationAndSpriteTrail(duration, position, fileName, trailDistance, trailSegments, trailColor, trailColorScale)) {
+    if(m->initWithDurationAndSpriteTrail(duration, position, fileName, trailDistance, trailSegments, trailColor, trailColorScale, removeWhenDone)) {
         m->m_mode = FILE_NAME;
         return (CCTrailMoveTo*)m->autorelease();
     }
@@ -66,9 +66,9 @@ CCTrailMoveTo* CCTrailMoveTo::createWithFileName(float duration, const CCPoint& 
 
 CCTrailMoveTo* CCTrailMoveTo::createWithArmature(float duration, const CCPoint& position, const string& armatureName,
                                          int animationIndex, float trailDistance, int trailSegments,
-                                         ccColor3B trailColor, ccColor4B trailColorScale) {
+                                         ccColor3B trailColor, ccColor4B trailColorScale, bool removeWhenDone) {
     CCTrailMoveTo* m = new CCTrailMoveTo();
-    if(m->initWithDurationAndArmatureTrail(duration, position, armatureName, animationIndex, trailDistance, trailSegments, trailColor, trailColorScale)) {
+    if(m->initWithDurationAndArmatureTrail(duration, position, armatureName, animationIndex, trailDistance, trailSegments, trailColor, trailColorScale, removeWhenDone)) {
         m->m_mode = ARMATURE;
         return (CCTrailMoveTo*)m->autorelease();
     }
@@ -78,9 +78,9 @@ CCTrailMoveTo* CCTrailMoveTo::createWithArmature(float duration, const CCPoint& 
 
 CCTrailMoveTo* CCTrailMoveTo::createWithArmature(float duration, const CCPoint& position, const string& armatureName,
                                          const string& animationName, float trailDistance, int trailSegments,
-                                         ccColor3B trailColor, ccColor4B trailColorScale) {
+                                         ccColor3B trailColor, ccColor4B trailColorScale, bool removeWhenDone) {
     CCTrailMoveTo* m = new CCTrailMoveTo();
-    if(m->initWithDurationAndArmatureTrail(duration, position, armatureName, animationName, trailDistance, trailSegments, trailColor, trailColorScale)) {
+    if(m->initWithDurationAndArmatureTrail(duration, position, armatureName, animationName, trailDistance, trailSegments, trailColor, trailColorScale, removeWhenDone)) {
         m->m_mode = ARMATURE;
         return (CCTrailMoveTo*)m->autorelease();
     }
@@ -90,7 +90,7 @@ CCTrailMoveTo* CCTrailMoveTo::createWithArmature(float duration, const CCPoint& 
 
 bool CCTrailMoveTo::initWithDurationAndSpriteTrail(float duration, const CCPoint& position, const string& spriteName,
                                                    float trailDistance, int trailSegments, ccColor3B trailColor,
-                                                   ccColor4B trailColorScale) {
+                                                   ccColor4B trailColorScale, bool removeWhenDone) {
     if(!CCMoveTo::initWithDuration(duration, position))
         return false;
     
@@ -100,6 +100,7 @@ bool CCTrailMoveTo::initWithDurationAndSpriteTrail(float duration, const CCPoint
     m_trailColor = trailColor;
     m_trailColorScale = trailColorScale;
     m_alphaStep = 1.0f / (m_trailSegments + 1);
+    m_removeWhenDone = removeWhenDone;
     m_speed = ccpLength(ccpSub(m_endPosition, m_startPosition)) / m_fDuration;
     
     return true;
@@ -107,7 +108,7 @@ bool CCTrailMoveTo::initWithDurationAndSpriteTrail(float duration, const CCPoint
 
 bool CCTrailMoveTo::initWithDurationAndArmatureTrail(float duration, const CCPoint& position, const string& armatureName,
                                       const string& animationName, float trailDistance, int trailSegments,
-                                      ccColor3B trailColor, ccColor4B trailColorScale) {
+                                      ccColor3B trailColor, ccColor4B trailColorScale, bool removeWhenDone) {
     if(!CCMoveTo::initWithDuration(duration, position))
         return false;
     
@@ -118,6 +119,7 @@ bool CCTrailMoveTo::initWithDurationAndArmatureTrail(float duration, const CCPoi
     m_trailColor = trailColor;
     m_trailColorScale = trailColorScale;
     m_alphaStep = 1.0f / (m_trailSegments + 1);
+    m_removeWhenDone = removeWhenDone;
     m_speed = ccpLength(ccpSub(m_endPosition, m_startPosition)) / m_fDuration;
     
     return true;
@@ -125,7 +127,7 @@ bool CCTrailMoveTo::initWithDurationAndArmatureTrail(float duration, const CCPoi
 
 bool CCTrailMoveTo::initWithDurationAndArmatureTrail(float duration, const CCPoint& position, const string& armatureName,
                                       int animationIndex, float trailDistance, int trailSegments,
-                                      ccColor3B trailColor, ccColor4B trailColorScale) {
+                                      ccColor3B trailColor, ccColor4B trailColorScale, bool removeWhenDone) {
     if(!CCMoveTo::initWithDuration(duration, position))
         return false;
     
@@ -136,6 +138,7 @@ bool CCTrailMoveTo::initWithDurationAndArmatureTrail(float duration, const CCPoi
     m_trailColor = trailColor;
     m_trailColorScale = trailColorScale;
     m_alphaStep = 1.0f / (m_trailSegments + 1);
+    m_removeWhenDone = removeWhenDone;
     m_speed = ccpLength(ccpSub(m_endPosition, m_startPosition)) / m_fDuration;
     
     return true;
@@ -155,11 +158,11 @@ CCObject* CCTrailMoveTo::copyWithZone(CCZone* pZone) {
     
     if(m_mode == ARMATURE) {
         if(m_animationIndex >= 0)
-            pCopy->initWithDurationAndArmatureTrail(m_fDuration, m_endPosition, m_spriteName, m_animationIndex, m_trailDistance, m_trailSegments, m_trailColor, m_trailColorScale);
+            pCopy->initWithDurationAndArmatureTrail(m_fDuration, m_endPosition, m_spriteName, m_animationIndex, m_trailDistance, m_trailSegments, m_trailColor, m_trailColorScale, m_removeWhenDone);
         else
-            pCopy->initWithDurationAndArmatureTrail(m_fDuration, m_endPosition, m_spriteName, m_animationName, m_trailDistance, m_trailSegments, m_trailColor, m_trailColorScale);
+            pCopy->initWithDurationAndArmatureTrail(m_fDuration, m_endPosition, m_spriteName, m_animationName, m_trailDistance, m_trailSegments, m_trailColor, m_trailColorScale, m_removeWhenDone);
     } else {
-         pCopy->initWithDurationAndSpriteTrail(m_fDuration, m_endPosition, m_spriteName, m_trailDistance, m_trailSegments, m_trailColor, m_trailColorScale);
+         pCopy->initWithDurationAndSpriteTrail(m_fDuration, m_endPosition, m_spriteName, m_trailDistance, m_trailSegments, m_trailColor, m_trailColorScale, m_removeWhenDone);
     }
     pCopy->m_mode = m_mode;
     
@@ -299,34 +302,40 @@ void CCTrailMoveTo::cleanTrails() {
     CCARRAY_FOREACH(&m_trails, obj) {
         // trail and current position in target space
         CCNode* trail = (CCNode*)obj;
-        CCPoint pos = trail->getPosition();
         
-        // duration of moving trail
-        float distance = 0;
-        if(m_mode == ARMATURE)
-            distance = ccpLength(ccpSub(finalPos, pos));
-        else
-            distance = ccpLength(ccpSub(finalLocalPos, pos));
-        float duration = distance / m_speed;
-        
-        // if not armature, move to parent
-        if(m_mode != ARMATURE) {
-            // final position in parent space
-            pos = ccpAdd(origin, pos);
-            
-            // move trail to target's parent
-            trail->retain();
+        if(m_removeWhenDone) {
             trail->removeFromParent();
-            trail->setPosition(pos);
-            trail->setScaleX(m_pTarget->getScaleX());
-            trail->setScaleY(m_pTarget->getScaleY());
-            parent->addChild(trail);
-            trail->release();
+        } else {
+            // current position
+            CCPoint pos = trail->getPosition();
+            
+            // duration of moving trail
+            float distance = 0;
+            if(m_mode == ARMATURE)
+                distance = ccpLength(ccpSub(finalPos, pos));
+            else
+                distance = ccpLength(ccpSub(finalLocalPos, pos));
+            float duration = distance / m_speed;
+            
+            // if not armature, move to parent
+            if(m_mode != ARMATURE) {
+                // final position in parent space
+                pos = ccpAdd(origin, pos);
+                
+                // move trail to target's parent
+                trail->retain();
+                trail->removeFromParent();
+                trail->setPosition(pos);
+                trail->setScaleX(m_pTarget->getScaleX());
+                trail->setScaleY(m_pTarget->getScaleY());
+                parent->addChild(trail);
+                trail->release();
+            }
+            
+            // run a action to make trail to target current position
+            trail->runAction(CCSequence::createWithTwoActions(CCMoveTo::create(duration, finalPos),
+                                                              CCCallFunc::create(trail, callfunc_selector(CCNode::removeFromParent))));
         }
-        
-        // run a action to make trail to target current position
-        trail->runAction(CCSequence::createWithTwoActions(CCMoveTo::create(duration, finalPos),
-                                                          CCCallFunc::create(trail, callfunc_selector(CCNode::removeFromParent))));
     }
 }
 

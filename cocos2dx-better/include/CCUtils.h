@@ -503,6 +503,9 @@ public:
     
     /// open an url
     static void openUrl(const string& url);
+    
+    /// get app version name
+    static string getAppVersion();
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

@@ -563,4 +563,35 @@ void CCUtils::sendBroadcast(jobject intent) {
     t.env->DeleteLocalRef(ctx);
 }
 
+string CCUtils::getAppVersion() {
+    // get context
+    jobject ctx = getContext();
+    
+    // get package manager
+    JniMethodInfo t;
+    JniHelper::getMethodInfo(t, "android/content/Context", "getPackageManager", "()Landroid/content/pm/PackageManager;");
+	jobject packageManager = t.env->CallObjectMethod(ctx, t.methodID);
+    
+    // get package info
+    JniHelper::getMethodInfo(t, "android/content/pm/PackageManager", "getPackageInfo", "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
+    string pn = getPackageName();
+    jstring jPN = t.env->NewStringUTF(pn.c_str());
+	jobject packageInfo = t.env->CallObjectMethod(packageManager, t.methodID, jPN, 0);
+    
+    // get version
+    jclass piClass = t.env->GetObjectClass(packageInfo);
+    jstring jVer = (jstring)t.env->GetObjectField(packageInfo, t.env->GetFieldID(piClass, "versionName", "Ljava/lang/String;"));
+    string ver = JniHelper::jstring2string(jVer);
+                                           
+    // release
+    t.env->DeleteLocalRef(ctx);
+    t.env->DeleteLocalRef(packageManager);
+    t.env->DeleteLocalRef(packageInfo);
+    t.env->DeleteLocalRef(piClass);
+    t.env->DeleteLocalRef(jVer);
+    t.env->DeleteLocalRef(jPN);
+    
+    return ver;
+}
+
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

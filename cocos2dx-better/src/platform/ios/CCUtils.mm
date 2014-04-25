@@ -310,6 +310,12 @@ bool CCUtils::deleteFile(const string& path) {
 	return error == nil;
 }
 
+string CCUtils::getAppVersion() {
+    NSBundle* bundle = [NSBundle mainBundle];
+    NSString* ver = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+    return [ver cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
 NS_CC_END
 
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS

@@ -683,7 +683,7 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
     LinkMeta meta;
 	int tag = 0;
     CFIndex linkStart, linkEnd;
-    CFIndex startLine, endLine;
+    CFIndex startLine = 0, endLine = -1;
     for(SpanList::iterator iter = spans.begin(); iter != spans.end(); iter++) {
         Span& span = *iter;
         if(span.type == LINK) {
@@ -710,6 +710,11 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
                         endLine = i;
                         break;
                     }
+                }
+                
+                // in case endLine is not set
+                if(endLine == -1) {
+                    endLine = startLine;
                 }
                 
                 // get rect area

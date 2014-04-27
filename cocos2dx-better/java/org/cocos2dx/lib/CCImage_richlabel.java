@@ -738,7 +738,7 @@ public class CCImage_richlabel {
 		LinkMeta meta = new LinkMeta();
 		int tag = 0;
 	    int linkStart = 0, linkEnd = 0;
-	    int startLine = 0, endLine = 0;
+	    int startLine = 0, endLine = -1;
 	    for(Span span : spans) {
 	    	if(span.type == SpanType.LINK) {
 	    		if(!span.close) {
@@ -765,6 +765,10 @@ public class CCImage_richlabel {
 	                        break;
 	                    }
 	                }
+	                
+	                // in case endLine is not set
+	                if(endLine == -1)
+	                	endLine = startLine;
 	                
 	                // get rect area
 	                int firstLine = startLine;

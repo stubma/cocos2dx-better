@@ -30,7 +30,7 @@
 #include "CCMoreMacros.h"
 
 USING_NS_CC_EXT;
-using namespace cocos2d::ui;
+using namespace cocos2d::gui;
 
 NS_CC_BEGIN
 
@@ -44,6 +44,9 @@ private:
     
     /// is fading out
     bool m_fadingOut;
+    
+    /// backup old scrollview delegate
+    CCScrollViewDelegate* m_oldCCDelegate;
     
 protected:
 	CCScrollBar();

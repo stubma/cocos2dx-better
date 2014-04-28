@@ -36,6 +36,7 @@ m_track(NULL),
 m_fixedThumb(NULL),
 m_fadingOut(false),
 m_fadeOutTimer(0),
+m_oldCCDelegate(NULL),
 m_autoFade(false) {
 	
 }
@@ -257,6 +258,7 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
 	syncThumbPositionForCCScrollView(scrollView);
     
     // delegate
+    m_oldCCDelegate = scrollView->getDelegate();
     scrollView->setDelegate(this);
 }
 
@@ -339,10 +341,15 @@ void CCScrollBar::scrollViewDidScroll(CCScrollView* view) {
     CCUtils::setOpacityRecursively(this, 255);
     m_fadingOut = false;
     m_fadeOutTimer = 0;
+    
+    // to old
+    if(m_oldCCDelegate)
+        m_oldCCDelegate->scrollViewDidScroll(view);
 }
 
 void CCScrollBar::scrollViewDidZoom(CCScrollView* view) {
-    
+    if(m_oldCCDelegate)
+        m_oldCCDelegate->scrollViewDidZoom(view);
 }
 
 NS_CC_END

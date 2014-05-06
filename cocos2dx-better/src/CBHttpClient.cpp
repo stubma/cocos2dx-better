@@ -142,14 +142,66 @@ public:
         CURLHandler* ii = (CURLHandler*)userdata;
         size_t sizes = size * nmemb;
         
-        // add header data
+        // lock
         pthread_mutex_lock(&ii->m_mutex);
+        
+        // parse pair
         string header((const char*)ptr, sizes);
-        CCArray& pair = CCUtils::componentsOfString(header, ':');
-        if(pair.count() == 2) {
-            ii->m_ctx->response->addHeader(((CCString*)pair.objectAtIndex(0))->getCString(),
-                                           ((CCString*)pair.objectAtIndex(1))->getCString());
+        CCArray* pair = new CCArray();
+        if(!header.empty()) {
+            // remove head and tailing brace, bracket, parentheses
+            size_t start = 0;
+            size_t end = header.length() - 1;
+            char c = header[start];
+            while(c == '{' || c == '[' || c == '(') {
+                start++;
+                c = header[start];
+            }
+            c = header[end];
+            while(c == '}' || c == ']' || c == ')') {
+                end--;
+                c = header[end];
+            }
+            
+            // iterate string
+            size_t compStart = start;
+            for(size_t i = start; i <= end; i++) {
+                c = header[i];
+                if(c == ':') {
+                    CCString* s = new CCString(header.substr(compStart, i - compStart));
+                    pair->addObject(s);
+                    s->release();
+                    compStart = i + 1;
+                } else if(c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+                    if(compStart == i) {
+                        compStart++;
+                    }
+                }
+            }
+            
+            // last comp
+            // or, if last char is separator, append an empty string
+            if(compStart <= end) {
+                CCString* s = new CCString(header.substr(compStart, end - compStart + 1));
+                pair->addObject(s);
+                s->release();
+            } else if(header[end] == ':') {
+                CCString* s = new CCString("");
+                pair->addObject(s);
+                s->release();
+            }
         }
+        
+        // if pair count is two, means ok
+        if(pair->count() == 2) {
+            ii->m_ctx->response->addHeader(((CCString*)pair->objectAtIndex(0))->getCString(),
+                                           ((CCString*)pair->objectAtIndex(1))->getCString());
+        }
+        
+        // release array
+        pair->release();
+        
+        // unlock
         pthread_mutex_unlock(&ii->m_mutex);
         
         // return a value which is different with sizes will abort it

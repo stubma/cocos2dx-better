@@ -30,7 +30,7 @@
 #include "CCMoreMacros.h"
 
 USING_NS_CC_EXT;
-using namespace cocos2d::gui;
+using namespace cocos2d::ui;
 
 NS_CC_BEGIN
 

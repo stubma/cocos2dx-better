@@ -331,6 +331,29 @@ public:
     static CCArray& floatComponentsOfString(const string& s, const char sep);
     
     /**
+     * split string into components by a separator
+     * returned CCArray contains CCBool object
+     * the array is shared, you must copy its content if you want to keep content for later use
+     *
+     * @param s string
+     * @param sep separator character
+     * @return a const CCArray, must copy it if you want to keep its content
+     */
+    static CCArray& boolComponentsOfString(const string& s, const char sep);
+    
+    /// generate a string which is a join of all strings in an CCArray
+    static string joinString(const CCArray& a, const char sep);
+    
+    /// generate a string which is a join of all integer in an CCArray
+    static string joinInt(const CCArray& a, const char sep);
+    
+    /// generate a string which is a join of all float in an CCArray
+    static string joinFloat(const CCArray& a, const char sep);
+    
+    /// generate a string which is a join of all boolean in an CCArray
+    static string joinBool(const CCArray& a, const char sep);
+    
+    /**
      * parse a CCPoint from a string in format {x,y}, such as {3.2,3.4}.
      * The brace can be replaced with bracket or parentheses, i.e., [3.2,3.4] and
      * (3.2,3.4) is also valid. Furthurmore, white space is allowed so [3.2,   3.4] is valid

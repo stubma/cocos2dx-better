@@ -616,7 +616,7 @@ CCArray& CCUtils::intComponentsOfString(const string& s, const char sep) {
 }
 
 CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
-    // returned string list
+    // returned list
     s_tmpArray.removeAllObjects();
     
     // quick reject
@@ -664,8 +664,61 @@ CCArray& CCUtils::floatComponentsOfString(const string& s, const char sep) {
     return s_tmpArray;
 }
 
+CCArray& CCUtils::boolComponentsOfString(const string& s, const char sep) {
+    // returned list
+    s_tmpArray.removeAllObjects();
+    
+    // quick reject
+    if(s.empty()) {
+        s_tmpArray.addObject(CCBool::create(false));
+        return s_tmpArray;
+    }
+    
+    // remove head and tailing brace, bracket, parentheses
+    size_t start = 0;
+    size_t end = s.length() - 1;
+    char c = s[start];
+    while(c == '{' || c == '[' || c == '(') {
+        start++;
+        c = s[start];
+    }
+    c = s[end];
+    while(c == '}' || c == ']' || c == ')') {
+        end--;
+        c = s[end];
+    }
+    
+    // iterate string
+    size_t compStart = start;
+    for(size_t i = start; i <= end; i++) {
+        c = s[i];
+        if(c == sep) {
+            string sub = s.substr(compStart, i - compStart);
+            toLowercase(sub);
+            s_tmpArray.addObject(CCBool::create(sub == "y" || sub == "yes" || sub == "true" || atoi(sub.c_str()) > 0));
+            compStart = i + 1;
+        } else if(c == ' ' || c == '\t' || c == '\r' || c == '\n') {
+            if(compStart == i) {
+                compStart++;
+            }
+        }
+    }
+    
+    // last comp
+    if(compStart <= end) {
+        string sub = s.substr(compStart, end - compStart + 1);
+        toLowercase(sub);
+        s_tmpArray.addObject(CCBool::create(sub == "y" || sub == "yes" || sub == "true" || atoi(sub.c_str()) > 0));
+    } else if(s[end] == sep) {
+        s_tmpArray.addObject(CCBool::create(false));
+    }
+    
+    // return
+    return s_tmpArray;
+}
+
 CCArray& CCUtils::componentsOfString(const string& s, const char sep) {
-    // returned string list
+    // returned list
     s_tmpArray.removeAllObjects();
     
     // quick reject
@@ -712,6 +765,58 @@ CCArray& CCUtils::componentsOfString(const string& s, const char sep) {
     
     // return
     return s_tmpArray;
+}
+
+string CCUtils::joinString(const CCArray& a, const char sep) {
+    string ret;
+    CCObject* obj;
+    CCARRAY_FOREACH(&a, obj) {
+        CCString* ccs = (CCString*)obj;
+        if(ret.length() > 0)
+            ret += ',';
+        ret += ccs->getCString();
+    }
+    return ret;
+}
+
+string CCUtils::joinInt(const CCArray& a, const char sep) {
+    string ret;
+    CCObject* obj;
+    char buf[64];
+    CCARRAY_FOREACH(&a, obj) {
+        CCInteger* cci = (CCInteger*)obj;
+        if(ret.length() > 0)
+            ret += ',';
+        sprintf(buf, "%d", cci->getValue());
+        ret += buf;
+    }
+    return ret;
+}
+
+string CCUtils::joinFloat(const CCArray& a, const char sep) {
+    string ret;
+    CCObject* obj;
+    char buf[64];
+    CCARRAY_FOREACH(&a, obj) {
+        CCFloat* ccf = (CCFloat*)obj;
+        if(ret.length() > 0)
+            ret += ',';
+        sprintf(buf, "%f", ccf->getValue());
+        ret += buf;
+    }
+    return ret;
+}
+
+string CCUtils::joinBool(const CCArray& a, const char sep) {
+    string ret;
+    CCObject* obj;
+    CCARRAY_FOREACH(&a, obj) {
+        CCBool* ccb = (CCBool*)obj;
+        if(ret.length() > 0)
+            ret += ',';
+        ret += ccb->getValue() ? "true" : "false";
+    }
+    return ret;
 }
 
 CCPoint CCUtils::ccpFromString(const string& s) {

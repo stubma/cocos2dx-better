@@ -169,6 +169,15 @@ void CCResourceLoader::run() {
 	scheduler->scheduleSelector(schedule_selector(CCResourceLoader::doLoad), this, 0, kCCRepeatForever, m_delay, false);
 }
 
+void CCResourceLoader::runInBlockMode() {
+    for(LoadTaskPtrList::iterator iter = m_loadTaskList.begin(); iter != m_loadTaskList.end(); iter++) {
+        LoadTask* lp = *iter;
+        lp->load();
+        if(m_listener)
+            m_listener->onResourceLoadingProgress(m_nextLoad * 100 / m_loadTaskList.size(), 0);
+    }
+}
+
 void CCResourceLoader::addAndroidStringTask(const string& lan, const string& path, bool merge) {
     AndroidStringLoadTask* t = new AndroidStringLoadTask();
     t->lan = lan;

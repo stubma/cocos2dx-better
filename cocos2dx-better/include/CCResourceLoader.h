@@ -422,6 +422,9 @@ public:
     /// start loading
     void run();
     
+    /// do loading in block mode
+    void runInBlockMode();
+    
     /// directly add a load task
     void addLoadTask(LoadTask* t);
     

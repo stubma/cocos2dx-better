@@ -30,6 +30,8 @@
 #include "ccShader_laser_frag.h"
 #include "ccShader_lighting_frag.h"
 #include "ccShader_lighting_vert.h"
+#include "ccShader_matrix_vert.h"
+#include "ccShader_matrix_frag.h"
 
 #define LOAD_PROGRAM_IF(name) \
 	if(key == kCCShader_##name) \
@@ -48,6 +50,7 @@ void CCShaders::loadCustomShader(const string& key) {
 		LOAD_PROGRAM_IF(blur);
 		LOAD_PROGRAM_IF(laser);
         LOAD_PROGRAM_IF(lighting);
+        LOAD_PROGRAM_IF(matrix);
 		
 		// add attribute
 		if(false) {
@@ -71,6 +74,8 @@ void CCShaders::loadCustomShader(const string& key) {
 		} else if(key == kCCShader_lighting) {
             ADD_UNIFORM(lightingMul);
             ADD_UNIFORM(lightingAdd);
+        } else if(key == kCCShader_matrix) {
+            ADD_UNIFORM(colorMatrix);
         }
 		
 		// add standard uniforms
@@ -108,6 +113,25 @@ void CCShaders::setLighting(ccColor4B mul, ccColor3B add) {
     p->use();
 	p->setUniformLocationWith4f(sUniform_pos_CC_lightingMul, mul.r / 255.0f, mul.g / 255.0f, mul.b / 255.0f, mul.a / 255.0f);
 	p->setUniformLocationWith3f(sUniform_pos_CC_lightingAdd, add.r / 255.0f, add.g / 255.0f, add.b / 255.0f);
+}
+
+void CCShaders::setColorMatrix(const kmMat4& mat4) {
+    loadCustomShader(kCCShader_matrix);
+    CCGLProgram* p = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_matrix);
+    p->use();
+    p->setUniformLocationWithMatrix4fv(sUniform_pos_CC_colorMatrix, (GLfloat*)mat4.mat, 1);
+}
+
+void CCShaders::setGray() {
+    kmMat4 m;
+    float v[] = {
+        0.299f, 0.299f, 0.299f, 0,
+        0.587f, 0.587f, 0.587f, 0,
+        0.114f, 0.114f, 0.114f, 0,
+        0, 0, 0, 1
+    };
+    kmMat4Fill(&m, v);
+    setColorMatrix(m);
 }
 
 NS_CC_END

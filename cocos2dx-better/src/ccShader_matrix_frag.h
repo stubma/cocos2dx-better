@@ -21,48 +21,26 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ccShaders__
-#define __ccShaders__
+#ifndef __ccShader_matrix_frag_h__
+#define __ccShader_matrix_frag_h__
 
-#include "cocos2d.h"
-#include "ccMoreTypes.h"
-#include "kazmath/kazmath.h"
+#define kCCUniform_colorMatrix "CC_colorMatrix"
 
-using namespace std;
+static GLint sUniform_pos_CC_colorMatrix = -1;
 
-NS_CC_BEGIN
+const char* ccShader_matrix_frag = "\n\
+    #ifdef GL_ES \n\
+        precision lowp float; \n\
+    #endif \n\
+    \n\
+    varying vec4 v_fragmentColor; \n\
+    varying vec2 v_texCoord; \n\
+    uniform sampler2D CC_Texture0; \n\
+    uniform mat4 CC_colorMatrix; \n\
+    \n\
+    void main()	{ \n\
+        gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord); \n\
+        gl_FragColor = CC_colorMatrix * gl_FragColor; \n\
+    }";
 
-// shader keys
-#define kCCShader_flash "kCCShader_flash"
-#define kCCShader_blur "kCCShader_blur"
-#define kCCShader_laser "kCCShader_laser"
-#define kCCShader_lighting "kCCShader_lighting"
-#define kCCShader_matrix "kCCShader_matrix"
-
-/// a custom shader management helper
-class CC_DLL CCShaders {
-private:
-	/// load one custom shader by key
-	static void loadCustomShader(const string& key);
-	
-public:
-	/// program for key
-	static CCGLProgram* programForKey(const string& key);
-	
-	/// flash
-	static void setFlash(float r, float g, float b, float t);
-	
-	/// blur
-	static void setBlur(CCSize nodeSize, CCSize blurSize, ccColor4F blurSubtract = cc4fTRANSPARENT);
-    
-    /// lighting, view ccShader_lighting_frag.h for detail algorithm
-    static void setLighting(ccColor4B mul, ccColor3B add);
-    
-    /// color matrix
-    static void setColorMatrix(const kmMat4& mat4);
-    static void setGray();
-};
-
-NS_CC_END
-
-#endif // __ccShaders__
+#endif // __ccShader_matrix_frag_h__

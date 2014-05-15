@@ -48,4 +48,4 @@ const char* ccShader_lighting_frag = "\n\
         gl_FragColor.xyz += c; \n\
     }";
 
-#endif // __ccShader_flash_frag_h__
+#endif // __ccShader_lighting_frag_h__

@@ -35,12 +35,13 @@ VolatileTexture_richlabel::VolatileTexture_richlabel(CCTexture2D_richlabel* t) :
 m_texture(t),
 m_cachedImageType(kInvalid) {
     s_textures.push_back(this);
-    CC_SAFE_RETAIN(m_texture);
+    //why we retain it here? I just found it can leak memory. so I comment it.
+    //CC_SAFE_RETAIN(m_texture);
 }
 
 VolatileTexture_richlabel::~VolatileTexture_richlabel() {
     s_textures.remove(this);
-    CC_SAFE_RELEASE(m_texture);
+    //CC_SAFE_RELEASE(m_texture);
 }
 
 void VolatileTexture_richlabel::addRichStringTexture(CCTexture2D_richlabel* tex, const char* text, const ccRichFontDefinition& fontDef) {

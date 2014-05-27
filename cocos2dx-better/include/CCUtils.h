@@ -266,9 +266,6 @@ public:
      * so this method auto return center rect for you
      */
     static CCRect getCenterRect(CCSpriteFrame* f);
-	
-	/// change opacity recursively
-	static void setTreeOpacity(CCNode* n, int o);
     
     /// get scene to which a node belongs
     static CCScene* getScene(CCNode* n);

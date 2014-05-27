@@ -472,21 +472,6 @@ CCRect CCUtils::getCenterRect(const string& frameName) {
     return CCRectMake(size.width / 2, size.height / 2, 1, 1);
 }
 
-void CCUtils::setTreeOpacity(CCNode* n, int o) {
-	// self
-	CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(n);
-	if(p) {
-		p->setOpacity((GLubyte)o);
-	}
-	
-	// children
-	CCArray* children = n->getChildren();
-	CCObject* pObj = NULL;
-	CCARRAY_FOREACH(children, pObj) {
-		setTreeOpacity((CCNode*)pObj, o);
-	}
-}
-
 CCScene* CCUtils::getScene(CCNode* n) {
     while(n) {
         CCScene* s = dynamic_cast<CCScene*>(n);

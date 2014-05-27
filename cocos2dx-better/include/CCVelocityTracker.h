@@ -52,6 +52,14 @@ public:
      * @param event The CCTouch you received and would like to track.
      */
 	void addTouchBegan(CCTouch* event);
+    
+    /**
+     * Add a user's movement to the tracker.  You should call this for the
+     * initial touch began event, the following touch moved events that you receive
+     *
+     * @param pos The touch location you received and would like to track.
+     */
+    void addTouchBegan(const CCPoint& pos);
 	
 	/**
      * Add a touch moved event to the tracker.
@@ -59,6 +67,13 @@ public:
      * @param event The CCTouch you received and would like to track.
      */
 	void addTouchMoved(CCTouch* event);
+    
+    /**
+     * Add a touch moved event to the tracker.
+     *
+     * @param pos The touch location you received and would like to track.
+     */
+    void addTouchMoved(const CCPoint& pos);
 	
 	/**
      * Equivalent to invoking {@link #computeCurrentVelocity(int, float)} with a maximum

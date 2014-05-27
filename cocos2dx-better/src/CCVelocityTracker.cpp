@@ -60,6 +60,30 @@ static MotionEvent* convertCCTouchToMotionEvent(CCTouch* pcc, int eventMask) {
 	return me;
 }
 
+static MotionEvent* convertCCPointToMotionEvent(const CCPoint& pos, int eventMask) {
+	nsecs_t time = (nsecs_t)CCUtils::currentTimeMillis();
+	time = milliseconds_to_nanoseconds(time);
+	s_pp.id = 0;
+	MotionEvent* me = new MotionEvent();
+	me->initialize(0,
+				   0,
+				   eventMask,
+				   0,
+				   0,
+				   0,
+				   0,
+				   pos.x,
+				   pos.y,
+				   pos.x,
+				   pos.y,
+				   time,
+				   time,
+				   1,
+				   &s_pp,
+				   &s_pc);
+	return me;
+}
+
 class VelocityTrackerState {
 public:
     VelocityTrackerState(const char* strategy);
@@ -166,6 +190,13 @@ CCVelocityTracker* CCVelocityTracker::create() {
 	return (CCVelocityTracker*)t->autorelease();
 }
 
+void CCVelocityTracker::addTouchBegan(const CCPoint& pos) {
+    MotionEvent* me = convertCCPointToMotionEvent(pos, AMOTION_EVENT_ACTION_DOWN);
+	m_state->clear();
+	m_state->addMovement(me);
+	delete me;
+}
+
 void CCVelocityTracker::addTouchBegan(CCTouch* event) {
 	MotionEvent* me = convertCCTouchToMotionEvent(event, AMOTION_EVENT_ACTION_DOWN);
 	m_state->clear();
@@ -175,6 +206,12 @@ void CCVelocityTracker::addTouchBegan(CCTouch* event) {
 
 void CCVelocityTracker::addTouchMoved(CCTouch* event) {
 	MotionEvent* me = convertCCTouchToMotionEvent(event, AMOTION_EVENT_ACTION_MOVE);
+	m_state->addMovement(me);
+	delete me;
+}
+
+void CCVelocityTracker::addTouchMoved(const CCPoint& pos) {
+	MotionEvent* me = convertCCPointToMotionEvent(pos, AMOTION_EVENT_ACTION_MOVE);
 	m_state->addMovement(me);
 	delete me;
 }

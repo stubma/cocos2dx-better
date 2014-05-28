@@ -361,6 +361,22 @@ private:
         
         virtual void load();
     };
+    
+    struct CustomTask : public LoadTask {
+        CCCallFunc* func;
+        
+        CustomTask() :
+        func(NULL) {
+        }
+        
+        virtual ~CustomTask() {
+            CC_SAFE_RELEASE(func);
+        }
+        
+        virtual void load() {
+            func->execute();
+        }
+    };
  
 private:
 	/// listener
@@ -427,6 +443,9 @@ public:
     
     /// directly add a load task
     void addLoadTask(LoadTask* t);
+    
+    /// add a custom task and the task is executing a function
+    void addCustomTask(CCCallFunc* func);
     
     /// add bitmap font loading task
     void addBMFontTask(const string& fntFile, float idle = 0);

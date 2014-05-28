@@ -310,6 +310,13 @@ void CCResourceLoader::addCDMusicTask(const string& name, float idle) {
 	addLoadTask(t);
 }
 
+void CCResourceLoader::addCustomTask(CCCallFunc* func) {
+    CustomTask* t = new CustomTask();
+    t->func = func;
+    CC_SAFE_RETAIN(t->func);
+    addLoadTask(t);
+}
+
 void CCResourceLoader::addZwoptexAnimTask(const string& name,
 										  float unitDelay,
 										  const string& pattern,

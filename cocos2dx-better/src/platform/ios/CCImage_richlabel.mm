@@ -103,6 +103,7 @@ typedef struct {
     float        tintColorR;
     float        tintColorG;
     float        tintColorB;
+    float globalImageScaleFactor;
     unsigned char*  data;
     
     // true indicating only doing measurement
@@ -322,7 +323,7 @@ static SpanType checkTag(unichar* p, NSUInteger start, NSUInteger len, NSUIntege
     return type;
 }
 
-static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
+static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, tImageInfo* pInfo) {
     // get unichar of string
     NSString* ns = [NSString stringWithUTF8String:pText];
     NSUInteger uniLen = [ns length];
@@ -441,6 +442,10 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen) {
                                         }
                                     }
                                 }
+                                
+                                // apply global factor
+                                span.scaleX *= pInfo->globalImageScaleFactor;
+                                span.scaleY *= pInfo->globalImageScaleFactor;
                                 
                                 // flag
                                 inImageTag = true;
@@ -780,7 +785,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         // get plain text and extract span list
 		SpanList spans;
         int uniLen;
-        unichar* plain = buildSpan(pText, spans, &uniLen);
+        unichar* plain = buildSpan(pText, spans, &uniLen, pInfo);
         
         // create attributed string
         CFStringRef plainCFStr = CFStringCreateWithCharacters(kCFAllocatorDefault,
@@ -1396,6 +1401,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														float strokeG,
 														float strokeB,
 														float strokeSize,
+                                                        float globalImageScaleFactor,
 														CC_DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = nWidth;
@@ -1413,6 +1419,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorR             = textTintR;
     info.tintColorG             = textTintG;
     info.tintColorB             = textTintB;
+    info.globalImageScaleFactor = globalImageScaleFactor;
     info.sizeOnly = false;
     
     if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas, &m_imageRects, decryptFunc))
@@ -1436,6 +1443,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
                                             float strokeSize,
+                                            float globalImageScaleFactor,
 											CC_DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = maxWidth;
@@ -1453,6 +1461,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
     info.tintColorR             = 0;
     info.tintColorG             = 0;
     info.tintColorB             = 0;
+    info.globalImageScaleFactor = globalImageScaleFactor;
     info.sizeOnly = true;
     
     if (!_initWithString(pText, kAlignCenter, pFontName, nSize, &info, NULL, NULL, NULL, decryptFunc)) {

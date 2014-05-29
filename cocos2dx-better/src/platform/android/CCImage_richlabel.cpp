@@ -52,7 +52,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, int shadowColor, float shadowBlur,
-		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, CC_DECRYPT_FUNC decryptFunc) {
+		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, float globalImageScaleFactor, CC_DECRYPT_FUNC decryptFunc) {
 	bool bRet = false;
 	do {
 		CC_BREAK_IF(!pText);
@@ -78,6 +78,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
                                                       strokeG,
                                                       strokeB,
                                                       strokeSize,
+                                                      globalImageScaleFactor,
                                                       decryptFunc,
                                                       false));
 
@@ -114,6 +115,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
                                             float strokeSize,
+                                            float globalImageScaleFactor,
                                             CC_DECRYPT_FUNC decryptFunc) {
     CCSize size = CCSizeZero;
 	do {
@@ -140,6 +142,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                                       0,
                                                       0,
                                                       strokeSize,
+                                                      globalImageScaleFactor,
                                                       decryptFunc,
                                                       true));
 		size.width = dc.m_nWidth;

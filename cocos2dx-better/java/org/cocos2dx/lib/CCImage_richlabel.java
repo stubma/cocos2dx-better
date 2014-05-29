@@ -208,13 +208,13 @@ public class CCImage_richlabel {
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
-	        final float strokeB, final float strokeSize, float contentScaleFactor, boolean encrypted, boolean sizeOnly) {
+	        final float strokeB, final float strokeSize, float contentScaleFactor, float globalImageScaleFactor, boolean encrypted, boolean sizeOnly) {
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		
 		// extract span info and return text without span style
 		List<Span> spans = new ArrayList<Span>();
-		String plain = buildSpan(pString, spans);
+		String plain = buildSpan(pString, spans, globalImageScaleFactor);
 		
 		// bitmap can't be zero size, ensure the plain is not empty string
 		if (TextUtils.isEmpty(plain)) {
@@ -944,7 +944,7 @@ public class CCImage_richlabel {
 	    return SpanType.UNKNOWN;
     }
 
-	private static String buildSpan(String text, List<Span> spans) {
+	private static String buildSpan(String text, List<Span> spans, float globalImageScaleFactor) {
 		boolean inImageTag = false;
 		int uniLen = text.length();
 		StringBuilder plain = new StringBuilder();
@@ -1040,6 +1040,10 @@ public class CCImage_richlabel {
 	                            			}
 	                            		}
 	                            	}
+
+	                            	// apply global factor
+	                            	span.scaleX *= globalImageScaleFactor;
+	                            	span.scaleY *= globalImageScaleFactor;
 	                            	
 	                            	// flag
 	                            	inImageTag = true;

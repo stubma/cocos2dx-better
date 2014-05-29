@@ -56,6 +56,7 @@ m_shadowEnabled(false),
 m_shadowColor(0xff333333),
 m_strokeEnabled(false),
 m_textFillColor(ccWHITE),
+m_globalImageScaleFactor(1),
 m_stateListener(NULL),
 m_decryptFunc(NULL),
 m_textChanging(true) {
@@ -572,12 +573,25 @@ ccRichFontDefinition *CCRichLabelTTF::getTextDefinition()
     return tempDefinition;
 }
 
+void CCRichLabelTTF::setGlobalImageScaleFactor(float scale, bool mustUpdateTexture) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	if (m_globalImageScaleFactor != scale) {
+		m_globalImageScaleFactor = scale;
+		
+		if (mustUpdateTexture)
+			this->updateTexture();
+	}
+#else
+	CCAssert(false, "Currently only supported on iOS and Android!");
+#endif
+}
+
 void CCRichLabelTTF::_updateWithTextDefinition(ccRichFontDefinition & textDefinition, bool mustUpdateTexture)
 {
     m_tDimensions = CCSizeMake(textDefinition.m_dimensions.width, textDefinition.m_dimensions.height);
     m_hAlignment  = textDefinition.m_alignment;
     m_vAlignment  = textDefinition.m_vertAlignment;
-    
+    m_globalImageScaleFactor = textDefinition.m_globalImageScaleFactor;
     m_pFontName   = new std::string(textDefinition.m_fontName);
     m_fFontSize   = textDefinition.m_fontSize;
     
@@ -606,6 +620,7 @@ ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolu
     ccRichFontDefinition texDef;
 	
 	texDef.decryptFunc = m_decryptFunc;
+    texDef.m_globalImageScaleFactor = m_globalImageScaleFactor;
     
     if (adjustForResolution)
         texDef.m_fontSize       =  m_fFontSize * CC_CONTENT_SCALE_FACTOR();

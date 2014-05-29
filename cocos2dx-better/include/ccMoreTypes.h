@@ -138,6 +138,9 @@ static inline ccInsets cci(float t, float l, float r, float b) {
 struct ccRichFontDefinition : public ccFontDefinition {
     // font shadow color
     int m_shadowColor;
+    
+    // default image scale factor
+    float m_globalImageScaleFactor;
 	
 	// decrypt func for embedded image
 	CC_DECRYPT_FUNC decryptFunc;

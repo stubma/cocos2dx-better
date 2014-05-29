@@ -230,6 +230,10 @@ public:
 	/// get image bound in world space
 	CCRect getImageBoundInWorldSpace(int index);
     
+    /// a default scale factor which applies to all images in this label, by default it is 1
+    void setGlobalImageScaleFactor(float scale, bool mustUpdateTexture = true);
+    float getGlobalImageScaleFactor() { return m_globalImageScaleFactor; }
+    
 private:
     bool updateTexture();
 	
@@ -259,6 +263,8 @@ protected:
     float   m_shadowBlur;
     int     m_shadowColor;
     
+    // default image scale factor
+    float m_globalImageScaleFactor;
     
     /** font stroke */
     bool        m_strokeEnabled;

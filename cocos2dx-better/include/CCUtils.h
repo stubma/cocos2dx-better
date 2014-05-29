@@ -463,6 +463,7 @@ public:
      * @param shadowOffsetX shadow x offset, optional
      * @param shadowOffsetY shadow y offset, optional
      * @param strokeSize border line width, optional
+     * @param globalImageScaleFactor global image scale factor which applies to all images in this rich label, default is 1
 	 * @param decryptFunc if label has embedded images and they are encrypted, you must provide a decrypt function
      */
     static CCSize measureRichString(const char* pText,
@@ -472,6 +473,7 @@ public:
                                     float shadowOffsetX = 0,
                                     float shadowOffsetY = 0,
                                     float strokeSize = 0,
+                                    float globalImageScaleFactor = 1,
 									CC_DECRYPT_FUNC decryptFunc = NULL);
     
     /// start to play internal music randomly

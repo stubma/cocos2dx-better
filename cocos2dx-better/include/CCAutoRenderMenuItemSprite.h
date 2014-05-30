@@ -40,6 +40,14 @@ private:
 	
 	/// focus image
 	CCNode* m_focusImage;
+    
+    /// selector of selected event
+    CCObject* m_selectedEventTarget;
+    SEL_MenuHandler m_selectedEventSelector;
+    
+    /// selector of unselected event
+    CCObject* m_unselectedEventTarget;
+    SEL_MenuHandler m_unselectedEventSelector;
 	
 protected:
 	/// @see CCMenuItemSprite::updateImagesVisibility
@@ -100,6 +108,12 @@ public:
 	 */
 	static CCAutoRenderMenuItemSprite* create(CCNode* normalImage, CCNode* selectedImage, CCNode* disabledImage,
 											  CCNode* focusImage, CCObject* target, SEL_MenuHandler selector);
+    
+    /// set target selector of selected event
+    void setSelectedEvent(CCObject* target, SEL_MenuHandler selector);
+    
+    /// set target selector of unselected event
+    void setUnselectedEvent(CCObject* target, SEL_MenuHandler selector);
 	
 	/// @see CCMenuItemSprite::selected
 	virtual void selected();

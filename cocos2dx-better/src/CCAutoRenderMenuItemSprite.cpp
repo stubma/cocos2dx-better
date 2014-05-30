@@ -76,6 +76,16 @@ CCAutoRenderMenuItemSprite* CCAutoRenderMenuItemSprite::create(CCNode* normalIma
     return pRet;
 }
 
+void CCAutoRenderMenuItemSprite::setSelectedEvent(CCObject* target, SEL_MenuHandler selector) {
+    m_selectedEventTarget = target;
+    m_selectedEventSelector = selector;
+}
+
+void CCAutoRenderMenuItemSprite::setUnselectedEvent(CCObject* target, SEL_MenuHandler selector) {
+    m_unselectedEventTarget = target;
+    m_unselectedEventSelector = selector;
+}
+
 void CCAutoRenderMenuItemSprite::centerAlignImages() {
     CCSize s = CCSizeZero;
     if(m_pNormalImage) {
@@ -133,6 +143,11 @@ void CCAutoRenderMenuItemSprite::selected() {
 		ccColor3B c = CCUtils::hsv2ccc3(hsv);
 		setColor(c);
 	}
+    
+    // event
+    if (m_selectedEventTarget && m_selectedEventSelector) {
+        (m_selectedEventTarget->*m_selectedEventSelector)(this);
+    }
 }
 
 void CCAutoRenderMenuItemSprite::unselected() {
@@ -142,6 +157,11 @@ void CCAutoRenderMenuItemSprite::unselected() {
 	if(!getSelectedImage()) {
 		setColor(m_oldColor);
 	}
+    
+    // event
+    if (m_unselectedEventTarget && m_unselectedEventSelector) {
+        (m_unselectedEventTarget->*m_unselectedEventSelector)(this);
+    }
 }
 
 void CCAutoRenderMenuItemSprite::updateImagesVisibility() {

@@ -1,0 +1,301 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		922FB21F17AB9A3100EEF735 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 922FB21E17AB9A3000EEF735 /* Foundation.framework */; };
+		922FB23017AB9BE100EEF735 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 922FB22F17AB9BE100EEF735 /* CoreServices.framework */; };
+		92C8178B1892ACC900869150 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C817891892ACC900869150 /* main.m */; };
+		92F28D2E1893A085003343FB /* zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F28D2C1893A085003343FB /* zip.cpp */; };
+		92F28D361893A29D003343FB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F28D351893A29D003343FB /* libz.dylib */; };
+		92F28D6E1893AE4F003343FB /* libPVRTexLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F28D611893AE4F003343FB /* libPVRTexLib.a */; };
+		92F28D721893AF76003343FB /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F28D711893AF76003343FB /* AppKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		922FB21B17AB9A3000EEF735 /* ae */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ae; sourceTree = BUILT_PRODUCTS_DIR; };
+		922FB21E17AB9A3000EEF735 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		922FB22F17AB9BE100EEF735 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		92C817881892ACC900869150 /* ae-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ae-Prefix.pch"; sourceTree = "<group>"; };
+		92C817891892ACC900869150 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		92F28D2C1893A085003343FB /* zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zip.cpp; sourceTree = "<group>"; };
+		92F28D2D1893A085003343FB /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		92F28D351893A29D003343FB /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		92F28D3D1893A650003343FB /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		92F28D611893AE4F003343FB /* libPVRTexLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPVRTexLib.a; sourceTree = "<group>"; };
+		92F28D621893AE4F003343FB /* PVRTArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTArray.h; sourceTree = "<group>"; };
+		92F28D631893AE4F003343FB /* PVRTError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTError.h; sourceTree = "<group>"; };
+		92F28D641893AE4F003343FB /* PVRTexLibVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTexLibVersion.h; sourceTree = "<group>"; };
+		92F28D651893AE4F003343FB /* PVRTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTexture.h; sourceTree = "<group>"; };
+		92F28D661893AE4F003343FB /* PVRTextureDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureDefines.h; sourceTree = "<group>"; };
+		92F28D671893AE4F003343FB /* PVRTextureFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureFormat.h; sourceTree = "<group>"; };
+		92F28D681893AE4F003343FB /* PVRTextureHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureHeader.h; sourceTree = "<group>"; };
+		92F28D691893AE4F003343FB /* PVRTextureUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureUtilities.h; sourceTree = "<group>"; };
+		92F28D6A1893AE4F003343FB /* PVRTGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTGlobal.h; sourceTree = "<group>"; };
+		92F28D6B1893AE4F003343FB /* PVRTMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTMap.h; sourceTree = "<group>"; };
+		92F28D6C1893AE4F003343FB /* PVRTString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTString.h; sourceTree = "<group>"; };
+		92F28D6D1893AE4F003343FB /* PVRTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTTexture.h; sourceTree = "<group>"; };
+		92F28D6F1893AF41003343FB /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		92F28D711893AF76003343FB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		922FB21817AB9A3000EEF735 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92F28D721893AF76003343FB /* AppKit.framework in Frameworks */,
+				92F28D6E1893AE4F003343FB /* libPVRTexLib.a in Frameworks */,
+				92F28D361893A29D003343FB /* libz.dylib in Frameworks */,
+				922FB23017AB9BE100EEF735 /* CoreServices.framework in Frameworks */,
+				922FB21F17AB9A3100EEF735 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		922FB21217AB9A3000EEF735 = {
+			isa = PBXGroup;
+			children = (
+				92C817871892ACC900869150 /* ae */,
+				922FB21D17AB9A3000EEF735 /* Frameworks */,
+				922FB21C17AB9A3000EEF735 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		922FB21C17AB9A3000EEF735 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				922FB21B17AB9A3000EEF735 /* ae */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		922FB21D17AB9A3000EEF735 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				92F28D711893AF76003343FB /* AppKit.framework */,
+				92F28D6F1893AF41003343FB /* ApplicationServices.framework */,
+				92F28D351893A29D003343FB /* libz.dylib */,
+				922FB22F17AB9BE100EEF735 /* CoreServices.framework */,
+				922FB21E17AB9A3000EEF735 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		92C817871892ACC900869150 /* ae */ = {
+			isa = PBXGroup;
+			children = (
+				92F28D5F1893AE4F003343FB /* pvr */,
+				92C817881892ACC900869150 /* ae-Prefix.pch */,
+				92C817891892ACC900869150 /* main.m */,
+				92F28D2C1893A085003343FB /* zip.cpp */,
+				92F28D2D1893A085003343FB /* zip.h */,
+				92F28D3D1893A650003343FB /* common.h */,
+			);
+			path = ae;
+			sourceTree = "<group>";
+		};
+		92F28D5F1893AE4F003343FB /* pvr */ = {
+			isa = PBXGroup;
+			children = (
+				92F28D601893AE4F003343FB /* MacOS_x86 */,
+				92F28D621893AE4F003343FB /* PVRTArray.h */,
+				92F28D631893AE4F003343FB /* PVRTError.h */,
+				92F28D641893AE4F003343FB /* PVRTexLibVersion.h */,
+				92F28D651893AE4F003343FB /* PVRTexture.h */,
+				92F28D661893AE4F003343FB /* PVRTextureDefines.h */,
+				92F28D671893AE4F003343FB /* PVRTextureFormat.h */,
+				92F28D681893AE4F003343FB /* PVRTextureHeader.h */,
+				92F28D691893AE4F003343FB /* PVRTextureUtilities.h */,
+				92F28D6A1893AE4F003343FB /* PVRTGlobal.h */,
+				92F28D6B1893AE4F003343FB /* PVRTMap.h */,
+				92F28D6C1893AE4F003343FB /* PVRTString.h */,
+				92F28D6D1893AE4F003343FB /* PVRTTexture.h */,
+			);
+			path = pvr;
+			sourceTree = "<group>";
+		};
+		92F28D601893AE4F003343FB /* MacOS_x86 */ = {
+			isa = PBXGroup;
+			children = (
+				92F28D611893AE4F003343FB /* libPVRTexLib.a */,
+			);
+			path = MacOS_x86;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		922FB21A17AB9A3000EEF735 /* ae */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 922FB22917AB9A3100EEF735 /* Build configuration list for PBXNativeTarget "ae" */;
+			buildPhases = (
+				922FB21717AB9A3000EEF735 /* Sources */,
+				922FB21817AB9A3000EEF735 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ae;
+			productName = resenc;
+			productReference = 922FB21B17AB9A3000EEF735 /* ae */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		922FB21317AB9A3000EEF735 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = wiyun;
+			};
+			buildConfigurationList = 922FB21617AB9A3000EEF735 /* Build configuration list for PBXProject "ae" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 922FB21217AB9A3000EEF735;
+			productRefGroup = 922FB21C17AB9A3000EEF735 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				922FB21A17AB9A3000EEF735 /* ae */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		922FB21717AB9A3000EEF735 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92F28D2E1893A085003343FB /* zip.cpp in Sources */,
+				92C8178B1892ACC900869150 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		922FB22717AB9A3100EEF735 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		922FB22817AB9A3100EEF735 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		922FB22A17AB9A3100EEF735 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ae/ae-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ae/pvr/MacOS_x86",
+				);
+				PRODUCT_NAME = ae;
+			};
+			name = Debug;
+		};
+		922FB22B17AB9A3100EEF735 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ae/ae-Prefix.pch";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ae/pvr/MacOS_x86",
+				);
+				PRODUCT_NAME = ae;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		922FB21617AB9A3000EEF735 /* Build configuration list for PBXProject "ae" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				922FB22717AB9A3100EEF735 /* Debug */,
+				922FB22817AB9A3100EEF735 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		922FB22917AB9A3100EEF735 /* Build configuration list for PBXNativeTarget "ae" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				922FB22A17AB9A3100EEF735 /* Debug */,
+				922FB22B17AB9A3100EEF735 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 922FB21317AB9A3000EEF735 /* Project object */;
+}

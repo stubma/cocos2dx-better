@@ -114,7 +114,7 @@ And that is it! No more settings needed. Easy to use, powerful, view its demo fo
 
 Optional
 ==================
-Some optional codes is in cocos2dx-better/optional folder. Those code by default is not compiled into cocos2dx-better library because they may depend on other components.
+Some optional code or tools is in cocos2dx-better/optional folder. Optional code is not compiled into cocos2dx-better library because they may depend on other components. As regards optional tools, they are my little trickes to handle some weird requirements. However, maybe you have such requirements, who knows.
 
 * B2DebugDraw: it is box2d debug drawing layer, it requires box2d
 * File templates: it is file templates for Xcode. If you like that, you can copy Templates folder to ~/Library/Developer/Xcode

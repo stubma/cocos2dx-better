@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="exportExcel" default="dist">
+	<path id="libs">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="dist">
+		<mkdir dir="bin"/>
+		<antcall target="compile"/>
+		<antcall target="manifest"/>
+		<antcall target="jar"/>
+		<delete file="MANIFEST.MF"/>
+	</target>
+
+	<target name="compile">
+		<javac 
+		    srcdir="src"
+		    destdir="bin"
+		    includeantruntime="false"
+		    classpathref="libs"
+		    encoding="utf8">
+		</javac>
+	</target>
+	
+	<target name="manifest">
+	    <manifestclasspath
+	        property="jar.classpath"
+	        jarfile="exportExcel.jar">
+	        <classpath refid="libs"/>
+	    </manifestclasspath>
+	    <manifest
+	        file="MANIFEST.MF"
+	        mode="replace"
+	        encoding="utf-8">
+	        <attribute name="Manifest-Version" value="1.0"/>
+	        <attribute name="Main-Class" value="Main"/>
+	        <attribute name="Class-Path" value="${jar.classpath}"/>
+	    </manifest>
+	</target>
+	
+	<target name="jar">
+	    <jar
+	        destfile="exportExcel.jar"
+	        basedir="bin"
+	        encoding="utf-8"
+	        manifest="MANIFEST.MF">
+	    </jar>
+	</target>
+</project>

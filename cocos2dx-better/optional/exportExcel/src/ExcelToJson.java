@@ -85,16 +85,26 @@ public class ExcelToJson {
 			String idColName = fieldRow.getCell(0).getStringCellValue();
 			idColName = firstCapital(idColName);
 			for (int i = 4; i <= rowNum; i++) {
+				// json of this row
 				JSONObject rowJson = new JSONObject();
+				
+				// if cell is empty, skip
 				int colNum = fieldRow.getLastCellNum();
 				Cell cell0 = cSheet.getRow(i).getCell(0);
 				if (cell0 == null)
 					continue;
+				
+				// if value is empty, skip
+				String sValue = cSheet.getRow(i).getCell(0).getStringCellValue().trim();
+				if("".equals(sValue))
+					continue;
+				
+				// put row
 				if (cSheet.getRow(i).getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					rowJson.put(idColName + "", cSheet.getRow(i).getCell(0).getNumericCellValue());
 					json.put("" + rowJson.getIntValue(idColName), rowJson);
 				} else {
-					rowJson.put(idColName, cSheet.getRow(i).getCell(0).getStringCellValue());
+					rowJson.put(idColName, sValue);
 					json.put(rowJson.getString(idColName), rowJson);
 				}
 

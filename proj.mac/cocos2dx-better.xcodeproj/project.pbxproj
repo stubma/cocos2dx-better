@@ -266,6 +266,8 @@
 		9255B8A718556DE400797255 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A618556DE400797255 /* AVFoundation.framework */; };
 		9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A818556DF000797255 /* AudioToolbox.framework */; };
 		9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B418556E5400797255 /* OpenAL.framework */; };
+		925C1A3719470328002FEE73 /* CBMoveBy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C1A3519470328002FEE73 /* CBMoveBy.cpp */; };
+		925C1A3819470328002FEE73 /* CBMoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C1A3619470328002FEE73 /* CBMoveTo.cpp */; };
 		9261AC3518978224001028B5 /* CCEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2718978224001028B5 /* CCEditBox.cpp */; };
 		9261AC3618978224001028B5 /* CCEditBoxImplAndroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2A18978224001028B5 /* CCEditBoxImplAndroid.cpp */; };
 		9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2D18978224001028B5 /* CCEditBoxImplIOS.mm */; };
@@ -999,6 +1001,10 @@
 		9255B8B418556E5400797255 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		92575519189CD672007D2369 /* CCImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCImagePicker.h; sourceTree = "<group>"; };
 		9257551A189CD73C007D2369 /* CCImagePickerCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCImagePickerCallback.h; sourceTree = "<group>"; };
+		925C1A3519470328002FEE73 /* CBMoveBy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBMoveBy.cpp; sourceTree = "<group>"; };
+		925C1A3619470328002FEE73 /* CBMoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBMoveTo.cpp; sourceTree = "<group>"; };
+		925C1A3919470333002FEE73 /* CBMoveBy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMoveBy.h; sourceTree = "<group>"; };
+		925C1A3A19470333002FEE73 /* CBMoveTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMoveTo.h; sourceTree = "<group>"; };
 		9261AC2718978224001028B5 /* CCEditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBox.cpp; sourceTree = "<group>"; };
 		9261AC2818978224001028B5 /* CCEditBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBox.h; sourceTree = "<group>"; };
 		9261AC2918978224001028B5 /* CCEditBoxImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImpl.h; sourceTree = "<group>"; };
@@ -1808,6 +1814,8 @@
 				92CE277818B5EE81006E5B71 /* CCFlash.h */,
 				922399EC187FD7B3006AD199 /* CBJumpBy.h */,
 				92042B1C187FE0E80064262D /* CBJumpTo.h */,
+				925C1A3919470333002FEE73 /* CBMoveBy.h */,
+				925C1A3A19470333002FEE73 /* CBMoveTo.h */,
 				9239687F185591DB0063E8A1 /* CCMissile.h */,
 				9239688B185591DB0063E8A1 /* CCShake.h */,
 				92396893185591DB0063E8A1 /* CCTreeFadeIn.h */,
@@ -1909,6 +1917,8 @@
 				92CE277518B5EE35006E5B71 /* CCFlash.cpp */,
 				922399E9187FD793006AD199 /* CBJumpBy.cpp */,
 				92042B19187FE0CD0064262D /* CBJumpTo.cpp */,
+				925C1A3519470328002FEE73 /* CBMoveBy.cpp */,
+				925C1A3619470328002FEE73 /* CBMoveTo.cpp */,
 				923968B8185591DB0063E8A1 /* CCMissile.cpp */,
 				923968C3185591DB0063E8A1 /* CCShake.cpp */,
 				923968CF185591DB0063E8A1 /* CCTreeFadeIn.cpp */,
@@ -3125,6 +3135,7 @@
 				922595FC18D5BBF600E200AE /* CCComController.cpp in Sources */,
 				9288DF30188F98A400C14965 /* CCControlUtils.cpp in Sources */,
 				92F68F301855BDE200C97188 /* CCSPX3Loader.cpp in Sources */,
+				925C1A3819470328002FEE73 /* CBMoveTo.cpp in Sources */,
 				923968F1185591DB0063E8A1 /* CCMD5.cpp in Sources */,
 				9276E10918A788290045B318 /* CCImagePicker.mm in Sources */,
 				9225961218D5BBF600E200AE /* UITextField.cpp in Sources */,
@@ -3182,6 +3193,7 @@
 				92F68EAF1855AD4400C97188 /* yajl_lex.c in Sources */,
 				9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */,
 				9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */,
+				925C1A3719470328002FEE73 /* CBMoveBy.cpp in Sources */,
 				9225960418D5BBF600E200AE /* UIHelper.cpp in Sources */,
 				92F68F331855BDE200C97188 /* CCSPX3TileSet.cpp in Sources */,
 				923968E6185591DB0063E8A1 /* CCClipIn.cpp in Sources */,

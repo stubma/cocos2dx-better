@@ -90,6 +90,8 @@
 #include "CCCallFuncNT.h"
 #include "CCBlur.h"
 #include "CCTrailMoveTo.h"
+#include "CBMoveBy.h"
+#include "CBMoveTo.h"
 
 // db
 #include "CCDatabase.h"

@@ -29,7 +29,11 @@ NS_CC_BEGIN
 CCAutoRenderMenuItemSprite::CCAutoRenderMenuItemSprite() :
 m_focus(false),
 m_focusIsAttachment(false),
-m_focusImage(NULL) {
+m_focusImage(NULL),
+m_selectedEventTarget(NULL),
+m_selectedEventSelector(NULL),
+m_unselectedEventTarget(NULL),
+m_unselectedEventSelector(NULL) {
 }
 
 CCAutoRenderMenuItemSprite::~CCAutoRenderMenuItemSprite() {

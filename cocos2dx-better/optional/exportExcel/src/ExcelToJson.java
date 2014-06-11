@@ -94,16 +94,15 @@ public class ExcelToJson {
 				if (cell0 == null)
 					continue;
 				
-				// if value is empty, skip
-				String sValue = cSheet.getRow(i).getCell(0).getStringCellValue().trim();
-				if("".equals(sValue))
-					continue;
-				
 				// put row
+				// if not numeric and value is empty, skip
 				if (cSheet.getRow(i).getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) {
 					rowJson.put(idColName + "", cSheet.getRow(i).getCell(0).getNumericCellValue());
 					json.put("" + rowJson.getIntValue(idColName), rowJson);
 				} else {
+					String sValue = cSheet.getRow(i).getCell(0).getStringCellValue().trim();
+					if("".equals(sValue))
+						continue;
 					rowJson.put(idColName, sValue);
 					json.put(rowJson.getString(idColName), rowJson);
 				}

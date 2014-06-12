@@ -680,11 +680,42 @@ Value::operator !=( const Value &other ) const
    return !( *this == other );
 }
 
+static char s_tmp[1024];
 const char *
 Value::asCString() const
 {
-   JSON_ASSERT( type_ == stringValue );
-   return value_.string_;
+    switch ( type_ )
+    {
+        case nullValue:
+            return "";
+        case stringValue:
+            return value_.string_ ? value_.string_ : "";
+        case booleanValue:
+            return value_.bool_ ? "true" : "false";
+        case intValue:
+        {
+            sprintf(s_tmp, "%d", value_.int_);
+            return s_tmp;
+        }
+        case uintValue:
+        {
+            sprintf(s_tmp, "%u", value_.uint_);
+            return s_tmp;
+        }
+        case realValue:
+        {
+            sprintf(s_tmp, "%lf", value_.real_);
+            return s_tmp;
+        }
+        case arrayValue:
+        case objectValue:
+            //zlf
+#ifndef ANDROID
+            JSON_ASSERT_MESSAGE( false, "Type is not convertible to string" );
+#endif
+        default:
+            JSON_ASSERT_UNREACHABLE;
+    }
 }
 
 
@@ -1019,6 +1050,23 @@ Value::operator[]( UInt index )
 #endif
 }
 
+Value Value::removeMemberByQuery(const string& key, const string& value) {
+    JSON_ASSERT( type_ == nullValue  ||  type_ == arrayValue );
+    if ( type_ == nullValue )
+        return null;
+    
+    for(ObjectValues::iterator it = value_.map_->begin(); it != value_.map_->end(); it++) {
+        Value& sub = it->second;
+        if(sub.isMember(key)) {
+            if(sub[key].asString() == value) {
+                Value old(it->second);
+                value_.map_->erase(it);
+                return old;
+            }
+        }
+    }
+    return null;
+}
 
 const Value &
 Value::operator[]( UInt index ) const

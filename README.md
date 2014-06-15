@@ -79,7 +79,7 @@ If not clear, refer to demo code.
 How to use CCImagePicker
 ==========================
 There is a CCImagePicker in cocos2dx-better, it can take image from camera or album and return it in any size. It is very handy, but you need more setup before using it. In iOS, just use it. In Android, don't forget to config something:
-* register activities in AndroidManifest.xml, below is an example, you can change some attribute if you like.
+* register activities in AndroidManifest.xml, below is an example, you can change some attribute if you like, such as screenOrientation.
 
 ```
 <activity

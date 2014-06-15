@@ -21,6 +21,8 @@ How to use
 cocos2dx-better project refers cocos2d-x project. You must clone cocos2d-x repository to a folder named "cocos2d-x", 
 and then clone cocos2dx-better in the same parent folder. Currently it only supports cocos2d-x v2 branch and I don't have a clear plan to migrate to v3.
 
+NOTE: recently they renamed master branch to v2 branch, and third-party libraries are not inclued in cocos2d-x git. You must execute download-deps.py to finish the setup.
+
 <b>For iOS:</b>
 * drag cocos2dx-better project into your project
 * you need set up proper include path, here is mine:

@@ -1,17 +1,12 @@
 Better Cocos2d-x
 ===============
-The cocos2dx-common is renamed to cocos2dx-better and combined with my other extensions.
-
-Purpose
-===============
-Now it is time to integrate all my extensions into a single one, for easy management. As its name suggests, this
-extension will make cocos2d-x better in many aspect, such as better UI controls, better utilities, better compatibility, and
-more. 
+As its name suggests, this
+extension will make cocos2d-x better in many aspect, such as better UI controls, better utilities, better compatibility, and more. 
 
 Cocos2d-x is a good engine, but:
 * it lacked some UI controls, or just not good enough
 * it lacked some features and third-party tool support
-* it has bugs and fixing comes too slowly, probably because they are focus on 3.0 branch.
+* it has bugs and fixing comes too slowly, the worse thing is they are super slow responsive to your pull requests. WTF. 
 
 Furthermore, I don't want to modify its code because it may introduce extra work to sync code. Here is my solution: a well-designed extension, without touching cocos2d-x code.
 
@@ -24,7 +19,7 @@ However, even the test project doesn't show all its capabilities. I will add mor
 How to use
 ===========
 cocos2dx-better project refers cocos2d-x project. You must clone cocos2d-x repository to a folder named "cocos2d-x", 
-and then clone cocos2dx-better in the same parent folder.
+and then clone cocos2dx-better in the same parent folder. Currently it only supports cocos2d-x v2 branch and I don't have a clear plan to migrate to v3.
 
 <b>For iOS:</b>
 * drag cocos2dx-better project into your project
@@ -69,7 +64,7 @@ include $(BUILD_SHARED_LIBRARY)
 $(call import-module,cocos2dx-better)
 ```
 
-* in Application.mk, you should use clang to compile because CocoStudio code has some c++11 keywords. I think it is a cocos2d-x bug because cocos2d-x 2.x doesn't require c++11. Obviously they copied some code from v3 branch but forget to remove c++11 keywords.
+* in Application.mk, you should use clang to compile because CocoStudio code has some c++11 keywords. I think it is a cocos2d-x bug because cocos2d-x 2.x doesn't require c++11. Obviously they copied some code from v3 branch but forgot to remove c++11 keywords.
 
 ```
 NDK_TOOLCHAIN_VERSION := clang

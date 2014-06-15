@@ -83,6 +83,8 @@ void CCJSONArray::releaseKeyValue(CCJSONObject::KeyValue& kv) {
 		case CCJSONObject::ARRAY:
 			CC_SAFE_RELEASE(kv.v.ja);
 			break;
+        default:
+            break;
 	}
 	if(kv.k)
 		free((void*)kv.k);

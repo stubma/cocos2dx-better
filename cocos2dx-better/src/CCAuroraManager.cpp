@@ -144,6 +144,8 @@ void CCAuroraManager::parseModule(CCAuroraModule* auroraModule, CCAuroraFrameMod
 			afcClipData.r.color = auroraModule->color;
 
 			break;
+        default:
+            break;
 	}
 }
 

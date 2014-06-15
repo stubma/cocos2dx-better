@@ -53,6 +53,8 @@ void CCJSONObject::releaseKeyValue(const string& key, KeyValue& kv) {
 		case ARRAY:
 			CC_SAFE_RELEASE(kv.v.ja);
 			break;
+        default:
+            break;
 	}
 	if(kv.k)
 		free((void*)kv.k);

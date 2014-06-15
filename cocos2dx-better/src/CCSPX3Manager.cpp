@@ -199,6 +199,8 @@ CCAFCAnimation* CCSPX3Manager::getAnimationData(CCSPX3FileData* spx, int animInd
 						afcClipData.i.flipX = true;
 						afcClipData.i.rotation = 90;
 						break;
+                    default:
+                        break;
 				}
 			} else {
 				// shape clip

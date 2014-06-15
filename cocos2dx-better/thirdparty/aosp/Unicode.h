@@ -20,12 +20,12 @@
 #include <sys/types.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
 extern "C" {
-
-#if !defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
-typedef uint32_t char32_t;
-typedef uint16_t char16_t;
 #endif
+
+#define char16_t uint16_t
+#define char32_t uint32_t
 
 // Standard string functions on char16_t strings.
 int strcmp16(const char16_t *, const char16_t *);
@@ -165,6 +165,8 @@ char16_t* utf8_to_utf16_no_null_terminator(const uint8_t* src, size_t srcLen, ch
  */
 void utf8_to_utf16(const uint8_t* src, size_t srcLen, char16_t* dst);
 
+#ifdef __cplusplus
 }
+#endif
 
 #endif

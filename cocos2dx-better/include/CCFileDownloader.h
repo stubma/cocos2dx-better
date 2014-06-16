@@ -131,6 +131,12 @@ public:
     
     /// is downloading
     CC_SYNTHESIZE_BOOL(m_downloading, Downloading);
+    
+    // total bytes
+    CC_SYNTHESIZE_READONLY(size_t, m_totalSize, TotalSize);
+    
+    // total bytes downloaded
+    CC_SYNTHESIZE_READONLY(size_t, m_totalDownloadedSize, TotalDownloadedSize);
 };
 
 NS_CC_END

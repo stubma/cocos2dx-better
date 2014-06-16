@@ -52,6 +52,8 @@ static CCFileDownloader* sInstance = NULL;
 
 CCFileDownloader::CCFileDownloader() :
 m_downloading(false),
+m_totalSize(0),
+m_totalDownloadedSize(0),
 m_fos(NULL) {
     m_client = CBHttpClient::create();
     CC_SAFE_RETAIN(m_client);
@@ -105,6 +107,7 @@ void CCFileDownloader::addFile(const string& url, const string& dstFilename, siz
     e->m_dstFilename = dstFilename;
     e->m_size = sizeHint;
     e->m_append = append;
+    m_totalSize += sizeHint;
     m_entries.addObject(e);
 }
 
@@ -158,7 +161,7 @@ string CCFileDownloader::getCurrentDownloadingFileFullPath() {
 }
 
 size_t CCFileDownloader::getCurrentDownloadingFileSize() {
-    return  m_entry ? m_entry->m_size : 0;
+    return m_entry ? m_entry->m_size : 0;
 }
 
 void CCFileDownloader::onHttpDone(CBHttpResponse* response) {
@@ -190,6 +193,7 @@ void CCFileDownloader::onHttpData(CBHttpResponse* response) {
     if(m_fos) {
         CBData* data = response->getData();
         m_fos->write((const char*)data->getBytes(), data->getSize());
+        m_totalDownloadedSize += data->getSize();
     }
 }
 

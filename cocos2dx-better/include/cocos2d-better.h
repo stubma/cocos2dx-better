@@ -69,6 +69,7 @@
 #include "CCScrollBar.h"
 #include "CBData.h"
 #include "CBDrawNode.h"
+#include "CCMemory.h"
 
 // armature
 #include "CBArmature.h"

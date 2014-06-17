@@ -379,12 +379,12 @@ void CCResourceLoader::doLoad(float delta) {
     if(m_remainingIdle > 0) {
         m_remainingIdle -= delta;
     } else if(m_loadTaskList.size() <= m_nextLoad) {
-        if(m_listener)
-            m_listener->onResourceLoadingDone();
-        
         CCScheduler* scheduler = CCDirector::sharedDirector()->getScheduler();
         scheduler->unscheduleSelector(schedule_selector(CCResourceLoader::doLoad), this);
         autorelease();
+        
+        if(m_listener)
+            m_listener->onResourceLoadingDone();
     } else {
         LoadTask* lp = m_loadTaskList.at(m_nextLoad++);
         m_remainingIdle = lp->idle;

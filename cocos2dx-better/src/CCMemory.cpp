@@ -138,7 +138,7 @@ ccMemoryRecord* removeRecord(ccMemoryRecord* r) {
 
 	// didn't find?
 	if(pTemp != r) {
-		CCLOG("[MEMRECORD] Unmatched record (%x)(record=%x):%d [%s:%d]", r->start, r, r->size, r->file, r->line);
+		CCLOG("[MEMRECORD] Unmatched record (%p)(record=%p):%d [%s:%d]", r->start, r, r->size, r->file, r->line);
 		return NULL;
 	}
 
@@ -179,7 +179,7 @@ void* _ccMalloc(size_t size, const char* file, int line, const char* logTag) {
 		}
 
 #if CC_CFLAG_ALLOCATION_LOG
-		CCLOG("[%s](%x)(record=%x):%d [%s:%d]", logTag, r->start, r, size, r->file, r->line);
+		CCLOG("[%s](%p)(record=%p):%d [%s:%d]", logTag, r->start, r, size, r->file, r->line);
 #endif
 	}
 
@@ -248,7 +248,7 @@ void CCMemory::dumpRecord() {
 	for (int i = 0; i < MEMORY_RECORD_INDEX_SIZE; i++) {
 		ccMemoryRecord* r = sMemoryRecord[i];
 		while(r) {
-            CCLOG("%d.[MEMRECORD](%x)(record=%x):%d [%s:%d]", ++leakNum, r->start, r, r->size, r->file, r->line);
+            CCLOG("%d.[MEMRECORD](%p)(record=%p):%d [%s:%d]", ++leakNum, r->start, r, r->size, r->file, r->line);
             leak += r->size;
 			r = r->next;
 		}

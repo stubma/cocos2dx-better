@@ -230,14 +230,19 @@ void _ccFree(void* ptr, const char* file, int line) {
 }
 #endif
 
+#endif // #if CC_CFLAG_MEMORY_TRACKING
+
 NS_CC_BEGIN
 
 void CCMemory::usageReport() {
+#ifdef CC_CFLAG_MEMORY_TRACKING
 	CCLOG("[MEMREPORT] peak %d bytes, now %d bytes, alloc %d times, free %d times",
           sMaxUsedMemory, sTotalUsedMemory, sTotalAlloc, sTotalFree);
+#endif
 }
 
 void CCMemory::dumpRecord() {
+#ifdef CC_CFLAG_MEMORY_TRACKING
 	int leak = 0;
 	int leakNum = 0;
 	for (int i = 0; i < MEMORY_RECORD_INDEX_SIZE; i++) {
@@ -254,8 +259,7 @@ void CCMemory::dumpRecord() {
 	} else {
 		CCLOG("[MEMRECORD] no memory leak, congratulations!");
 	}
+#endif
 }
 
 NS_CC_END
-
-#endif // #if CC_CFLAG_MEMORY_TRACKING

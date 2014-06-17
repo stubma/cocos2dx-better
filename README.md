@@ -66,12 +66,6 @@ include $(BUILD_SHARED_LIBRARY)
 $(call import-module,cocos2dx-better)
 ```
 
-* in Application.mk, you should use clang to compile because CocoStudio code has some c++11 keywords. I think it is a cocos2d-x bug because cocos2d-x 2.x doesn't require c++11. Obviously they copied some code from v3 branch but forgot to remove c++11 keywords. To workaround this bug, we need modify CCComRender.cpp and SceneReader.cpp to include <algorithm> header. Then, add below config to your Application.mk:
-
-```
-NDK_TOOLCHAIN_VERSION := clang
-```
-
 You need only to import cocos2dx-better module because cocos2dx-better module already imports cocos2d-x module.
 
 If not clear, refer to demo code.

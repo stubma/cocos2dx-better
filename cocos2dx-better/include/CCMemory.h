@@ -26,8 +26,6 @@
 
 #include "cocos2d.h"
 
-NS_CC_BEGIN
-
 #ifdef CC_CFLAG_MEMORY_TRACKING
 
 extern "C" CC_DLL void* _ccMalloc(size_t size, const char* file, int line, const char* logTag);
@@ -76,6 +74,8 @@ inline void operator delete[](void* p) throw() {
 #define CCDELETEARR(object) delete[] (object)
 
 #endif // #if CC_CFLAG_MEMORY_TRACKING
+
+NS_CC_BEGIN
 
 /**
  * Memory profile helper class

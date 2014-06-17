@@ -24,8 +24,6 @@
 #include "CCMemory.h"
 #include <memory.h>
 
-NS_CC_BEGIN
-
 #ifdef CC_CFLAG_MEMORY_TRACKING
 
 // uncomment if you want to log every allocation in console
@@ -232,6 +230,8 @@ void _ccFree(void* ptr, const char* file, int line) {
 }
 #endif
 
+NS_CC_BEGIN
+
 void CCMemory::usageReport() {
 	CCLOG("[MEMREPORT] peak %d bytes, now %d bytes, alloc %d times, free %d times",
           sMaxUsedMemory, sTotalUsedMemory, sTotalAlloc, sTotalFree);
@@ -256,6 +256,6 @@ void CCMemory::dumpRecord() {
 	}
 }
 
-#endif // #if CC_CFLAG_MEMORY_TRACKING
-
 NS_CC_END
+
+#endif // #if CC_CFLAG_MEMORY_TRACKING

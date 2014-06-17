@@ -25,7 +25,9 @@ COCOS2DX_ROOT=$(LOCAL_PATH)/../../cocos2d-x
 COCOS2DX_EXT_ROOT=$(COCOS2DX_ROOT)/extensions
 COCOSDENSHION_ROOT=$(COCOS2DX_ROOT)/CocosDenshion
 LOCAL_MODULE := cocos2dx-better
-LOCAL_CFLAGS += -Qunused-arguments -Wno-unknown-warning-option -Wno-c++11-extensions
+ifeq ($(NDK_TOOLCHAIN_VERSION),clang)
+	LOCAL_CFLAGS += -Qunused-arguments -Wno-unknown-warning-option -Wno-c++11-extensions
+endif
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/) \

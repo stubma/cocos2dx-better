@@ -1112,17 +1112,19 @@ public class CCImage_richlabel {
 		
 		// find and load atlas image
 		if(atlas == null) {
-			boolean external = span.atlas.startsWith("/");
 			InputStream is = null;
 			try {
-				if(external) {
-					is = new FileInputStream(span.atlas);
-				} else {
+				String fullPath = span.atlas;
+				boolean absolute = fullPath.startsWith("/");
+				if(!absolute) {
+					fullPath = nativeFullPathForFilename(fullPath);
+				}
+				if(fullPath.startsWith("assets/")) {
 					AssetManager am = Cocos2dxHelper.getAssetManager();
-					String fullPath = nativeFullPathForFilename(span.atlas);
-					if(fullPath.startsWith("assets/"))
-						fullPath = fullPath.substring("assets/".length());
+					fullPath = fullPath.substring("assets/".length());
 					is = am.open(fullPath);
+				} else {
+					is = new FileInputStream(fullPath);
 				}
 				
 				// decode directly or decrypt first

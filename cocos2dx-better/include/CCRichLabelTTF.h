@@ -55,7 +55,8 @@ class CCRichLabelTTFLinkStateSynchronizer;
  * [u][/u]: underline
  * [image=image path][/image]: embed a image, The text between image tag will be ignored, no matter how long it is.
  *      Other tags should not be embedded inside an image tag, crash may happen if you do that.
- *      If image path starts with a '/', which means an absolute path, CCRichLabelTFF treats it like an external image.
+ *      If image path starts with a '/', it is an absolute path and no preprocessing.
+ *      If image path doesn't start with a '/', it is a relative path and it will be preprocessed by CCUtils::getExternalOrFullPath
  *      Optional attributes: scale, scalex, scaley, w, h, offsety.
  *      In iOS, the absolute path will be redirected to ~/Documents, so "/sdcard/a.png" will be "~/Document/sdcard/a.png"
  *			1. w/h: If w is specified, x scale property will be ignored. If h is specified, y scale property will be ignored.

@@ -101,10 +101,15 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeGetSpriteF
 	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
 	CCSpriteFrameCache* fc = CCSpriteFrameCache::sharedSpriteFrameCache();
 	if(!fc->spriteFrameByName(imageName)) {
+		// get atlas/plist full path, external path first
+		string atlasPath = CCUtils::getExternalOrFullPath(atlas);
+		string plistPath = CCUtils::getExternalOrFullPath(plist);
+
+		// need to be decrypted or not
 		if(bitmapDC.m_decryptFunc) {
 			// load encryptd data
 			unsigned long len;
-			char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(atlas, "rb", &len);
+			char* data = (char*)CCFileUtils::sharedFileUtils()->getFileData(atlasPath.c_str(), "rb", &len);
 
 			// create texture
 			int decLen;
@@ -112,17 +117,17 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeGetSpriteF
 			CCImage* image = new CCImage();
 			image->initWithImageData((void*)dec, decLen);
 			image->autorelease();
-			CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, atlas);
+			CCTexture2D* tex = CCTextureCache::sharedTextureCache()->addUIImage(image, atlasPath.c_str());
 
 			// add
-			fc->addSpriteFramesWithFile(plist, tex);
+			fc->addSpriteFramesWithFile(plistPath.c_str(), tex);
 
 			// free
 			if(data != dec)
 				free((void*)dec);
 			free(data);
 		} else {
-			fc->addSpriteFramesWithFile(plist, atlas);
+			fc->addSpriteFramesWithFile(plistPath.c_str(), atlasPath.c_str());
 		}
 	}
 	CCSpriteFrame* frame = fc->spriteFrameByName(imageName);

@@ -234,6 +234,12 @@ public:
     void setGlobalImageScaleFactor(float scale, bool mustUpdateTexture = true);
     float getGlobalImageScaleFactor() { return m_globalImageScaleFactor; }
     
+    /// show label letter by letter, like talking or a dialog
+    void displayLetterByLetter(float interval);
+    
+    /// set the letter visible range, from first to specified index, exclusive
+    void setDisplayRangeTo(int to);
+    
 private:
     bool updateTexture();
 	
@@ -255,6 +261,9 @@ protected:
     float m_fFontSize;
     /** label's string */
     std::string m_string;
+    
+    // displayed letter to index
+    int m_toLetterIndex;
     
     /** font shadow */
     bool    m_shadowEnabled;

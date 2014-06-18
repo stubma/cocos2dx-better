@@ -141,6 +141,9 @@ struct ccRichFontDefinition : public ccFontDefinition {
     
     // default image scale factor
     float m_globalImageScaleFactor;
+    
+    // shown letter to index
+    int m_toLetterIndex;
 	
 	// decrypt func for embedded image
 	CC_DECRYPT_FUNC decryptFunc;

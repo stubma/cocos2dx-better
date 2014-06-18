@@ -58,6 +58,7 @@ m_strokeEnabled(false),
 m_textFillColor(ccWHITE),
 m_globalImageScaleFactor(1),
 m_stateListener(NULL),
+m_toLetterIndex(-1),
 m_decryptFunc(NULL),
 m_textChanging(true) {
 	m_stateListener = new CCRichLabelTTFLinkStateSynchronizer(this);
@@ -594,7 +595,7 @@ void CCRichLabelTTF::_updateWithTextDefinition(ccRichFontDefinition & textDefini
     m_globalImageScaleFactor = textDefinition.m_globalImageScaleFactor;
     m_pFontName   = new std::string(textDefinition.m_fontName);
     m_fFontSize   = textDefinition.m_fontSize;
-    
+    m_toLetterIndex = textDefinition.m_toLetterIndex;
     
     // shadow
     if ( textDefinition.m_shadow.m_shadowEnabled )
@@ -630,7 +631,7 @@ ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolu
     texDef.m_fontName       = *m_pFontName;
     texDef.m_alignment      =  m_hAlignment;
     texDef.m_vertAlignment  =  m_vAlignment;
-    
+    texDef.m_toLetterIndex = m_toLetterIndex;
     
     if (adjustForResolution)
         texDef.m_dimensions     =  CC_SIZE_POINTS_TO_PIXELS(m_tDimensions);
@@ -733,6 +734,14 @@ void CCRichLabelTTF::setLinkPriority(int p) {
         return;
 	
 	menu->setTouchPriority(p);
+}
+
+void CCRichLabelTTF::displayLetterByLetter(float interval) {
+    
+}
+
+void CCRichLabelTTF::setDisplayRangeTo(int to) {
+    
 }
 
 NS_CC_END

@@ -24,6 +24,7 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 #include "CLBitmapDC.h"
+#include "CCUtils.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -82,6 +83,11 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeResetBitma
 	bitmapDC.m_linkMetas.clear();
 	bitmapDC.m_imageRects.clear();
 	bitmapDC.m_shadowStrokePadding = CCPointZero;
+}
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeSaveRealLength(JNIEnv* env, jclass clazz, jint length) {
+	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
+	bitmapDC.m_realLength = length;
 }
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeFullPathForFilename(JNIEnv* env, jclass clazz, jstring filename) {

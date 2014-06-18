@@ -156,6 +156,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 												  strokeColorB,
 												  strokeSize,
                                                   textDefinition->m_globalImageScaleFactor,
+                                                  textDefinition->m_toCharIndex,
 												  textDefinition->decryptFunc);
 		
 		
@@ -166,6 +167,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 		m_shadowStrokePadding = pImage->getShadowStrokePadding();
 		m_linkMetas = pImage->getLinkMetas();
 		m_imageRects = pImage->getImageRects();
+        m_realLength = pImage->getRealLength();
 	} while (0);
 	
 	CC_SAFE_RELEASE(pImage);

@@ -88,6 +88,7 @@ typedef vector<Span> SpanList;
 typedef struct {
     unsigned int height;
     unsigned int width;
+    int          realLength;
     int          bitsPerComponent;
     bool         hasAlpha;
     bool         isPremultipliedAlpha;
@@ -104,6 +105,7 @@ typedef struct {
     float        tintColorG;
     float        tintColorB;
     float globalImageScaleFactor;
+    int toCharIndex;
     unsigned char*  data;
     
     // true indicating only doing measurement
@@ -594,6 +596,38 @@ static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* fram
 	}
 	
 	return frameImage;
+}
+
+static void coverUndisplayedCharacters(CGContextRef context, CTFrameRef frame, int endIndex, float dx, float dy) {
+    // get line count and their origin
+    CFArrayRef linesArray = CTFrameGetLines(frame);
+    CFIndex lineCount = CFArrayGetCount(linesArray);
+    CGPoint* origin = (CGPoint*)malloc(sizeof(CGPoint) * lineCount);
+    CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), origin);
+    
+    // find line of endIndex and remove characters after that
+    for (CFIndex i = 0; i < lineCount; i++) {
+        // get line character range
+        CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(linesArray, i);
+        CFRange range = CTLineGetStringRange(line);
+        CFIndex end = range.location + range.length;
+        if(endIndex >= range.location && endIndex < end) {
+            CGFloat startX = CTLineGetOffsetForStringIndex(line, endIndex, NULL) + origin[i].x;
+            CGFloat endX = CTLineGetOffsetForStringIndex(line, end, NULL) + origin[i].x;
+            CGFloat ascent, descent, leading;
+            CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+            CGRect coverBound = CGRectMake(startX + dx, origin[i].y - descent, endX - startX, ascent + descent + dy);
+            CGContextClearRect(context, coverBound);
+        } else if(endIndex < range.location) {
+            CGFloat ascent, descent, leading;
+            CGFloat width = CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+            CGRect coverBound = CGRectMake(origin[i].x + dx, origin[i].y - descent, width, ascent + descent + dy);
+            CGContextClearRect(context, coverBound);
+        }
+    }
+    
+    // free origin
+    free(origin);
 }
 
 static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar* plain, SpanList& spans, vector<CCRect>& imageRects, CC_DECRYPT_FUNC decryptFunc) {
@@ -1320,6 +1354,11 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             // if has cached images, try render those images
             renderEmbededImages(context, frame, plain, spans, *imageRects, decryptFunc);
             
+            // cover undisplayed characters
+            if(pInfo->toCharIndex > 0) {
+                coverUndisplayedCharacters(context, frame, pInfo->toCharIndex, -startX, -startY);
+            }
+            
             // if has link tag, build link info
             if(linkMetas)
                 extractLinkMeta(frame, spans, *linkMetas);
@@ -1359,6 +1398,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         pInfo->bitsPerComponent     = 8;
         pInfo->width                = dim.width;
         pInfo->height               = dim.height;
+        pInfo->realLength           = (int)plainLen;
         bRet                        = true;
     } while(0);
 	
@@ -1368,7 +1408,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 NS_CC_BEGIN
 
 CCImage_richlabel::CCImage_richlabel() :
-m_shadowStrokePadding(CCPointZero) {
+m_shadowStrokePadding(CCPointZero),
+m_realLength(0) {
 }
 
 CCImage_richlabel::~CCImage_richlabel() {
@@ -1394,6 +1435,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														float strokeB,
 														float strokeSize,
                                                         float globalImageScaleFactor,
+                                                        int toCharIndex,
 														CC_DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = nWidth;
@@ -1412,6 +1454,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorG             = textTintG;
     info.tintColorB             = textTintB;
     info.globalImageScaleFactor = globalImageScaleFactor;
+    info.toCharIndex            = toCharIndex;
     info.sizeOnly = false;
     
     if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas, &m_imageRects, decryptFunc))
@@ -1424,6 +1467,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     m_bHasAlpha = info.hasAlpha;
     m_bPreMulti = info.isPremultipliedAlpha;
     m_pData = info.data;
+    m_realLength = info.realLength;
     
     return true;
 }

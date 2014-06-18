@@ -93,6 +93,7 @@ public:
 										float strokeB               = 1,
 										float strokeSize            = 1,
                                         float globalImageScaleFactor = 1,
+                                        int toCharIndex = -1,
 										CC_DECRYPT_FUNC decryptFunc = NULL);
     
 	/// shadow and stroke padding value
@@ -103,6 +104,9 @@ public:
 	
 	/// image meta list
 	CC_SYNTHESIZE_READONLY_PASS_BY_REF(vector<CCRect>, m_imageRects, ImageRects);
+    
+    /// length of unstyled string
+    CC_SYNTHESIZE(int, m_realLength, RealLength);
 };
 
 NS_CC_END

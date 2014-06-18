@@ -143,7 +143,7 @@ struct ccRichFontDefinition : public ccFontDefinition {
     float m_globalImageScaleFactor;
     
     // shown letter to index
-    int m_toLetterIndex;
+    int m_toCharIndex;
 	
 	// decrypt func for embedded image
 	CC_DECRYPT_FUNC decryptFunc;

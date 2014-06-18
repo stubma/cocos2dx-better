@@ -44,7 +44,8 @@ static void swapAlphaChannel(unsigned int *pImageMemory, unsigned int numPixels)
 	}
 }
 
-CCImage_richlabel::CCImage_richlabel() {
+CCImage_richlabel::CCImage_richlabel() :
+m_realLength(0) {
 }
 
 CCImage_richlabel::~CCImage_richlabel() {
@@ -52,7 +53,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, int shadowColor, float shadowBlur,
-		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, float globalImageScaleFactor, CC_DECRYPT_FUNC decryptFunc) {
+		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, float globalImageScaleFactor, int toCharIndex, CC_DECRYPT_FUNC decryptFunc) {
 	bool bRet = false;
 	do {
 		CC_BREAK_IF(!pText);
@@ -79,6 +80,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
                                                       strokeB,
                                                       strokeSize,
                                                       globalImageScaleFactor,
+                                                      toCharIndex,
                                                       decryptFunc,
                                                       false));
 
@@ -92,6 +94,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 		m_bHasAlpha = true;
 		m_bPreMulti = true;
 		m_nBitsPerComponent = 8;
+		m_realLength = dc.m_realLength;
 
 		// swap the alpha channel (ARGB to RGBA)
 		swapAlphaChannel((unsigned int *)m_pData, (m_nWidth * m_nHeight));
@@ -143,6 +146,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                                       0,
                                                       strokeSize,
                                                       globalImageScaleFactor,
+                                                      -1,
                                                       decryptFunc,
                                                       true));
 		size.width = dc.m_nWidth;

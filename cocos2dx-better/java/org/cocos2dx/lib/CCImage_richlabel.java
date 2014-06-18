@@ -44,7 +44,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.Layout.Alignment;
 import android.text.Spannable;
@@ -208,7 +211,8 @@ public class CCImage_richlabel {
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
-	        final float strokeB, final float strokeSize, float contentScaleFactor, float globalImageScaleFactor, boolean encrypted, boolean sizeOnly) {
+	        final float strokeB, final float strokeSize, float contentScaleFactor, float globalImageScaleFactor, int toCharIndex, 
+	        boolean encrypted, boolean sizeOnly) {
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		
@@ -220,6 +224,9 @@ public class CCImage_richlabel {
 		if (TextUtils.isEmpty(plain)) {
 			plain = " ";
 		}
+		
+		// save plain length
+		nativeSaveRealLength(plain.length());
 		
 		// alignment
 		int horizontalAlignment = pAlignment & 0x0F;
@@ -614,6 +621,11 @@ public class CCImage_richlabel {
 			// to reserve correct room for image
 			renderEmbededImages(c, layout, plain, spans, imageMap, encrypted);
 			
+			// cover undisplayed characters
+			if(toCharIndex > 0) {
+				coverUndisplayedCharacters(c, layout, toCharIndex, shadowDX, shadowDY);
+			}
+			
 			// extract link meta info
 			extractLinkMeta(layout, spans, contentScaleFactor);
 			
@@ -630,6 +642,49 @@ public class CCImage_richlabel {
 				b.recycle();
 			}
 		}
+	}
+	
+	private static void coverUndisplayedCharacters(Canvas c, StaticLayout layout, int endIndex, float dx, float dy) {
+		// get line count
+		int lineCount = layout.getLineCount();
+		
+		// get line origin
+		PointF[] origin = new PointF[lineCount];
+		for(int i = 0; i < lineCount; i++) {
+			origin[i] = new PointF();
+			origin[i].x = layout.getLineLeft(i);
+			origin[i].y = layout.getLineBaseline(i);
+		}
+		
+		// get line range
+		Point[] range = new Point[lineCount];
+		for(int i = 0; i < lineCount; i++) {
+			range[i] = new Point();
+			range[i].x = layout.getLineStart(i);
+			range[i].y = layout.getLineEnd(i);
+		}
+		
+		// clear paint
+		Paint p = new Paint();
+		p.setXfermode(new PorterDuffXfermode(Mode.CLEAR));
+		
+		// find line of endIndex and remove characters after that
+        for (int i = 0; i < lineCount; i++) {
+        	if(endIndex >= range[i].x && endIndex < range[i].y) {
+            	float startX = layout.getPrimaryHorizontal(endIndex);
+            	float endX = layout.getSecondaryHorizontal((i == lineCount - 1) ? range[i].y : (range[i].y - 1));
+            	float bottom = layout.getLineBottom(i) + Math.max(dy, 0);
+            	float top = layout.getLineTop(i) + Math.min(dy, 0);
+            	RectF r = new RectF(startX, top, endX, bottom);
+            	c.drawRect(r, p);
+            } else if(endIndex < range[i].x) {
+            	float endX = layout.getSecondaryHorizontal((i == lineCount - 1) ? range[i].y : (range[i].y - 1));
+            	float bottom = layout.getLineBottom(i) + Math.max(dy, 0);
+            	float top = layout.getLineTop(i) + Math.min(dy, 0);
+            	RectF r = new RectF(origin[i].x, top, endX, bottom);
+            	c.drawRect(r, p);
+        	}
+        }
 	}
 	
 	private static void renderEmbededImages(Canvas c, StaticLayout layout, String plain, List<Span> spans, Map<String, Bitmap> imageMap, boolean encrypted) {
@@ -1323,6 +1378,7 @@ public class CCImage_richlabel {
 	private native static void nativeSaveImageRect(float x, float y, float w, float h);
 	private native static void nativeSaveShadowStrokePadding(float x, float y);
 	private native static void nativeResetBitmapDC();
+	private native static void nativeSaveRealLength(int length);
 	private native static String nativeFullPathForFilename(String filename);
 	private native static void nativeGetSpriteFrameInfo(String plist, String atlas, String imageName, AtlasFrame frame);
 	private native static byte[] nativeDecryptData(byte[] buf);

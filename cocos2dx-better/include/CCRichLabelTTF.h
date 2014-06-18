@@ -87,6 +87,9 @@ private:
 	
 	/// rectangle of every embeded image
 	vector<CCRect> m_imageRects;
+    
+    /// length of unstyled string
+    int m_realLength;
 	
 	/// decrypt func, used to decrypt resource
 	/// it will be used when there is embedded image and the image is encrypted
@@ -235,14 +238,24 @@ public:
     void setGlobalImageScaleFactor(float scale, bool mustUpdateTexture = true);
     float getGlobalImageScaleFactor() { return m_globalImageScaleFactor; }
     
-    /// show label letter by letter, like talking or a dialog
-    void displayLetterByLetter(float interval);
+    /**
+     * show label characters one by one, just like talking or dialog mode.
+     * 
+     * @param interval the interval of char display speed
+     * @param repeat repeat times, by default it is zero, means no repeat. kCCRepeatForever means repeat forever
+     * @param delay delay time before this animation, by default it is zero
+     * @param loopFunc function to be called when all characters are displayed, invoked for every loop. by default it is NULL
+     */
+    void displayCharByChar(float interval, unsigned int repeat = 0, int delay = 0, CCCallFunc* loopFunc = NULL);
     
-    /// set the letter visible range, from first to specified index, exclusive
-    void setDisplayRangeTo(int to);
+    /// set the char visible range, from first to specified index, exclusive
+    void setDisplayTo(int to);
     
 private:
     bool updateTexture();
+    
+    // update method of displayCharByChar
+    void displayNextChar(float delta);
 	
 protected:
     
@@ -264,7 +277,10 @@ protected:
     std::string m_string;
     
     // displayed letter to index
-    int m_toLetterIndex;
+    int m_toCharIndex;
+    
+    // repeat flag
+    unsigned int m_repeat;
     
     /** font shadow */
     bool    m_shadowEnabled;
@@ -286,6 +302,9 @@ protected:
 	
 	// text is changing
 	bool m_textChanging;
+    
+    // callfunc of displayCharByChar
+    CCCallFunc* m_loopFunc;
 };
 
 NS_CC_END

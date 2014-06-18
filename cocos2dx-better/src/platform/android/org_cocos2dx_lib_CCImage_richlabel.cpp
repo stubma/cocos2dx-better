@@ -86,7 +86,7 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeResetBitma
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeFullPathForFilename(JNIEnv* env, jclass clazz, jstring filename) {
 	string fn = JniHelper::jstring2string(filename);
-	string path = CCFileUtils::sharedFileUtils()->fullPathForFilename(fn.c_str());
+	string path = CCUtils::getExternalOrFullPath(fn);
 	return env->NewStringUTF(path.c_str());
 }
 

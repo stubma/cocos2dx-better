@@ -1214,17 +1214,19 @@ public class CCImage_richlabel {
 			return bitmap;
 		
 		// find and load image
-		boolean external = span.imageName.startsWith("/");
 		InputStream is = null;
 		try {
-			if(external) {
-				is = new FileInputStream(span.imageName);
-			} else {
+			String fullPath = span.imageName;
+			boolean absolute = fullPath.startsWith("/");
+			if(!absolute) {
+				fullPath = nativeFullPathForFilename(fullPath);
+			}
+			if(fullPath.startsWith("assets/")) {
 				AssetManager am = Cocos2dxHelper.getAssetManager();
-				String fullPath = nativeFullPathForFilename(span.imageName);
-				if(fullPath.startsWith("assets/"))
-					fullPath = fullPath.substring("assets/".length());
+				fullPath = fullPath.substring("assets/".length());
 				is = am.open(fullPath);
+			} else {
+				is = new FileInputStream(fullPath);
 			}
 			
 			// if encrypted, need call native procedure to get decrypted data

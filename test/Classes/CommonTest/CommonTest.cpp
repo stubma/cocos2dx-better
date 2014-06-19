@@ -717,7 +717,7 @@ void CommonRichLabel::onEnter()
     label->setColor(ccc4(0, 0, 255, 255), ccc4(0, 255, 0, 255), ccp(1, 0));
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,
 						   origin.y + visibleSize.height * 3 / 5));
-    label->displayCharByChar(0.1f, kCCRepeatForever);
+    label->startLoopDisplay(0.1f, kCCRepeatForever);
 	addChild(label);
 }
 

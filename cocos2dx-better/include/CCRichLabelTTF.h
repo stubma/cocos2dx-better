@@ -246,7 +246,10 @@ public:
      * @param delay delay time before this animation, by default it is zero
      * @param loopFunc function to be called when all characters are displayed, invoked for every loop. by default it is NULL
      */
-    void displayCharByChar(float interval, unsigned int repeat = 0, int delay = 0, CCCallFunc* loopFunc = NULL);
+    void startLoopDisplay(float interval, unsigned int repeat = 0, int delay = 0, CCCallFunc* loopFunc = NULL);
+    
+    /// stop displaying label char by char, reset to normal state
+    void stopLoopDisplay();
     
     /// set the char visible range, from first to specified index, exclusive
     void setDisplayTo(int to);
@@ -254,7 +257,7 @@ public:
 private:
     bool updateTexture();
     
-    // update method of displayCharByChar
+    // update method of startLoopDisplay
     void displayNextChar(float delta);
 	
 protected:
@@ -303,7 +306,7 @@ protected:
 	// text is changing
 	bool m_textChanging;
     
-    // callfunc of displayCharByChar
+    // callfunc of startLoopDisplay
     CCCallFunc* m_loopFunc;
 };
 

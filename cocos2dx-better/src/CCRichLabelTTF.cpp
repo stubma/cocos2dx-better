@@ -741,7 +741,7 @@ void CCRichLabelTTF::setLinkPriority(int p) {
 	menu->setTouchPriority(p);
 }
 
-void CCRichLabelTTF::displayCharByChar(float interval, unsigned int repeat, int delay, CCCallFunc* loopFunc) {
+void CCRichLabelTTF::startLoopDisplay(float interval, unsigned int repeat, int delay, CCCallFunc* loopFunc) {
     // save loop func
     CC_SAFE_RETAIN(loopFunc);
     CC_SAFE_RELEASE(m_loopFunc);
@@ -754,6 +754,18 @@ void CCRichLabelTTF::displayCharByChar(float interval, unsigned int repeat, int 
     
     // schedule update
     schedule(schedule_selector(CCRichLabelTTF::displayNextChar), interval, kCCRepeatForever, delay);
+}
+
+void CCRichLabelTTF::stopLoopDisplay() {
+    // unschedule
+    unschedule(schedule_selector(CCRichLabelTTF::displayNextChar));
+    
+    // reset
+    setVisible(true);
+    setDisplayTo(-1);
+    
+    // release
+    CC_SAFE_RELEASE_NULL(m_loopFunc);
 }
 
 void CCRichLabelTTF::displayNextChar(float delta) {

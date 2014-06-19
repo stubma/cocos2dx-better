@@ -47,7 +47,10 @@ class CCRichLabelTTFLinkStateSynchronizer;
  *
  * \par
  * supported tags:
- * [color=aarrggbb][/color]: set text color
+ * [color=aarrggbb][/color]: set text color, also can set color transition effect, optional properties:
+ *      1. to=aarrggbb: means the color will transit to, by default it is transparent color
+ *      2. duration=float: how long does color transition finish, this argument must be set otherwise color transition won't work
+ *      3. transient=true/false: change to dest color immediately or gradually, by default it is false
  * [font=font name or path][/font]: set font
  * [size=integer][/size]: set font size
  * [b][/b]: bold font
@@ -184,6 +187,8 @@ public:
     virtual void setString(const char *label);
     virtual const char* getString(void);
     
+    virtual void update(float delta);
+    
     CCTextAlignment getHorizontalAlignment();
     void setHorizontalAlignment(CCTextAlignment alignment);
     
@@ -308,6 +313,12 @@ protected:
     
     // callfunc of startLoopDisplay
     CCCallFunc* m_loopFunc;
+    
+    // elapsed time, used for color transition effect
+    float m_elapsed;
+    
+    // update is scheduled
+    bool m_updateScheduled;
 };
 
 NS_CC_END

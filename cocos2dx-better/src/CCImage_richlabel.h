@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include "CCResourceLoader.h"
+#include "CCMoreMacros.h"
 
 using namespace std;
 
@@ -94,6 +95,7 @@ public:
 										float strokeSize            = 1,
                                         float globalImageScaleFactor = 1,
                                         int toCharIndex = -1,
+                                        float elapsedTime = 0,
 										CC_DECRYPT_FUNC decryptFunc = NULL);
     
 	/// shadow and stroke padding value
@@ -107,6 +109,9 @@ public:
     
     /// length of unstyled string
     CC_SYNTHESIZE(int, m_realLength, RealLength);
+    
+    /// true means this label has continuous effect, so we need pass elapsed time to update it
+    CC_SYNTHESIZE_BOOL(m_needTime, NeedTime);
 };
 
 NS_CC_END

@@ -124,6 +124,9 @@ public class CCImage_richlabel {
 		
 		// only for color
 		public int color;
+		public int toColor;
+		public float duration;
+		public boolean isTransient;
 		
 		// only for size
 		public float fontSize;
@@ -212,7 +215,7 @@ public class CCImage_richlabel {
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
 	        final float strokeB, final float strokeSize, float contentScaleFactor, float globalImageScaleFactor, int toCharIndex, 
-	        boolean encrypted, boolean sizeOnly) {
+	        float elapsedTime, boolean encrypted, boolean sizeOnly) {
 		// reset bitmap dc
 		nativeResetBitmapDC();
 		
@@ -279,12 +282,15 @@ public class CCImage_richlabel {
         }
         
         // stack of color and font
-        int defaultColor = 0xff000000 
+        Span defaultColor = new Span();
+        defaultColor.type = SpanType.COLOR;
+        defaultColor.color = 0xff000000 
         		| ((int)(fontTintR * 255) << 16) 
         		| ((int)(fontTintG * 255) << 8) 
         		| (int)(fontTintB * 255);
+        defaultColor.duration = 0;
         Typeface defaultFont = paint.getTypeface();
-        Stack<Integer> colorStack = new Stack<Integer>();
+        Stack<Span> colorStack = new Stack<Span>();
         Stack<Typeface> fontStack = new Stack<Typeface>();
         Stack<Float> fontSizeStack = new Stack<Float>();
         colorStack.push(defaultColor);
@@ -304,12 +310,10 @@ public class CCImage_richlabel {
                 switch(span.type) {
                     case COLOR:
                     {
-                    	int curColor = colorStack.pop();
+                    	Span top = colorStack.pop();
                         if(span.pos > colorStart) {
-                            rich.setSpan(new ForegroundColorSpan(curColor), 
-                            		colorStart, 
-                            		span.pos, 
-                            		Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        	// set span
+                        	setColorSpan(top, rich, colorStart, span.pos, elapsedTime);
                             
                             // start need to be reset
                             colorStart = span.pos;
@@ -393,6 +397,8 @@ public class CCImage_richlabel {
                     	}
                     	break;
                     }
+                    default:
+                    	break;
                 }
         	} else {
                 switch(span.type) {
@@ -400,18 +406,16 @@ public class CCImage_richlabel {
                     {
                         // process previous run
                         if(span.pos > colorStart) {
-                            int curColor = colorStack.peek();
-                            rich.setSpan(new ForegroundColorSpan(curColor), 
-                            		colorStart, 
-                            		span.pos, 
-                            		Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        	// set color span
+                            Span top = colorStack.peek();
+                            setColorSpan(top, rich, colorStart, span.pos, elapsedTime);
                             
                             // start need to be reset
                             colorStart = span.pos;
                         }
                         
                         // push color
-                        colorStack.push(span.color);
+                        colorStack.push(span);
                         
                         break;
                     }
@@ -507,17 +511,16 @@ public class CCImage_richlabel {
                     	openSpan = span;
                     	break;
                     }
+                    default:
+                    	break;
                 }
         	}
         }
         
         // last segment
         if(plain.length() > colorStart) {
-            int curColor = colorStack.peek();
-            rich.setSpan(new ForegroundColorSpan(curColor), 
-            		colorStart, 
-            		plain.length(), 
-            		Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            Span top = colorStack.peek();
+            setColorSpan(top, rich, colorStart, plain.length(), elapsedTime);
         }
         if(plain.length() > sizeStart) {
         	float size = fontSizeStack.peek();
@@ -642,6 +645,66 @@ public class CCImage_richlabel {
 				b.recycle();
 			}
 		}
+	}
+	
+	// convert int color to rgba float components
+	private static void getColorFloatComponents(int c, float[] comp) {
+		comp[0] = ((c >> 16) & 0xff) / 255.0f;
+		comp[1] = ((c >> 8) & 0xff) / 255.0f;
+		comp[2] = (c & 0xff) / 255.0f;
+		comp[3] = ((c >> 24) & 0xff) / 255.0f;
+	}
+	
+	// get int color from rgba float components
+	private static int colorFromFloatComponents(float[] comp) {
+		int c = 0;
+		c |= ((int)(comp[0] * 255) & 0xff) << 16;
+		c |= ((int)(comp[1] * 255) & 0xff) << 8;
+		c |= ((int)(comp[2] * 255) & 0xff) << 0;
+		c |= ((int)(comp[3] * 255) & 0xff) << 24;
+		return c;
+	}
+	
+	private static void setColorSpan(Span top, SpannableString rich, int start, int end, float elapsedTime) {
+    	// dest color
+        int color = top.color;
+        
+        // if has color transition, need calculate color based on dest color and time
+        if(top.duration > 0) {
+        	// src color
+        	float[] comp = { 0, 0, 0, 0 };
+        	getColorFloatComponents(color, comp);
+        	
+            // dest color
+        	float[] toComp = { 0, 0, 0, 0 };
+        	getColorFloatComponents(top.toColor, toComp);
+            
+            // if transient, just change color when time's up
+            float remaining = elapsedTime % (top.duration * 2);
+            if(top.isTransient) {
+                if(remaining >= top.duration) {
+                	color = top.toColor;
+                }
+            } else {
+                float percent;
+                if(remaining >= top.duration) {
+                    percent = 1 - (remaining - top.duration) / top.duration;
+                } else {
+                    percent = remaining / top.duration;
+                }
+                comp[0] = comp[0] * (1 - percent) + toComp[0] * percent;
+                comp[1] = comp[1] * (1 - percent) + toComp[1] * percent;
+                comp[2] = comp[2] * (1 - percent) + toComp[2] * percent;
+                comp[3] = comp[3] * (1 - percent) + toComp[3] * percent;
+                color = colorFromFloatComponents(comp);
+            }
+        }
+        
+        // set style
+        rich.setSpan(new ForegroundColorSpan(color),
+        		start, 
+        		end,
+        		Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	}
 	
 	private static void coverUndisplayedCharacters(Canvas c, StaticLayout layout, int endIndex, float dx, float dy) {
@@ -1046,8 +1109,41 @@ public class CCImage_richlabel {
 	                    } else {
 	                        switch(span.type) {
 	                            case COLOR:
-	                                span.color = parseColor(text, r.dataStart, r.dataEnd - r.dataStart);
+	                            {
+	                            	// parts
+	                            	String name = text.substring(r.dataStart, r.dataEnd);
+	                            	String[] parts = name.split(" ");
+	                            	
+	                            	// color
+	                            	span.color = parseColor(parts[0]);
+	                            	
+	                                // set default
+	                                span.toColor = 0;
+									span.duration = 0;
+	                                span.isTransient = false;
+	                                
+	                            	// if parts more than one, parse attributes
+	                            	if(parts.length > 1) {
+	                            		for(int j = 1; j < parts.length; j++) {
+	                            			String[] pair = parts[j].split("=");
+	                            			if(pair.length == 2) {
+	                            				if("to".equals(pair[0])) {
+	                            					span.toColor = parseColor(pair[1]);
+	                            				} else if("duration".equals(pair[0])) {
+	                            					span.duration = Float.parseFloat(pair[1]);
+	                            					
+	                                                // if duration > 0, this color transition is effective
+	                                                if(span.duration > 0)
+	                                                	nativeSaveNeedTime(true);
+	                                            } else if("transient".equals(pair[0])) {	
+	                            					span.isTransient = Boolean.parseBoolean(pair[1]);
+	                            				}
+	                            			}
+	                            		}
+	                            	}
+	                            	
 	                                break;
+	                            }
 	                            case FONT:
 	                            	span.fontName = text.substring(r.dataStart, r.dataEnd);
 	                                break;
@@ -1113,9 +1209,9 @@ public class CCImage_richlabel {
 	                            		String[] pair = part.split("=");
 	                            		if(pair.length == 2) {
 	                            			if("bg".equals(pair[0])) {
-	                            				span.normalBgColor = parseColor(pair[1], 0, pair[1].length());
+	                            				span.normalBgColor = parseColor(pair[1]);
 	                            			} else if("bg_click".equals(pair[0])) {
-	                            				span.selectedBgColor = parseColor(pair[1], 0, pair[1].length());
+	                            				span.selectedBgColor = parseColor(pair[1]);
 	                            			}
 	                            		}
 	                            	}
@@ -1332,10 +1428,10 @@ public class CCImage_richlabel {
 		return bitmap;
 	}
 	
-	private static int parseColor(String text, int start, int len) {
+	private static int parseColor(String text) {
 		int color = 0;
-		int end = start + len;
-		for(int i = start; i < end; i++) {
+		int len = text.length();
+		for(int i = 0; i < len; i++) {
 			color <<= 4;
 			char c = text.charAt(i);
 			if(c >= '0' && c <= '9') {
@@ -1379,6 +1475,7 @@ public class CCImage_richlabel {
 	private native static void nativeSaveShadowStrokePadding(float x, float y);
 	private native static void nativeResetBitmapDC();
 	private native static void nativeSaveRealLength(int length);
+	private native static void nativeSaveNeedTime(boolean needTime);
 	private native static String nativeFullPathForFilename(String filename);
 	private native static void nativeGetSpriteFrameInfo(String plist, String atlas, String imageName, AtlasFrame frame);
 	private native static byte[] nativeDecryptData(byte[] buf);

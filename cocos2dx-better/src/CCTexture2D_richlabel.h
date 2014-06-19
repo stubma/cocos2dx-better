@@ -27,6 +27,7 @@
 #include "cocos2d.h"
 #include "ccMoreTypes.h"
 #include "CCImage_richlabel.h"
+#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 
@@ -60,6 +61,9 @@ public:
     
     /// length of unstyled string
     CC_SYNTHESIZE(int, m_realLength, RealLength);
+    
+    /// true means this label has continuous effect, so we need pass elapsed time to update it
+    CC_SYNTHESIZE_BOOL(m_needTime, NeedTime);
 };
 
 NS_CC_END

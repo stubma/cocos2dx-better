@@ -52,7 +52,9 @@ m_vAlignment(kCCVerticalTextAlignmentTop),
 m_pFontName(NULL),
 m_fFontSize(0.0),
 m_realLength(0),
+m_elapsed(0),
 m_string(""),
+m_updateScheduled(false),
 m_shadowEnabled(false),
 m_shadowColor(0xff333333),
 m_strokeEnabled(false),
@@ -410,6 +412,19 @@ bool CCRichLabelTTF::updateTexture()
 							  p.y / CC_CONTENT_SCALE_FACTOR()));
 	}
     
+    // if has color transition or something else which need time, start to update
+    if(tex->isNeedTime()) {
+        if(!m_updateScheduled) {
+            scheduleUpdate();
+            m_updateScheduled = true;
+        }
+    } else {
+        if(m_updateScheduled) {
+            unscheduleUpdate();
+            m_updateScheduled = false;
+        }
+    }
+    
     //ok
     return true;
 }
@@ -627,6 +642,7 @@ ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolu
 	
 	texDef.decryptFunc = m_decryptFunc;
     texDef.m_globalImageScaleFactor = m_globalImageScaleFactor;
+    texDef.m_elapsed = m_elapsed;
     
     if (adjustForResolution)
         texDef.m_fontSize       =  m_fFontSize * CC_CONTENT_SCALE_FACTOR();
@@ -810,6 +826,11 @@ void CCRichLabelTTF::setDisplayTo(int to) {
             updateTexture();
         }
     }
+}
+
+void CCRichLabelTTF::update(float delta) {
+    m_elapsed += delta;
+    updateTexture();
 }
 
 NS_CC_END

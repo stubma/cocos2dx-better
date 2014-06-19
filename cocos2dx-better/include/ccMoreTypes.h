@@ -147,6 +147,9 @@ struct ccRichFontDefinition : public ccFontDefinition {
 	
 	// decrypt func for embedded image
 	CC_DECRYPT_FUNC decryptFunc;
+    
+    // elapsed time
+    float m_elapsed;
 };
 
 // color constants

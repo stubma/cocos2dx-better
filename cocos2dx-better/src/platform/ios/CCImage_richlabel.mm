@@ -60,6 +60,9 @@ typedef struct Span {
 	
 	// only used for color
     int color;
+    int toColor;
+    float duration;
+    bool transient;
     
     // only used for size
     int fontSize;
@@ -106,10 +109,14 @@ typedef struct {
     float        tintColorB;
     float globalImageScaleFactor;
     int toCharIndex;
+    float elapsedTime;
     unsigned char*  data;
     
     // true indicating only doing measurement
     bool sizeOnly;
+    
+    // true indicating label has color transition effect, so we need update label continuously
+    bool needTime;
 } tImageInfo;
 
 ////////////////////////////////////////
@@ -177,6 +184,24 @@ typedef enum {
     SUCCESS,
     FAIL
 } TagParseState;
+
+static int parseColor(NSString* s) {
+	int color = 0;
+    int len = (int)[s length];
+	for(int i = 0; i < len; i++) {
+		color <<= 4;
+		unichar c = [s characterAtIndex:i];
+		if(c >= '0' && c <= '9') {
+			color |= c - '0';
+		} else if(c >= 'a' && c <= 'f') {
+			color |= c - 'a' + 10;
+		} else if(c >= 'A' && c <= 'F') {
+			color |= c - 'A' + 10;
+		}
+	}
+	
+	return color;
+}
 
 static int parseColor(const unichar* p, NSUInteger len) {
 	int color = 0;
@@ -377,8 +402,45 @@ static unichar* buildSpan(const char* pText, SpanList& spans, int* outLen, tImag
                     } else {
                         switch(span.type) {
                             case COLOR:
-                                span.color = parseColor(uniText + dataStart, dataEnd - dataStart);
+                            {
+                                NSString* content = [NSString stringWithCharacters:uniText + dataStart
+                                                                          length:dataEnd - dataStart];
+                                NSArray* parts = [content componentsSeparatedByString:@" "];
+                                
+                                // color
+                                span.color = parseColor([parts objectAtIndex:0]);
+                                
+                                // set default
+                                span.toColor = 0;
+								span.duration = 0;
+                                span.transient = false;
+                                
+                                // parse parameters
+                                if([parts count] > 1) {
+                                    NSUInteger count = [parts count];
+                                    for(NSUInteger i = 1; i < count; i++) {
+                                        NSString* part = [parts objectAtIndex:i];
+                                        NSArray* pair = [part componentsSeparatedByString:@"="];
+                                        if([pair count] == 2) {
+                                            NSString* key = [pair objectAtIndex:0];
+                                            NSString* value = [pair objectAtIndex:1];
+                                            if([@"to" isEqualToString:key]) {
+                                                span.toColor = parseColor(value);
+                                            } else if([@"duration" isEqualToString:key]) {
+                                                span.duration = [value floatValue];
+                                                
+                                                // if duration > 0, this color transition is effective
+                                                if(span.duration > 0)
+                                                    pInfo->needTime = true;
+                                            } else if([@"transient" isEqualToString:key]) {
+                                                span.transient = [@"true" isEqualToString:value];
+                                            }
+                                        }
+                                    }
+                                }
+                                
                                 break;
+                            }
                             case FONT:
                             {
                                 NSString* font = [NSString stringWithCharacters:uniText + dataStart
@@ -796,6 +858,53 @@ static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& lin
     free(range);
 }
 
+static void setColorSpan(Span& top, CFMutableAttributedStringRef plainCFAStr, CGColorSpaceRef colorSpace, int start, int end, float elapsedTime) {
+    CGFloat comp[] = {
+        ((top.color >> 16) & 0xff) / 255.0f,
+        ((top.color >> 8) & 0xff) / 255.0f,
+        (top.color & 0xff) / 255.0f,
+        ((top.color >> 24) & 0xff) / 255.0f
+    };
+    
+    // if has color transition, need calculate color based on dest color and time
+    if(top.duration > 0) {
+        // dest color
+        CGFloat toComp[] = {
+            ((top.toColor >> 16) & 0xff) / 255.0f,
+            ((top.toColor >> 8) & 0xff) / 255.0f,
+            (top.toColor & 0xff) / 255.0f,
+            ((top.toColor >> 24) & 0xff) / 255.0f
+        };
+        
+        // if transient, just change color when time's up
+        float remaining = fmodf(elapsedTime, top.duration * 2);
+        if(top.transient) {
+            if(remaining >= top.duration) {
+                memcpy(comp, toComp, sizeof(comp));
+            }
+        } else {
+            float percent;
+            if(remaining >= top.duration) {
+                percent = 1 - (remaining - top.duration) / top.duration;
+            } else {
+                percent = remaining / top.duration;
+            }
+            comp[0] = comp[0] * (1 - percent) + toComp[0] * percent;
+            comp[1] = comp[1] * (1 - percent) + toComp[1] * percent;
+            comp[2] = comp[2] * (1 - percent) + toComp[2] * percent;
+            comp[3] = comp[3] * (1 - percent) + toComp[3] * percent;
+        }
+    }
+    
+    // set color
+    CGColorRef fc = CGColorCreate(colorSpace, comp);
+    CFAttributedStringSetAttribute(plainCFAStr,
+                                   CFRangeMake(start, end - start),
+                                   kCTForegroundColorAttributeName,
+                                   fc);
+    CGColorRelease(fc);
+}
+
 static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, const char * pFontName, int nSize, tImageInfo* pInfo, CCPoint* outShadowStrokePadding, LinkMetaList* linkMetas, vector<CCRect>* imageRects, CC_DECRYPT_FUNC decryptFunc) {
     bool bRet = false;
     do {
@@ -830,12 +939,15 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         CFIndex plainLen = CFAttributedStringGetLength(plainCFAStr);
         
         // font and color stack
-        int defaultColor = 0xff000000
+        Span defaultColor;
+        defaultColor.type = COLOR;
+        defaultColor.color = 0xff000000
             | ((int)(pInfo->tintColorR * 255) << 16)
             | ((int)(pInfo->tintColorG * 255) << 8)
             | (int)(pInfo->tintColorB * 255);
+        defaultColor.duration = 0;
         vector<CTFontRef> fontStack;
-        vector<int> colorStack;
+        vector<Span> colorStack;
         fontStack.push_back(defaultFont);
         colorStack.push_back(defaultColor);
         
@@ -852,19 +964,9 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                     case COLOR:
                     {
                         if(span.pos > colorStart) {
-                            int curColor = *colorStack.rbegin();
-                            CGFloat comp[] = {
-                                ((curColor >> 16) & 0xff) / 255.0f,
-                                ((curColor >> 8) & 0xff) / 255.0f,
-                                (curColor & 0xff) / 255.0f,
-                                ((curColor >> 24) & 0xff) / 255.0f
-                            };
-                            CGColorRef fc = CGColorCreate(colorSpace, comp);
-                            CFAttributedStringSetAttribute(plainCFAStr,
-                                                           CFRangeMake(colorStart, span.pos - colorStart),
-                                                           kCTForegroundColorAttributeName,
-                                                           fc);
-                            CGColorRelease(fc);
+                            // set color span
+                            Span& top = *colorStack.rbegin();
+                            setColorSpan(top, plainCFAStr, colorSpace, colorStart, span.pos, pInfo->elapsedTime);
                             
                             // start need to be reset
                             colorStart = span.pos;
@@ -1031,26 +1133,16 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                     {
                         // process previous run
                         if(span.pos > colorStart) {
-                            int curColor = *colorStack.rbegin();
-                            CGFloat comp[] = {
-                                ((curColor >> 16) & 0xff) / 255.0f,
-                                ((curColor >> 8) & 0xff) / 255.0f,
-                                (curColor & 0xff) / 255.0f,
-                                ((curColor >> 24) & 0xff) / 255.0f
-                            };
-                            CGColorRef fc = CGColorCreate(colorSpace, comp);
-                            CFAttributedStringSetAttribute(plainCFAStr,
-                                                           CFRangeMake(colorStart, span.pos - colorStart),
-                                                           kCTForegroundColorAttributeName,
-                                                           fc);
-                            CGColorRelease(fc);
+                            // set color span
+                            Span& top = *colorStack.rbegin();
+                            setColorSpan(top, plainCFAStr, colorSpace, colorStart, span.pos, pInfo->elapsedTime);
                             
                             // start need to be reset
                             colorStart = span.pos;
                         }
                         
                         // push color
-                        colorStack.push_back(span.color);
+                        colorStack.push_back(span);
                         
                         break;
                     }
@@ -1160,19 +1252,8 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
         
         // last segment
         if(plainLen > colorStart) {
-            int curColor = *colorStack.rbegin();
-            CGFloat comp[] = {
-                ((curColor >> 16) & 0xff) / 255.0f,
-                ((curColor >> 8) & 0xff) / 255.0f,
-                (curColor & 0xff) / 255.0f,
-                ((curColor >> 24) & 0xff) / 255.0f
-            };
-            CGColorRef fc = CGColorCreate(colorSpace, comp);
-            CFAttributedStringSetAttribute(plainCFAStr,
-                                           CFRangeMake(colorStart, plainLen - colorStart),
-                                           kCTForegroundColorAttributeName,
-                                           fc);
-            CGColorRelease(fc);
+            Span& top = *colorStack.rbegin();
+            setColorSpan(top, plainCFAStr, colorSpace, colorStart, (int)plainLen, pInfo->elapsedTime);
         }
         if(plainLen > fontStart) {
             CTFontRef font = *fontStack.rbegin();
@@ -1436,6 +1517,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														float strokeSize,
                                                         float globalImageScaleFactor,
                                                         int toCharIndex,
+                                                        float elapsedTime,
 														CC_DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
     info.width                  = nWidth;
@@ -1455,7 +1537,9 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorB             = textTintB;
     info.globalImageScaleFactor = globalImageScaleFactor;
     info.toCharIndex            = toCharIndex;
+    info.elapsedTime            = elapsedTime;
     info.sizeOnly = false;
+    info.needTime = false;
     
     if (!_initWithString(pText, eAlignMask, pFontName, nSize, &info, &m_shadowStrokePadding, &m_linkMetas, &m_imageRects, decryptFunc))
     {
@@ -1468,6 +1552,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     m_bPreMulti = info.isPremultipliedAlpha;
     m_pData = info.data;
     m_realLength = info.realLength;
+    m_needTime = info.needTime;
     
     return true;
 }

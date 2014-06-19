@@ -83,11 +83,17 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeResetBitma
 	bitmapDC.m_linkMetas.clear();
 	bitmapDC.m_imageRects.clear();
 	bitmapDC.m_shadowStrokePadding = CCPointZero;
+	bitmapDC.m_needTime = false;
 }
 
 JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeSaveRealLength(JNIEnv* env, jclass clazz, jint length) {
 	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
 	bitmapDC.m_realLength = length;
+}
+
+JNIEXPORT void JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeSaveNeedTime(JNIEnv* env, jclass clazz, jboolean needTime) {
+	CLBitmapDC& bitmapDC = CLBitmapDC::sharedCLBitmapDC();
+	bitmapDC.m_needTime = needTime;
 }
 
 JNIEXPORT jstring JNICALL Java_org_cocos2dx_lib_CCImage_1richlabel_nativeFullPathForFilename(JNIEnv* env, jclass clazz, jstring filename) {

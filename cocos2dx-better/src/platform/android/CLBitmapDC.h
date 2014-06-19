@@ -63,6 +63,9 @@ public:
 	// length of unstyled string
 	int m_realLength;
 
+    /// true means this label has continuous effect, so we need pass elapsed time to update it
+    bool m_needTime;
+
 protected:
 	CLBitmapDC();
 
@@ -74,7 +77,7 @@ public:
 	bool getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
 			float textTintR = 1.0, float textTintG = 1.0, float textTintB = 1.0, bool shadow = false, float shadowDeltaX = 0.0, float shadowDeltaY = 0.0, int shadowColor = 0,
 			float shadowBlur = 0.0, bool stroke = false, float strokeColorR = 0.0, float strokeColorG = 0.0, float strokeColorB =
-					0.0, float strokeSize = 0.0, float globalImageScaleFactor = 1, int toCharIndex = -1, CC_DECRYPT_FUNC decryptFunc = NULL, bool sizeOnly = false);
+					0.0, float strokeSize = 0.0, float globalImageScaleFactor = 1, int toCharIndex = -1, float elapsedTime = 0, CC_DECRYPT_FUNC decryptFunc = NULL, bool sizeOnly = false);
 
 	bool getBitmapFromJava(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize);
 

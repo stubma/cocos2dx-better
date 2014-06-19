@@ -691,7 +691,7 @@ void CommonRichLabel::onEnter()
     // image tag test
     // text and other tags between image tag will be ignored
     // if image path starts with '/', we treat it like an external image. In iOS, it will be mapped to ~/Documents
-    label = CCRichLabelTTF::create("Hello, [image=Images/a.png w=64 h=32 offsety=-32]blo[i]c[/i]ks[/image], [u]Gross[image= w=32 h=48]grossini[/image]ini[/u]\nThis is second li[image=usa_flag.jpg plist=Images/z_test.plist atlas=Images/z_test.png scale=1.2]usa[/image]ne",
+    label = CCRichLabelTTF::create("Hello, [image=Images/a.png w=64 h=32 offsety=-32]blo[i]c[/i]ks[/image], [u]Gross[image= w=32 h=48]grossini[/image]ini[/u]\n[color=ff0000ff to=000000ff duration=0.5 transient=true]This[/color] is [color=ff0000ff to=ff00ff00 duration=0.5]second[/color] li[image=usa_flag.jpg plist=Images/z_test.plist atlas=Images/z_test.png scale=1.2]usa[/image]ne",
                                    "Helvetica",
                                    20);
 	label->setPosition(ccp(origin.x + visibleSize.width / 2,

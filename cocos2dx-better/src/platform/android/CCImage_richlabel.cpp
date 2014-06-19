@@ -53,7 +53,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, int shadowColor, float shadowBlur,
-		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, float globalImageScaleFactor, int toCharIndex, CC_DECRYPT_FUNC decryptFunc) {
+		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, float globalImageScaleFactor, int toCharIndex, float elapsedTime, CC_DECRYPT_FUNC decryptFunc) {
 	bool bRet = false;
 	do {
 		CC_BREAK_IF(!pText);
@@ -81,6 +81,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
                                                       strokeSize,
                                                       globalImageScaleFactor,
                                                       toCharIndex,
+                                                      elapsedTime,
                                                       decryptFunc,
                                                       false));
 
@@ -95,6 +96,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
 		m_bPreMulti = true;
 		m_nBitsPerComponent = 8;
 		m_realLength = dc.m_realLength;
+		m_needTime = dc.m_needTime;
 
 		// swap the alpha channel (ARGB to RGBA)
 		swapAlphaChannel((unsigned int *)m_pData, (m_nWidth * m_nHeight));
@@ -147,6 +149,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                                       strokeSize,
                                                       globalImageScaleFactor,
                                                       -1,
+                                                      0,
                                                       decryptFunc,
                                                       true));
 		size.width = dc.m_nWidth;

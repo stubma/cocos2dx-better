@@ -386,7 +386,7 @@ public class ExcelToJson {
 				continue;
 			String field = sheet.getRow(2).getCell(i).getStringCellValue();
 			String dataType = sheet.getRow(3).getCell(i).getStringCellValue();
-			if (field == null || field.equals(""))
+			if (field == null || field.equals("") || idName.equals(field))
 				continue;
 			if (dataType.equalsIgnoreCase("Byte") || dataType.equalsIgnoreCase("int") || dataType.equalsIgnoreCase("Float")) {
 				cfile.append("\tm_" + firstLowercase(field) + " = 0;\n");

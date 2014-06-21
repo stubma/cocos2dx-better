@@ -1062,52 +1062,55 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                     string cppFullPath = CCUtils::getExternalOrFullPath([imageName cStringUsingEncoding:NSUTF8StringEncoding]);
                                     NSString* fullPath = [NSString stringWithCString:cppFullPath.c_str() encoding:NSUTF8StringEncoding];
                                     
-                                    // check image extension
-                                    NSString* pathWithoutExt = [fullPath stringByDeletingPathExtension];
-                                    NSString* ext = [fullPath substringFromIndex:[pathWithoutExt length]];
-                                    bool png = [ext compare:@".png" options:NSCaseInsensitiveSearch] == NSOrderedSame;
-                                    bool jpg = [ext compare:@".jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
-                                    [ext compare:@".jpeg" options:NSCaseInsensitiveSearch] == NSOrderedSame;
-                                    
-                                    // try to load its data
-                                    NSData* nsData = [NSData dataWithContentsOfFile:fullPath];
-                                    if(!nsData)
-                                        break;
-                                    
                                     // decrypt
                                     if(decryptFunc) {
+                                        // check image extension
+                                        NSString* pathWithoutExt = [fullPath stringByDeletingPathExtension];
+                                        NSString* ext = [fullPath substringFromIndex:[pathWithoutExt length]];
+                                        bool png = [ext compare:@".png" options:NSCaseInsensitiveSearch] == NSOrderedSame;
+                                        bool jpg = [ext compare:@".jpg" options:NSCaseInsensitiveSearch] == NSOrderedSame ||
+                                        [ext compare:@".jpeg" options:NSCaseInsensitiveSearch] == NSOrderedSame;
+                                        
+                                        // try to load its data
+                                        NSData* nsData = [NSData dataWithContentsOfFile:fullPath];
+                                        if(!nsData)
+                                            break;
+                                        
                                         int decLen;
                                         const char* dec = (*decryptFunc)((const char*)[nsData bytes], (int)[nsData length], &decLen);
                                         if([nsData bytes] != dec) {
                                             nsData = [NSData dataWithBytes:dec length:decLen];
                                             free((void*)dec);
                                         }
-                                    }
-                                    
-                                    // create CGImage from data
-                                    CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)nsData);
-                                    CGImageRef cgImage = NULL;
-                                    if(png) {
-                                        cgImage = CGImageCreateWithPNGDataProvider(imgDataProvider,
-                                                                                   NULL,
-                                                                                   true,
-                                                                                   kCGRenderingIntentDefault);
-                                    } else if(jpg) {
-                                        cgImage = CGImageCreateWithJPEGDataProvider(imgDataProvider,
-                                                                                    NULL,
-                                                                                    true,
-                                                                                    kCGRenderingIntentDefault);
-                                    }
-                                    
-                                    // create UIImage and register it
-                                    if(cgImage) {
-                                        UIImage* image = [UIImage imageWithCGImage:cgImage];
-                                        CGImageRelease(cgImage);
+                                        
+                                        // create CGImage from data
+                                        CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)nsData);
+                                        CGImageRef cgImage = NULL;
+                                        if(png) {
+                                            cgImage = CGImageCreateWithPNGDataProvider(imgDataProvider,
+                                                                                       NULL,
+                                                                                       true,
+                                                                                       kCGRenderingIntentDefault);
+                                        } else if(jpg) {
+                                            cgImage = CGImageCreateWithJPEGDataProvider(imgDataProvider,
+                                                                                        NULL,
+                                                                                        true,
+                                                                                        kCGRenderingIntentDefault);
+                                        }
+                                        
+                                        // create UIImage and register it
+                                        if(cgImage) {
+                                            UIImage* image = [UIImage imageWithCGImage:cgImage];
+                                            CGImageRelease(cgImage);
+                                            [s_imageMap setValue:image forKey:imageName];
+                                        }
+                                        
+                                        // release data provider
+                                        CGDataProviderRelease(imgDataProvider);
+                                    }else{
+                                        UIImage* image = [UIImage imageWithContentsOfFile:fullPath];
                                         [s_imageMap setValue:image forKey:imageName];
                                     }
-                                    
-                                    // release data provider
-                                    CGDataProviderRelease(imgDataProvider);
 								}
 							} while(0);
 							

@@ -55,7 +55,7 @@ void CCSecureUserDefault::purge() {
 const char* CCSecureUserDefault::getSecureValue(const char* pKey, int* outLen) {
 	string v = CCUserDefault::sharedUserDefault()->getStringForKey(pKey);
 	int len;
-	const char* dec = CCBase64::decode(v, &len);
+	const char* dec = CCBase64::decodeAsCString(v, &len);
 	const char* plain = dec ? (*m_decryptFunc)(dec, len, outLen) : NULL;
 	
 	// free dec

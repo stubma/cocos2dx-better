@@ -179,7 +179,7 @@ void* _ccMalloc(size_t size, const char* file, int line, const char* logTag) {
 		}
 
 #if CC_CFLAG_ALLOCATION_LOG
-		CCLOG("[%s](%p)(record=%p):%d [%s:%d]", logTag, r->start, r, size, r->file, r->line);
+		CCLOG("[%s](%p)(record=%p):%d [%s:%d]", logTag, r->start, r, r->size, r->file, r->line);
 #endif
 	}
 
@@ -218,6 +218,9 @@ void _ccFree(void* ptr, const char* file, int line) {
 	// find record and remove it
 	ccMemoryRecord* r = findRecord(ptr);
 	if(r) {
+#if CC_CFLAG_ALLOCATION_LOG
+		CCLOG("[FREE](%p)(record=%p):%d [%s:%d]", r->start, r, r->size, r->file, r->line);
+#endif
 		removeRecord(r);
 		free(r);
 	}

@@ -14,17 +14,19 @@
         <customObject id="Voe-Tx-rLC" customClass="SDAppDelegate">
             <connections>
                 <outlet property="glView" destination="g3w-KF-N3U" id="282-rZ-0PS"/>
+                <outlet property="hSplitView" destination="66W-79-7hP" id="ASY-My-gkH"/>
+                <outlet property="vSplitView" destination="NdU-Z5-Ebk" id="9qh-aR-A8a"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
-                <menuItem title="ScreenplayDesigner" id="1Xt-HY-uBw">
+                <menuItem title="StoryDesigner" id="1Xt-HY-uBw">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="ScreenplayDesigner" systemMenu="apple" id="uQy-DD-JDr">
+                    <menu key="submenu" title="StoryDesigner" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
-                            <menuItem title="About ScreenplayDesigner" id="5kV-Vb-QxS">
+                            <menuItem title="About StoryDesigner" id="5kV-Vb-QxS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-1" id="Exp-CZ-Vem"/>
@@ -38,7 +40,7 @@
                                 <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                            <menuItem title="Hide ScreenplayDesigner" keyEquivalent="h" id="Olw-nP-bQN">
+                            <menuItem title="Hide StoryDesigner" keyEquivalent="h" id="Olw-nP-bQN">
                                 <connections>
                                     <action selector="hide:" target="-1" id="PnN-Uc-m68"/>
                                 </connections>
@@ -56,7 +58,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                            <menuItem title="Quit ScreenplayDesigner" keyEquivalent="q" id="4sb-4s-VLi">
+                            <menuItem title="Quit StoryDesigner" keyEquivalent="q" id="4sb-4s-VLi">
                                 <connections>
                                     <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
                                 </connections>
@@ -657,7 +659,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                         <items>
-                            <menuItem title="ScreenplayDesigner Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                            <menuItem title="StoryDesigner Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                 <connections>
                                     <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
                                 </connections>
@@ -667,7 +669,7 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="ScreenplayDesigner" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+        <window title="StoryDesigner" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="335" y="390" width="969" height="614"/>
@@ -684,9 +686,63 @@
                                 <rect key="frame" x="0.0" y="0.0" width="969" height="452"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <customView fixedFrame="YES" id="5dF-nA-AW4">
+                                    <customView id="5dF-nA-AW4">
                                         <rect key="frame" x="0.0" y="0.0" width="192" height="452"/>
                                         <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0z-8d-wnG">
+                                                <rect key="frame" x="0.0" y="0.0" width="192" height="452"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <clipView key="contentView" id="896-RO-gY0">
+                                                    <rect key="frame" x="0.0" y="17" width="192" height="435"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" headerView="Yuu-go-RhA" indentationPerLevel="16" outlineTableColumn="94T-ny-o1B" id="45l-OZ-Pgy">
+                                                            <rect key="frame" x="0.0" y="0.0" width="192" height="435"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <size key="intercellSpacing" width="3" height="0.0"/>
+                                                            <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <tableViewGridLines key="gridStyleMask" dashed="YES"/>
+                                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                                            <tableColumns>
+                                                                <tableColumn width="189.078125" minWidth="16" maxWidth="1000" id="94T-ny-o1B">
+                                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Atlas">
+                                                                        <font key="font" metaFont="smallSystem"/>
+                                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    </tableHeaderCell>
+                                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="RkH-jm-sWu">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                                </tableColumn>
+                                                            </tableColumns>
+                                                        </outlineView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </clipView>
+                                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="USq-uK-MBm">
+                                                    <rect key="frame" x="-100" y="-100" width="192" height="15"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="03K-4n-dBL">
+                                                    <rect key="frame" x="-14" y="9" width="15" height="0.0"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </scroller>
+                                                <tableHeaderView key="headerView" id="Yuu-go-RhA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="192" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableHeaderView>
+                                            </scrollView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="b0z-8d-wnG" secondAttribute="bottom" id="3Jf-VQ-9zB"/>
+                                            <constraint firstAttribute="trailing" secondItem="b0z-8d-wnG" secondAttribute="trailing" id="DxT-XO-gRj"/>
+                                            <constraint firstItem="b0z-8d-wnG" firstAttribute="leading" secondItem="5dF-nA-AW4" secondAttribute="leading" id="N3K-MN-Nah"/>
+                                            <constraint firstItem="b0z-8d-wnG" firstAttribute="top" secondItem="5dF-nA-AW4" secondAttribute="top" id="ox2-ve-UB0"/>
+                                        </constraints>
                                     </customView>
                                     <customView fixedFrame="YES" id="eIN-rY-6FG">
                                         <rect key="frame" x="193" y="0.0" width="424" height="452"/>
@@ -702,6 +758,9 @@
                                     <real value="250"/>
                                     <real value="250"/>
                                 </holdingPriorities>
+                                <connections>
+                                    <outlet property="delegate" destination="Voe-Tx-rLC" id="wkE-5a-zhW"/>
+                                </connections>
                             </splitView>
                             <customView fixedFrame="YES" id="hz1-Rw-WUg">
                                 <rect key="frame" x="0.0" y="453" width="969" height="161"/>
@@ -712,6 +771,9 @@
                             <real value="250"/>
                             <real value="250"/>
                         </holdingPriorities>
+                        <connections>
+                            <outlet property="delegate" destination="Voe-Tx-rLC" id="O0N-RD-Pev"/>
+                        </connections>
                     </splitView>
                 </subviews>
                 <constraints>

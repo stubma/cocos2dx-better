@@ -38,9 +38,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     pDirector->setOpenGLView(glView);
 	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(frameSize.width, frameSize.height, kResolutionNoBorder);
 
-    // search path for json
+    // search path
     vector<string> searchPath;
-    searchPath.push_back("640x960");
     CCFileUtils::sharedFileUtils()->setSearchPaths(searchPath);
     
     // scene

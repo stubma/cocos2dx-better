@@ -61,7 +61,6 @@
 		92166CE6195972B000003EA3 /* MyEAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166CDF195972B000003EA3 /* MyEAGLView.m */; };
 		92166CE7195972B000003EA3 /* PreviewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166CE0195972B000003EA3 /* PreviewScene.cpp */; };
 		92166CE8195972B000003EA3 /* SDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166CE3195972B000003EA3 /* SDAppDelegate.m */; };
-		92166CF2195972B900003EA3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166CEB195972B900003EA3 /* MainMenu.xib */; };
 		92166CF3195972B900003EA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92166CED195972B900003EA3 /* InfoPlist.strings */; };
 		92166CF4195972B900003EA3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92166CEF195972B900003EA3 /* Images.xcassets */; };
 		92166CF5195972B900003EA3 /* load.png in Resources */ = {isa = PBXBuildFile; fileRef = 92166CF0195972B900003EA3 /* load.png */; };
@@ -85,6 +84,9 @@
 		92166D43195976F000003EA3 /* tolua_fix.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166D32195976F000003EA3 /* tolua_fix.c */; };
 		92CE958C19597CAC009A023A /* LuaCocos2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE958B19597CAC009A023A /* LuaCocos2d.cpp */; };
 		92CE959619597E15009A023A /* CCLuaObjcBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92CE959519597E15009A023A /* CCLuaObjcBridge.mm */; };
+		92FD79781959DDDB0079F491 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
+		92FD797C1959DF400079F491 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166CEB195972B900003EA3 /* MainMenu.xib */; };
+		92FD797E1959DFA20079F491 /* ACEView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +112,19 @@
 			remoteInfo = "cocos2dx-better";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		92FD797D1959DF9C0079F491 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				92FD797E1959DFA20079F491 /* ACEView.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		92166B2619594FBA00003EA3 /* StoryDesigner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoryDesigner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +258,7 @@
 		92CE958B19597CAC009A023A /* LuaCocos2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCocos2d.cpp; sourceTree = "<group>"; };
 		92CE958F19597D94009A023A /* CCLuaObjcBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaObjcBridge.h; sourceTree = "<group>"; };
 		92CE959519597E15009A023A /* CCLuaObjcBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCLuaObjcBridge.mm; sourceTree = "<group>"; };
+		92FD79771959DDDB0079F491 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +277,7 @@
 				92166B901959512800003EA3 /* libz.dylib in Frameworks */,
 				92166B8D1959510600003EA3 /* libcocos2dx-better.a in Frameworks */,
 				92166B941959513000003EA3 /* Foundation.framework in Frameworks */,
+				92FD79781959DDDB0079F491 /* ACEView.framework in Frameworks */,
 				92166B2A19594FBA00003EA3 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				92166B82195950C700003EA3 /* cocos2dx-better.xcodeproj */,
+				92FD79771959DDDB0079F491 /* ACEView.framework */,
 				92166BAA195953E500003EA3 /* QuartzCore.framework */,
 				92166BA8195953E000003EA3 /* OpenGL.framework */,
 				92166BA6195953DA00003EA3 /* OpenAL.framework */,
@@ -524,6 +542,7 @@
 				92166B2219594FBA00003EA3 /* Sources */,
 				92166B2319594FBA00003EA3 /* Frameworks */,
 				92166B2419594FBA00003EA3 /* Resources */,
+				92FD797D1959DF9C0079F491 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -593,7 +612,7 @@
 			files = (
 				92166CF4195972B900003EA3 /* Images.xcassets in Resources */,
 				92166CF6195972B900003EA3 /* save.png in Resources */,
-				92166CF2195972B900003EA3 /* MainMenu.xib in Resources */,
+				92FD797C1959DF400079F491 /* MainMenu.xib in Resources */,
 				92166CF3195972B900003EA3 /* InfoPlist.strings in Resources */,
 				92166CF5195972B900003EA3 /* load.png in Resources */,
 				92166CFD195972EE00003EA3 /* StoryDesigner-Info.plist in Resources */,
@@ -780,6 +799,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StoryDesigner-Prefix.pch";
@@ -816,6 +839,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StoryDesigner-Prefix.pch";

@@ -25,15 +25,17 @@
 #include "AppDelegate.h"
 #import "MyEAGLView.h"
 #import "CNSplitView.h"
+#import <ACEView/ACEView.h>
 
 static AppDelegate s_sharedApplication;
 
-@interface SDAppDelegate () <NSSplitViewDelegate>
+@interface SDAppDelegate () <NSSplitViewDelegate, ACEViewDelegate>
 
 @property (weak) IBOutlet MyEAGLView* glView;
 @property (weak) IBOutlet NSWindow* window;
 @property (weak) IBOutlet CNSplitView* hSplitView;
 @property (weak) IBOutlet CNSplitView* vSplitView;
+@property (weak) IBOutlet ACEView* aceView;
 
 - (void)initSplitViews;
 - (void)onSave:(id)sender;
@@ -46,6 +48,13 @@ static AppDelegate s_sharedApplication;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // init split views
     [self initSplitViews];
+    
+    // init ace view
+    [self.aceView setString:@"if x > 3 then"];
+    [self.aceView setDelegate:self];
+    [self.aceView setMode:ACEModeLua];
+    [self.aceView setTheme:ACEThemeXcode];
+    [self.aceView setShowInvisibles:NO];
     
     // start cocos2d-x loop
     CCApplication::sharedApplication()->run();
@@ -107,6 +116,13 @@ static AppDelegate s_sharedApplication;
     } else {
         return self.vSplitView.frame.size.width * 0.9f;
     }
+}
+
+#pragma mark -
+#pragma mark ace view delegate
+
+- (void) textDidChange:(NSNotification *)notification {
+    
 }
 
 @end

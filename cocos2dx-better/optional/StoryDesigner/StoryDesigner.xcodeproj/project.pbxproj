@@ -14,8 +14,6 @@
 		92166B761959506600003EA3 /* CNSplitViewToolbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B671959506600003EA3 /* CNSplitViewToolbarButton.m */; };
 		92166B771959506600003EA3 /* CNSplitViewToolbarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B691959506600003EA3 /* CNSplitViewToolbarButtonCell.m */; };
 		92166B781959506600003EA3 /* NSView+CNSplitViewToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B6C1959506600003EA3 /* NSView+CNSplitViewToolbar.m */; };
-		92166B791959506600003EA3 /* ITSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B701959506600003EA3 /* ITSidebar.m */; };
-		92166B7A1959506600003EA3 /* ITSidebarItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B721959506600003EA3 /* ITSidebarItemCell.m */; };
 		92166B8D1959510600003EA3 /* libcocos2dx-better.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92166B8A195950C800003EA3 /* libcocos2dx-better.a */; };
 		92166B901959512800003EA3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92166B8F1959512800003EA3 /* libz.dylib */; };
 		92166B921959512C00003EA3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 92166B911959512C00003EA3 /* libsqlite3.dylib */; };
@@ -115,11 +113,6 @@
 		92166B6A1959506600003EA3 /* CNSplitViewToolbarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNSplitViewToolbarDelegate.h; sourceTree = "<group>"; };
 		92166B6B1959506600003EA3 /* NSView+CNSplitViewToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+CNSplitViewToolbar.h"; sourceTree = "<group>"; };
 		92166B6C1959506600003EA3 /* NSView+CNSplitViewToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+CNSplitViewToolbar.m"; sourceTree = "<group>"; };
-		92166B6E1959506600003EA3 /* ITLeakWarningHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITLeakWarningHelper.h; sourceTree = "<group>"; };
-		92166B6F1959506600003EA3 /* ITSidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITSidebar.h; sourceTree = "<group>"; };
-		92166B701959506600003EA3 /* ITSidebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITSidebar.m; sourceTree = "<group>"; };
-		92166B711959506600003EA3 /* ITSidebarItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITSidebarItemCell.h; sourceTree = "<group>"; };
-		92166B721959506600003EA3 /* ITSidebarItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITSidebarItemCell.m; sourceTree = "<group>"; };
 		92166B82195950C700003EA3 /* cocos2dx-better.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "cocos2dx-better.xcodeproj"; path = "../../../proj.mac/cocos2dx-better.xcodeproj"; sourceTree = "<group>"; };
 		92166B8F1959512800003EA3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		92166B911959512C00003EA3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -231,7 +224,6 @@
 			isa = PBXGroup;
 			children = (
 				92166B5E1959506600003EA3 /* CNSplitView */,
-				92166B6D1959506600003EA3 /* ITSidebar */,
 				92166C581959551B00003EA3 /* lua */,
 				92166CD9195972B000003EA3 /* Classes */,
 				92166B3019594FBA00003EA3 /* Supporting Files */,
@@ -299,18 +291,6 @@
 				92166B6C1959506600003EA3 /* NSView+CNSplitViewToolbar.m */,
 			);
 			path = CNSplitView;
-			sourceTree = "<group>";
-		};
-		92166B6D1959506600003EA3 /* ITSidebar */ = {
-			isa = PBXGroup;
-			children = (
-				92166B6E1959506600003EA3 /* ITLeakWarningHelper.h */,
-				92166B6F1959506600003EA3 /* ITSidebar.h */,
-				92166B701959506600003EA3 /* ITSidebar.m */,
-				92166B711959506600003EA3 /* ITSidebarItemCell.h */,
-				92166B721959506600003EA3 /* ITSidebarItemCell.m */,
-			);
-			path = ITSidebar;
 			sourceTree = "<group>";
 		};
 		92166B83195950C700003EA3 /* Products */ = {
@@ -517,7 +497,6 @@
 				92166B781959506600003EA3 /* NSView+CNSplitViewToolbar.m in Sources */,
 				92166C931959551B00003EA3 /* ldblib.c in Sources */,
 				92166B771959506600003EA3 /* CNSplitViewToolbarButtonCell.m in Sources */,
-				92166B7A1959506600003EA3 /* ITSidebarItemCell.m in Sources */,
 				92166CA61959551B00003EA3 /* ltable.c in Sources */,
 				92166C901959551B00003EA3 /* lauxlib.c in Sources */,
 				92166C9E1959551B00003EA3 /* loadlib.c in Sources */,
@@ -536,7 +515,6 @@
 				92166CA71959551B00003EA3 /* ltablib.c in Sources */,
 				92166B731959506600003EA3 /* CNSplitView.m in Sources */,
 				92166CA51959551B00003EA3 /* lstrlib.c in Sources */,
-				92166B791959506600003EA3 /* ITSidebar.m in Sources */,
 				92166CA11959551B00003EA3 /* loslib.c in Sources */,
 				92166CA01959551B00003EA3 /* lopcodes.c in Sources */,
 				92166C911959551B00003EA3 /* lbaselib.c in Sources */,

@@ -8,10 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		92166B2A19594FBA00003EA3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92166B2919594FBA00003EA3 /* Cocoa.framework */; };
-		92166B3419594FBA00003EA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92166B3219594FBA00003EA3 /* InfoPlist.strings */; };
 		92166B3619594FBA00003EA3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B3519594FBA00003EA3 /* main.m */; };
-		92166B4019594FBA00003EA3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166B3E19594FBA00003EA3 /* MainMenu.xib */; };
-		92166B4219594FBA00003EA3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92166B4119594FBA00003EA3 /* Images.xcassets */; };
 		92166B731959506600003EA3 /* CNSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B601959506600003EA3 /* CNSplitView.m */; };
 		92166B741959506600003EA3 /* CNSplitViewDraggingHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B631959506600003EA3 /* CNSplitViewDraggingHandle.m */; };
 		92166B751959506600003EA3 /* CNSplitViewToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166B651959506600003EA3 /* CNSplitViewToolbar.m */; };
@@ -66,6 +63,11 @@
 		92166CAC1959551B00003EA3 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166C8C1959551B00003EA3 /* lzio.c */; };
 		92166CAD1959551B00003EA3 /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166C8E1959551B00003EA3 /* print.c */; };
 		92166CB719595E3700003EA3 /* PreviewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166CB519595E3700003EA3 /* PreviewScene.cpp */; };
+		92166CBE19595F2800003EA3 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166CBC19595F2800003EA3 /* AppDelegate.cpp */; };
+		92166CC519595F6800003EA3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166CC019595F6800003EA3 /* MainMenu.xib */; };
+		92166CC619595F6800003EA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 92166CC219595F6800003EA3 /* InfoPlist.strings */; };
+		92166CC719595F6800003EA3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92166CC419595F6800003EA3 /* Images.xcassets */; };
+		92166CC919595F7400003EA3 /* 640x960 in Resources */ = {isa = PBXBuildFile; fileRef = 92166CC819595F7400003EA3 /* 640x960 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,11 +100,8 @@
 		92166B2C19594FBA00003EA3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		92166B2E19594FBA00003EA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92166B3119594FBA00003EA3 /* ScreenplayDesigner-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ScreenplayDesigner-Info.plist"; sourceTree = "<group>"; };
-		92166B3319594FBA00003EA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		92166B3519594FBA00003EA3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		92166B3719594FBA00003EA3 /* ScreenplayDesigner-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScreenplayDesigner-Prefix.pch"; sourceTree = "<group>"; };
-		92166B3F19594FBA00003EA3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		92166B4119594FBA00003EA3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ScreenplayDesigner/Images.xcassets; sourceTree = "<group>"; };
 		92166B5F1959506600003EA3 /* CNSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNSplitView.h; sourceTree = "<group>"; };
 		92166B601959506600003EA3 /* CNSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNSplitView.m; sourceTree = "<group>"; };
 		92166B611959506600003EA3 /* CNSplitViewDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNSplitViewDefinitions.h; sourceTree = "<group>"; };
@@ -194,6 +193,12 @@
 		92166C8E1959551B00003EA3 /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print.c; sourceTree = "<group>"; };
 		92166CB519595E3700003EA3 /* PreviewScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreviewScene.cpp; sourceTree = "<group>"; };
 		92166CB619595E3700003EA3 /* PreviewScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewScene.h; sourceTree = "<group>"; };
+		92166CBC19595F2800003EA3 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
+		92166CBD19595F2800003EA3 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		92166CC119595F6800003EA3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		92166CC319595F6800003EA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		92166CC419595F6800003EA3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		92166CC819595F7400003EA3 /* 640x960 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = 640x960; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,7 +232,7 @@
 				92166C581959551B00003EA3 /* lua */,
 				92166B7B1959509800003EA3 /* Classes */,
 				92166B3019594FBA00003EA3 /* Supporting Files */,
-				92166B5D1959503300003EA3 /* Resources */,
+				92166CBF19595F6800003EA3 /* Resources */,
 				92166B2819594FBA00003EA3 /* Frameworks */,
 				92166B2719594FBA00003EA3 /* Products */,
 			);
@@ -265,21 +270,11 @@
 			isa = PBXGroup;
 			children = (
 				92166B3119594FBA00003EA3 /* ScreenplayDesigner-Info.plist */,
-				92166B3219594FBA00003EA3 /* InfoPlist.strings */,
 				92166B3519594FBA00003EA3 /* main.m */,
 				92166B3719594FBA00003EA3 /* ScreenplayDesigner-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			path = ScreenplayDesigner;
-			sourceTree = "<group>";
-		};
-		92166B5D1959503300003EA3 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				92166B4119594FBA00003EA3 /* Images.xcassets */,
-				92166B3E19594FBA00003EA3 /* MainMenu.xib */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		92166B5E1959506600003EA3 /* CNSplitView */ = {
@@ -320,6 +315,8 @@
 			children = (
 				92166B7C1959509800003EA3 /* SDAppDelegate.h */,
 				92166B7D1959509800003EA3 /* SDAppDelegate.m */,
+				92166CBC19595F2800003EA3 /* AppDelegate.cpp */,
+				92166CBD19595F2800003EA3 /* AppDelegate.h */,
 				92166B9B1959537700003EA3 /* DesignerGlobal.cpp */,
 				92166B9C1959537700003EA3 /* DesignerGlobal.h */,
 				92166B7F195950AE00003EA3 /* MyEAGLView.h */,
@@ -402,6 +399,18 @@
 			path = "../../../../cocos2d-x/scripting/lua/lua";
 			sourceTree = "<group>";
 		};
+		92166CBF19595F6800003EA3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				92166CC819595F7400003EA3 /* 640x960 */,
+				92166CC419595F6800003EA3 /* Images.xcassets */,
+				92166CC019595F6800003EA3 /* MainMenu.xib */,
+				92166CC219595F6800003EA3 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			path = ScreenplayDesigner/Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -479,9 +488,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92166B3419594FBA00003EA3 /* InfoPlist.strings in Resources */,
-				92166B4219594FBA00003EA3 /* Images.xcassets in Resources */,
-				92166B4019594FBA00003EA3 /* MainMenu.xib in Resources */,
+				92166CC919595F7400003EA3 /* 640x960 in Resources */,
+				92166CC719595F6800003EA3 /* Images.xcassets in Resources */,
+				92166CC519595F6800003EA3 /* MainMenu.xib in Resources */,
+				92166CC619595F6800003EA3 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +504,7 @@
 			files = (
 				92166CAD1959551B00003EA3 /* print.c in Sources */,
 				92166CB719595E3700003EA3 /* PreviewScene.cpp in Sources */,
+				92166CBE19595F2800003EA3 /* AppDelegate.cpp in Sources */,
 				92166CA91959551B00003EA3 /* lua.c in Sources */,
 				92166C981959551B00003EA3 /* lgc.c in Sources */,
 				92166C9F1959551B00003EA3 /* lobject.c in Sources */,
@@ -550,21 +561,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		92166B3219594FBA00003EA3 /* InfoPlist.strings */ = {
+		92166CC019595F6800003EA3 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				92166B3319594FBA00003EA3 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		92166B3E19594FBA00003EA3 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				92166B3F19594FBA00003EA3 /* Base */,
+				92166CC119595F6800003EA3 /* Base */,
 			);
 			name = MainMenu.xib;
-			path = ScreenplayDesigner;
+			sourceTree = "<group>";
+		};
+		92166CC219595F6800003EA3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				92166CC319595F6800003EA3 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -653,6 +663,10 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ScreenplayDesigner/ScreenplayDesigner-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOS2D_DEBUG=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../../../../cocos2d-x/cocos2dx",
@@ -684,6 +698,7 @@
 				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ScreenplayDesigner/ScreenplayDesigner-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../../../../cocos2d-x/cocos2dx",

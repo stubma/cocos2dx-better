@@ -25,6 +25,9 @@
 #define __ScreenplayDesigner__PreviewScene__
 
 class Preview : public CCLayer {
+private:
+    void onFrameSizeChanged(CCObject* sender);
+    
 public:
 	virtual ~Preview();
     static CCScene* scene();

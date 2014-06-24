@@ -22,12 +22,23 @@
  THE SOFTWARE.
  ****************************************************************************/
 #import "SDAppDelegate.h"
+#include "AppDelegate.h"
+#import "MyEAGLView.h"
+
+static AppDelegate s_sharedApplication;
+
+@interface SDAppDelegate ()
+
+@property (weak) IBOutlet MyEAGLView* glView;
+@property (weak) IBOutlet NSWindow* window;
+
+@end
 
 @implementation SDAppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
-    // Insert code here to initialize your application
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // start cocos2d-x loop
+    CCApplication::sharedApplication()->run();
 }
 
 @end

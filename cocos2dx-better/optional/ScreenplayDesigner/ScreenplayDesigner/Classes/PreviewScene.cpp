@@ -46,6 +46,14 @@ bool Preview::init() {
         return false;
     }
     
+    // test
+    CCLabelTTF* label = CCLabelTTF::create("Hello", "Helvetica", 40);
+    label->setPosition(CCUtils::getLocalCenter(this));
+    addChild(label);
+    
+    // put this in init in order to receive first selection event
+    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(Preview::onFrameSizeChanged), kCCNotificationFrameSizeChanged, NULL);
+    
     return true;
 }
 
@@ -55,4 +63,11 @@ void Preview::onEnter() {
 
 void Preview::onExit() {
 	CCLayer::onExit();
+    
+    CCNotificationCenter::sharedNotificationCenter()->removeObserver(this, kCCNotificationFrameSizeChanged);
+}
+
+void Preview::onFrameSizeChanged(CCObject* sender) {
+    setContentSize(CCEGLView::sharedOpenGLView()->getFrameSize());
+    ((CCNode*)getChildren()->objectAtIndex(0))->setPosition(CCUtils::getLocalCenter(this));
 }

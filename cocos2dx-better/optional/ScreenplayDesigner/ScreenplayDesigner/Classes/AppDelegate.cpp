@@ -21,8 +21,39 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#import <Cocoa/Cocoa.h>
+#include "AppDelegate.h"
+#include "cocos2d.h"
+#include "PreviewScene.h"
 
-@interface SDAppDelegate : NSObject <NSApplicationDelegate>
+AppDelegate::AppDelegate() {
+}
 
-@end
+AppDelegate::~AppDelegate() {
+}
+
+bool AppDelegate::applicationDidFinishLaunching() {
+    CCDirector *pDirector = CCDirector::sharedDirector();
+    CCEGLView* glView = CCEGLView::sharedOpenGLView();
+    const CCSize& frameSize = glView->getFrameSize();
+    pDirector->setOpenGLView(glView);
+	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(frameSize.width, frameSize.height, kResolutionNoBorder);
+
+    // search path for json
+    vector<string> searchPath;
+    searchPath.push_back("640x960");
+    CCFileUtils::sharedFileUtils()->setSearchPaths(searchPath);
+    
+    // scene
+    CCScene * pScene = Preview::scene();
+    pDirector->runWithScene(pScene);
+
+    return true;
+}
+
+void AppDelegate::applicationDidEnterBackground() {
+    CCDirector::sharedDirector()->stopAnimation();
+}
+
+void AppDelegate::applicationWillEnterForeground() {
+    CCDirector::sharedDirector()->startAnimation();
+}

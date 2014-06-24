@@ -23,6 +23,10 @@
  ****************************************************************************/
 #include "PreviewScene.h"
 
+Preview::Preview() :
+m_storyLayer(NULL) {
+}
+
 Preview::~Preview() {
 }
 
@@ -45,6 +49,10 @@ bool Preview::init() {
     if (!CCLayer::init()) {
         return false;
     }
+    
+    // story layer
+    m_storyLayer = CCStoryLayer::create();
+    addChild(m_storyLayer);
     
     // test
     CCLabelTTF* label = CCLabelTTF::create("Hello", "Helvetica", 40);

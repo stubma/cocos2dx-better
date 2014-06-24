@@ -169,4 +169,7 @@
 #include "CBTMXLayer.h"
 #include "CBTMXTileMap.h"
 
+// story
+#include "CCStoryLayer.h"
+
 #endif // __cocos2d_better_h__

@@ -21,28 +21,27 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ScreenplayDesigner__PreviewScene__
-#define __ScreenplayDesigner__PreviewScene__
+#ifndef __CCStoryLayer__
+#define __CCStoryLayer__
 
-class Preview : public CCLayer {
-private:
-    void onFrameSizeChanged(CCObject* sender);
-    
+NS_CC_BEGIN
+
+/**
+ * It is a container of story script, it will manage the playing of story
+ */
+class CC_DLL CCStoryLayer : public CCLayer {
 protected:
-    Preview();
-    
-public:
-	virtual ~Preview();
-    static CCScene* scene();
+	CCStoryLayer();
 	
-	// override
-    virtual bool init();
+public:
+	virtual ~CCStoryLayer();
+	static CCStoryLayer* create();
+	
+	virtual bool init();
+    virtual void onExit();
     virtual void onEnter();
-	virtual void onExit();
-    
-    CREATE_FUNC(Preview);
-    
-    CC_SYNTHESIZE(CCStoryLayer*, m_storyLayer, StoryLayer);
 };
 
-#endif /* defined(__ScreenplayDesigner__Preview__) */
+NS_CC_END
+
+#endif /* defined(__CCStoryLayer__) */

@@ -21,28 +21,44 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __ScreenplayDesigner__PreviewScene__
-#define __ScreenplayDesigner__PreviewScene__
+#include "CCStoryLayer.h"
 
-class Preview : public CCLayer {
-private:
-    void onFrameSizeChanged(CCObject* sender);
-    
-protected:
-    Preview();
-    
-public:
-	virtual ~Preview();
-    static CCScene* scene();
+NS_CC_BEGIN
+
+CCStoryLayer::CCStoryLayer() {
 	
-	// override
-    virtual bool init();
-    virtual void onEnter();
-	virtual void onExit();
-    
-    CREATE_FUNC(Preview);
-    
-    CC_SYNTHESIZE(CCStoryLayer*, m_storyLayer, StoryLayer);
-};
+}
 
-#endif /* defined(__ScreenplayDesigner__Preview__) */
+CCStoryLayer::~CCStoryLayer() {
+	
+}
+
+CCStoryLayer* CCStoryLayer::create() {
+	CCStoryLayer* l = new CCStoryLayer();
+	if(l->init()) {
+		return (CCStoryLayer*)l->autorelease();
+	}
+	CC_SAFE_RELEASE(l);
+	return NULL;
+}
+
+void CCStoryLayer::onExit() {
+    CCLayer::onExit();
+}
+
+void CCStoryLayer::onEnter() {
+    CCLayer::onEnter();
+}
+
+bool CCStoryLayer::init() {
+	if(!CCLayer::init())
+		return false;
+    
+    // surface
+	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+	
+	return true;
+}
+
+NS_CC_END

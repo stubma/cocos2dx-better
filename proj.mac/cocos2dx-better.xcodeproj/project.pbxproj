@@ -14,6 +14,7 @@
 		920547D719050C1E0062ADA4 /* CBArmature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920547D619050C1E0062ADA4 /* CBArmature.cpp */; };
 		920547D919050C3D0062ADA4 /* CCTrailMoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 920547D819050C3D0062ADA4 /* CCTrailMoveTo.cpp */; };
 		9208DA61189E9B3F00E3820D /* CCImagePicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */; };
+		92166D021959749400003EA3 /* CCStoryLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D001959749400003EA3 /* CCStoryLayer.cpp */; };
 		9222C6271869256D00226B34 /* CCCatmullRomSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */; };
 		9222C62E18693F3200226B34 /* CCPointList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9222C62D18693F3200226B34 /* CCPointList.cpp */; };
 		922399EB187FD793006AD199 /* CBJumpBy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922399E9187FD793006AD199 /* CBJumpBy.cpp */; };
@@ -469,6 +470,8 @@
 		920547D819050C3D0062ADA4 /* CCTrailMoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCTrailMoveTo.cpp; sourceTree = "<group>"; };
 		920547DA19050C460062ADA4 /* CCTrailMoveTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTrailMoveTo.h; sourceTree = "<group>"; };
 		9208DA60189E9B3F00E3820D /* CCImagePicker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCImagePicker.cpp; sourceTree = "<group>"; };
+		92166D001959749400003EA3 /* CCStoryLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCStoryLayer.cpp; sourceTree = "<group>"; };
+		92166D03195974BA00003EA3 /* CCStoryLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStoryLayer.h; sourceTree = "<group>"; };
 		9222C6251869256D00226B34 /* CCCatmullRomSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCatmullRomSprite.cpp; sourceTree = "<group>"; };
 		9222C628186925F600226B34 /* CCCatmullRomSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCatmullRomSprite.h; sourceTree = "<group>"; };
 		9222C62D18693F3200226B34 /* CCPointList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCPointList.cpp; sourceTree = "<group>"; };
@@ -1321,6 +1324,22 @@
 			name = armature;
 			sourceTree = "<group>";
 		};
+		92166CFE1959747B00003EA3 /* story */ = {
+			isa = PBXGroup;
+			children = (
+				92166D001959749400003EA3 /* CCStoryLayer.cpp */,
+			);
+			name = story;
+			sourceTree = "<group>";
+		};
+		92166CFF1959748100003EA3 /* story */ = {
+			isa = PBXGroup;
+			children = (
+				92166D03195974BA00003EA3 /* CCStoryLayer.h */,
+			);
+			name = story;
+			sourceTree = "<group>";
+		};
 		9234735F18BD869C009DDBEF /* shader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1340,6 +1359,7 @@
 		9239686D185591DB0063E8A1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				92166CFF1959748100003EA3 /* story */,
 				920547D319050BE20062ADA4 /* armature */,
 				92EDA10518D9E6C70022E196 /* tmx */,
 				92668E6718B5DC4F0065B75F /* shader */,
@@ -1362,6 +1382,7 @@
 		92396898185591DB0063E8A1 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				92166CFE1959747B00003EA3 /* story */,
 				920547D519050C160062ADA4 /* armature */,
 				92EDA10618D9E6DB0022E196 /* tmx */,
 				9234735F18BD869C009DDBEF /* shader */,
@@ -3167,6 +3188,7 @@
 				92A856B319500CCC00098490 /* CCActionFrame.cpp in Sources */,
 				9292C88018EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp in Sources */,
 				92396904185591DB0063E8A1 /* CCTexture2D_richlabel.cpp in Sources */,
+				92166D021959749400003EA3 /* CCStoryLayer.cpp in Sources */,
 				9261AC3A18978224001028B5 /* CCEditBoxImplTizen.cpp in Sources */,
 				9243819B1883E43100ECA91A /* CCLayerClip.cpp in Sources */,
 				92A856E219500CCC00098490 /* UILabel.cpp in Sources */,

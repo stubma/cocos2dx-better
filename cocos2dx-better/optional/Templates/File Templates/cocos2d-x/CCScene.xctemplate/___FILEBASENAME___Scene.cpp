@@ -8,6 +8,9 @@
 
 #include "___FILEBASENAME___Scene.h"
 
+___FILEBASENAME___::___FILEBASENAME___() {
+}
+
 ___FILEBASENAME___::~___FILEBASENAME___() {
 }
 

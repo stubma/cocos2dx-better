@@ -10,6 +10,9 @@
 #define _____PROJECTNAMEASIDENTIFIER________FILEBASENAMEASIDENTIFIER___Scene__
 
 class ___FILEBASENAMEASIDENTIFIER___ : public CCLayer {
+protected:
+	___FILEBASENAMEASIDENTIFIER___();
+	
 public:
 	virtual ~___FILEBASENAMEASIDENTIFIER___();
     static CCScene* scene();

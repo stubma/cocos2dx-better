@@ -21,9 +21,38 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __DesignerGlobal_h__
-#define __DesignerGlobal_h__
+#include "PreviewScene.h"
 
-#define kCCNotificationFrameSizeChanged "kCCNotificationFrameSizeChanged"
+Preview::~Preview() {
+}
 
-#endif
+CCScene* Preview::scene() {
+    // 'scene' is an autorelease object
+    CCScene* scene = CCScene::create();
+    
+    // 'layer' is an autorelease object
+    Preview* layer = Preview::create();
+	
+    // add layer as a child to scene
+    scene->addChild(layer);
+	
+    // return the scene
+    return scene;
+}
+
+bool Preview::init() {
+    // super init first
+    if (!CCLayer::init()) {
+        return false;
+    }
+    
+    return true;
+}
+
+void Preview::onEnter() {
+    CCLayer::onEnter();
+}
+
+void Preview::onExit() {
+	CCLayer::onExit();
+}

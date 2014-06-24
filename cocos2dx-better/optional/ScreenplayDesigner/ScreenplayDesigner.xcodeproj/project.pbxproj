@@ -65,6 +65,7 @@
 		92166CAB1959551B00003EA3 /* lvm.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166C8A1959551B00003EA3 /* lvm.c */; };
 		92166CAC1959551B00003EA3 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166C8C1959551B00003EA3 /* lzio.c */; };
 		92166CAD1959551B00003EA3 /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166C8E1959551B00003EA3 /* print.c */; };
+		92166CB719595E3700003EA3 /* PreviewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166CB519595E3700003EA3 /* PreviewScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -191,6 +192,8 @@
 		92166C8C1959551B00003EA3 /* lzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lzio.c; sourceTree = "<group>"; };
 		92166C8D1959551B00003EA3 /* lzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzio.h; sourceTree = "<group>"; };
 		92166C8E1959551B00003EA3 /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = print.c; sourceTree = "<group>"; };
+		92166CB519595E3700003EA3 /* PreviewScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PreviewScene.cpp; sourceTree = "<group>"; };
+		92166CB619595E3700003EA3 /* PreviewScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewScene.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +324,8 @@
 				92166B9C1959537700003EA3 /* DesignerGlobal.h */,
 				92166B7F195950AE00003EA3 /* MyEAGLView.h */,
 				92166B80195950AE00003EA3 /* MyEAGLView.m */,
+				92166CB519595E3700003EA3 /* PreviewScene.cpp */,
+				92166CB619595E3700003EA3 /* PreviewScene.h */,
 			);
 			name = Classes;
 			path = ScreenplayDesigner/Classes;
@@ -488,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92166CAD1959551B00003EA3 /* print.c in Sources */,
+				92166CB719595E3700003EA3 /* PreviewScene.cpp in Sources */,
 				92166CA91959551B00003EA3 /* lua.c in Sources */,
 				92166C981959551B00003EA3 /* lgc.c in Sources */,
 				92166C9F1959551B00003EA3 /* lobject.c in Sources */,

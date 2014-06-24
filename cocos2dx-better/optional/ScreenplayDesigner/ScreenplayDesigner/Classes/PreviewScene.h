@@ -21,9 +21,20 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __DesignerGlobal_h__
-#define __DesignerGlobal_h__
+#ifndef __ScreenplayDesigner__PreviewScene__
+#define __ScreenplayDesigner__PreviewScene__
 
-#define kCCNotificationFrameSizeChanged "kCCNotificationFrameSizeChanged"
+class Preview : public CCLayer {
+public:
+	virtual ~Preview();
+    static CCScene* scene();
+	
+	// override
+    virtual bool init();
+    virtual void onEnter();
+	virtual void onExit();
+    
+    CREATE_FUNC(Preview);
+};
 
-#endif
+#endif /* defined(__ScreenplayDesigner__Preview__) */

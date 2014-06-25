@@ -1,0 +1,3 @@
+$#include "CCStoryCommandSet.h" 
+
+void msg(string s);

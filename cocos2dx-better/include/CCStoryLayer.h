@@ -27,6 +27,8 @@
 #include "cocos2d.h"
 #include "ccMoreTypes.h"
 
+using namespace std;
+
 NS_CC_BEGIN
 
 /**

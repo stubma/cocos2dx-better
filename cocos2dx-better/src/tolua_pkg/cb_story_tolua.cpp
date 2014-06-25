@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Wed Jun 25 10:11:22 2014.
+** Generated automatically by tolua++-1.0.92 on Wed Jun 25 17:04:21 2014.
 */
 
 #ifndef __cplusplus
@@ -13,6 +13,7 @@
 /* Exported function */
 TOLUA_API int  tolua_story_open (lua_State* tolua_S);
 
+#include "CCStoryCommandSet.h" 
 
 /* function to register type */
 static void tolua_reg_types (lua_State* tolua_S)

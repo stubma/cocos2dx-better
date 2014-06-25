@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCStoryCommandSet.h"
+#include "CCUtils.h"
 
 CCArray gStoryCommandSet;
 

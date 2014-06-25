@@ -72,5 +72,5 @@ void Preview::onExit() {
 
 void Preview::onFrameSizeChanged(CCObject* sender) {
     setContentSize(CCEGLView::sharedOpenGLView()->getFrameSize());
-    ((CCNode*)getChildren()->objectAtIndex(0))->setPosition(CCUtils::getLocalCenter(this));
+    m_storyLayer->setContentSize(getContentSize());
 }

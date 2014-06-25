@@ -30,6 +30,8 @@ ifeq ($(NDK_TOOLCHAIN_VERSION),clang)
 endif
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
+	$(call all-c-files-under,$(COCOS2DX_ROOT)/scripting/lua/lua) \
+	$(call all-c-files-under,$(COCOS2DX_ROOT)/scripting/lua/tolua) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/CocoStudio/) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCControlExtension) \
 	$(call all-cpp-files-under,$(COCOS2DX_EXT_ROOT)/GUI/CCScrollView) \
@@ -38,6 +40,9 @@ LOCAL_SRC_FILES := $(call all-cpp-files-under,src) \
 	$(COCOS2DX_EXT_ROOT)/CCBReader/CCData.cpp
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include \
 	$(LOCAL_PATH)/include/platform/android \
+	$(LOCAL_PATH)/src/tolua_pkg \
+	$(COCOS2DX_ROOT)/scripting/lua/lua \
+	$(COCOS2DX_ROOT)/scripting/lua/tolua \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android \
 	$(COCOS2DX_ROOT)/cocos2dx/platform/android/jni \
 	$(COCOSDENSHION_ROOT)/include \

@@ -233,6 +233,7 @@
 		926131D5195AB9E5004070C9 /* tolua_map.c in Sources */ = {isa = PBXBuildFile; fileRef = 926131B1195AB9E5004070C9 /* tolua_map.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		926131D6195AB9E5004070C9 /* tolua_push.c in Sources */ = {isa = PBXBuildFile; fileRef = 926131B2195AB9E5004070C9 /* tolua_push.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		926131D7195AB9E5004070C9 /* tolua_to.c in Sources */ = {isa = PBXBuildFile; fileRef = 926131B3195AB9E5004070C9 /* tolua_to.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		926131E2195AC822004070C9 /* cb_story_tolua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 926131E0195AC822004070C9 /* cb_story_tolua.cpp */; };
 		9261AC3518978224001028B5 /* CCEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2718978224001028B5 /* CCEditBox.cpp */; };
 		9261AC3618978224001028B5 /* CCEditBoxImplAndroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2A18978224001028B5 /* CCEditBoxImplAndroid.cpp */; };
 		9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2D18978224001028B5 /* CCEditBoxImplIOS.mm */; };
@@ -953,6 +954,9 @@
 		926131B1195AB9E5004070C9 /* tolua_map.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_map.c; sourceTree = "<group>"; };
 		926131B2195AB9E5004070C9 /* tolua_push.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_push.c; sourceTree = "<group>"; };
 		926131B3195AB9E5004070C9 /* tolua_to.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_to.c; sourceTree = "<group>"; };
+		926131DD195AC71A004070C9 /* story.tolua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = story.tolua; sourceTree = "<group>"; };
+		926131E0195AC822004070C9 /* cb_story_tolua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cb_story_tolua.cpp; sourceTree = "<group>"; };
+		926131E1195AC822004070C9 /* cb_story_tolua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cb_story_tolua.h; sourceTree = "<group>"; };
 		9261AC2718978224001028B5 /* CCEditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBox.cpp; sourceTree = "<group>"; };
 		9261AC2818978224001028B5 /* CCEditBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBox.h; sourceTree = "<group>"; };
 		9261AC2918978224001028B5 /* CCEditBoxImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImpl.h; sourceTree = "<group>"; };
@@ -1482,6 +1486,7 @@
 		92396898185591DB0063E8A1 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				926131DB195AC71A004070C9 /* tolua_pkg */,
 				92166CFE1959747B00003EA3 /* story */,
 				920547D519050C160062ADA4 /* armature */,
 				92EDA10618D9E6DB0022E196 /* tmx */,
@@ -2151,6 +2156,16 @@
 			);
 			name = tolua;
 			path = "../../cocos2d-x/scripting/lua/tolua";
+			sourceTree = "<group>";
+		};
+		926131DB195AC71A004070C9 /* tolua_pkg */ = {
+			isa = PBXGroup;
+			children = (
+				926131E0195AC822004070C9 /* cb_story_tolua.cpp */,
+				926131E1195AC822004070C9 /* cb_story_tolua.h */,
+				926131DD195AC71A004070C9 /* story.tolua */,
+			);
+			path = tolua_pkg;
 			sourceTree = "<group>";
 		};
 		9261AC2618978224001028B5 /* CCEditBox */ = {
@@ -3288,6 +3303,7 @@
 				92DC8F1F18D5DDA200632F44 /* CCTableView.cpp in Sources */,
 				923C785C18A120B500DD8D9A /* entities.c in Sources */,
 				92A856C719500CCC00098490 /* CCSkin.cpp in Sources */,
+				926131E2195AC822004070C9 /* cb_story_tolua.cpp in Sources */,
 				92F68EAA1855AD4400C97188 /* yajl.c in Sources */,
 				92A856B219500CCC00098490 /* CCActionEaseEx.cpp in Sources */,
 				923968E9185591DB0063E8A1 /* CCGestureRecognizer.cpp in Sources */,

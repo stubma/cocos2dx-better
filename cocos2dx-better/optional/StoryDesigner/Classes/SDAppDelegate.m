@@ -26,6 +26,7 @@
 #import "MyEAGLView.h"
 #import "CNSplitView.h"
 #import <ACEView/ACEView.h>
+#include "PreviewScene.h"
 
 static AppDelegate s_sharedApplication;
 
@@ -185,12 +186,16 @@ static AppDelegate s_sharedApplication;
     [data appendBytes:[self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding]
                length:[self.aceView.string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     [f writeData:data];
+    [f truncateFileAtOffset:[f offsetInFile]];
     [f synchronizeFile];
     [f closeFile];
 }
 
 - (void)onReplay:(id)sender {
-    
+    Preview* scene = (Preview*)CCDirector::sharedDirector()->getRunningScene();
+    CCStoryLayer* storyLayer = scene->getStoryLayer();
+    string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];
+    storyLayer->preloadStoryString(script);
 }
 
 - (void)onAddImages:(id)sender {

@@ -33,10 +33,13 @@ extern "C" {
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
+#include "tolua++.h"
     
 #ifdef __cplusplus
 }
 #endif
+
+#include "cb_story_tolua.h"
 
 static lua_State* L = NULL;
 
@@ -46,6 +49,7 @@ CCStoryLayer::CCStoryLayer() {
     if(!L) {
 		L = lua_open();
 		luaL_openlibs(L);
+        tolua_story_open(L);
 	}
 }
 

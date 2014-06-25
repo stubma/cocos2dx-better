@@ -36,7 +36,6 @@
 		92166CF6195972B900003EA3 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 92166CF1195972B900003EA3 /* save.png */; };
 		92166CFC195972EE00003EA3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166CF9195972EE00003EA3 /* main.m */; };
 		92166CFD195972EE00003EA3 /* StoryDesigner-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92166CFA195972EE00003EA3 /* StoryDesigner-Info.plist */; };
-		92F0DA4F195A6774001EB30F /* story.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F0DA4E195A6774001EB30F /* story.cpp */; };
 		92FD79781959DDDB0079F491 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
 		92FD797C1959DF400079F491 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166CEB195972B900003EA3 /* MainMenu.xib */; };
 		92FD797E1959DFA20079F491 /* ACEView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
@@ -127,8 +126,6 @@
 		92166CFA195972EE00003EA3 /* StoryDesigner-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "StoryDesigner-Info.plist"; sourceTree = SOURCE_ROOT; };
 		92166CFB195972EE00003EA3 /* StoryDesigner-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StoryDesigner-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		926131D9195ABE89004070C9 /* test.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.lua; sourceTree = "<group>"; };
-		92F0DA4D195A66F7001EB30F /* story.tolua */ = {isa = PBXFileReference; lastKnownFileType = text; path = story.tolua; sourceTree = "<group>"; };
-		92F0DA4E195A6774001EB30F /* story.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = story.cpp; sourceTree = "<group>"; };
 		92FD79771959DDDB0079F491 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				92166B5E1959506600003EA3 /* CNSplitView */,
-				92F0DA4C195A66E7001EB30F /* tolua_pkg */,
 				92166CD9195972B000003EA3 /* Classes */,
 				92166B3019594FBA00003EA3 /* Supporting Files */,
 				92166CE9195972B900003EA3 /* Resources */,
@@ -277,15 +273,6 @@
 			path = test;
 			sourceTree = "<group>";
 		};
-		92F0DA4C195A66E7001EB30F /* tolua_pkg */ = {
-			isa = PBXGroup;
-			children = (
-				92F0DA4E195A6774001EB30F /* story.cpp */,
-				92F0DA4D195A66F7001EB30F /* story.tolua */,
-			);
-			path = tolua_pkg;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -388,7 +375,6 @@
 				92166B741959506600003EA3 /* CNSplitViewDraggingHandle.m in Sources */,
 				92166CFC195972EE00003EA3 /* main.m in Sources */,
 				92166B731959506600003EA3 /* CNSplitView.m in Sources */,
-				92F0DA4F195A6774001EB30F /* story.cpp in Sources */,
 				92166CE6195972B000003EA3 /* MyEAGLView.m in Sources */,
 				92166B761959506600003EA3 /* CNSplitViewToolbarButton.m in Sources */,
 				92166B751959506600003EA3 /* CNSplitViewToolbar.m in Sources */,
@@ -526,6 +512,7 @@
 					"$(PROJECT_DIR)/../../../../cocos2d-x/external/libwebsockets/ios/include",
 					"$(PROJECT_DIR)/../../../../cocos2d-x/scripting/lua/tolua",
 					"$(PROJECT_DIR)/../../../../cocos2d-x/scripting/lua/lua",
+					"$(PROJECT_DIR)/../../../../cocos2dx-better/cocos2dx-better/src/tolua_pkg",
 				);
 				INFOPLIST_FILE = "StoryDesigner-Info.plist";
 				OTHER_LDFLAGS = (
@@ -565,6 +552,7 @@
 					"$(PROJECT_DIR)/../../../../cocos2d-x/external/libwebsockets/ios/include",
 					"$(PROJECT_DIR)/../../../../cocos2d-x/scripting/lua/tolua",
 					"$(PROJECT_DIR)/../../../../cocos2d-x/scripting/lua/lua",
+					"$(PROJECT_DIR)/../../../../cocos2dx-better/cocos2dx-better/src/tolua_pkg",
 				);
 				INFOPLIST_FILE = "StoryDesigner-Info.plist";
 				OTHER_LDFLAGS = (

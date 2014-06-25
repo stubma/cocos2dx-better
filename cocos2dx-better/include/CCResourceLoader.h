@@ -418,6 +418,15 @@ public:
      */
     static char* loadCString(const string& name, CC_DECRYPT_FUNC decFunc = NULL);
     
+    /**
+     * load a file and return a c++ string
+     *
+     * @param name file path
+     * @param decFunc decrypt function or NULL if file is not encrypted
+     * @return c string of file content, caller should release it
+     */
+    static string loadString(const string& name, CC_DECRYPT_FUNC decFunc = NULL);
+    
 	/**
 	 * a static method used to load an encrypted image
 	 *

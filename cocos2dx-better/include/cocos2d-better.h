@@ -171,5 +171,6 @@
 
 // story
 #include "CCStoryLayer.h"
+#include "CCStoryCommandSet.h"
 
 #endif // __cocos2d_better_h__

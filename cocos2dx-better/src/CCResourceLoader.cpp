@@ -82,6 +82,13 @@ unsigned char* CCResourceLoader::loadRaw(const string& name, unsigned long* size
     return (unsigned char*)dec;
 }
 
+string CCResourceLoader::loadString(const string& name, CC_DECRYPT_FUNC decFunc) {
+    char* buf = loadCString(name, decFunc);
+    string ret = buf;
+    free(buf);
+    return ret;
+}
+
 char* CCResourceLoader::loadCString(const string& name, CC_DECRYPT_FUNC decFunc) {
     // load encryptd data
 	unsigned long len;

@@ -72,18 +72,7 @@
 		92166D0E1959765800003EA3 /* tolua_map.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166D091959765800003EA3 /* tolua_map.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		92166D0F1959765800003EA3 /* tolua_push.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166D0A1959765800003EA3 /* tolua_push.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		92166D101959765800003EA3 /* tolua_to.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166D0B1959765800003EA3 /* tolua_to.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
-		92166D35195976F000003EA3 /* CCLuaBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D14195976EF00003EA3 /* CCLuaBridge.cpp */; };
-		92166D36195976F000003EA3 /* CCLuaEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D16195976EF00003EA3 /* CCLuaEngine.cpp */; };
-		92166D37195976F000003EA3 /* CCLuaStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D18195976EF00003EA3 /* CCLuaStack.cpp */; };
-		92166D38195976F000003EA3 /* CCLuaValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D1A195976EF00003EA3 /* CCLuaValue.cpp */; };
-		92166D39195976F000003EA3 /* Cocos2dxLuaLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D1C195976F000003EA3 /* Cocos2dxLuaLoader.cpp */; };
-		92166D3A195976F000003EA3 /* lua_cocos2dx_cocostudio_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D1E195976F000003EA3 /* lua_cocos2dx_cocostudio_manual.cpp */; };
-		92166D3B195976F000003EA3 /* lua_cocos2dx_extensions_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D20195976F000003EA3 /* lua_cocos2dx_extensions_manual.cpp */; };
-		92166D3C195976F000003EA3 /* lua_cocos2dx_manual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D22195976F000003EA3 /* lua_cocos2dx_manual.cpp */; };
-		92166D40195976F000003EA3 /* LuaCocoStudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92166D2A195976F000003EA3 /* LuaCocoStudio.cpp */; };
-		92166D43195976F000003EA3 /* tolua_fix.c in Sources */ = {isa = PBXBuildFile; fileRef = 92166D32195976F000003EA3 /* tolua_fix.c */; };
-		92CE958C19597CAC009A023A /* LuaCocos2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CE958B19597CAC009A023A /* LuaCocos2d.cpp */; };
-		92CE959619597E15009A023A /* CCLuaObjcBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92CE959519597E15009A023A /* CCLuaObjcBridge.mm */; };
+		92F0DA4F195A6774001EB30F /* story.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F0DA4E195A6774001EB30F /* story.cpp */; };
 		92FD79781959DDDB0079F491 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
 		92FD797C1959DF400079F491 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166CEB195972B900003EA3 /* MainMenu.xib */; };
 		92FD797E1959DFA20079F491 /* ACEView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
@@ -234,30 +223,8 @@
 		92166D091959765800003EA3 /* tolua_map.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_map.c; sourceTree = "<group>"; };
 		92166D0A1959765800003EA3 /* tolua_push.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_push.c; sourceTree = "<group>"; };
 		92166D0B1959765800003EA3 /* tolua_to.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_to.c; sourceTree = "<group>"; };
-		92166D14195976EF00003EA3 /* CCLuaBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLuaBridge.cpp; sourceTree = "<group>"; };
-		92166D15195976EF00003EA3 /* CCLuaBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaBridge.h; sourceTree = "<group>"; };
-		92166D16195976EF00003EA3 /* CCLuaEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLuaEngine.cpp; sourceTree = "<group>"; };
-		92166D17195976EF00003EA3 /* CCLuaEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaEngine.h; sourceTree = "<group>"; };
-		92166D18195976EF00003EA3 /* CCLuaStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLuaStack.cpp; sourceTree = "<group>"; };
-		92166D19195976EF00003EA3 /* CCLuaStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaStack.h; sourceTree = "<group>"; };
-		92166D1A195976EF00003EA3 /* CCLuaValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLuaValue.cpp; sourceTree = "<group>"; };
-		92166D1B195976EF00003EA3 /* CCLuaValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaValue.h; sourceTree = "<group>"; };
-		92166D1C195976F000003EA3 /* Cocos2dxLuaLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cocos2dxLuaLoader.cpp; sourceTree = "<group>"; };
-		92166D1D195976F000003EA3 /* Cocos2dxLuaLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cocos2dxLuaLoader.h; sourceTree = "<group>"; };
-		92166D1E195976F000003EA3 /* lua_cocos2dx_cocostudio_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_cocostudio_manual.cpp; sourceTree = "<group>"; };
-		92166D1F195976F000003EA3 /* lua_cocos2dx_cocostudio_manual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_cocos2dx_cocostudio_manual.h; sourceTree = "<group>"; };
-		92166D20195976F000003EA3 /* lua_cocos2dx_extensions_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_extensions_manual.cpp; sourceTree = "<group>"; };
-		92166D21195976F000003EA3 /* lua_cocos2dx_extensions_manual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_cocos2dx_extensions_manual.h; sourceTree = "<group>"; };
-		92166D22195976F000003EA3 /* lua_cocos2dx_manual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_manual.cpp; sourceTree = "<group>"; };
-		92166D23195976F000003EA3 /* lua_cocos2dx_manual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_cocos2dx_manual.h; sourceTree = "<group>"; };
-		92166D29195976F000003EA3 /* LuaCocos2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaCocos2d.h; sourceTree = "<group>"; };
-		92166D2A195976F000003EA3 /* LuaCocoStudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCocoStudio.cpp; sourceTree = "<group>"; };
-		92166D2B195976F000003EA3 /* LuaCocoStudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaCocoStudio.h; sourceTree = "<group>"; };
-		92166D32195976F000003EA3 /* tolua_fix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_fix.c; sourceTree = "<group>"; };
-		92166D33195976F000003EA3 /* tolua_fix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tolua_fix.h; sourceTree = "<group>"; };
-		92CE958B19597CAC009A023A /* LuaCocos2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCocos2d.cpp; sourceTree = "<group>"; };
-		92CE958F19597D94009A023A /* CCLuaObjcBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLuaObjcBridge.h; sourceTree = "<group>"; };
-		92CE959519597E15009A023A /* CCLuaObjcBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCLuaObjcBridge.mm; sourceTree = "<group>"; };
+		92F0DA4D195A66F7001EB30F /* story.tolua */ = {isa = PBXFileReference; lastKnownFileType = text; path = story.tolua; sourceTree = "<group>"; };
+		92F0DA4E195A6774001EB30F /* story.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = story.cpp; sourceTree = "<group>"; };
 		92FD79771959DDDB0079F491 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -289,10 +256,9 @@
 			isa = PBXGroup;
 			children = (
 				92166B5E1959506600003EA3 /* CNSplitView */,
-				92CE958A19597CAC009A023A /* workaround */,
-				92166D11195976EF00003EA3 /* cocos2dx_support */,
 				92166C581959551B00003EA3 /* lua */,
 				92166D041959765800003EA3 /* tolua */,
+				92F0DA4C195A66E7001EB30F /* tolua_pkg */,
 				92166CD9195972B000003EA3 /* Classes */,
 				92166B3019594FBA00003EA3 /* Supporting Files */,
 				92166CE9195972B900003EA3 /* Resources */,
@@ -477,59 +443,13 @@
 			path = "../../../../cocos2d-x/scripting/lua/tolua";
 			sourceTree = "<group>";
 		};
-		92166D11195976EF00003EA3 /* cocos2dx_support */ = {
+		92F0DA4C195A66E7001EB30F /* tolua_pkg */ = {
 			isa = PBXGroup;
 			children = (
-				92CE958D19597D94009A023A /* platform */,
-				92166D14195976EF00003EA3 /* CCLuaBridge.cpp */,
-				92166D15195976EF00003EA3 /* CCLuaBridge.h */,
-				92166D16195976EF00003EA3 /* CCLuaEngine.cpp */,
-				92166D17195976EF00003EA3 /* CCLuaEngine.h */,
-				92166D18195976EF00003EA3 /* CCLuaStack.cpp */,
-				92166D19195976EF00003EA3 /* CCLuaStack.h */,
-				92166D1A195976EF00003EA3 /* CCLuaValue.cpp */,
-				92166D1B195976EF00003EA3 /* CCLuaValue.h */,
-				92166D1C195976F000003EA3 /* Cocos2dxLuaLoader.cpp */,
-				92166D1D195976F000003EA3 /* Cocos2dxLuaLoader.h */,
-				92166D1E195976F000003EA3 /* lua_cocos2dx_cocostudio_manual.cpp */,
-				92166D1F195976F000003EA3 /* lua_cocos2dx_cocostudio_manual.h */,
-				92166D20195976F000003EA3 /* lua_cocos2dx_extensions_manual.cpp */,
-				92166D21195976F000003EA3 /* lua_cocos2dx_extensions_manual.h */,
-				92166D22195976F000003EA3 /* lua_cocos2dx_manual.cpp */,
-				92166D23195976F000003EA3 /* lua_cocos2dx_manual.h */,
-				92166D29195976F000003EA3 /* LuaCocos2d.h */,
-				92166D2A195976F000003EA3 /* LuaCocoStudio.cpp */,
-				92166D2B195976F000003EA3 /* LuaCocoStudio.h */,
-				92166D32195976F000003EA3 /* tolua_fix.c */,
-				92166D33195976F000003EA3 /* tolua_fix.h */,
+				92F0DA4E195A6774001EB30F /* story.cpp */,
+				92F0DA4D195A66F7001EB30F /* story.tolua */,
 			);
-			name = cocos2dx_support;
-			path = "../../../../cocos2d-x/scripting/lua/cocos2dx_support";
-			sourceTree = "<group>";
-		};
-		92CE958A19597CAC009A023A /* workaround */ = {
-			isa = PBXGroup;
-			children = (
-				92CE959519597E15009A023A /* CCLuaObjcBridge.mm */,
-				92CE958B19597CAC009A023A /* LuaCocos2d.cpp */,
-			);
-			path = workaround;
-			sourceTree = "<group>";
-		};
-		92CE958D19597D94009A023A /* platform */ = {
-			isa = PBXGroup;
-			children = (
-				92CE958E19597D94009A023A /* ios */,
-			);
-			path = platform;
-			sourceTree = "<group>";
-		};
-		92CE958E19597D94009A023A /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				92CE958F19597D94009A023A /* CCLuaObjcBridge.h */,
-			);
-			path = ios;
+			path = tolua_pkg;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -627,7 +547,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				92166CAD1959551B00003EA3 /* print.c in Sources */,
-				92166D3C195976F000003EA3 /* lua_cocos2dx_manual.cpp in Sources */,
 				92166CE7195972B000003EA3 /* PreviewScene.cpp in Sources */,
 				92166D101959765800003EA3 /* tolua_to.c in Sources */,
 				92166CA91959551B00003EA3 /* lua.c in Sources */,
@@ -637,17 +556,13 @@
 				92166C9D1959551B00003EA3 /* lmem.c in Sources */,
 				92166C8F1959551B00003EA3 /* lapi.c in Sources */,
 				92166B781959506600003EA3 /* NSView+CNSplitViewToolbar.m in Sources */,
-				92166D39195976F000003EA3 /* Cocos2dxLuaLoader.cpp in Sources */,
 				92166C931959551B00003EA3 /* ldblib.c in Sources */,
 				92166B771959506600003EA3 /* CNSplitViewToolbarButtonCell.m in Sources */,
 				92166CA61959551B00003EA3 /* ltable.c in Sources */,
 				92166C901959551B00003EA3 /* lauxlib.c in Sources */,
 				92166C9E1959551B00003EA3 /* loadlib.c in Sources */,
-				92166D40195976F000003EA3 /* LuaCocoStudio.cpp in Sources */,
 				92166C971959551B00003EA3 /* lfunc.c in Sources */,
 				92166C991959551B00003EA3 /* linit.c in Sources */,
-				92166D3A195976F000003EA3 /* lua_cocos2dx_cocostudio_manual.cpp in Sources */,
-				92166D36195976F000003EA3 /* CCLuaEngine.cpp in Sources */,
 				92166CE8195972B000003EA3 /* SDAppDelegate.m in Sources */,
 				92166CAC1959551B00003EA3 /* lzio.c in Sources */,
 				92166D0E1959765800003EA3 /* tolua_map.c in Sources */,
@@ -659,32 +574,26 @@
 				92166CA21959551B00003EA3 /* lparser.c in Sources */,
 				92166C951959551B00003EA3 /* ldo.c in Sources */,
 				92166CFC195972EE00003EA3 /* main.m in Sources */,
-				92166D43195976F000003EA3 /* tolua_fix.c in Sources */,
-				92CE959619597E15009A023A /* CCLuaObjcBridge.mm in Sources */,
 				92166CAA1959551B00003EA3 /* lundump.c in Sources */,
 				92166CA71959551B00003EA3 /* ltablib.c in Sources */,
 				92166B731959506600003EA3 /* CNSplitView.m in Sources */,
-				92166D38195976F000003EA3 /* CCLuaValue.cpp in Sources */,
 				92166CA51959551B00003EA3 /* lstrlib.c in Sources */,
 				92166CA11959551B00003EA3 /* loslib.c in Sources */,
 				92166D0F1959765800003EA3 /* tolua_push.c in Sources */,
 				92166CA01959551B00003EA3 /* lopcodes.c in Sources */,
 				92166C911959551B00003EA3 /* lbaselib.c in Sources */,
-				92166D3B195976F000003EA3 /* lua_cocos2dx_extensions_manual.cpp in Sources */,
 				92166CA41959551B00003EA3 /* lstring.c in Sources */,
+				92F0DA4F195A6774001EB30F /* story.cpp in Sources */,
 				92166CE6195972B000003EA3 /* MyEAGLView.m in Sources */,
 				92166D0D1959765800003EA3 /* tolua_is.c in Sources */,
-				92166D37195976F000003EA3 /* CCLuaStack.cpp in Sources */,
 				92166CA81959551B00003EA3 /* ltm.c in Sources */,
 				92166C9B1959551B00003EA3 /* llex.c in Sources */,
 				92166B761959506600003EA3 /* CNSplitViewToolbarButton.m in Sources */,
 				92166CAB1959551B00003EA3 /* lvm.c in Sources */,
 				92166CA31959551B00003EA3 /* lstate.c in Sources */,
-				92166D35195976F000003EA3 /* CCLuaBridge.cpp in Sources */,
 				92166B751959506600003EA3 /* CNSplitViewToolbar.m in Sources */,
 				92166CE5195972B000003EA3 /* DesignerGlobal.cpp in Sources */,
 				92166C941959551B00003EA3 /* ldebug.c in Sources */,
-				92CE958C19597CAC009A023A /* LuaCocos2d.cpp in Sources */,
 				92166C921959551B00003EA3 /* lcode.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

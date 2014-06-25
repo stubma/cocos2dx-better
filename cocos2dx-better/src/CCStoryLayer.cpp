@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCStoryLayer.h"
+#include "CCUtils.h"
+#include "CCResourceLoader.h"
 
 NS_CC_BEGIN
 
@@ -59,6 +61,20 @@ bool CCStoryLayer::init() {
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
 	return true;
+}
+
+void CCStoryLayer::preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc) {
+    string path = CCUtils::getExternalOrFullPath(storyScriptFile);
+    string script = CCResourceLoader::loadString(path, decFunc);
+    preloadStoryString(script);
+}
+
+void CCStoryLayer::preloadStoryString(const string& storyScript) {
+    
+}
+
+void CCStoryLayer::playStory() {
+    
 }
 
 NS_CC_END

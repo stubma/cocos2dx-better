@@ -21,39 +21,15 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCStoryLayer__
-#define __CCStoryLayer__
+#ifndef __CCStoryCommandSet__
+#define __CCStoryCommandSet__
 
 #include "cocos2d.h"
-#include "ccMoreTypes.h"
+#include <string>
 
-NS_CC_BEGIN
+USING_NS_CC;
+using namespace std;
 
-/**
- * It is a container of story script, it will manage the playing of story
- */
-class CC_DLL CCStoryLayer : public CCLayer {
-protected:
-	CCStoryLayer();
-	
-public:
-	virtual ~CCStoryLayer();
-	static CCStoryLayer* create();
-	
-	virtual bool init();
-    virtual void onExit();
-    virtual void onEnter();
-    
-    /// preload story script from a file
-    virtual void preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc = NULL);
-    
-    /// preload story script string
-    virtual void preloadStoryString(const string& storyScript);
-    
-    /// start story playing
-    virtual void playStory();
-};
+extern void msg(string s);
 
-NS_CC_END
-
-#endif /* defined(__CCStoryLayer__) */
+#endif /* defined(__CCStoryCommandSet__) */

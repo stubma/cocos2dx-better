@@ -42,7 +42,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fon
 }
 
 bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fontName, float fontSize, const CCSize& dimensions, CCTextAlignment hAlignment, CCVerticalTextAlignment vAlignment) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
 	ccRichFontDefinition tempDef;
 	
@@ -68,7 +68,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, const char *fon
 }
 
 bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefinition *textDefinition) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 	// cache the texture data
@@ -179,7 +179,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
     
 #else
     
-	CCAssert(false, "Currently only supported on iOS and Android!");
+	CCAssert(false, "Operation is not supported for your platform");
 	return false;
     
 #endif

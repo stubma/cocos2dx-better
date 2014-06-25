@@ -186,7 +186,6 @@
 		9243819B1883E43100ECA91A /* CCLayerClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 924381991883E43100ECA91A /* CCLayerClip.cpp */; };
 		9243AA0918F95D970020966A /* CCAssetInputStream_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9243AA0318F95D970020966A /* CCAssetInputStream_mac.mm */; };
 		9243AA0A18F95D970020966A /* CCAssetOutputStream_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9243AA0518F95D970020966A /* CCAssetOutputStream_mac.mm */; };
-		9243AA0B18F95D970020966A /* CCImage_richlabel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9243AA0618F95D970020966A /* CCImage_richlabel.mm */; };
 		9243AA0C18F95D970020966A /* CCImagePicker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9243AA0718F95D970020966A /* CCImagePicker.mm */; };
 		9243AA0D18F95D970020966A /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9243AA0818F95D970020966A /* CCUtils.mm */; };
 		9243BD1118F96E970020966A /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9243BD0F18F96E790020966A /* libcocos2dx.a */; };
@@ -837,7 +836,6 @@
 		9243AA0318F95D970020966A /* CCAssetInputStream_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetInputStream_mac.mm; sourceTree = "<group>"; };
 		9243AA0418F95D970020966A /* CCAssetOutputStream_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_mac.h; sourceTree = "<group>"; };
 		9243AA0518F95D970020966A /* CCAssetOutputStream_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetOutputStream_mac.mm; sourceTree = "<group>"; };
-		9243AA0618F95D970020966A /* CCImage_richlabel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImage_richlabel.mm; sourceTree = "<group>"; };
 		9243AA0718F95D970020966A /* CCImagePicker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImagePicker.mm; sourceTree = "<group>"; };
 		9243AA0818F95D970020966A /* CCUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUtils.mm; sourceTree = "<group>"; };
 		9243BD0A18F96E790020966A /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = ../cocos2dx/proj.mac/cocos2dx.xcodeproj; sourceTree = "<group>"; };
@@ -1935,7 +1933,6 @@
 				9243AA0318F95D970020966A /* CCAssetInputStream_mac.mm */,
 				9243AA0418F95D970020966A /* CCAssetOutputStream_mac.h */,
 				9243AA0518F95D970020966A /* CCAssetOutputStream_mac.mm */,
-				9243AA0618F95D970020966A /* CCImage_richlabel.mm */,
 				9243AA0718F95D970020966A /* CCImagePicker.mm */,
 				9243AA0818F95D970020966A /* CCUtils.mm */,
 			);
@@ -3359,7 +3356,6 @@
 				92A856E519500CCC00098490 /* UILoadingBar.cpp in Sources */,
 				920214CE18EFA482007FF1BD /* CBData.cpp in Sources */,
 				92A856FC19500CCC00098490 /* TriggerBase.cpp in Sources */,
-				9243AA0B18F95D970020966A /* CCImage_richlabel.mm in Sources */,
 				92F68EAC1855AD4400C97188 /* yajl_buf.c in Sources */,
 				92F68F271855BDE200C97188 /* CCAuroraManager.cpp in Sources */,
 				92A856BB19500CCC00098490 /* CCNodeReader.cpp in Sources */,

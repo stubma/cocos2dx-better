@@ -326,7 +326,7 @@ bool CCRichLabelTTF::updateTexture()
     if (!tex)
         return false;
     
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
 	ccRichFontDefinition texDef = _prepareTextDefinition(true);
 	tex->initWithRichString( m_string.c_str(), &texDef );
@@ -452,7 +452,7 @@ CCRect CCRichLabelTTF::getImageBoundInWorldSpace(int index) {
 
 void CCRichLabelTTF::enableShadow(const CCSize &shadowOffset, int shadowColor, float shadowBlur, bool updateTexture)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
 	bool valueChanged = false;
 	
@@ -488,14 +488,14 @@ void CCRichLabelTTF::enableShadow(const CCSize &shadowOffset, int shadowColor, f
 	}
     
 #else
-	CCAssert(false, "Currently only supported on iOS and Android!");
+	CCAssert(false, "Operation is not supported for your platform");
 #endif
     
 }
 
 void CCRichLabelTTF::disableShadow(bool updateTexture)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
 	if (m_shadowEnabled)
 	{
@@ -507,14 +507,13 @@ void CCRichLabelTTF::disableShadow(bool updateTexture)
 	}
     
 #else
-	CCAssert(false, "Currently only supported on iOS and Android!");
+	CCAssert(false, "Operation is not supported for your platform");
 #endif
 }
 
 void CCRichLabelTTF::enableStroke(const ccColor3B &strokeColor, float strokeSize, bool updateTexture)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 	bool valueChanged = false;
 	
 	if(m_strokeEnabled == false)
@@ -541,14 +540,14 @@ void CCRichLabelTTF::enableStroke(const ccColor3B &strokeColor, float strokeSize
 	}
     
 #else
-	CCAssert(false, "Currently only supported on iOS and Android!");
+	CCAssert(false, "Operation is not supported for your platform");
 #endif
     
 }
 
 void CCRichLabelTTF::disableStroke(bool updateTexture)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     
 	if (m_strokeEnabled)
 	{
@@ -559,14 +558,14 @@ void CCRichLabelTTF::disableStroke(bool updateTexture)
 	}
     
 #else
-	CCAssert(false, "Currently only supported on iOS and Android!");
+	CCAssert(false, "Operation is not supported for your platform");
 #endif
     
 }
 
 void CCRichLabelTTF::setFontFillColor(const ccColor3B &tintColor, bool updateTexture)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 	if (m_textFillColor.r != tintColor.r || m_textFillColor.g != tintColor.g || m_textFillColor.b != tintColor.b)
 	{
 		m_textFillColor = tintColor;
@@ -575,7 +574,7 @@ void CCRichLabelTTF::setFontFillColor(const ccColor3B &tintColor, bool updateTex
 			this->updateTexture();
 	}
 #else
-	CCAssert(false, "Currently only supported on iOS and Android!");
+	CCAssert(false, "Operation is not supported for your platform");
 #endif
 }
 
@@ -595,7 +594,7 @@ ccRichFontDefinition *CCRichLabelTTF::getTextDefinition()
 }
 
 void CCRichLabelTTF::setGlobalImageScaleFactor(float scale, bool mustUpdateTexture) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) || (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 	if (m_globalImageScaleFactor != scale) {
 		m_globalImageScaleFactor = scale;
 		
@@ -603,7 +602,7 @@ void CCRichLabelTTF::setGlobalImageScaleFactor(float scale, bool mustUpdateTextu
 			this->updateTexture();
 	}
 #else
-	CCAssert(false, "Currently only supported on iOS and Android!");
+	CCAssert(false, "Operation is not supported for your platform");
 #endif
 }
 

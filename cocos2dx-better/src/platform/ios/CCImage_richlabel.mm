@@ -21,11 +21,17 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #include "CCImage_richlabel.h"
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    #import <UIKit/UIKit.h>
+#else
+    #define UIImage NSImage
+    #define UIFont NSFont
+    #import <AppKit/AppKit.h>
+#endif
 #import <CoreText/CoreText.h>
 #include <math.h>
 
@@ -604,7 +610,16 @@ static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* fram
 	}
 	
 	// get final image from data
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 	UIImage* image = [UIImage imageWithData:nsData];
+#else
+    NSImage* image = [[NSImage alloc] initWithData:nsData];
+#if !__has_feature(objc_arc)
+    // XXX: if uncomment it, cocos2d-x has a weird crash when release pool, so I have
+    // to comment it and the image will be leaked
+//	[image autorelease];
+#endif
+#endif
 	
 	// draw part of it to get normal frame image
 	if(image) {
@@ -638,7 +653,15 @@ static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* fram
 		CGRect rect = CGRectMake(frameRect.origin.x, frameRect.origin.y, frameRect.size.width, frameRect.size.height);
 		if(rotated)
 			swap(rect.size.width, rect.size.height);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 		CGImageRef frameCGImage = CGImageCreateWithImageInRect(image.CGImage, rect);
+#else
+        CGImageRef imageCGImage = [image CGImageForProposedRect:nil
+                                                        context:nil
+                                                          hints:nil];
+        CGImageRef frameCGImage = CGImageCreateWithImageInRect(imageCGImage, rect);
+        CGImageRelease(imageCGImage);
+#endif
 		
 		// draw frame
 		CGContextDrawImage(ctx,
@@ -647,7 +670,16 @@ static UIImage* extractFrameFromAtlas(const char* atlasFile, CCSpriteFrame* fram
 
 		// get final image
 		CGImageRef cgImage = CGBitmapContextCreateImage(ctx);
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 		frameImage = [UIImage imageWithCGImage:cgImage];
+#else
+        frameImage = [[NSImage alloc] initWithCGImage:cgImage size:NSZeroSize];
+#if !__has_feature(objc_arc)
+        // XXX: if uncomment it, cocos2d-x has a weird crash when release pool, so I have
+        // to comment it and the image will be leaked
+//        [frameImage autorelease];
+#endif
+#endif
 		
 		// end
 		CGImageRelease(frameCGImage);
@@ -733,7 +765,17 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
 														 origin[i].y + span.offsetY,
 														 span.width != 0 ? span.width : (image.size.width * span.scaleX),
 														 span.height != 0 ? span.height : (image.size.height * span.scaleY));
+                                
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 								CGContextDrawImage(context, rect, image.CGImage);
+#else
+                                CGImageRef cgImage = [image CGImageForProposedRect:NULL
+                                                                           context:[NSGraphicsContext currentContext]
+                                                                             hints:nil];
+                                CGContextDrawImage(context, rect, cgImage);
+                                CGImageRelease(cgImage);
+#endif
 								
 								// save rect
 								imageRects.push_back(CCRectMake(rect.origin.x,
@@ -1101,7 +1143,17 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                                     
                                     // create UIImage and register it
                                     if(cgImage) {
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
                                         UIImage* image = [UIImage imageWithCGImage:cgImage];
+#else
+                                        NSImage* image = [[NSImage alloc] initWithCGImage:cgImage
+                                                                                     size:NSZeroSize];
+#if !__has_feature(objc_arc)
+                                        // XXX: if uncomment it, cocos2d-x has a weird crash when release pool, so I have
+                                        // to comment it and the image will be leaked
+//                                        [image autorelease];
+#endif
+#endif
                                         CGImageRelease(cgImage);
                                         [s_imageMap setValue:image forKey:imageName];
                                     }
@@ -1398,7 +1450,14 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
 			CC_BREAK_IF(!context);
 			
 			// store the current context
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
             UIGraphicsPushContext(context);
+#else
+            [NSGraphicsContext saveGraphicsState];
+            NSGraphicsContext* nsCtx = [NSGraphicsContext graphicsContextWithGraphicsPort:context
+                                                                                  flipped:YES];
+            [NSGraphicsContext setCurrentContext:nsCtx];
+#endif
             
             // alow anti-aliasing
             CGContextSetAllowsAntialiasing(context, YES);
@@ -1445,7 +1504,11 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
                 extractLinkMeta(frame, spans, *linkMetas);
 			
             // pop the context
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
             UIGraphicsPopContext();
+#else
+            [NSGraphicsContext restoreGraphicsState];
+#endif
 		} while(0);
         
         // release

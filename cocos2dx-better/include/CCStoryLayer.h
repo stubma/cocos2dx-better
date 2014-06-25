@@ -31,10 +31,19 @@ using namespace std;
 
 NS_CC_BEGIN
 
+class CCStoryPlayer;
+
 /**
  * It is a container of story script, it will manage the playing of story
  */
 class CC_DLL CCStoryLayer : public CCLayer {
+private:
+    /// story player
+    CCStoryPlayer* m_player;
+    
+    /// update is schedule
+    bool m_playing;
+    
 protected:
 	CCStoryLayer();
 	
@@ -45,15 +54,22 @@ public:
 	virtual bool init();
     virtual void onExit();
     virtual void onEnter();
+    virtual void update(float delta);
     
     /// preload story script from a file
-    virtual bool preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc = NULL);
+    bool preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc = NULL);
     
     /// preload story script string
-    virtual bool preloadStoryString(const string& storyScript);
+    bool preloadStoryString(const string& storyScript);
     
     /// start story playing
-    virtual void playStory();
+    void playStory();
+    
+    /// stop playing
+    void stopPlay();
+    
+    /// reset layer, it clear all story element
+    void reset();
 };
 
 NS_CC_END

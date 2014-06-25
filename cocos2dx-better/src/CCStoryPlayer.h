@@ -21,49 +21,44 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCStoryCommandSet__
-#define __CCStoryCommandSet__
+#ifndef __CCStoryPlayer__
+#define __CCStoryPlayer__
 
 #include "cocos2d.h"
-#include <string>
-
-USING_NS_CC;
-using namespace std;
-
-// global command set
-extern CCArray gStoryCommandSet;
-
-// command method for lua
-extern void msg(string s);
+#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 
-/// one command
-class CCStoryCommand : public CCObject {
-public:
-    enum Type {
-        UNKNOWN,
-        MSG
-    };
+class CCStoryLayer;
+class CCStoryCommand;
+
+/// player of story command sequence
+class CCStoryPlayer : public CCObject {
+private:
+    /// fetch next command
+    void fetchNextCommand();
+    
+    /// execute one command
+    void executeCurrentCommand();
     
 public:
-    /// command parameters
-    union {
-        struct {
-            const char* s;
-        } msg;
-    } m_param;
+    CCStoryPlayer();
+    virtual ~CCStoryPlayer();
+    static CCStoryPlayer* create(CCStoryLayer* owner);
     
-public:
-    CCStoryCommand();
-    virtual ~CCStoryCommand();
-    static CCStoryCommand* create(Type type);
+    /// init
+    virtual bool initWithOwner(CCStoryLayer* owner);
     
-    virtual bool initWithCommand(Type type);
+    /// start
+    void start();
     
-    CC_SYNTHESIZE(Type, m_type, Type);
+    CC_SYNTHESIZE(CCStoryLayer*, m_owner, Owner);
+    CC_SYNTHESIZE(CCStoryCommand*, m_curCmd, CurrentCommand);
+    CC_SYNTHESIZE(int, m_curCmdIndex, CurrentCommandIndex);
+    CC_SYNTHESIZE_READONLY_BOOL(m_done, Done);
+    CC_SYNTHESIZE_READONLY_BOOL(m_curCmdDone, CurrentCommandDone);
 };
 
 NS_CC_END
 
-#endif /* defined(__CCStoryCommandSet__) */
+#endif /* defined(__CCStoryPlayer__) */

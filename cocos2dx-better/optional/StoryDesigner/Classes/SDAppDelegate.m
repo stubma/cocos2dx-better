@@ -39,8 +39,10 @@ static AppDelegate s_sharedApplication;
 @property (weak) IBOutlet ACEView* aceView;
 @property (assign) BOOL dirty;
 @property (strong) NSString* file;
+@property (assign) BOOL firstTime;
 
 - (void)initSplitViews;
+- (void)initACEView;
 - (void)onSave:(id)sender;
 - (void)onLoad:(id)sender;
 - (void)onReplay:(id)sender;
@@ -55,17 +57,55 @@ static AppDelegate s_sharedApplication;
 @implementation SDAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // init
+    self.firstTime = YES;
+    
     // init split views
     [self initSplitViews];
     
     // init ace view
+    [self initACEView];
+    
+    // start cocos2d-x loop
+    CCApplication::sharedApplication()->run();
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    if(self.dirty) {
+        [self confirmSave:YES];
+        return NSTerminateCancel;
+    } else {
+        return NSTerminateNow;
+    }
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    if(self.file) {
+        NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
+        [d setObject:self.file forKey:@"last_file"];
+    }
+}
+
+- (void)initACEView {
+    // init
     [self.aceView setDelegate:self];
     [self.aceView setMode:ACEModeLua];
     [self.aceView setTheme:ACEThemeXcode];
     [self.aceView setShowInvisibles:NO];
     
-    // start cocos2d-x loop
-    CCApplication::sharedApplication()->run();
+    // load content from last file
+    NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
+    NSString* lastFile = [d objectForKey:@"last_file"];
+    if([lastFile length] > 0) {
+        NSFileManager* fm = [NSFileManager defaultManager];
+        if([fm fileExistsAtPath:lastFile]) {
+            self.aceView.string = [NSString stringWithContentsOfFile:lastFile
+                                                            encoding:NSUTF8StringEncoding
+                                                               error:nil];
+            self.file = lastFile;
+            self.dirty = NO;
+        }
+    }
 }
 
 - (void)initSplitViews {
@@ -132,7 +172,12 @@ static AppDelegate s_sharedApplication;
     [alert setAlertStyle:NSWarningAlertStyle];
     NSInteger result = [alert runModal];
     if (result == NSAlertFirstButtonReturn) { // save
-        [self showSavePanel:quit];
+        if(self.file) {
+            [self save];
+            [[NSApplication sharedApplication] terminate:self];
+        } else {
+            [self showSavePanel:quit];
+        }
     } else if(result == NSAlertSecondButtonReturn) { // discard
         if(quit) {
             self.dirty = NO;
@@ -171,6 +216,7 @@ static AppDelegate s_sharedApplication;
             self.aceView.string = [NSString stringWithContentsOfFile:self.file
                                                             encoding:NSUTF8StringEncoding
                                                                error:nil];
+            self.dirty = NO;
         }
     }
 }
@@ -189,13 +235,18 @@ static AppDelegate s_sharedApplication;
     [f truncateFileAtOffset:[f offsetInFile]];
     [f synchronizeFile];
     [f closeFile];
+    
+    // clear flag
+    self.dirty = NO;
 }
 
 - (void)onReplay:(id)sender {
-    Preview* scene = (Preview*)CCDirector::sharedDirector()->getRunningScene();
+    Preview* scene = (Preview*)CCDirector::sharedDirector()->getRunningScene()->getChildren()->objectAtIndex(0);
     CCStoryLayer* storyLayer = scene->getStoryLayer();
     string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];
+    storyLayer->reset();
     storyLayer->preloadStoryString(script);
+    storyLayer->playStory();
 }
 
 - (void)onAddImages:(id)sender {
@@ -205,11 +256,7 @@ static AppDelegate s_sharedApplication;
 - (void)onSave:(id)sender {
     if(self.file) {
         if(self.dirty) {
-            // save to file
             [self save];
-            
-            // reset flag
-            self.dirty = NO;
         }
     } else {
         [self showSavePanel:NO];
@@ -247,7 +294,9 @@ static AppDelegate s_sharedApplication;
 #pragma mark ace view delegate
 
 - (void) textDidChange:(NSNotification *)notification {
-    self.dirty = YES;
+    if(!self.firstTime)
+        self.dirty = YES;
+    self.firstTime = NO;
 }
 
 @end

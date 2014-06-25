@@ -354,6 +354,7 @@
 		92A8570119500CF100098490 /* CCMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92A8570019500CF100098490 /* CCMemory.cpp */; };
 		92B516E816E86020009F3536 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92B516E716E86020009F3536 /* Foundation.framework */; };
 		92BF0FFC18A71F320088121F /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92BF0FFB18A71F320088121F /* CCUtils.mm */; };
+		92C1C9B5195AE8D300680B66 /* CCStoryPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C1C9B3195AE8D300680B66 /* CCStoryPlayer.cpp */; };
 		92C53CF018EF09AB0045BA9B /* CBHttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C53CEF18EF09AB0045BA9B /* CBHttpClient.cpp */; };
 		92C90F4518FEB60000330E7F /* CCPinyinUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92C90F4218FEB60000330E7F /* CCPinyinUtils.cpp */; };
 		92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92CD1263185D51C100BF3C30 /* CCUDPSocket.cpp */; };
@@ -1205,6 +1206,8 @@
 		92B516E416E86020009F3536 /* libcocos2dx-better.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2dx-better.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B516E716E86020009F3536 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		92BF0FFB18A71F320088121F /* CCUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUtils.mm; sourceTree = "<group>"; };
+		92C1C9B3195AE8D300680B66 /* CCStoryPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCStoryPlayer.cpp; sourceTree = "<group>"; };
+		92C1C9B4195AE8D300680B66 /* CCStoryPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStoryPlayer.h; sourceTree = "<group>"; };
 		92C53CEC18EF099D0045BA9B /* CBHttpClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpClient.h; sourceTree = "<group>"; };
 		92C53CED18EF099D0045BA9B /* CBHttpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpRequest.h; sourceTree = "<group>"; };
 		92C53CEE18EF099D0045BA9B /* CBHttpResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBHttpResponse.h; sourceTree = "<group>"; };
@@ -1431,6 +1434,8 @@
 			children = (
 				92166D001959749400003EA3 /* CCStoryLayer.cpp */,
 				92F0DA45195A642C001EB30F /* CCStoryCommandSet.cpp */,
+				92C1C9B3195AE8D300680B66 /* CCStoryPlayer.cpp */,
+				92C1C9B4195AE8D300680B66 /* CCStoryPlayer.h */,
 			);
 			name = story;
 			sourceTree = "<group>";
@@ -3380,6 +3385,7 @@
 				92C90F4518FEB60000330E7F /* CCPinyinUtils.cpp in Sources */,
 				926131B4195AB9E5004070C9 /* lapi.c in Sources */,
 				92F68F371855BDE200C97188 /* CCSPXLoader.cpp in Sources */,
+				92C1C9B5195AE8D300680B66 /* CCStoryPlayer.cpp in Sources */,
 				926131CF195AB9E5004070C9 /* lundump.c in Sources */,
 				92F68E5C18559EC100C97188 /* String8.cpp in Sources */,
 				92CE277718B5EE35006E5B71 /* CCFlash.cpp in Sources */,

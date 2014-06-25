@@ -54,11 +54,6 @@ bool Preview::init() {
     m_storyLayer = CCStoryLayer::create();
     addChild(m_storyLayer);
     
-    // test
-    CCLabelTTF* label = CCLabelTTF::create("Hello", "Helvetica", 40);
-    label->setPosition(CCUtils::getLocalCenter(this));
-    addChild(label);
-    
     // put this in init in order to receive first selection event
     CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(Preview::onFrameSizeChanged), kCCNotificationFrameSizeChanged, NULL);
     

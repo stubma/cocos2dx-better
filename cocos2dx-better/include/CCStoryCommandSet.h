@@ -30,6 +30,40 @@
 USING_NS_CC;
 using namespace std;
 
+// command method for lua
 extern void msg(string s);
+
+// global command set
+extern CCArray gStoryCommandSet;
+
+NS_CC_BEGIN
+
+/// one command
+class CCStoryCommand : public CCObject {
+public:
+    enum Type {
+        UNKNOWN,
+        MSG
+    };
+    
+public:
+    /// command parameters
+    union {
+        struct {
+            const char* s;
+        } msg;
+    } m_param;
+    
+public:
+    CCStoryCommand();
+    virtual ~CCStoryCommand();
+    static CCStoryCommand* create(Type type);
+    
+    virtual bool initWithCommand(Type type);
+    
+    CC_SYNTHESIZE(Type, m_type, Type);
+};
+
+NS_CC_END
 
 #endif /* defined(__CCStoryCommandSet__) */

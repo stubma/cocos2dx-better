@@ -24,15 +24,36 @@
 #include "CCStoryLayer.h"
 #include "CCUtils.h"
 #include "CCResourceLoader.h"
+#include "CCStoryCommandSet.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
+    
+#ifdef __cplusplus
+}
+#endif
+
+static lua_State* L = NULL;
 
 NS_CC_BEGIN
 
 CCStoryLayer::CCStoryLayer() {
-	
+    if(!L) {
+		L = lua_open();
+		luaL_openlibs(L);
+	}
 }
 
 CCStoryLayer::~CCStoryLayer() {
-	
+    if(L) {
+        lua_close(L);
+        L = NULL;
+    }
 }
 
 CCStoryLayer* CCStoryLayer::create() {
@@ -63,14 +84,22 @@ bool CCStoryLayer::init() {
 	return true;
 }
 
-void CCStoryLayer::preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc) {
+bool CCStoryLayer::preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc) {
     string path = CCUtils::getExternalOrFullPath(storyScriptFile);
     string script = CCResourceLoader::loadString(path, decFunc);
-    preloadStoryString(script);
+    return preloadStoryString(script);
 }
 
-void CCStoryLayer::preloadStoryString(const string& storyScript) {
+bool CCStoryLayer::preloadStoryString(const string& storyScript) {
+    // clear old
+    gStoryCommandSet.removeAllObjects();
     
+    // do script
+    int ret = luaL_dostring(L, storyScript.c_str());
+    if(ret != 0) {
+        CCLOG("failed to load story, return code: %d", ret);
+    }
+    return ret == 0;
 }
 
 void CCStoryLayer::playStory() {

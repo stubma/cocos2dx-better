@@ -45,10 +45,10 @@ public:
     virtual void onEnter();
     
     /// preload story script from a file
-    virtual void preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc = NULL);
+    virtual bool preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc = NULL);
     
     /// preload story script string
-    virtual void preloadStoryString(const string& storyScript);
+    virtual bool preloadStoryString(const string& storyScript);
     
     /// start story playing
     virtual void playStory();

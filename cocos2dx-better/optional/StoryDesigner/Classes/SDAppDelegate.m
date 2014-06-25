@@ -36,10 +36,18 @@ static AppDelegate s_sharedApplication;
 @property (weak) IBOutlet CNSplitView* hSplitView;
 @property (weak) IBOutlet CNSplitView* vSplitView;
 @property (weak) IBOutlet ACEView* aceView;
+@property (assign) BOOL dirty;
+@property (strong) NSString* file;
 
 - (void)initSplitViews;
 - (void)onSave:(id)sender;
 - (void)onLoad:(id)sender;
+- (void)onReplay:(id)sender;
+- (void)onAddImages:(id)sender;
+- (void)confirmSave:(BOOL)quit;
+- (void)showOpenPanel;
+- (void)showSavePanel:(BOOL)quit;
+- (void)save;
 
 @end
 
@@ -50,7 +58,6 @@ static AppDelegate s_sharedApplication;
     [self initSplitViews];
     
     // init ace view
-    [self.aceView setString:@"if x > 3 then"];
     [self.aceView setDelegate:self];
     [self.aceView setMode:ACEModeLua];
     [self.aceView setTheme:ACEThemeXcode];
@@ -79,10 +86,34 @@ static AppDelegate s_sharedApplication;
     [load setTarget:self];
     [load setAction:@selector(onLoad:)];
     
+    // toolbar - select images
+    NSButton* selectImage = [[NSButton alloc] init];
+    [selectImage setButtonType:NSMomentaryPushInButton];
+    [selectImage setTitle:@"Add Images"];
+    [selectImage setToolbarItemWidth:100];
+    [selectImage setBezelStyle:NSRoundedBezelStyle];
+    [selectImage setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+    [[selectImage cell] setControlSize:NSSmallControlSize];
+    [selectImage setTarget:self];
+    [selectImage setAction:@selector(onAddImages:)];
+    
+    // toolbar - replay
+    NSButton* replay = [[NSButton alloc] init];
+    [replay setButtonType:NSMomentaryPushInButton];
+    [replay setTitle:@"Replay"];
+    [replay setToolbarItemWidth:100];
+    [replay setBezelStyle:NSRoundedBezelStyle];
+    [replay setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+    [[replay cell] setControlSize:NSSmallControlSize];
+    [replay setTarget:self];
+    [replay setAction:@selector(onReplay:)];
+    
     // create toolbar and add it
     CNSplitViewToolbar* toolbar = [[CNSplitViewToolbar alloc] init];
     [toolbar addItem:load align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:save align:CNSplitViewToolbarItemAlignLeft];
+    [toolbar addItem:selectImage align:CNSplitViewToolbarItemAlignLeft];
+    [toolbar addItem:replay align:CNSplitViewToolbarItemAlignLeft];
     [self.hSplitView attachToolbar:toolbar
                   toSubViewAtIndex:1
                             onEdge:CNSplitViewToolbarEdgeBottom];
@@ -91,12 +122,101 @@ static AppDelegate s_sharedApplication;
     [self.hSplitView showToolbarAnimated:NO];
 }
 
-- (void)onSave:(id)sender {
+- (void)confirmSave:(BOOL)quit {
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"Save"];
+    [alert addButtonWithTitle:@"Discard"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setMessageText:@"Save current story?"];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    NSInteger result = [alert runModal];
+    if (result == NSAlertFirstButtonReturn) { // save
+        [self showSavePanel:quit];
+    } else if(result == NSAlertSecondButtonReturn) { // discard
+        if(quit) {
+            self.dirty = NO;
+            [[NSApplication sharedApplication] terminate:self];
+        } else {
+            [self showOpenPanel];
+        }
+    }
+}
+
+- (void)showSavePanel:(BOOL)quit {
+    NSSavePanel* saveDlg = [NSSavePanel savePanel];
+    [saveDlg setCanCreateDirectories:YES];
+    [saveDlg setShowsHiddenFiles:NO];
+    [saveDlg setExtensionHidden:NO];
+    if ([saveDlg runModal] == NSOKButton) {
+        self.file = [saveDlg filename];
+        [self save];
+        self.dirty = NO;
+        
+        if(quit) {
+            [[NSApplication sharedApplication] terminate:self];
+        }
+    }
+}
+
+- (void)showOpenPanel {
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowsMultipleSelection:NO];
+    [openDlg setPrompt:@"Load"];
+    if ([openDlg runModal] == NSOKButton) {
+        NSArray* files = [openDlg filenames];
+        if([files count] > 0) {
+            self.file = [files objectAtIndex:0];
+            self.aceView.string = [NSString stringWithContentsOfFile:self.file
+                                                            encoding:NSUTF8StringEncoding
+                                                               error:nil];
+        }
+    }
+}
+
+- (void)save {
+    // save to file
+    NSFileManager* fm = [NSFileManager defaultManager];
+    if(![fm fileExistsAtPath:self.file]) {
+        [fm createFileAtPath:self.file contents:nil attributes:nil];
+    }
+    NSFileHandle* f = [NSFileHandle fileHandleForWritingAtPath:self.file];
+    NSMutableData* data = [NSMutableData data];
+    [data appendBytes:[self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding]
+               length:[self.aceView.string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+    [f writeData:data];
+    [f synchronizeFile];
+    [f closeFile];
+}
+
+- (void)onReplay:(id)sender {
     
 }
 
-- (void)onLoad:(id)sender {
+- (void)onAddImages:(id)sender {
     
+}
+
+- (void)onSave:(id)sender {
+    if(self.file) {
+        if(self.dirty) {
+            // save to file
+            [self save];
+            
+            // reset flag
+            self.dirty = NO;
+        }
+    } else {
+        [self showSavePanel:NO];
+    }
+}
+
+- (void)onLoad:(id)sender {
+    if(self.dirty) {
+        [self confirmSave:NO];
+    } else {
+        [self showOpenPanel];
+    }
 }
 
 #pragma mark -
@@ -122,7 +242,7 @@ static AppDelegate s_sharedApplication;
 #pragma mark ace view delegate
 
 - (void) textDidChange:(NSNotification *)notification {
-    
+    self.dirty = YES;
 }
 
 @end

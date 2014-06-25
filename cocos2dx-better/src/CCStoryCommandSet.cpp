@@ -23,6 +23,46 @@
  ****************************************************************************/
 #include "CCStoryCommandSet.h"
 
+CCArray gStoryCommandSet;
+
 void msg(string s) {
-    CCLOG("msg called");
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG);
+    c->m_param.msg.s = CCUtils::copy(s.c_str());
+    gStoryCommandSet.addObject(c);
 }
+
+NS_CC_BEGIN
+
+CCStoryCommand::CCStoryCommand() :
+m_type(UNKNOWN) {
+    
+}
+
+CCStoryCommand::~CCStoryCommand() {
+    switch(m_type) {
+        case MSG:
+            free((void*)m_param.msg.s);
+            break;
+        default:
+            break;
+    }
+}
+
+CCStoryCommand* CCStoryCommand::create(Type type) {
+    CCStoryCommand* c = new CCStoryCommand();
+    if(c->initWithCommand(type)) {
+        c->autorelease();
+        return c;
+    }
+    CC_SAFE_RELEASE(c);
+    return NULL;
+}
+
+bool CCStoryCommand::initWithCommand(Type type) {
+    m_type = type;
+    memset(&m_param, 0, sizeof(m_param));
+    
+    return true;
+}
+
+NS_CC_END

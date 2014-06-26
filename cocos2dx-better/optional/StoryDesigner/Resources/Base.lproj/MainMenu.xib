@@ -17,6 +17,7 @@
                 <outlet property="atlasOutline" destination="45l-OZ-Pgy" id="mgi-x8-qRS"/>
                 <outlet property="glView" destination="g3w-KF-N3U" id="282-rZ-0PS"/>
                 <outlet property="hSplitView" destination="66W-79-7hP" id="ASY-My-gkH"/>
+                <outlet property="propertyScrollView" destination="kKd-gH-okS" id="RAX-0g-a0S"/>
                 <outlet property="vSplitView" destination="NdU-Z5-Ebk" id="9qh-aR-A8a"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -768,9 +769,39 @@
                                     <outlet property="delegate" destination="Voe-Tx-rLC" id="wkE-5a-zhW"/>
                                 </connections>
                             </splitView>
-                            <customView fixedFrame="YES" id="hz1-Rw-WUg">
+                            <customView id="hz1-Rw-WUg">
                                 <rect key="frame" x="0.0" y="453" width="969" height="161"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <subviews>
+                                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kKd-gH-okS">
+                                        <rect key="frame" x="0.0" y="0.0" width="969" height="161"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <clipView key="contentView" id="Q9O-TP-iiC">
+                                            <rect key="frame" x="0.0" y="0.0" width="969" height="161"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xog-UB-fTU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="969" height="161"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </view>
+                                            </subviews>
+                                        </clipView>
+                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="aZD-Bu-tTd">
+                                            <rect key="frame" x="1" y="145" width="952" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Dxl-9u-nkY">
+                                            <rect key="frame" x="953" y="1" width="15" height="144"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </scroller>
+                                    </scrollView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="kKd-gH-okS" secondAttribute="trailing" id="5Hj-8R-uKP"/>
+                                    <constraint firstItem="kKd-gH-okS" firstAttribute="leading" secondItem="hz1-Rw-WUg" secondAttribute="leading" id="NOj-bG-tHa"/>
+                                    <constraint firstAttribute="bottom" secondItem="kKd-gH-okS" secondAttribute="bottom" id="jzw-fY-ngW"/>
+                                    <constraint firstItem="kKd-gH-okS" firstAttribute="top" secondItem="hz1-Rw-WUg" secondAttribute="top" id="vc9-fR-FYP"/>
+                                </constraints>
                             </customView>
                         </subviews>
                         <holdingPriorities>

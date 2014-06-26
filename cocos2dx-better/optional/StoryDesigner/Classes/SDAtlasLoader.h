@@ -12,6 +12,6 @@
 @interface SDAtlasLoader : NSObject
 
 + (NSImage*)loadAtlas:(NSString*)texFilename;
-+ (NSImage*)getFrameImage:(const Frame&)frame fromAtlas:(NSImage*)image;
++ (NSImage*)getFrameImage:(SDFrame*)frame fromAtlas:(NSImage*)image;
 
 @end

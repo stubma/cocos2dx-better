@@ -27,6 +27,8 @@
 #import "CNSplitView.h"
 #import <ACEView/ACEView.h>
 #include "PreviewScene.h"
+#import "SDPlistParser.h"
+#import "SDAtlasLoader.h"
 
 static AppDelegate s_sharedApplication;
 
@@ -38,11 +40,14 @@ static AppDelegate s_sharedApplication;
 @property (weak) IBOutlet CNSplitView* vSplitView;
 @property (weak) IBOutlet ACEView* aceView;
 @property (weak) IBOutlet NSOutlineView *atlasOutline;
+@property (weak) IBOutlet NSScrollView *propertyScrollView;
 @property (assign) BOOL dirty;
 @property (strong) NSString* file;
 @property (assign) BOOL firstTime;
 @property (strong) NSMutableArray* atlasPlists;
 @property (strong) NSMutableDictionary* atlasFrameMap;
+@property (strong) NSMutableDictionary* atlasImageMap;
+@property (strong) NSMutableDictionary* atlasPathMap;
 
 - (void)initSplitViews;
 - (void)initACEView;
@@ -54,6 +59,8 @@ static AppDelegate s_sharedApplication;
 - (void)showOpenPanel;
 - (void)showSavePanel:(BOOL)quit;
 - (void)save;
+- (void)loadAtlases:(NSArray*)plists;
+- (void)onDoubleClickOutline:(id)sender;
 
 @end
 
@@ -64,6 +71,16 @@ static AppDelegate s_sharedApplication;
     self.firstTime = YES;
     self.atlasPlists = [NSMutableArray array];
     self.atlasFrameMap = [NSMutableDictionary dictionary];
+    self.atlasImageMap = [NSMutableDictionary dictionary];
+    self.atlasPathMap = [NSMutableDictionary dictionary];
+    
+    // preload atlas if has last file
+    NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
+    NSString* lastFile = [d objectForKey:@"last_file"];
+    if([lastFile length] > 0) {
+        NSArray* plists = [d objectForKey:lastFile];
+        [self loadAtlases:plists];
+    }
     
     // init split views
     [self initSplitViews];
@@ -72,7 +89,12 @@ static AppDelegate s_sharedApplication;
     [self initACEView];
     
     // reload outline
+    [self.atlasOutline setDoubleAction:@selector(onDoubleClickOutline:)];
+    [self.atlasOutline setTarget:self];
     [self.atlasOutline reloadData];
+    
+    // declare pasteboard type
+    [[NSPasteboard generalPasteboard] declareTypes:@[NSStringPboardType] owner:self];
     
     // start cocos2d-x loop
     CCApplication::sharedApplication()->run();
@@ -91,6 +113,7 @@ static AppDelegate s_sharedApplication;
     if(self.file) {
         NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
         [d setObject:self.file forKey:@"last_file"];
+        [d setObject:self.atlasPlists forKey:self.file];
     }
 }
 
@@ -265,9 +288,32 @@ static AppDelegate s_sharedApplication;
     [openDlg setPrompt:@"Load"];
     if ([openDlg runModal] == NSOKButton) {
         NSArray* files = [openDlg filenames];
-        for(NSString* file in files) {
-            
-        }
+        [self loadAtlases:files];
+        
+        // reload outline
+        [self.atlasOutline reloadData];
+    }
+}
+
+- (void)loadAtlases:(NSArray*)plists {
+    for(NSString* file in plists) {
+        // parse plist
+        NSString* atlasPath = [SDPlistParser parse:file];
+        
+        // load atlas
+        NSImage* atlasImage = [SDAtlasLoader loadAtlas:atlasPath];
+        
+        // save
+        [self.atlasPlists addObject:file];
+        [self.atlasPathMap setObject:atlasPath forKey:file];
+        [self.atlasImageMap setObject:atlasImage forKey:file];
+        [self.atlasFrameMap setObject:[NSArray arrayWithArray:gCurrentAtlasFrameList]
+                               forKey:file];
+        
+        // load into sprite frame cache
+        CCResourceLoader::loadZwoptex([file cStringUsingEncoding:NSUTF8StringEncoding],
+                                      [atlasPath cStringUsingEncoding:NSUTF8StringEncoding],
+                                      NULL);
     }
 }
 
@@ -346,8 +392,40 @@ static AppDelegate s_sharedApplication;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    NSString* itemStr = (NSString*)item;
-    return [itemStr lastPathComponent];
+    if([item isKindOfClass:[NSString class]]) {
+        NSString* itemStr = (NSString*)item;
+        return [itemStr lastPathComponent];
+    } else {
+        SDFrame* frame = (SDFrame*)item;
+        return frame.key;
+    }
+}
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+    NSImageView* imageView = [[NSImageView alloc] init];
+    id item = [self.atlasOutline itemAtRow:self.atlasOutline.selectedRow];
+    if([item isKindOfClass:[NSString class]]) {
+        imageView.image = [self.atlasImageMap objectForKey:item];
+    } else {
+        NSImage* atlas = [self.atlasImageMap objectForKey:[self.atlasOutline parentForItem:item]];
+        imageView.image = [SDAtlasLoader getFrameImage:item fromAtlas:atlas];
+    }
+    imageView.frame = NSMakeRect(0, 0, imageView.image.size.width, imageView.image.size.height);
+    self.propertyScrollView.documentView = imageView;
+    [self.propertyScrollView.documentView scrollPoint:NSMakePoint(0, imageView.bounds.size.height)];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    return NO;
+}
+
+- (void)onDoubleClickOutline:(id)sender {
+    id item = [self.atlasOutline itemAtRow:self.atlasOutline.selectedRow];
+    if(![item isKindOfClass:[NSString class]]) {
+        SDFrame* frame = (SDFrame*)item;
+        NSString* s = [NSString stringWithFormat:@"\"%@\"", frame.key];
+        [[NSPasteboard generalPasteboard] setString:s forType:NSStringPboardType];
+    }
 }
 
 @end

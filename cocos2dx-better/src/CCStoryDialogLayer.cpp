@@ -97,6 +97,7 @@ void CCStoryDialogLayer::handleUserClick() {
     } else {
         m_player->markCurrentCommandDone();
         if(m_label) {
+            unschedule(schedule_selector(CCStoryDialogLayer::onDialogDisplayedSomeWhile));
             m_label->removeFromParent();
             m_label = NULL;
         }

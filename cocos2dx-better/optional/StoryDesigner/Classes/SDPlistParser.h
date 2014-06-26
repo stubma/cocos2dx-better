@@ -12,15 +12,18 @@
 
 using namespace std;
 
-typedef struct {
-	NSString* key;
-	CGPoint offset;
-    CGSize originalSize;
-    CGRect texRect;
-	CGRect sourceColorRect;
-    BOOL rotated;
-} Frame;
-extern vector<Frame> gCurrentAtlasFrameList;
+@interface SDFrame : NSObject
+
+@property (strong) NSString* key;
+@property (assign) CGPoint offset;
+@property (assign) CGSize originalSize;
+@property (assign) CGRect texRect;
+@property (assign) CGRect sourceColorRect;
+@property (assign) BOOL rotated;
+
+@end
+
+extern NSMutableArray* gCurrentAtlasFrameList;
 
 @interface SDPlistParser : NSObject
 

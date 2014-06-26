@@ -11,6 +11,9 @@
 #import <AppKit/AppKit.h>
 #include <unistd.h>
 
+@implementation SDFrame
+@end
+
 typedef enum {
 	TAG_UNKNOWN,
 	TAG_PLIST,
@@ -39,14 +42,14 @@ typedef struct {
 } AtlasFile;
 
 // atlas and frame list
-vector<Frame> gCurrentAtlasFrameList;
+NSMutableArray* gCurrentAtlasFrameList = [[NSMutableArray alloc] init];
 AtlasFile atlas;
 
 // for parsing state maintenance
 NSString* lastKey;
 vector<PListTag> tags;
 ParseState state = READY;
-Frame lastFrame;
+SDFrame* lastFrame = nil;
 
 static CGPoint parsePoint(NSString* v) {
 	NSUInteger len = [v length];
@@ -164,6 +167,7 @@ static PListTag getPListTag(NSString* name) {
 					break;
 				case PARSING_FRAMES:
 					state = PARSING_FRAME;
+                    lastFrame = [[SDFrame alloc] init];
 					lastFrame.key = lastKey;
 					lastKey = nil;
 					break;
@@ -194,7 +198,7 @@ static PListTag getPListTag(NSString* name) {
 			switch(state) {
 				case PARSING_FRAME:
 					// append frame
-					gCurrentAtlasFrameList.push_back(lastFrame);
+					[gCurrentAtlasFrameList addObject:lastFrame];
 					state = PARSING_FRAMES;
 					break;
 				case PARSING_FRAMES:
@@ -246,22 +250,38 @@ static PListTag getPListTag(NSString* name) {
 				}
 				case PARSING_FRAME:
 				{
-					if([@"x" isEqualToString:lastKey]) {
-						lastFrame.texRect.origin.x = [string floatValue];
+                    if([@"x" isEqualToString:lastKey]) {
+                        CGRect r = lastFrame.texRect;
+                        r.origin.x = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"y" isEqualToString:lastKey]) {
-						lastFrame.texRect.origin.y = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.origin.y = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"width" isEqualToString:lastKey]) {
-						lastFrame.texRect.size.width = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.size.width = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"height" isEqualToString:lastKey]) {
-						lastFrame.texRect.size.height = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.size.height = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"offsetX" isEqualToString:lastKey]) {
-						lastFrame.offset.x = [string floatValue];
+                        CGPoint offset = lastFrame.offset;
+                        offset.x = [string floatValue];
+                        lastFrame.offset = offset;
 					} else if([@"offsetY" isEqualToString:lastKey]) {
-						lastFrame.offset.y = [string floatValue];
+                        CGPoint offset = lastFrame.offset;
+                        offset.y = [string floatValue];
+                        lastFrame.offset = offset;
 					} else if([@"originalWidth" isEqualToString:lastKey]) {
-						lastFrame.originalSize.width = [string floatValue];
+                        CGSize s = lastFrame.originalSize;
+                        s.width = [string floatValue];
+						lastFrame.originalSize = s;
 					} else if([@"originalHeight" isEqualToString:lastKey]) {
-						lastFrame.originalSize.height = [string floatValue];
+                        CGSize s = lastFrame.originalSize;
+                        s.height = [string floatValue];
+						lastFrame.originalSize = s;
 					}
 					break;
 				}
@@ -274,21 +294,37 @@ static PListTag getPListTag(NSString* name) {
 				case PARSING_FRAME:
 				{
 					if([@"x" isEqualToString:lastKey]) {
-						lastFrame.texRect.origin.x = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.origin.x = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"y" isEqualToString:lastKey]) {
-						lastFrame.texRect.origin.y = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.origin.y = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"width" isEqualToString:lastKey]) {
-						lastFrame.texRect.size.width = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.size.width = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"height" isEqualToString:lastKey]) {
-						lastFrame.texRect.size.height = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.size.height = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"offsetX" isEqualToString:lastKey]) {
-						lastFrame.offset.x = [string floatValue];
+                        CGPoint offset = lastFrame.offset;
+                        offset.x = [string floatValue];
+                        lastFrame.offset = offset;
 					} else if([@"offsetY" isEqualToString:lastKey]) {
-						lastFrame.offset.y = [string floatValue];
+                        CGPoint offset = lastFrame.offset;
+                        offset.y = [string floatValue];
+                        lastFrame.offset = offset;
 					} else if([@"originalWidth" isEqualToString:lastKey]) {
-						lastFrame.originalSize.width = [string floatValue];
+                        CGSize s = lastFrame.originalSize;
+                        s.width = [string floatValue];
+						lastFrame.originalSize = s;
 					} else if([@"originalHeight" isEqualToString:lastKey]) {
-						lastFrame.originalSize.height = [string floatValue];
+                        CGSize s = lastFrame.originalSize;
+                        s.height = [string floatValue];
+						lastFrame.originalSize = s;
 					}
 					break;
 				}
@@ -315,22 +351,38 @@ static PListTag getPListTag(NSString* name) {
 						lastFrame.originalSize = parseSize(string);
 					} else if([@"sourceColorRect" isEqualToString:lastKey] || [@"spriteColorRect" isEqualToString:lastKey]) {
 						lastFrame.sourceColorRect = parseRect(string);
-					} else if([@"x" isEqualToString:lastKey]) {
-						lastFrame.texRect.origin.x = [string floatValue];
+                    } else if([@"x" isEqualToString:lastKey]) {
+                        CGRect r = lastFrame.texRect;
+                        r.origin.x = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"y" isEqualToString:lastKey]) {
-						lastFrame.texRect.origin.y = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.origin.y = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"width" isEqualToString:lastKey]) {
-						lastFrame.texRect.size.width = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.size.width = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"height" isEqualToString:lastKey]) {
-						lastFrame.texRect.size.height = [string floatValue];
+                        CGRect r = lastFrame.texRect;
+                        r.size.height = [string floatValue];
+                        lastFrame.texRect = r;
 					} else if([@"offsetX" isEqualToString:lastKey]) {
-						lastFrame.offset.x = [string floatValue];
+                        CGPoint offset = lastFrame.offset;
+                        offset.x = [string floatValue];
+                        lastFrame.offset = offset;
 					} else if([@"offsetY" isEqualToString:lastKey]) {
-						lastFrame.offset.y = [string floatValue];
+                        CGPoint offset = lastFrame.offset;
+                        offset.y = [string floatValue];
+                        lastFrame.offset = offset;
 					} else if([@"originalWidth" isEqualToString:lastKey]) {
-						lastFrame.originalSize.width = [string floatValue];
+                        CGSize s = lastFrame.originalSize;
+                        s.width = [string floatValue];
+						lastFrame.originalSize = s;
 					} else if([@"originalHeight" isEqualToString:lastKey]) {
-						lastFrame.originalSize.height = [string floatValue];
+                        CGSize s = lastFrame.originalSize;
+                        s.height = [string floatValue];
+						lastFrame.originalSize = s;
 					}
 					
 					break;
@@ -360,11 +412,13 @@ static PListTag getPListTag(NSString* name) {
         }
         
         // parse plist
+        [gCurrentAtlasFrameList removeAllObjects];
         NSData* plistData = [NSData dataWithContentsOfFile:plist];
         NSXMLParser* parser = [[NSXMLParser alloc] initWithData:plistData];
         PlistDelegate* delegate = [[PlistDelegate alloc] init];
         parser.delegate = delegate;
         [parser parse];
+        lastFrame = nil;
         
         // check texture file
         NSString* texFilePath = [[plist stringByDeletingLastPathComponent] stringByAppendingPathComponent:atlas.texFilename];

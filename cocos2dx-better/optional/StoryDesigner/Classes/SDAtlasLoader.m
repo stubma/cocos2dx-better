@@ -116,7 +116,23 @@ using namespace pvrtexture;
             // free
             free(pvrdata);
         } else if([@".png" isEqualToString:ext] || [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext]) {
-            image = [[NSImage alloc] initWithContentsOfFile:texFilePath];
+            BOOL png = [@".png" isEqualToString:ext];
+            CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)texRawData);
+            CGImageRef cgImage = NULL;
+            if(png) {
+                cgImage = CGImageCreateWithPNGDataProvider(imgDataProvider,
+                                                           NULL,
+                                                           true,
+                                                           kCGRenderingIntentDefault);
+            } else {
+                cgImage = CGImageCreateWithJPEGDataProvider(imgDataProvider,
+                                                            NULL,
+                                                            true,
+                                                            kCGRenderingIntentDefault);
+            }
+            image = [[NSImage alloc] initWithCGImage:cgImage size:NSZeroSize];
+            CGDataProviderRelease(imgDataProvider);
+            CGImageRelease(cgImage);
         }
         
         // check image
@@ -129,7 +145,7 @@ using namespace pvrtexture;
     return image;
 }
 
-+ (NSImage*)getFrameImage:(const Frame&)frame fromAtlas:(NSImage*)image {
++ (NSImage*)getFrameImage:(SDFrame*)frame fromAtlas:(NSImage*)image {
     // create image for frame
     NSImage* fImage = [[NSImage alloc] initWithSize:NSMakeSize(frame.originalSize.width, frame.originalSize.height)];
     [fImage lockFocus];
@@ -165,6 +181,22 @@ using namespace pvrtexture;
                   fromRect:rect
                  operation:NSCompositeSourceOver
                   fraction:1];
+    }
+    
+    // get data based on extension
+    NSString* fnWithoutExt = [frame.key stringByDeletingPathExtension];
+    NSString* ext = [frame.key substringFromIndex:[fnWithoutExt length]];
+    BOOL isPNG = [@".png" isEqualToString:ext];
+    BOOL isJPG = [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext];
+    NSData* fileData = nil;
+    if(isPNG) {
+        fileData = [bitmapRep representationUsingType:NSPNGFileType properties:nil];
+        fImage = [[NSImage alloc] initWithData:fileData];
+    } else if(isJPG) {
+        fileData = [bitmapRep representationUsingType:NSJPEGFileType properties:nil];
+        fImage = [[NSImage alloc] initWithData:fileData];
+    } else {
+        NSLog(@"can't save frame because %@ is not supported", ext);
     }
     
     // return image

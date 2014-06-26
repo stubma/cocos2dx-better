@@ -25,6 +25,7 @@
 #include "CCRichLabelTTF.h"
 #include "CCStoryCommandSet.h"
 #include "CCStoryPlayer.h"
+#include "CCUtils.h"
 
 NS_CC_BEGIN
 

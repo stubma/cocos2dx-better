@@ -37,9 +37,12 @@ static AppDelegate s_sharedApplication;
 @property (weak) IBOutlet CNSplitView* hSplitView;
 @property (weak) IBOutlet CNSplitView* vSplitView;
 @property (weak) IBOutlet ACEView* aceView;
+@property (weak) IBOutlet NSOutlineView *atlasOutline;
 @property (assign) BOOL dirty;
 @property (strong) NSString* file;
 @property (assign) BOOL firstTime;
+@property (strong) NSMutableArray* atlasPlists;
+@property (strong) NSMutableDictionary* atlasFrameMap;
 
 - (void)initSplitViews;
 - (void)initACEView;
@@ -59,6 +62,8 @@ static AppDelegate s_sharedApplication;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // init
     self.firstTime = YES;
+    self.atlasPlists = [NSMutableArray array];
+    self.atlasFrameMap = [NSMutableDictionary dictionary];
     
     // init split views
     [self initSplitViews];

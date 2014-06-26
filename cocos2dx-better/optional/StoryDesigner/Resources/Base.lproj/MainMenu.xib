@@ -14,6 +14,7 @@
         <customObject id="Voe-Tx-rLC" customClass="SDAppDelegate">
             <connections>
                 <outlet property="aceView" destination="eIN-rY-6FG" id="aLd-c5-DOj"/>
+                <outlet property="atlasOutline" destination="45l-OZ-Pgy" id="mgi-x8-qRS"/>
                 <outlet property="glView" destination="g3w-KF-N3U" id="282-rZ-0PS"/>
                 <outlet property="hSplitView" destination="66W-79-7hP" id="ASY-My-gkH"/>
                 <outlet property="vSplitView" destination="NdU-Z5-Ebk" id="9qh-aR-A8a"/>
@@ -674,7 +675,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="335" y="390" width="969" height="614"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="969" height="614"/>
                 <autoresizingMask key="autoresizingMask"/>

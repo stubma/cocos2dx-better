@@ -48,6 +48,7 @@ static AppDelegate s_sharedApplication;
 @property (strong) NSMutableDictionary* atlasFrameMap;
 @property (strong) NSMutableDictionary* atlasImageMap;
 @property (strong) NSMutableDictionary* atlasPathMap;
+@property (strong) NSTextField* errorLabel;
 
 - (void)initSplitViews;
 - (void)initACEView;
@@ -180,12 +181,24 @@ static AppDelegate s_sharedApplication;
     [replay setTarget:self];
     [replay setAction:@selector(onReplay:)];
     
+    // toolbar - error hint
+    self.errorLabel = [[NSTextField alloc] init];
+    [self.errorLabel setToolbarItemWidth:400];
+    self.errorLabel.textColor = [NSColor redColor];
+    self.errorLabel.stringValue = @"script has error, please check";
+    [self.errorLabel setEditable:NO];
+    [self.errorLabel setBordered:NO];
+    [self.errorLabel setHidden:YES];
+    self.errorLabel.alignment = NSRightTextAlignment;
+    self.errorLabel.backgroundColor = [NSColor colorWithRed:0 green:0 blue:0 alpha:0];
+    
     // create toolbar and add it
     CNSplitViewToolbar* toolbar = [[CNSplitViewToolbar alloc] init];
     [toolbar addItem:load align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:save align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:selectImage align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:replay align:CNSplitViewToolbarItemAlignLeft];
+    [toolbar addItem:self.errorLabel align:CNSplitViewToolbarItemAlignRight];
     [self.hSplitView attachToolbar:toolbar
                   toSubViewAtIndex:1
                             onEdge:CNSplitViewToolbarEdgeBottom];
@@ -276,8 +289,12 @@ static AppDelegate s_sharedApplication;
     CCStoryLayer* storyLayer = scene->getStoryLayer();
     string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];
     storyLayer->reset();
-    storyLayer->preloadStoryString(script);
-    storyLayer->playStory();
+    if(storyLayer->preloadStoryString(script)) {
+        storyLayer->playStory();
+        [self.errorLabel setHidden:YES];
+    } else {
+        [self.errorLabel setHidden:NO];
+    }
 }
 
 - (void)onAddImages:(id)sender {

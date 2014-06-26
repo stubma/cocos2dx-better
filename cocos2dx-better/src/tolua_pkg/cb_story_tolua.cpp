@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Thu Jun 26 17:17:37 2014.
+** Generated automatically by tolua++-1.0.92 on Thu Jun 26 17:26:02 2014.
 */
 
 #ifndef __cplusplus
@@ -260,15 +260,17 @@ static int tolua_story_msg00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
      !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
-  string s = ((string)  tolua_tocppstring(tolua_S,1,0));
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  string s = ((string)  tolua_tocppstring(tolua_S,2,0));
   {
-   msg(s);
+   msg(name,s);
   }
  }
  return 0;

@@ -8,7 +8,7 @@ void namepos(float x, float y);
 void namecolor(unsigned int c);
 void namesize(float size);
 void nameanchor(float x, float y);
-void msg(string s);
+void msg(string name, string s);
 void move();
 void wait();
 void fadein();

@@ -79,7 +79,15 @@ void CCStoryMessageLayer::showMessage(CCStoryCommand* cmd) {
         return;
     m_looping = true;
     
-    // create label
+    // create name label
+    m_nameLabel = CCRichLabelTTF::create(cmd->m_param.msg.name, "Helvetica", m_player->getNameSize());
+    m_nameLabel->setAnchorPoint(m_player->getNameAnchor());
+    m_nameLabel->setPosition(m_player->getNamePos());
+    m_nameLabel->setFontFillColor(ccc3FromInt(m_player->getNameColor()));
+    m_nameLabel->setOpacity((m_player->getNameColor() >> 24) & 0xff);
+    addChild(m_nameLabel);
+    
+    // create message label
     m_msgLabel = CCRichLabelTTF::create(cmd->m_param.msg.s, "Helvetica", m_player->getMessageSize());
     m_msgLabel->setAnchorPoint(m_player->getMessageAnchor());
     m_msgLabel->setPosition(m_player->getMessagePos());
@@ -104,6 +112,10 @@ void CCStoryMessageLayer::handleUserClick() {
             m_msgLabel->removeFromParent();
             m_msgLabel = NULL;
         }
+        if(m_nameLabel) {
+            m_nameLabel->removeFromParent();
+            m_nameLabel = NULL;
+        }
         m_player->onMessageDone();
     }
 }
@@ -121,6 +133,10 @@ void CCStoryMessageLayer::onDialogDisplayedSomeWhile(float delta) {
     if(m_msgLabel) {
         m_msgLabel->removeFromParent();
         m_msgLabel = NULL;
+    }
+    if(m_nameLabel) {
+        m_nameLabel->removeFromParent();
+        m_nameLabel = NULL;
     }
     m_player->onMessageDone();
 }

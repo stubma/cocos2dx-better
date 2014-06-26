@@ -34,7 +34,7 @@ using namespace std;
 extern CCArray gStoryCommandSet;
 
 // command method for lua
-extern void msg(string s);
+extern void msg(string name, string s);
 extern void msgsize(float size);
 extern void msgcolor(unsigned int c);
 extern void msgpos(float x, float y);
@@ -100,6 +100,7 @@ public:
     /// command parameters
     union {
         struct {
+            const char* name;
             const char* s;
         } msg;
         

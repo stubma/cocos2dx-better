@@ -26,8 +26,9 @@
 
 CCArray gStoryCommandSet;
 
-void msg(string s) {
+void msg(string name, string s) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG);
+    c->m_param.msg.name = CCUtils::copy(name.c_str());
     c->m_param.msg.s = CCUtils::copy(s.c_str());
     gStoryCommandSet.addObject(c);
 }
@@ -164,6 +165,7 @@ m_type(UNKNOWN) {
 CCStoryCommand::~CCStoryCommand() {
     switch(m_type) {
         case MSG:
+            free((void*)m_param.msg.name);
             free((void*)m_param.msg.s);
             break;
         default:

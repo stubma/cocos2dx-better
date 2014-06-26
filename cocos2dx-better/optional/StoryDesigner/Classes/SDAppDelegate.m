@@ -30,7 +30,7 @@
 
 static AppDelegate s_sharedApplication;
 
-@interface SDAppDelegate () <NSSplitViewDelegate, ACEViewDelegate>
+@interface SDAppDelegate () <NSSplitViewDelegate, ACEViewDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate>
 
 @property (weak) IBOutlet MyEAGLView* glView;
 @property (weak) IBOutlet NSWindow* window;
@@ -70,6 +70,9 @@ static AppDelegate s_sharedApplication;
     
     // init ace view
     [self initACEView];
+    
+    // reload outline
+    [self.atlasOutline reloadData];
     
     // start cocos2d-x loop
     CCApplication::sharedApplication()->run();
@@ -255,7 +258,17 @@ static AppDelegate s_sharedApplication;
 }
 
 - (void)onAddImages:(id)sender {
-    
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowsMultipleSelection:YES];
+    [openDlg setAllowedFileTypes:@[@"plist"]];
+    [openDlg setPrompt:@"Load"];
+    if ([openDlg runModal] == NSOKButton) {
+        NSArray* files = [openDlg filenames];
+        for(NSString* file in files) {
+            
+        }
+    }
 }
 
 - (void)onSave:(id)sender {
@@ -302,6 +315,39 @@ static AppDelegate s_sharedApplication;
     if(!self.firstTime)
         self.dirty = YES;
     self.firstTime = NO;
+}
+
+#pragma mark -
+#pragma mark outline view delegate
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+    if(item) {
+        NSArray* frames = [self.atlasFrameMap objectForKey:item];
+        return [frames objectAtIndex:index];
+    } else {
+        return [self.atlasPlists objectAtIndex:index];
+    }
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    if([self.atlasPlists containsObject:item])
+        return YES;
+    else
+        return NO;
+}
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    if(item) {
+        NSArray* frames = [self.atlasFrameMap objectForKey:item];
+        return [frames count];
+    } else {
+        return [self.atlasPlists count];
+    }
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+    NSString* itemStr = (NSString*)item;
+    return [itemStr lastPathComponent];
 }
 
 @end

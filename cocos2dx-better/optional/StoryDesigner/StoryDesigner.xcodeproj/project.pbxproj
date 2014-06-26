@@ -36,6 +36,10 @@
 		92166CF6195972B900003EA3 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 92166CF1195972B900003EA3 /* save.png */; };
 		92166CFC195972EE00003EA3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 92166CF9195972EE00003EA3 /* main.m */; };
 		92166CFD195972EE00003EA3 /* StoryDesigner-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92166CFA195972EE00003EA3 /* StoryDesigner-Info.plist */; };
+		925C3CB6195BC7F20073D0E6 /* libPVRTexLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 925C3CA9195BC7F10073D0E6 /* libPVRTexLib.a */; };
+		925C3CBC195BC8800073D0E6 /* zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C3CBA195BC8800073D0E6 /* zip.cpp */; };
+		925C3CBF195BC8B10073D0E6 /* SDPlistParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 925C3CBE195BC8B10073D0E6 /* SDPlistParser.m */; };
+		925C3CC2195BCC530073D0E6 /* SDAtlasLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 925C3CC1195BCC530073D0E6 /* SDAtlasLoader.m */; };
 		92FD79781959DDDB0079F491 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
 		92FD797C1959DF400079F491 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166CEB195972B900003EA3 /* MainMenu.xib */; };
 		92FD797E1959DFA20079F491 /* ACEView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
@@ -125,6 +129,26 @@
 		92166CF9195972EE00003EA3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = SOURCE_ROOT; };
 		92166CFA195972EE00003EA3 /* StoryDesigner-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "StoryDesigner-Info.plist"; sourceTree = SOURCE_ROOT; };
 		92166CFB195972EE00003EA3 /* StoryDesigner-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StoryDesigner-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		925C3CA9195BC7F10073D0E6 /* libPVRTexLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPVRTexLib.a; sourceTree = "<group>"; };
+		925C3CAA195BC7F10073D0E6 /* PVRTArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTArray.h; sourceTree = "<group>"; };
+		925C3CAB195BC7F10073D0E6 /* PVRTError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTError.h; sourceTree = "<group>"; };
+		925C3CAC195BC7F10073D0E6 /* PVRTexLibVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTexLibVersion.h; sourceTree = "<group>"; };
+		925C3CAD195BC7F10073D0E6 /* PVRTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTexture.h; sourceTree = "<group>"; };
+		925C3CAE195BC7F10073D0E6 /* PVRTextureDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureDefines.h; sourceTree = "<group>"; };
+		925C3CAF195BC7F10073D0E6 /* PVRTextureFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureFormat.h; sourceTree = "<group>"; };
+		925C3CB0195BC7F20073D0E6 /* PVRTextureHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureHeader.h; sourceTree = "<group>"; };
+		925C3CB1195BC7F20073D0E6 /* PVRTextureUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTextureUtilities.h; sourceTree = "<group>"; };
+		925C3CB2195BC7F20073D0E6 /* PVRTGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTGlobal.h; sourceTree = "<group>"; };
+		925C3CB3195BC7F20073D0E6 /* PVRTMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTMap.h; sourceTree = "<group>"; };
+		925C3CB4195BC7F20073D0E6 /* PVRTString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTString.h; sourceTree = "<group>"; };
+		925C3CB5195BC7F20073D0E6 /* PVRTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTTexture.h; sourceTree = "<group>"; };
+		925C3CB9195BC8800073D0E6 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		925C3CBA195BC8800073D0E6 /* zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zip.cpp; sourceTree = "<group>"; };
+		925C3CBB195BC8800073D0E6 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		925C3CBD195BC8B10073D0E6 /* SDPlistParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPlistParser.h; sourceTree = "<group>"; };
+		925C3CBE195BC8B10073D0E6 /* SDPlistParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPlistParser.m; sourceTree = "<group>"; };
+		925C3CC0195BCC530073D0E6 /* SDAtlasLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAtlasLoader.h; sourceTree = "<group>"; };
+		925C3CC1195BCC530073D0E6 /* SDAtlasLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAtlasLoader.m; sourceTree = "<group>"; };
 		926131D9195ABE89004070C9 /* test.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.lua; sourceTree = "<group>"; };
 		92FD79771959DDDB0079F491 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				925C3CB6195BC7F20073D0E6 /* libPVRTexLib.a in Frameworks */,
 				92166BAB195953E500003EA3 /* QuartzCore.framework in Frameworks */,
 				92166BA9195953E000003EA3 /* OpenGL.framework in Frameworks */,
 				92166BA7195953DA00003EA3 /* OpenAL.framework in Frameworks */,
@@ -157,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				92166B5E1959506600003EA3 /* CNSplitView */,
+				925C3CA7195BC7F10073D0E6 /* pvr */,
+				925C3CB8195BC8800073D0E6 /* zip */,
 				92166CD9195972B000003EA3 /* Classes */,
 				92166B3019594FBA00003EA3 /* Supporting Files */,
 				92166CE9195972B900003EA3 /* Resources */,
@@ -249,6 +276,10 @@
 				92166CDF195972B000003EA3 /* MyEAGLView.m */,
 				92166CE0195972B000003EA3 /* PreviewScene.cpp */,
 				92166CE1195972B000003EA3 /* PreviewScene.h */,
+				925C3CBD195BC8B10073D0E6 /* SDPlistParser.h */,
+				925C3CBE195BC8B10073D0E6 /* SDPlistParser.m */,
+				925C3CC0195BCC530073D0E6 /* SDAtlasLoader.h */,
+				925C3CC1195BCC530073D0E6 /* SDAtlasLoader.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -263,6 +294,44 @@
 				92166CF1195972B900003EA3 /* save.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		925C3CA7195BC7F10073D0E6 /* pvr */ = {
+			isa = PBXGroup;
+			children = (
+				925C3CA8195BC7F10073D0E6 /* MacOS_x86 */,
+				925C3CAA195BC7F10073D0E6 /* PVRTArray.h */,
+				925C3CAB195BC7F10073D0E6 /* PVRTError.h */,
+				925C3CAC195BC7F10073D0E6 /* PVRTexLibVersion.h */,
+				925C3CAD195BC7F10073D0E6 /* PVRTexture.h */,
+				925C3CAE195BC7F10073D0E6 /* PVRTextureDefines.h */,
+				925C3CAF195BC7F10073D0E6 /* PVRTextureFormat.h */,
+				925C3CB0195BC7F20073D0E6 /* PVRTextureHeader.h */,
+				925C3CB1195BC7F20073D0E6 /* PVRTextureUtilities.h */,
+				925C3CB2195BC7F20073D0E6 /* PVRTGlobal.h */,
+				925C3CB3195BC7F20073D0E6 /* PVRTMap.h */,
+				925C3CB4195BC7F20073D0E6 /* PVRTString.h */,
+				925C3CB5195BC7F20073D0E6 /* PVRTTexture.h */,
+			);
+			path = pvr;
+			sourceTree = "<group>";
+		};
+		925C3CA8195BC7F10073D0E6 /* MacOS_x86 */ = {
+			isa = PBXGroup;
+			children = (
+				925C3CA9195BC7F10073D0E6 /* libPVRTexLib.a */,
+			);
+			path = MacOS_x86;
+			sourceTree = "<group>";
+		};
+		925C3CB8195BC8800073D0E6 /* zip */ = {
+			isa = PBXGroup;
+			children = (
+				925C3CB9195BC8800073D0E6 /* common.h */,
+				925C3CBA195BC8800073D0E6 /* zip.cpp */,
+				925C3CBB195BC8800073D0E6 /* zip.h */,
+			);
+			path = zip;
 			sourceTree = "<group>";
 		};
 		926131D8195ABE6D004070C9 /* test */ = {
@@ -368,11 +437,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				92166CE7195972B000003EA3 /* PreviewScene.cpp in Sources */,
+				925C3CC2195BCC530073D0E6 /* SDAtlasLoader.m in Sources */,
 				92166CE4195972B000003EA3 /* AppDelegate.cpp in Sources */,
 				92166B781959506600003EA3 /* NSView+CNSplitViewToolbar.m in Sources */,
 				92166B771959506600003EA3 /* CNSplitViewToolbarButtonCell.m in Sources */,
+				925C3CBF195BC8B10073D0E6 /* SDPlistParser.m in Sources */,
 				92166CE8195972B000003EA3 /* SDAppDelegate.m in Sources */,
 				92166B741959506600003EA3 /* CNSplitViewDraggingHandle.m in Sources */,
+				925C3CBC195BC8800073D0E6 /* zip.cpp in Sources */,
 				92166CFC195972EE00003EA3 /* main.m in Sources */,
 				92166B731959506600003EA3 /* CNSplitView.m in Sources */,
 				92166CE6195972B000003EA3 /* MyEAGLView.m in Sources */,
@@ -515,6 +587,10 @@
 					"$(PROJECT_DIR)/../../../../cocos2dx-better/cocos2dx-better/src/tolua_pkg",
 				);
 				INFOPLIST_FILE = "StoryDesigner-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/pvr/MacOS_x86",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -555,6 +631,10 @@
 					"$(PROJECT_DIR)/../../../../cocos2dx-better/cocos2dx-better/src/tolua_pkg",
 				);
 				INFOPLIST_FILE = "StoryDesigner-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/pvr/MacOS_x86",
+				);
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",

@@ -721,6 +721,10 @@
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 </tableColumn>
                                                             </tableColumns>
+                                                            <connections>
+                                                                <outlet property="dataSource" destination="Voe-Tx-rLC" id="Hg4-DE-ICq"/>
+                                                                <outlet property="delegate" destination="Voe-Tx-rLC" id="1IF-aX-kwZ"/>
+                                                            </connections>
                                                         </outlineView>
                                                     </subviews>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

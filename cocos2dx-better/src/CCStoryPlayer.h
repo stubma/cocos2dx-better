@@ -56,7 +56,16 @@ public:
     CC_SYNTHESIZE(CCStoryCommand*, m_curCmd, CurrentCommand);
     CC_SYNTHESIZE(int, m_curCmdIndex, CurrentCommandIndex);
     CC_SYNTHESIZE_READONLY_BOOL(m_done, Done);
-    CC_SYNTHESIZE_BOOL(m_curCmdDone, CurrentCommandDone);
+    
+    // global settings
+    CC_SYNTHESIZE(float, m_msgSize, MessageSize);
+    CC_SYNTHESIZE(int, m_msgColor, MessageColor);
+    CC_SYNTHESIZE(CCPoint, m_msgPos, MessagePos);
+    CC_SYNTHESIZE(CCPoint, m_msgAnchor, MessageAnchor);
+    CC_SYNTHESIZE(float, m_nameSize, NameSize);
+    CC_SYNTHESIZE(int, m_nameColor, NameColor);
+    CC_SYNTHESIZE(CCPoint, m_namePos, NamePos);
+    CC_SYNTHESIZE(CCPoint, m_nameAnchor, NameAnchor);
 };
 
 NS_CC_END

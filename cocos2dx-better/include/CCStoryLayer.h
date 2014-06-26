@@ -54,7 +54,6 @@ public:
 	virtual bool init();
     virtual void onExit();
     virtual void onEnter();
-    virtual void update(float delta);
     
     /// preload story script from a file
     bool preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc = NULL);
@@ -67,9 +66,6 @@ public:
     
     /// stop playing
     void stopPlay();
-    
-    /// reset layer, it clear all story element
-    void reset();
 };
 
 NS_CC_END

@@ -79,8 +79,11 @@ void CCStoryDialogLayer::showMessage(CCStoryCommand* cmd) {
     m_looping = true;
     
     // create label
-    m_label = CCRichLabelTTF::create(cmd->m_param.msg.s, "Helvetica", 40);
-    m_label->setPosition(CCUtils::getLocalCenter(this));
+    m_label = CCRichLabelTTF::create(cmd->m_param.msg.s, "Helvetica", m_player->getMessageSize());
+    m_label->setAnchorPoint(m_player->getMessageAnchor());
+    m_label->setPosition(m_player->getMessagePos());
+    m_label->setFontFillColor(ccc3FromInt(m_player->getMessageColor()));
+    m_label->setOpacity((m_player->getMessageColor() >> 24) & 0xff);
     addChild(m_label);
     
     // start loop
@@ -95,12 +98,12 @@ void CCStoryDialogLayer::handleUserClick() {
         m_looping = false;
         schedule(schedule_selector(CCStoryDialogLayer::onDialogDisplayedSomeWhile), 1, 0, 0);
     } else {
-        m_player->markCurrentCommandDone();
         if(m_label) {
             unschedule(schedule_selector(CCStoryDialogLayer::onDialogDisplayedSomeWhile));
             m_label->removeFromParent();
             m_label = NULL;
         }
+        m_player->start();
     }
 }
 
@@ -114,11 +117,11 @@ void CCStoryDialogLayer::keyBackClicked() {
 }
 
 void CCStoryDialogLayer::onDialogDisplayedSomeWhile(float delta) {
-    m_player->markCurrentCommandDone();
     if(m_label) {
         m_label->removeFromParent();
         m_label = NULL;
     }
+    m_player->start();
 }
 
 void CCStoryDialogLayer::onDialogEndLooping() {

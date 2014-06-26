@@ -1,3 +1,28 @@
 $#include "CCStoryCommandSet.h" 
 
+void msgsize(float size);
+void msgcolor(unsigned int c);
+void msgpos(float x, float y);
+void msganchor(float x, float y);
+void namepos();
+void namecolor();
+void namesize();
+void nameanchor(float x, float y);
 void msg(string s);
+void move();
+void wait();
+void fadein();
+void fadeout();
+void dialog();
+void blink();
+void shake();
+void scale();
+void img();
+void arm();
+void armplay();
+void initangle();
+void rotate();
+void bg();
+void bgcolor(unsigned int c);
+void bgm();
+void sound();

@@ -32,11 +32,11 @@ AppDelegate::~AppDelegate() {
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+    // XXX: change design resolution size to meet your game resolution
     CCDirector *pDirector = CCDirector::sharedDirector();
     CCEGLView* glView = CCEGLView::sharedOpenGLView();
-    const CCSize& frameSize = glView->getFrameSize();
     pDirector->setOpenGLView(glView);
-	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(frameSize.width, frameSize.height, kResolutionNoBorder);
+	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(640, 960, kResolutionShowAll);
 
     // search path
     vector<string> searchPath;

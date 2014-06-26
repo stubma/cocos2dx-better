@@ -288,7 +288,7 @@ static AppDelegate s_sharedApplication;
     Preview* scene = (Preview*)CCDirector::sharedDirector()->getRunningScene()->getChildren()->objectAtIndex(0);
     CCStoryLayer* storyLayer = scene->getStoryLayer();
     string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];
-    storyLayer->reset();
+    storyLayer->stopPlay();
     if(storyLayer->preloadStoryString(script)) {
         storyLayer->playStory();
         [self.errorLabel setHidden:YES];

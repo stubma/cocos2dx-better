@@ -123,39 +123,18 @@ void CCStoryLayer::playStory() {
     
     // start
     m_player->start();
-    
-    // start update
-    scheduleUpdate();
 }
 
 void CCStoryLayer::stopPlay() {
     if(!m_playing)
         return;
-    
     m_playing = false;
-    unscheduleUpdate();
-}
-
-void CCStoryLayer::reset() {
-    if(m_playing) {
-        stopPlay();
-    }
+    
     if(m_player) {
         CC_SAFE_RELEASE(m_player);
         m_player = NULL;
     }
     removeAllChildren();
-}
-
-void CCStoryLayer::update(float delta) {
-    if(!m_player)
-        return;
-    
-    if(!m_player->isDone()) {
-        if(m_player->isCurrentCommandDone()) {
-            m_player->start();
-        }
-    }
 }
 
 NS_CC_END

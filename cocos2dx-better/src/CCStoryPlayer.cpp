@@ -29,9 +29,12 @@
 
 // tag of node
 #define TAG_DIALOG_LAYER 10000
+#define TAG_BG_COLOR_LAYER 10001
 
 // z order
 #define Z_DIALOG_LAYER MAX_INT
+#define Z_BG_LAYER -MAX_INT
+#define Z_BG_COLOR_LAYER (Z_BG_LAYER + 1)
 
 NS_CC_BEGIN
 
@@ -39,8 +42,15 @@ CCStoryPlayer::CCStoryPlayer() :
 m_owner(NULL),
 m_curCmd(NULL),
 m_done(false),
-m_curCmdDone(false),
-m_curCmdIndex(-1) {
+m_curCmdIndex(-1),
+m_msgSize(20),
+m_nameSize(20),
+m_msgColor(0xffffffff),
+m_nameColor(0xffffffff),
+m_msgPos(CCPointZero),
+m_namePos(CCPointZero),
+m_msgAnchor(ccp(0.5f, 0.5f)),
+m_nameAnchor(ccp(0.5f, 0.5f)) {
 }
 
 CCStoryPlayer::~CCStoryPlayer() {
@@ -59,6 +69,8 @@ CCStoryPlayer* CCStoryPlayer::create(CCStoryLayer* owner) {
 bool CCStoryPlayer::initWithOwner(CCStoryLayer* owner) {
     // init
     m_owner = owner;
+    m_msgPos = CCUtils::getLocalCenter(m_owner);
+    m_namePos = CCUtils::getLocalCenter(m_owner);
     
     return true;
 }
@@ -76,7 +88,6 @@ void CCStoryPlayer::start() {
 }
 
 void CCStoryPlayer::executeCurrentCommand() {
-    m_curCmdDone = false;
     switch (m_curCmd->getType()) {
         case CCStoryCommand::MSG:
         {
@@ -87,6 +98,65 @@ void CCStoryPlayer::executeCurrentCommand() {
             
             // show dialog
             dl->showMessage(m_curCmd);
+            break;
+        }
+        case CCStoryCommand::MSG_ANCHOR:
+        {
+            m_msgAnchor.x = m_curCmd->m_param.msganchor.x;
+            m_msgAnchor.y = m_curCmd->m_param.msganchor.y;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MSG_SIZE:
+        {
+            m_msgSize = m_curCmd->m_param.msgsize.size;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MSG_COLOR:
+        {
+            m_msgColor = m_curCmd->m_param.msgcolor.c;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MSG_POS:
+        {
+            m_msgPos.x = m_curCmd->m_param.msgpos.x;
+            m_msgPos.y = m_curCmd->m_param.msgpos.y;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::NAME_ANCHOR:
+        {
+            m_nameAnchor.x = m_curCmd->m_param.nameanchor.x;
+            m_nameAnchor.y = m_curCmd->m_param.nameanchor.y;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::BG_COLOR:
+        {
+            // create bg color layer and set color
+            CCLayerColor* bg = (CCLayerColor*)m_owner->getChildByTag(TAG_BG_COLOR_LAYER);
+            if(!bg) {
+                bg = CCLayerColor::create();
+                m_owner->addChild(bg, Z_BG_COLOR_LAYER);
+            }
+            ccColor4B c = ccc4FromInt(m_curCmd->m_param.bgcolor.c);
+            bg->setColor(ccc3FromCCC4(c));
+            bg->setOpacity(c.a);
+            
+            // next
+            start();
             break;
         }
         default:
@@ -101,7 +171,6 @@ void CCStoryPlayer::fetchNextCommand() {
     } else {
         m_curCmd = NULL;
     }
-    m_curCmdDone = false;
 }
 
 NS_CC_END

@@ -32,6 +32,121 @@ void msg(string s) {
     gStoryCommandSet.addObject(c);
 }
 
+void msgsize(float size) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG_SIZE);
+    c->m_param.msgsize.size = size;
+    gStoryCommandSet.addObject(c);
+}
+
+void msgcolor(unsigned int c) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::MSG_COLOR);
+    cmd->m_param.msgcolor.c = c;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void msgpos(float x, float y) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG_POS);
+    c->m_param.msgpos.x = x;
+    c->m_param.msgpos.y = y;
+    gStoryCommandSet.addObject(c);
+}
+
+void msganchor(float x, float y) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG_ANCHOR);
+    c->m_param.msganchor.x = x;
+    c->m_param.msganchor.y = y;
+    gStoryCommandSet.addObject(c);
+}
+
+void namepos() {
+    
+}
+
+void namecolor() {
+    
+}
+
+void namesize() {
+    
+}
+
+void nameanchor(float x, float y) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::NAME_ANCHOR);
+    c->m_param.nameanchor.x = x;
+    c->m_param.nameanchor.y = y;
+    gStoryCommandSet.addObject(c);
+}
+
+void move() {
+    
+}
+
+void wait() {
+    
+}
+
+void fadein() {
+    
+}
+
+void fadeout() {
+    
+}
+
+void dialog() {
+    
+}
+
+void blink() {
+    
+}
+
+void shake() {
+    
+}
+
+void scale() {
+    
+}
+
+void img() {
+    
+}
+
+void arm() {
+    
+}
+
+void armplay() {
+    
+}
+
+void initangle() {
+    
+}
+
+void rotate() {
+    
+}
+
+void bg() {
+    
+}
+
+void bgcolor(unsigned int c) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::BG_COLOR);
+    cmd->m_param.bgcolor.c = c;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void bgm() {
+    
+}
+
+void sound() {
+    
+}
+
 NS_CC_BEGIN
 
 CCStoryCommand::CCStoryCommand() :

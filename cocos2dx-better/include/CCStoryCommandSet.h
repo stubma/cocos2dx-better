@@ -35,6 +35,31 @@ extern CCArray gStoryCommandSet;
 
 // command method for lua
 extern void msg(string s);
+extern void msgsize(float size);
+extern void msgcolor(unsigned int c);
+extern void msgpos(float x, float y);
+extern void msganchor(float x, float y);
+extern void namepos();
+extern void namecolor();
+extern void namesize();
+extern void nameanchor(float x, float y);
+extern void move();
+extern void wait();
+extern void fadein();
+extern void fadeout();
+extern void dialog();
+extern void blink();
+extern void shake();
+extern void scale();
+extern void img();
+extern void arm();
+extern void armplay();
+extern void initangle();
+extern void rotate();
+extern void bg();
+extern void bgcolor(unsigned int c);
+extern void bgm();
+extern void sound();
 
 NS_CC_BEGIN
 
@@ -43,7 +68,32 @@ class CCStoryCommand : public CCObject {
 public:
     enum Type {
         UNKNOWN,
-        MSG
+        MSG,
+        MSG_SIZE,
+        MSG_COLOR,
+        MSG_POS,
+        MSG_ANCHOR,
+        NAME_POS,
+        NAME_COLOR,
+        NAME_SIZE,
+        NAME_ANCHOR,
+        MOVE,
+        WAIT,
+        FADE_IN,
+        FADE_OUT,
+        DIALOG,
+        BLINK,
+        SHAKE,
+        SCALE,
+        IMG,
+        ARM,
+        ARM_PLAY,
+        INIT_ANGLE,
+        ROTATE,
+        BG,
+        BG_COLOR,
+        BGM,
+        SOUND
     };
     
 public:
@@ -52,6 +102,33 @@ public:
         struct {
             const char* s;
         } msg;
+        
+        struct {
+            float size;
+        } msgsize;
+        
+        struct {
+            unsigned int c;
+        } msgcolor;
+        
+        struct {
+            float x;
+            float y;
+        } msgpos;
+        
+        struct {
+            float x;
+            float y;
+        } msganchor;
+        
+        struct {
+            float x;
+            float y;
+        } nameanchor;
+        
+        struct {
+            unsigned int c;
+        } bgcolor;
     } m_param;
     
 public:

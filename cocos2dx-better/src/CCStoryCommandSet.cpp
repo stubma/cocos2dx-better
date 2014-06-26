@@ -58,16 +58,23 @@ void msganchor(float x, float y) {
     gStoryCommandSet.addObject(c);
 }
 
-void namepos() {
-    
+void namepos(float x, float y) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::NAME_POS);
+    c->m_param.namepos.x = x;
+    c->m_param.namepos.y = y;
+    gStoryCommandSet.addObject(c);
 }
 
-void namecolor() {
-    
+void namecolor(unsigned int c) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::NAME_COLOR);
+    cmd->m_param.namecolor.c = c;
+    gStoryCommandSet.addObject(cmd);
 }
 
-void namesize() {
-    
+void namesize(float size) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::NAME_SIZE);
+    c->m_param.namesize.size = size;
+    gStoryCommandSet.addObject(c);
 }
 
 void nameanchor(float x, float y) {

@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Thu Jun 26 17:13:58 2014.
+** Generated automatically by tolua++-1.0.92 on Thu Jun 26 17:17:37 2014.
 */
 
 #ifndef __cplusplus
@@ -143,14 +143,18 @@ static int tolua_story_namepos00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
+  float x = ((float)  tolua_tonumber(tolua_S,1,0));
+  float y = ((float)  tolua_tonumber(tolua_S,2,0));
   {
-   namepos();
+   namepos(x,y);
   }
  }
  return 0;
@@ -169,14 +173,16 @@ static int tolua_story_namecolor00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
+  unsigned int c = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
   {
-   namecolor();
+   namecolor(c);
   }
  }
  return 0;
@@ -195,14 +201,16 @@ static int tolua_story_namesize00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
+  float size = ((float)  tolua_tonumber(tolua_S,1,0));
   {
-   namesize();
+   namesize(size);
   }
  }
  return 0;

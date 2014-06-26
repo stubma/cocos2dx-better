@@ -39,9 +39,9 @@ extern void msgsize(float size);
 extern void msgcolor(unsigned int c);
 extern void msgpos(float x, float y);
 extern void msganchor(float x, float y);
-extern void namepos();
-extern void namecolor();
-extern void namesize();
+extern void namepos(float x, float y);
+extern void namecolor(unsigned int c);
+extern void namesize(float size);
 extern void nameanchor(float x, float y);
 extern void move();
 extern void wait();
@@ -120,6 +120,19 @@ public:
             float x;
             float y;
         } msganchor;
+        
+        struct {
+            float size;
+        } namesize;
+        
+        struct {
+            unsigned int c;
+        } namecolor;
+        
+        struct {
+            float x;
+            float y;
+        } namepos;
         
         struct {
             float x;

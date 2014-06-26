@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCStoryDialogLayer.h"
+#include "CCStoryMessageLayer.h"
 #include "CCRichLabelTTF.h"
 #include "CCStoryCommandSet.h"
 #include "CCStoryPlayer.h"
@@ -29,35 +29,36 @@
 
 NS_CC_BEGIN
 
-CCStoryDialogLayer::CCStoryDialogLayer() :
-m_label(NULL),
+CCStoryMessageLayer::CCStoryMessageLayer() :
+m_msgLabel(NULL),
+m_nameLabel(NULL),
 m_looping(false),
 m_player(NULL) {
 	
 }
 
-CCStoryDialogLayer::~CCStoryDialogLayer() {
+CCStoryMessageLayer::~CCStoryMessageLayer() {
 	
 }
 
-CCStoryDialogLayer* CCStoryDialogLayer::create(CCStoryPlayer* player) {
-	CCStoryDialogLayer* l = new CCStoryDialogLayer();
+CCStoryMessageLayer* CCStoryMessageLayer::create(CCStoryPlayer* player) {
+	CCStoryMessageLayer* l = new CCStoryMessageLayer();
 	if(l->initWithPlayer(player)) {
-		return (CCStoryDialogLayer*)l->autorelease();
+		return (CCStoryMessageLayer*)l->autorelease();
 	}
 	CC_SAFE_RELEASE(l);
 	return NULL;
 }
 
-void CCStoryDialogLayer::onExit() {
+void CCStoryMessageLayer::onExit() {
     CCLayer::onExit();
 }
 
-void CCStoryDialogLayer::onEnter() {
+void CCStoryMessageLayer::onEnter() {
     CCLayer::onEnter();
 }
 
-bool CCStoryDialogLayer::initWithPlayer(CCStoryPlayer* player) {
+bool CCStoryMessageLayer::initWithPlayer(CCStoryPlayer* player) {
 	if(!CCLayer::init())
 		return false;
     
@@ -72,61 +73,61 @@ bool CCStoryDialogLayer::initWithPlayer(CCStoryPlayer* player) {
 	return true;
 }
 
-void CCStoryDialogLayer::showMessage(CCStoryCommand* cmd) {
+void CCStoryMessageLayer::showMessage(CCStoryCommand* cmd) {
     // check and set flag
     if(m_looping)
         return;
     m_looping = true;
     
     // create label
-    m_label = CCRichLabelTTF::create(cmd->m_param.msg.s, "Helvetica", m_player->getMessageSize());
-    m_label->setAnchorPoint(m_player->getMessageAnchor());
-    m_label->setPosition(m_player->getMessagePos());
-    m_label->setFontFillColor(ccc3FromInt(m_player->getMessageColor()));
-    m_label->setOpacity((m_player->getMessageColor() >> 24) & 0xff);
-    addChild(m_label);
+    m_msgLabel = CCRichLabelTTF::create(cmd->m_param.msg.s, "Helvetica", m_player->getMessageSize());
+    m_msgLabel->setAnchorPoint(m_player->getMessageAnchor());
+    m_msgLabel->setPosition(m_player->getMessagePos());
+    m_msgLabel->setFontFillColor(ccc3FromInt(m_player->getMessageColor()));
+    m_msgLabel->setOpacity((m_player->getMessageColor() >> 24) & 0xff);
+    addChild(m_msgLabel);
     
     // start loop
-    m_label->startLoopDisplay(0.05f, 0, 0, CCCallFunc::create(this, callfunc_selector(CCStoryDialogLayer::onDialogEndLooping)));
+    m_msgLabel->startLoopDisplay(0.05f, 0, 0, CCCallFunc::create(this, callfunc_selector(CCStoryMessageLayer::onDialogEndLooping)));
 }
 
-void CCStoryDialogLayer::handleUserClick() {
+void CCStoryMessageLayer::handleUserClick() {
     // if looping, stop
     // if not looping, set command done
     if(m_looping) {
-        m_label->stopLoopDisplay();
+        m_msgLabel->stopLoopDisplay();
         m_looping = false;
-        schedule(schedule_selector(CCStoryDialogLayer::onDialogDisplayedSomeWhile), 1, 0, 0);
+        schedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile), 1, 0, 0);
     } else {
-        if(m_label) {
-            unschedule(schedule_selector(CCStoryDialogLayer::onDialogDisplayedSomeWhile));
-            m_label->removeFromParent();
-            m_label = NULL;
+        if(m_msgLabel) {
+            unschedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile));
+            m_msgLabel->removeFromParent();
+            m_msgLabel = NULL;
         }
-        m_player->start();
+        m_player->onMessageDone();
     }
 }
 
-bool CCStoryDialogLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+bool CCStoryMessageLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
     handleUserClick();
     return true;
 }
 
-void CCStoryDialogLayer::keyBackClicked() {
+void CCStoryMessageLayer::keyBackClicked() {
     handleUserClick();
 }
 
-void CCStoryDialogLayer::onDialogDisplayedSomeWhile(float delta) {
-    if(m_label) {
-        m_label->removeFromParent();
-        m_label = NULL;
+void CCStoryMessageLayer::onDialogDisplayedSomeWhile(float delta) {
+    if(m_msgLabel) {
+        m_msgLabel->removeFromParent();
+        m_msgLabel = NULL;
     }
-    m_player->start();
+    m_player->onMessageDone();
 }
 
-void CCStoryDialogLayer::onDialogEndLooping() {
+void CCStoryMessageLayer::onDialogEndLooping() {
     m_looping = false;
-    schedule(schedule_selector(CCStoryDialogLayer::onDialogDisplayedSomeWhile), 1, 0, 0);
+    schedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile), 1, 0, 0);
 }
 
 NS_CC_END

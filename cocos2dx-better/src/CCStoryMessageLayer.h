@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCStoryDialogLayer__
-#define __CCStoryDialogLayer__
+#ifndef __CCStoryMessageLayer__
+#define __CCStoryMessageLayer__
 
 #include "cocos2d.h"
 
@@ -33,10 +33,13 @@ class CCRichLabelTTF;
 class CCStoryPlayer;
 
 /// sub layer in story layer used to display dialog
-class CCStoryDialogLayer : public CCLayer {
+class CCStoryMessageLayer : public CCLayer {
 private:
     /// message label
-    CCRichLabelTTF* m_label;
+    CCRichLabelTTF* m_msgLabel;
+    
+    /// name label
+    CCRichLabelTTF* m_nameLabel;
     
     /// is loop display done
     bool m_looping;
@@ -45,7 +48,7 @@ private:
     CCStoryPlayer* m_player;
 
 protected:
-	CCStoryDialogLayer();
+	CCStoryMessageLayer();
     
     // callbacks
     void onDialogEndLooping();
@@ -55,8 +58,8 @@ protected:
     void handleUserClick();
 	
 public:
-	virtual ~CCStoryDialogLayer();
-	static CCStoryDialogLayer* create(CCStoryPlayer* player);
+	virtual ~CCStoryMessageLayer();
+	static CCStoryMessageLayer* create(CCStoryPlayer* player);
 	
 	virtual bool initWithPlayer(CCStoryPlayer* player);
     virtual void onExit();
@@ -70,4 +73,4 @@ public:
 
 NS_CC_END
 
-#endif /* defined(__CCStoryDialogLayer__) */
+#endif /* defined(__CCStoryMessageLayer__) */

@@ -52,6 +52,9 @@ public:
     /// start
     void start();
     
+    /// when one message is done
+    void onMessageDone();
+    
     CC_SYNTHESIZE(CCStoryLayer*, m_owner, Owner);
     CC_SYNTHESIZE(CCStoryCommand*, m_curCmd, CurrentCommand);
     CC_SYNTHESIZE(int, m_curCmdIndex, CurrentCommandIndex);

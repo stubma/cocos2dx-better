@@ -25,14 +25,14 @@
 #include "CCStoryLayer.h"
 #include "CCStoryCommandSet.h"
 #include "CCRichLabelTTF.h"
-#include "CCStoryDialogLayer.h"
+#include "CCStoryMessageLayer.h"
 
 // tag of node
-#define TAG_DIALOG_LAYER 10000
+#define TAG_MESSAGE_LAYER 10000
 #define TAG_BG_COLOR_LAYER 10001
 
 // z order
-#define Z_DIALOG_LAYER MAX_INT
+#define Z_MESSAGE_LAYER MAX_INT
 #define Z_BG_LAYER -MAX_INT
 #define Z_BG_COLOR_LAYER (Z_BG_LAYER + 1)
 
@@ -87,14 +87,21 @@ void CCStoryPlayer::start() {
     }
 }
 
+void CCStoryPlayer::onMessageDone() {
+    // remove message layer
+    m_owner->removeChildByTag(TAG_MESSAGE_LAYER);
+    
+    // next
+    start();
+}
+
 void CCStoryPlayer::executeCurrentCommand() {
     switch (m_curCmd->getType()) {
         case CCStoryCommand::MSG:
         {
             // remove old dialog and create new dialog layer
-            m_owner->removeChildByTag(TAG_DIALOG_LAYER);
-            CCStoryDialogLayer* dl = CCStoryDialogLayer::create(this);
-            m_owner->addChild(dl, Z_DIALOG_LAYER);
+            CCStoryMessageLayer* dl = CCStoryMessageLayer::create(this);
+            m_owner->addChild(dl, Z_MESSAGE_LAYER);
             
             // show dialog
             dl->showMessage(m_curCmd);
@@ -129,6 +136,31 @@ void CCStoryPlayer::executeCurrentCommand() {
         {
             m_msgPos.x = m_curCmd->m_param.msgpos.x;
             m_msgPos.y = m_curCmd->m_param.msgpos.y;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::NAME_SIZE:
+        {
+            m_nameSize = m_curCmd->m_param.namesize.size;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::NAME_COLOR:
+        {
+            m_nameColor = m_curCmd->m_param.namecolor.c;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::NAME_POS:
+        {
+            m_namePos.x = m_curCmd->m_param.namepos.x;
+            m_namePos.y = m_curCmd->m_param.namepos.y;
             
             // next
             start();

@@ -197,6 +197,7 @@
 		9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B418556E5400797255 /* OpenAL.framework */; };
 		925C1A3719470328002FEE73 /* CBMoveBy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C1A3519470328002FEE73 /* CBMoveBy.cpp */; };
 		925C1A3819470328002FEE73 /* CBMoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C1A3619470328002FEE73 /* CBMoveTo.cpp */; };
+		925C3CA3195BB8560073D0E6 /* CCStoryDialogLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C3CA1195BB8560073D0E6 /* CCStoryDialogLayer.cpp */; };
 		926131B4195AB9E5004070C9 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 92613176195AB9E5004070C9 /* lapi.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		926131B5195AB9E5004070C9 /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 92613178195AB9E5004070C9 /* lauxlib.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		926131B6195AB9E5004070C9 /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 9261317A195AB9E5004070C9 /* lbaselib.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
@@ -894,6 +895,8 @@
 		925C1A3619470328002FEE73 /* CBMoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBMoveTo.cpp; sourceTree = "<group>"; };
 		925C1A3919470333002FEE73 /* CBMoveBy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMoveBy.h; sourceTree = "<group>"; };
 		925C1A3A19470333002FEE73 /* CBMoveTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMoveTo.h; sourceTree = "<group>"; };
+		925C3CA1195BB8560073D0E6 /* CCStoryDialogLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCStoryDialogLayer.cpp; sourceTree = "<group>"; };
+		925C3CA2195BB8560073D0E6 /* CCStoryDialogLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStoryDialogLayer.h; sourceTree = "<group>"; };
 		92613176195AB9E5004070C9 /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		92613177195AB9E5004070C9 /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
 		92613178195AB9E5004070C9 /* lauxlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lauxlib.c; sourceTree = "<group>"; };
@@ -1436,6 +1439,8 @@
 				92F0DA45195A642C001EB30F /* CCStoryCommandSet.cpp */,
 				92C1C9B3195AE8D300680B66 /* CCStoryPlayer.cpp */,
 				92C1C9B4195AE8D300680B66 /* CCStoryPlayer.h */,
+				925C3CA1195BB8560073D0E6 /* CCStoryDialogLayer.cpp */,
+				925C3CA2195BB8560073D0E6 /* CCStoryDialogLayer.h */,
 			);
 			name = story;
 			sourceTree = "<group>";
@@ -3499,6 +3504,7 @@
 				92A856D819500CCC00098490 /* UILayoutParameter.cpp in Sources */,
 				92396907185591DB0063E8A1 /* CCTiledSprite.cpp in Sources */,
 				9288DF27188F98A400C14965 /* CCControl.cpp in Sources */,
+				925C3CA3195BB8560073D0E6 /* CCStoryDialogLayer.cpp in Sources */,
 				923968F5185591DB0063E8A1 /* CCMissile.cpp in Sources */,
 				92A8570119500CF100098490 /* CCMemory.cpp in Sources */,
 				9288DF2B188F98A400C14965 /* CCControlPotentiometer.cpp in Sources */,

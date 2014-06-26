@@ -21,44 +21,53 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CCStoryPlayer__
-#define __CCStoryPlayer__
+#ifndef __CCStoryDialogLayer__
+#define __CCStoryDialogLayer__
 
 #include "cocos2d.h"
-#include "CCMoreMacros.h"
 
 NS_CC_BEGIN
 
-class CCStoryLayer;
 class CCStoryCommand;
+class CCRichLabelTTF;
+class CCStoryPlayer;
 
-/// player of story command sequence
-class CCStoryPlayer : public CCObject {
+/// sub layer in story layer used to display dialog
+class CCStoryDialogLayer : public CCLayer {
 private:
-    /// fetch next command
-    void fetchNextCommand();
+    /// message label
+    CCRichLabelTTF* m_label;
     
-    /// execute one command
-    void executeCurrentCommand();
+    /// is loop display done
+    bool m_looping;
     
+    /// player
+    CCStoryPlayer* m_player;
+
+protected:
+	CCStoryDialogLayer();
+    
+    // callbacks
+    void onDialogEndLooping();
+    void onDialogDisplayedSomeWhile(float delta);
+    
+    // when user click
+    void handleUserClick();
+	
 public:
-    CCStoryPlayer();
-    virtual ~CCStoryPlayer();
-    static CCStoryPlayer* create(CCStoryLayer* owner);
+	virtual ~CCStoryDialogLayer();
+	static CCStoryDialogLayer* create(CCStoryPlayer* player);
+	
+	virtual bool initWithPlayer(CCStoryPlayer* player);
+    virtual void onExit();
+    virtual void onEnter();
+    virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
+    virtual void keyBackClicked();
     
-    /// init
-    virtual bool initWithOwner(CCStoryLayer* owner);
-    
-    /// start
-    void start();
-    
-    CC_SYNTHESIZE(CCStoryLayer*, m_owner, Owner);
-    CC_SYNTHESIZE(CCStoryCommand*, m_curCmd, CurrentCommand);
-    CC_SYNTHESIZE(int, m_curCmdIndex, CurrentCommandIndex);
-    CC_SYNTHESIZE_READONLY_BOOL(m_done, Done);
-    CC_SYNTHESIZE_BOOL(m_curCmdDone, CurrentCommandDone);
+    /// start to show a dialog
+    void showMessage(CCStoryCommand* cmd);
 };
 
 NS_CC_END
 
-#endif /* defined(__CCStoryPlayer__) */
+#endif /* defined(__CCStoryDialogLayer__) */

@@ -25,6 +25,13 @@
 #include "CCStoryLayer.h"
 #include "CCStoryCommandSet.h"
 #include "CCRichLabelTTF.h"
+#include "CCStoryDialogLayer.h"
+
+// tag of node
+#define TAG_DIALOG_LAYER 10000
+
+// z order
+#define Z_DIALOG_LAYER MAX_INT
 
 NS_CC_BEGIN
 
@@ -69,13 +76,17 @@ void CCStoryPlayer::start() {
 }
 
 void CCStoryPlayer::executeCurrentCommand() {
+    m_curCmdDone = false;
     switch (m_curCmd->getType()) {
         case CCStoryCommand::MSG:
         {
-            CCRichLabelTTF* label = CCRichLabelTTF::create(m_curCmd->m_param.msg.s, "Helvetica", 40);
-            label->setPosition(CCUtils::getLocalCenter(m_owner));
-            m_owner->addChild(label);
-            m_curCmdDone = true;
+            // remove old dialog and create new dialog layer
+            m_owner->removeChildByTag(TAG_DIALOG_LAYER);
+            CCStoryDialogLayer* dl = CCStoryDialogLayer::create(this);
+            m_owner->addChild(dl, Z_DIALOG_LAYER);
+            
+            // show dialog
+            dl->showMessage(m_curCmd);
             break;
         }
         default:
@@ -87,8 +98,10 @@ void CCStoryPlayer::fetchNextCommand() {
     if(m_curCmdIndex < (int)gStoryCommandSet.count() - 1) {
         m_curCmdIndex++;
         m_curCmd = (CCStoryCommand*)gStoryCommandSet.objectAtIndex(m_curCmdIndex);
-        m_curCmdDone = false;
+    } else {
+        m_curCmd = NULL;
     }
+    m_curCmdDone = false;
 }
 
 NS_CC_END

@@ -25,4 +25,6 @@
 
 @interface SDAppDelegate : NSObject <NSApplicationDelegate>
 
+- (void)showHelpView;
+
 @end

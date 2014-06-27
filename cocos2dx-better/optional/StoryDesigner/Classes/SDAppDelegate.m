@@ -93,6 +93,9 @@ static AppDelegate s_sharedApplication;
     [self.atlasOutline setTarget:self];
     [self.atlasOutline reloadData];
     
+    // show help
+    [self showHelpView];
+    
     // declare pasteboard type
     [[NSPasteboard generalPasteboard] declareTypes:@[NSStringPboardType] owner:self];
     
@@ -295,6 +298,12 @@ static AppDelegate s_sharedApplication;
 - (void)onStoryPlayerError:(NSNotification *)n {
     [self.errorLabel setHidden:NO];
     self.errorLabel.stringValue = [n object];
+}
+
+- (void)showHelpView {
+    self.helpView.frame = NSMakeRect(0, 0, self.propertyScrollView.bounds.size.width, self.propertyScrollView.bounds.size.height);
+    self.propertyScrollView.documentView = self.helpView;
+    [self.propertyScrollView.documentView scrollPoint:NSMakePoint(0, self.helpView.bounds.size.height)];
 }
 
 - (void)showSavePanel:(BOOL)quit {

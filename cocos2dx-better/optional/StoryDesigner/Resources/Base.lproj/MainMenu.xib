@@ -424,7 +424,7 @@
                                                                 </tableColumn>
                                                             </tableColumns>
                                                             <connections>
-                                                                <outlet property="appDelegate" destination="Voe-Tx-rLC" id="MAT-vO-or8"/>
+                                                                <outlet property="appDelegate" destination="Voe-Tx-rLC" id="sIJ-wG-OPJ"/>
                                                                 <outlet property="contextMenu" destination="cXT-HQ-KnP" id="XAm-zr-Xv3"/>
                                                                 <outlet property="dataSource" destination="Voe-Tx-rLC" id="Hg4-DE-ICq"/>
                                                                 <outlet property="delegate" destination="Voe-Tx-rLC" id="1IF-aX-kwZ"/>
@@ -538,7 +538,7 @@
             <rect key="frame" x="0.0" y="0.0" width="725" height="702"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4iJ-sl-Hif">
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4iJ-sl-Hif">
                     <rect key="frame" x="0.0" y="0.0" width="725" height="702"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <clipView key="contentView" id="ETv-i8-BTx">
@@ -549,7 +549,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="725" height="702"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <size key="minSize" width="725" height="702"/>
                                 <size key="maxSize" width="725" height="10000000"/>
                                 <attributedString key="textStorage">
@@ -4026,7 +4026,6 @@
                                 <size key="maxSize" width="725" height="10000000"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </clipView>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="JCa-Zy-s1z">
                         <rect key="frame" x="-100" y="-100" width="87" height="18"/>

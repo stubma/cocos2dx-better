@@ -12,6 +12,7 @@
 @interface SDOutlineView ()
 
 @property (weak) IBOutlet NSMenu* contextMenu;
+@property (weak) IBOutlet SDAppDelegate* appDelegate;
 
 @end
 
@@ -27,6 +28,11 @@
     } else {
         return nil;
     }
+}
+
+- (BOOL)resignFirstResponder {
+    [self.appDelegate showHelpView];
+    return [super resignFirstResponder];
 }
 
 @end

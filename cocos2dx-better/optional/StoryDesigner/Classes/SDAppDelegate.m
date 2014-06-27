@@ -41,6 +41,7 @@ static AppDelegate s_sharedApplication;
 @property (weak) IBOutlet ACEView* aceView;
 @property (weak) IBOutlet NSOutlineView *atlasOutline;
 @property (weak) IBOutlet NSScrollView *propertyScrollView;
+@property (weak) IBOutlet NSView *helpView;
 @property (assign) BOOL dirty;
 @property (strong) NSString* file;
 @property (assign) BOOL firstTime;

@@ -46,6 +46,7 @@ extern void nameanchor(float x, float y);
 extern void move(string name, float x, float y, float time);
 extern void wait(float time);
 extern void waitarm();
+extern void waitclick();
 extern void fadein(string name, float time);
 extern void fadeout(string name, float time);
 extern void dialog();
@@ -86,6 +87,7 @@ public:
         MOVE,
         WAIT,
         WAIT_ARM,
+        WAIT_CLICK,
         FADE_IN,
         FADE_OUT,
         DIALOG,

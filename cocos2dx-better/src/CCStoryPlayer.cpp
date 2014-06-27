@@ -26,6 +26,7 @@
 #include "CCStoryCommandSet.h"
 #include "CCRichLabelTTF.h"
 #include "CCStoryMessageLayer.h"
+#include "CCStoryClickLayer.h"
 #include "CBArmature.h"
 #include "CCFlash.h"
 #include "CCShake.h"
@@ -39,11 +40,13 @@
 #define TAG_MESSAGE_LAYER 10000
 #define TAG_BG_COLOR_LAYER 10001
 #define TAG_BG 10002
+#define TAG_CLICK_LAYER 10003
 
 // z order
 #define Z_MESSAGE_LAYER MAX_INT
 #define Z_BG -MAX_INT
 #define Z_BG_COLOR_LAYER (Z_BG + 1)
+#define Z_CLICK_LAYER 0
 
 using namespace CocosDenshion;
 
@@ -106,6 +109,14 @@ void CCStoryPlayer::start() {
 void CCStoryPlayer::onMessageDone() {
     // remove message layer
     m_owner->removeChildByTag(TAG_MESSAGE_LAYER);
+    
+    // next
+    start();
+}
+
+void CCStoryPlayer::onClickDone() {
+    // remove message layer
+    m_owner->removeChildByTag(TAG_CLICK_LAYER);
     
     // next
     start();
@@ -212,6 +223,12 @@ void CCStoryPlayer::executeCurrentCommand() {
                 setError("waitarm must follow an armplay command");
             }
             
+            break;
+        }
+        case CCStoryCommand::WAIT_CLICK:
+        {
+            CCStoryClickLayer* cl = CCStoryClickLayer::create(this);
+            m_owner->addChild(cl, Z_CLICK_LAYER, TAG_CLICK_LAYER);
             break;
         }
         case CCStoryCommand::IMG:

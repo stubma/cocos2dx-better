@@ -16,8 +16,8 @@ namecolor(0xff008923)
 msg('Me', '我的我的我的我的我的\n我的我的我的我的\n我的我的我的我的\n我的我的我的我的\n我的我的我的我的我的')
 msg('You', 'hello world! haha\nwhat is your name?')
 
--- wait for 2 seconds
-wait(2)
+-- wait user click
+waitclick()
 
 -- shake guanyu
 move('guanyu', 400, 500, 1)

@@ -105,6 +105,11 @@ void waitarm() {
     gStoryCommandSet.addObject(c);
 }
 
+void waitclick() {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::WAIT_CLICK);
+    gStoryCommandSet.addObject(c);
+}
+
 void fadein(string name, float time) {
     CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::FADE_IN);
     cmd->m_param.fadein.name = CCUtils::copy(name.c_str());

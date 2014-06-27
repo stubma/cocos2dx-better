@@ -12,6 +12,7 @@ void msg(string name, string s);
 void move(string name, float x, float y, float time);
 void wait(float time);
 void waitarm();
+void waitclick();
 void fadein(string name, float time);
 void fadeout(string name, float time);
 void dialog();

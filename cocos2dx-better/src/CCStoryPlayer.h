@@ -68,6 +68,9 @@ public:
     /// when one message is done
     void onMessageDone();
     
+    /// when one click is recieved
+    void onClickDone();
+    
     /// has error?
     bool hasError() { return !m_error.empty(); }
     

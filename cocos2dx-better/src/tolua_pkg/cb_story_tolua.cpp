@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Fri Jun 27 14:50:33 2014.
+** Generated automatically by tolua++-1.0.92 on Fri Jun 27 15:36:26 2014.
 */
 
 #ifndef __cplusplus
@@ -365,6 +365,32 @@ static int tolua_story_waitarm00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'waitarm'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: waitclick */
+#ifndef TOLUA_DISABLE_tolua_story_waitclick00
+static int tolua_story_waitclick00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnoobj(tolua_S,1,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   waitclick();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'waitclick'.",&tolua_err);
  return 0;
 #endif
 }
@@ -989,6 +1015,7 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"move",tolua_story_move00);
   tolua_function(tolua_S,"wait",tolua_story_wait00);
   tolua_function(tolua_S,"waitarm",tolua_story_waitarm00);
+  tolua_function(tolua_S,"waitclick",tolua_story_waitclick00);
   tolua_function(tolua_S,"fadein",tolua_story_fadein00);
   tolua_function(tolua_S,"fadeout",tolua_story_fadeout00);
   tolua_function(tolua_S,"dialog",tolua_story_dialog00);

@@ -58,6 +58,7 @@ m_playing(false) {
 
 CCStoryLayer::~CCStoryLayer() {
     CC_SAFE_RELEASE(m_player);
+    gStoryCommandSet.removeAllObjects();
     if(L) {
         lua_close(L);
         L = NULL;

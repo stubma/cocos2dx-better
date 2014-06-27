@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Fri Jun 27 15:49:57 2014.
+** Generated automatically by tolua++-1.0.92 on Fri Jun 27 15:55:45 2014.
 */
 
 #ifndef __cplusplus
@@ -247,6 +247,92 @@ static int tolua_story_nameanchor00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'nameanchor'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: labelcolor */
+#ifndef TOLUA_DISABLE_tolua_story_labelcolor00
+static int tolua_story_labelcolor00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  unsigned int c = ((unsigned int)  tolua_tonumber(tolua_S,1,0));
+  {
+   labelcolor(c);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'labelcolor'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: labelsize */
+#ifndef TOLUA_DISABLE_tolua_story_labelsize00
+static int tolua_story_labelsize00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  float size = ((float)  tolua_tonumber(tolua_S,1,0));
+  {
+   labelsize(size);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'labelsize'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: labelanchor */
+#ifndef TOLUA_DISABLE_tolua_story_labelanchor00
+static int tolua_story_labelanchor00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  float x = ((float)  tolua_tonumber(tolua_S,1,0));
+  float y = ((float)  tolua_tonumber(tolua_S,2,0));
+  {
+   labelanchor(x,y);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'labelanchor'.",&tolua_err);
  return 0;
 #endif
 }
@@ -583,6 +669,40 @@ static int tolua_story_img00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'img'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: label */
+#ifndef TOLUA_DISABLE_tolua_story_label00
+static int tolua_story_label00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  string text = ((string)  tolua_tocppstring(tolua_S,2,0));
+  float x = ((float)  tolua_tonumber(tolua_S,3,0));
+  float y = ((float)  tolua_tonumber(tolua_S,4,0));
+  {
+   label(name,text,x,y);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'label'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1041,6 +1161,9 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"namecolor",tolua_story_namecolor00);
   tolua_function(tolua_S,"namesize",tolua_story_namesize00);
   tolua_function(tolua_S,"nameanchor",tolua_story_nameanchor00);
+  tolua_function(tolua_S,"labelcolor",tolua_story_labelcolor00);
+  tolua_function(tolua_S,"labelsize",tolua_story_labelsize00);
+  tolua_function(tolua_S,"labelanchor",tolua_story_labelanchor00);
   tolua_function(tolua_S,"msg",tolua_story_msg00);
   tolua_function(tolua_S,"move",tolua_story_move00);
   tolua_function(tolua_S,"wait",tolua_story_wait00);
@@ -1052,6 +1175,7 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"shake",tolua_story_shake00);
   tolua_function(tolua_S,"scale",tolua_story_scale00);
   tolua_function(tolua_S,"img",tolua_story_img00);
+  tolua_function(tolua_S,"label",tolua_story_label00);
   tolua_function(tolua_S,"arm",tolua_story_arm00);
   tolua_function(tolua_S,"armplay",tolua_story_armplay00);
   tolua_function(tolua_S,"angle",tolua_story_angle00);

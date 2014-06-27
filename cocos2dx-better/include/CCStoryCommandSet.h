@@ -43,6 +43,9 @@ extern void namepos(float x, float y);
 extern void namecolor(unsigned int c);
 extern void namesize(float size);
 extern void nameanchor(float x, float y);
+extern void labelcolor(unsigned int c);
+extern void labelsize(float size);
+extern void labelanchor(float x, float y);
 extern void move(string name, float x, float y, float time);
 extern void wait(float time);
 extern void waitarm();
@@ -53,6 +56,7 @@ extern void flash(string name, unsigned int color, float times, float time);
 extern void shake(string name, float amplitude, float time);
 extern void scale(string name, float to, float time);
 extern void img(string name, string frameName, float x, float y);
+extern void label(string name, string text, float x, float y);
 extern void arm(string name, string armName, float x, float y);
 extern void armplay(string name, string animName);
 extern void angle(string name, float degree);
@@ -85,6 +89,9 @@ public:
         NAME_COLOR,
         NAME_SIZE,
         NAME_ANCHOR,
+        LABEL_COLOR,
+        LABEL_SIZE,
+        LABEL_ANCHOR,
         MOVE,
         WAIT,
         WAIT_ARM,
@@ -95,6 +102,7 @@ public:
         SHAKE,
         SCALE,
         IMG,
+        LABEL,
         ARM,
         ARM_PLAY,
         ANGLE,
@@ -157,6 +165,19 @@ public:
         } nameanchor;
         
         struct {
+            unsigned int c;
+        } labelcolor;
+        
+        struct {
+            float size;
+        } labelsize;
+        
+        struct {
+            float x;
+            float y;
+        } labelanchor;
+        
+        struct {
             const char* name;
             float x;
             float y;
@@ -208,6 +229,13 @@ public:
             const char* name;
             const char* frameName;
         } img;
+        
+        struct {
+            float x;
+            float y;
+            const char* name;
+            const char* text;
+        } label;
         
         struct {
             float x;

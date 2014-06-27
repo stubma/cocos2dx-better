@@ -6,6 +6,10 @@ arm('guanyu', 'guanyu', 100, 500)
 armplay('guanyu', '待机')
 flipx('guanyu')
 
+-- a label
+labelsize(40)
+label('desc', 'Ahoy there!', 500, 900)
+
 -- set default value for name and messsage
 msgsize(40)
 msgcolor(0xfff33290)

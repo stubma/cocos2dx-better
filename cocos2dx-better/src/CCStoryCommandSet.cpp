@@ -85,6 +85,25 @@ void nameanchor(float x, float y) {
     gStoryCommandSet.addObject(c);
 }
 
+void labelcolor(unsigned int c) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::LABEL_COLOR);
+    cmd->m_param.labelcolor.c = c;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void labelsize(float size) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::LABEL_SIZE);
+    c->m_param.labelsize.size = size;
+    gStoryCommandSet.addObject(c);
+}
+
+void labelanchor(float x, float y) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::LABEL_ANCHOR);
+    c->m_param.labelanchor.x = x;
+    c->m_param.labelanchor.y = y;
+    gStoryCommandSet.addObject(c);
+}
+
 void move(string name, float x, float y, float time) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MOVE);
     c->m_param.move.name = CCUtils::copy(name.c_str());
@@ -155,6 +174,15 @@ void img(string name, string frameName, float x, float y) {
     cmd->m_param.img.frameName = CCUtils::copy(frameName.c_str());
     cmd->m_param.img.x = x;
     cmd->m_param.img.y = y;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void label(string name, string text, float x, float y) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::LABEL);
+    cmd->m_param.label.name = CCUtils::copy(name.c_str());
+    cmd->m_param.label.text = CCUtils::copy(text.c_str());
+    cmd->m_param.label.x = x;
+    cmd->m_param.label.y = y;
     gStoryCommandSet.addObject(cmd);
 }
 
@@ -273,6 +301,10 @@ CCStoryCommand::~CCStoryCommand() {
         case IMG:
             free((void*)m_param.img.name);
             free((void*)m_param.img.frameName);
+            break;
+        case LABEL:
+            free((void*)m_param.label.name);
+            free((void*)m_param.label.text);
             break;
         case ARM:
             free((void*)m_param.arm.name);

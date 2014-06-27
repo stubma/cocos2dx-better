@@ -87,6 +87,9 @@ public:
     CC_SYNTHESIZE(CCPoint, m_msgAnchor, MessageAnchor);
     CC_SYNTHESIZE(float, m_nameSize, NameSize);
     CC_SYNTHESIZE(int, m_nameColor, NameColor);
+    CC_SYNTHESIZE(CCPoint, m_labelAnchor, LabelAnchor);
+    CC_SYNTHESIZE(float, m_labelSize, LabelSize);
+    CC_SYNTHESIZE(int, m_labelColor, LabelColor);
     CC_SYNTHESIZE(CCPoint, m_namePos, NamePos);
     CC_SYNTHESIZE(CCPoint, m_nameAnchor, NameAnchor);
     CC_SYNTHESIZE(CCPoint, m_bgPos, BgPos);

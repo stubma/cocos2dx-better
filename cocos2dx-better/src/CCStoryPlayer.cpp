@@ -59,10 +59,13 @@ m_done(false),
 m_curCmdIndex(-1),
 m_msgSize(20),
 m_nameSize(20),
+m_labelSize(20),
 m_msgColor(0xffffffff),
 m_nameColor(0xffffffff),
+m_labelColor(0xffffffff),
 m_msgPos(CCPointZero),
 m_namePos(CCPointZero),
+m_labelAnchor(ccp(0.5f, 0.5f)),
 m_msgAnchor(ccp(0.5f, 0.5f)),
 m_nameAnchor(ccp(0.5f, 0.5f)) {
 }
@@ -202,6 +205,31 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::LABEL_SIZE:
+        {
+            m_labelSize = m_curCmd->m_param.labelsize.size;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::LABEL_COLOR:
+        {
+            m_labelColor = m_curCmd->m_param.labelcolor.c;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::LABEL_ANCHOR:
+        {
+            m_labelAnchor.x = m_curCmd->m_param.labelanchor.x;
+            m_labelAnchor.y = m_curCmd->m_param.labelanchor.y;
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::WAIT:
         {
             m_owner->runAction(CCSequence::create(CCDelayTime::create(m_curCmd->m_param.wait.time),
@@ -252,6 +280,32 @@ void CCStoryPlayer::executeCurrentCommand() {
             } else {
                 char buf[512];
                 sprintf(buf, "image frame: %s is not existent", m_curCmd->m_param.img.frameName);
+                setError(buf);
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::LABEL:
+        {
+            if(!m_roleMap.objectForKey(m_curCmd->m_param.label.name)) {
+                // create label
+                CCRichLabelTTF* label = CCRichLabelTTF::create(m_curCmd->m_param.label.text,
+                                                               "Helvetica",
+                                                               m_labelSize);
+                label->setAnchorPoint(m_labelAnchor);
+                label->setFontFillColor(ccc3FromInt(m_labelColor));
+                label->setOpacity((m_labelColor >> 24) & 0xff);
+                label->setPosition(ccp(m_curCmd->m_param.label.x,
+                                       m_curCmd->m_param.label.y));
+                m_owner->addChild(label);
+                
+                // save role
+                m_roleMap.setObject(label, m_curCmd->m_param.label.name);
+            } else {
+                char buf[512];
+                sprintf(buf, "label role %s is already existent", m_curCmd->m_param.label.name);
                 setError(buf);
             }
             

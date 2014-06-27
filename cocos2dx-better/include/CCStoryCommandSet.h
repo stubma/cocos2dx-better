@@ -49,7 +49,6 @@ extern void waitarm();
 extern void waitclick();
 extern void fadein(string name, float time);
 extern void fadeout(string name, float time);
-extern void dialog();
 extern void flash(string name, unsigned int color, float times, float time);
 extern void shake(string name, float amplitude, float time);
 extern void scale(string name, float to, float time);
@@ -67,6 +66,8 @@ extern void sound(string soundFile);
 extern void remove(string name);
 extern void show(string name);
 extern void hide(string name);
+extern void flipx(string name);
+extern void flipy(string name);
 
 NS_CC_BEGIN
 
@@ -90,7 +91,6 @@ public:
         WAIT_CLICK,
         FADE_IN,
         FADE_OUT,
-        DIALOG,
         FLASH,
         SHAKE,
         SCALE,
@@ -107,7 +107,9 @@ public:
         SOUND,
         REMOVE,
         SHOW,
-        HIDE
+        HIDE,
+        FLIP_X,
+        FLIP_Y
     };
     
 public:
@@ -261,6 +263,14 @@ public:
         struct {
             const char* name;
         } hide;
+        
+        struct {
+            const char* name;
+        } flipx;
+        
+        struct {
+            const char* name;
+        } flipy;
     } m_param;
     
 public:

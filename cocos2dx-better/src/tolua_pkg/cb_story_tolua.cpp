@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Fri Jun 27 15:36:26 2014.
+** Generated automatically by tolua++-1.0.92 on Fri Jun 27 15:49:57 2014.
 */
 
 #ifndef __cplusplus
@@ -451,32 +451,6 @@ static int tolua_story_fadeout00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'fadeout'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* function: dialog */
-#ifndef TOLUA_DISABLE_tolua_story_dialog00
-static int tolua_story_dialog00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  {
-   dialog();
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'dialog'.",&tolua_err);
  return 0;
 #endif
 }
@@ -996,6 +970,62 @@ static int tolua_story_hide00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: flipx */
+#ifndef TOLUA_DISABLE_tolua_story_flipx00
+static int tolua_story_flipx00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  {
+   flipx(name);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'flipx'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: flipy */
+#ifndef TOLUA_DISABLE_tolua_story_flipy00
+static int tolua_story_flipy00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  {
+   flipy(name);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'flipy'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_story_open (lua_State* tolua_S)
 {
@@ -1018,7 +1048,6 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"waitclick",tolua_story_waitclick00);
   tolua_function(tolua_S,"fadein",tolua_story_fadein00);
   tolua_function(tolua_S,"fadeout",tolua_story_fadeout00);
-  tolua_function(tolua_S,"dialog",tolua_story_dialog00);
   tolua_function(tolua_S,"flash",tolua_story_flash00);
   tolua_function(tolua_S,"shake",tolua_story_shake00);
   tolua_function(tolua_S,"scale",tolua_story_scale00);
@@ -1036,6 +1065,8 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"remove",tolua_story_remove00);
   tolua_function(tolua_S,"show",tolua_story_show00);
   tolua_function(tolua_S,"hide",tolua_story_hide00);
+  tolua_function(tolua_S,"flipx",tolua_story_flipx00);
+  tolua_function(tolua_S,"flipy",tolua_story_flipy00);
  tolua_endmodule(tolua_S);
  return 1;
 }

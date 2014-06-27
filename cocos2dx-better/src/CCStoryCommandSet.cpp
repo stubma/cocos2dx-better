@@ -124,10 +124,6 @@ void fadeout(string name, float time) {
     gStoryCommandSet.addObject(cmd);
 }
 
-void dialog() {
-    
-}
-
 void flash(string name, unsigned int color, float times, float time) {
     CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::FLASH);
     cmd->m_param.flash.name = CCUtils::copy(name.c_str());
@@ -249,6 +245,18 @@ void hide(string name) {
     gStoryCommandSet.addObject(cmd);
 }
 
+void flipx(string name) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::FLIP_X);
+    cmd->m_param.flipx.name = CCUtils::copy(name.c_str());
+    gStoryCommandSet.addObject(cmd);
+}
+
+void flipy(string name) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::FLIP_Y);
+    cmd->m_param.flipy.name = CCUtils::copy(name.c_str());
+    gStoryCommandSet.addObject(cmd);
+}
+
 NS_CC_BEGIN
 
 CCStoryCommand::CCStoryCommand() :
@@ -318,6 +326,12 @@ CCStoryCommand::~CCStoryCommand() {
             break;
         case HIDE:
             free((void*)m_param.hide.name);
+            break;
+        case FLIP_X:
+            free((void*)m_param.flipx.name);
+            break;
+        case FLIP_Y:
+            free((void*)m_param.flipy.name);
             break;
         default:
             break;

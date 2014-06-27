@@ -4,6 +4,7 @@ bg("草地森林")
 -- add armature role
 arm('guanyu', 'guanyu', 100, 500)
 armplay('guanyu', '待机')
+flipx('guanyu')
 
 -- set default value for name and messsage
 msgsize(40)

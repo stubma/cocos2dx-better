@@ -317,6 +317,42 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::FLIP_X:
+        {
+            // get role and set
+            CCNode* role = getRole(m_curCmd->m_param.flipx.name);
+            if(role) {
+                CCSprite* sprite = dynamic_cast<CCSprite*>(role);
+                CBArmature* arm = dynamic_cast<CBArmature*>(role);
+                if(sprite) {
+                    sprite->setFlipX(!sprite->isFlipX());
+                } else if(arm) {
+                    arm->setScaleX(-arm->getScaleX());
+                }
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::FLIP_Y:
+        {
+            // get role and set
+            CCNode* role = getRole(m_curCmd->m_param.flipy.name);
+            if(role) {
+                CCSprite* sprite = dynamic_cast<CCSprite*>(role);
+                CBArmature* arm = dynamic_cast<CBArmature*>(role);
+                if(sprite) {
+                    sprite->setFlipY(!sprite->isFlipY());
+                } else if(arm) {
+                    arm->setScaleY(-arm->getScaleY());
+                }
+            }
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::SHAKE:
         {
             // get role and shake

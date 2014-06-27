@@ -34,6 +34,8 @@ using namespace std;
 extern CCArray gStoryCommandSet;
 
 // command method for lua
+extern void winsize(float w, float h);
+extern void policy(ResolutionPolicy p);
 extern void msg(string name, string s);
 extern void msgsize(float size);
 extern void msgcolor(unsigned int c);
@@ -81,6 +83,8 @@ class CCStoryCommand : public CCObject {
 public:
     enum Type {
         UNKNOWN,
+        WIN_SIZE,
+        POLICY,
         MSG,
         MSG_SIZE,
         MSG_COLOR,
@@ -125,6 +129,15 @@ public:
 public:
     /// command parameters
     union {
+        struct {
+            float w;
+            float h;
+        } winsize;
+        
+        struct {
+            ResolutionPolicy p;
+        } policy;
+        
         struct {
             const char* name;
             const char* s;

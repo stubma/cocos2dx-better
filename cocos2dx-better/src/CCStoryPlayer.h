@@ -39,6 +39,13 @@ class CBArmature;
 /// player of story command sequence
 class CCStoryPlayer : public CCObject {
 private:
+    /// old design size
+    CCPoint m_oldDesignSize;
+    
+    /// need restore to original design size?
+    bool m_needRestoreDesignSize;
+    
+private:
     /// fetch next command
     void fetchNextCommand();
     
@@ -93,6 +100,8 @@ public:
     CC_SYNTHESIZE(CCPoint, m_namePos, NamePos);
     CC_SYNTHESIZE(CCPoint, m_nameAnchor, NameAnchor);
     CC_SYNTHESIZE(CCPoint, m_bgPos, BgPos);
+    CC_SYNTHESIZE(CCPoint, m_requiredDesignSize, RequiredDesignSize);
+    CC_SYNTHESIZE(ResolutionPolicy, m_requiredPolicy, RequiredPolicy);
     
     // error
     CC_SYNTHESIZE_PASS_BY_REF_SETTER(string, m_error, Error);

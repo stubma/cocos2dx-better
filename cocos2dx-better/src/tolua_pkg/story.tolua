@@ -1,5 +1,16 @@
 $#include "CCStoryCommandSet.h" 
 
+enum ResolutionPolicy {
+    kResolutionExactFit,
+    kResolutionNoBorder,
+    kResolutionShowAll,
+    kResolutionFixedHeight,
+    kResolutionFixedWidth,
+    kResolutionUnKnown
+};
+
+void winsize(float w, float h);
+void policy(ResolutionPolicy p);
 void msgsize(float size);
 void msgcolor(unsigned int c);
 void msgpos(float x, float y);

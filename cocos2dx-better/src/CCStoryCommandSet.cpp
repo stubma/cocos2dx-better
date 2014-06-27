@@ -26,6 +26,19 @@
 
 CCArray gStoryCommandSet;
 
+void winsize(float w, float h) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::WIN_SIZE);
+    c->m_param.winsize.w = w;
+    c->m_param.winsize.h = h;
+    gStoryCommandSet.addObject(c);
+}
+
+void policy(ResolutionPolicy p) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::POLICY);
+    c->m_param.policy.p = p;
+    gStoryCommandSet.addObject(c);
+}
+
 void msg(string name, string s) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG);
     c->m_param.msg.name = CCUtils::copy(name.c_str());

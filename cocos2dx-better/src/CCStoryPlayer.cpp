@@ -56,6 +56,8 @@ CCStoryPlayer::CCStoryPlayer() :
 m_owner(NULL),
 m_curCmd(NULL),
 m_done(false),
+m_needRestoreDesignSize(false),
+m_requiredPolicy(kResolutionShowAll),
 m_curCmdIndex(-1),
 m_msgSize(20),
 m_nameSize(20),
@@ -71,6 +73,14 @@ m_nameAnchor(ccp(0.5f, 0.5f)) {
 }
 
 CCStoryPlayer::~CCStoryPlayer() {
+    if(m_needRestoreDesignSize) {
+        CCEGLView::sharedOpenGLView()->setDesignResolutionSize(m_oldDesignSize.x, m_oldDesignSize.y, m_requiredPolicy);
+        
+        // for story designer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+        CCNotificationCenter::sharedNotificationCenter()->postNotification("kCCNotificationFrameSizeChanged");
+#endif
+    }
 }
 
 CCStoryPlayer* CCStoryPlayer::create(CCStoryLayer* owner) {
@@ -127,6 +137,39 @@ void CCStoryPlayer::onClickDone() {
 
 void CCStoryPlayer::executeCurrentCommand() {
     switch (m_curCmd->getType()) {
+        case CCStoryCommand::WIN_SIZE:
+        {
+            // compare design size
+            m_oldDesignSize = CCEGLView::sharedOpenGLView()->getDesignResolutionSize();
+            m_requiredDesignSize = ccp(m_curCmd->m_param.winsize.w, m_curCmd->m_param.winsize.h);
+            m_needRestoreDesignSize = true;
+            CCEGLView::sharedOpenGLView()->setDesignResolutionSize(m_requiredDesignSize.x, m_requiredDesignSize.y, kResolutionShowAll);
+            
+            // for story designer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("kCCNotificationFrameSizeChanged");
+#endif
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::POLICY:
+        {
+            m_oldDesignSize = CCEGLView::sharedOpenGLView()->getDesignResolutionSize();
+            m_needRestoreDesignSize = true;
+            m_requiredPolicy = m_curCmd->m_param.policy.p;
+            CCEGLView::sharedOpenGLView()->setDesignResolutionSize(m_requiredDesignSize.x, m_requiredDesignSize.y, m_requiredPolicy);
+      
+            // for story designer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+            CCNotificationCenter::sharedNotificationCenter()->postNotification("kCCNotificationFrameSizeChanged");
+#endif
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::MSG:
         {
             // remove old dialog and create new dialog layer

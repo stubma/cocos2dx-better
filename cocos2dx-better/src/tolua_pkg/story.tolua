@@ -50,3 +50,7 @@ void hide(string name);
 void flipx(string name);
 void flipy(string name);
 void pos(string name, float x, float y);
+void npos(string name, string refName, float relativeX, float relativeY);
+void spos(string name, float relativeX, float relativeY);
+void anchor(string name, float x, float y);
+void color(string name, unsigned int c);

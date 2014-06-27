@@ -667,6 +667,67 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::NODE_POS:
+        {
+            // set role position
+            CCNode* role = getRole(m_curCmd->m_param.npos.name);
+            CCNode* refRole = getRole(m_curCmd->m_param.npos.refName);
+            if(role && refRole) {
+                role->setPosition(CCUtils::getPoint(refRole, m_curCmd->m_param.npos.x, m_curCmd->m_param.npos.y));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::SCREEN_POS:
+        {
+            // set role position
+            CCNode* role = getRole(m_curCmd->m_param.npos.name);
+            if(role) {
+                CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+                CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+                role->setPosition(ccp(origin.x + visibleSize.width * m_curCmd->m_param.spos.x,
+                                      origin.y + visibleSize.height * m_curCmd->m_param.spos.y));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::ANCHOR:
+        {
+            // set role anchor
+            CCNode* role = getRole(m_curCmd->m_param.anchor.name);
+            if(role) {
+                role->setAnchorPoint(ccp(m_curCmd->m_param.anchor.x, m_curCmd->m_param.anchor.y));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::COLOR:
+        {
+            // set role color
+            CCNode* role = getRole(m_curCmd->m_param.anchor.name);
+            if(role) {
+                CCNodeRGBA* n = dynamic_cast<CCNodeRGBA*>(role);
+                if(n) {
+                    n->setColor(ccc3FromInt(m_curCmd->m_param.color.c));
+                    n->setOpacity((m_curCmd->m_param.color.c >> 24) & 0xff);
+                }
+                
+                CCRichLabelTTF* label = dynamic_cast<CCRichLabelTTF*>(role);
+                if(label) {
+                    label->setFontFillColor(ccc3FromInt(m_curCmd->m_param.color.c));
+                }
+            }
+            
+            // next
+            start();
+            break;
+        }
         default:
             break;
     }

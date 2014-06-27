@@ -75,6 +75,10 @@ extern void hide(string name);
 extern void flipx(string name);
 extern void flipy(string name);
 extern void pos(string name, float x, float y);
+extern void npos(string name, string refName, float relativeX, float relativeY);
+extern void spos(string name, float relativeX, float relativeY);
+extern void anchor(string name, float x, float y);
+extern void color(string name, unsigned int c);
 
 NS_CC_BEGIN
 
@@ -123,7 +127,11 @@ public:
         HIDE,
         FLIP_X,
         FLIP_Y,
-        POS
+        POS,
+        NODE_POS,
+        SCREEN_POS,
+        ANCHOR,
+        COLOR
     };
     
 public:
@@ -320,6 +328,30 @@ public:
             float y;
             const char* name;
         } pos;
+        
+        struct {
+            float x;
+            float y;
+            const char* name;
+            const char* refName;
+        } npos;
+        
+        struct {
+            float x;
+            float y;
+            const char* name;
+        } spos;
+        
+        struct {
+            float x;
+            float y;
+            const char* name;
+        } anchor;
+        
+        struct {
+            unsigned int c;
+            const char* name;
+        } color;
     } m_param;
     
 public:

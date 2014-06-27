@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Fri Jun 27 20:10:56 2014.
+** Generated automatically by tolua++-1.0.92 on Fri Jun 27 21:41:50 2014.
 */
 
 #ifndef __cplusplus
@@ -1236,6 +1236,134 @@ static int tolua_story_pos00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: npos */
+#ifndef TOLUA_DISABLE_tolua_story_npos00
+static int tolua_story_npos00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_iscppstring(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  string refName = ((string)  tolua_tocppstring(tolua_S,2,0));
+  float relativeX = ((float)  tolua_tonumber(tolua_S,3,0));
+  float relativeY = ((float)  tolua_tonumber(tolua_S,4,0));
+  {
+   npos(name,refName,relativeX,relativeY);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'npos'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: spos */
+#ifndef TOLUA_DISABLE_tolua_story_spos00
+static int tolua_story_spos00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  float relativeX = ((float)  tolua_tonumber(tolua_S,2,0));
+  float relativeY = ((float)  tolua_tonumber(tolua_S,3,0));
+  {
+   spos(name,relativeX,relativeY);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'spos'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: anchor */
+#ifndef TOLUA_DISABLE_tolua_story_anchor00
+static int tolua_story_anchor00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+  {
+   anchor(name,x,y);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'anchor'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: color */
+#ifndef TOLUA_DISABLE_tolua_story_color00
+static int tolua_story_color00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  unsigned int c = ((unsigned int)  tolua_tonumber(tolua_S,2,0));
+  {
+   color(name,c);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'color'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_story_open (lua_State* tolua_S)
 {
@@ -1290,6 +1418,10 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"flipx",tolua_story_flipx00);
   tolua_function(tolua_S,"flipy",tolua_story_flipy00);
   tolua_function(tolua_S,"pos",tolua_story_pos00);
+  tolua_function(tolua_S,"npos",tolua_story_npos00);
+  tolua_function(tolua_S,"spos",tolua_story_spos00);
+  tolua_function(tolua_S,"anchor",tolua_story_anchor00);
+  tolua_function(tolua_S,"color",tolua_story_color00);
  tolua_endmodule(tolua_S);
  return 1;
 }

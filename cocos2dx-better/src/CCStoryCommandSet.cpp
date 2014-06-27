@@ -306,6 +306,38 @@ void pos(string name, float x, float y) {
     gStoryCommandSet.addObject(cmd);
 }
 
+void npos(string name, string refName, float relativeX, float relativeY) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::NODE_POS);
+    cmd->m_param.npos.name = CCUtils::copy(name.c_str());
+    cmd->m_param.npos.refName = CCUtils::copy(refName.c_str());
+    cmd->m_param.npos.x = relativeX;
+    cmd->m_param.npos.y = relativeY;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void spos(string name, float relativeX, float relativeY) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::SCREEN_POS);
+    cmd->m_param.spos.name = CCUtils::copy(name.c_str());
+    cmd->m_param.spos.x = relativeX;
+    cmd->m_param.spos.y = relativeY;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void anchor(string name, float x, float y) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::ANCHOR);
+    cmd->m_param.anchor.name = CCUtils::copy(name.c_str());
+    cmd->m_param.anchor.x = x;
+    cmd->m_param.anchor.y = y;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void color(string name, unsigned int c) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::COLOR);
+    cmd->m_param.color.name = CCUtils::copy(name.c_str());
+    cmd->m_param.color.c = c;
+    gStoryCommandSet.addObject(cmd);
+}
+
 NS_CC_BEGIN
 
 CCStoryCommand::CCStoryCommand() :
@@ -385,6 +417,22 @@ CCStoryCommand::~CCStoryCommand() {
             break;
         case FLIP_Y:
             free((void*)m_param.flipy.name);
+            break;
+        case POS:
+            free((void*)m_param.pos.name);
+            break;
+        case NODE_POS:
+            free((void*)m_param.npos.name);
+            free((void*)m_param.npos.refName);
+            break;
+        case SCREEN_POS:
+            free((void*)m_param.spos.name);
+            break;
+        case ANCHOR:
+            free((void*)m_param.anchor.name);
+            break;
+        case COLOR:
+            free((void*)m_param.color.name);
             break;
         default:
             break;

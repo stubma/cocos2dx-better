@@ -126,6 +126,7 @@ void CCStoryLayer::stopPlay() {
         return;
     m_playing = false;
     
+    stopAllActions();
     CC_SAFE_RELEASE_NULL(m_player);
     removeAllChildren();
 }

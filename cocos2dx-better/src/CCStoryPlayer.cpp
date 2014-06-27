@@ -26,6 +26,9 @@
 #include "CCStoryCommandSet.h"
 #include "CCRichLabelTTF.h"
 #include "CCStoryMessageLayer.h"
+#include "CBArmature.h"
+#include "CCFlash.h"
+#include "CCShake.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     #import <AppKit/AppKit.h>
 #endif
@@ -110,7 +113,7 @@ void CCStoryPlayer::executeCurrentCommand() {
         {
             // remove old dialog and create new dialog layer
             CCStoryMessageLayer* dl = CCStoryMessageLayer::create(this);
-            m_owner->addChild(dl, Z_MESSAGE_LAYER);
+            m_owner->addChild(dl, Z_MESSAGE_LAYER, TAG_MESSAGE_LAYER);
             
             // show dialog
             dl->showMessage(m_curCmd);
@@ -184,6 +187,203 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::WAIT:
+        {
+            m_owner->runAction(CCSequence::create(CCDelayTime::create(m_curCmd->m_param.wait.time),
+                                                  CCCallFunc::create(this, callfunc_selector(CCStoryPlayer::start)),
+                                                  NULL));
+            break;
+        }
+        case CCStoryCommand::WAIT_ARM:
+        {
+            if(m_curCmdIndex > 0) {
+                CCStoryCommand* prevCmd = (CCStoryCommand*)gStoryCommandSet.objectAtIndex(m_curCmdIndex - 1);
+                if(prevCmd->getType() == CCStoryCommand::ARM_PLAY) {
+                    CBArmature* arm = getArmatureRole(prevCmd->m_param.armplay.name);
+                    arm->getAnimation()->setMovementEventCallFunc(this, movementEvent_selector(CCStoryPlayer::onArmatureAnimationDone));
+                } else {
+                    setError("waitarm must follow an armplay command");
+                }
+            } else {
+                setError("waitarm must follow an armplay command");
+            }
+            
+            break;
+        }
+        case CCStoryCommand::IMG:
+        {
+            CCSpriteFrame* pFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_curCmd->m_param.img.frameName);
+            if(pFrame) {
+                if(!m_roleMap.objectForKey(m_curCmd->m_param.img.name)) {
+                    // create role
+                    CCSprite* role = CCSprite::createWithSpriteFrame(pFrame);
+                    role->setPosition(ccp(m_curCmd->m_param.img.x,
+                                          m_curCmd->m_param.img.y));
+                    m_owner->addChild(role);
+                    
+                    // save role
+                    m_roleMap.setObject(role, m_curCmd->m_param.img.name);
+                } else {
+                    char buf[512];
+                    sprintf(buf, "image role %s is already existent", m_curCmd->m_param.img.name);
+                    setError(buf);
+                }
+            } else {
+                char buf[512];
+                sprintf(buf, "image frame: %s is not existent", m_curCmd->m_param.img.frameName);
+                setError(buf);
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::ARM:
+        {
+            CCArmatureDataManager* adm = CCArmatureDataManager::sharedArmatureDataManager();
+            if(adm->getAnimationData(m_curCmd->m_param.arm.armName)) {
+                if(!m_roleMap.objectForKey(m_curCmd->m_param.arm.name)) {
+                    CBArmature* arm = CBArmature::create(m_curCmd->m_param.arm.armName);
+                    arm->setPosition(ccp(m_curCmd->m_param.arm.x,
+                                         m_curCmd->m_param.arm.y));
+                    m_owner->addChild(arm);
+                    
+                    // save role
+                    m_roleMap.setObject(arm, m_curCmd->m_param.arm.name);
+                } else {
+                    char buf[512];
+                    sprintf(buf, "armature role %s is already existent", m_curCmd->m_param.arm.name);
+                    setError(buf);
+                }
+            } else {
+                char buf[512];
+                sprintf(buf, "armature %s is not existent", m_curCmd->m_param.arm.armName);
+                setError(buf);
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::ARM_PLAY:
+        {
+            CBArmature* arm = getArmatureRole(m_curCmd->m_param.armplay.name);
+            if(arm) {
+                if(arm->getAnimation()->getAnimationData()->getMovement(m_curCmd->m_param.armplay.animName)) {
+                    arm->getAnimation()->play(m_curCmd->m_param.armplay.animName);
+                    arm->updateOffsetPoint();
+                } else {
+                    char buf[512];
+                    sprintf(buf, "animation %s is not existent", m_curCmd->m_param.armplay.animName);
+                    setError(buf);
+                }
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::FLASH:
+        {
+            // get role and shake
+            CCNode* role = getRole(m_curCmd->m_param.flash.name);
+            if(role) {
+                role->runAction(CCRepeat::create(CCFlash::create(m_curCmd->m_param.flash.time / m_curCmd->m_param.flash.times, ccc3FromInt(m_curCmd->m_param.flash.c)),
+                                                 m_curCmd->m_param.flash.times));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::SHAKE:
+        {
+            // get role and shake
+            CCNode* role = getRole(m_curCmd->m_param.shake.name);
+            if(role) {
+                role->runAction(CCShake::create(m_curCmd->m_param.shake.time,
+                                                m_curCmd->m_param.shake.amplitude));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MOVE:
+        {
+            // get role and move
+            CCNode* role = getRole(m_curCmd->m_param.move.name);
+            if(role) {
+                role->runAction(CCMoveTo::create(m_curCmd->m_param.move.time,
+                                                 ccp(m_curCmd->m_param.move.x, m_curCmd->m_param.move.y)));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::ROTATE:
+        {
+            // get role and rotate
+            CCNode* role = getRole(m_curCmd->m_param.rotate.name);
+            if(role) {
+                role->runAction(CCRotateBy::create(m_curCmd->m_param.rotate.time,
+                                                   m_curCmd->m_param.rotate.delta));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::SCALE:
+        {
+            // get role and scale
+            CCNode* role = getRole(m_curCmd->m_param.scale.name);
+            if(role) {
+                role->runAction(CCScaleTo::create(m_curCmd->m_param.scale.time,
+                                                  m_curCmd->m_param.scale.to));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::FADE_IN:
+        {
+            // get role and fade in
+            CCNode* role = getRole(m_curCmd->m_param.fadein.name);
+            if(role) {
+                role->runAction(CCFadeIn::create(m_curCmd->m_param.fadein.time));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::FADE_OUT:
+        {
+            // get role and fade out
+            CCNode* role = getRole(m_curCmd->m_param.fadeout.name);
+            if(role) {
+                role->runAction(CCFadeOut::create(m_curCmd->m_param.fadeout.time));
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::ANGLE:
+        {
+            // get role and set rotation
+            CCNode* role = getRole(m_curCmd->m_param.angle.name);
+            if(role) {
+                role->setRotation(m_curCmd->m_param.angle.degree);
+            }
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::BG_POS:
         {
             m_bgPos.x = m_curCmd->m_param.bgpos.x;
@@ -229,8 +429,98 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::Z:
+        {
+            // get role and set z order
+            CCNode* role = getRole(m_curCmd->m_param.z.name);
+            if(role) {
+                role->setZOrder(m_curCmd->m_param.z.z);
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::REMOVE:
+        {
+            // remove role
+            CCNode* role = getRole(m_curCmd->m_param.remove.name);
+            if(role) {
+                m_roleMap.removeObjectForKey(m_curCmd->m_param.remove.name);
+                role->removeFromParent();
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::SHOW:
+        {
+            // show role
+            CCNode* role = getRole(m_curCmd->m_param.remove.name);
+            if(role) {
+                role->setVisible(true);
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::HIDE:
+        {
+            // hide role
+            CCNode* role = getRole(m_curCmd->m_param.remove.name);
+            if(role) {
+                role->setVisible(false);
+            }
+            
+            // next
+            start();
+            break;
+        }
         default:
             break;
+    }
+}
+
+CBArmature* CCStoryPlayer::getArmatureRole(const char* name) {
+    CCObject* obj = m_roleMap.objectForKey(name);
+    if(obj) {
+        CBArmature* arm = dynamic_cast<CBArmature*>(obj);
+        if(arm) {
+            return arm;
+        } else {
+            char buf[512];
+            sprintf(buf, "role %s is not an armature!", name);
+            setError(buf);
+            return NULL;
+        }
+    } else {
+        char buf[512];
+        sprintf(buf, "role %s is not found", name);
+        setError(buf);
+        return NULL;
+    }
+}
+
+CCNode* CCStoryPlayer::getRole(const char* name) {
+    // get role
+    CCObject* obj = m_roleMap.objectForKey(name);
+    if(obj) {
+        CCNode* role = dynamic_cast<CCNode*>(obj);
+        if(role) {
+            return role;
+        } else {
+            char buf[512];
+            sprintf(buf, "role %s is not valid!", name);
+            setError(buf);
+            return NULL;
+        }
+    } else {
+        char buf[512];
+        sprintf(buf, "role %s is not found", name);
+        setError(buf);
+        return NULL;
     }
 }
 
@@ -250,6 +540,16 @@ void CCStoryPlayer::fetchNextCommand() {
         m_curCmd = (CCStoryCommand*)gStoryCommandSet.objectAtIndex(m_curCmdIndex);
     } else {
         m_curCmd = NULL;
+    }
+}
+
+void CCStoryPlayer::onArmatureAnimationDone(CBArmature* armature, MovementEventType e, const char* name) {
+    if(e >= COMPLETE) {
+        // remove callback
+        armature->getAnimation()->setMovementEventCallFunc(NULL, NULL);
+        
+        // next command
+        start();
     }
 }
 

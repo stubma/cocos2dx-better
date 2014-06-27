@@ -23,13 +23,11 @@ using namespace pvrtexture;
 + (NSImage*)loadAtlas:(NSString*)texFilePath {
     // get extension
     NSString* texFilename = [texFilePath lastPathComponent];
-    NSString* fnWithoutExt = [texFilename stringByDeletingPathExtension];
-    NSString* ext = [texFilename substringFromIndex:[fnWithoutExt length]];
+    NSString* ext = [texFilename pathExtension];
     NSString* zip = nil;
-    if([@".ccz" isEqualToString:ext] || [@".gz" isEqualToString:ext]) {
+    if([@"ccz" isEqualToString:ext] || [@"gz" isEqualToString:ext]) {
         zip = ext;
-        NSString* fnWithoutExt2 = [fnWithoutExt stringByDeletingPathExtension];
-        ext = [fnWithoutExt substringFromIndex:[fnWithoutExt2 length]];
+        ext = [[texFilename stringByDeletingPathExtension] pathExtension];
     }
     
     // get texture file data
@@ -41,14 +39,14 @@ using namespace pvrtexture;
     // load image
     do {
         // if is pvr
-        if([@".pvr" isEqualToString:ext]) {
+        if([@"pvr" isEqualToString:ext]) {
             unsigned char* pvrdata = NULL;
             int pvrlen = 0;
             
             // inflate pvr if it is zipped
-            if([@".ccz" isEqualToString:zip]) {
+            if([@"ccz" isEqualToString:zip]) {
                 pvrlen = ccInflateCCZFile((char*)[texRawData bytes], [texRawData length], &pvrdata);
-            } else if([@".gz" isEqualToString:zip]) {
+            } else if([@"gz" isEqualToString:zip]) {
                 pvrlen = ccInflateGZipFile([texFilePath cStringUsingEncoding:NSUTF8StringEncoding], &pvrdata);
             } else {
                 pvrlen = (int)[texRawData length];
@@ -115,8 +113,8 @@ using namespace pvrtexture;
             
             // free
             free(pvrdata);
-        } else if([@".png" isEqualToString:ext] || [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext]) {
-            BOOL png = [@".png" isEqualToString:ext];
+        } else if([@"png" isEqualToString:ext] || [@"jpg" isEqualToString:ext] || [@"jpeg" isEqualToString:ext]) {
+            BOOL png = [@"png" isEqualToString:ext];
             CGDataProviderRef imgDataProvider = CGDataProviderCreateWithCFData((CFDataRef)texRawData);
             CGImageRef cgImage = NULL;
             if(png) {
@@ -184,9 +182,8 @@ using namespace pvrtexture;
     }
     
     // get data based on extension
-    NSString* fnWithoutExt = [frame.key stringByDeletingPathExtension];
-    NSString* ext = [frame.key substringFromIndex:[fnWithoutExt length]];
-    BOOL isJPG = [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext];
+    NSString* ext = [frame.key pathExtension];
+    BOOL isJPG = [@"jpg" isEqualToString:ext] || [@"jpeg" isEqualToString:ext];
     NSData* fileData = nil;
     if(isJPG) {
         fileData = [bitmapRep representationUsingType:NSJPEGFileType properties:nil];

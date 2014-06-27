@@ -45,13 +45,14 @@ static AppDelegate s_sharedApplication;
 @property (strong) NSString* file;
 @property (assign) BOOL firstTime;
 @property (assign) BOOL firstTextChange;
-@property (strong) NSMutableArray* atlasPlists;
+@property (strong) NSMutableArray* resFiles;
 @property (strong) NSMutableDictionary* atlasFrameMap;
 @property (strong) NSMutableDictionary* atlasImageMap;
 @property (strong) NSMutableDictionary* atlasPathMap;
 @property (strong) NSTextField* errorLabel;
 @property (strong) CNSplitViewToolbar* toolbar;
 
+- (IBAction)onDelete:(id)sender;
 - (void)initSplitViews;
 - (void)initACEView;
 - (void)onSave:(id)sender;
@@ -63,7 +64,7 @@ static AppDelegate s_sharedApplication;
 - (void)showOpenPanel;
 - (void)showSavePanel:(BOOL)quit;
 - (void)save;
-- (void)loadAtlases:(NSArray*)plists;
+- (void)loadResources:(NSArray*)files;
 - (void)onDoubleClickOutline:(id)sender;
 - (void)onStoryPlayerError:(NSNotification*)n;
 
@@ -75,7 +76,7 @@ static AppDelegate s_sharedApplication;
     // init
     self.firstTime = YES;
     self.firstTextChange = YES;
-    self.atlasPlists = [NSMutableArray array];
+    self.resFiles = [NSMutableArray array];
     self.atlasFrameMap = [NSMutableDictionary dictionary];
     self.atlasImageMap = [NSMutableDictionary dictionary];
     self.atlasPathMap = [NSMutableDictionary dictionary];
@@ -117,7 +118,7 @@ static AppDelegate s_sharedApplication;
     if(self.file) {
         NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
         [d setObject:self.file forKey:@"last_file"];
-        [d setObject:self.atlasPlists forKey:self.file];
+        [d setObject:self.resFiles forKey:self.file];
     }
     
     // remove observer
@@ -132,8 +133,8 @@ static AppDelegate s_sharedApplication;
         NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
         NSString* lastFile = [d objectForKey:@"last_file"];
         if([lastFile length] > 0) {
-            NSArray* plists = [d objectForKey:lastFile];
-            [self loadAtlases:plists];
+            NSArray* files = [d objectForKey:lastFile];
+            [self loadResources:files];
         }
         [self.atlasOutline reloadData];
         
@@ -161,6 +162,30 @@ static AppDelegate s_sharedApplication;
             self.file = lastFile;
             self.dirty = NO;
         }
+    }
+}
+
+- (IBAction)onDelete:(id)sender {
+    id item = [self.atlasOutline itemAtRow:[self.atlasOutline selectedRow]];
+    if([item isKindOfClass:[NSString class]]) {
+        NSString* ext = [item pathExtension];
+        if([@"plist" isEqualToString:ext]) {
+            // unload resource
+            CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile([item cStringUsingEncoding:NSUTF8StringEncoding]);
+            CCTextureCache::sharedTextureCache()->removeTextureForKey([[self.atlasPathMap objectForKey:item] cStringUsingEncoding:NSUTF8StringEncoding]);
+            
+            // remove registry
+            [self.resFiles removeObject:item];
+            [self.atlasImageMap removeObjectForKey:item];
+            [self.atlasFrameMap removeObjectForKey:item];
+            [self.atlasPathMap removeObjectForKey:item];
+        } else if([@"ExportJson" isEqualToString:ext]) {
+            // remove registry
+            [self.resFiles removeObject:item];
+        }
+        
+        // reload outline
+        [self.atlasOutline reloadData];
     }
 }
 
@@ -341,36 +366,46 @@ static AppDelegate s_sharedApplication;
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:YES];
     [openDlg setAllowsMultipleSelection:YES];
-    [openDlg setAllowedFileTypes:@[@"plist"]];
+    [openDlg setAllowedFileTypes:@[@"plist", @"ExportJson"]];
     [openDlg setPrompt:@"Load"];
     if ([openDlg runModal] == NSOKButton) {
         NSArray* files = [openDlg filenames];
-        [self loadAtlases:files];
+        [self loadResources:files];
         
         // reload outline
         [self.atlasOutline reloadData];
     }
 }
 
-- (void)loadAtlases:(NSArray*)plists {
-    for(NSString* file in plists) {
-        // parse plist
-        NSString* atlasPath = [SDPlistParser parse:file];
+- (void)loadResources:(NSArray*)files {
+    for(NSString* file in files) {
+        NSString* ext = [file pathExtension];
+        if([@"plist" isEqualToString:ext]) {
+            // parse plist
+            NSString* atlasPath = [SDPlistParser parse:file];
+            
+            // load atlas
+            NSImage* atlasImage = [SDAtlasLoader loadAtlas:atlasPath];
+            
+            // save
+            [self.resFiles addObject:file];
+            [self.atlasPathMap setObject:atlasPath forKey:file];
+            [self.atlasImageMap setObject:atlasImage forKey:file];
+            [self.atlasFrameMap setObject:[NSArray arrayWithArray:gCurrentAtlasFrameList]
+                                   forKey:file];
+            
+            // load into sprite frame cache
+            CCResourceLoader::loadZwoptex([file cStringUsingEncoding:NSUTF8StringEncoding],
+                                          [atlasPath cStringUsingEncoding:NSUTF8StringEncoding],
+                                          NULL);
         
-        // load atlas
-        NSImage* atlasImage = [SDAtlasLoader loadAtlas:atlasPath];
-        
-        // save
-        [self.atlasPlists addObject:file];
-        [self.atlasPathMap setObject:atlasPath forKey:file];
-        [self.atlasImageMap setObject:atlasImage forKey:file];
-        [self.atlasFrameMap setObject:[NSArray arrayWithArray:gCurrentAtlasFrameList]
-                               forKey:file];
-        
-        // load into sprite frame cache
-        CCResourceLoader::loadZwoptex([file cStringUsingEncoding:NSUTF8StringEncoding],
-                                      [atlasPath cStringUsingEncoding:NSUTF8StringEncoding],
-                                      NULL);
+        } else if([@"ExportJson" isEqualToString:ext]) {
+            // save
+            [self.resFiles addObject:file];
+            
+            // load
+            CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo([file cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
     }
 }
 
@@ -437,23 +472,30 @@ static AppDelegate s_sharedApplication;
         NSArray* frames = [self.atlasFrameMap objectForKey:item];
         return [frames objectAtIndex:index];
     } else {
-        return [self.atlasPlists objectAtIndex:index];
+        return [self.resFiles objectAtIndex:index];
     }
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    if([self.atlasPlists containsObject:item])
-        return YES;
-    else
+    if([self.resFiles containsObject:item]) {
+        NSString* ext = [item pathExtension];
+        return [@"plist" isEqualToString:ext];
+    } else {
         return NO;
+    }
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     if(item) {
-        NSArray* frames = [self.atlasFrameMap objectForKey:item];
-        return [frames count];
+        NSString* ext = [item pathExtension];
+        if([@"plist" isEqualToString:ext]) {
+            NSArray* frames = [self.atlasFrameMap objectForKey:item];
+            return [frames count];
+        } else {
+            return 0;
+        }
     } else {
-        return [self.atlasPlists count];
+        return [self.resFiles count];
     }
 }
 

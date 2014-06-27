@@ -40,6 +40,7 @@
 		925C3CBC195BC8800073D0E6 /* zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C3CBA195BC8800073D0E6 /* zip.cpp */; };
 		925C3CBF195BC8B10073D0E6 /* SDPlistParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 925C3CBE195BC8B10073D0E6 /* SDPlistParser.m */; };
 		925C3CC2195BCC530073D0E6 /* SDAtlasLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 925C3CC1195BCC530073D0E6 /* SDAtlasLoader.m */; };
+		92BC6002195D359F00B479D4 /* SDOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BC6001195D359F00B479D4 /* SDOutlineView.m */; };
 		92FD79781959DDDB0079F491 /* ACEView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
 		92FD797C1959DF400079F491 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92166CEB195972B900003EA3 /* MainMenu.xib */; };
 		92FD797E1959DFA20079F491 /* ACEView.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92FD79771959DDDB0079F491 /* ACEView.framework */; };
@@ -150,6 +151,8 @@
 		925C3CC0195BCC530073D0E6 /* SDAtlasLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAtlasLoader.h; sourceTree = "<group>"; };
 		925C3CC1195BCC530073D0E6 /* SDAtlasLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAtlasLoader.m; sourceTree = "<group>"; };
 		926131D9195ABE89004070C9 /* test.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.lua; sourceTree = "<group>"; };
+		92BC6000195D359F00B479D4 /* SDOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDOutlineView.h; sourceTree = "<group>"; };
+		92BC6001195D359F00B479D4 /* SDOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDOutlineView.m; sourceTree = "<group>"; };
 		92FD79771959DDDB0079F491 /* ACEView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ACEView.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -280,6 +283,8 @@
 				925C3CBE195BC8B10073D0E6 /* SDPlistParser.m */,
 				925C3CC0195BCC530073D0E6 /* SDAtlasLoader.h */,
 				925C3CC1195BCC530073D0E6 /* SDAtlasLoader.m */,
+				92BC6000195D359F00B479D4 /* SDOutlineView.h */,
+				92BC6001195D359F00B479D4 /* SDOutlineView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -448,6 +453,7 @@
 				92166CFC195972EE00003EA3 /* main.m in Sources */,
 				92166B731959506600003EA3 /* CNSplitView.m in Sources */,
 				92166CE6195972B000003EA3 /* MyEAGLView.m in Sources */,
+				92BC6002195D359F00B479D4 /* SDOutlineView.m in Sources */,
 				92166B761959506600003EA3 /* CNSplitViewToolbarButton.m in Sources */,
 				92166B751959506600003EA3 /* CNSplitViewToolbar.m in Sources */,
 				92166CE5195972B000003EA3 /* DesignerGlobal.cpp in Sources */,

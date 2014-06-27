@@ -26,11 +26,15 @@
 
 #include "cocos2d.h"
 #include "CCMoreMacros.h"
+#include "cocos-ext.h"
+
+USING_NS_CC_EXT;
 
 NS_CC_BEGIN
 
 class CCStoryLayer;
 class CCStoryCommand;
+class CBArmature;
 
 /// player of story command sequence
 class CCStoryPlayer : public CCObject {
@@ -40,6 +44,15 @@ private:
     
     /// execute one command
     void executeCurrentCommand();
+    
+    /// get a role node
+    CCNode* getRole(const char* name);
+    
+    /// get an armature role
+    CBArmature* getArmatureRole(const char* name);
+    
+    /// callback
+    void onArmatureAnimationDone(CBArmature* armature, MovementEventType e, const char* name);
     
 public:
     CCStoryPlayer();
@@ -62,6 +75,7 @@ public:
     CC_SYNTHESIZE(CCStoryCommand*, m_curCmd, CurrentCommand);
     CC_SYNTHESIZE(int, m_curCmdIndex, CurrentCommandIndex);
     CC_SYNTHESIZE_READONLY_BOOL(m_done, Done);
+    CC_SYNTHESIZE_READONLY_PASS_BY_REF(CCDictionary, m_roleMap, RoleMap);
     
     // global settings
     CC_SYNTHESIZE(float, m_msgSize, MessageSize);

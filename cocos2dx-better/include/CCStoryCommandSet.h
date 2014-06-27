@@ -43,24 +43,29 @@ extern void namepos(float x, float y);
 extern void namecolor(unsigned int c);
 extern void namesize(float size);
 extern void nameanchor(float x, float y);
-extern void move();
-extern void wait();
-extern void fadein();
-extern void fadeout();
+extern void move(string name, float x, float y, float time);
+extern void wait(float time);
+extern void waitarm();
+extern void fadein(string name, float time);
+extern void fadeout(string name, float time);
 extern void dialog();
-extern void blink();
-extern void shake();
-extern void scale();
-extern void img();
-extern void arm();
-extern void armplay();
-extern void initangle();
-extern void rotate();
+extern void flash(string name, unsigned int color, float times, float time);
+extern void shake(string name, float amplitude, float time);
+extern void scale(string name, float to, float time);
+extern void img(string name, string frameName, float x, float y);
+extern void arm(string name, string armName, float x, float y);
+extern void armplay(string name, string animName);
+extern void angle(string name, float degree);
+extern void rotate(string name, float delta, float time);
 extern void bgpos(float x, float y);
 extern void bg(string frameName);
 extern void bgcolor(unsigned int c);
+extern void z(string name, int zOrder);
 extern void bgm();
 extern void sound();
+extern void remove(string name);
+extern void show(string name);
+extern void hide(string name);
 
 NS_CC_BEGIN
 
@@ -80,22 +85,27 @@ public:
         NAME_ANCHOR,
         MOVE,
         WAIT,
+        WAIT_ARM,
         FADE_IN,
         FADE_OUT,
         DIALOG,
-        BLINK,
+        FLASH,
         SHAKE,
         SCALE,
         IMG,
         ARM,
         ARM_PLAY,
-        INIT_ANGLE,
+        ANGLE,
         ROTATE,
         BG_POS,
         BG,
         BG_COLOR,
+        Z,
         BGM,
-        SOUND
+        SOUND,
+        REMOVE,
+        SHOW,
+        HIDE
     };
     
 public:
@@ -143,6 +153,76 @@ public:
         } nameanchor;
         
         struct {
+            const char* name;
+            float x;
+            float y;
+            float time;
+        } move;
+        
+        struct {
+            float time;
+        } wait;
+        
+        struct {
+            const char* name;
+            unsigned int c;
+            float times;
+            float time;
+        } flash;
+        
+        struct {
+            const char* name;
+            float amplitude;
+            float time;
+        } shake;
+        
+        struct {
+            const char* name;
+            float delta;
+            float time;
+        } rotate;
+        
+        struct {
+            const char* name;
+            float to;
+            float time;
+        } scale;
+        
+        struct {
+            const char* name;
+            float time;
+        } fadein;
+        
+        struct {
+            const char* name;
+            float time;
+        } fadeout;
+        
+        struct {
+            float x;
+            float y;
+            const char* name;
+            const char* frameName;
+        } img;
+        
+        struct {
+            float x;
+            float y;
+            const char* name;
+            const char* armName;
+        } arm;
+        
+        struct {
+            const char* name;
+            const char* animName;
+        } armplay;
+        
+        struct {
+            const char* name;
+            float degree;
+        } angle;
+        
+        struct {
             float x;
             float y;
         } bgpos;
@@ -154,6 +234,23 @@ public:
         struct {
             unsigned int c;
         } bgcolor;
+        
+        struct {
+            const char* name;
+            int z;
+        } z;
+        
+        struct {
+            const char* name;
+        } remove;
+        
+        struct {
+            const char* name;
+        } show;
+        
+        struct {
+            const char* name;
+        } hide;
     } m_param;
     
 public:

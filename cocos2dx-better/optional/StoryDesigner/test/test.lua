@@ -1,6 +1,6 @@
-bgcolor(0xffff0000)
+bg("草地森林")
 msgsize(40)
-msgcolor(0xff453290)
+msgcolor(0xfff33290)
 namepos(480, 800)
 namesize(60)
 namecolor(0xff008923)

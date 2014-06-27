@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Thu Jun 26 17:26:02 2014.
+** Generated automatically by tolua++-1.0.92 on Fri Jun 27 10:00:03 2014.
 */
 
 #ifndef __cplusplus
@@ -620,6 +620,36 @@ static int tolua_story_rotate00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: bgpos */
+#ifndef TOLUA_DISABLE_tolua_story_bgpos00
+static int tolua_story_bgpos00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  float x = ((float)  tolua_tonumber(tolua_S,1,0));
+  float y = ((float)  tolua_tonumber(tolua_S,2,0));
+  {
+   bgpos(x,y);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'bgpos'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* function: bg */
 #ifndef TOLUA_DISABLE_tolua_story_bg00
 static int tolua_story_bg00(lua_State* tolua_S)
@@ -627,14 +657,16 @@ static int tolua_story_bg00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
+  string frameName = ((string)  tolua_tocppstring(tolua_S,1,0));
   {
-   bg();
+   bg(frameName);
   }
  }
  return 0;
@@ -755,6 +787,7 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"armplay",tolua_story_armplay00);
   tolua_function(tolua_S,"initangle",tolua_story_initangle00);
   tolua_function(tolua_S,"rotate",tolua_story_rotate00);
+  tolua_function(tolua_S,"bgpos",tolua_story_bgpos00);
   tolua_function(tolua_S,"bg",tolua_story_bg00);
   tolua_function(tolua_S,"bgcolor",tolua_story_bgcolor00);
   tolua_function(tolua_S,"bgm",tolua_story_bgm00);

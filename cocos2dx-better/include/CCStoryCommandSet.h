@@ -56,7 +56,8 @@ extern void arm();
 extern void armplay();
 extern void initangle();
 extern void rotate();
-extern void bg();
+extern void bgpos(float x, float y);
+extern void bg(string frameName);
 extern void bgcolor(unsigned int c);
 extern void bgm();
 extern void sound();
@@ -90,6 +91,7 @@ public:
         ARM_PLAY,
         INIT_ANGLE,
         ROTATE,
+        BG_POS,
         BG,
         BG_COLOR,
         BGM,
@@ -139,6 +141,15 @@ public:
             float x;
             float y;
         } nameanchor;
+        
+        struct {
+            float x;
+            float y;
+        } bgpos;
+        
+        struct {
+            const char* frameName;
+        } bg;
         
         struct {
             unsigned int c;

@@ -26,15 +26,19 @@
 #include "CCStoryCommandSet.h"
 #include "CCRichLabelTTF.h"
 #include "CCStoryMessageLayer.h"
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    #import <AppKit/AppKit.h>
+#endif
 
 // tag of node
 #define TAG_MESSAGE_LAYER 10000
 #define TAG_BG_COLOR_LAYER 10001
+#define TAG_BG 10002
 
 // z order
 #define Z_MESSAGE_LAYER MAX_INT
-#define Z_BG_LAYER -MAX_INT
-#define Z_BG_COLOR_LAYER (Z_BG_LAYER + 1)
+#define Z_BG -MAX_INT
+#define Z_BG_COLOR_LAYER (Z_BG + 1)
 
 NS_CC_BEGIN
 
@@ -71,11 +75,16 @@ bool CCStoryPlayer::initWithOwner(CCStoryLayer* owner) {
     m_owner = owner;
     m_msgPos = CCUtils::getLocalCenter(m_owner);
     m_namePos = CCUtils::getLocalCenter(m_owner);
+    m_bgPos = CCUtils::getLocalCenter(m_owner);
     
     return true;
 }
 
 void CCStoryPlayer::start() {
+    // if has error, stop
+    if(hasError())
+        return;
+    
     // first command
     fetchNextCommand();
     
@@ -175,6 +184,35 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::BG_POS:
+        {
+            m_bgPos.x = m_curCmd->m_param.bgpos.x;
+            m_bgPos.y = m_curCmd->m_param.bgpos.y;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::BG:
+        {
+            CCSprite* bg = (CCSprite*)m_owner->getChildByTag(TAG_BG);
+            if(!bg) {
+                CCSpriteFrame* pFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(m_curCmd->m_param.bg.frameName);
+                if(!pFrame) {
+                    char buf[512];
+                    sprintf(buf, "bg frame: %s is not existent", m_curCmd->m_param.bg.frameName);
+                    setError(buf);
+                } else {
+                    bg = CCSprite::createWithSpriteFrame(pFrame);
+                    bg->setPosition(m_bgPos);
+                    m_owner->addChild(bg, Z_BG, TAG_BG);
+                }
+            }
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::BG_COLOR:
         {
             // create bg color layer and set color
@@ -194,6 +232,16 @@ void CCStoryPlayer::executeCurrentCommand() {
         default:
             break;
     }
+}
+
+void CCStoryPlayer::setError(const string& e) {
+    m_error = e;
+    
+    // for story designer debug
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NSNotificationStoryPlayerError"
+                                                        object:[NSString stringWithCString:m_error.c_str() encoding:NSUTF8StringEncoding]];
+#endif
 }
 
 void CCStoryPlayer::fetchNextCommand() {

@@ -55,6 +55,9 @@ public:
     /// when one message is done
     void onMessageDone();
     
+    /// has error?
+    bool hasError() { return !m_error.empty(); }
+    
     CC_SYNTHESIZE(CCStoryLayer*, m_owner, Owner);
     CC_SYNTHESIZE(CCStoryCommand*, m_curCmd, CurrentCommand);
     CC_SYNTHESIZE(int, m_curCmdIndex, CurrentCommandIndex);
@@ -69,6 +72,10 @@ public:
     CC_SYNTHESIZE(int, m_nameColor, NameColor);
     CC_SYNTHESIZE(CCPoint, m_namePos, NamePos);
     CC_SYNTHESIZE(CCPoint, m_nameAnchor, NameAnchor);
+    CC_SYNTHESIZE(CCPoint, m_bgPos, BgPos);
+    
+    // error
+    CC_SYNTHESIZE_PASS_BY_REF_SETTER(string, m_error, Error);
 };
 
 NS_CC_END

@@ -84,10 +84,6 @@ void CCStoryLayer::onEnter() {
 bool CCStoryLayer::init() {
 	if(!CCLayer::init())
 		return false;
-    
-    // surface
-	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 	
 	return true;
 }
@@ -130,10 +126,7 @@ void CCStoryLayer::stopPlay() {
         return;
     m_playing = false;
     
-    if(m_player) {
-        CC_SAFE_RELEASE(m_player);
-        m_player = NULL;
-    }
+    CC_SAFE_RELEASE_NULL(m_player);
     removeAllChildren();
 }
 

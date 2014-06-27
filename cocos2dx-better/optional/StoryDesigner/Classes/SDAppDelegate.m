@@ -44,24 +44,28 @@ static AppDelegate s_sharedApplication;
 @property (assign) BOOL dirty;
 @property (strong) NSString* file;
 @property (assign) BOOL firstTime;
+@property (assign) BOOL firstTextChange;
 @property (strong) NSMutableArray* atlasPlists;
 @property (strong) NSMutableDictionary* atlasFrameMap;
 @property (strong) NSMutableDictionary* atlasImageMap;
 @property (strong) NSMutableDictionary* atlasPathMap;
 @property (strong) NSTextField* errorLabel;
+@property (strong) CNSplitViewToolbar* toolbar;
 
 - (void)initSplitViews;
 - (void)initACEView;
 - (void)onSave:(id)sender;
 - (void)onLoad:(id)sender;
+- (void)onNew:(id)sender;
 - (void)onReplay:(id)sender;
 - (void)onAddImages:(id)sender;
-- (void)confirmSave:(BOOL)quit;
+- (void)confirmSave:(BOOL)quit open:(BOOL)open;
 - (void)showOpenPanel;
 - (void)showSavePanel:(BOOL)quit;
 - (void)save;
 - (void)loadAtlases:(NSArray*)plists;
 - (void)onDoubleClickOutline:(id)sender;
+- (void)onStoryPlayerError:(NSNotification*)n;
 
 @end
 
@@ -70,18 +74,11 @@ static AppDelegate s_sharedApplication;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // init
     self.firstTime = YES;
+    self.firstTextChange = YES;
     self.atlasPlists = [NSMutableArray array];
     self.atlasFrameMap = [NSMutableDictionary dictionary];
     self.atlasImageMap = [NSMutableDictionary dictionary];
     self.atlasPathMap = [NSMutableDictionary dictionary];
-    
-    // preload atlas if has last file
-    NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
-    NSString* lastFile = [d objectForKey:@"last_file"];
-    if([lastFile length] > 0) {
-        NSArray* plists = [d objectForKey:lastFile];
-        [self loadAtlases:plists];
-    }
     
     // init split views
     [self initSplitViews];
@@ -97,13 +94,19 @@ static AppDelegate s_sharedApplication;
     // declare pasteboard type
     [[NSPasteboard generalPasteboard] declareTypes:@[NSStringPboardType] owner:self];
     
+    // listener story player error
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onStoryPlayerError:)
+                                                 name:@"NSNotificationStoryPlayerError"
+                                               object:nil];
+    
     // start cocos2d-x loop
     CCApplication::sharedApplication()->run();
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
     if(self.dirty) {
-        [self confirmSave:YES];
+        [self confirmSave:YES open:NO];
         return NSTerminateCancel;
     } else {
         return NSTerminateNow;
@@ -115,6 +118,27 @@ static AppDelegate s_sharedApplication;
         NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
         [d setObject:self.file forKey:@"last_file"];
         [d setObject:self.atlasPlists forKey:self.file];
+    }
+    
+    // remove observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"NSNotificationStoryPlayerError"
+                                                  object:nil];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    if(self.firstTime) {
+        // preload atlas if has last file
+        NSUserDefaults* d = [NSUserDefaults standardUserDefaults];
+        NSString* lastFile = [d objectForKey:@"last_file"];
+        if([lastFile length] > 0) {
+            NSArray* plists = [d objectForKey:lastFile];
+            [self loadAtlases:plists];
+        }
+        [self.atlasOutline reloadData];
+        
+        // reset flag
+        self.firstTime = NO;
     }
 }
 
@@ -141,6 +165,15 @@ static AppDelegate s_sharedApplication;
 }
 
 - (void)initSplitViews {
+    // toolbar - new button
+    CNSplitViewToolbarButton* newItem = [[CNSplitViewToolbarButton alloc] init];
+    newItem.keyEquivalent = @"n";
+    newItem.keyEquivalentModifierMask = NSCommandKeyMask;
+    newItem.imageTemplate = CNSplitViewToolbarButtonImageTemplateAdd;
+    newItem.toolTip = @"New";
+    [newItem setTarget:self];
+    [newItem setAction:@selector(onNew:)];
+    
     // toolbar - save button
     CNSplitViewToolbarButton* save = [[CNSplitViewToolbarButton alloc] init];
     save.keyEquivalent = @"s";
@@ -183,9 +216,8 @@ static AppDelegate s_sharedApplication;
     
     // toolbar - error hint
     self.errorLabel = [[NSTextField alloc] init];
-    [self.errorLabel setToolbarItemWidth:400];
+    [self.errorLabel setToolbarItemWidth:600];
     self.errorLabel.textColor = [NSColor redColor];
-    self.errorLabel.stringValue = @"script has error, please check";
     [self.errorLabel setEditable:NO];
     [self.errorLabel setBordered:NO];
     [self.errorLabel setHidden:YES];
@@ -194,6 +226,7 @@ static AppDelegate s_sharedApplication;
     
     // create toolbar and add it
     CNSplitViewToolbar* toolbar = [[CNSplitViewToolbar alloc] init];
+    [toolbar addItem:newItem align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:load align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:save align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:selectImage align:CNSplitViewToolbarItemAlignLeft];
@@ -202,12 +235,13 @@ static AppDelegate s_sharedApplication;
     [self.hSplitView attachToolbar:toolbar
                   toSubViewAtIndex:1
                             onEdge:CNSplitViewToolbarEdgeBottom];
+    self.toolbar = toolbar;
     
     // show toolbar
     [self.hSplitView showToolbarAnimated:NO];
 }
 
-- (void)confirmSave:(BOOL)quit {
+- (void)confirmSave:(BOOL)quit open:(BOOL)open {
     NSAlert *alert = [[NSAlert alloc] init];
     [alert addButtonWithTitle:@"Save"];
     [alert addButtonWithTitle:@"Discard"];
@@ -226,10 +260,15 @@ static AppDelegate s_sharedApplication;
         if(quit) {
             self.dirty = NO;
             [[NSApplication sharedApplication] terminate:self];
-        } else {
+        } else if(open) {
             [self showOpenPanel];
         }
     }
+}
+
+- (void)onStoryPlayerError:(NSNotification *)n {
+    [self.errorLabel setHidden:NO];
+    self.errorLabel.stringValue = [n object];
 }
 
 - (void)showSavePanel:(BOOL)quit {
@@ -290,9 +329,10 @@ static AppDelegate s_sharedApplication;
     string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];
     storyLayer->stopPlay();
     if(storyLayer->preloadStoryString(script)) {
-        storyLayer->playStory();
         [self.errorLabel setHidden:YES];
+        storyLayer->playStory();
     } else {
+        self.errorLabel.stringValue = @"script has error, please check";
         [self.errorLabel setHidden:NO];
     }
 }
@@ -346,10 +386,19 @@ static AppDelegate s_sharedApplication;
 
 - (void)onLoad:(id)sender {
     if(self.dirty) {
-        [self confirmSave:NO];
+        [self confirmSave:NO open:YES];
     } else {
         [self showOpenPanel];
     }
+}
+
+- (void)onNew:(id)sender {
+    if(self.dirty) {
+        [self confirmSave:NO open:NO];
+    }
+    self.file = nil;
+    self.aceView.string = @"";
+    self.dirty = NO;
 }
 
 #pragma mark -
@@ -375,9 +424,9 @@ static AppDelegate s_sharedApplication;
 #pragma mark ace view delegate
 
 - (void) textDidChange:(NSNotification *)notification {
-    if(!self.firstTime)
+    if(!self.firstTextChange)
         self.dirty = YES;
-    self.firstTime = NO;
+    self.firstTextChange = NO;
 }
 
 #pragma mark -
@@ -419,8 +468,13 @@ static AppDelegate s_sharedApplication;
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-    NSImageView* imageView = [[NSImageView alloc] init];
+    // if item is nil, return
     id item = [self.atlasOutline itemAtRow:self.atlasOutline.selectedRow];
+    if(!item)
+        return;
+    
+    // load image from atlas or a frame
+    NSImageView* imageView = [[NSImageView alloc] init];
     if([item isKindOfClass:[NSString class]]) {
         imageView.image = [self.atlasImageMap objectForKey:item];
     } else {

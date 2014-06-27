@@ -186,17 +186,14 @@ using namespace pvrtexture;
     // get data based on extension
     NSString* fnWithoutExt = [frame.key stringByDeletingPathExtension];
     NSString* ext = [frame.key substringFromIndex:[fnWithoutExt length]];
-    BOOL isPNG = [@".png" isEqualToString:ext];
     BOOL isJPG = [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext];
     NSData* fileData = nil;
-    if(isPNG) {
-        fileData = [bitmapRep representationUsingType:NSPNGFileType properties:nil];
-        fImage = [[NSImage alloc] initWithData:fileData];
-    } else if(isJPG) {
+    if(isJPG) {
         fileData = [bitmapRep representationUsingType:NSJPEGFileType properties:nil];
         fImage = [[NSImage alloc] initWithData:fileData];
     } else {
-        NSLog(@"can't save frame because %@ is not supported", ext);
+        fileData = [bitmapRep representationUsingType:NSPNGFileType properties:nil];
+        fImage = [[NSImage alloc] initWithData:fileData];
     }
     
     // return image

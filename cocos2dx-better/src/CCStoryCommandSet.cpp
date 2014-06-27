@@ -137,8 +137,17 @@ void rotate() {
     
 }
 
-void bg() {
-    
+void bgpos(float x, float y) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::BG_POS);
+    cmd->m_param.bgpos.x = x;
+    cmd->m_param.bgpos.y = y;
+    gStoryCommandSet.addObject(cmd);
+}
+
+void bg(string frameName) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::BG);
+    cmd->m_param.bg.frameName = CCUtils::copy(frameName.c_str());
+    gStoryCommandSet.addObject(cmd);
 }
 
 void bgcolor(unsigned int c) {
@@ -167,6 +176,9 @@ CCStoryCommand::~CCStoryCommand() {
         case MSG:
             free((void*)m_param.msg.name);
             free((void*)m_param.msg.s);
+            break;
+        case BG:
+            free((void*)m_param.bg.frameName);
             break;
         default:
             break;

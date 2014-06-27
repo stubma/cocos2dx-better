@@ -588,17 +588,12 @@ int main(int argc, char * argv[]) {
                 // get data based on extension
                 NSString* fnWithoutExt = [frame.key stringByDeletingPathExtension];
                 NSString* ext = [frame.key substringFromIndex:[fnWithoutExt length]];
-                BOOL isPNG = [@".png" isEqualToString:ext];
                 BOOL isJPG = [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext];
                 NSData* fileData = nil;
-                if(isPNG)
-                    fileData = [bitmapRep representationUsingType:NSPNGFileType properties:nil];
-                else if(isJPG)
+                if(isJPG)
                     fileData = [bitmapRep representationUsingType:NSJPEGFileType properties:nil];
-                else {
-                    NSLog(@"can't save frame because %@ is not supported", ext);
-                    continue;
-                }
+                else
+                    fileData = [bitmapRep representationUsingType:NSPNGFileType properties:nil];
                 
                 // save data
                 NSString* dst = [dir stringByAppendingPathComponent:frame.key];
@@ -643,14 +638,10 @@ int main(int argc, char * argv[]) {
                 
                     // get data
                     NSData* fileData = nil;
-                    if(isPNG)
-                        fileData = [scaledRep representationUsingType:NSPNGFileType properties:nil];
-                    else if(isJPG)
+                    if(isJPG)
                         fileData = [scaledRep representationUsingType:NSJPEGFileType properties:nil];
-                    else {
-                        NSLog(@"can't save frame because %@ is not supported", ext);
-                        continue;
-                    }
+                    else
+                        fileData = [scaledRep representationUsingType:NSPNGFileType properties:nil];
                     
                     // save data
                     NSString* dst = [dir stringByAppendingPathComponent:frame.key];

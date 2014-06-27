@@ -26,6 +26,7 @@
 
 #include "cocos2d.h"
 #include "ccMoreTypes.h"
+#include "CCMoreMacros.h"
 
 using namespace std;
 
@@ -66,6 +67,8 @@ public:
     
     /// stop playing
     void stopPlay();
+    
+    CC_SYNTHESIZE_BOOL(m_canSkip, CanSkip);
 };
 
 NS_CC_END

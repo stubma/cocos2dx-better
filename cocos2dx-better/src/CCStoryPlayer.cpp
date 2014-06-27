@@ -29,6 +29,7 @@
 #include "CBArmature.h"
 #include "CCFlash.h"
 #include "CCShake.h"
+#include "CCUtils.h"
 #include "SimpleAudioEngine.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     #import <AppKit/AppKit.h>

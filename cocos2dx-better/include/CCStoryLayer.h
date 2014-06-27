@@ -67,8 +67,6 @@ public:
     
     /// stop playing
     void stopPlay();
-    
-    CC_SYNTHESIZE_BOOL(m_canSkip, CanSkip);
 };
 
 NS_CC_END

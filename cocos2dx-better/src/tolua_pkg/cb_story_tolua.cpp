@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Fri Jun 27 15:55:45 2014.
+** Generated automatically by tolua++-1.0.92 on Fri Jun 27 20:03:54 2014.
 */
 
 #ifndef __cplusplus
@@ -1146,6 +1146,38 @@ static int tolua_story_flipy00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: pos */
+#ifndef TOLUA_DISABLE_tolua_story_pos00
+static int tolua_story_pos00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string name = ((string)  tolua_tocppstring(tolua_S,1,0));
+  float x = ((float)  tolua_tonumber(tolua_S,2,0));
+  float y = ((float)  tolua_tonumber(tolua_S,3,0));
+  {
+   pos(name,x,y);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'pos'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_story_open (lua_State* tolua_S)
 {
@@ -1191,6 +1223,7 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"hide",tolua_story_hide00);
   tolua_function(tolua_S,"flipx",tolua_story_flipx00);
   tolua_function(tolua_S,"flipy",tolua_story_flipy00);
+  tolua_function(tolua_S,"pos",tolua_story_pos00);
  tolua_endmodule(tolua_S);
  return 1;
 }

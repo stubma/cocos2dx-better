@@ -38,3 +38,4 @@ void show(string name);
 void hide(string name);
 void flipx(string name);
 void flipy(string name);
+void pos(string name, float x, float y);

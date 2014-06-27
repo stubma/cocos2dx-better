@@ -72,6 +72,7 @@ extern void show(string name);
 extern void hide(string name);
 extern void flipx(string name);
 extern void flipy(string name);
+extern void pos(string name, float x, float y);
 
 NS_CC_BEGIN
 
@@ -117,7 +118,8 @@ public:
         SHOW,
         HIDE,
         FLIP_X,
-        FLIP_Y
+        FLIP_Y,
+        POS
     };
     
 public:
@@ -299,6 +301,12 @@ public:
         struct {
             const char* name;
         } flipy;
+        
+        struct {
+            float x;
+            float y;
+            const char* name;
+        } pos;
     } m_param;
     
 public:

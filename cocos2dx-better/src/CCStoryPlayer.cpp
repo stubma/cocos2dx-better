@@ -612,6 +612,18 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::POS:
+        {
+            // set role position
+            CCNode* role = getRole(m_curCmd->m_param.pos.name);
+            if(role) {
+                role->setPosition(ccp(m_curCmd->m_param.pos.x, m_curCmd->m_param.pos.y));
+            }
+            
+            // next
+            start();
+            break;
+        }
         default:
             break;
     }

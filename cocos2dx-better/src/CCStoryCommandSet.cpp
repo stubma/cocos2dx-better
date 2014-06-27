@@ -285,6 +285,14 @@ void flipy(string name) {
     gStoryCommandSet.addObject(cmd);
 }
 
+void pos(string name, float x, float y) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::POS);
+    cmd->m_param.pos.name = CCUtils::copy(name.c_str());
+    cmd->m_param.pos.x = x;
+    cmd->m_param.pos.y = y;
+    gStoryCommandSet.addObject(cmd);
+}
+
 NS_CC_BEGIN
 
 CCStoryCommand::CCStoryCommand() :

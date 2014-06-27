@@ -426,17 +426,15 @@ int main(int argc, char * argv[]) {
             }
             
             // get extension
-            NSString* fnWithoutExt = [atlas.texFilename stringByDeletingPathExtension];
-            NSString* ext = [atlas.texFilename substringFromIndex:[fnWithoutExt length]];
+            NSString* ext = [atlas.texFilename pathExtension];
             NSString* zip = nil;
-            if([@".ccz" isEqualToString:ext] || [@".gz" isEqualToString:ext]) {
+            if([@"ccz" isEqualToString:ext] || [@"gz" isEqualToString:ext]) {
                 zip = ext;
-                NSString* fnWithoutExt2 = [fnWithoutExt stringByDeletingPathExtension];
-                ext = [fnWithoutExt substringFromIndex:[fnWithoutExt2 length]];
+                ext = [[atlas.texFilename stringByDeletingPathExtension] pathExtension];
             }
             
             // is png?
-            BOOL atlasIsPNG = [@".png" isEqualToString:ext];
+            BOOL atlasIsPNG = [@"png" isEqualToString:ext];
             
             // get texture file data
             NSData* texRawData = [NSData dataWithContentsOfFile:texFilePath];
@@ -445,7 +443,7 @@ int main(int argc, char * argv[]) {
             NSImage* image = nil;
             
             // if is pvr
-            if([@".pvr" isEqualToString:ext]) {
+            if([@"pvr" isEqualToString:ext]) {
                 unsigned char* pvrdata = NULL;
                 int pvrlen = 0;
                 
@@ -519,7 +517,7 @@ int main(int argc, char * argv[]) {
                 
                 // free
                 free(pvrdata);
-            } else if([@".png" isEqualToString:ext] || [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext]) {
+            } else if([@"png" isEqualToString:ext] || [@"jpg" isEqualToString:ext] || [@"jpeg" isEqualToString:ext]) {
                 image = [[NSImage alloc] initWithContentsOfFile:texFilePath];
             }
             
@@ -586,9 +584,8 @@ int main(int argc, char * argv[]) {
                 }
                 
                 // get data based on extension
-                NSString* fnWithoutExt = [frame.key stringByDeletingPathExtension];
-                NSString* ext = [frame.key substringFromIndex:[fnWithoutExt length]];
-                BOOL isJPG = [@".jpg" isEqualToString:ext] || [@".jpeg" isEqualToString:ext];
+                NSString* ext = [frame.key pathExtension];
+                BOOL isJPG = [@"jpg" isEqualToString:ext] || [@"jpeg" isEqualToString:ext];
                 NSData* fileData = nil;
                 if(isJPG)
                     fileData = [bitmapRep representationUsingType:NSJPEGFileType properties:nil];

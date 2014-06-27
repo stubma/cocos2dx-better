@@ -61,8 +61,8 @@ extern void bgpos(float x, float y);
 extern void bg(string frameName);
 extern void bgcolor(unsigned int c);
 extern void z(string name, int zOrder);
-extern void bgm();
-extern void sound();
+extern void bgm(string musicFile);
+extern void sound(string soundFile);
 extern void remove(string name);
 extern void show(string name);
 extern void hide(string name);
@@ -234,6 +234,14 @@ public:
         struct {
             unsigned int c;
         } bgcolor;
+        
+        struct {
+            const char* musicFile;
+        } bgm;
+        
+        struct {
+            const char* soundFile;
+        } sound;
         
         struct {
             const char* name;

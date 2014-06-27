@@ -214,12 +214,16 @@ void z(string name, int zOrder) {
     gStoryCommandSet.addObject(cmd);
 }
 
-void bgm() {
-    
+void bgm(string musicFile) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::BGM);
+    cmd->m_param.bgm.musicFile = CCUtils::copy(musicFile.c_str());
+    gStoryCommandSet.addObject(cmd);
 }
 
-void sound() {
-    
+void sound(string soundFile) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::SOUND);
+    cmd->m_param.sound.soundFile = CCUtils::copy(soundFile.c_str());
+    gStoryCommandSet.addObject(cmd);
 }
 
 void remove(string name) {
@@ -291,6 +295,12 @@ CCStoryCommand::~CCStoryCommand() {
             break;
         case BG:
             free((void*)m_param.bg.frameName);
+            break;
+        case BGM:
+            free((void*)m_param.bgm.musicFile);
+            break;
+        case SOUND:
+            free((void*)m_param.sound.soundFile);
             break;
         case Z:
             free((void*)m_param.z.name);

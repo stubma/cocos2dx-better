@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Fri Jun 27 14:33:23 2014.
+** Generated automatically by tolua++-1.0.92 on Fri Jun 27 14:50:33 2014.
 */
 
 #ifndef __cplusplus
@@ -837,14 +837,16 @@ static int tolua_story_bgm00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
+  string musicFile = ((string)  tolua_tocppstring(tolua_S,1,0));
   {
-   bgm();
+   bgm(musicFile);
   }
  }
  return 0;
@@ -863,14 +865,16 @@ static int tolua_story_sound00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_Error tolua_err;
  if (
-     !tolua_isnoobj(tolua_S,1,&tolua_err)
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
+  string soundFile = ((string)  tolua_tocppstring(tolua_S,1,0));
   {
-   sound();
+   sound(soundFile);
   }
  }
  return 0;

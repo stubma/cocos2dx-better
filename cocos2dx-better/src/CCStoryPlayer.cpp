@@ -29,6 +29,7 @@
 #include "CBArmature.h"
 #include "CCFlash.h"
 #include "CCShake.h"
+#include "SimpleAudioEngine.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     #import <AppKit/AppKit.h>
 #endif
@@ -42,6 +43,8 @@
 #define Z_MESSAGE_LAYER MAX_INT
 #define Z_BG -MAX_INT
 #define Z_BG_COLOR_LAYER (Z_BG + 1)
+
+using namespace CocosDenshion;
 
 NS_CC_BEGIN
 
@@ -424,6 +427,29 @@ void CCStoryPlayer::executeCurrentCommand() {
             ccColor4B c = ccc4FromInt(m_curCmd->m_param.bgcolor.c);
             bg->setColor(ccc3FromCCC4(c));
             bg->setOpacity(c.a);
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::BGM:
+        {
+            // stop old music
+            SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+            
+            // external file first, play music
+            string path = CCUtils::getExternalOrFullPath(m_curCmd->m_param.bgm.musicFile);
+            SimpleAudioEngine::sharedEngine()->playBackgroundMusic(path.c_str());
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::SOUND:
+        {
+            // external file first, play effect
+            string path = CCUtils::getExternalOrFullPath(m_curCmd->m_param.bgm.musicFile);
+            SimpleAudioEngine::sharedEngine()->playEffect(path.c_str());
             
             // next
             start();

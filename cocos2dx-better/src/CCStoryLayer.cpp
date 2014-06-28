@@ -48,6 +48,7 @@ NS_CC_BEGIN
 
 CCStoryLayer::CCStoryLayer() :
 m_player(NULL),
+m_doneFunc(NULL),
 m_playing(false) {
     if(!L) {
 		L = lua_open();
@@ -58,6 +59,7 @@ m_playing(false) {
 
 CCStoryLayer::~CCStoryLayer() {
     CC_SAFE_RELEASE(m_player);
+    CC_SAFE_RELEASE(m_doneFunc);
     gStoryCommandSet.removeAllObjects();
     if(L) {
         lua_close(L);
@@ -130,6 +132,12 @@ void CCStoryLayer::stopPlay() {
     stopAllActions();
     CC_SAFE_RELEASE_NULL(m_player);
     removeAllChildren();
+}
+
+void CCStoryLayer::onStoryDone() {
+    if(m_doneFunc) {
+        m_doneFunc->execute();
+    }
 }
 
 NS_CC_END

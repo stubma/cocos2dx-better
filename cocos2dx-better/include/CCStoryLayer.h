@@ -38,6 +38,8 @@ class CCStoryPlayer;
  * It is a container of story script, it will manage the playing of story
  */
 class CC_DLL CCStoryLayer : public CCLayer {
+    friend class CCStoryPlayer;
+    
 private:
     /// story player
     CCStoryPlayer* m_player;
@@ -47,6 +49,9 @@ private:
     
 protected:
 	CCStoryLayer();
+    
+    /// when story is done
+    void onStoryDone();
 	
 public:
 	virtual ~CCStoryLayer();
@@ -67,6 +72,9 @@ public:
     
     /// stop playing
     void stopPlay();
+    
+    /// function to be invoked when story playing is done
+    CC_SYNTHESIZE_RETAIN(CCCallFunc*, m_doneFunc, DoneFunction);
 };
 
 NS_CC_END

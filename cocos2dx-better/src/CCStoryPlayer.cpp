@@ -116,6 +116,7 @@ void CCStoryPlayer::start() {
         executeCurrentCommand();
     } else {
         m_done = true;
+        m_owner->onStoryDone();
     }
 }
 

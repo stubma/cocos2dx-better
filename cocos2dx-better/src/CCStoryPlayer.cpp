@@ -646,7 +646,7 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::SHOW:
         {
             // show role
-            CCNode* role = getRole(m_curCmd->m_param.remove.name);
+            CCNode* role = getRole(m_curCmd->m_param.show.name);
             if(role) {
                 role->setVisible(true);
             }
@@ -658,7 +658,7 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::HIDE:
         {
             // hide role
-            CCNode* role = getRole(m_curCmd->m_param.remove.name);
+            CCNode* role = getRole(m_curCmd->m_param.hide.name);
             if(role) {
                 role->setVisible(false);
             }
@@ -695,7 +695,7 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::SCREEN_POS:
         {
             // set role position
-            CCNode* role = getRole(m_curCmd->m_param.npos.name);
+            CCNode* role = getRole(m_curCmd->m_param.spos.name);
             if(role) {
                 CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
                 CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -722,7 +722,7 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::COLOR:
         {
             // set role color
-            CCNode* role = getRole(m_curCmd->m_param.anchor.name);
+            CCNode* role = getRole(m_curCmd->m_param.color.name);
             if(role) {
                 CCNodeRGBA* n = dynamic_cast<CCNodeRGBA*>(role);
                 if(n) {

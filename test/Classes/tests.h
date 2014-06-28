@@ -7,6 +7,7 @@
 #include "DBTest/DBTest.h"
 #include "JSONTest/JSONTest.h"
 #include "NetworkTest/NetworkTest.h"
+#include "StoryTest/StoryTest.h"
 #include "TMXTest/TMXTest.h"
 
 enum
@@ -17,6 +18,7 @@ enum
     TEST_DB,
     TEST_JSON,
 	TEST_NETWORK,
+    TEST_STORY,
 	TEST_TMX,
     TESTS_COUNT,    
 };
@@ -28,6 +30,7 @@ const std::string g_aTestNames[TESTS_COUNT] = {
     "DBTest",
     "JSONTest",
 	"NetworkTest",
+    "StoryTest",
 	"TMXTest"
 };
 

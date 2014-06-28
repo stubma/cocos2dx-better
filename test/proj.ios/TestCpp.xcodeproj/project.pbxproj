@@ -26,6 +26,7 @@
 		9255B8B318556E2800797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B218556E2800797255 /* OpenAL.framework */; };
 		92575520189CE37E007D2369 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9257551F189CE37E007D2369 /* Images.xcassets */; };
 		92668E4A18B5B1190065B75F /* ActionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92668E4818B5B1190065B75F /* ActionTest.cpp */; };
+		92731BD1195E89B700D66FD2 /* StoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92731BCF195E89B700D66FD2 /* StoryTest.cpp */; };
 		9276E0E918A7324D0045B318 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0E818A7324D0045B318 /* StoreKit.framework */; };
 		9276E0F518A76B240045B318 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0F418A76B240045B318 /* libpthread.dylib */; };
 		92984F3E175D9B0700E63472 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92984F3D175D9B0700E63472 /* CoreText.framework */; };
@@ -99,6 +100,8 @@
 		9257551F189CE37E007D2369 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TestCpp/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		92668E4818B5B1190065B75F /* ActionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ActionTest.cpp; sourceTree = "<group>"; };
 		92668E4918B5B1190065B75F /* ActionTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionTest.h; sourceTree = "<group>"; };
+		92731BCF195E89B700D66FD2 /* StoryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StoryTest.cpp; sourceTree = "<group>"; };
+		92731BD0195E89B700D66FD2 /* StoryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryTest.h; sourceTree = "<group>"; };
 		9276E0E818A7324D0045B318 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9276E0F418A76B240045B318 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		92984F3D175D9B0700E63472 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -173,6 +176,7 @@
 				92668E4718B5B1190065B75F /* ActionTest */,
 				92F68F441855BEF400C97188 /* AnimTest */,
 				92F68EBD1855B4D000C97188 /* JSONTest */,
+				92731BCE195E89B700D66FD2 /* StoryTest */,
 				92E8F4B0185C30C8000A1D59 /* NetworkTest */,
 				92F68E7A1855A84400C97188 /* DBTest */,
 				92DEC97C18DC54E100A9A384 /* TMXTest */,
@@ -266,6 +270,16 @@
 			);
 			name = ActionTest;
 			path = ../Classes/ActionTest;
+			sourceTree = "<group>";
+		};
+		92731BCE195E89B700D66FD2 /* StoryTest */ = {
+			isa = PBXGroup;
+			children = (
+				92731BCF195E89B700D66FD2 /* StoryTest.cpp */,
+				92731BD0195E89B700D66FD2 /* StoryTest.h */,
+			);
+			name = StoryTest;
+			path = ../Classes/StoryTest;
 			sourceTree = "<group>";
 		};
 		92CF92AE175B51970014CDF1 /* CommonTest */ = {
@@ -422,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				92731BD1195E89B700D66FD2 /* StoryTest.cpp in Sources */,
 				92DEC97F18DC54E100A9A384 /* TMXTest.cpp in Sources */,
 				92F68E7D1855A84400C97188 /* DBTest.cpp in Sources */,
 				1D3623260D0F684500981E51 /* testsAppDelegate.mm in Sources */,

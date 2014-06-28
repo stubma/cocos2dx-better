@@ -165,6 +165,14 @@ void flash(string name, unsigned int color, float times, float time) {
     gStoryCommandSet.addObject(cmd);
 }
 
+void blink(string name, float times, float time) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::BLINK);
+    cmd->m_param.blink.name = CCUtils::copy(name.c_str());
+    cmd->m_param.blink.times = times;
+    cmd->m_param.blink.time = time;
+    gStoryCommandSet.addObject(cmd);
+}
+
 void shake(string name, float amplitude, float time) {
     CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::SHAKE);
     cmd->m_param.shake.name = CCUtils::copy(name.c_str());
@@ -173,11 +181,11 @@ void shake(string name, float amplitude, float time) {
     gStoryCommandSet.addObject(cmd);
 }
 
-void scale(string name, float to, float time) {
-    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::SCALE);
-    cmd->m_param.scale.name = CCUtils::copy(name.c_str());
-    cmd->m_param.scale.to = to;
-    cmd->m_param.scale.time = time;
+void scaleto(string name, float to, float time) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::SCALE_TO);
+    cmd->m_param.scaleto.name = CCUtils::copy(name.c_str());
+    cmd->m_param.scaleto.to = to;
+    cmd->m_param.scaleto.time = time;
     gStoryCommandSet.addObject(cmd);
 }
 
@@ -222,11 +230,11 @@ void angle(string name, float degree) {
     gStoryCommandSet.addObject(cmd);
 }
 
-void rotate(string name, float delta, float time) {
-    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::ROTATE);
-    cmd->m_param.rotate.name = CCUtils::copy(name.c_str());
-    cmd->m_param.rotate.delta = delta;
-    cmd->m_param.rotate.time = time;
+void rotateby(string name, float delta, float time) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::ROTATE_BY);
+    cmd->m_param.rotateby.name = CCUtils::copy(name.c_str());
+    cmd->m_param.rotateby.delta = delta;
+    cmd->m_param.rotateby.time = time;
     gStoryCommandSet.addObject(cmd);
 }
 
@@ -338,6 +346,14 @@ void color(string name, unsigned int c) {
     gStoryCommandSet.addObject(cmd);
 }
 
+void scale(string name, float x, float y) {
+    CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::SCALE);
+    cmd->m_param.scale.name = CCUtils::copy(name.c_str());
+    cmd->m_param.scale.x = x;
+    cmd->m_param.scale.y = y;
+    gStoryCommandSet.addObject(cmd);
+}
+
 NS_CC_BEGIN
 
 CCStoryCommand::CCStoryCommand() :
@@ -376,14 +392,17 @@ CCStoryCommand::~CCStoryCommand() {
         case FLASH:
             free((void*)m_param.flash.name);
             break;
+        case BLINK:
+            free((void*)m_param.blink.name);
+            break;
         case SHAKE:
             free((void*)m_param.shake.name);
             break;
-        case ROTATE:
-            free((void*)m_param.rotate.name);
+        case ROTATE_BY:
+            free((void*)m_param.rotateby.name);
             break;
-        case SCALE:
-            free((void*)m_param.scale.name);
+        case SCALE_TO:
+            free((void*)m_param.scaleto.name);
             break;
         case FADE_IN:
             free((void*)m_param.fadein.name);
@@ -433,6 +452,9 @@ CCStoryCommand::~CCStoryCommand() {
             break;
         case COLOR:
             free((void*)m_param.color.name);
+            break;
+        case SCALE:
+            free((void*)m_param.scale.name);
             break;
         default:
             break;

@@ -172,6 +172,5 @@
 // story
 #include "CCStoryLayer.h"
 #include "CCStoryCommandSet.h"
-#include "cb_story_tolua.h"
 
 #endif // __cocos2d_better_h__

@@ -414,6 +414,18 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::BLINK:
+        {
+            // get role and shake
+            CCNode* role = getRole(m_curCmd->m_param.blink.name);
+            if(role) {
+                role->runAction(CCBlink::create(m_curCmd->m_param.blink.time, m_curCmd->m_param.blink.times));
+            }
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::FLIP_X:
         {
             // get role and set
@@ -476,26 +488,26 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
-        case CCStoryCommand::ROTATE:
+        case CCStoryCommand::ROTATE_BY:
         {
             // get role and rotate
-            CCNode* role = getRole(m_curCmd->m_param.rotate.name);
+            CCNode* role = getRole(m_curCmd->m_param.rotateby.name);
             if(role) {
-                role->runAction(CCRotateBy::create(m_curCmd->m_param.rotate.time,
-                                                   m_curCmd->m_param.rotate.delta));
+                role->runAction(CCRotateBy::create(m_curCmd->m_param.rotateby.time,
+                                                   m_curCmd->m_param.rotateby.delta));
             }
             
             // next
             start();
             break;
         }
-        case CCStoryCommand::SCALE:
+        case CCStoryCommand::SCALE_TO:
         {
             // get role and scale
-            CCNode* role = getRole(m_curCmd->m_param.scale.name);
+            CCNode* role = getRole(m_curCmd->m_param.scaleto.name);
             if(role) {
-                role->runAction(CCScaleTo::create(m_curCmd->m_param.scale.time,
-                                                  m_curCmd->m_param.scale.to));
+                role->runAction(CCScaleTo::create(m_curCmd->m_param.scaleto.time,
+                                                  m_curCmd->m_param.scaleto.to));
             }
             
             // next
@@ -722,6 +734,19 @@ void CCStoryPlayer::executeCurrentCommand() {
                 if(label) {
                     label->setFontFillColor(ccc3FromInt(m_curCmd->m_param.color.c));
                 }
+            }
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::SCALE:
+        {
+            // set role scale
+            CCNode* role = getRole(m_curCmd->m_param.scale.name);
+            if(role) {
+                role->setScaleX(m_curCmd->m_param.scale.x);
+                role->setScaleY(m_curCmd->m_param.scale.y);
             }
             
             // next

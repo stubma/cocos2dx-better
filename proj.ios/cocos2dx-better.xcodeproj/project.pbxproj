@@ -1328,6 +1328,7 @@
 		9239686D185591DB0063E8A1 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				92731B54195E88B300D66FD2 /* story */,
 				920547DB19050C980062ADA4 /* armature */,
 				92EDA10518D9E6C70022E196 /* tmx */,
 				92668E6718B5DC4F0065B75F /* shader */,
@@ -1350,6 +1351,7 @@
 		92396898185591DB0063E8A1 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				92731B53195E88AF00D66FD2 /* story */,
 				920547DC19050C9D0062ADA4 /* armature */,
 				92EDA10618D9E6DB0022E196 /* tmx */,
 				9234735F18BD869C009DDBEF /* shader */,
@@ -1978,6 +1980,20 @@
 				9234735E18BD865A009DDBEF /* CCShaders.h */,
 			);
 			name = shader;
+			sourceTree = "<group>";
+		};
+		92731B53195E88AF00D66FD2 /* story */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = story;
+			sourceTree = "<group>";
+		};
+		92731B54195E88B300D66FD2 /* story */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = story;
 			sourceTree = "<group>";
 		};
 		9288DF0D188F98A400C14965 /* CCControlExtension */ = {

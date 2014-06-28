@@ -55,14 +55,15 @@ extern void waitclick();
 extern void fadein(string name, float time);
 extern void fadeout(string name, float time);
 extern void flash(string name, unsigned int color, float times, float time);
+extern void blink(string name, float times, float time);
 extern void shake(string name, float amplitude, float time);
-extern void scale(string name, float to, float time);
+extern void scaleto(string name, float to, float time);
 extern void img(string name, string frameName, float x, float y);
 extern void label(string name, string text, float x, float y);
 extern void arm(string name, string armName, float x, float y);
 extern void armplay(string name, string animName);
 extern void angle(string name, float degree);
-extern void rotate(string name, float delta, float time);
+extern void rotateby(string name, float delta, float time);
 extern void bgpos(float x, float y);
 extern void bg(string frameName);
 extern void bgcolor(unsigned int c);
@@ -79,6 +80,7 @@ extern void npos(string name, string refName, float relativeX, float relativeY);
 extern void spos(string name, float relativeX, float relativeY);
 extern void anchor(string name, float x, float y);
 extern void color(string name, unsigned int c);
+extern void scale(string name, float x, float y);
 
 NS_CC_BEGIN
 
@@ -108,14 +110,15 @@ public:
         FADE_IN,
         FADE_OUT,
         FLASH,
+        BLINK,
         SHAKE,
-        SCALE,
+        SCALE_TO,
         IMG,
         LABEL,
         ARM,
         ARM_PLAY,
         ANGLE,
-        ROTATE,
+        ROTATE_BY,
         BG_POS,
         BG,
         BG_COLOR,
@@ -131,7 +134,8 @@ public:
         NODE_POS,
         SCREEN_POS,
         ANCHOR,
-        COLOR
+        COLOR,
+        SCALE
     };
     
 public:
@@ -220,6 +224,12 @@ public:
         
         struct {
             const char* name;
+            float times;
+            float time;
+        } blink;
+        
+        struct {
+            const char* name;
             float amplitude;
             float time;
         } shake;
@@ -228,13 +238,13 @@ public:
             const char* name;
             float delta;
             float time;
-        } rotate;
+        } rotateby;
         
         struct {
             const char* name;
             float to;
             float time;
-        } scale;
+        } scaleto;
         
         struct {
             const char* name;
@@ -352,6 +362,12 @@ public:
             unsigned int c;
             const char* name;
         } color;
+        
+        struct {
+            const char* name;
+            float x;
+            float y;
+        } scale;
     } m_param;
     
 public:

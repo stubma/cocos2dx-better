@@ -105,7 +105,7 @@ bool CCStoryPlayer::initWithOwner(CCStoryLayer* owner) {
 
 void CCStoryPlayer::start() {
     // if has error, stop
-    if(hasError())
+    if(hasError() || m_done)
         return;
     
     // first command

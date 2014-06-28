@@ -146,6 +146,12 @@ void Story1::onEnter()
     storyLayer->playStory();
 }
 
+void Story1::onExit() {
+    StoryDemo::onExit();
+    
+    CCArmatureDataManager::sharedArmatureDataManager()->removeArmatureFileInfo("Files/Cowboy.ExportJson");
+}
+
 std::string Story1::subtitle()
 {
     return "Story 1";

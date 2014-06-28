@@ -37,6 +37,7 @@ private:
 	
 public:
     virtual void onEnter();
+    virtual void onExit();
     virtual string subtitle();
 };
 

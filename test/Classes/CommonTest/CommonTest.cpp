@@ -1188,6 +1188,15 @@ void CommonTiledSprite::onEnter()
 	s->setPosition(ccp(origin.x + visibleSize.width / 2,
 					   origin.y + visibleSize.height / 2));
 	addChild(s);
+    
+    // run animation on tiled sprite
+    CCRect r = CCRectMake(0, 0, 28, 1);
+    CCAnimation* anim = CCAnimation::create();
+    anim->addSpriteFrame(CCSpriteFrame::create("Images/tiled.png", r));
+    anim->addSpriteFrame(CCSpriteFrame::create("Images/tiled_2.png", r));
+    anim->addSpriteFrame(CCSpriteFrame::create("Images/tiled_3.png", r));
+    anim->setDelayPerUnit(0.05f);
+    s->runAction(CCRepeatForever::create(CCAnimate::create(anim)));
 }
 
 std::string CommonTiledSprite::subtitle()

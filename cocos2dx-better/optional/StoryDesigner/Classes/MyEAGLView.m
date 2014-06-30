@@ -55,9 +55,10 @@ static MyEAGLView* view;
     [super setFrame:frameRect];
     
     CCDirector* d = CCDirector::sharedDirector();
+    CCSize size = CCEGLView::sharedOpenGLView()->getDesignResolutionSize();
     CCEGLView::sharedOpenGLView()->setFrameSize(frameRect.size.width, frameRect.size.height);
     if(d->getRunningScene()) {
-        CCEGLView::sharedOpenGLView()->setDesignResolutionSize(frameRect.size.width, frameRect.size.height, kResolutionNoBorder);
+        CCEGLView::sharedOpenGLView()->setDesignResolutionSize(size.width, size.height, kResolutionShowAll);
         CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationFrameSizeChanged);
     }
 }

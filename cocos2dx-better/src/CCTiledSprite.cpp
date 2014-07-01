@@ -70,15 +70,15 @@ CCTiledSprite* CCTiledSprite::createWithSpriteFrame(CCSpriteFrame* frame) {
 
 CCTiledSprite* CCTiledSprite::createWithSprite(CCSprite* sprite) {
 	CCTiledSprite* s = new CCTiledSprite(sprite);
-    if(s->initWithTexture(sprite->getTexture())) {
+    if(s->initWithTexture(sprite->getTexture(), sprite->getTextureRect(), sprite->isTextureRectRotated())) {
         return (CCTiledSprite*)s->autorelease();
     }
 	CC_SAFE_RELEASE(s);
     return NULL;
 }
 
-bool CCTiledSprite::initWithTexture(CCTexture2D *pTexture) {
-    if(!CCSprite::initWithTexture(pTexture)) {
+bool CCTiledSprite::initWithTexture(CCTexture2D *pTexture, const CCRect& rect, bool rotated) {
+    if(!CCSprite::initWithTexture(pTexture, rect, rotated)) {
         return false;
     }
     

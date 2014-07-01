@@ -67,7 +67,7 @@ public:
 	static CCTiledSprite* createWithSpriteFrame(CCSpriteFrame* frame);
 	static CCTiledSprite* createWithSprite(CCSprite* sprite);
 	
-    virtual bool initWithTexture(CCTexture2D* pTexture);
+    virtual bool initWithTexture(CCTexture2D* pTexture, const CCRect& rect, bool rotated);
 	virtual void setOpacity(GLubyte opacity);
 	virtual void setDisplayFrame(CCSpriteFrame *pNewFrame);
     

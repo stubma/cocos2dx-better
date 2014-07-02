@@ -183,10 +183,10 @@ void CCAutoRenderMenuItemSprite::updateImagesVisibility() {
 	if(m_focusImage) {
         if(m_focusIsAttachment) {
             m_focusImage->setVisible(m_focus || isSelected());
-            CCMenuItemSprite::updateImagesVisibility();
         } else {
             m_focusImage->setVisible(m_focus);
         }
+        CCMenuItemSprite::updateImagesVisibility();
 	} else {
 		CCMenuItemSprite::updateImagesVisibility();
 	}

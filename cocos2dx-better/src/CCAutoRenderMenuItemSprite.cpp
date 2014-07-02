@@ -186,10 +186,8 @@ void CCAutoRenderMenuItemSprite::updateImagesVisibility() {
         } else {
             m_focusImage->setVisible(m_focus);
         }
-        CCMenuItemSprite::updateImagesVisibility();
-	} else {
-		CCMenuItemSprite::updateImagesVisibility();
 	}
+    CCMenuItemSprite::updateImagesVisibility();
 }
 
 void CCAutoRenderMenuItemSprite::setFocus(bool flag) {

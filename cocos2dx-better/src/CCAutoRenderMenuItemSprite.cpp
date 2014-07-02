@@ -138,6 +138,7 @@ void CCAutoRenderMenuItemSprite::centerAlignImages() {
 
 void CCAutoRenderMenuItemSprite::selected() {
 	CCMenuItemSprite::selected();
+    updateImagesVisibility();
 	
 	// set a darker color
 	if(!getSelectedImage()) {
@@ -156,6 +157,7 @@ void CCAutoRenderMenuItemSprite::selected() {
 
 void CCAutoRenderMenuItemSprite::unselected() {
 	CCMenuItemSprite::unselected();
+    updateImagesVisibility();
 	
 	// restore old color
 	if(!getSelectedImage()) {
@@ -179,9 +181,12 @@ void CCAutoRenderMenuItemSprite::updateImagesVisibility() {
 		m_focusImage->setVisible(false);
 	
 	if(m_focusImage) {
-		m_focusImage->setVisible(m_focus);
-		if(!m_focus || m_focusIsAttachment)
-			CCMenuItemSprite::updateImagesVisibility();
+        if(m_focusIsAttachment) {
+            m_focusImage->setVisible(m_focus || isSelected());
+            CCMenuItemSprite::updateImagesVisibility();
+        } else {
+            m_focusImage->setVisible(m_focus);
+        }
 	} else {
 		CCMenuItemSprite::updateImagesVisibility();
 	}

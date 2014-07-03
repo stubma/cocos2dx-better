@@ -104,6 +104,14 @@ extern void msgpos(float x, float y);
 extern void msganchor(float x, float y);
 
 /**
+ * 设置剧情对话节点的最大行宽, 缺省是不限制(也就是单行, 除非强制换行), 由于剧情脚本是顺序执行
+ * 的, 所以它不会影响命令之前的对话行宽.
+ *
+ * @param w 行宽
+ */
+extern void msgwidth(float w);
+
+/**
  * 名称的坐标, 由于剧情脚本是顺序执行的, 所以它不会影响命令之前的名称坐标
  *
  * @param x x坐标
@@ -459,6 +467,7 @@ public:
         MSG_COLOR,
         MSG_POS,
         MSG_ANCHOR,
+        MSG_WIDTH,
         NAME_POS,
         NAME_COLOR,
         NAME_SIZE,
@@ -535,6 +544,10 @@ public:
             float x;
             float y;
         } msganchor;
+        
+        struct {
+            float w;
+        } msgwidth;
         
         struct {
             float size;

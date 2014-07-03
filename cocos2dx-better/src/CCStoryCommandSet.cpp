@@ -72,6 +72,12 @@ void msganchor(float x, float y) {
     gStoryCommandSet.addObject(c);
 }
 
+void msgwidth(float w) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG_WIDTH);
+    c->m_param.msgwidth.w = w;
+    gStoryCommandSet.addObject(c);
+}
+
 void namepos(float x, float y) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::NAME_POS);
     c->m_param.namepos.x = x;

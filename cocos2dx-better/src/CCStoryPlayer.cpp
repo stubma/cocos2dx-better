@@ -67,6 +67,7 @@ m_nameColor(0xffffffff),
 m_labelColor(0xffffffff),
 m_msgPos(CCPointZero),
 m_namePos(CCPointZero),
+m_msgConstraints(CCSizeZero),
 m_labelAnchor(ccp(0.5f, 0.5f)),
 m_msgAnchor(ccp(0.5f, 0.5f)),
 m_nameAnchor(ccp(0.5f, 0.5f)) {
@@ -210,6 +211,14 @@ void CCStoryPlayer::executeCurrentCommand() {
         {
             m_msgPos.x = m_curCmd->m_param.msgpos.x;
             m_msgPos.y = m_curCmd->m_param.msgpos.y;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MSG_WIDTH:
+        {
+            m_msgConstraints.width = m_curCmd->m_param.msgwidth.w;
             
             // next
             start();

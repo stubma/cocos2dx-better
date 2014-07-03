@@ -13,12 +13,13 @@ label('desc', 'Ahoy there!', 500, 900)
 -- set default value for name and messsage
 msgsize(40)
 msgcolor(0xfff33290)
+msgwidth(550)
 namepos(480, 800)
 namesize(60)
 namecolor(0xff008923)
 
 -- show message
-msg('Me', '我的我的我的我的我的\n我的我的我的我的\n我的我的我的我的\n我的我的我的我的\n我的我的我的我的我的')
+msg('Me', '我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的')
 msg('You', 'hello world! haha\nwhat is your name?')
 
 -- wait user click

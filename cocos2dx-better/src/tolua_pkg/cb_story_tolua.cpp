@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Sat Jun 28 13:13:34 2014.
+** Generated automatically by tolua++-1.0.92 on Thu Jul  3 14:45:40 2014.
 */
 
 #ifndef __cplusplus
@@ -189,6 +189,34 @@ static int tolua_story_msganchor00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'msganchor'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: msgwidth */
+#ifndef TOLUA_DISABLE_tolua_story_msgwidth00
+static int tolua_story_msgwidth00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  float w = ((float)  tolua_tonumber(tolua_S,1,0));
+  {
+   msgwidth(w);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'msgwidth'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1447,6 +1475,7 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"msgcolor",tolua_story_msgcolor00);
   tolua_function(tolua_S,"msgpos",tolua_story_msgpos00);
   tolua_function(tolua_S,"msganchor",tolua_story_msganchor00);
+  tolua_function(tolua_S,"msgwidth",tolua_story_msgwidth00);
   tolua_function(tolua_S,"namepos",tolua_story_namepos00);
   tolua_function(tolua_S,"namecolor",tolua_story_namecolor00);
   tolua_function(tolua_S,"namesize",tolua_story_namesize00);

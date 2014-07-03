@@ -14,12 +14,13 @@ label('desc', 'Ahoy there!', 500, 900)
 msgsize(40)
 msgcolor(0xfff33290)
 msgwidth(550)
+msgalign(left)
 namepos(480, 800)
 namesize(60)
 namecolor(0xff008923)
 
 -- show message
-msg('Me', '我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的')
+msg('Me', '我的我的我的他die我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的我的')
 msg('You', 'hello world! haha\nwhat is your name?')
 
 -- wait user click

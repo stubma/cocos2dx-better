@@ -78,6 +78,12 @@ void msgwidth(float w) {
     gStoryCommandSet.addObject(c);
 }
 
+void msgalign(CCTextAlignment a) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG_ALIGN);
+    c->m_param.msgalign.a = a;
+    gStoryCommandSet.addObject(c);
+}
+
 void namepos(float x, float y) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::NAME_POS);
     c->m_param.namepos.x = x;

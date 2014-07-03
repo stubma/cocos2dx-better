@@ -103,6 +103,7 @@ public:
     CC_SYNTHESIZE(CCPoint, m_requiredDesignSize, RequiredDesignSize);
     CC_SYNTHESIZE(ResolutionPolicy, m_requiredPolicy, RequiredPolicy);
     CC_SYNTHESIZE(CCSize, m_msgConstraints, MessageConstraints);
+    CC_SYNTHESIZE(CCTextAlignment, m_msgAlignment, MessageAlignment);
     
     // error
     CC_SYNTHESIZE_PASS_BY_REF_SETTER(string, m_error, Error);

@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Thu Jul  3 14:45:40 2014.
+** Generated automatically by tolua++-1.0.92 on Thu Jul  3 14:59:20 2014.
 */
 
 #ifndef __cplusplus
@@ -217,6 +217,34 @@ static int tolua_story_msgwidth00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'msgwidth'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: msgalign */
+#ifndef TOLUA_DISABLE_tolua_story_msgalign00
+static int tolua_story_msgalign00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCTextAlignment a = ((CCTextAlignment) (int)  tolua_tonumber(tolua_S,1,0));
+  {
+   msgalign(a);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'msgalign'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1469,6 +1497,9 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_constant(tolua_S,"kResolutionFixedHeight",kResolutionFixedHeight);
   tolua_constant(tolua_S,"kResolutionFixedWidth",kResolutionFixedWidth);
   tolua_constant(tolua_S,"kResolutionUnKnown",kResolutionUnKnown);
+  tolua_constant(tolua_S,"left",kCCTextAlignmentLeft);
+  tolua_constant(tolua_S,"center",kCCTextAlignmentCenter);
+  tolua_constant(tolua_S,"right",kCCTextAlignmentRight);
   tolua_function(tolua_S,"winsize",tolua_story_winsize00);
   tolua_function(tolua_S,"policy",tolua_story_policy00);
   tolua_function(tolua_S,"msgsize",tolua_story_msgsize00);
@@ -1476,6 +1507,7 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"msgpos",tolua_story_msgpos00);
   tolua_function(tolua_S,"msganchor",tolua_story_msganchor00);
   tolua_function(tolua_S,"msgwidth",tolua_story_msgwidth00);
+  tolua_function(tolua_S,"msgalign",tolua_story_msgalign00);
   tolua_function(tolua_S,"namepos",tolua_story_namepos00);
   tolua_function(tolua_S,"namecolor",tolua_story_namecolor00);
   tolua_function(tolua_S,"namesize",tolua_story_namesize00);

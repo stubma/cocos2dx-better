@@ -92,7 +92,7 @@ void CCStoryMessageLayer::showMessage(CCStoryCommand* cmd) {
                                         "Helvetica",
                                         m_player->getMessageSize(),
                                         m_player->getMessageConstraints(),
-                                        kCCTextAlignmentLeft);
+                                        m_player->getMessageAlignment());
     m_msgLabel->setAnchorPoint(m_player->getMessageAnchor());
     m_msgLabel->setPosition(m_player->getMessagePos());
     m_msgLabel->setFontFillColor(ccc3FromInt(m_player->getMessageColor()));

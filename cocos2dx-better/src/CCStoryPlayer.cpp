@@ -65,6 +65,7 @@ m_labelSize(20),
 m_msgColor(0xffffffff),
 m_nameColor(0xffffffff),
 m_labelColor(0xffffffff),
+m_msgAlignment(kCCTextAlignmentCenter),
 m_msgPos(CCPointZero),
 m_namePos(CCPointZero),
 m_msgConstraints(CCSizeZero),
@@ -219,6 +220,14 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::MSG_WIDTH:
         {
             m_msgConstraints.width = m_curCmd->m_param.msgwidth.w;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MSG_ALIGN:
+        {
+            m_msgAlignment = m_curCmd->m_param.msgalign.a;
             
             // next
             start();

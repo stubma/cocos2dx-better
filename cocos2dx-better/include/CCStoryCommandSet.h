@@ -112,6 +112,14 @@ extern void msganchor(float x, float y);
 extern void msgwidth(float w);
 
 /**
+ * 设置剧情对话节点的文本水平对齐方式, 缺省是居中, 由于剧情脚本是顺序执行
+ * 的, 所以它不会影响命令之前的对话对齐.
+ *
+ * @param a 可以为left, center, right
+ */
+extern void msgalign(CCTextAlignment a);
+
+/**
  * 名称的坐标, 由于剧情脚本是顺序执行的, 所以它不会影响命令之前的名称坐标
  *
  * @param x x坐标
@@ -468,6 +476,7 @@ public:
         MSG_POS,
         MSG_ANCHOR,
         MSG_WIDTH,
+        MSG_ALIGN,
         NAME_POS,
         NAME_COLOR,
         NAME_SIZE,
@@ -548,6 +557,10 @@ public:
         struct {
             float w;
         } msgwidth;
+        
+        struct {
+            CCTextAlignment a;
+        } msgalign;
         
         struct {
             float size;

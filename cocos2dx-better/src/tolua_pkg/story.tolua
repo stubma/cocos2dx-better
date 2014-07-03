@@ -9,6 +9,12 @@ enum ResolutionPolicy {
     kResolutionUnKnown
 };
 
+enum CCTextAlignment {
+    kCCTextAlignmentLeft @ left,
+    kCCTextAlignmentCenter @ center,
+    kCCTextAlignmentRight @ right,
+};
+
 void winsize(float w, float h);
 void policy(ResolutionPolicy p);
 void msgsize(float size);
@@ -16,6 +22,7 @@ void msgcolor(unsigned int c);
 void msgpos(float x, float y);
 void msganchor(float x, float y);
 void msgwidth(float w);
+void msgalign(CCTextAlignment a);
 void namepos(float x, float y);
 void namecolor(unsigned int c);
 void namesize(float size);

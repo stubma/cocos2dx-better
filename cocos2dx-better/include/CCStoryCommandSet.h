@@ -176,6 +176,22 @@ extern void labelsize(float size);
 extern void labelanchor(float x, float y);
 
 /**
+ * 设置标签节点的最大行宽, 缺省是不限制(也就是单行, 除非强制换行), 由于剧情脚本是顺序执行
+ * 的, 所以它不会影响命令之前的标签行宽.
+ *
+ * @param w 行宽
+ */
+extern void labelwidth(float w);
+
+/**
+ * 设置标签节点的文本水平对齐方式, 缺省是居中, 由于剧情脚本是顺序执行
+ * 的, 所以它不会影响命令之前的标签对齐.
+ *
+ * @param a 可以为left, center, right
+ */
+extern void labelalign(CCTextAlignment a);
+
+/**
  * 对某个角色执行一个移动动作
  * 
  * @param name 角色的名称
@@ -484,6 +500,8 @@ public:
         LABEL_COLOR,
         LABEL_SIZE,
         LABEL_ANCHOR,
+        LABEL_WIDTH,
+        LABEL_ALIGN,
         MOVE,
         WAIT,
         WAIT_ARM,
@@ -592,6 +610,14 @@ public:
             float x;
             float y;
         } labelanchor;
+        
+        struct {
+            float w;
+        } labelwidth;
+        
+        struct {
+            CCTextAlignment a;
+        } labelalign;
         
         struct {
             const char* name;

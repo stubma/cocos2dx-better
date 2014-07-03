@@ -69,6 +69,8 @@ m_msgAlignment(kCCTextAlignmentCenter),
 m_msgPos(CCPointZero),
 m_namePos(CCPointZero),
 m_msgConstraints(CCSizeZero),
+m_labelConstraints(CCSizeZero),
+m_labelAlignment(kCCTextAlignmentCenter),
 m_labelAnchor(ccp(0.5f, 0.5f)),
 m_msgAnchor(ccp(0.5f, 0.5f)),
 m_nameAnchor(ccp(0.5f, 0.5f)) {
@@ -292,6 +294,22 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::LABEL_WIDTH:
+        {
+            m_labelConstraints.width = m_curCmd->m_param.labelwidth.w;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::LABEL_ALIGN:
+        {
+            m_labelAlignment = m_curCmd->m_param.labelalign.a;
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::WAIT:
         {
             m_owner->runAction(CCSequence::create(CCDelayTime::create(m_curCmd->m_param.wait.time),
@@ -355,7 +373,9 @@ void CCStoryPlayer::executeCurrentCommand() {
                 // create label
                 CCRichLabelTTF* label = CCRichLabelTTF::create(m_curCmd->m_param.label.text,
                                                                "Helvetica",
-                                                               m_labelSize);
+                                                               m_labelSize,
+                                                               m_labelConstraints,
+                                                               m_labelAlignment);
                 label->setAnchorPoint(m_labelAnchor);
                 label->setFontFillColor(ccc3FromInt(m_labelColor));
                 label->setOpacity((m_labelColor >> 24) & 0xff);

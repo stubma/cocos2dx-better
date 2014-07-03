@@ -30,6 +30,8 @@ void nameanchor(float x, float y);
 void labelcolor(unsigned int c);
 void labelsize(float size);
 void labelanchor(float x, float y);
+void labelwidth(float w);
+void labelalign(CCTextAlignment a);
 void msg(string name, string s);
 void move(string name, float x, float y, float time);
 void wait(float time);

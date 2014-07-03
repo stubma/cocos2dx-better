@@ -104,6 +104,8 @@ public:
     CC_SYNTHESIZE(ResolutionPolicy, m_requiredPolicy, RequiredPolicy);
     CC_SYNTHESIZE(CCSize, m_msgConstraints, MessageConstraints);
     CC_SYNTHESIZE(CCTextAlignment, m_msgAlignment, MessageAlignment);
+    CC_SYNTHESIZE(CCSize, m_labelConstraints, LabelConstraints);
+    CC_SYNTHESIZE(CCTextAlignment, m_labelAlignment, LabelAlignment);
     
     // error
     CC_SYNTHESIZE_PASS_BY_REF_SETTER(string, m_error, Error);

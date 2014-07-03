@@ -129,6 +129,18 @@ void labelanchor(float x, float y) {
     gStoryCommandSet.addObject(c);
 }
 
+void labelwidth(float w) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::LABEL_WIDTH);
+    c->m_param.labelwidth.w = w;
+    gStoryCommandSet.addObject(c);
+}
+
+void labelalign(CCTextAlignment a) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::LABEL_ALIGN);
+    c->m_param.labelalign.a = a;
+    gStoryCommandSet.addObject(c);
+}
+
 void move(string name, float x, float y, float time) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MOVE);
     c->m_param.move.name = CCUtils::copy(name.c_str());

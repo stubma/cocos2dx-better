@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Thu Jul  3 14:59:20 2014.
+** Generated automatically by tolua++-1.0.92 on Thu Jul  3 15:58:21 2014.
 */
 
 #ifndef __cplusplus
@@ -447,6 +447,62 @@ static int tolua_story_labelanchor00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'labelanchor'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: labelwidth */
+#ifndef TOLUA_DISABLE_tolua_story_labelwidth00
+static int tolua_story_labelwidth00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  float w = ((float)  tolua_tonumber(tolua_S,1,0));
+  {
+   labelwidth(w);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'labelwidth'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: labelalign */
+#ifndef TOLUA_DISABLE_tolua_story_labelalign00
+static int tolua_story_labelalign00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isnumber(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CCTextAlignment a = ((CCTextAlignment) (int)  tolua_tonumber(tolua_S,1,0));
+  {
+   labelalign(a);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'labelalign'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1515,6 +1571,8 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"labelcolor",tolua_story_labelcolor00);
   tolua_function(tolua_S,"labelsize",tolua_story_labelsize00);
   tolua_function(tolua_S,"labelanchor",tolua_story_labelanchor00);
+  tolua_function(tolua_S,"labelwidth",tolua_story_labelwidth00);
+  tolua_function(tolua_S,"labelalign",tolua_story_labelalign00);
   tolua_function(tolua_S,"msg",tolua_story_msg00);
   tolua_function(tolua_S,"move",tolua_story_move00);
   tolua_function(tolua_S,"wait",tolua_story_wait00);

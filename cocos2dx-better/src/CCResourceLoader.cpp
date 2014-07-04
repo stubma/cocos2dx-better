@@ -28,6 +28,8 @@
 using namespace CocosDenshion;
 USING_NS_CC_EXT;
 
+static CCArray sActiveLoaders;
+
 NS_CC_BEGIN
 
 void CCResourceLoader::CDMusicTask::load() {
@@ -43,15 +45,30 @@ void CCResourceLoader::ArmatureTask::load() {
 }
 
 CCResourceLoader::CCResourceLoader(CCResourceLoaderListener* listener) :
-		m_listener(listener),
-		m_delay(0),
-		m_remainingIdle(0),
-        m_nextLoad(0) {
+m_listener(listener),
+m_delay(0),
+m_remainingIdle(0),
+m_nextLoad(0),
+m_loading(false) {
+    // just add it to an array, but not hold it
+    sActiveLoaders.addObject(this);
+    release();
 }
 
 CCResourceLoader::~CCResourceLoader() {
     for(LoadTaskPtrList::iterator iter = m_loadTaskList.begin(); iter != m_loadTaskList.end(); iter++) {
         delete *iter;
+    }
+    sActiveLoaders.removeObject(this, false);
+}
+
+void CCResourceLoader::abortAll() {
+    CCArray tmp;
+    tmp.addObjectsFromArray(&sActiveLoaders);
+    CCObject* obj;
+    CCARRAY_FOREACH(&sActiveLoaders, obj) {
+        CCResourceLoader* loader = (CCResourceLoader*)obj;
+        loader->abort();
     }
 }
 
@@ -172,17 +189,33 @@ void CCResourceLoader::loadZwoptex(const string& plistName, const string& texNam
 }
 
 void CCResourceLoader::run() {
+    if(m_loading)
+        return;
+    m_loading = true;
+    
 	CCScheduler* scheduler = CCDirector::sharedDirector()->getScheduler();
 	scheduler->scheduleSelector(schedule_selector(CCResourceLoader::doLoad), this, 0, kCCRepeatForever, m_delay, false);
 }
 
 void CCResourceLoader::runInBlockMode() {
+    m_loading = true;
     for(LoadTaskPtrList::iterator iter = m_loadTaskList.begin(); iter != m_loadTaskList.end(); iter++) {
         LoadTask* lp = *iter;
         lp->load();
         if(m_listener)
             m_listener->onResourceLoadingProgress(m_nextLoad * 100 / m_loadTaskList.size(), 0);
     }
+    m_loading = false;
+}
+
+void CCResourceLoader::abort() {
+    if(!m_loading)
+        return;
+    m_loading = false;
+    
+    CCScheduler* scheduler = CCDirector::sharedDirector()->getScheduler();
+    scheduler->unscheduleSelector(schedule_selector(CCResourceLoader::doLoad), this);
+    autorelease();
 }
 
 void CCResourceLoader::addAndroidStringTask(const string& lan, const string& path, bool merge) {
@@ -386,9 +419,12 @@ void CCResourceLoader::doLoad(float delta) {
     if(m_remainingIdle > 0) {
         m_remainingIdle -= delta;
     } else if(m_loadTaskList.size() <= m_nextLoad) {
-        CCScheduler* scheduler = CCDirector::sharedDirector()->getScheduler();
-        scheduler->unscheduleSelector(schedule_selector(CCResourceLoader::doLoad), this);
-        autorelease();
+        if(m_loading) {
+            m_loading = false;
+            CCScheduler* scheduler = CCDirector::sharedDirector()->getScheduler();
+            scheduler->unscheduleSelector(schedule_selector(CCResourceLoader::doLoad), this);
+            autorelease();
+        }
         
         if(m_listener)
             m_listener->onResourceLoadingDone();

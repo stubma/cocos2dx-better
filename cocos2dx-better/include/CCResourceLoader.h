@@ -391,6 +391,9 @@ private:
     /// load list
     typedef vector<LoadTask*> LoadTaskPtrList;
     LoadTaskPtrList m_loadTaskList;
+    
+    /// flag indicating it is running
+    bool m_loading;
 
 private:
 	/// perform loading
@@ -399,6 +402,9 @@ private:
 public:
     CCResourceLoader(CCResourceLoaderListener* listener);
 	virtual ~CCResourceLoader();
+    
+    /// abort all active resource loading
+    static void abortAll();
 	
     /**
      * load a file and return raw data
@@ -449,6 +455,9 @@ public:
     
     /// do loading in block mode
     void runInBlockMode();
+    
+    /// abort loading, you can't abort it if runs in block mode
+    void abort();
     
     /// directly add a load task
     void addLoadTask(LoadTask* t);

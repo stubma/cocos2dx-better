@@ -82,7 +82,7 @@ string CCStoryLayer::getParameter(const string& key) {
     if(v)
         return v->getCString();
     else
-        return "tes";
+        return "";
 }
 
 void CCStoryLayer::setParameter(const string& key, const string& value) {

@@ -66,3 +66,4 @@ void spos(string name, float relativeX, float relativeY);
 void anchor(string name, float x, float y);
 void color(string name, unsigned int c);
 void scale(string name, float x, float y);
+string p(string key);

@@ -473,6 +473,14 @@ extern void color(string name, unsigned int c);
  */
 extern void scale(string name, float x, float y);
 
+/**
+ * 根据名称获得一个参数, 参数的类型是字符串.
+ *
+ * @param key 参数键值
+ * @return 参数值. 如果参数不存在则返回空字符串
+ */
+extern string p(string key);
+
 /////////////////////////////////////
 // command method for lua - end
 /////////////////////////////////////

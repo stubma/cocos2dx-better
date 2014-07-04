@@ -23,6 +23,7 @@
  ****************************************************************************/
 #include "CCStoryCommandSet.h"
 #include "CCUtils.h"
+#include "CCStoryLayer.h"
 
 CCArray gStoryCommandSet;
 
@@ -376,6 +377,10 @@ void scale(string name, float x, float y) {
     cmd->m_param.scale.x = x;
     cmd->m_param.scale.y = y;
     gStoryCommandSet.addObject(cmd);
+}
+
+string p(string key) {
+    return CCStoryLayer::getParameter(key);
 }
 
 NS_CC_BEGIN

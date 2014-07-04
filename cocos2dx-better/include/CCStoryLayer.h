@@ -56,6 +56,10 @@ protected:
 public:
 	virtual ~CCStoryLayer();
 	static CCStoryLayer* create();
+    
+    /// access global parameters
+    static string getParameter(const string& key);
+    static void setParameter(const string& key, const string& value);
 	
 	virtual bool init();
     virtual void onExit();

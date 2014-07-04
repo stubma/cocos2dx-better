@@ -43,6 +43,7 @@ extern "C" {
 #include "cb_story_tolua.h"
 
 static lua_State* L = NULL;
+static CCDictionary sGlobalParams;
 
 NS_CC_BEGIN
 
@@ -74,6 +75,18 @@ CCStoryLayer* CCStoryLayer::create() {
 	}
 	CC_SAFE_RELEASE(l);
 	return NULL;
+}
+
+string CCStoryLayer::getParameter(const string& key) {
+    CCString* v = (CCString*)sGlobalParams.objectForKey(key);
+    if(v)
+        return v->getCString();
+    else
+        return "tes";
+}
+
+void CCStoryLayer::setParameter(const string& key, const string& value) {
+    sGlobalParams.setObject(CCString::create(value), key);
 }
 
 void CCStoryLayer::onExit() {

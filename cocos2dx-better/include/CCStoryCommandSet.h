@@ -120,6 +120,14 @@ extern void msgwidth(float w);
 extern void msgalign(CCTextAlignment a);
 
 /**
+ * 设置剧情对话节点的字体, 由于剧情脚本是顺序执行
+ * 的, 所以它不会影响命令之前的对话字体
+ *
+ * @param fontName 字体名称
+ */
+extern void msgfont(string fontName);
+
+/**
  * 名称的坐标, 由于剧情脚本是顺序执行的, 所以它不会影响命令之前的名称坐标
  *
  * @param x x坐标
@@ -151,6 +159,14 @@ extern void namesize(float size);
 extern void nameanchor(float x, float y);
 
 /**
+ * 设置名称节点的字体, 由于剧情脚本是顺序执行
+ * 的, 所以它不会影响命令之前的名称字体
+ *
+ * @param fontName 字体名称
+ */
+extern void namefont(string fontName);
+
+/**
  * 设置标签的颜色, 由于剧情脚本是顺序执行的, 所以它不会影响命令之前的标签颜色.
  * 除了剧情对话和名称之外的文本, 统一由一些命令控制它们的颜色, 字体大小和描点.
  *
@@ -165,6 +181,14 @@ extern void labelcolor(unsigned int c);
  * @param size 字体大小
  */
 extern void labelsize(float size);
+
+/**
+ * 设置标签节点的字体, 由于剧情脚本是顺序执行
+ * 的, 所以它不会影响命令之前的标签字体
+ *
+ * @param fontName 字体名称
+ */
+extern void labelfont(string fontName);
 
 /**
  * 标签节点的锚点, 缺省描点是在中心. 由于剧情脚本是顺序执行的, 所以它不会影响命令之前的标签锚点.
@@ -501,12 +525,15 @@ public:
         MSG_ANCHOR,
         MSG_WIDTH,
         MSG_ALIGN,
+        MSG_FONT,
         NAME_POS,
         NAME_COLOR,
         NAME_SIZE,
         NAME_ANCHOR,
+        NAME_FONT,
         LABEL_COLOR,
         LABEL_SIZE,
+        LABEL_FONT,
         LABEL_ANCHOR,
         LABEL_WIDTH,
         LABEL_ALIGN,
@@ -589,6 +616,10 @@ public:
         } msgalign;
         
         struct {
+            const char* fontName;
+        } msgfont;
+        
+        struct {
             float size;
         } namesize;
         
@@ -607,12 +638,20 @@ public:
         } nameanchor;
         
         struct {
+            const char* fontName;
+        } namefont;
+        
+        struct {
             unsigned int c;
         } labelcolor;
         
         struct {
             float size;
         } labelsize;
+        
+        struct {
+            const char* fontName;
+        } labelfont;
         
         struct {
             float x;

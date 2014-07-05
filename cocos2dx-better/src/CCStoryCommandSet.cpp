@@ -85,6 +85,12 @@ void msgalign(CCTextAlignment a) {
     gStoryCommandSet.addObject(c);
 }
 
+void msgfont(string fontName) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG_FONT);
+    c->m_param.msgfont.fontName = CCUtils::copy(fontName.c_str());
+    gStoryCommandSet.addObject(c);
+}
+
 void namepos(float x, float y) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::NAME_POS);
     c->m_param.namepos.x = x;
@@ -111,6 +117,12 @@ void nameanchor(float x, float y) {
     gStoryCommandSet.addObject(c);
 }
 
+void namefont(string fontName) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::NAME_FONT);
+    c->m_param.namefont.fontName = CCUtils::copy(fontName.c_str());
+    gStoryCommandSet.addObject(c);
+}
+
 void labelcolor(unsigned int c) {
     CCStoryCommand* cmd = CCStoryCommand::create(CCStoryCommand::LABEL_COLOR);
     cmd->m_param.labelcolor.c = c;
@@ -120,6 +132,12 @@ void labelcolor(unsigned int c) {
 void labelsize(float size) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::LABEL_SIZE);
     c->m_param.labelsize.size = size;
+    gStoryCommandSet.addObject(c);
+}
+
+void labelfont(string fontName) {
+    CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::LABEL_FONT);
+    c->m_param.labelfont.fontName = CCUtils::copy(fontName.c_str());
     gStoryCommandSet.addObject(c);
 }
 
@@ -395,6 +413,15 @@ CCStoryCommand::~CCStoryCommand() {
         case MSG:
             free((void*)m_param.msg.name);
             free((void*)m_param.msg.s);
+            break;
+        case MSG_FONT:
+            free((void*)m_param.msgfont.fontName);
+            break;
+        case NAME_FONT:
+            free((void*)m_param.namefont.fontName);
+            break;
+        case LABEL_FONT:
+            free((void*)m_param.labelfont.fontName);
             break;
         case IMG:
             free((void*)m_param.img.name);

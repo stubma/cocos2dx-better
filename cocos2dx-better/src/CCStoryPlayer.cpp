@@ -62,6 +62,9 @@ m_curCmdIndex(-1),
 m_msgSize(20),
 m_nameSize(20),
 m_labelSize(20),
+m_msgFont("Helvetica"),
+m_nameFont("Helvetica"),
+m_labelFont("Helvetica"),
 m_msgColor(0xffffffff),
 m_nameColor(0xffffffff),
 m_labelColor(0xffffffff),
@@ -235,6 +238,14 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::MSG_FONT:
+        {
+            m_msgFont = m_curCmd->m_param.msgfont.fontName;
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::NAME_SIZE:
         {
             m_nameSize = m_curCmd->m_param.namesize.size;
@@ -246,6 +257,14 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::NAME_COLOR:
         {
             m_nameColor = m_curCmd->m_param.namecolor.c;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::NAME_FONT:
+        {
+            m_nameFont = m_curCmd->m_param.namefont.fontName;
             
             // next
             start();
@@ -272,6 +291,14 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::LABEL_SIZE:
         {
             m_labelSize = m_curCmd->m_param.labelsize.size;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::LABEL_FONT:
+        {
+            m_labelFont = m_curCmd->m_param.labelfont.fontName;
             
             // next
             start();
@@ -372,7 +399,7 @@ void CCStoryPlayer::executeCurrentCommand() {
             if(!m_roleMap.objectForKey(m_curCmd->m_param.label.name)) {
                 // create label
                 CCRichLabelTTF* label = CCRichLabelTTF::create(m_curCmd->m_param.label.text,
-                                                               "Helvetica",
+                                                               m_labelFont.c_str(),
                                                                m_labelSize,
                                                                m_labelConstraints,
                                                                m_labelAlignment);

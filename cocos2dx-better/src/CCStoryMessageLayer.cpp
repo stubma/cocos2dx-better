@@ -80,7 +80,7 @@ void CCStoryMessageLayer::showMessage(CCStoryCommand* cmd) {
     m_looping = true;
     
     // create name label
-    m_nameLabel = CCRichLabelTTF::create(cmd->m_param.msg.name, "Helvetica", m_player->getNameSize());
+    m_nameLabel = CCRichLabelTTF::create(cmd->m_param.msg.name, m_player->getNameFont().c_str(), m_player->getNameSize());
     m_nameLabel->setAnchorPoint(m_player->getNameAnchor());
     m_nameLabel->setPosition(m_player->getNamePos());
     m_nameLabel->setFontFillColor(ccc3FromInt(m_player->getNameColor()));
@@ -89,7 +89,7 @@ void CCStoryMessageLayer::showMessage(CCStoryCommand* cmd) {
     
     // create message label
     m_msgLabel = CCRichLabelTTF::create(cmd->m_param.msg.s,
-                                        "Helvetica",
+                                        m_player->getMessageFont().c_str(),
                                         m_player->getMessageSize(),
                                         m_player->getMessageConstraints(),
                                         m_player->getMessageAlignment());

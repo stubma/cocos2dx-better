@@ -1,6 +1,6 @@
 /*
 ** Lua binding: story
-** Generated automatically by tolua++-1.0.92 on Fri Jul  4 13:05:04 2014.
+** Generated automatically by tolua++-1.0.92 on Sat Jul  5 16:28:28 2014.
 */
 
 #ifndef __cplusplus
@@ -250,6 +250,34 @@ static int tolua_story_msgalign00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: msgfont */
+#ifndef TOLUA_DISABLE_tolua_story_msgfont00
+static int tolua_story_msgfont00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string fontName = ((string)  tolua_tocppstring(tolua_S,1,0));
+  {
+   msgfont(fontName);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'msgfont'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* function: namepos */
 #ifndef TOLUA_DISABLE_tolua_story_namepos00
 static int tolua_story_namepos00(lua_State* tolua_S)
@@ -366,6 +394,34 @@ static int tolua_story_nameanchor00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* function: namefont */
+#ifndef TOLUA_DISABLE_tolua_story_namefont00
+static int tolua_story_namefont00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string fontName = ((string)  tolua_tocppstring(tolua_S,1,0));
+  {
+   namefont(fontName);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'namefont'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* function: labelcolor */
 #ifndef TOLUA_DISABLE_tolua_story_labelcolor00
 static int tolua_story_labelcolor00(lua_State* tolua_S)
@@ -417,6 +473,34 @@ static int tolua_story_labelsize00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'labelsize'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* function: labelfont */
+#ifndef TOLUA_DISABLE_tolua_story_labelfont00
+static int tolua_story_labelfont00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_iscppstring(tolua_S,1,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  string fontName = ((string)  tolua_tocppstring(tolua_S,1,0));
+  {
+   labelfont(fontName);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'labelfont'.",&tolua_err);
  return 0;
 #endif
 }
@@ -1593,12 +1677,15 @@ TOLUA_API int tolua_story_open (lua_State* tolua_S)
   tolua_function(tolua_S,"msganchor",tolua_story_msganchor00);
   tolua_function(tolua_S,"msgwidth",tolua_story_msgwidth00);
   tolua_function(tolua_S,"msgalign",tolua_story_msgalign00);
+  tolua_function(tolua_S,"msgfont",tolua_story_msgfont00);
   tolua_function(tolua_S,"namepos",tolua_story_namepos00);
   tolua_function(tolua_S,"namecolor",tolua_story_namecolor00);
   tolua_function(tolua_S,"namesize",tolua_story_namesize00);
   tolua_function(tolua_S,"nameanchor",tolua_story_nameanchor00);
+  tolua_function(tolua_S,"namefont",tolua_story_namefont00);
   tolua_function(tolua_S,"labelcolor",tolua_story_labelcolor00);
   tolua_function(tolua_S,"labelsize",tolua_story_labelsize00);
+  tolua_function(tolua_S,"labelfont",tolua_story_labelfont00);
   tolua_function(tolua_S,"labelanchor",tolua_story_labelanchor00);
   tolua_function(tolua_S,"labelwidth",tolua_story_labelwidth00);
   tolua_function(tolua_S,"labelalign",tolua_story_labelalign00);

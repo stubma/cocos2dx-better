@@ -92,6 +92,9 @@ public:
     CC_SYNTHESIZE(int, m_msgColor, MessageColor);
     CC_SYNTHESIZE(CCPoint, m_msgPos, MessagePos);
     CC_SYNTHESIZE(CCPoint, m_msgAnchor, MessageAnchor);
+    CC_SYNTHESIZE_PASS_BY_REF(string, m_msgFont, MessageFont);
+    CC_SYNTHESIZE_PASS_BY_REF(string, m_nameFont, NameFont);
+    CC_SYNTHESIZE_PASS_BY_REF(string, m_labelFont, LabelFont);
     CC_SYNTHESIZE(float, m_nameSize, NameSize);
     CC_SYNTHESIZE(int, m_nameColor, NameColor);
     CC_SYNTHESIZE(CCPoint, m_labelAnchor, LabelAnchor);

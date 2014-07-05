@@ -6,7 +6,8 @@ bgcolor(0xff330340)
 
 -- create a label
 -- set its color, anchor and position relative to screen
-labelsize(44)
+labelsize(36)
+labelfont('Courier')
 label('demo', 'Story Demo', 0, 0)
 color('demo', 0xffff33ff)
 anchor('demo', 0, 0)

@@ -70,6 +70,8 @@
 #include "CBData.h"
 #include "CBDrawNode.h"
 #include "CCMemory.h"
+#include "CBTableView.h"
+#include "CBGridView.h"
 
 // armature
 #include "CBArmature.h"

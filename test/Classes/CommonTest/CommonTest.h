@@ -72,6 +72,23 @@ public:
     virtual string subtitle();
 };
 
+class CommonGridView : public CommonDemo, public CBTableViewDataSource, public CBTableViewDelegate
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+    
+    // virtual tabel view
+    virtual void scrollViewDidScroll(CCScrollView* view) {}
+    virtual void scrollViewDidZoom(CCScrollView* view) {}
+    virtual void tableCellTouched(CBTableView* table, CCTableViewCell* cell);
+    virtual CCSize cellSizeForTable(CBTableView *table);
+    virtual CCTableViewCell* tableCellAtIndex(CBTableView *table, unsigned int idx);
+    virtual unsigned int numberOfCellsInTableView(CBTableView *table);
+    virtual void tableCellHighlight(CBTableView* table, CCTableViewCell* cell);
+    virtual void tableCellUnhighlight(CBTableView* table, CCTableViewCell* cell);
+};
+
 class CommonImagePicker : public CommonDemo, public CCImagePickerCallback
 {
 private:

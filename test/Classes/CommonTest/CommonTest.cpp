@@ -9,6 +9,7 @@ TESTLAYER_CREATE_FUNC(CommonCalendar);
 TESTLAYER_CREATE_FUNC(CommonCallFuncT);
 TESTLAYER_CREATE_FUNC(CommonCatmullRomSprite);
 TESTLAYER_CREATE_FUNC(CommonGradientSprite);
+TESTLAYER_CREATE_FUNC(CommonGridView);
 TESTLAYER_CREATE_FUNC(CommonImagePicker);
 TESTLAYER_CREATE_FUNC(CommonLaserSprite);
 TESTLAYER_CREATE_FUNC(CommonLayerClip);
@@ -32,6 +33,7 @@ static NEWTESTFUNC createFunctions[] = {
     CF(CommonCallFuncT),
     CF(CommonCatmullRomSprite),
 	CF(CommonGradientSprite),
+    CF(CommonGridView),
 	CF(CommonImagePicker),
 	CF(CommonLaserSprite),
     CF(CommonLayerClip),
@@ -337,6 +339,82 @@ void CommonGradientSprite::onEnter()
 std::string CommonGradientSprite::subtitle()
 {
     return "Gradient Sprite";
+}
+
+//------------------------------------------------------------------
+//
+// Grid View
+//
+//------------------------------------------------------------------
+void CommonGridView::onEnter()
+{
+    CommonDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    
+    CBGridView* gridView = CBGridView::create(this, CCSizeMake(visibleSize.width * 0.7f, visibleSize.height * 0.6f));
+    gridView->ignoreAnchorPointForPosition(false);
+    gridView->setVerticalFillOrder(kCCTableViewFillTopDown);
+    gridView->setColCount(4);
+    gridView->setPosition(CCUtils::getLocalCenter(this));
+    gridView->setDelegate(this);
+    gridView->setDirection(kCCScrollViewDirectionVertical);
+    addChild(gridView);
+    gridView->reloadData();
+}
+
+std::string CommonGridView::subtitle()
+{
+    return "Grid View";
+}
+
+void CommonGridView::tableCellTouched(CBTableView* table, CCTableViewCell* cell) {
+    CCLOG("clicked cell: %d", cell->getTag());
+}
+
+CCSize CommonGridView::cellSizeForTable(CBTableView *table) {
+    CBGridView* gridView = (CBGridView*)table;
+    CCSize size = gridView->getViewSize();
+    size.width /= gridView->getColCount();
+    size.height /= 3;
+    return size;
+}
+
+CCTableViewCell* CommonGridView::tableCellAtIndex(CBTableView *table, unsigned int idx) {
+    // create cell
+    CCTableViewCell* cell = new CCTableViewCell();
+    cell->autorelease();
+    CCSize cellSize = cellSizeForTable(table);
+    cell->setContentSize(cellSize);
+    cell->setTag(idx);
+    
+    // add a random color layer
+    CCLayerColor* bg = CCLayerColor::create(ccc4(CCRANDOM_0_X_INT(255) & 0xff,
+                                                 CCRANDOM_0_X_INT(255) & 0xff,
+                                                 CCRANDOM_0_X_INT(255) & 0xff,
+                                                 255));
+    bg->setContentSize(cellSize);
+    cell->addChild(bg);
+    
+    // add a number label
+    char buf[64];
+    sprintf(buf, "%u", idx);
+    CCRichLabelTTF* label = CCRichLabelTTF::create(buf, "Helvetica", 40);
+    label->setPosition(CCUtils::getLocalCenter(cell));
+    cell->addChild(label);
+    
+    // return cell
+    return cell;
+}
+
+unsigned int CommonGridView::numberOfCellsInTableView(CBTableView *table) {
+    return 100;
+}
+
+void CommonGridView::tableCellHighlight(CBTableView* table, CCTableViewCell* cell) {
+}
+
+void CommonGridView::tableCellUnhighlight(CBTableView* table, CCTableViewCell* cell) {
 }
 
 //------------------------------------------------------------------

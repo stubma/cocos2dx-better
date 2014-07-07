@@ -21,6 +21,8 @@
 		9225951518D5862600E200AE /* CCSecureUserDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951318D5862600E200AE /* CCSecureUserDefault.cpp */; };
 		9225951918D5896000E200AE /* CCBase64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951718D5896000E200AE /* CCBase64.cpp */; };
 		9225951D18D5BAE200E200AE /* CCScrollBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951B18D5BAE200E200AE /* CCScrollBar.cpp */; };
+		92273512196A83B5002E5C97 /* CBGridView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273510196A83B5002E5C97 /* CBGridView.cpp */; };
+		92273513196A83B5002E5C97 /* CBTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273511196A83B5002E5C97 /* CBTableView.cpp */; };
 		9234736118BD86A4009DDBEF /* CCShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9234736018BD86A4009DDBEF /* CCShaders.cpp */; };
 		923713F118DD1453006879DE /* CBTMXTileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923713EF18DD1453006879DE /* CBTMXTileMap.cpp */; };
 		923713F818DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923713F618DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp */; };
@@ -524,6 +526,10 @@
 		9225951A18D5897700E200AE /* CCBase64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCBase64.h; sourceTree = "<group>"; };
 		9225951B18D5BAE200E200AE /* CCScrollBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollBar.cpp; sourceTree = "<group>"; };
 		9225951E18D5BB0600E200AE /* CCScrollBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCScrollBar.h; sourceTree = "<group>"; };
+		9227350E196A8397002E5C97 /* CBGridView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBGridView.h; sourceTree = "<group>"; };
+		9227350F196A8397002E5C97 /* CBTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTableView.h; sourceTree = "<group>"; };
+		92273510196A83B5002E5C97 /* CBGridView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBGridView.cpp; sourceTree = "<group>"; };
+		92273511196A83B5002E5C97 /* CBTableView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTableView.cpp; sourceTree = "<group>"; };
 		922D3C8618C970B200E9AA9E /* CCCallFuncT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncT.h; sourceTree = "<group>"; };
 		9234735E18BD865A009DDBEF /* CCShaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShaders.h; sourceTree = "<group>"; };
 		9234736018BD86A4009DDBEF /* CCShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShaders.cpp; sourceTree = "<group>"; };
@@ -1601,6 +1607,8 @@
 				9243819C1883E46B00ECA91A /* CCLayerClip.h */,
 				92396877185591DB0063E8A1 /* CBLayerMultiplex.h */,
 				92E8D06D18D4368D00121DCC /* CCLaserSprite.h */,
+				9227350E196A8397002E5C97 /* CBGridView.h */,
+				9227350F196A8397002E5C97 /* CBTableView.h */,
 				9239687E185591DB0063E8A1 /* CCMenuItemColor.h */,
 				92396884185591DB0063E8A1 /* CCProgressHUD.h */,
 				92396887185591DB0063E8A1 /* CCRichLabelTTF.h */,
@@ -1684,6 +1692,8 @@
 				924381991883E43100ECA91A /* CCLayerClip.cpp */,
 				923968AF185591DB0063E8A1 /* CBLayerMultiplex.cpp */,
 				92E8D06A18D4366200121DCC /* CCLaserSprite.cpp */,
+				92273510196A83B5002E5C97 /* CBGridView.cpp */,
+				92273511196A83B5002E5C97 /* CBTableView.cpp */,
 				923968B6185591DB0063E8A1 /* CCMenuItemColor.cpp */,
 				923968B7185591DB0063E8A1 /* CCMenuItemColorStateListener.h */,
 				923968BB185591DB0063E8A1 /* CCProgressHUD.cpp */,
@@ -3383,6 +3393,7 @@
 				923968F8185591DB0063E8A1 /* CCProgressHUD.cpp in Sources */,
 				926131BD195AB9E5004070C9 /* lgc.c in Sources */,
 				926131D1195AB9E5004070C9 /* lzio.c in Sources */,
+				92273512196A83B5002E5C97 /* CBGridView.cpp in Sources */,
 				9292C87918EA5D4200915B3A /* CCAssetInputStream_android.cpp in Sources */,
 				92A856C319500CCC00098490 /* CCBatchNode.cpp in Sources */,
 				92396901185591DB0063E8A1 /* CBSprite.cpp in Sources */,
@@ -3582,6 +3593,7 @@
 				92F68F2D1855BDE200C97188 /* CCSPX3Action.cpp in Sources */,
 				92BC6008195D56EB00B479D4 /* CCStoryClickLayer.cpp in Sources */,
 				92A856EF19500CCC00098490 /* ImageViewReader.cpp in Sources */,
+				92273513196A83B5002E5C97 /* CBTableView.cpp in Sources */,
 				92DEC98A18DC820B00A9A384 /* CBSpriteBatchNode.cpp in Sources */,
 				92F68F361855BDE200C97188 /* CCSPXFrame.cpp in Sources */,
 				9243CD301876553D0069BE2E /* CCSlider.cpp in Sources */,

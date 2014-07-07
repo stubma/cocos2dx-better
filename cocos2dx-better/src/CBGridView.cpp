@@ -24,6 +24,8 @@
 #include "CBGridView.h"
 #include "CCTableViewCell.h"
 
+USING_NS_CC_EXT;
+
 NS_CC_BEGIN
 
 CBGridView::CBGridView() :
@@ -157,7 +159,17 @@ void CBGridView::_updateContentSize() {
 
 void CBGridView::reloadData() {
     _updateContentSize();
-    setContentOffset(minContainerOffset());
+    switch(getDirection()) {
+        case kCCScrollViewDirectionHorizontal:
+            setContentOffset(maxContainerOffset());
+            break;
+        case kCCScrollViewDirectionVertical:
+            setContentOffset(minContainerOffset());
+            break;
+        default:
+            setContentOffset(ccp(maxContainerOffset().x, minContainerOffset().y));
+            break;
+    }
     CBTableView::reloadData();
 }
 

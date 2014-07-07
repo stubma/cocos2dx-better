@@ -351,16 +351,35 @@ void CommonGridView::onEnter()
     CommonDemo::onEnter();
     
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+    {
+        CBGridView* gridView = CBGridView::create(this, CCSizeMake(visibleSize.width * 0.45f, visibleSize.height * 0.6f));
+        gridView->ignoreAnchorPointForPosition(false);
+        gridView->setAnchorPoint(ccp(0, 0.5f));
+        gridView->setVerticalFillOrder(kCCTableViewFillTopDown);
+        gridView->setColCount(4);
+        gridView->setPosition(ccp(origin.x, origin.y + visibleSize.height / 2));
+        gridView->setDelegate(this);
+        gridView->setDirection(kCCScrollViewDirectionVertical);
+        gridView->setTag(1);
+        addChild(gridView);
+        gridView->reloadData();
+    }
     
-    CBGridView* gridView = CBGridView::create(this, CCSizeMake(visibleSize.width * 0.7f, visibleSize.height * 0.6f));
-    gridView->ignoreAnchorPointForPosition(false);
-    gridView->setVerticalFillOrder(kCCTableViewFillTopDown);
-    gridView->setColCount(4);
-    gridView->setPosition(CCUtils::getLocalCenter(this));
-    gridView->setDelegate(this);
-    gridView->setDirection(kCCScrollViewDirectionVertical);
-    addChild(gridView);
-    gridView->reloadData();
+    {
+        CBGridView* gridView = CBGridView::create(this, CCSizeMake(visibleSize.width * 0.45f, visibleSize.height * 0.6f));
+        gridView->ignoreAnchorPointForPosition(false);
+        gridView->setAnchorPoint(ccp(1, 0.5f));
+        gridView->setVerticalFillOrder(kCCTableViewFillTopDown);
+        gridView->setColCount(3);
+        gridView->setPosition(ccp(origin.x + visibleSize.width, origin.y + visibleSize.height / 2));
+        gridView->setDelegate(this);
+        gridView->setDirection(kCCScrollViewDirectionHorizontal);
+        gridView->setTag(2);
+        addChild(gridView);
+        gridView->reloadData();
+    }
 }
 
 std::string CommonGridView::subtitle()
@@ -375,8 +394,14 @@ void CommonGridView::tableCellTouched(CBTableView* table, CCTableViewCell* cell)
 CCSize CommonGridView::cellSizeForTable(CBTableView *table) {
     CBGridView* gridView = (CBGridView*)table;
     CCSize size = gridView->getViewSize();
-    size.width /= gridView->getColCount();
-    size.height /= 3;
+    if(gridView->getTag() == 1) {
+        size.width /= gridView->getColCount();
+        size.height /= 3;
+    } else {
+        size.width /= 4;
+        size.height /= gridView->getColCount();
+    }
+
     return size;
 }
 

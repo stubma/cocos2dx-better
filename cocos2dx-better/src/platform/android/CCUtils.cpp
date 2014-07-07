@@ -125,6 +125,31 @@ bool CCUtils::hasExternalStorage() {
     return t.env->CallBooleanMethod(jMounted, t.methodID, jState);
 }
 
+int64_t CCUtils::getAvailableStorageSize() {
+    // actually we returned internal storage size
+    string path = getInternalStoragePath();
+    
+    // get statfs
+    JniMethodInfo t;
+    JniHelper::getMethodInfo(t, "android/os/StatFs", "<init>", "(Ljava/lang/String;)V");
+    jstring jPath = t.env->NewStringUTF(path.c_str());
+    jobject statfs = t.env->NewObject(t.classID, t.methodID, jPath);
+    
+    // get block size
+    JniHelper::getMethodInfo(t, "android/os/StatFs", "getBlockSize", "()I");
+    jint blockSize = t.env->CallIntMethod(statfs, t.methodID);
+    
+    // get available block count
+    JniHelper::getMethodInfo(t, "android/os/StatFs", "getAvailableBlocks", "()I");
+    jint blocks = t.env->CallIntMethod(statfs, t.methodID);
+    
+    // release
+    t.env->DeleteLocalRef(jPath);
+    
+    // return
+    return blockSize * blocks;
+}
+
 static jbyteArray getFirstSignatureBytes() {
     // get context
     jobject ctx = CCUtils::getContext();

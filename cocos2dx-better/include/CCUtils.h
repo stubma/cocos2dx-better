@@ -285,6 +285,9 @@ public:
     /// get a good place to save app internal files
     static string getInternalStoragePath();
     
+    /// get available size of mobile phone storage
+    static int64_t getAvailableStorageSize();
+    
     /// current time milliseconds from 1970-1-1
     static int64_t currentTimeMillis();
     

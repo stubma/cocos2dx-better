@@ -28,6 +28,8 @@
 #import "EAGLView.h"
 #include "CCLocale.h"
 #include <sys/sysctl.h>
+#include <sys/param.h>
+#include <sys/mount.h>
 #import <MediaPlayer/MediaPlayer.h>
 
 // built-in strings
@@ -269,6 +271,15 @@ string CCUtils::getInternalStoragePath() {
     NSString* docDir = @"~/Documents";
     docDir = [docDir stringByExpandingTildeInPath];
     return [docDir cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
+int64_t CCUtils::getAvailableStorageSize() {
+    struct statfs buf;
+    int64_t freespace = -1;
+    if(statfs("/var", &buf) >= 0) {
+        freespace = (int64_t)(buf.f_bsize * buf.f_bfree);
+    }
+    return freespace;
 }
 
 string CCUtils::getPackageName() {

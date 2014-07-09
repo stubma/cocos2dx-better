@@ -61,8 +61,14 @@ const char* CCSecureUserDefault::getSecureValue(const char* pKey, int* outLen) {
 	// free dec
 	if(dec && plain != dec)
 		free((void*)dec);
+    
+    // ensure decrypted content is a C string
+    char* cplain = (char*)malloc((*outLen + 1) * sizeof(char));
+    memcpy(cplain, plain, *outLen);
+    cplain[*outLen] = 0;
+    free((void*)plain);
 	
-	return plain;
+	return cplain;
 }
 
 bool CCSecureUserDefault::getBoolForKey(const char* pKey) {
@@ -72,7 +78,8 @@ bool CCSecureUserDefault::getBoolForKey(const char* pKey) {
 bool CCSecureUserDefault::getBoolForKey(const char* pKey, bool defaultValue) {
 	if(m_decryptFunc) {
 		// for bool, we save "true" string
-		const char* plain = getSecureValue(pKey, NULL);
+        int len;
+		const char* plain = getSecureValue(pKey, &len);
 		bool result = defaultValue;
 		if(plain) {
             result = !strcmp(plain, "true");
@@ -96,7 +103,8 @@ int CCSecureUserDefault::getIntegerForKey(const char* pKey) {
 int CCSecureUserDefault::getIntegerForKey(const char* pKey, int defaultValue) {
 	if(m_decryptFunc) {
 		// for integer, we save number string
-		const char* plain = getSecureValue(pKey, NULL);
+        int len;
+		const char* plain = getSecureValue(pKey, &len);
 		int result = defaultValue;
 		if(plain) {
 			sscanf(plain, "%d", &result);
@@ -120,7 +128,8 @@ float CCSecureUserDefault::getFloatForKey(const char* pKey) {
 float CCSecureUserDefault::getFloatForKey(const char* pKey, float defaultValue) {
 	if(m_decryptFunc) {
 		// for integer, we save number string
-		const char* plain = getSecureValue(pKey, NULL);
+        int len;
+		const char* plain = getSecureValue(pKey, &len);
 		float result = defaultValue;
 		if(plain) {
 			sscanf(plain, "%f", &result);
@@ -144,7 +153,8 @@ double CCSecureUserDefault::getDoubleForKey(const char* pKey) {
 double CCSecureUserDefault::getDoubleForKey(const char* pKey, double defaultValue) {
 	if(m_decryptFunc) {
 		// for integer, we save number string
-		const char* plain = getSecureValue(pKey, NULL);
+        int len;
+		const char* plain = getSecureValue(pKey, &len);
 		double result = defaultValue;
 		if(plain) {
 			sscanf(plain, "%lf", &result);
@@ -168,7 +178,8 @@ string CCSecureUserDefault::getStringForKey(const char* pKey) {
 string CCSecureUserDefault::getStringForKey(const char* pKey, const string& defaultValue) {
 	if(m_decryptFunc) {
 		// for integer, we save number string
-		const char* plain = getSecureValue(pKey, NULL);
+        int len;
+		const char* plain = getSecureValue(pKey, &len);
 		if(plain) {
             string ret = plain;
 			free((void*)plain);

@@ -24,6 +24,7 @@ TESTLAYER_CREATE_FUNC(CommonRookieGuide);
 TESTLAYER_CREATE_FUNC(CommonScreenshot);
 TESTLAYER_CREATE_FUNC(CommonScrollBar);
 TESTLAYER_CREATE_FUNC(CommonScrollBar2);
+TESTLAYER_CREATE_FUNC(CommonSecureUserDefault);
 TESTLAYER_CREATE_FUNC(CommonSlider);
 TESTLAYER_CREATE_FUNC(CommonTiledSprite);
 TESTLAYER_CREATE_FUNC(CommonToast);
@@ -48,6 +49,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(CommonScreenshot),
 	CF(CommonScrollBar),
     CF(CommonScrollBar2),
+    CF(CommonSecureUserDefault),
     CF(CommonSlider),
     CF(CommonTiledSprite),
     CF(CommonToast),
@@ -1140,6 +1142,69 @@ CCLayer* CommonScrollBar2::createScrollContent(const CCSize& size) {
 std::string CommonScrollBar2::subtitle()
 {
     return "ScrollBar - Works with CCScrollView";
+}
+
+//------------------------------------------------------------------
+//
+// SecureUserDefault
+//
+//------------------------------------------------------------------
+void CommonSecureUserDefault::onEnter()
+{
+    CommonDemo::onEnter();
+
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+
+	// init
+    CCSecureUserDefault::init(encrypt, decrypt);
+    
+    // save a value
+    CCSecureUserDefault::getInstance()->setStringForKey("testkey", "testvalue");
+    
+    // now read it from standard default, it will be unreadable
+    string v = CCUserDefault::sharedUserDefault()->getStringForKey("testkey");
+    char buf[1024];
+    sprintf(buf, "read by CCUserDefault: %s", v.c_str());
+    CCRichLabelTTF* label = CCRichLabelTTF::create(buf, "Helvetica", 30);
+    label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height * 2 / 3));
+    addChild(label);
+    
+    // read it from secure default, ok
+    v = CCSecureUserDefault::getInstance()->getStringForKey("testkey");
+    sprintf(buf, "read by CCSecureUserDefault: %s", v.c_str());
+    label = CCRichLabelTTF::create(buf, "Helvetica", 30);
+    label->setPosition(ccp(origin.x + visibleSize.width / 2,
+                           origin.y + visibleSize.height / 3));
+    addChild(label);
+}
+
+std::string CommonSecureUserDefault::subtitle()
+{
+    return "Secure User Default";
+}
+
+const char* CommonSecureUserDefault::decrypt(const char* enc, int encLen, int* plainLen) {
+    // to decrypt, NOT again
+    char* dec = (char*)malloc(encLen * sizeof(char));
+    for(int i = 0; i < encLen; i++) {
+        dec[i] = ~enc[i];
+    }
+    if(plainLen)
+        *plainLen = encLen;
+    return dec;
+}
+
+const char* CommonSecureUserDefault::encrypt(const char* plain, int plainLen, int* encLen) {
+    // very simple encryption, just NOT
+    char* enc = (char*)malloc(plainLen * sizeof(char));
+    for(int i = 0; i < plainLen; i++) {
+        enc[i] = ~plain[i];
+    }
+    if(encLen)
+        *encLen = plainLen;
+    return enc;
 }
 
 //------------------------------------------------------------------

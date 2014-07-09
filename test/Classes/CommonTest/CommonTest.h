@@ -230,6 +230,17 @@ public:
     CCLayer* createScrollContent(const CCSize& size);
 };
 
+class CommonSecureUserDefault : public CommonDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+    
+    // decrypt and encrypt function
+    static const char* decrypt(const char* enc, int encLen, int* plainLen);
+    static const char* encrypt(const char* plain, int plainLen, int* encLen);
+};
+
 class CommonSlider : public CommonDemo
 {
 private:

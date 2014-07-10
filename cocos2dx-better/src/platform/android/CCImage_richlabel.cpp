@@ -53,7 +53,7 @@ CCImage_richlabel::~CCImage_richlabel() {
 
 bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int nWidth, int nHeight, ETextAlign eAlignMask, const char * pFontName, int nSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowOffsetX, float shadowOffsetY, int shadowColor, float shadowBlur,
-		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, float globalImageScaleFactor, int toCharIndex, float elapsedTime, CC_DECRYPT_FUNC decryptFunc) {
+		bool stroke, float strokeR, float strokeG, float strokeB, float strokeSize, float lineSpacing, float globalImageScaleFactor, int toCharIndex, float elapsedTime, CC_DECRYPT_FUNC decryptFunc) {
 	bool bRet = false;
 	do {
 		CC_BREAK_IF(!pText);
@@ -79,6 +79,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText, int n
                                                       strokeG,
                                                       strokeB,
                                                       strokeSize,
+                                                      lineSpacing,
                                                       globalImageScaleFactor,
                                                       toCharIndex,
                                                       elapsedTime,
@@ -120,6 +121,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
                                             float strokeSize,
+                                            float lineSpacing,
                                             float globalImageScaleFactor,
                                             CC_DECRYPT_FUNC decryptFunc) {
     CCSize size = CCSizeZero;
@@ -147,6 +149,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                                       0,
                                                       0,
                                                       strokeSize,
+                                                      lineSpacing,
                                                       globalImageScaleFactor,
                                                       -1,
                                                       0,

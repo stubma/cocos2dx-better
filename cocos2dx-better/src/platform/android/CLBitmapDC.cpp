@@ -50,7 +50,7 @@ bool CLBitmapDC::getBitmapFromJava(const char *text, int nWidth, int nHeight, CC
 
 bool CLBitmapDC::getBitmapFromJavaShadowStroke(const char *text, int nWidth, int nHeight, CCImage::ETextAlign eAlignMask, const char * pFontName, float fontSize,
 		float textTintR, float textTintG, float textTintB, bool shadow, float shadowDeltaX, float shadowDeltaY, int shadowColor,
-		float shadowBlur, bool stroke, float strokeColorR, float strokeColorG, float strokeColorB, float strokeSize, float globalImageScaleFactor, int toCharIndex,
+		float shadowBlur, bool stroke, float strokeColorR, float strokeColorG, float strokeColorB, float strokeSize, float lineSpacing, float globalImageScaleFactor, int toCharIndex,
 		float elapsedTime, CC_DECRYPT_FUNC decryptFunc, bool sizeOnly) {
 	// save func
 	m_decryptFunc = decryptFunc;
@@ -58,7 +58,7 @@ bool CLBitmapDC::getBitmapFromJavaShadowStroke(const char *text, int nWidth, int
 	// check method
 	JniMethodInfo methodInfo;
 	if(!JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/CCImage_richlabel", "createRichLabelBitmap",
-			"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFIFZFFFFFFIFZZ)V")) {
+			"(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFIFZFFFFFFFIFZZ)V")) {
 		CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
 		return false;
 	}
@@ -83,8 +83,8 @@ bool CLBitmapDC::getBitmapFromJavaShadowStroke(const char *text, int nWidth, int
 	jstring jstrFont = methodInfo.env->NewStringUTF(fullPathOrFontName.c_str());
 
 	methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstrText, jstrFont, (int) fontSize, textTintR, textTintG, textTintB,
-			eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowColor, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize, CC_CONTENT_SCALE_FACTOR(),
-			globalImageScaleFactor, toCharIndex, elapsedTime, decryptFunc != NULL, sizeOnly);
+			eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowColor, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize,
+			lineSpacing, CC_CONTENT_SCALE_FACTOR(), globalImageScaleFactor, toCharIndex, elapsedTime, decryptFunc != NULL, sizeOnly);
 
 	methodInfo.env->DeleteLocalRef(jstrText);
 	methodInfo.env->DeleteLocalRef(jstrFont);

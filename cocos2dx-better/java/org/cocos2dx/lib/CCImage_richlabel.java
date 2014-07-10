@@ -214,7 +214,7 @@ public class CCImage_richlabel {
 	        final float fontTintR, final float fontTintG, final float fontTintB, final int pAlignment,
 	        final int pWidth, final int pHeight, final boolean shadow, final float shadowDX, final float shadowDY,
 	        final int shadowColor, final float shadowBlur, final boolean stroke, final float strokeR, final float strokeG,
-	        final float strokeB, final float strokeSize, float contentScaleFactor, float globalImageScaleFactor, int toCharIndex, 
+	        final float strokeB, final float strokeSize, float lineSpacing, float contentScaleFactor, float globalImageScaleFactor, int toCharIndex, 
 	        float elapsedTime, boolean encrypted, boolean sizeOnly) {
 		// reset bitmap dc
 		nativeResetBitmapDC();
@@ -543,7 +543,7 @@ public class CCImage_richlabel {
 				pWidth <= 0 ? (int)StaticLayout.getDesiredWidth(rich, paint) : pWidth, 
 				align, 
 				1, 
-				0, 
+				lineSpacing, 
 				false);
 		
 		// size of layout
@@ -630,7 +630,7 @@ public class CCImage_richlabel {
 			}
 			
 			// extract link meta info
-			extractLinkMeta(layout, spans, contentScaleFactor);
+			extractLinkMeta(layout, spans, lineSpacing, contentScaleFactor);
 			
 			// transfer bitmap data to native layer, and release bitmap when done
 			initNativeObject(bitmap);
@@ -829,7 +829,7 @@ public class CCImage_richlabel {
         }
     }
 	
-	private static void extractLinkMeta(StaticLayout layout, List<Span> spans, float contentScaleFactor) {
+	private static void extractLinkMeta(StaticLayout layout, List<Span> spans, float lineSpacing, float contentScaleFactor) {
 		// get line count
 		int lineCount = layout.getLineCount();
 		
@@ -892,7 +892,7 @@ public class CCImage_richlabel {
 	                int firstLine = startLine;
 					while(startLine <= endLine) {
 						float ascent = -layout.getLineAscent(startLine) / contentScaleFactor;
-	                    float descent = layout.getLineDescent(startLine) / contentScaleFactor;
+	                    float descent = layout.getLineDescent(startLine) / contentScaleFactor - lineSpacing;
 						int charEnd = linkEnd;
 						if(startLine < endLine)
 							charEnd = range[startLine].y;

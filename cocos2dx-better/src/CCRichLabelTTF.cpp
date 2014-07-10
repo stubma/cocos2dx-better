@@ -52,6 +52,7 @@ m_vAlignment(kCCVerticalTextAlignmentTop),
 m_pFontName(NULL),
 m_fFontSize(0.0),
 m_realLength(0),
+m_lineSpacing(0),
 m_elapsed(0),
 m_string(""),
 m_updateScheduled(false),
@@ -62,6 +63,7 @@ m_textFillColor(ccWHITE),
 m_globalImageScaleFactor(1),
 m_stateListener(NULL),
 m_toCharIndex(-1),
+m_defaultTarget(NULL),
 m_loopFunc(NULL),
 m_decryptFunc(NULL),
 m_textChanging(true) {
@@ -71,6 +73,7 @@ m_textChanging(true) {
 CCRichLabelTTF::~CCRichLabelTTF() {
     CC_SAFE_DELETE(m_pFontName);
     CC_SAFE_RELEASE(m_loopFunc);
+    CC_SAFE_RELEASE(m_defaultTarget);
 	
 	// release callfunc
 	CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
@@ -606,6 +609,16 @@ void CCRichLabelTTF::setGlobalImageScaleFactor(float scale, bool mustUpdateTextu
 #endif
 }
 
+void CCRichLabelTTF::setLineSpacing(float s, bool mustUpdateTexture) {
+    m_lineSpacing = s;
+    
+    // set this flag so that link item can be updated
+    m_textChanging = true;
+ 
+    if (mustUpdateTexture)
+        this->updateTexture();
+}
+
 void CCRichLabelTTF::_updateWithTextDefinition(ccRichFontDefinition & textDefinition, bool mustUpdateTexture)
 {
     m_tDimensions = CCSizeMake(textDefinition.m_dimensions.width, textDefinition.m_dimensions.height);
@@ -652,6 +665,7 @@ ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolu
     texDef.m_alignment      =  m_hAlignment;
     texDef.m_vertAlignment  =  m_vAlignment;
     texDef.m_toCharIndex = m_toCharIndex;
+    texDef.m_lineSpacing = m_lineSpacing;
     
     if (adjustForResolution)
         texDef.m_dimensions     =  CC_SIZE_POINTS_TO_PIXELS(m_tDimensions);
@@ -703,48 +717,27 @@ ccRichFontDefinition CCRichLabelTTF::_prepareTextDefinition(bool adjustForResolu
 }
 
 void CCRichLabelTTF::setLinkTarget(int index, CCCallFunc* func) {
-    // if not found, do nothing
-    CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
-    if(!menu)
-        return;
-	
-	CCObject* obj;
-	CCARRAY_FOREACH(menu->getChildren(), obj) {
-		CCMenuItemColor* item = (CCMenuItemColor*)obj;
-		if(item->getTag() == START_TAG_LINK_ITEM + index) {
-			obj = (CCObject*)item->getUserData();
-			if(obj) {
-				CC_SAFE_RELEASE(obj);
-			}
-			item->setUserData(func);
-			CC_SAFE_RETAIN(func);
-		}
-	}
+    char buf[64];
+    sprintf(buf, "%d", index);
+    m_linkTargets.setObject(func, buf);
 }
 
 void CCRichLabelTTF::setLinkTargetForAll(CCCallFunc* func) {
-	// if not found, do nothing
-    CCMenu* menu = (CCMenu*)getChildByTag(TAG_MENU);
-    if(!menu)
-        return;
-	
-	CCObject* obj;
-	CCARRAY_FOREACH(menu->getChildren(), obj) {
-		CCMenuItemColor* item = (CCMenuItemColor*)obj;
-		obj = (CCObject*)item->getUserData();
-		if(obj) {
-			CC_SAFE_RELEASE(obj);
-		}
-		item->setUserData(func);
-		CC_SAFE_RETAIN(func);
-	}
+    CC_SAFE_RETAIN(func);
+    CC_SAFE_RELEASE(m_defaultTarget);
+    m_defaultTarget = func;
 }
 
 void CCRichLabelTTF::onLinkMenuItemClicked(CCObject* sender) {
 	CCMenuItemColor* item = (CCMenuItemColor*)sender;
-	CCCallFunc* func = (CCCallFunc*)item->getUserData();
+    int index = item->getTag() - START_TAG_LINK_ITEM;
+    char buf[64];
+    sprintf(buf, "%d", index);
+	CCCallFunc* func = (CCCallFunc*)m_linkTargets.objectForKey(buf);
 	if(func)
 		func->execute();
+    else if(m_defaultTarget)
+        m_defaultTarget->execute();
 }
 
 void CCRichLabelTTF::setLinkPriority(int p) {

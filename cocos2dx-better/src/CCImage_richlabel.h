@@ -71,6 +71,7 @@ public:
                                     float shadowOffsetX = 0,
                                     float shadowOffsetY = 0,
                                     float strokeSize = 0,
+                                    float lineSpacing = 0,
                                     float globalImageScaleFactor = 1,
 									CC_DECRYPT_FUNC decryptFunc = NULL);
 	
@@ -93,6 +94,7 @@ public:
 										float strokeG               = 1,
 										float strokeB               = 1,
 										float strokeSize            = 1,
+                                        float lineSpacing           = 0,
                                         float globalImageScaleFactor = 1,
                                         int toCharIndex = -1,
                                         float elapsedTime = 0,

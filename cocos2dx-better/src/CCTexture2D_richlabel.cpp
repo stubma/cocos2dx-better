@@ -155,6 +155,7 @@ bool CCTexture2D_richlabel::initWithRichString(const char *text, ccRichFontDefin
 												  strokeColorG,
 												  strokeColorB,
 												  strokeSize,
+                                                  textDefinition->m_lineSpacing,
                                                   textDefinition->m_globalImageScaleFactor,
                                                   textDefinition->m_toCharIndex,
                                                   textDefinition->m_elapsed,

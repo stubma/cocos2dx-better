@@ -988,6 +988,7 @@ CCSize CCUtils::measureRichString(const char* pText,
                                   float shadowOffsetX,
                                   float shadowOffsetY,
                                   float strokeSize,
+                                  float lineSpacing,
                                   float globalImageScaleFactor,
 								  CC_DECRYPT_FUNC decryptFunc) {
     return CCImage_richlabel::measureRichString(pText,
@@ -997,6 +998,7 @@ CCSize CCUtils::measureRichString(const char* pText,
                                                 shadowOffsetX,
                                                 shadowOffsetY,
                                                 strokeSize,
+                                                lineSpacing,
                                                 globalImageScaleFactor,
 												decryptFunc);
 }

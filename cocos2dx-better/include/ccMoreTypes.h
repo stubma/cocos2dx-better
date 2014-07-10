@@ -139,6 +139,9 @@ struct ccRichFontDefinition : public ccFontDefinition {
     // font shadow color
     int m_shadowColor;
     
+    // line spacing
+    float m_lineSpacing;
+    
     // default image scale factor
     float m_globalImageScaleFactor;
     

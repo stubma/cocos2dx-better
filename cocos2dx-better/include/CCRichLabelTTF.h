@@ -97,6 +97,12 @@ private:
 	/// decrypt func, used to decrypt resource
 	/// it will be used when there is embedded image and the image is encrypted
 	CC_DECRYPT_FUNC m_decryptFunc;
+    
+    /// link target cache
+    CCDictionary m_linkTargets;
+    
+    /// default target for all link items (if no function in link target map)
+    CCCallFunc* m_defaultTarget;
 	
 protected:
     CCRichLabelTTF();
@@ -221,7 +227,8 @@ public:
     void setLinkTarget(int index, CCCallFunc* func);
 	
 	/**
-	 * It set all link action to same callfunc object
+	 * It set all link action to same callfunc object. But if you called setLinkTarget to set a special function
+     * for one item, the function set by setLinkTarget will take precedence
 	 * 
 	 * @param func the function will be invoked when any link is clicked
 	 */
@@ -242,6 +249,12 @@ public:
     /// a default scale factor which applies to all images in this label, by default it is 1
     void setGlobalImageScaleFactor(float scale, bool mustUpdateTexture = true);
     float getGlobalImageScaleFactor() { return m_globalImageScaleFactor; }
+    
+    /// get line spacing
+    float getLineSpacing() { return m_lineSpacing; }
+    
+    /// set line spacing
+    void setLineSpacing(float s, bool mustUpdateTexture = true);
     
     /**
      * show label characters one by one, just like talking or dialog mode.
@@ -286,6 +299,9 @@ protected:
     
     // displayed letter to index
     int m_toCharIndex;
+    
+    // line spacing
+    int m_lineSpacing;
     
     // repeat flag
     unsigned int m_repeat;

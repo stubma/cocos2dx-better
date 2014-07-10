@@ -113,6 +113,7 @@ typedef struct {
     float        tintColorR;
     float        tintColorG;
     float        tintColorB;
+    float lineSpacing;
     float globalImageScaleFactor;
     int toCharIndex;
     float elapsedTime;
@@ -802,7 +803,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
     }
 }
 
-static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& linkMetas) {
+static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& linkMetas, float lineSpacing) {
     // get line count and their origin
     CFArrayRef linesArray = CTFrameGetLines(frame);
     CFIndex lineCount = CFArrayGetCount(linesArray);
@@ -1327,12 +1328,11 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             default:
                 break;
         }
-        float space = 0;
         CTParagraphStyleSetting paraSettings[] = {
             { kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment},
-            { kCTParagraphStyleSpecifierLineSpacingAdjustment, sizeof(CGFloat), &space },
-            { kCTParagraphStyleSpecifierMaximumLineSpacing, sizeof(CGFloat), &space },
-            { kCTParagraphStyleSpecifierMinimumLineSpacing, sizeof(CGFloat), &space }
+            { kCTParagraphStyleSpecifierLineSpacingAdjustment, sizeof(CGFloat), &CCPointZero.x },
+            { kCTParagraphStyleSpecifierMaximumLineSpacing, sizeof(CGFloat), &pInfo->lineSpacing },
+            { kCTParagraphStyleSpecifierMinimumLineSpacing, sizeof(CGFloat), &pInfo->lineSpacing }
         };
         CTParagraphStyleRef paraStyle = CTParagraphStyleCreate(paraSettings,
                                                                sizeof(paraSettings) / sizeof(paraSettings[0]));
@@ -1501,7 +1501,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             
             // if has link tag, build link info
             if(linkMetas)
-                extractLinkMeta(frame, spans, *linkMetas);
+                extractLinkMeta(frame, spans, *linkMetas, pInfo->lineSpacing);
 			
             // pop the context
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
@@ -1578,6 +1578,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
 														float strokeG,
 														float strokeB,
 														float strokeSize,
+                                                        float lineSpacing,
                                                         float globalImageScaleFactor,
                                                         int toCharIndex,
                                                         float elapsedTime,
@@ -1598,6 +1599,7 @@ bool CCImage_richlabel::initWithRichStringShadowStroke(const char * pText,
     info.tintColorR             = textTintR;
     info.tintColorG             = textTintG;
     info.tintColorB             = textTintB;
+    info.lineSpacing            = lineSpacing;
     info.globalImageScaleFactor = globalImageScaleFactor;
     info.toCharIndex            = toCharIndex;
     info.elapsedTime            = elapsedTime;
@@ -1627,6 +1629,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
                                             float shadowOffsetX,
                                             float shadowOffsetY,
                                             float strokeSize,
+                                            float lineSpacing,
                                             float globalImageScaleFactor,
 											CC_DECRYPT_FUNC decryptFunc) {
     tImageInfo info = {0};
@@ -1645,6 +1648,7 @@ CCSize CCImage_richlabel::measureRichString(const char* pText,
     info.tintColorR             = 0;
     info.tintColorG             = 0;
     info.tintColorB             = 0;
+    info.lineSpacing            = lineSpacing;
     info.globalImageScaleFactor = globalImageScaleFactor;
     info.sizeOnly = true;
     

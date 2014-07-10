@@ -79,6 +79,9 @@ public:
     
     /// function to be invoked when story playing is done
     CC_SYNTHESIZE_RETAIN(CCCallFunc*, m_doneFunc, DoneFunction);
+    
+    /// c function used to decrypt resources
+    CC_SYNTHESIZE(CC_DECRYPT_FUNC, m_decFunc, DecryptFunction);
 };
 
 NS_CC_END

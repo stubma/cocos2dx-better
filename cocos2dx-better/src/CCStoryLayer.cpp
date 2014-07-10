@@ -51,6 +51,7 @@ NS_CC_BEGIN
 CCStoryLayer::CCStoryLayer() :
 m_player(NULL),
 m_doneFunc(NULL),
+m_decFunc(NULL),
 m_playing(false) {
     if(!L) {
 		L = lua_open();
@@ -127,7 +128,8 @@ bool CCStoryLayer::preloadStoryString(const string& storyScript) {
             if(type == "atlas") {
                 int secondComma = (int)resCmd.find(",", comma + 1);
                 string plist = resCmd.substr(comma + 1, secondComma - comma - 1);
-                CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(plist.c_str());
+                string atlas = resCmd.substr(secondComma + 1);
+                CCResourceLoader::loadZwoptex(plist, atlas, m_decFunc);
             } else if(type == "arm") {
                 CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(resCmd.substr(comma + 1).c_str());
             }

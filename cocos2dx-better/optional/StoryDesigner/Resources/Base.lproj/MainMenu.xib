@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
@@ -546,40 +546,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView editable="NO" importsGraphics="NO" richText="NO" findStyle="panel" continuousSpellChecking="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Uak-1m-EzL">
-                                <rect key="frame" x="0.0" y="0.0" width="690" height="7576"/>
+                                <rect key="frame" x="0.0" y="0.0" width="690" height="8086"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <size key="minSize" width="690" height="3484"/>
                                 <size key="maxSize" width="752" height="10000000"/>
                                 <attributedString key="textStorage">
-                                    <fragment content="Command Reference  ">
-                                        <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Courier"/>
-                                            <integer key="NSLigature" value="0"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="33.599998474121094"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
                                     <fragment>
                                         <string key="content">/**
-</string>
-                                        <attributes>
-                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Courier"/>
-                                            <integer key="NSLigature" value="0"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
-                                                <tabStops>
-                                                    <textTab alignment="left" location="33.599998474121094"/>
-                                                </tabStops>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment content=" * ">
+ * </string>
                                         <attributes>
                                             <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="14" name="Courier"/>
@@ -3363,6 +3339,233 @@ Cg
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
+                                    <fragment content="设置剧情对话节点的字体">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=", ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="由于剧情脚本是顺序执行">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ * </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="的">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=", ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="所以它不会影响命令之前的对话字体">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ *
+ * @param fontName </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="字体名称">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ */</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="extern">
+                                        <attributes>
+                                            <color key="NSColor" red="0.70588235294117652" green="0.0" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="void">
+                                        <attributes>
+                                            <color key="NSColor" red="0.70588235294117652" green="0.0" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" msgfont(">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="string">
+                                        <attributes>
+                                            <color key="NSColor" red="0.36078431372549019" green="0.14901960784313725" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content"> fontName);
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">/**
+ * </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
                                     <fragment content="名称的坐标">
                                         <attributes>
                                             <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
@@ -4410,6 +4613,233 @@ Cg
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
+                                    <fragment content="设置名称节点的字体">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=", ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="由于剧情脚本是顺序执行">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ * </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="的">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=", ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="所以它不会影响命令之前的名称字体">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ *
+ * @param fontName </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="字体名称">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ */</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="extern">
+                                        <attributes>
+                                            <color key="NSColor" red="0.70588235294117652" green="0.0" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="void">
+                                        <attributes>
+                                            <color key="NSColor" red="0.70588235294117652" green="0.0" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" namefont(">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="string">
+                                        <attributes>
+                                            <color key="NSColor" red="0.36078431372549019" green="0.14901960784313725" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content"> fontName);
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">/**
+ * </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
                                     <fragment content="设置标签的颜色">
                                         <attributes>
                                             <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
@@ -4909,6 +5339,233 @@ Cg
                                     </fragment>
                                     <fragment>
                                         <string key="content"> size);
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">/**
+ * </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="设置标签节点的字体">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=", ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="由于剧情脚本是顺序执行">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ * </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="的">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=", ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="所以它不会影响命令之前的标签字体">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ *
+ * @param fontName </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="字体名称">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ */</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="extern">
+                                        <attributes>
+                                            <color key="NSColor" red="0.70588235294117652" green="0.0" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="void">
+                                        <attributes>
+                                            <color key="NSColor" red="0.70588235294117652" green="0.0" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" labelfont(">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="string">
+                                        <attributes>
+                                            <color key="NSColor" red="0.36078431372549019" green="0.14901960784313725" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content"> fontName);
 
 </string>
                                         <attributes>
@@ -14774,7 +15431,234 @@ Cg
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
-                                    <fragment content=" y);">
+                                    <fragment>
+                                        <string key="content"> y);
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">/**
+ * </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="根据名称获得一个参数">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=", ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="参数的类型是字符串">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">.
+ *
+ * @param key </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="参数键值">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ * @return </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="参数值">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=". ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="如果参数不存在则返回空字符串">
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="STHeitiSC-Light"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+ */</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="extern">
+                                        <attributes>
+                                            <color key="NSColor" red="0.70588235294117652" green="0.0" blue="0.3843137254901961" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="string">
+                                        <attributes>
+                                            <color key="NSColor" red="0.36078431372549019" green="0.14901960784313725" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" p(">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="string">
+                                        <attributes>
+                                            <color key="NSColor" red="0.36078431372549019" green="0.14901960784313725" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Courier"/>
+                                            <integer key="NSLigature" value="0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" defaultTabInterval="33.600000000000001">
+                                                <tabStops>
+                                                    <textTab alignment="left" location="33.599998474121094"/>
+                                                </tabStops>
+                                            </paragraphStyle>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" key);">
                                         <attributes>
                                             <font key="NSFont" size="14" name="Courier"/>
                                             <integer key="NSLigature" value="0"/>

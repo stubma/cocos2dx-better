@@ -115,8 +115,13 @@ void CCStoryPlayer::start() {
     if(m_curCmd) {
         executeCurrentCommand();
     } else {
+        // retain CCStoryLayer in case it is released in onStoryDone()
+        // if CCStoryLayer is released, done function is released and
+        // then CCCallFunc will run some error code
         m_done = true;
+        m_owner->retain();
         m_owner->onStoryDone();
+        m_owner->autorelease();
     }
 }
 

@@ -354,7 +354,7 @@ static AppDelegate s_sharedApplication;
                                                                 encoding:NSUTF8StringEncoding error:nil];
             fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
             fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
-            NSArray* lines = [fileContents componentsSeparatedByString:@"\r\n"];
+            NSArray* lines = [fileContents componentsSeparatedByString:@"\n"];
             NSMutableArray* mLines = [[NSMutableArray alloc] initWithArray:lines
                                                                  copyItems:YES];
             for(NSString* line in lines) {

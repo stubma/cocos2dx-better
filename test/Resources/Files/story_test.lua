@@ -1,3 +1,4 @@
+--$<arm,Cowboy.ExportJson
 -- set desired design size
 winsize(720, 480)
 

@@ -26,6 +26,7 @@
 #include "CCResourceLoader.h"
 #include "CCStoryCommandSet.h"
 #include "CCStoryPlayer.h"
+#include "CCByteBuffer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -113,6 +114,27 @@ bool CCStoryLayer::preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FU
 bool CCStoryLayer::preloadStoryString(const string& storyScript) {
     // clear old
     gStoryCommandSet.removeAllObjects();
+    
+    // load resources needed
+    CCByteBuffer bb(storyScript.c_str(), storyScript.length(), storyScript.length());
+    string line;
+    bb.readLine(line);
+    while(!line.empty()) {
+        if(line.find("--$<") == 0) {
+            string resCmd = line.substr(4);
+            int comma = (int)resCmd.find(",");
+            string type = resCmd.substr(0, comma);
+            if(type == "atlas") {
+                int secondComma = (int)resCmd.find(",", comma + 1);
+                string plist = resCmd.substr(comma + 1, secondComma - comma - 1);
+                CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile(plist.c_str());
+            } else if(type == "arm") {
+                CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(resCmd.substr(comma + 1).c_str());
+            }
+        } else {
+            break;
+        }
+    }
     
     // do script
     int ret = luaL_dostring(L, storyScript.c_str());

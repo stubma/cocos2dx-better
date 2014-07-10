@@ -62,11 +62,18 @@ m_curCmdIndex(-1),
 m_msgSize(20),
 m_nameSize(20),
 m_labelSize(20),
+m_msgFont("Helvetica"),
+m_nameFont("Helvetica"),
+m_labelFont("Helvetica"),
 m_msgColor(0xffffffff),
 m_nameColor(0xffffffff),
 m_labelColor(0xffffffff),
+m_msgAlignment(kCCTextAlignmentCenter),
 m_msgPos(CCPointZero),
 m_namePos(CCPointZero),
+m_msgConstraints(CCSizeZero),
+m_labelConstraints(CCSizeZero),
+m_labelAlignment(kCCTextAlignmentCenter),
 m_labelAnchor(ccp(0.5f, 0.5f)),
 m_msgAnchor(ccp(0.5f, 0.5f)),
 m_nameAnchor(ccp(0.5f, 0.5f)) {
@@ -115,9 +122,9 @@ void CCStoryPlayer::start() {
     if(m_curCmd) {
         executeCurrentCommand();
     } else {
-        // retain CCStoryLayer in case it is released in onStoryDone()
-        // if CCStoryLayer is released, done function is released and
-        // then CCCallFunc will run some error code
+        // retain owner in case it is released in onStoryDone,
+        // if owner is release, done function will be released, that will
+        // cause error
         m_done = true;
         m_owner->retain();
         m_owner->onStoryDone();
@@ -220,6 +227,30 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::MSG_WIDTH:
+        {
+            m_msgConstraints.width = m_curCmd->m_param.msgwidth.w;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MSG_ALIGN:
+        {
+            m_msgAlignment = m_curCmd->m_param.msgalign.a;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::MSG_FONT:
+        {
+            m_msgFont = m_curCmd->m_param.msgfont.fontName;
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::NAME_SIZE:
         {
             m_nameSize = m_curCmd->m_param.namesize.size;
@@ -231,6 +262,14 @@ void CCStoryPlayer::executeCurrentCommand() {
         case CCStoryCommand::NAME_COLOR:
         {
             m_nameColor = m_curCmd->m_param.namecolor.c;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::NAME_FONT:
+        {
+            m_nameFont = m_curCmd->m_param.namefont.fontName;
             
             // next
             start();
@@ -262,6 +301,14 @@ void CCStoryPlayer::executeCurrentCommand() {
             start();
             break;
         }
+        case CCStoryCommand::LABEL_FONT:
+        {
+            m_labelFont = m_curCmd->m_param.labelfont.fontName;
+            
+            // next
+            start();
+            break;
+        }
         case CCStoryCommand::LABEL_COLOR:
         {
             m_labelColor = m_curCmd->m_param.labelcolor.c;
@@ -274,6 +321,22 @@ void CCStoryPlayer::executeCurrentCommand() {
         {
             m_labelAnchor.x = m_curCmd->m_param.labelanchor.x;
             m_labelAnchor.y = m_curCmd->m_param.labelanchor.y;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::LABEL_WIDTH:
+        {
+            m_labelConstraints.width = m_curCmd->m_param.labelwidth.w;
+            
+            // next
+            start();
+            break;
+        }
+        case CCStoryCommand::LABEL_ALIGN:
+        {
+            m_labelAlignment = m_curCmd->m_param.labelalign.a;
             
             // next
             start();
@@ -341,8 +404,10 @@ void CCStoryPlayer::executeCurrentCommand() {
             if(!m_roleMap.objectForKey(m_curCmd->m_param.label.name)) {
                 // create label
                 CCRichLabelTTF* label = CCRichLabelTTF::create(m_curCmd->m_param.label.text,
-                                                               "Helvetica",
-                                                               m_labelSize);
+                                                               m_labelFont.c_str(),
+                                                               m_labelSize,
+                                                               m_labelConstraints,
+                                                               m_labelAlignment);
                 label->setAnchorPoint(m_labelAnchor);
                 label->setFontFillColor(ccc3FromInt(m_labelColor));
                 label->setOpacity((m_labelColor >> 24) & 0xff);
@@ -608,7 +673,7 @@ void CCStoryPlayer::executeCurrentCommand() {
             
             // external file first, play music
             string path = CCUtils::getExternalOrFullPath(m_curCmd->m_param.bgm.musicFile);
-            SimpleAudioEngine::sharedEngine()->playBackgroundMusic(path.c_str(), true);
+            SimpleAudioEngine::sharedEngine()->playBackgroundMusic(path.c_str());
             
             // next
             start();

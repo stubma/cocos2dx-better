@@ -33,6 +33,12 @@ using namespace std;
 // global command set
 extern CCArray gStoryCommandSet;
 
+// for designer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+extern vector<string> gUsedSpriteFrameNames;
+extern vector<string> gUsedArmatureNames;
+#endif
+
 /////////////////////////////////////
 // command method for lua - start
 /////////////////////////////////////

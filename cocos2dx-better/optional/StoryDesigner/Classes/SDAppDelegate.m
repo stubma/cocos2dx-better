@@ -68,6 +68,7 @@ static AppDelegate s_sharedApplication;
 - (void)loadResources:(NSArray*)files;
 - (void)onDoubleClickOutline:(id)sender;
 - (void)onStoryPlayerError:(NSNotification*)n;
+- (NSString*)findPlistPath:(NSString*)frameName;
 
 @end
 
@@ -160,10 +161,26 @@ static AppDelegate s_sharedApplication;
     if([lastFile length] > 0) {
         NSFileManager* fm = [NSFileManager defaultManager];
         if([fm fileExistsAtPath:lastFile]) {
-            self.aceView.string = [NSString stringWithContentsOfFile:lastFile
-                                                            encoding:NSUTF8StringEncoding
-                                                               error:nil];
             self.file = lastFile;
+            
+            // remove start resource lines
+            NSString* fileContents = [NSString stringWithContentsOfFile:self.file
+                                                               encoding:NSUTF8StringEncoding error:nil];
+            fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+            fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
+            NSArray* lines = [fileContents componentsSeparatedByString:@"\n"];
+            NSMutableArray* mLines = [[NSMutableArray alloc] initWithArray:lines
+                                                                 copyItems:YES];
+            for(NSString* line in lines) {
+                if([line rangeOfString:@"--$<"].location == 0) {
+                    [mLines removeObjectAtIndex:0];
+                } else {
+                    break;
+                }
+            }
+            
+            // set string
+            self.aceView.string = [mLines componentsJoinedByString:@"\n"];
             self.dirty = NO;
         }
     }
@@ -331,15 +348,61 @@ static AppDelegate s_sharedApplication;
         NSArray* files = [openDlg filenames];
         if([files count] > 0) {
             self.file = [files objectAtIndex:0];
-            self.aceView.string = [NSString stringWithContentsOfFile:self.file
-                                                            encoding:NSUTF8StringEncoding
-                                                               error:nil];
+            
+            // remove start resource lines
+            NSString* fileContents = [NSString stringWithContentsOfFile:self.file
+                                                                encoding:NSUTF8StringEncoding error:nil];
+            fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+            fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
+            NSArray* lines = [fileContents componentsSeparatedByString:@"\r\n"];
+            NSMutableArray* mLines = [[NSMutableArray alloc] initWithArray:lines
+                                                                 copyItems:YES];
+            for(NSString* line in lines) {
+                if([line rangeOfString:@"--$<"].location == 0) {
+                    [mLines removeObjectAtIndex:0];
+                } else {
+                    break;
+                }
+            }
+            
+            // set string
+            self.aceView.string = [mLines componentsJoinedByString:@"\n"];
             self.dirty = NO;
         }
     }
 }
 
 - (void)save {
+    // evaluate script to find out used resources
+    Preview* scene = (Preview*)CCDirector::sharedDirector()->getRunningScene()->getChildren()->objectAtIndex(0);
+    CCStoryLayer* storyLayer = scene->getStoryLayer();
+    string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];
+    storyLayer->stopPlay();
+    NSMutableString* buf = [NSMutableString string];
+    if(storyLayer->preloadStoryString(script)) {
+        // check sprite frame name
+        NSMutableDictionary* plists = [NSMutableDictionary dictionary];
+        for(vector<string>::iterator iter = gUsedSpriteFrameNames.begin(); iter != gUsedSpriteFrameNames.end(); iter++) {
+            NSString* frameName = [NSString stringWithCString:iter->c_str()
+                                                     encoding:NSUTF8StringEncoding];
+            NSString* plist = [self findPlistPath:frameName];
+            if(plist)
+                [plists setObject:plist forKey:plist];
+        }
+        
+        // add plist, atlas meta comment
+        for(NSString* plist in [plists allKeys]) {
+            NSString* atlasName = [[self.atlasPathMap objectForKey:plist] lastPathComponent];
+            NSString* plistName = [plist lastPathComponent];
+            [buf appendFormat:@"--$<atlas,%@,%@\n", plistName, atlasName];
+        }
+        
+        // check armature and append armature meta comment
+        for(vector<string>::iterator iter = gUsedArmatureNames.begin(); iter != gUsedArmatureNames.end(); iter++) {
+            [buf appendFormat:@"--$<arm,%s.ExportJson\n", iter->c_str()];
+        }
+    }
+    
     // save to file
     NSFileManager* fm = [NSFileManager defaultManager];
     if(![fm fileExistsAtPath:self.file]) {
@@ -347,6 +410,8 @@ static AppDelegate s_sharedApplication;
     }
     NSFileHandle* f = [NSFileHandle fileHandleForWritingAtPath:self.file];
     NSMutableData* data = [NSMutableData data];
+    [data appendBytes:[buf cStringUsingEncoding:NSUTF8StringEncoding]
+               length:[buf lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     [data appendBytes:[self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding]
                length:[self.aceView.string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     [f writeData:data];
@@ -385,6 +450,19 @@ static AppDelegate s_sharedApplication;
         // reload outline
         [self.atlasOutline reloadData];
     }
+}
+
+- (NSString*)findPlistPath:(NSString*)frameName {
+    for(NSString* file in [self.atlasFrameMap allKeys]) {
+        NSArray* frames = [self.atlasFrameMap objectForKey:file];
+        for(SDFrame* frame in frames) {
+            if([frameName isEqualToString:frame.key]) {
+                return file;
+            }
+        }
+    }
+    
+    return nil;
 }
 
 - (void)loadResources:(NSArray*)files {

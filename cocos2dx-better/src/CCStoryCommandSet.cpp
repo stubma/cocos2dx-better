@@ -27,6 +27,12 @@
 
 CCArray gStoryCommandSet;
 
+// for designer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+vector<string> gUsedSpriteFrameNames;
+vector<string> gUsedArmatureNames;
+#endif
+
 void winsize(float w, float h) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::WIN_SIZE);
     c->m_param.winsize.w = w;
@@ -239,6 +245,11 @@ void img(string name, string frameName, float x, float y) {
     cmd->m_param.img.x = x;
     cmd->m_param.img.y = y;
     gStoryCommandSet.addObject(cmd);
+    
+    // for designer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    gUsedSpriteFrameNames.push_back(frameName);
+#endif
 }
 
 void label(string name, string text, float x, float y) {
@@ -257,6 +268,11 @@ void arm(string name, string armName, float x, float y) {
     cmd->m_param.arm.x = x;
     cmd->m_param.arm.y = y;
     gStoryCommandSet.addObject(cmd);
+    
+    // for designer
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    gUsedArmatureNames.push_back(armName);
+#endif
 }
 
 void armplay(string name, string animName) {

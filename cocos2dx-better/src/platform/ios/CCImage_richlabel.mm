@@ -803,7 +803,7 @@ static void renderEmbededImages(CGContextRef context, CTFrameRef frame, unichar*
     }
 }
 
-static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& linkMetas, float lineSpacing) {
+static void extractLinkMeta(CTFrameRef frame, SpanList& spans, LinkMetaList& linkMetas) {
     // get line count and their origin
     CFArrayRef linesArray = CTFrameGetLines(frame);
     CFIndex lineCount = CFArrayGetCount(linesArray);
@@ -1501,7 +1501,7 @@ static bool _initWithString(const char * pText, CCImage::ETextAlign eAlign, cons
             
             // if has link tag, build link info
             if(linkMetas)
-                extractLinkMeta(frame, spans, *linkMetas, pInfo->lineSpacing);
+                extractLinkMeta(frame, spans, *linkMetas);
 			
             // pop the context
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS

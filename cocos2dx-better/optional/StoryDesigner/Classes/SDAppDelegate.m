@@ -374,6 +374,8 @@ static AppDelegate s_sharedApplication;
 
 - (void)save {
     // evaluate script to find out used resources
+    gUsedSpriteFrameNames.clear();
+    gUsedArmatureNames.clear();
     Preview* scene = (Preview*)CCDirector::sharedDirector()->getRunningScene()->getChildren()->objectAtIndex(0);
     CCStoryLayer* storyLayer = scene->getStoryLayer();
     string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];

@@ -981,6 +981,34 @@ double CCUtils::pceil(double x, int precision) {
     return (int)ceil(x / div) * div;
 }
 
+int CCUtils::getUTF8Bytes(unsigned char c) {
+	int count = 1;
+	if(c >= 128) {
+		c <<= 1;
+		do {
+			count++;
+			c <<= 1;
+		} while(c > 128);
+	}
+    
+	return count;
+}
+
+int CCUtils::strlen8(const char* s) {
+	if(!s)
+		return 0;
+    
+	int count = 0;
+	char* p = (char*)s;
+	while(*p) {
+		count++;
+		int b = getUTF8Bytes(*p);
+		p += b;
+	}
+    
+	return count;
+}
+
 CCSize CCUtils::measureRichString(const char* pText,
                                   const char* pFontName,
                                   int nSize,

@@ -454,6 +454,22 @@ public:
     static void purgeDefaultForKey(const string& key);
     
     /**
+	 * Calculate how many bytes of a utf-8 encoded character
+	 *
+	 * @param c first byte of character in utf-8 encoding
+	 * @return byte length of this character
+	 */
+	static int getUTF8Bytes(unsigned char c);
+    
+    /**
+	 * Get count of utf-8 character in a string
+	 *
+	 * @param s utf-8 string
+	 * @return count of utf-8 character
+	 */
+	static int strlen8(const char* s);
+    
+    /**
      * Measure a rich string size without creating a OpenGL texture. Measured size
      * will be same as content size of rich label node. However, it may not exactly same 
      * as content size if content scale factor is not 1, but the deviation will be less than 1

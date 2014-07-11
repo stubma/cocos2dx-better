@@ -399,9 +399,17 @@ static AppDelegate s_sharedApplication;
             [buf appendFormat:@"--$<atlas,%@,%@\n", plistName, atlasName];
         }
         
-        // check armature and append armature meta comment
+        // check armature
+        NSMutableDictionary* arms = [NSMutableDictionary dictionary];
         for(vector<string>::iterator iter = gUsedArmatureNames.begin(); iter != gUsedArmatureNames.end(); iter++) {
-            [buf appendFormat:@"--$<arm,%s.ExportJson\n", iter->c_str()];
+            NSString* armName = [NSString stringWithCString:iter->c_str()
+                                                   encoding:NSUTF8StringEncoding];
+            [arms setObject:armName forKey:armName];
+        }
+        
+        // append armature meta comment
+        for(NSString* armName in [arms allKeys]) {
+            [buf appendFormat:@"--$<arm,%@.ExportJson\n", armName];
         }
     }
     

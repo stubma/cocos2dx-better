@@ -52,6 +52,7 @@ public:
         m_requestData = NULL;
         m_userData = NULL;
         m_tag = -1;
+        m_cancel = false;
     }
     
     /** Destructor */

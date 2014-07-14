@@ -82,7 +82,7 @@ public:
     /// request
     CC_SYNTHESIZE_READONLY(CBHttpRequest*, m_request, Request);
     
-    /// sucess flag
+    /// success flag
     CC_SYNTHESIZE_BOOL(m_success, Success);
     
     /// response code

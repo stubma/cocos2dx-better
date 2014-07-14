@@ -187,7 +187,7 @@ void NetworkFileDownloader::update(float delta) {
     if(d->isDownloading()) {
         m_fileLabel->setString(d->getCurrentDownloadingFileName().c_str());
         char buf[64];
-        sprintf(buf, "%d/%d", d->getCurrentDownloadedSize(), d->getCurrentDownloadingFileSize());
+        sprintf(buf, "%ld/%ld", d->getCurrentDownloadedSize(), d->getCurrentDownloadingFileSize());
         m_label->setString(buf);
     } else {
         m_fileLabel->setString("Done");

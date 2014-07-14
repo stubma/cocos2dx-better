@@ -110,28 +110,19 @@ public:
         pthread_mutex_destroy(&m_mutex);
     }
     
-    static CURLHandler* create(ccHttpContext* ctx) {
-        CURLHandler* curl = new CURLHandler();
-        if(curl->initWithContext(ctx)) {
-            return (CURLHandler*)curl->autorelease();
-        }
-        CC_SAFE_RELEASE(curl);
-        return NULL;
-    }
-    
     /// Callback function used by libcurl for collect response data
     static size_t writeData(void* ptr, size_t size, size_t nmemb, void* userdata) {
-        CURLHandler* ii = (CURLHandler*)userdata;
+        CURLHandler* handler = (CURLHandler*)userdata;
         size_t sizes = size * nmemb;
         
         // add data to the end of recvBuffer
-        pthread_mutex_lock(&ii->m_mutex);
-        ii->m_data->appendBytes((uint8_t*)ptr, sizes);
-        ii->isHeaderAllReceived = true;
-        pthread_mutex_unlock(&ii->m_mutex);
+        pthread_mutex_lock(&handler->m_mutex);
+        handler->m_data->appendBytes((uint8_t*)ptr, sizes);
+        handler->isHeaderAllReceived = true;
+        pthread_mutex_unlock(&handler->m_mutex);
         
         // return a value which is different with sizes will abort it
-        if(ii->m_ctx->request->isCancel())
+        if(handler->m_ctx->request->isCancel())
             return sizes + 1;
         else
             return sizes;
@@ -139,11 +130,11 @@ public:
     
     /// Callback function used by libcurl for collect header data
     static size_t writeHeaderData(void* ptr, size_t size, size_t nmemb, void* userdata) {
-        CURLHandler* ii = (CURLHandler*)userdata;
+        CURLHandler* handler = (CURLHandler*)userdata;
         size_t sizes = size * nmemb;
         
         // lock
-        pthread_mutex_lock(&ii->m_mutex);
+        pthread_mutex_lock(&handler->m_mutex);
         
         // parse pair
         string header((const char*)ptr, sizes);
@@ -194,18 +185,18 @@ public:
         
         // if pair count is two, means ok
         if(pair->count() == 2) {
-            ii->m_ctx->response->addHeader(((CCString*)pair->objectAtIndex(0))->getCString(),
-                                           ((CCString*)pair->objectAtIndex(1))->getCString());
+            handler->m_ctx->response->addHeader(((CCString*)pair->objectAtIndex(0))->getCString(),
+                                                ((CCString*)pair->objectAtIndex(1))->getCString());
         }
         
         // release array
         pair->release();
         
         // unlock
-        pthread_mutex_unlock(&ii->m_mutex);
+        pthread_mutex_unlock(&handler->m_mutex);
         
         // return a value which is different with sizes will abort it
-        if(ii->m_ctx->request->isCancel())
+        if(handler->m_ctx->request->isCancel())
             return sizes + 1;
         else
             return sizes;
@@ -245,17 +236,13 @@ public:
     }
     
     bool configureCURL() {
-        int32_t code;
-        code = curl_easy_setopt(m_curl, CURLOPT_ERRORBUFFER, m_errorBuffer);
-        if (code != CURLE_OK) {
+        if(curl_easy_setopt(m_curl, CURLOPT_ERRORBUFFER, m_errorBuffer) != CURLE_OK) {
             return false;
         }
-        code = curl_easy_setopt(m_curl, CURLOPT_TIMEOUT, m_ctx->readTimeout);
-        if (code != CURLE_OK) {
+        if(curl_easy_setopt(m_curl, CURLOPT_TIMEOUT, m_ctx->readTimeout) != CURLE_OK) {
             return false;
         }
-        code = curl_easy_setopt(m_curl, CURLOPT_CONNECTTIMEOUT, m_ctx->connectTimeout);
-        if (code != CURLE_OK) {
+        if(curl_easy_setopt(m_curl, CURLOPT_CONNECTTIMEOUT, m_ctx->connectTimeout) != CURLE_OK) {
             return false;
         }
         curl_easy_setopt(m_curl, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -375,10 +362,12 @@ public:
 };
 
 void* CBHttpClient::httpThreadEntry(void* arg) {
-    // handle class
+    // handler, it is released if init failed or released in dispatchNotification
     ccHttpContext* ctx = (ccHttpContext*)arg;
-    CURLHandler* curl = CURLHandler::create(ctx);
-    CC_SAFE_RETAIN(curl);
+    CURLHandler* curl = new CURLHandler();
+    if(!curl->initWithContext(ctx)) {
+        CC_SAFE_RELEASE_NULL(curl);
+    }
     
     if(curl) {
         // create response
@@ -401,7 +390,7 @@ void* CBHttpClient::httpThreadEntry(void* arg) {
                 retValue = curl->processDeleteTask();
                 break;
             default:
-                CCAssert(true, "CBHttpClient: unkown request type, only GET and POSt are supported");
+                CCAssert(true, "CBHttpClient: unkown request type, only GET and POST are supported");
                 break;
         }
         

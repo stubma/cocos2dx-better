@@ -86,6 +86,7 @@ public:
     m_ctx(NULL),
     m_curl(NULL),
     m_done(false),
+    m_responseCode(500),
     isHttpDidReceiveResponseDelivered(false),
     isHeaderAllReceived(false),
     m_headers(NULL) {
@@ -289,11 +290,14 @@ public:
     
     bool perform() {
         // if easy perform not ok, return false
-        if (CURLE_OK != curl_easy_perform(m_curl))
+        CURLcode code = curl_easy_perform(m_curl);
+        if (code != CURLE_OK) {
+            CCLOG("curl_easy_perform error: %d, request: %s", code, m_ctx->request->getUrl().c_str());
             return false;
+        }
         
         // get return code
-        CURLcode code = curl_easy_getinfo(m_curl, CURLINFO_RESPONSE_CODE, &m_responseCode);
+        code = curl_easy_getinfo(m_curl, CURLINFO_RESPONSE_CODE, &m_responseCode);
         if (code != CURLE_OK || m_responseCode != 200)
             return false;
         

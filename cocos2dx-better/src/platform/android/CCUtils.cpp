@@ -383,28 +383,11 @@ void CCUtils::showSystemConfirmDialog(const char* title, const char* msg, const 
                                    "showConfirmDialog",
                                    "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)V");
 
-	// ensure positive button and negative button not null
-	const char* posBtn = positiveButton;
-	const char* negBtn = negativeButton;
-	string lan = CCLocale::sharedLocale()->getISOLanguage();
-	if(!posBtn) {
-		if(lan == "zh")
-			posBtn = S_OK_ZH;
-		else
-			posBtn = S_OK_EN;
-	}
-	if(!negBtn) {
-		if(lan == "zh")
-			negBtn = S_CANCEL_ZH;
-		else
-			negBtn = S_CANCEL_EN;
-	}
-
 	// create jstring
 	jstring jTitle = title ? t.env->NewStringUTF(title) : NULL;
 	jstring jMsg = msg ? t.env->NewStringUTF(msg) : NULL;
-	jstring jPositiveButton = t.env->NewStringUTF(posBtn);
-	jstring jNegativeButton = t.env->NewStringUTF(negBtn);
+	jstring jPositiveButton = positiveButton ? t.env->NewStringUTF(positiveButton) : NULL;
+	jstring jNegativeButton = negativeButton ? t.env->NewStringUTF(negativeButton) : NULL;
 
 	// call java side
     t.env->CallStaticVoidMethod(t.classID, t.methodID, jTitle, jMsg, jPositiveButton, jNegativeButton, (jlong)onOK, (jlong)onCancel);
@@ -414,8 +397,10 @@ void CCUtils::showSystemConfirmDialog(const char* title, const char* msg, const 
 		t.env->DeleteLocalRef(jTitle);
 	if(jMsg)
 		t.env->DeleteLocalRef(jMsg);
-    t.env->DeleteLocalRef(jPositiveButton);
-    t.env->DeleteLocalRef(jNegativeButton);
+    if(jPositiveButton)
+        t.env->DeleteLocalRef(jPositiveButton);
+    if(jNegativeButton)
+        t.env->DeleteLocalRef(jNegativeButton);
 }
 
 JNIEnv* CCUtils::getJNIEnv() {

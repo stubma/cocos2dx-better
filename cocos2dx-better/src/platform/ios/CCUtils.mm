@@ -32,12 +32,6 @@
 #include <sys/mount.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-// built-in strings
-#define S_CANCEL_EN "Cancel"
-#define S_CANCEL_ZH "取消"
-#define S_OK_EN "OK"
-#define S_OK_ZH "确定"
-
 #pragma mark -
 #pragma mark delegate of system dialog
 
@@ -159,19 +153,6 @@ UIViewController* CCUtils::findViewController(UIView* view) {
 void CCUtils::showSystemConfirmDialog(const char* title, const char* msg, const char* positiveButton, const char* negativeButton, CCCallFunc* onOK, CCCallFunc* onCancel) {
 	NSString* cancelButtonTitle = negativeButton ? [NSString stringWithUTF8String:negativeButton] : nil;
 	NSString* okButtonTitle = positiveButton ? [NSString stringWithUTF8String:positiveButton] : nil;
-    string lan = CCLocale::sharedLocale()->getISOLanguage();
-	if(cancelButtonTitle == nil) {
-		if(lan == "zh")
-			cancelButtonTitle = @S_CANCEL_ZH;
-		else
-			cancelButtonTitle = @S_CANCEL_EN;
-	}
-	if(okButtonTitle == nil) {
-		if(lan == "zh")
-			okButtonTitle = @S_OK_ZH;
-		else
-			okButtonTitle = @S_OK_EN;
-	}
     
 	// create alert view
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithUTF8String:title]

@@ -390,9 +390,21 @@ void CCStoryPlayer::executeCurrentCommand() {
                     setError(buf);
                 }
             } else {
-                char buf[512];
-                sprintf(buf, "image frame: %s is not existent", m_curCmd->m_param.img.frameName);
-                setError(buf);
+                // then try to load role from a single image file
+                CCSprite* role = CCSprite::create(m_curCmd->m_param.img.frameName);
+                if(role) {
+                    role->setPosition(ccp(m_curCmd->m_param.img.x,
+                                          m_curCmd->m_param.img.y));
+                    m_owner->addChild(role);
+                    m_owner->addChild(role);
+                    
+                    // save role
+                    m_roleMap.setObject(role, m_curCmd->m_param.img.name);
+                } else {
+                    char buf[512];
+                    sprintf(buf, "image role: %s is not existent", m_curCmd->m_param.img.frameName);
+                    setError(buf);
+                }
             }
             
             // next

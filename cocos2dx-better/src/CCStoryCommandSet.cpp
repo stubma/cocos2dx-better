@@ -30,6 +30,7 @@ CCArray gStoryCommandSet;
 // for designer
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 vector<string> gUsedSpriteFrameNames;
+vector<string> gUsedImageNames;
 vector<string> gUsedArmatureNames;
 #endif
 
@@ -248,7 +249,12 @@ void img(string name, string frameName, float x, float y) {
     
     // for designer
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
-    gUsedSpriteFrameNames.push_back(frameName);
+    CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(frameName.c_str());
+    if(frame) {
+        gUsedSpriteFrameNames.push_back(frameName);
+    } else {
+        gUsedImageNames.push_back(frameName);
+    }
 #endif
 }
 

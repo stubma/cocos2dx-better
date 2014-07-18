@@ -36,6 +36,7 @@ extern CCArray gStoryCommandSet;
 // for designer
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 extern vector<string> gUsedSpriteFrameNames;
+extern vector<string> gUsedImageNames;
 extern vector<string> gUsedArmatureNames;
 #endif
 
@@ -302,13 +303,14 @@ extern void shake(string name, float amplitude, float time);
 extern void scaleto(string name, float to, float time);
 
 /**
- * 创建一个图片角色, 即精灵角色(Sprite), 该角色的图片必须来自于某张大图(一般由TexturePacker创建)
+ * 创建一个图片角色, 即精灵角色(Sprite), 该角色的图片可以来自于某张大图(一般由TexturePacker创建), 
+ * 也可以来自某个图片文件. 会首先尝试使用大图, 如果找不到帧, 则会尝试找寻文件
  *
  * \note
  * 这个角色本质上是一个CCSprite类, 角色可以有一个名字, 其它命令可以通过名字引用这个角色.
  *
  * @param name 角色名字
- * @param frameName 角色图片的帧名
+ * @param frameName 角色图片的帧名, 如果帧不存在, 则会尝试找寻文件
  * @param x 角色的初始x位置
  * @param y 角色的初始y位置
  */

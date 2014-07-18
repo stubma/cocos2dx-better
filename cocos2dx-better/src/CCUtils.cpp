@@ -84,6 +84,14 @@ bool CCUtils::endsWith(const string& s, const string& sub) {
     return s.rfind(sub) == s.length() - sub.length();
 }
 
+void CCUtils::removeChar(string& s, char c) {
+    for(string::iterator it = s.begin(); it != s.end(); it++) {
+        if(*it == c) {
+            s.erase(it);
+        }
+    }
+}
+
 void CCUtils::replaceChar(string& s, char c, char sub) {
     size_t len = s.length();
 	char* buf = new char[len + 1];

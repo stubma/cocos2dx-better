@@ -102,6 +102,14 @@ public:
 	 * @param sub string will be replacement to
 	 */
     static string replace(string& s, const string& c, const string& sub);
+    
+    /**
+     * remove char from a string
+     * 
+     * @param s string to be modified
+     * @param c char to be removed
+     */
+    static void removeChar(string& s, char c);
 	
 	/// decode html entities in a string and return a decoded string
 	static string decodeHtmlEntities(const string& src);

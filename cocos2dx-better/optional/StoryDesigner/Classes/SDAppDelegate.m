@@ -533,7 +533,13 @@ SDAppDelegate* gCurInstance = nil;
 }
 
 - (void)loadResources:(NSArray*)files {
+    NSFileManager* fm = [NSFileManager defaultManager];
     for(NSString* file in files) {
+        // if file not existent, skip
+        if(![fm fileExistsAtPath:file])
+            continue;
+        
+        // check extension and load
         NSString* ext = [file pathExtension];
         if([@"plist" isEqualToString:ext]) {
             // parse plist

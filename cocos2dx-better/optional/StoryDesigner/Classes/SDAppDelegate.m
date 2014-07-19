@@ -71,10 +71,13 @@ SDAppDelegate* gCurInstance = nil;
 - (void)showOpenPanel;
 - (void)showSavePanel:(BOOL)quit;
 - (void)save;
+- (void)save:(NSString*)script toFile:(NSString*)file;
 - (void)loadResources:(NSArray*)files;
 - (void)onDoubleClickOutline:(id)sender;
 - (void)onStoryPlayerError:(NSNotification*)n;
 - (NSString*)findPlistPath:(NSString*)frameName;
+- (void)onRepairStories:(id)sender;
+- (NSString*)loadStory:(NSString*)file;
 
 @end
 
@@ -310,6 +313,17 @@ SDAppDelegate* gCurInstance = nil;
     [replay setTarget:self];
     [replay setAction:@selector(onReplay:)];
     
+    // toolbar - batch update resources
+    NSButton* repair = [[NSButton alloc] init];
+    [repair setButtonType:NSMomentaryPushInButton];
+    [repair setTitle:@"Repair Stories"];
+    [repair setToolbarItemWidth:100];
+    [repair setBezelStyle:NSRoundedBezelStyle];
+    [repair setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+    [[repair cell] setControlSize:NSSmallControlSize];
+    [repair setTarget:self];
+    [repair setAction:@selector(onRepairStories:)];
+    
     // toolbar - error hint
     self.errorLabel = [[NSTextField alloc] init];
     [self.errorLabel setToolbarItemWidth:600];
@@ -326,6 +340,7 @@ SDAppDelegate* gCurInstance = nil;
     [toolbar addItem:load align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:save align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:replay align:CNSplitViewToolbarItemAlignLeft];
+    [toolbar addItem:repair align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:self.errorLabel align:CNSplitViewToolbarItemAlignRight];
     [self.hSplitView attachToolbar:toolbar
                   toSubViewAtIndex:1
@@ -381,6 +396,31 @@ SDAppDelegate* gCurInstance = nil;
     [self.propertyScrollView.documentView scrollPoint:NSMakePoint(0, self.helpView.bounds.size.height)];
 }
 
+- (void)onRepairStories:(id)sender {
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowsMultipleSelection:YES];
+    [openDlg setPrompt:@"Repair Story Files"];
+    if ([openDlg runModal] == NSOKButton) {
+        // files
+        NSArray* files = [openDlg filenames];
+        
+        // show progress in error label
+        [self.errorLabel setHidden:NO];
+        [self.errorLabel setStringValue:@"start repairing story"];
+        
+        // repair
+        for(NSString* file in files) {
+            [self.errorLabel setStringValue:[NSString stringWithFormat:@"repairing story: %@", [file lastPathComponent]]];
+            NSString* script = [self loadStory:file];
+            [self save:script toFile:file];
+        }
+        
+        // end
+        [self.errorLabel setHidden:YES];
+    }
+}
+
 - (void)showSavePanel:(BOOL)quit {
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
     [saveDlg setCanCreateDirectories:YES];
@@ -397,6 +437,26 @@ SDAppDelegate* gCurInstance = nil;
     }
 }
 
+- (NSString*)loadStory:(NSString*)file {
+    // remove start resource lines
+    NSString* fileContents = [NSString stringWithContentsOfFile:file
+                                                       encoding:NSUTF8StringEncoding error:nil];
+    fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+    fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
+    NSArray* lines = [fileContents componentsSeparatedByString:@"\n"];
+    NSMutableArray* mLines = [[NSMutableArray alloc] initWithArray:lines
+                                                         copyItems:YES];
+    for(NSString* line in lines) {
+        if([line rangeOfString:@"--$<"].location == 0) {
+            [mLines removeObjectAtIndex:0];
+        } else {
+            break;
+        }
+    }
+    
+    return [mLines componentsJoinedByString:@"\n"];
+}
+
 - (void)showOpenPanel {
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:YES];
@@ -406,41 +466,30 @@ SDAppDelegate* gCurInstance = nil;
         NSArray* files = [openDlg filenames];
         if([files count] > 0) {
             self.file = [files objectAtIndex:0];
-            
-            // remove start resource lines
-            NSString* fileContents = [NSString stringWithContentsOfFile:self.file
-                                                                encoding:NSUTF8StringEncoding error:nil];
-            fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
-            fileContents = [fileContents stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
-            NSArray* lines = [fileContents componentsSeparatedByString:@"\n"];
-            NSMutableArray* mLines = [[NSMutableArray alloc] initWithArray:lines
-                                                                 copyItems:YES];
-            for(NSString* line in lines) {
-                if([line rangeOfString:@"--$<"].location == 0) {
-                    [mLines removeObjectAtIndex:0];
-                } else {
-                    break;
-                }
-            }
-            
-            // set string
-            self.aceView.string = [mLines componentsJoinedByString:@"\n"];
+            self.aceView.string = [self loadStory:self.file];
             self.dirty = NO;
         }
     }
 }
 
 - (void)save {
+    [self save:self.aceView.string toFile:self.file];
+    
+    // clear flag
+    self.dirty = NO;
+}
+
+- (void)save:(NSString*)script toFile:(NSString*)file {
     // evaluate script to find out used resources
     gUsedSpriteFrameNames.clear();
     gUsedArmatureNames.clear();
     gUsedImageNames.clear();
     Preview* scene = (Preview*)CCDirector::sharedDirector()->getRunningScene()->getChildren()->objectAtIndex(0);
     CCStoryLayer* storyLayer = scene->getStoryLayer();
-    string script = [self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding];
+    string _script = [script cStringUsingEncoding:NSUTF8StringEncoding];
     storyLayer->stopPlay();
     NSMutableString* buf = [NSMutableString string];
-    if(storyLayer->preloadStoryString(script)) {
+    if(storyLayer->preloadStoryString(_script)) {
         // check sprite frame name
         NSMutableDictionary* plists = [NSMutableDictionary dictionary];
         for(vector<string>::iterator iter = gUsedSpriteFrameNames.begin(); iter != gUsedSpriteFrameNames.end(); iter++) {
@@ -487,22 +536,19 @@ SDAppDelegate* gCurInstance = nil;
     
     // save to file
     NSFileManager* fm = [NSFileManager defaultManager];
-    if(![fm fileExistsAtPath:self.file]) {
-        [fm createFileAtPath:self.file contents:nil attributes:nil];
+    if(![fm fileExistsAtPath:file]) {
+        [fm createFileAtPath:file contents:nil attributes:nil];
     }
-    NSFileHandle* f = [NSFileHandle fileHandleForWritingAtPath:self.file];
+    NSFileHandle* f = [NSFileHandle fileHandleForWritingAtPath:file];
     NSMutableData* data = [NSMutableData data];
     [data appendBytes:[buf cStringUsingEncoding:NSUTF8StringEncoding]
                length:[buf lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
-    [data appendBytes:[self.aceView.string cStringUsingEncoding:NSUTF8StringEncoding]
-               length:[self.aceView.string lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+    [data appendBytes:[script cStringUsingEncoding:NSUTF8StringEncoding]
+               length:[script lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     [f writeData:data];
     [f truncateFileAtOffset:[f offsetInFile]];
     [f synchronizeFile];
     [f closeFile];
-    
-    // clear flag
-    self.dirty = NO;
 }
 
 - (void)onReplay:(id)sender {

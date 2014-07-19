@@ -211,6 +211,9 @@ SDAppDelegate* gCurInstance = nil;
         } else if([@"ExportJson" isEqualToString:ext]) {
             // remove registry
             [self.resFiles removeObject:item];
+        } else if([@"png" isEqualToString:ext] || [@"jpg" isEqualToString:ext] || [@"jpeg" isEqualToString:ext]) {
+            [self.imageMap removeObjectForKey:item];
+            [self.resFiles removeObject:item];
         }
         
         // reload outline

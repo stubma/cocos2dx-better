@@ -14,10 +14,13 @@
         <customObject id="Voe-Tx-rLC" customClass="SDAppDelegate">
             <connections>
                 <outlet property="aceView" destination="eIN-rY-6FG" id="aLd-c5-DOj"/>
+                <outlet property="addMenu" destination="kRn-BJ-fU0" id="wZ9-F1-UWC"/>
                 <outlet property="atlasOutline" destination="45l-OZ-Pgy" id="mgi-x8-qRS"/>
                 <outlet property="glView" destination="g3w-KF-N3U" id="282-rZ-0PS"/>
                 <outlet property="hSplitView" destination="66W-79-7hP" id="ASY-My-gkH"/>
                 <outlet property="helpView" destination="eKL-3J-rud" id="h87-Tl-eoj"/>
+                <outlet property="onAddAtlas" destination="Zzj-aV-cp3" id="Bbo-oT-Yr4"/>
+                <outlet property="onNewStory" destination="j2J-dw-8AJ" id="R5b-IM-CNg"/>
                 <outlet property="propertyScrollView" destination="kKd-gH-okS" id="RAX-0g-a0S"/>
                 <outlet property="vSplitView" destination="NdU-Z5-Ebk" id="9qh-aR-A8a"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -377,7 +380,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="335" y="390" width="969" height="614"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="969" height="614"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -546,7 +549,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView editable="NO" importsGraphics="NO" richText="NO" findStyle="panel" continuousSpellChecking="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Uak-1m-EzL">
-                                <rect key="frame" x="0.0" y="0.0" width="690" height="8086"/>
+                                <rect key="frame" x="0.0" y="0.0" width="690" height="5730"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="textColor" red="0.11372549019607843" green="0.52156862745098043" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -15693,5 +15696,34 @@ Cg
                 <constraint firstAttribute="bottom" secondItem="4iJ-sl-Hif" secondAttribute="bottom" id="oRM-AG-0k8"/>
             </constraints>
         </customView>
+        <menu id="kRn-BJ-fU0">
+            <items>
+                <menuItem title="Add Image File" id="dTH-Xj-den">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="onAddImageFile:" target="Voe-Tx-rLC" id="APl-on-nvO"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Add Atlas" id="Zzj-aV-cp3">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="onAddAtlas:" target="Voe-Tx-rLC" id="rAF-64-wvN"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Add Armature" id="rIj-It-QyY">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="onAddArmature:" target="Voe-Tx-rLC" id="Z4M-EU-vMV"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="Zdy-v5-wkA"/>
+                <menuItem title="New Story" id="j2J-dw-8AJ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="onNewStory:" target="Voe-Tx-rLC" id="5iU-w1-vz6"/>
+                    </connections>
+                </menuItem>
+            </items>
+        </menu>
     </objects>
 </document>

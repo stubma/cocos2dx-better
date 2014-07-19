@@ -47,11 +47,17 @@ private:
     /// update is schedule
     bool m_playing;
     
+    /// single image file loaded
+    vector<string> m_loadedImageFiles;
+    
 protected:
 	CCStoryLayer();
     
     /// when story is done
     void onStoryDone();
+    
+    /// unload single image files
+    void unloadImageFiles();
 	
 public:
 	virtual ~CCStoryLayer();

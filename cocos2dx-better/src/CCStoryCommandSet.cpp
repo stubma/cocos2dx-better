@@ -28,7 +28,7 @@
 CCArray gStoryCommandSet;
 
 // for designer
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
 vector<string> gUsedSpriteFrameNames;
 vector<string> gUsedImageNames;
 vector<string> gUsedArmatureNames;
@@ -248,7 +248,7 @@ void img(string name, string frameName, float x, float y) {
     gStoryCommandSet.addObject(cmd);
     
     // for designer
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
     CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(frameName.c_str());
     if(frame) {
         gUsedSpriteFrameNames.push_back(frameName);
@@ -276,7 +276,7 @@ void arm(string name, string armName, float x, float y) {
     gStoryCommandSet.addObject(cmd);
     
     // for designer
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
     gUsedArmatureNames.push_back(armName);
 #endif
 }

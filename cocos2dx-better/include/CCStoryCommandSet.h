@@ -34,7 +34,7 @@ using namespace std;
 extern CCArray gStoryCommandSet;
 
 // for designer
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
 extern vector<string> gUsedSpriteFrameNames;
 extern vector<string> gUsedImageNames;
 extern vector<string> gUsedArmatureNames;

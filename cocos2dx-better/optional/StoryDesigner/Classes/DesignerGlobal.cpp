@@ -21,3 +21,16 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+#include "DesignerGlobal.h"
+#import "SDAppDelegate.h"
+
+extern SDAppDelegate* gCurInstance;
+
+string lookupImageFileFullPath(const string& filename) {
+    NSString* path = [gCurInstance lookupImageFileFullPath:[NSString stringWithCString:filename.c_str() encoding:NSUTF8StringEncoding]];
+    if(path) {
+        return [path cStringUsingEncoding:NSUTF8StringEncoding];
+    } else {
+        return filename;
+    }
+}

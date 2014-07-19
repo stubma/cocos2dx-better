@@ -35,6 +35,9 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
     #import <AppKit/AppKit.h>
 #endif
+#ifdef CC_STORY_DESIGNER
+    extern string lookupImageFileFullPath(const string& filename);
+#endif
 
 // tag of node
 #define TAG_MESSAGE_LAYER 10000
@@ -84,7 +87,7 @@ CCStoryPlayer::~CCStoryPlayer() {
         CCEGLView::sharedOpenGLView()->setDesignResolutionSize(m_oldDesignSize.x, m_oldDesignSize.y, m_requiredPolicy);
         
         // for story designer
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
         CCNotificationCenter::sharedNotificationCenter()->postNotification("kCCNotificationFrameSizeChanged");
 #endif
     }
@@ -159,7 +162,7 @@ void CCStoryPlayer::executeCurrentCommand() {
             CCEGLView::sharedOpenGLView()->setDesignResolutionSize(m_requiredDesignSize.x, m_requiredDesignSize.y, kResolutionShowAll);
             
             // for story designer
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
             CCNotificationCenter::sharedNotificationCenter()->postNotification("kCCNotificationFrameSizeChanged");
 #endif
             
@@ -175,7 +178,7 @@ void CCStoryPlayer::executeCurrentCommand() {
             CCEGLView::sharedOpenGLView()->setDesignResolutionSize(m_requiredDesignSize.x, m_requiredDesignSize.y, m_requiredPolicy);
       
             // for story designer
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
             CCNotificationCenter::sharedNotificationCenter()->postNotification("kCCNotificationFrameSizeChanged");
 #endif
             
@@ -391,11 +394,15 @@ void CCStoryPlayer::executeCurrentCommand() {
                 }
             } else {
                 // then try to load role from a single image file
+                // but for designer, need lookup file full path
+#ifdef CC_STORY_DESIGNER
+                CCSprite* role = CCSprite::create(lookupImageFileFullPath(m_curCmd->m_param.img.frameName).c_str());
+#else
                 CCSprite* role = CCSprite::create(m_curCmd->m_param.img.frameName);
+#endif
                 if(role) {
                     role->setPosition(ccp(m_curCmd->m_param.img.x,
                                           m_curCmd->m_param.img.y));
-                    m_owner->addChild(role);
                     m_owner->addChild(role);
                     
                     // save role
@@ -886,7 +893,7 @@ void CCStoryPlayer::setError(const string& e) {
     m_error = e;
     
     // for story designer debug
-#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+#ifdef CC_STORY_DESIGNER
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NSNotificationStoryPlayerError"
                                                         object:[NSString stringWithCString:m_error.c_str() encoding:NSUTF8StringEncoding]];
 #endif

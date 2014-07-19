@@ -26,4 +26,7 @@
 
 #define kCCNotificationFrameSizeChanged "kCCNotificationFrameSizeChanged"
 
+/// get image file name full path in mac
+extern string lookupImageFileFullPath(const string& filename);
+
 #endif

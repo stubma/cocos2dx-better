@@ -26,5 +26,6 @@
 @interface SDAppDelegate : NSObject <NSApplicationDelegate>
 
 - (void)showHelpView;
+- (NSString*)lookupImageFileFullPath:(NSString*)filename;
 
 @end

@@ -1,3 +1,5 @@
+--$<atlas,z_test.plist,z_test.png
+--$<image,grossini.png
 --$<arm,Cowboy.ExportJson
 -- set desired design size
 winsize(720, 480)
@@ -21,6 +23,12 @@ arm('cowboy', 'Cowboy', 0, 0)
 spos('cowboy', 0.5, 0.5)
 scale('cowboy', 0.2, 0.2)
 armplay('cowboy', 'Walk')
+
+-- image from single file
+img('grossini', 'grossini.png', 40, 260)
+
+-- image from atlas
+img('flag', "usa_flag.jpg", 40, 340)
 
 -- wait user click, hint user
 -- remove the hint after click

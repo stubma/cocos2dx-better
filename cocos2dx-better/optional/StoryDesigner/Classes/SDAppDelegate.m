@@ -31,6 +31,7 @@
 #import "SDAtlasLoader.h"
 
 static AppDelegate s_sharedApplication;
+SDAppDelegate* gCurInstance = nil;
 
 @interface SDAppDelegate () <NSSplitViewDelegate, ACEViewDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate>
 
@@ -50,15 +51,20 @@ static AppDelegate s_sharedApplication;
 @property (strong) NSMutableDictionary* atlasFrameMap;
 @property (strong) NSMutableDictionary* atlasImageMap;
 @property (strong) NSMutableDictionary* atlasPathMap;
+@property (strong) NSMutableDictionary* imageMap;
 @property (strong) NSTextField* errorLabel;
 @property (strong) CNSplitViewToolbar* toolbar;
+@property (weak) IBOutlet NSMenu *addMenu;
 
 - (IBAction)onDelete:(id)sender;
+- (IBAction)onAddImageFile:(id)sender;
+- (IBAction)onAddAtlas:(id)sender;
+- (IBAction)onAddArmature:(id)sender;
+- (IBAction)onNewStory:(id)sender;
 - (void)initSplitViews;
 - (void)initACEView;
 - (void)onSave:(id)sender;
 - (void)onLoad:(id)sender;
-- (void)onNew:(id)sender;
 - (void)onReplay:(id)sender;
 - (void)onAddImages:(id)sender;
 - (void)confirmSave:(BOOL)quit open:(BOOL)open;
@@ -82,6 +88,8 @@ static AppDelegate s_sharedApplication;
     self.atlasFrameMap = [NSMutableDictionary dictionary];
     self.atlasImageMap = [NSMutableDictionary dictionary];
     self.atlasPathMap = [NSMutableDictionary dictionary];
+    self.imageMap = [NSMutableDictionary dictionary];
+    gCurInstance = self;
     
     // init split views
     [self initSplitViews];
@@ -210,15 +218,67 @@ static AppDelegate s_sharedApplication;
     }
 }
 
+- (IBAction)onAddImageFile:(id)sender {
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowsMultipleSelection:YES];
+    [openDlg setAllowedFileTypes:@[@"png", @"jpg", @"jpeg"]];
+    [openDlg setPrompt:@"Load Image Files"];
+    if ([openDlg runModal] == NSOKButton) {
+        NSArray* files = [openDlg filenames];
+        [self loadResources:files];
+        
+        // reload outline
+        [self.atlasOutline reloadData];
+    }
+}
+
+- (IBAction)onAddAtlas:(id)sender {
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowsMultipleSelection:YES];
+    [openDlg setAllowedFileTypes:@[@"plist"]];
+    [openDlg setPrompt:@"Load Atlas"];
+    if ([openDlg runModal] == NSOKButton) {
+        NSArray* files = [openDlg filenames];
+        [self loadResources:files];
+        
+        // reload outline
+        [self.atlasOutline reloadData];
+    }
+}
+
+- (IBAction)onAddArmature:(id)sender {
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowsMultipleSelection:YES];
+    [openDlg setAllowedFileTypes:@[@"ExportJson"]];
+    [openDlg setPrompt:@"Load Aramature"];
+    if ([openDlg runModal] == NSOKButton) {
+        NSArray* files = [openDlg filenames];
+        [self loadResources:files];
+        
+        // reload outline
+        [self.atlasOutline reloadData];
+    }
+}
+
+- (IBAction)onNewStory:(id)sender {
+    if(self.dirty) {
+        [self confirmSave:NO open:NO];
+    }
+    self.file = nil;
+    self.aceView.string = @"";
+    self.dirty = NO;
+}
+
 - (void)initSplitViews {
     // toolbar - new button
-    CNSplitViewToolbarButton* newItem = [[CNSplitViewToolbarButton alloc] init];
+    CNSplitViewToolbarButton* newItem = [[CNSplitViewToolbarButton alloc] initWithContextMenu:self.addMenu];
     newItem.keyEquivalent = @"n";
     newItem.keyEquivalentModifierMask = NSCommandKeyMask;
     newItem.imageTemplate = CNSplitViewToolbarButtonImageTemplateAdd;
     newItem.toolTip = @"New";
-    [newItem setTarget:self];
-    [newItem setAction:@selector(onNew:)];
     
     // toolbar - save button
     CNSplitViewToolbarButton* save = [[CNSplitViewToolbarButton alloc] init];
@@ -238,25 +298,12 @@ static AppDelegate s_sharedApplication;
     [load setTarget:self];
     [load setAction:@selector(onLoad:)];
     
-    // toolbar - select images
-    NSButton* selectImage = [[NSButton alloc] init];
-    [selectImage setButtonType:NSMomentaryPushInButton];
-    [selectImage setTitle:@"Add Images"];
-    [selectImage setToolbarItemWidth:100];
-    [selectImage setBezelStyle:NSRoundedBezelStyle];
-    [selectImage setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-    [[selectImage cell] setControlSize:NSSmallControlSize];
-    [selectImage setTarget:self];
-    [selectImage setAction:@selector(onAddImages:)];
-    
     // toolbar - replay
-    NSButton* replay = [[NSButton alloc] init];
-    [replay setButtonType:NSMomentaryPushInButton];
-    [replay setTitle:@"Replay"];
-    [replay setToolbarItemWidth:100];
-    [replay setBezelStyle:NSRoundedBezelStyle];
-    [replay setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
-    [[replay cell] setControlSize:NSSmallControlSize];
+    CNSplitViewToolbarButton* replay = [[CNSplitViewToolbarButton alloc] init];
+    replay.keyEquivalent = @"r";
+    replay.keyEquivalentModifierMask = NSCommandKeyMask;
+    replay.imageTemplate = CNSplitViewToolbarButtonImageTemplateQuickLook;
+    replay.toolTip = @"Replay";
     [replay setTarget:self];
     [replay setAction:@selector(onReplay:)];
     
@@ -275,7 +322,6 @@ static AppDelegate s_sharedApplication;
     [toolbar addItem:newItem align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:load align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:save align:CNSplitViewToolbarItemAlignLeft];
-    [toolbar addItem:selectImage align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:replay align:CNSplitViewToolbarItemAlignLeft];
     [toolbar addItem:self.errorLabel align:CNSplitViewToolbarItemAlignRight];
     [self.hSplitView attachToolbar:toolbar
@@ -315,6 +361,15 @@ static AppDelegate s_sharedApplication;
 - (void)onStoryPlayerError:(NSNotification *)n {
     [self.errorLabel setHidden:NO];
     self.errorLabel.stringValue = [n object];
+}
+
+- (NSString*)lookupImageFileFullPath:(NSString*)filename {
+    for(NSString* file in [self.imageMap allKeys]) {
+        if([filename isEqualToString:[file lastPathComponent]]) {
+            return file;
+        }
+    }
+    return nil;
 }
 
 - (void)showHelpView {
@@ -400,6 +455,19 @@ static AppDelegate s_sharedApplication;
             [buf appendFormat:@"--$<atlas,%@,%@\n", plistName, atlasName];
         }
         
+        // check image files
+        NSMutableDictionary* images = [NSMutableDictionary dictionary];
+        for(vector<string>::iterator iter = gUsedImageNames.begin(); iter != gUsedImageNames.end(); iter++) {
+            NSString* filename = [NSString stringWithCString:iter->c_str()
+                                                    encoding:NSUTF8StringEncoding];
+            [images setObject:filename forKey:filename];
+        }
+        
+        // add images
+        for(NSString* file in [images allKeys]) {
+            [buf appendFormat:@"--$<image,%@\n", file];
+        }
+        
         // check armature
         NSMutableDictionary* arms = [NSMutableDictionary dictionary];
         for(vector<string>::iterator iter = gUsedArmatureNames.begin(); iter != gUsedArmatureNames.end(); iter++) {
@@ -448,21 +516,6 @@ static AppDelegate s_sharedApplication;
     }
 }
 
-- (void)onAddImages:(id)sender {
-    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-    [openDlg setCanChooseFiles:YES];
-    [openDlg setAllowsMultipleSelection:YES];
-    [openDlg setAllowedFileTypes:@[@"plist", @"ExportJson"]];
-    [openDlg setPrompt:@"Load"];
-    if ([openDlg runModal] == NSOKButton) {
-        NSArray* files = [openDlg filenames];
-        [self loadResources:files];
-        
-        // reload outline
-        [self.atlasOutline reloadData];
-    }
-}
-
 - (NSString*)findPlistPath:(NSString*)frameName {
     for(NSString* file in [self.atlasFrameMap allKeys]) {
         NSArray* frames = [self.atlasFrameMap objectForKey:file];
@@ -504,6 +557,13 @@ static AppDelegate s_sharedApplication;
             
             // load
             CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo([file cStringUsingEncoding:NSUTF8StringEncoding]);
+        } else if([@"png" isEqualToString:ext] || [@"jpg" isEqualToString:ext] || [@"jpeg" isEqualToString:ext]) {
+            NSImage* image = [[NSImage alloc] initWithContentsOfFile:file];
+            [self.resFiles addObject:file];
+            [self.imageMap setObject:image forKey:file];
+            
+            // load it
+            CCResourceLoader::loadImage([file cStringUsingEncoding:NSUTF8StringEncoding], NULL);
         }
     }
 }
@@ -524,15 +584,6 @@ static AppDelegate s_sharedApplication;
     } else {
         [self showOpenPanel];
     }
-}
-
-- (void)onNew:(id)sender {
-    if(self.dirty) {
-        [self confirmSave:NO open:NO];
-    }
-    self.file = nil;
-    self.aceView.string = @"";
-    self.dirty = NO;
 }
 
 #pragma mark -
@@ -618,6 +669,9 @@ static AppDelegate s_sharedApplication;
     NSImageView* imageView = [[NSImageView alloc] init];
     if([item isKindOfClass:[NSString class]]) {
         imageView.image = [self.atlasImageMap objectForKey:item];
+        if(!imageView.image) {
+            imageView.image = [self.imageMap objectForKey:item];
+        }
     } else {
         NSImage* atlas = [self.atlasImageMap objectForKey:[self.atlasOutline parentForItem:item]];
         imageView.image = [SDAtlasLoader getFrameImage:item fromAtlas:atlas];

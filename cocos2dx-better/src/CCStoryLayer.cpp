@@ -63,6 +63,7 @@ m_playing(false) {
 CCStoryLayer::~CCStoryLayer() {
     CC_SAFE_RELEASE(m_player);
     CC_SAFE_RELEASE(m_doneFunc);
+    unloadImageFiles();
     gStoryCommandSet.removeAllObjects();
     if(L) {
         lua_close(L);
@@ -106,6 +107,13 @@ bool CCStoryLayer::init() {
 	return true;
 }
 
+void CCStoryLayer::unloadImageFiles() {
+    for(vector<string>::iterator iter = m_loadedImageFiles.begin(); iter != m_loadedImageFiles.end(); iter++) {
+        CCTextureCache::sharedTextureCache()->removeTextureForKey(iter->c_str());
+    }
+    m_loadedImageFiles.clear();
+}
+
 bool CCStoryLayer::preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FUNC decFunc) {
     string path = CCUtils::getExternalOrFullPath(storyScriptFile);
     string script = CCResourceLoader::loadString(path, decFunc);
@@ -115,6 +123,7 @@ bool CCStoryLayer::preloadStoryFile(const string& storyScriptFile, CC_DECRYPT_FU
 bool CCStoryLayer::preloadStoryString(const string& storyScript) {
     // clear old
     gStoryCommandSet.removeAllObjects();
+    unloadImageFiles();
     
     // load resources needed
     CCByteBuffer bb(storyScript.c_str(), storyScript.length(), storyScript.length());
@@ -132,10 +141,16 @@ bool CCStoryLayer::preloadStoryString(const string& storyScript) {
                 CCResourceLoader::loadZwoptex(plist, atlas, m_decFunc);
             } else if(type == "arm") {
                 CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(resCmd.substr(comma + 1).c_str());
+            } else if(type == "image") {
+                string filename = resCmd.substr(comma + 1);
+                m_loadedImageFiles.push_back(filename);
+                CCResourceLoader::loadImage(filename, m_decFunc);
             }
         } else {
             break;
         }
+        
+        bb.readLine(line);
     }
     
     // do script

@@ -163,6 +163,7 @@ static const ccColor4B cc4BLACK = { 0, 0, 0, 255 };
 static const ccColor4B cc4WHITE = { 255, 255, 255, 255 };
 static const ccColor4B cc4TRANSPARENT = { 0, 0, 0, 0 };
 static const ccColor4B cc4DIM = { 0, 0, 0, 127 };
+static const ccColor4B cc4YELLOW = { 255, 255, 0, 255 };
 static const ccColor4F cc4fRED = { 1, 0, 0, 1 };
 static const ccColor4F cc4fGREEN = { 0, 1, 0, 1 };
 static const ccColor4F cc4fBLUE = { 0, 0, 1, 1 };
@@ -170,6 +171,7 @@ static const ccColor4F cc4fBLACK = { 0, 0, 0, 1 };
 static const ccColor4F cc4fWHITE = { 1, 1, 1, 1 };
 static const ccColor4F cc4fTRANSPARENT = { 0, 0, 0, 0 };
 static const ccColor4F cc4fDIM = { 0, 0, 0, 0.5f };
+static const ccColor4F cc4fYELLOW = { 1, 1, 0, 1 };
 
 /// convert int color 0xaarrggbb to ccColor4B
 static inline ccColor4B ccc4FromInt(int c) {

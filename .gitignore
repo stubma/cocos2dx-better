@@ -7,6 +7,12 @@ obj/
 dist/
 Debug/
 Release/
+ipch/
+logs/
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+*.log
+*.py[cod]
 *.aps
 *.suo
 *.sdf
@@ -15,3 +21,4 @@ Release/
 *.vcxproj.user
 xcuserdata
 todo
+libgame.so

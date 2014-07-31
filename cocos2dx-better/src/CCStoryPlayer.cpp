@@ -398,23 +398,26 @@ void CCStoryPlayer::executeCurrentCommand() {
 #ifdef CC_STORY_DESIGNER
                 CCSprite* role = CCSprite::create(lookupImageFileFullPath(m_curCmd->m_param.img.frameName).c_str());
 #else
-                string path = CCUtils::getExternalOrFullPath(m_curCmd->m_param.img.frameName);
+                string path = CCUtils::externalize(m_curCmd->m_param.img.frameName);
                 CCSprite* role = CCSprite::create(path.c_str());
                 char buf[512];
-                if(role) {
+                if(!role) {
                     sprintf(buf, "%s.png", m_curCmd->m_param.img.frameName);
-                    string path = CCUtils::getExternalOrFullPath(buf);
+                    string path = CCUtils::externalize(buf);
                     role = CCSprite::create(path.c_str());
                 }
-                if(role) {
+                if(!role) {
                     sprintf(buf, "%s.jpg", m_curCmd->m_param.img.frameName);
-                    string path = CCUtils::getExternalOrFullPath(buf);
+                    string path = CCUtils::externalize(buf);
                     role = CCSprite::create(path.c_str());
                 }
-                if(role) {
+                if(!role) {
                     sprintf(buf, "%s.jpeg", m_curCmd->m_param.img.frameName);
-                    string path = CCUtils::getExternalOrFullPath(buf);
+                    string path = CCUtils::externalize(buf);
                     role = CCSprite::create(path.c_str());
+                }
+                if(!role) {
+                    role = CCSprite::create(m_curCmd->m_param.img.frameName);
                 }
 #endif
                 if(role) {

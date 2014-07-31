@@ -136,15 +136,29 @@ bool CCStoryLayer::preloadStoryString(const string& storyScript) {
             string type = resCmd.substr(0, comma);
             if(type == "atlas") {
                 int secondComma = (int)resCmd.find(",", comma + 1);
-                string plist = resCmd.substr(comma + 1, secondComma - comma - 1);
-                string atlas = resCmd.substr(secondComma + 1);
+                string plist = CCUtils::getExternalOrFullPath(resCmd.substr(comma + 1, secondComma - comma - 1));
+                string atlas = CCUtils::getExternalOrFullPath(resCmd.substr(secondComma + 1));
                 CCResourceLoader::loadZwoptex(plist, atlas, m_decFunc);
             } else if(type == "arm") {
-                CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(resCmd.substr(comma + 1).c_str());
+                string json = CCUtils::getExternalOrFullPath(resCmd.substr(comma + 1));
+                CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(json.c_str());
             } else if(type == "image") {
                 string filename = resCmd.substr(comma + 1);
-                m_loadedImageFiles.push_back(filename);
-                CCResourceLoader::loadImage(filename, m_decFunc);
+                string path = CCUtils::externalize(filename);
+                if(!CCUtils::isPathExistent(path)) {
+                    path = CCUtils::externalize(filename + ".png");
+                    if(!CCUtils::isPathExistent(path)) {
+                        path = CCUtils::externalize(filename + ".jpg");
+                        if(!CCUtils::isPathExistent(path)) {
+                            path = CCUtils::externalize(filename + ".jpeg");
+                            if(!CCUtils::isPathExistent(path)) {
+                                path = filename;
+                            }
+                        }
+                    }
+                }
+                m_loadedImageFiles.push_back(path);
+                CCResourceLoader::loadImage(path, m_decFunc);
             }
         } else {
             break;

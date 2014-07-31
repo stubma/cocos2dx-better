@@ -144,17 +144,23 @@ bool CCStoryLayer::preloadStoryString(const string& storyScript) {
                 CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(json.c_str());
             } else if(type == "image") {
                 string filename = resCmd.substr(comma + 1);
-                string path = CCUtils::externalize(filename);
-                if(!CCUtils::isPathExistent(path)) {
+                string ext = CCUtils::getPathExtension(filename);
+                string path;
+                if(ext != ".png" && ext != ".jpg" && ext != ".jpeg") {
                     path = CCUtils::externalize(filename + ".png");
                     if(!CCUtils::isPathExistent(path)) {
                         path = CCUtils::externalize(filename + ".jpg");
                         if(!CCUtils::isPathExistent(path)) {
                             path = CCUtils::externalize(filename + ".jpeg");
                             if(!CCUtils::isPathExistent(path)) {
-                                path = filename;
+                                path = filename + ".png";
                             }
                         }
+                    }
+                } else {
+                    path = CCUtils::externalize(filename);
+                    if(!CCUtils::isPathExistent(path)) {
+                        path = filename;
                     }
                 }
                 m_loadedImageFiles.push_back(path);

@@ -398,27 +398,27 @@ void CCStoryPlayer::executeCurrentCommand() {
 #ifdef CC_STORY_DESIGNER
                 CCSprite* role = CCSprite::create(lookupImageFileFullPath(m_curCmd->m_param.img.frameName).c_str());
 #else
-                string path = CCUtils::externalize(m_curCmd->m_param.img.frameName);
+                string filename(m_curCmd->m_param.img.frameName);
+                string ext = CCUtils::getPathExtension(filename);
+                string path;
+                if(ext != ".png" && ext != ".jpg" && ext != ".jpeg") {
+                    path = CCUtils::externalize(filename + ".png");
+                    if(!CCUtils::isPathExistent(path)) {
+                        path = CCUtils::externalize(filename + ".jpg");
+                        if(!CCUtils::isPathExistent(path)) {
+                            path = CCUtils::externalize(filename + ".jpeg");
+                            if(!CCUtils::isPathExistent(path)) {
+                                path = filename + ".png";
+                            }
+                        }
+                    }
+                } else {
+                    path = CCUtils::externalize(filename);
+                    if(!CCUtils::isPathExistent(path)) {
+                        path = filename;
+                    }
+                }
                 CCSprite* role = CCSprite::create(path.c_str());
-                char buf[512];
-                if(!role) {
-                    sprintf(buf, "%s.png", m_curCmd->m_param.img.frameName);
-                    string path = CCUtils::externalize(buf);
-                    role = CCSprite::create(path.c_str());
-                }
-                if(!role) {
-                    sprintf(buf, "%s.jpg", m_curCmd->m_param.img.frameName);
-                    string path = CCUtils::externalize(buf);
-                    role = CCSprite::create(path.c_str());
-                }
-                if(!role) {
-                    sprintf(buf, "%s.jpeg", m_curCmd->m_param.img.frameName);
-                    string path = CCUtils::externalize(buf);
-                    role = CCSprite::create(path.c_str());
-                }
-                if(!role) {
-                    role = CCSprite::create(m_curCmd->m_param.img.frameName);
-                }
 #endif
                 if(role) {
                     role->setPosition(ccp(m_curCmd->m_param.img.x,

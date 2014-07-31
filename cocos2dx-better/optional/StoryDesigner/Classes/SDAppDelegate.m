@@ -385,6 +385,8 @@ SDAppDelegate* gCurInstance = nil;
     for(NSString* file in [self.imageMap allKeys]) {
         if([filename isEqualToString:[file lastPathComponent]]) {
             return file;
+        } else if([filename isEqualToString:[[file lastPathComponent] stringByDeletingPathExtension]]) {
+            return file;
         }
     }
     return nil;

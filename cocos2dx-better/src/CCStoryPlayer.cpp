@@ -398,7 +398,20 @@ void CCStoryPlayer::executeCurrentCommand() {
 #ifdef CC_STORY_DESIGNER
                 CCSprite* role = CCSprite::create(lookupImageFileFullPath(m_curCmd->m_param.img.frameName).c_str());
 #else
-                CCSprite* role = CCSprite::create(m_curCmd->m_param.img.frameName);
+                CCSprite* role = CCSprite::create(RC(m_curCmd->m_param.img.frameName));
+                char buf[512];
+                if(role) {
+                    sprintf(buf, "%s.png", m_curCmd->m_param.img.frameName);
+                    role = CCSprite::create(RC(buf));
+                }
+                if(role) {
+                    sprintf(buf, "%s.jpg", m_curCmd->m_param.img.frameName);
+                    role = CCSprite::create(RC(buf));
+                }
+                if(role) {
+                    sprintf(buf, "%s.jpeg", m_curCmd->m_param.img.frameName);
+                    role = CCSprite::create(RC(buf));
+                }
 #endif
                 if(role) {
                     role->setPosition(ccp(m_curCmd->m_param.img.x,

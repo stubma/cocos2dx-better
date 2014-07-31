@@ -402,15 +402,18 @@ void CCStoryPlayer::executeCurrentCommand() {
                 char buf[512];
                 if(role) {
                     sprintf(buf, "%s.png", m_curCmd->m_param.img.frameName);
-                    role = CCSprite::create(RC(buf));
+                    string path = CCUtils::getExternalOrFullPath(buf);
+                    role = CCSprite::create(path);
                 }
                 if(role) {
                     sprintf(buf, "%s.jpg", m_curCmd->m_param.img.frameName);
-                    role = CCSprite::create(RC(buf));
+                    string path = CCUtils::getExternalOrFullPath(buf);
+                    role = CCSprite::create(path);
                 }
                 if(role) {
                     sprintf(buf, "%s.jpeg", m_curCmd->m_param.img.frameName);
-                    role = CCSprite::create(RC(buf));
+                    string path = CCUtils::getExternalOrFullPath(buf);
+                    role = CCSprite::create(path);
                 }
 #endif
                 if(role) {

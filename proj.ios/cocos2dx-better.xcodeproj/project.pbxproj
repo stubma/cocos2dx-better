@@ -529,6 +529,7 @@
 		9234735E18BD865A009DDBEF /* CCShaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShaders.h; sourceTree = "<group>"; };
 		9234736018BD86A4009DDBEF /* CCShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShaders.cpp; sourceTree = "<group>"; };
 		9236C0BA19932053000A61A7 /* CBMoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBMoveTo.cpp; sourceTree = "<group>"; };
+		9236C0C2199321F1000A61A7 /* CBMoveTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMoveTo.h; sourceTree = "<group>"; };
 		923713EF18DD1453006879DE /* CBTMXTileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXTileMap.cpp; sourceTree = "<group>"; };
 		923713F218DD1538006879DE /* CBTMXTileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTMXTileMap.h; sourceTree = "<group>"; };
 		923713F618DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXObjectDebugRenderer.cpp; sourceTree = "<group>"; };
@@ -1506,6 +1507,7 @@
 				922399EC187FD7B3006AD199 /* CBJumpBy.h */,
 				92042B1C187FE0E80064262D /* CBJumpTo.h */,
 				925C17A81946E0D7002FEE73 /* CBMoveBy.h */,
+				9236C0C2199321F1000A61A7 /* CBMoveTo.h */,
 				9239687F185591DB0063E8A1 /* CCMissile.h */,
 				9239688B185591DB0063E8A1 /* CCShake.h */,
 				92396893185591DB0063E8A1 /* CCTreeFadeIn.h */,

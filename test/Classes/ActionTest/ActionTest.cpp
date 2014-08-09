@@ -8,6 +8,7 @@
 
 TESTLAYER_CREATE_FUNC(ActionBlur);
 TESTLAYER_CREATE_FUNC(ActionClipInOut);
+TESTLAYER_CREATE_FUNC(ActionCount);
 TESTLAYER_CREATE_FUNC(ActionFlash);
 TESTLAYER_CREATE_FUNC(ActionJumpEx);
 TESTLAYER_CREATE_FUNC(ActionMissile);
@@ -18,6 +19,7 @@ TESTLAYER_CREATE_FUNC(ActionTreeFadeInOut);
 static NEWTESTFUNC createFunctions[] = {
 	CF(ActionBlur),
     CF(ActionClipInOut),
+    CF(ActionCount),
     CF(ActionFlash),
     CF(ActionJumpEx),
     CF(ActionMissile),
@@ -169,6 +171,33 @@ void ActionBlur::onEnter()
 std::string ActionBlur::subtitle()
 {
     return "Blur";
+}
+
+//------------------------------------------------------------------
+//
+// Count
+//
+//------------------------------------------------------------------
+void ActionCount::onEnter()
+{
+    ActionDemo::onEnter();
+    
+    // label 1
+    CCLabelTTF* label1 = CCLabelTTF::create("0", "Helvetica", 32);
+    label1->setPosition(CCUtils::getLocalPoint(this, 0.5f, 0.7f));
+    addChild(label1);
+    label1->runAction(CCCount::create(30, 0, 1000));
+    
+    // label 2
+    CCRichLabelTTF* label2 = CCRichLabelTTF::create("0", "Helvetica", 32);
+    label2->setPosition(CCUtils::getLocalPoint(this, 0.5f, 0.5f));
+    addChild(label2);
+    label2->runAction(CCCount::create(30, 1000, 0, "Haha, [color=ffff0000]%d[/color]"));
+}
+
+std::string ActionCount::subtitle()
+{
+    return "Count";
 }
 
 //------------------------------------------------------------------

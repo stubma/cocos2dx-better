@@ -95,6 +95,7 @@
 #include "CCTrailMoveTo.h"
 #include "CBMoveBy.h"
 #include "CBMoveTo.h"
+#include "CCCount.h"
 
 // db
 #include "CCDatabase.h"

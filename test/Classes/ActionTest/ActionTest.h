@@ -37,6 +37,13 @@ public:
     virtual string subtitle();
 };
 
+class ActionCount : public ActionDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class ActionFlash : public ActionDemo
 {
 public:

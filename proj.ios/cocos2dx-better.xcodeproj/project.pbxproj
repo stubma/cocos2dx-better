@@ -245,6 +245,7 @@
 		92731BCB195E896700D66FD2 /* tolua_map.c in Sources */ = {isa = PBXBuildFile; fileRef = 92731BA7195E896700D66FD2 /* tolua_map.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		92731BCC195E896700D66FD2 /* tolua_push.c in Sources */ = {isa = PBXBuildFile; fileRef = 92731BA8195E896700D66FD2 /* tolua_push.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
 		92731BCD195E896700D66FD2 /* tolua_to.c in Sources */ = {isa = PBXBuildFile; fileRef = 92731BA9195E896700D66FD2 /* tolua_to.c */; settings = {COMPILER_FLAGS = "-x c"; }; };
+		9273E5151995FA9F0012F6BF /* CCCount.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9273E5141995FA9F0012F6BF /* CCCount.cpp */; };
 		9276E0E718A732240045B318 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0E618A732240045B318 /* StoreKit.framework */; };
 		9276E0F318A76B190045B318 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0F218A76B190045B318 /* libpthread.dylib */; };
 		9276E10218A77A890045B318 /* CCAssetInputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10118A77A890045B318 /* CCAssetInputStream_ios.mm */; };
@@ -983,6 +984,8 @@
 		92731BA7195E896700D66FD2 /* tolua_map.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_map.c; sourceTree = "<group>"; };
 		92731BA8195E896700D66FD2 /* tolua_push.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_push.c; sourceTree = "<group>"; };
 		92731BA9195E896700D66FD2 /* tolua_to.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tolua_to.c; sourceTree = "<group>"; };
+		9273E5121995FA7F0012F6BF /* CCCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCount.h; sourceTree = "<group>"; };
+		9273E5141995FA9F0012F6BF /* CCCount.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCount.cpp; sourceTree = "<group>"; };
 		9276E0E618A732240045B318 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9276E0F218A76B190045B318 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		9276E10018A77A890045B318 /* CCAssetInputStream_ios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_ios.h; sourceTree = "<group>"; };
@@ -1503,6 +1506,7 @@
 				92E6629818D3E75D00C8A01E /* CCBlur.h */,
 				92396872185591DB0063E8A1 /* CCClipIn.h */,
 				92396873185591DB0063E8A1 /* CCClipOut.h */,
+				9273E5121995FA7F0012F6BF /* CCCount.h */,
 				92CE277818B5EE81006E5B71 /* CCFlash.h */,
 				922399EC187FD7B3006AD199 /* CBJumpBy.h */,
 				92042B1C187FE0E80064262D /* CBJumpTo.h */,
@@ -1609,6 +1613,7 @@
 				92E6629518D3E73300C8A01E /* CCBlur.cpp */,
 				923968A7185591DB0063E8A1 /* CCClipIn.cpp */,
 				923968A8185591DB0063E8A1 /* CCClipOut.cpp */,
+				9273E5141995FA9F0012F6BF /* CCCount.cpp */,
 				92CE277518B5EE35006E5B71 /* CCFlash.cpp */,
 				922399E9187FD793006AD199 /* CBJumpBy.cpp */,
 				92042B19187FE0CD0064262D /* CBJumpTo.cpp */,
@@ -3397,6 +3402,7 @@
 				92A855CF19500C8F00098490 /* CheckBoxReader.cpp in Sources */,
 				92A855DC19500C8F00098490 /* ObjectFactory.cpp in Sources */,
 				9288DF31188F98A400C14965 /* CCInvocation.cpp in Sources */,
+				9273E5151995FA9F0012F6BF /* CCCount.cpp in Sources */,
 				92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */,
 				9292C88018EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp in Sources */,
 				92A8559919500C8F00098490 /* CCActionTimeline.cpp in Sources */,

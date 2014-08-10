@@ -26,6 +26,8 @@
 
 #include "cocos2d.h"
 
+using namespace std;
+
 NS_CC_BEGIN
 
 /**

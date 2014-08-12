@@ -30,12 +30,6 @@
 #include "CCMD5.h"
 #include "CCMoreMacros.h"
 
-// built-in strings
-#define S_CANCEL_EN "Cancel"
-#define S_CANCEL_ZH "取消"
-#define S_OK_EN "OK"
-#define S_OK_ZH "确定"
-
 bool CCUtils::deleteFile(const string& path) {
 	return unlink(path.c_str()) == 0;
 }

@@ -245,6 +245,7 @@
 		9261AC3A18978224001028B5 /* CCEditBoxImplTizen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3118978224001028B5 /* CCEditBoxImplTizen.cpp */; };
 		9261AC3B18978224001028B5 /* CCEditBoxImplWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3318978224001028B5 /* CCEditBoxImplWin.cpp */; };
 		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
+		9271D0A1199A682300C45F3D /* CCUUID.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9271D0A0199A682300C45F3D /* CCUUID.mm */; };
 		9273E5241996049D0012F6BF /* CCCount.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9273E5231996049D0012F6BF /* CCCount.cpp */; };
 		9276E0E718A732240045B318 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0E618A732240045B318 /* StoreKit.framework */; };
 		9276E0F318A76B190045B318 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9276E0F218A76B190045B318 /* libpthread.dylib */; };
@@ -987,6 +988,8 @@
 		92662272185B3E1500DC8DEC /* CCTCPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocket.h; sourceTree = "<group>"; };
 		92662277185B42CF00DC8DEC /* CCByteBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCByteBuffer.h; sourceTree = "<group>"; };
 		92662279185B437200DC8DEC /* CCNetworkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCNetworkCommon.h; sourceTree = "<group>"; };
+		9271D09F199A680B00C45F3D /* CCUUID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCUUID.h; sourceTree = "<group>"; };
+		9271D0A0199A682300C45F3D /* CCUUID.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUUID.mm; sourceTree = "<group>"; };
 		9273E5231996049D0012F6BF /* CCCount.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCount.cpp; sourceTree = "<group>"; };
 		9273E525199604A80012F6BF /* CCCount.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCount.h; sourceTree = "<group>"; };
 		9276E0E618A732240045B318 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -1581,6 +1584,7 @@
 		92396911185591EE0063E8A1 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				9271D09F199A680B00C45F3D /* CCUUID.h */,
 				920547BA1904EA380062ADA4 /* CBDrawNode.h */,
 				920214CC18EFA47A007FF1BD /* CBData.h */,
 				9225951A18D5897700E200AE /* CCBase64.h */,
@@ -2848,6 +2852,7 @@
 				9276E10618A77F600045B318 /* CCImage_richlabel.mm */,
 				9276E10818A788290045B318 /* CCImagePicker.mm */,
 				92BF0FFB18A71F320088121F /* CCUtils.mm */,
+				9271D0A0199A682300C45F3D /* CCUUID.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -3527,6 +3532,7 @@
 				92396907185591DB0063E8A1 /* CCTiledSprite.cpp in Sources */,
 				9288DF27188F98A400C14965 /* CCControl.cpp in Sources */,
 				925C3CA3195BB8560073D0E6 /* CCStoryMessageLayer.cpp in Sources */,
+				9271D0A1199A682300C45F3D /* CCUUID.mm in Sources */,
 				923968F5185591DB0063E8A1 /* CCMissile.cpp in Sources */,
 				92A8570119500CF100098490 /* CCMemory.cpp in Sources */,
 				9288DF2B188F98A400C14965 /* CCControlPotentiometer.cpp in Sources */,

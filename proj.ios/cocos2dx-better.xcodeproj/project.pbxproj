@@ -195,6 +195,7 @@
 		9255B8A918556DF000797255 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8A818556DF000797255 /* AudioToolbox.framework */; };
 		9255B8B518556E5400797255 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9255B8B418556E5400797255 /* OpenAL.framework */; };
 		925C17AA1946E0E6002FEE73 /* CBMoveBy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 925C17A91946E0E6002FEE73 /* CBMoveBy.cpp */; };
+		925CCB24199A6420006CA584 /* CCUUID.mm in Sources */ = {isa = PBXBuildFile; fileRef = 925CCB23199A6420006CA584 /* CCUUID.mm */; };
 		9261AC3518978224001028B5 /* CCEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2718978224001028B5 /* CCEditBox.cpp */; };
 		9261AC3618978224001028B5 /* CCEditBoxImplAndroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2A18978224001028B5 /* CCEditBoxImplAndroid.cpp */; };
 		9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC2D18978224001028B5 /* CCEditBoxImplIOS.mm */; };
@@ -203,6 +204,7 @@
 		9261AC3A18978224001028B5 /* CCEditBoxImplTizen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3118978224001028B5 /* CCEditBoxImplTizen.cpp */; };
 		9261AC3B18978224001028B5 /* CCEditBoxImplWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9261AC3318978224001028B5 /* CCEditBoxImplWin.cpp */; };
 		92662271185B3DE400DC8DEC /* CCTCPSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9266226F185B3DE400DC8DEC /* CCTCPSocket.cpp */; };
+		9271D09B199A65A800C45F3D /* CCUUID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9271D09A199A65A800C45F3D /* CCUUID.cpp */; };
 		92731B5F195E891E00D66FD2 /* CCStoryClickLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92731B57195E891E00D66FD2 /* CCStoryClickLayer.cpp */; };
 		92731B60195E891E00D66FD2 /* CCStoryCommandSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92731B59195E891E00D66FD2 /* CCStoryCommandSet.cpp */; };
 		92731B61195E891E00D66FD2 /* CCStoryLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92731B5A195E891E00D66FD2 /* CCStoryLayer.cpp */; };
@@ -892,6 +894,8 @@
 		9257551A189CD73C007D2369 /* CCImagePickerCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCImagePickerCallback.h; sourceTree = "<group>"; };
 		925C17A81946E0D7002FEE73 /* CBMoveBy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMoveBy.h; sourceTree = "<group>"; };
 		925C17A91946E0E6002FEE73 /* CBMoveBy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBMoveBy.cpp; sourceTree = "<group>"; };
+		925CCB1E199A5D61006CA584 /* CCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUUID.h; sourceTree = "<group>"; };
+		925CCB23199A6420006CA584 /* CCUUID.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUUID.mm; sourceTree = "<group>"; };
 		9261AC2718978224001028B5 /* CCEditBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCEditBox.cpp; sourceTree = "<group>"; };
 		9261AC2818978224001028B5 /* CCEditBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBox.h; sourceTree = "<group>"; };
 		9261AC2918978224001028B5 /* CCEditBoxImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEditBoxImpl.h; sourceTree = "<group>"; };
@@ -910,6 +914,7 @@
 		92662272185B3E1500DC8DEC /* CCTCPSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCTCPSocket.h; sourceTree = "<group>"; };
 		92662277185B42CF00DC8DEC /* CCByteBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCByteBuffer.h; sourceTree = "<group>"; };
 		92662279185B437200DC8DEC /* CCNetworkCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCNetworkCommon.h; sourceTree = "<group>"; };
+		9271D09A199A65A800C45F3D /* CCUUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCUUID.cpp; sourceTree = "<group>"; };
 		92731B55195E890D00D66FD2 /* CCStoryCommandSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStoryCommandSet.h; sourceTree = "<group>"; };
 		92731B56195E890D00D66FD2 /* CCStoryLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCStoryLayer.h; sourceTree = "<group>"; };
 		92731B57195E891E00D66FD2 /* CCStoryClickLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCStoryClickLayer.cpp; sourceTree = "<group>"; };
@@ -1568,6 +1573,7 @@
 				92575519189CD672007D2369 /* CCImagePicker.h */,
 				9257551A189CD73C007D2369 /* CCImagePickerCallback.h */,
 				9225951618D5864A00E200AE /* CCSecureUserDefault.h */,
+				925CCB1E199A5D61006CA584 /* CCUUID.h */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -2274,6 +2280,7 @@
 				9292C87118EA5D4200915B3A /* CCImage_richlabel.cpp */,
 				9292C87218EA5D4200915B3A /* CCImagePicker.cpp */,
 				9292C87318EA5D4200915B3A /* CCUtils.cpp */,
+				9271D09A199A65A800C45F3D /* CCUUID.cpp */,
 				9292C87418EA5D4200915B3A /* CLBitmapDC.cpp */,
 				9292C87518EA5D4200915B3A /* CLBitmapDC.h */,
 				9292C87618EA5D4200915B3A /* org_cocos2dx_lib_CCImage_richlabel.cpp */,
@@ -2820,6 +2827,7 @@
 				9276E10618A77F600045B318 /* CCImage_richlabel.mm */,
 				9276E10818A788290045B318 /* CCImagePicker.mm */,
 				92BF0FFB18A71F320088121F /* CCUtils.mm */,
+				925CCB23199A6420006CA584 /* CCUUID.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -3397,6 +3405,7 @@
 				92EDA10D18D9ED780022E196 /* CBTMXObjectGroup.cpp in Sources */,
 				92F68F261855BDE200C97188 /* CCAuroraLoader.cpp in Sources */,
 				9239690D185591DB0063E8A1 /* VolatileTexture_richlabel.cpp in Sources */,
+				925CCB24199A6420006CA584 /* CCUUID.mm in Sources */,
 				92A855D619500C8F00098490 /* LoadingBarReader.cpp in Sources */,
 				92CD1265185D51C100BF3C30 /* CCUDPSocket.cpp in Sources */,
 				92A855CF19500C8F00098490 /* CheckBoxReader.cpp in Sources */,
@@ -3432,6 +3441,7 @@
 				9276E10918A788290045B318 /* CCImagePicker.mm in Sources */,
 				92F68F241855BDE200C97188 /* CCArcticSprite.cpp in Sources */,
 				92F68E5A18559EC100C97188 /* Input.cpp in Sources */,
+				9271D09B199A65A800C45F3D /* CCUUID.cpp in Sources */,
 				92F68E8E1855ACE400C97188 /* CCJSONArray.cpp in Sources */,
 				923968FC185591DB0063E8A1 /* CCRookieGuide.cpp in Sources */,
 				92F68EB21855AD4400C97188 /* yajl_version.c in Sources */,

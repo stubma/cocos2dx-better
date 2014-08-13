@@ -561,7 +561,12 @@ public:
     /// get device type
     static string getDeviceType();
     
-    /// get mac address, if failed, return 00:00:00:00:00:00
+    /**
+     * get mac address, if failed, return 00:00:00:00:00:00. 
+     * 
+     * \note
+     * for iOS 7.0+, you can't get mac address
+     */
     static string getMacAddress();
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

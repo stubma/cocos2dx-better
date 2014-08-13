@@ -611,7 +611,7 @@ string CCUtils::getMacAddress() {
 	JniMethodInfo t;
     JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCUtils", "getMacAddress", "()Ljava/lang/String;");
 	jstring jMac = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
-	string mac = JniHelper::jstring2string(jDevice);
+	string mac = JniHelper::jstring2string(jMac);
 	t.env->DeleteLocalRef(jMac);
 	return mac;
 }

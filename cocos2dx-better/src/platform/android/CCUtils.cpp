@@ -616,4 +616,13 @@ string CCUtils::getMacAddress() {
 	return mac;
 }
 
+int CCUtils::getSystemVersionInt() {
+	JNIEnv* env = getJNIEnv();
+	jclass clazz = env->FindClass("android/os/Build$VERSION");
+	jfieldID fid = env->GetStaticFieldID(clazz, "SDK_INT", "I");
+	int v = env->GetStaticIntField(clazz, fid);
+	env->DeleteLocalRef(clazz);
+	return v;
+}
+
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

@@ -203,6 +203,10 @@ string CCUtils::getMacAddress() {
     return mac;
 }
 
+int CCUtils::getSystemVersionInt() {
+    return 0;
+}
+
 NS_CC_END
 
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC

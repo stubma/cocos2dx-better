@@ -373,6 +373,13 @@ string CCUtils::getMacAddress() {
     return mac;
 }
 
+int CCUtils::getSystemVersionInt() {
+    NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
+    char buf[16];
+    sprintf(buf, "%c", [systemVersion characterAtIndex:0] & 0xff);
+    return atoi(buf);
+}
+
 NS_CC_END
 
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS

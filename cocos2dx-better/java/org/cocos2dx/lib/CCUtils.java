@@ -239,7 +239,7 @@ public class CCUtils {
 		
 		return null;
 	}
-	
+		
 	private static native void nativeExecuteCallFunc(long func);
 	private static native void nativeRetain(long obj);
 	private static native void nativeRelease(long obj);

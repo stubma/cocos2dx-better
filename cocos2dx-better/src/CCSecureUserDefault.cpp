@@ -61,14 +61,8 @@ const char* CCSecureUserDefault::getSecureValue(const char* pKey, int* outLen) {
 	// free dec
 	if(dec && plain != dec)
 		free((void*)dec);
-    
-    // ensure decrypted content is a C string
-    char* cplain = (char*)malloc((*outLen + 1) * sizeof(char));
-    memcpy(cplain, plain, *outLen);
-    cplain[*outLen] = 0;
-    free((void*)plain);
 	
-	return cplain;
+	return plain;
 }
 
 bool CCSecureUserDefault::getBoolForKey(const char* pKey) {

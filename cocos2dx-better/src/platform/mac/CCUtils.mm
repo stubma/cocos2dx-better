@@ -194,6 +194,7 @@ string CCUtils::getMacAddress() {
                 *(ptr + 3) & 0xff,
                 *(ptr + 4) & 0xff,
                 *(ptr + 5) & 0xff);
+        mac = buf2;
     } while(0);
     
     // free buf

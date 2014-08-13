@@ -25,21 +25,15 @@
 
 NS_CC_BEGIN
 
+static char inAlphabets[256];
 static char base64DecodeTable[256];
 static const char base64Char[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static void initBase64DecodeTable() {
-	for (int i = 0; i < 256; ++i)
-		base64DecodeTable[i] = (char)0x80;
-	for (int i = 'A'; i <= 'Z'; ++i)
-		base64DecodeTable[i] = 0 + (i - 'A');
-	for (int i = 'a'; i <= 'z'; ++i)
-		base64DecodeTable[i] = 26 + (i - 'a');
-	for (int i = '0'; i <= '9'; ++i)
-		base64DecodeTable[i] = 52 + (i - '0');
-	base64DecodeTable[(unsigned char)'+'] = 62;
-	base64DecodeTable[(unsigned char)'/'] = 63;
-	base64DecodeTable[(unsigned char)'='] = 0;
+    for(int i = sizeof(base64Char) - 1; i >= 0 ; i--) {
+        inAlphabets[base64Char[i]] = 1;
+        base64DecodeTable[base64Char[i]] = i;
+    }
 }
 
 static char* strDup(char const* str) {
@@ -119,42 +113,62 @@ const char* CCBase64::decodeAsCString(const string& data, int* outLen) {
 }
 
 const char* CCBase64::decode(const string& data, int* outLen) {
+    // init table
 	static bool haveInitedBase64DecodeTable = false;
 	if (!haveInitedBase64DecodeTable) {
 		initBase64DecodeTable();
 		haveInitedBase64DecodeTable = true;
 	}
-	
+    
+    // prepare
     int k = 0;
     char* result = NULL;
 	const char* in = data.c_str();
     size_t inLen = strlen(in);
-    if(inLen >= 3) {
-        size_t jMax = inLen - 3;
-        unsigned char* out = (unsigned char*)strDupSize(in); // ensures we have enough space
-        
-        // in case "in" is not a multiple of 4 bytes (although it should be)
-        for (int j = 0; j < jMax; j += 4) {
-            char inTmp[4], outTmp[4];
-            for (int i = 0; i < 4; ++i) {
-                inTmp[i] = in[i + j];
-                outTmp[i] = base64DecodeTable[(unsigned char)inTmp[i]];
-                if ((outTmp[i] & 0x80) != 0)
-                    outTmp[i] = 0; // pretend the input was 'A'
-            }
-            
-            out[k++] = (outTmp[0] << 2) | (outTmp[1] >> 4);
-            out[k++] = (outTmp[1] << 4) | (outTmp[2] >> 2);
-            out[k++] = (outTmp[2] << 6) | outTmp[3];
+    unsigned char* out = (unsigned char*)strDupSize(in); // ensures we have enough space
+    
+    // decode
+    int char_count = 0;
+    int bits = 0;
+    unsigned char c;
+    for(int i = 0; i < inLen; i++) {
+        c = in[i];
+        if (c == '=')
+            break;
+        if (c > 255 || !inAlphabets[c])
+            continue;
+        bits += base64DecodeTable[c];
+        char_count++;
+        if (char_count == 4) {
+            out[k++] = (bits >> 16);
+            out[k++] = ((bits >> 8) & 0xff);
+            out[k++] = (bits & 0xff);
+            bits = 0;
+            char_count = 0;
+        } else {
+            bits <<= 6;
         }
-        
-        // create returned array
-        if(k > 0) {
-            result = (char*)malloc(sizeof(char) * k);
-            memmove(result, out, k);
-        }
-        delete[] out;
     }
+    
+    // last seg
+    if(c == '=') {
+        switch (char_count) {
+            case 2:
+                out[k++] = bits >> 10;
+                break;
+            case 3:
+                out[k++] = bits >> 16;
+                out[k++] = (bits >> 8) & 0xff;
+                break;
+        }
+    }
+    
+    // create returned array
+    if(k > 0) {
+        result = (char*)malloc(sizeof(char) * k);
+        memmove(result, out, k);
+    }
+    delete[] out;
     
     // length of decoded
     if(outLen)

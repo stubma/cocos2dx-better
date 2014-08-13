@@ -25,6 +25,8 @@
 
 #import "CCUtils.h"
 #import "sys/utsname.h"
+#include <net/if.h>
+#include <net/if_dl.h>
 #import <StoreKit/StoreKit.h>
 #import "EAGLView.h"
 #include "CCLocale.h"
@@ -145,6 +147,60 @@ string CCUtils::getDeviceType() {
     char buf[1024];
     sprintf(buf, "%s", systemInfo.machine);
     return buf;
+}
+
+string CCUtils::getMacAddress() {
+    string mac = "00:00:00:00:00:00";
+    char* buf = NULL;
+    do {
+        // query en0
+        int mib[] = {
+            CTL_NET,
+            AF_ROUTE,
+            0,
+            AF_LINK,
+            NET_RT_IFLIST,
+            0
+        };
+        if ((mib[5] = if_nametoindex("en0")) == 0) {
+            break;
+        }
+        
+        // get length of interface struct
+        size_t len;
+        if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
+            break;
+        }
+        
+        // allocate buffer
+        if ((buf = (char*)malloc(len * sizeof(char))) == NULL) {
+            break;
+        }
+        
+        // get struct
+        if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
+            break;
+        }
+        struct if_msghdr* ifm = (struct if_msghdr*)buf;
+        struct sockaddr_dl* sdl = (struct sockaddr_dl*)(ifm + 1);
+        unsigned char* ptr = (unsigned char*)LLADDR(sdl);
+        
+        // construct mac string
+        char buf2[64];
+        sprintf(buf2, "%02x:%02x:%02x:%02x:%02x:%02x",
+                *ptr & 0xff,
+                *(ptr + 1) & 0xff,
+                *(ptr + 2) & 0xff,
+                *(ptr + 3) & 0xff,
+                *(ptr + 4) & 0xff,
+                *(ptr + 5) & 0xff);
+    } while(0);
+    
+    // free buf
+    CC_SAFE_FREE(buf);
+    
+    // return
+    return mac;
 }
 
 NS_CC_END

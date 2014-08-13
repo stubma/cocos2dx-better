@@ -25,17 +25,30 @@ package org.cocos2dx.lib;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
+import org.apache.http.conn.util.InetAddressUtils;
+
+import android.Manifest.permission;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class CCUtils {
 	public static final String BOGOMIPS_PATTERN = "BogoMIPS[\\s]*:[\\s]*(\\d+\\.\\d+)[\\s]*\n";
@@ -160,6 +173,71 @@ public class CCUtils {
 		if(TextUtils.isEmpty(device))
 			device = "Android";
 		return device;
+	}
+	
+	public static String getMacAddress() {
+		String mac = "";
+		Context ctx = Cocos2dxActivity.getContext();
+		
+		// first, try to get mac from wifi manager
+		if(ctx.checkCallingPermission(permission.ACCESS_WIFI_STATE) == PackageManager.PERMISSION_GRANTED) {
+			WifiManager wifi = (WifiManager)ctx.getSystemService(Context.WIFI_SERVICE);
+			WifiInfo info = wifi.getConnectionInfo();
+			mac = info.getMacAddress();
+		}
+		
+		// if failed, try from network interface api
+		if(TextUtils.isEmpty(mac)) {
+			if (Build.VERSION.SDK_INT >= 9) {
+				try {
+					NetworkInterface ne = NetworkInterface.getByInetAddress(InetAddress.getByName(getLocalIpAddress()));
+					byte[] b = ne.getHardwareAddress();
+					mac = byte2Hex(b);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// if failed, use fake
+		if(TextUtils.isEmpty(mac)) {
+			mac = "00:00:00:00:00:00";
+		}
+		
+		// return
+		return mac;
+	}
+	
+	public static String byte2Hex(byte[] b) {
+		StringBuilder hs = new StringBuilder(b.length);
+		String stmp = "";
+		int len = b.length;
+		for (int n = 0; n < len; n++) {
+			stmp = Integer.toHexString(b[n] & 0xFF);
+			if (stmp.length() == 1)
+				hs = hs.append("0").append(stmp);
+			else
+				hs = hs.append(stmp);
+		}
+		return String.valueOf(hs);
+	}
+	
+	public static String getLocalIpAddress() {
+		try {
+			String ipv4;
+			List<NetworkInterface> nilist = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface ni : nilist) {
+				List<InetAddress> ialist = Collections.list(ni.getInetAddresses());
+				for (InetAddress address : ialist) {
+					if (!address.isLoopbackAddress() && InetAddressUtils.isIPv4Address(ipv4 = address.getHostAddress())) {
+						return ipv4;
+					}
+				}
+			}
+		} catch (SocketException ex) {
+		}
+		
+		return null;
 	}
 	
 	private static native void nativeExecuteCallFunc(long func);

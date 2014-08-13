@@ -560,6 +560,9 @@ public:
     
     /// get device type
     static string getDeviceType();
+    
+    /// get mac address, if failed, return 00:00:00:00:00:00
+    static string getMacAddress();
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

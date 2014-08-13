@@ -607,4 +607,13 @@ string CCUtils::getDeviceType() {
 	return device;
 }
 
+string CCUtils::getMacAddress() {
+	JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCUtils", "getMacAddress", "()Ljava/lang/String;");
+	jstring jMac = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
+	string mac = JniHelper::jstring2string(jDevice);
+	t.env->DeleteLocalRef(jMac);
+	return mac;
+}
+
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

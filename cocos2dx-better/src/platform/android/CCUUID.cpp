@@ -40,8 +40,14 @@ string CCUUID::generate(bool noHyphen) {
     // call
     jstring jUUID = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID, noHyphen);
 
-    // return c++ string
-    return JniHelper::jstring2string(jUUID);
+    // get c++ string
+    string uuid = JniHelper::jstring2string(jUUID);
+
+    // release
+    t.env->DeleteLocalRef(jUUID);
+
+    // return
+    return uuid;
 }
 
 NS_CC_END

@@ -598,4 +598,13 @@ string CCUtils::getAppVersion() {
     return ver;
 }
 
+string CCUtils::getDeviceType() {
+	JniMethodInfo t;
+    JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/CCUtils", "getDeviceType", "()Ljava/lang/String;");
+	jstring jDevice = (jstring)t.env->CallStaticObjectMethod(t.classID, t.methodID);
+	string device = JniHelper::jstring2string(jDevice);
+	t.env->DeleteLocalRef(jDevice);
+	return device;
+}
+
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

@@ -557,6 +557,9 @@ public:
     
     /// get app version name
     static string getAppVersion();
+    
+    /// get device type
+    static string getDeviceType();
 	
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	/// get JNIEnv

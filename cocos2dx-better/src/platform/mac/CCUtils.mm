@@ -24,6 +24,7 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 
 #import "CCUtils.h"
+#import "sys/utsname.h"
 #import <StoreKit/StoreKit.h>
 #import "EAGLView.h"
 #include "CCLocale.h"
@@ -136,6 +137,14 @@ string CCUtils::getAppVersion() {
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* ver = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
     return [ver cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
+string CCUtils::getDeviceType() {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    char buf[1024];
+    sprintf(buf, "%s", systemInfo.machine);
+    return buf;
 }
 
 NS_CC_END

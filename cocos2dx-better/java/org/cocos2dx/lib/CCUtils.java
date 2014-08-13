@@ -34,6 +34,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.text.TextUtils;
 
 public class CCUtils {
 	public static final String BOGOMIPS_PATTERN = "BogoMIPS[\\s]*:[\\s]*(\\d+\\.\\d+)[\\s]*\n";
@@ -151,6 +153,13 @@ public class CCUtils {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(url));
 		Cocos2dxActivity.getContext().startActivity(intent);
+	}
+	
+	public static String getDeviceType() {
+		String device = Build.DEVICE;
+		if(TextUtils.isEmpty(device))
+			device = "Android";
+		return device;
 	}
 	
 	private static native void nativeExecuteCallFunc(long func);

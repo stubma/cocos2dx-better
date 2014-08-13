@@ -254,6 +254,10 @@
 		9276E10518A77E240045B318 /* CCAssetOutputStream_ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10418A77E240045B318 /* CCAssetOutputStream_ios.mm */; };
 		9276E10718A77F600045B318 /* CCImage_richlabel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10618A77F600045B318 /* CCImage_richlabel.mm */; };
 		9276E10918A788290045B318 /* CCImagePicker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9276E10818A788290045B318 /* CCImagePicker.mm */; };
+		927BF431199B02D50090EAED /* CCAssetInputStream_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 927BF42C199B02D50090EAED /* CCAssetInputStream_mac.mm */; };
+		927BF432199B02D50090EAED /* CCAssetOutputStream_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 927BF42E199B02D50090EAED /* CCAssetOutputStream_mac.mm */; };
+		927BF433199B02D50090EAED /* CCImagePicker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 927BF42F199B02D50090EAED /* CCImagePicker.mm */; };
+		927BF434199B02D50090EAED /* CCUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 927BF430199B02D50090EAED /* CCUtils.mm */; };
 		9288DF27188F98A400C14965 /* CCControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF0E188F98A400C14965 /* CCControl.cpp */; };
 		9288DF28188F98A400C14965 /* CCControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF10188F98A400C14965 /* CCControlButton.cpp */; };
 		9288DF29188F98A400C14965 /* CCControlColourPicker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9288DF12188F98A400C14965 /* CCControlColourPicker.cpp */; };
@@ -1000,6 +1004,12 @@
 		9276E10618A77F600045B318 /* CCImage_richlabel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImage_richlabel.mm; sourceTree = "<group>"; };
 		9276E10818A788290045B318 /* CCImagePicker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImagePicker.mm; sourceTree = "<group>"; };
 		92774AD316EF1C7A008E67C8 /* cocos2dx-better-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-better-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		927BF42B199B02D50090EAED /* CCAssetInputStream_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetInputStream_mac.h; sourceTree = "<group>"; };
+		927BF42C199B02D50090EAED /* CCAssetInputStream_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetInputStream_mac.mm; sourceTree = "<group>"; };
+		927BF42D199B02D50090EAED /* CCAssetOutputStream_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAssetOutputStream_mac.h; sourceTree = "<group>"; };
+		927BF42E199B02D50090EAED /* CCAssetOutputStream_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCAssetOutputStream_mac.mm; sourceTree = "<group>"; };
+		927BF42F199B02D50090EAED /* CCImagePicker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCImagePicker.mm; sourceTree = "<group>"; };
+		927BF430199B02D50090EAED /* CCUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCUtils.mm; sourceTree = "<group>"; };
 		9288DF0E188F98A400C14965 /* CCControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControl.cpp; sourceTree = "<group>"; };
 		9288DF0F188F98A400C14965 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
 		9288DF10188F98A400C14965 /* CCControlButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControlButton.cpp; sourceTree = "<group>"; };
@@ -2238,6 +2248,19 @@
 			path = "../../cocos2d-x/scripting/lua/tolua";
 			sourceTree = "<group>";
 		};
+		927BF42A199B02D50090EAED /* mac */ = {
+			isa = PBXGroup;
+			children = (
+				927BF42B199B02D50090EAED /* CCAssetInputStream_mac.h */,
+				927BF42C199B02D50090EAED /* CCAssetInputStream_mac.mm */,
+				927BF42D199B02D50090EAED /* CCAssetOutputStream_mac.h */,
+				927BF42E199B02D50090EAED /* CCAssetOutputStream_mac.mm */,
+				927BF42F199B02D50090EAED /* CCImagePicker.mm */,
+				927BF430199B02D50090EAED /* CCUtils.mm */,
+			);
+			path = mac;
+			sourceTree = "<group>";
+		};
 		9288DF0D188F98A400C14965 /* CCControlExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -2813,6 +2836,7 @@
 			children = (
 				9292C86C18EA5D4200915B3A /* android */,
 				92BF0FF918A71EF80088121F /* ios */,
+				927BF42A199B02D50090EAED /* mac */,
 			);
 			path = platform;
 			sourceTree = "<group>";
@@ -3387,6 +3411,7 @@
 				92F68E5F18559EC100C97188 /* VectorImpl.cpp in Sources */,
 				92A855BE19500C8F00098490 /* UIPageView.cpp in Sources */,
 				92A855A219500C8F00098490 /* CCBone.cpp in Sources */,
+				927BF433199B02D50090EAED /* CCImagePicker.mm in Sources */,
 				92A8559C19500C8F00098490 /* CCNodeReader.cpp in Sources */,
 				92A855B619500C8F00098490 /* UIWidget.cpp in Sources */,
 				92731BCC195E896700D66FD2 /* tolua_push.c in Sources */,
@@ -3452,6 +3477,7 @@
 				92731BBC195E896700D66FD2 /* loslib.c in Sources */,
 				9276E10718A77F600045B318 /* CCImage_richlabel.mm in Sources */,
 				92A855C019500C8F00098490 /* UIButton.cpp in Sources */,
+				927BF432199B02D50090EAED /* CCAssetOutputStream_mac.mm in Sources */,
 				923968F6185591DB0063E8A1 /* CCPanGestureRecognizer.cpp in Sources */,
 				9292C87A18EA5D4200915B3A /* CCAssetOutputStream_android.cpp in Sources */,
 				92A855BF19500C8F00098490 /* UIScrollView.cpp in Sources */,
@@ -3516,6 +3542,7 @@
 				92A855B119500C8F00098490 /* CCComAttribute.cpp in Sources */,
 				923968F5185591DB0063E8A1 /* CCMissile.cpp in Sources */,
 				9288DF2B188F98A400C14965 /* CCControlPotentiometer.cpp in Sources */,
+				927BF431199B02D50090EAED /* CCAssetInputStream_mac.mm in Sources */,
 				92F68E6018559EC100C97188 /* VelocityTracker.cpp in Sources */,
 				92A855A419500C8F00098490 /* CCBatchNode.cpp in Sources */,
 				920547CA1905060E0062ADA4 /* CCTrailMoveTo.cpp in Sources */,
@@ -3579,6 +3606,7 @@
 				92A855D219500C8F00098490 /* LabelBMFontReader.cpp in Sources */,
 				92731BB5195E896700D66FD2 /* liolib.c in Sources */,
 				9292C87C18EA5D4200915B3A /* CCImagePicker.cpp in Sources */,
+				927BF434199B02D50090EAED /* CCUtils.mm in Sources */,
 				923968DD185591DB0063E8A1 /* CCAndroidStringsParser.cpp in Sources */,
 				923968EA185591DB0063E8A1 /* CCGradientSprite.cpp in Sources */,
 				9239690B185591DB0063E8A1 /* CCUtils.cpp in Sources */,

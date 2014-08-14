@@ -84,6 +84,9 @@ protected:
     /// pre draw
     void onPreDraw(CCObject* sender);
     
+    /// remove a trail
+    void removeTrail(CCNode* trail);
+    
 public:
     virtual ~CCTrailMoveTo();
     

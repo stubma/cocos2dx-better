@@ -36,7 +36,6 @@ m_animationIndex(-1) {
 }
 
 CCTrailMoveTo::~CCTrailMoveTo() {
-    
 }
 
 CCTrailMoveTo* CCTrailMoveTo::createWithSpriteFrameName(float duration, const CCPoint& position,
@@ -304,7 +303,7 @@ void CCTrailMoveTo::cleanTrails() {
         CCNode* trail = (CCNode*)obj;
         
         if(m_removeWhenDone) {
-            trail->removeFromParent();
+            removeTrail(trail);
         } else {
             // current position
             CCPoint pos = trail->getPosition();
@@ -334,9 +333,19 @@ void CCTrailMoveTo::cleanTrails() {
             
             // run a action to make trail to target current position
             trail->runAction(CCSequence::createWithTwoActions(CCMoveTo::create(duration, finalPos),
-                                                              CCCallFunc::create(trail, callfunc_selector(CCNode::removeFromParent))));
+                                                              CCCallFuncO::create(this, callfuncO_selector(CCTrailMoveTo::removeTrail), trail)));
         }
     }
+    
+    // clear array
+    m_trails.removeAllObjects();
+}
+
+void CCTrailMoveTo::removeTrail(CCNode* trail) {
+    if(m_mode == ARMATURE) {
+        ((CBArmature*)trail)->setPreDrawFunction(NULL);
+    }
+    trail->removeFromParent();
 }
 
 void CCTrailMoveTo::onPreDraw(CCObject* sender) {

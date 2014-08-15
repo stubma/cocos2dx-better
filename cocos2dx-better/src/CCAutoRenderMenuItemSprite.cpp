@@ -137,6 +137,7 @@ void CCAutoRenderMenuItemSprite::centerAlignImages() {
 }
 
 void CCAutoRenderMenuItemSprite::selected() {
+    CCMenuItemSprite::selected();
     updateImagesVisibility();
 	CCMenuItemSprite::selected();
 	

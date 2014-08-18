@@ -1082,7 +1082,7 @@ string CCUtils::trim(const string& s) {
 	size_t end = s.length();
     while(end > 0 && isspace(s.at(end - 1)))
 		end--;
-    while(isspace(s.at(start)))
+    while(start < end && isspace(s.at(start)))
 		start++;
 	
 	return s.substr(start, end - start);

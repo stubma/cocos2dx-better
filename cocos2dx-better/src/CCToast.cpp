@@ -23,6 +23,8 @@
  ****************************************************************************/
 #include "CCToast.h"
 #include "CCMoreMacros.h"
+#include "CCTreeFadeIn.h"
+#include "CCTreeFadeOut.h"
 
 NS_CC_BEGIN
 
@@ -56,10 +58,10 @@ CCToast* CCToast::create(CCNode* owner, CCNode* content, int tag, float duration
         CCNodeRGBA* n = dynamic_cast<CCNodeRGBA*>(content);
         if(n)
             n->setOpacity(0);
-        inAction = CCFadeIn::create(0.5f);
+        inAction = CCTreeFadeIn::create(0.5f);
     }
     if(outAction == NULL) {
-        outAction = CCFadeOut::create(0.5f);
+        outAction = CCTreeFadeOut::create(0.5f);
     }
     content->runAction(CCSequence::create(inAction,
                                           CCDelayTime::create(duration > 0 ? duration : 3),

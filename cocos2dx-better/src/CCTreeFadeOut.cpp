@@ -23,6 +23,10 @@
  ****************************************************************************/
 #include "CCTreeFadeOut.h"
 #include "CCTreeFadeIn.h"
+#include "cocos-ext.h"
+
+USING_NS_CC_EXT;
+using namespace cocos2d::ui;
 
 NS_CC_BEGIN
 
@@ -57,6 +61,17 @@ void CCTreeFadeOut::fadeOutRecursively(CCNode* n, float time) {
             fadeOutRecursively(child, time);
 		} else if(!m_recursivelyExclude) {
             fadeOutRecursively(child, time);
+        }
+    }
+    
+    // check widget
+    Widget* w = dynamic_cast<Widget*>(n);
+    if(w) {
+        if(w->getVirtualRenderer()) {
+            CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(w->getVirtualRenderer());
+            if(p) {
+                p->setOpacity((GLubyte)(255 * time));
+            }
         }
     }
 }

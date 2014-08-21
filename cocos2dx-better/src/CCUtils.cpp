@@ -31,7 +31,7 @@
 #include "cocos-ext.h"
 
 USING_NS_CC_EXT;
-using namespace cocos2d::ui;
+using namespace cocos2d::gui;
 
 NS_CC_BEGIN
 
@@ -957,6 +957,13 @@ void CCUtils::setOpacityRecursively(CCNode* node, int o) {
     
     Widget* w = dynamic_cast<Widget*>(node);
     if(w) {
+        if(w->getVirtualRenderer()) {
+            CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(w->getVirtualRenderer());
+            if(p) {
+                p->setOpacity(o);
+            }
+        }
+        
         CCArray* children = w->getNodes();
         int cc = children->count();
         for(int i = 0; i < cc; i++) {

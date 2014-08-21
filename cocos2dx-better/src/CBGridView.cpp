@@ -157,20 +157,4 @@ void CBGridView::_updateContentSize() {
     setContentSize(size);
 }
 
-void CBGridView::reloadData() {
-    _updateContentSize();
-    switch(getDirection()) {
-        case kCCScrollViewDirectionHorizontal:
-            setContentOffset(maxContainerOffset());
-            break;
-        case kCCScrollViewDirectionVertical:
-            setContentOffset(minContainerOffset());
-            break;
-        default:
-            setContentOffset(ccp(maxContainerOffset().x, minContainerOffset().y));
-            break;
-    }
-    CBTableView::reloadData();
-}
-
 NS_CC_END

@@ -66,9 +66,6 @@ public:
      */
     static CBGridView* create(CBTableViewDataSource* dataSource, CCSize size, CCNode *container);
     
-    // override super
-    virtual void reloadData();
-    
     /// column count, by default it is 1
     CC_SYNTHESIZE_SETTER(unsigned int, m_colCount, ColCount);
 };

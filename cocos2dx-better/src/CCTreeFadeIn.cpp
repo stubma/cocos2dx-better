@@ -48,16 +48,16 @@ void CCTreeFadeIn::update(float time) {
 }
 
 void CCTreeFadeIn::fadeInRecursively(CCNode* n, float time) {
+    CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(n);
+    if(p) {
+        p->setOpacity((GLubyte)(255 * time));
+    }
+    
     CCArray* children = n->getChildren();
     int cc = n->getChildrenCount();
     for(int i = 0; i < cc; i++) {
         CCNode* child = (CCNode*)children->objectAtIndex(i);
 		if(!m_excludeList.containsObject(child)) {
-			CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
-			if(p) {
-				p->setOpacity((GLubyte)(255 * time));
-			}
-            
             fadeInRecursively(child, time);
 		} else if(!m_recursivelyExclude) {
             fadeInRecursively(child, time);
@@ -72,6 +72,13 @@ void CCTreeFadeIn::fadeInRecursively(CCNode* n, float time) {
             if(p) {
                 p->setOpacity((GLubyte)(255 * time));
             }
+        }
+        
+        CCArray* children = w->getNodes();
+        int cc = children->count();
+        for(int i = 0; i < cc; i++) {
+            CCNode* child = (CCNode*)children->objectAtIndex(i);
+            fadeInRecursively(child, time);
         }
     }
 }

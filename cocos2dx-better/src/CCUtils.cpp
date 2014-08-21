@@ -22,11 +22,16 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCUtils.h"
+#include "cocos2d-better.h"
 #include "entities.h"
 #include "CCLocale.h"
 #include "CCMoreMacros.h"
 #include "CCImage_richlabel.h"
 #include "CCPinyinUtils.h"
+#include "cocos-ext.h"
+
+USING_NS_CC_EXT;
+using namespace cocos2d::ui;
 
 NS_CC_BEGIN
 
@@ -948,6 +953,16 @@ void CCUtils::setOpacityRecursively(CCNode* node, int o) {
     for(int i = 0; i < cc; i++) {
         CCNode* child = (CCNode*)children->objectAtIndex(i);        
         setOpacityRecursively(child, o);
+    }
+    
+    Widget* w = dynamic_cast<Widget*>(node);
+    if(w) {
+        CCArray* children = w->getNodes();
+        int cc = children->count();
+        for(int i = 0; i < cc; i++) {
+            CCNode* child = (CCNode*)children->objectAtIndex(i);
+            setOpacityRecursively(child, o);
+        }
     }
 }
 

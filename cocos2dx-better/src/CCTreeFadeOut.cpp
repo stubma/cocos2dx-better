@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#include "CCTreeFadeOut.h"
 #include "CCTreeFadeIn.h"
+#include "CCTreeFadeOut.h"
 #include "cocos-ext.h"
 
 USING_NS_CC_EXT;
@@ -48,16 +48,16 @@ void CCTreeFadeOut::update(float time) {
 }
 
 void CCTreeFadeOut::fadeOutRecursively(CCNode* n, float time) {
+    CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(n);
+    if(p) {
+        p->setOpacity((GLubyte)(255 * (1 - time)));
+    }
+    
     CCArray* children = n->getChildren();
     int cc = n->getChildrenCount();
     for(int i = 0; i < cc; i++) {
         CCNode* child = (CCNode*)children->objectAtIndex(i);
 		if(!m_excludeList.containsObject(child)) {
-			CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(child);
-			if(p) {
-				p->setOpacity((GLubyte)(255 * (1 - time)));
-			}
-            
             fadeOutRecursively(child, time);
 		} else if(!m_recursivelyExclude) {
             fadeOutRecursively(child, time);
@@ -70,8 +70,15 @@ void CCTreeFadeOut::fadeOutRecursively(CCNode* n, float time) {
         if(w->getVirtualRenderer()) {
             CCRGBAProtocol* p = dynamic_cast<CCRGBAProtocol*>(w->getVirtualRenderer());
             if(p) {
-                p->setOpacity((GLubyte)(255 * time));
+                p->setOpacity((GLubyte)(255 * (1 - time)));
             }
+        }
+        
+        CCArray* children = w->getNodes();
+        int cc = children->count();
+        for(int i = 0; i < cc; i++) {
+            CCNode* child = (CCNode*)children->objectAtIndex(i);
+            fadeOutRecursively(child, time);
         }
     }
 }

@@ -32,29 +32,59 @@ NS_CC_BEGIN
  * node moves randomly in a circle area, looks like shaking
  */
 class CC_DLL CCShake : public CCActionInterval {
+private:
+    typedef enum {
+        RING,
+        DYNAMIC_RING,
+    } Mode;
 protected:
-	/// radius of shaking area
-	float m_radius;
+	/// min radius of shaking area
+	float m_minRadius;
+    
+    /// max radius of shaking area
+    float m_maxRadius;
+    
+    /// end max delta, for DYNAMIC_RING
+    float m_endMaxRadius;
+    
+    /// end min delta, for DYNAMIC_RING
+    float m_endMinRadius;
 
 	/// original x position of node
 	float m_originalX;
 
 	/// original y position of node
 	float m_originalY;
+    
+    /// mode
+    Mode m_mode;
 
 public:
 	/**
-	 * static factory method
+	 * create a shake which in ring mode
 	 *
 	 * @param duration duration time of action in seconds
-	 * @param radius radius of shaking area
+	 * @param maxRadius max radius of shaking area
+     * @param minRadius min radius of shaking area, by default it is zero
 	 */
-	static CCShake* create(float duration, float radius);
+	static CCShake* create(float duration, float maxRadius, float minRadius = 0);
+    
+	/**
+	 * create a shake which in dynamic ring mode
+	 *
+	 * @param duration duration time of action in seconds
+	 * @param startMaxRadius max radius of shaking area
+     * @param startMinRadius min radius of shaking area, by default it is zero
+     * @param endMaxRadius max radius at the end of action
+     * @param endMinRadius min radius at the end of action
+	 */
+    static CCShake* create(float duration, float startMaxRadius, float endMaxRadius, float startMinRadius, float endMinRadius);
 
 	virtual ~CCShake();
 
 	/** initializes the action */
-    bool initWithDuration(float d, float r);
+    bool initWithRing(float d, float maxR, float minR);
+    bool initWithDynamicRing(float d, float startMaxR, float endMaxR, float startMinR, float endMinR);
 	
 	/// @see CCObject::copyWithZone
 	virtual CCObject* copyWithZone(CCZone* pZone);

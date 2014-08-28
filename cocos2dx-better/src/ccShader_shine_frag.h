@@ -64,15 +64,15 @@ const char* ccShader_shine_frag = "\n\
         gl_FragColor = v_fragmentColor * texture2D(CC_Texture0, v_texCoord); \n\
         \n\
         // pattern width\n\
-        float patternWidth = CC_shineXY2.x - CC_shineXY1.x;\n\
+        float patternWidth = abs(CC_shineXY2.x - CC_shineXY1.x);\n\
         \n\
         // pattern offset\n\
         float patternOffsetX = CC_shineTime * (patternWidth + CC_shineWidth) - patternWidth;\n\
         \n\
-        // get rect\n\
-        float minX = min(CC_shineXY1.x, CC_shineXY2.x) + patternOffsetX;\n\
+        // get checking area\n\
+        float minX = min(CC_shineXY1.x, CC_shineXY2.x) + patternOffsetX - patternWidth;\n\
         float minY = min(CC_shineXY1.y, CC_shineXY2.y);\n\
-        float maxX = max(CC_shineXY1.x, CC_shineXY2.x) + patternOffsetX;\n\
+        float maxX = max(CC_shineXY1.x, CC_shineXY2.x) + patternOffsetX + patternWidth;\n\
         float maxY = max(CC_shineXY1.y, CC_shineXY2.y);\n\
         \n\
         // if pixel is in rect\n\

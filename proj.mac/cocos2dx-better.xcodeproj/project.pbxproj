@@ -436,6 +436,7 @@
 		92F68F371855BDE200C97188 /* CCSPXLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68F181855BDE200C97188 /* CCSPXLoader.cpp */; };
 		92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68F191855BDE200C97188 /* CCSPXManager.cpp */; };
 		92F68F391855BDE200C97188 /* CCSPXSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F68F1A1855BDE200C97188 /* CCSPXSprite.cpp */; };
+		92F8265D19AF5CF9001E0DF6 /* CCShine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92F8265C19AF5CF9001E0DF6 /* CCShine.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1399,6 +1400,10 @@
 		92F68F181855BDE200C97188 /* CCSPXLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPXLoader.cpp; sourceTree = "<group>"; };
 		92F68F191855BDE200C97188 /* CCSPXManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPXManager.cpp; sourceTree = "<group>"; };
 		92F68F1A1855BDE200C97188 /* CCSPXSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSPXSprite.cpp; sourceTree = "<group>"; };
+		92F8265C19AF5CF9001E0DF6 /* CCShine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShine.cpp; sourceTree = "<group>"; };
+		92F8265E19AF5D3C001E0DF6 /* CCShine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShine.h; sourceTree = "<group>"; };
+		92F8265F19AF5D4F001E0DF6 /* ccShader_shine_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_shine_frag.h; sourceTree = "<group>"; };
+		92F8266019AF5D4F001E0DF6 /* ccShader_shine_vert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_shine_vert.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1483,6 +1488,8 @@
 				92DB70CB18D34A8600F2EF58 /* ccShader_blur_frag.h */,
 				92E8D06918D420D100121DCC /* ccShader_laser_vert.h */,
 				92E8D06818D4203800121DCC /* ccShader_laser_frag.h */,
+				92F8265F19AF5D4F001E0DF6 /* ccShader_shine_frag.h */,
+				92F8266019AF5D4F001E0DF6 /* ccShader_shine_vert.h */,
 			);
 			name = shader;
 			sourceTree = "<group>";
@@ -1542,6 +1549,7 @@
 				92396872185591DB0063E8A1 /* CCClipIn.h */,
 				92396873185591DB0063E8A1 /* CCClipOut.h */,
 				92CE277818B5EE81006E5B71 /* CCFlash.h */,
+				92F8265E19AF5D3C001E0DF6 /* CCShine.h */,
 				922399EC187FD7B3006AD199 /* CBJumpBy.h */,
 				92042B1C187FE0E80064262D /* CBJumpTo.h */,
 				925C1A3919470333002FEE73 /* CBMoveBy.h */,
@@ -1650,6 +1658,7 @@
 				923968A7185591DB0063E8A1 /* CCClipIn.cpp */,
 				923968A8185591DB0063E8A1 /* CCClipOut.cpp */,
 				92CE277518B5EE35006E5B71 /* CCFlash.cpp */,
+				92F8265C19AF5CF9001E0DF6 /* CCShine.cpp */,
 				922399E9187FD793006AD199 /* CBJumpBy.cpp */,
 				92042B19187FE0CD0064262D /* CBJumpTo.cpp */,
 				925C1A3519470328002FEE73 /* CBMoveBy.cpp */,
@@ -3615,6 +3624,7 @@
 				92A856BD19500CCC00098490 /* CCArmatureAnimation.cpp in Sources */,
 				92A856EE19500CCC00098490 /* CheckBoxReader.cpp in Sources */,
 				92A856CA19500CCC00098490 /* CCArmatureDefine.cpp in Sources */,
+				92F8265D19AF5CF9001E0DF6 /* CCShine.cpp in Sources */,
 				9225951918D5896000E200AE /* CCBase64.cpp in Sources */,
 				92F68E911855ACE400C97188 /* CCJSONValue.cpp in Sources */,
 				926131C6195AB9E5004070C9 /* loslib.c in Sources */,

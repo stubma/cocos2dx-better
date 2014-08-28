@@ -437,7 +437,7 @@ void ActionShine::onEnter()
 					   origin.y + visibleSize.height / 2));
 	addChild(s);
 	
-	s->runAction(CCRepeatForever::create(CCSequence::create(CCShine::create(1, cc4BLACK, cc4WHITE, cc4BLACK, 0.5f),
+	s->runAction(CCRepeatForever::create(CCSequence::create(CCShine::create(10, cc4TRANSPARENT, cc4WHITE, cc4TRANSPARENT, 0.5f),
                                                             CCDelayTime::create(1),
                                                             NULL)));
 }

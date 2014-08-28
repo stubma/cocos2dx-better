@@ -73,10 +73,9 @@ public:
      * @param color2 gradient color 2
      * @param color3 gradient color 3
      * @param middlePosition the middle gradient point, it is relative and can be between [0, 1]
-     * @param speed shining gradient color moving speed
-     * @param interval interval between two shinings
+     * @param time time, from 0 to 1
      */
-    static void setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float speed, float interval);
+    static void setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float time);
 };
 
 NS_CC_END

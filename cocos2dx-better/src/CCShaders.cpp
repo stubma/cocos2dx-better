@@ -81,14 +81,13 @@ void CCShaders::loadCustomShader(const string& key) {
             ADD_UNIFORM(colorMatrix);
         } else if(key == kCCShader_shine) {
             ADD_UNIFORM(shineWidth);
-            ADD_UNIFORM(shineSpeed);
             ADD_UNIFORM(shineXY1);
             ADD_UNIFORM(shineXY2);
             ADD_UNIFORM(shineColor1);
             ADD_UNIFORM(shineColor2);
             ADD_UNIFORM(shineColor3);
             ADD_UNIFORM(shinePositions);
-            ADD_UNIFORM(shineInterval);
+            ADD_UNIFORM(shineTime);
         }
 		
 		// add standard uniforms
@@ -147,13 +146,12 @@ void CCShaders::setGray() {
     setColorMatrix(m);
 }
 
-void CCShaders::setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float speed, float interval) {
+void CCShaders::setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float time) {
     loadCustomShader(kCCShader_shine);
     CCGLProgram* p = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_shine);
     p->use();
     p->setUniformLocationWith1f(sUniform_pos_CC_shineWidth, width);
-    p->setUniformLocationWith1f(sUniform_pos_CC_shineSpeed, speed);
-    p->setUniformLocationWith1f(sUniform_pos_CC_shineInterval, interval);
+    p->setUniformLocationWith1f(sUniform_pos_CC_shineTime, time);
     p->setUniformLocationWith2f(sUniform_pos_CC_shineXY1, lb.x, lb.y);
     p->setUniformLocationWith2f(sUniform_pos_CC_shineXY2, rt.x, rt.y);
     p->setUniformLocationWith4f(sUniform_pos_CC_shineColor1, color1.r / 255.0f, color1.g / 255.0f, color1.b / 255.0f, color1.a / 255.0f);

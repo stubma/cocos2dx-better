@@ -37,8 +37,8 @@ private:
     /// old program
     CCGLProgram* m_oldProgram;
     
-    /// shining speed
-    float m_speed;
+    /// target size
+    CCSize m_size;
     
 protected:
     CCShine();

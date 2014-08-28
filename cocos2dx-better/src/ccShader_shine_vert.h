@@ -25,17 +25,19 @@
 #define __ccShader_shine_vert_h__
 
 const char* ccShader_shine_vert = "\n\
-    #ifdef GL_ES\n\
-        precision lowp float;\n\
-    #endif\n\
-    \n\
     attribute vec4 a_position;\n\
     attribute vec2 a_texCoord;\n\
     attribute vec4 a_color;\n\
     \n\
-    varying vec4 v_fragmentColor;\n\
-    varying vec2 v_texCoord;\n\
-    varying vec4 v_position;\n\
+    #ifdef GL_ES\n\
+        varying lowp vec4 v_fragmentColor;\n\
+        varying mediump vec2 v_texCoord;\n\
+        varying lowp vec4 v_position;\n\
+    #else\n\
+        varying vec4 v_fragmentColor;\n\
+        varying vec2 v_texCoord;\n\
+        varying vec4 v_position;\n\
+    #endif\n\
     \n\
     void main()	{\n\
         gl_Position = CC_MVPMatrix * a_position;\n\

@@ -58,7 +58,14 @@ bool CCShine::initWithColors(float duration, ccColor4B color1, ccColor4B color2,
 }
 
 void CCShine::update(float time) {
-    // do nothing
+    CCShaders::setShine(m_size.width,
+                        ccp(0, m_size.height),
+                        ccp(m_size.height, 0),
+                        m_color1,
+                        m_color2,
+                        m_color3,
+                        m_middlePosition,
+                        time);
 }
 
 void CCShine::startWithTarget(CCNode *pTarget) {
@@ -70,20 +77,18 @@ void CCShine::startWithTarget(CCNode *pTarget) {
     }
     
     // calculate speed
-    CCSize size = pTarget->getContentSize();
-    m_speed = size.width / m_fDuration;
+    m_size = pTarget->getContentSize();
     
     // set new program
     pTarget->setShaderProgram(CCShaders::programForKey(kCCShader_shine));
-    CCShaders::setShine(size.width,
-                        ccp(0, size.height),
-                        ccp(size.height, 0),
+    CCShaders::setShine(m_size.width,
+                        ccp(0, m_size.height),
+                        ccp(m_size.height, 0),
                         m_color1,
                         m_color2,
                         m_color3,
                         m_middlePosition,
-                        m_speed,
-                        1);
+                        0);
 }
 
 void CCShine::stop() {

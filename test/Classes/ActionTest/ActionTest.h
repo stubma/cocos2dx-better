@@ -81,6 +81,13 @@ public:
     virtual string subtitle();
 };
 
+class ActionShine : public ActionDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class ActionTrailMove : public ActionDemo
 {
 public:

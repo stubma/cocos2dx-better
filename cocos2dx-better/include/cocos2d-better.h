@@ -105,6 +105,7 @@
 #include "CBMoveBy.h"
 #include "CBMoveTo.h"
 #include "CCCount.h"
+#include "CCShine.h"
 
 // db
 #include "CCDatabase.h"

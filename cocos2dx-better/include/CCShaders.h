@@ -38,6 +38,7 @@ NS_CC_BEGIN
 #define kCCShader_laser "kCCShader_laser"
 #define kCCShader_lighting "kCCShader_lighting"
 #define kCCShader_matrix "kCCShader_matrix"
+#define kCCShader_shine "kCCShader_shine"
 
 /// a custom shader management helper
 class CC_DLL CCShaders {
@@ -61,6 +62,21 @@ public:
     /// color matrix
     static void setColorMatrix(const kmMat4& mat4);
     static void setGray();
+    
+    /**
+     * Set uniform for shine shader.
+     *
+     * @param width node width
+     * @param lb shining pattern left bottom position
+     * @param rt shining pattern right top position
+     * @param color1 gradient color 1
+     * @param color2 gradient color 2
+     * @param color3 gradient color 3
+     * @param middlePosition the middle gradient point, it is relative and can be between [0, 1]
+     * @param speed shining gradient color moving speed
+     * @param interval interval between two shinings
+     */
+    static void setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float speed, float interval);
 };
 
 NS_CC_END

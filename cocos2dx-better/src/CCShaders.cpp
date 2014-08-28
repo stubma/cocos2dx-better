@@ -32,6 +32,8 @@
 #include "ccShader_lighting_vert.h"
 #include "ccShader_matrix_vert.h"
 #include "ccShader_matrix_frag.h"
+#include "ccShader_shine_vert.h"
+#include "ccShader_shine_frag.h"
 
 #define LOAD_PROGRAM_IF(name) \
 	if(key == kCCShader_##name) \
@@ -51,6 +53,7 @@ void CCShaders::loadCustomShader(const string& key) {
 		LOAD_PROGRAM_IF(laser);
         LOAD_PROGRAM_IF(lighting);
         LOAD_PROGRAM_IF(matrix);
+        LOAD_PROGRAM_IF(shine);
 		
 		// add attribute
 		if(false) {
@@ -76,6 +79,16 @@ void CCShaders::loadCustomShader(const string& key) {
             ADD_UNIFORM(lightingAdd);
         } else if(key == kCCShader_matrix) {
             ADD_UNIFORM(colorMatrix);
+        } else if(key == kCCShader_shine) {
+            ADD_UNIFORM(shineWidth);
+            ADD_UNIFORM(shineSpeed);
+            ADD_UNIFORM(shineXY1);
+            ADD_UNIFORM(shineXY2);
+            ADD_UNIFORM(shineColor1);
+            ADD_UNIFORM(shineColor2);
+            ADD_UNIFORM(shineColor3);
+            ADD_UNIFORM(shinePositions);
+            ADD_UNIFORM(shineInterval);
         }
 		
 		// add standard uniforms
@@ -132,6 +145,21 @@ void CCShaders::setGray() {
     };
     kmMat4Fill(&m, v);
     setColorMatrix(m);
+}
+
+void CCShaders::setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float speed, float interval) {
+    loadCustomShader(kCCShader_shine);
+    CCGLProgram* p = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_shine);
+    p->use();
+    p->setUniformLocationWith1f(sUniform_pos_CC_shineWidth, width);
+    p->setUniformLocationWith1f(sUniform_pos_CC_shineSpeed, speed);
+    p->setUniformLocationWith1f(sUniform_pos_CC_shineInterval, interval);
+    p->setUniformLocationWith2f(sUniform_pos_CC_shineXY1, lb.x, lb.y);
+    p->setUniformLocationWith2f(sUniform_pos_CC_shineXY2, rt.x, rt.y);
+    p->setUniformLocationWith4f(sUniform_pos_CC_shineColor1, color1.r / 255.0f, color1.g / 255.0f, color1.b / 255.0f, color1.a / 255.0f);
+    p->setUniformLocationWith4f(sUniform_pos_CC_shineColor2, color2.r / 255.0f, color2.g / 255.0f, color2.b / 255.0f, color2.a / 255.0f);
+    p->setUniformLocationWith4f(sUniform_pos_CC_shineColor3, color3.r / 255.0f, color3.g / 255.0f, color3.b / 255.0f, color3.a / 255.0f);
+    p->setUniformLocationWith3f(sUniform_pos_CC_shinePositions, 0, middlePosition, 1);
 }
 
 NS_CC_END

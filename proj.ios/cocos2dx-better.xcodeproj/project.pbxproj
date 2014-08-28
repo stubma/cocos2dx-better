@@ -23,6 +23,7 @@
 		92273506196A6EE7002E5C97 /* CBGridView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273505196A6EE7002E5C97 /* CBGridView.cpp */; };
 		92273509196A77EB002E5C97 /* CBTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273507196A77EB002E5C97 /* CBTableView.cpp */; };
 		9234736118BD86A4009DDBEF /* CCShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9234736018BD86A4009DDBEF /* CCShaders.cpp */; };
+		923606C319AEE49600E9E86E /* CCShine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923606C219AEE49600E9E86E /* CCShine.cpp */; };
 		9236C0BB19932053000A61A7 /* CBMoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9236C0BA19932053000A61A7 /* CBMoveTo.cpp */; };
 		923713F118DD1453006879DE /* CBTMXTileMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923713EF18DD1453006879DE /* CBTMXTileMap.cpp */; };
 		923713F818DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923713F618DD22D6006879DE /* CBTMXObjectDebugRenderer.cpp */; };
@@ -535,6 +536,10 @@
 		922D3C8618C970B200E9AA9E /* CCCallFuncT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncT.h; sourceTree = "<group>"; };
 		9234735E18BD865A009DDBEF /* CCShaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShaders.h; sourceTree = "<group>"; };
 		9234736018BD86A4009DDBEF /* CCShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShaders.cpp; sourceTree = "<group>"; };
+		923606BD19AEDB9900E9E86E /* ccShader_shine_vert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_shine_vert.h; sourceTree = "<group>"; };
+		923606BE19AEDBDF00E9E86E /* ccShader_shine_frag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ccShader_shine_frag.h; sourceTree = "<group>"; };
+		923606C019AEE47900E9E86E /* CCShine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCShine.h; sourceTree = "<group>"; };
+		923606C219AEE49600E9E86E /* CCShine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShine.cpp; sourceTree = "<group>"; };
 		9236C0BA19932053000A61A7 /* CBMoveTo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBMoveTo.cpp; sourceTree = "<group>"; };
 		9236C0C2199321F1000A61A7 /* CBMoveTo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMoveTo.h; sourceTree = "<group>"; };
 		923713EF18DD1453006879DE /* CBTMXTileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTMXTileMap.cpp; sourceTree = "<group>"; };
@@ -1464,6 +1469,8 @@
 				92DB70CB18D34A8600F2EF58 /* ccShader_blur_frag.h */,
 				92E8D06918D420D100121DCC /* ccShader_laser_vert.h */,
 				92E8D06818D4203800121DCC /* ccShader_laser_frag.h */,
+				923606BD19AEDB9900E9E86E /* ccShader_shine_vert.h */,
+				923606BE19AEDBDF00E9E86E /* ccShader_shine_frag.h */,
 			);
 			name = shader;
 			sourceTree = "<group>";
@@ -1523,6 +1530,7 @@
 				92396873185591DB0063E8A1 /* CCClipOut.h */,
 				9273E5121995FA7F0012F6BF /* CCCount.h */,
 				92CE277818B5EE81006E5B71 /* CCFlash.h */,
+				923606C019AEE47900E9E86E /* CCShine.h */,
 				922399EC187FD7B3006AD199 /* CBJumpBy.h */,
 				92042B1C187FE0E80064262D /* CBJumpTo.h */,
 				925C17A81946E0D7002FEE73 /* CBMoveBy.h */,
@@ -1631,6 +1639,7 @@
 				923968A8185591DB0063E8A1 /* CCClipOut.cpp */,
 				9273E5141995FA9F0012F6BF /* CCCount.cpp */,
 				92CE277518B5EE35006E5B71 /* CCFlash.cpp */,
+				923606C219AEE49600E9E86E /* CCShine.cpp */,
 				922399E9187FD793006AD199 /* CBJumpBy.cpp */,
 				92042B19187FE0CD0064262D /* CBJumpTo.cpp */,
 				925C17A91946E0E6002FEE73 /* CBMoveBy.cpp */,
@@ -3440,6 +3449,7 @@
 				92F68E8F1855ACE400C97188 /* CCJSONObject.cpp in Sources */,
 				9292C88018EA5D4200915B3A /* org_cocos2dx_lib_CCImagePicker.cpp in Sources */,
 				92A8559919500C8F00098490 /* CCActionTimeline.cpp in Sources */,
+				923606C319AEE49600E9E86E /* CCShine.cpp in Sources */,
 				92A8559E19500C8F00098490 /* CCArmatureAnimation.cpp in Sources */,
 				92396904185591DB0063E8A1 /* CCTexture2D_richlabel.cpp in Sources */,
 				92A8559619500C8F00098490 /* CCActionManager.cpp in Sources */,

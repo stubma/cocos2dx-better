@@ -146,7 +146,7 @@ void CCShaders::setGray() {
     setColorMatrix(m);
 }
 
-void CCShaders::setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float time) {
+void CCShaders::setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, ccVertex3F gradientPositions, float time) {
     loadCustomShader(kCCShader_shine);
     CCGLProgram* p = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_shine);
     p->use();
@@ -157,7 +157,7 @@ void CCShaders::setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, 
     p->setUniformLocationWith4f(sUniform_pos_CC_shineColor1, color1.r / 255.0f, color1.g / 255.0f, color1.b / 255.0f, color1.a / 255.0f);
     p->setUniformLocationWith4f(sUniform_pos_CC_shineColor2, color2.r / 255.0f, color2.g / 255.0f, color2.b / 255.0f, color2.a / 255.0f);
     p->setUniformLocationWith4f(sUniform_pos_CC_shineColor3, color3.r / 255.0f, color3.g / 255.0f, color3.b / 255.0f, color3.a / 255.0f);
-    p->setUniformLocationWith3f(sUniform_pos_CC_shinePositions, 0, middlePosition, 1);
+    p->setUniformLocationWith3f(sUniform_pos_CC_shinePositions, gradientPositions.x, gradientPositions.y, gradientPositions.z);
 }
 
 NS_CC_END

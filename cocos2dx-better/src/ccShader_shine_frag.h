@@ -81,21 +81,19 @@ const char* ccShader_shine_frag = "\n\
             vec2 v = CC_shineXY2 - CC_shineXY1;\n\
             vec2 pv = v_position.xy - vec2(CC_shineXY1.x + patternOffsetX, CC_shineXY1.y);\n\
             float vLen = length(v);\n\
-            float pvLen = length(pv);\n\
             float gradient = dot(v, pv) / vLen / vLen;\n\
             \n\
             // calculate color\n\
             vec4 color;\n\
-            if(gradient <= CC_shinePositions.y) {\n\
-                float g = gradient / CC_shinePositions.y;\n\
+            if(gradient >= CC_shinePositions.x && gradient <= CC_shinePositions.y) {\n\
+                float g = (gradient - CC_shinePositions.x) / (CC_shinePositions.y - CC_shinePositions.x);\n\
                 color = CC_shineColor1 * (1.0 - g) + CC_shineColor2 * g;\n\
-            } else {\n\
-                float g = (gradient - CC_shinePositions.y) / (1.0 - CC_shinePositions.y);\n\
+                gl_FragColor.xyz += gl_FragColor.a * color.a * color.xyz;\n\
+            } else if(gradient > CC_shinePositions.y && gradient <= CC_shinePositions.z) {\n\
+                float g = (gradient - CC_shinePositions.y) / (CC_shinePositions.z - CC_shinePositions.y);\n\
                 color = CC_shineColor2 * (1.0 - g) + CC_shineColor3 * g;\n\
+                gl_FragColor.xyz += gl_FragColor.a * color.a * color.xyz;\n\
             }\n\
-            \n\
-            // mix color\n\
-            gl_FragColor.xyz += gl_FragColor.a * color.a * color.xyz;\n\
         }\n\
     }";
 

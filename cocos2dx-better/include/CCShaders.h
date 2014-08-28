@@ -72,10 +72,12 @@ public:
      * @param color1 gradient color 1
      * @param color2 gradient color 2
      * @param color3 gradient color 3
-     * @param middlePosition the middle gradient point, it is relative and can be between [0, 1]
+     * @param gradientPositions the gradient point, it is relative and can be between [0, 1]. First value
+     *      indicating the start of color 1, second value is indicating the start of color 2, and so on. Color between
+     *      two values will be interpolated.
      * @param time time, from 0 to 1
      */
-    static void setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition, float time);
+    static void setShine(float width, CCPoint lb, CCPoint rt, ccColor4B color1, ccColor4B color2, ccColor4B color3, ccVertex3F gradientPositions, float time);
 };
 
 NS_CC_END

@@ -45,9 +45,9 @@ protected:
     
 public:
     virtual ~CCShine();
-    static CCShine* create(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition);
+    static CCShine* create(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, ccVertex3F gradientPositions);
     
-    virtual bool initWithColors(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition);
+    virtual bool initWithColors(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, ccVertex3F gradientPositions);
     
     // override super
     virtual void update(float time);
@@ -62,7 +62,7 @@ public:
     CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, m_color1, Color1);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, m_color2, Color2);
     CC_SYNTHESIZE_PASS_BY_REF(ccColor4B, m_color3, Color3);
-    CC_SYNTHESIZE_READONLY(float, m_middlePosition, MiddlePosition);
+    CC_SYNTHESIZE_PASS_BY_REF(ccVertex3F, m_gradientPositions, GradientPositions);
 };
 
 NS_CC_END

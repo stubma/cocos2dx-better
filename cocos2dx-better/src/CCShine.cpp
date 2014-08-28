@@ -33,9 +33,9 @@ m_oldProgram(NULL) {
 CCShine::~CCShine() {
 }
 
-CCShine* CCShine::create(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition) {
+CCShine* CCShine::create(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, ccVertex3F gradientPositions) {
     CCShine* s = new CCShine();
-    if(s->initWithColors(duration, color1, color2, color3, middlePosition)) {
+    if(s->initWithColors(duration, color1, color2, color3, gradientPositions)) {
         s->autorelease();
         return s;
     }
@@ -43,7 +43,7 @@ CCShine* CCShine::create(float duration, ccColor4B color1, ccColor4B color2, ccC
     return NULL;
 }
 
-bool CCShine::initWithColors(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, float middlePosition) {
+bool CCShine::initWithColors(float duration, ccColor4B color1, ccColor4B color2, ccColor4B color3, ccVertex3F gradientPositions) {
     if(!CCActionInterval::initWithDuration(duration)) {
         return false;
     }
@@ -52,7 +52,7 @@ bool CCShine::initWithColors(float duration, ccColor4B color1, ccColor4B color2,
     m_color1 = color1;
     m_color2 = color2;
     m_color3 = color3;
-    m_middlePosition = middlePosition;
+    m_gradientPositions = gradientPositions;
     
     return true;
 }
@@ -64,7 +64,7 @@ void CCShine::update(float time) {
                         m_color1,
                         m_color2,
                         m_color3,
-                        m_middlePosition,
+                        m_gradientPositions,
                         time);
 }
 
@@ -87,7 +87,7 @@ void CCShine::startWithTarget(CCNode *pTarget) {
                         m_color1,
                         m_color2,
                         m_color3,
-                        m_middlePosition,
+                        m_gradientPositions,
                         0);
 }
 
@@ -110,7 +110,7 @@ CCObject* CCShine::copyWithZone(CCZone* pZone) {
     }
 	
     CCActionInterval::copyWithZone(pZone);
-    pCopy->initWithColors(m_fDuration, m_color1, m_color2, m_color3, m_middlePosition);
+    pCopy->initWithColors(m_fDuration, m_color1, m_color2, m_color3, m_gradientPositions);
     
     CC_SAFE_DELETE(pNewZone);
     return pCopy;

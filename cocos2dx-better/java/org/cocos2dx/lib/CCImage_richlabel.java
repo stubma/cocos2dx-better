@@ -577,9 +577,7 @@ public class CCImage_richlabel {
         }
 		
 		// adjust layout
-		if(pWidth > 0 && pWidth > width)
-			width = pWidth;
-		if(pHeight > 0 && pHeight > height)
+		if(pHeight > 0 && pHeight < height)
 			height = pHeight;
 		
 		// if only measure, just pass size to native layer

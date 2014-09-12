@@ -47,10 +47,11 @@ void policy(ResolutionPolicy p) {
     gStoryCommandSet.addObject(c);
 }
 
-void msg(string name, string s) {
+void msg(string name, string s, float wait) {
     CCStoryCommand* c = CCStoryCommand::create(CCStoryCommand::MSG);
     c->m_param.msg.name = CCUtils::copy(name.c_str());
     c->m_param.msg.s = CCUtils::copy(s.c_str());
+    c->m_param.msg.wait = wait;
     gStoryCommandSet.addObject(c);
 }
 

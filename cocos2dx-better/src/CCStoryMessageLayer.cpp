@@ -33,7 +33,8 @@ CCStoryMessageLayer::CCStoryMessageLayer() :
 m_msgLabel(NULL),
 m_nameLabel(NULL),
 m_looping(false),
-m_player(NULL) {
+m_player(NULL),
+m_wait(0) {
 	
 }
 
@@ -79,6 +80,9 @@ void CCStoryMessageLayer::showMessage(CCStoryCommand* cmd) {
         return;
     m_looping = true;
     
+    // save
+    m_wait = cmd->m_param.msg.wait;
+    
     // create name label
     m_nameLabel = CCRichLabelTTF::create(cmd->m_param.msg.name, m_player->getNameFont().c_str(), m_player->getNameSize());
     m_nameLabel->setAnchorPoint(m_player->getNameAnchor());
@@ -109,7 +113,10 @@ void CCStoryMessageLayer::handleUserClick() {
     if(m_looping) {
         m_msgLabel->stopLoopDisplay();
         m_looping = false;
-        schedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile), 1, 0, 0);
+        
+        if(m_wait >= 0) {
+            schedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile), 0, 0, m_wait);
+        }
     } else {
         if(m_msgLabel) {
             unschedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile));
@@ -147,7 +154,10 @@ void CCStoryMessageLayer::onDialogDisplayedSomeWhile(float delta) {
 
 void CCStoryMessageLayer::onDialogEndLooping() {
     m_looping = false;
-    schedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile), 1, 0, 0);
+    
+    if(m_wait >= 0) {
+        schedule(schedule_selector(CCStoryMessageLayer::onDialogDisplayedSomeWhile), 0, 0, m_wait);
+    }
 }
 
 NS_CC_END

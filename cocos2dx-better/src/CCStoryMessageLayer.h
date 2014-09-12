@@ -46,6 +46,9 @@ private:
     
     /// player
     CCStoryPlayer* m_player;
+    
+    /// wait time
+    float m_wait;
 
 protected:
 	CCStoryMessageLayer();

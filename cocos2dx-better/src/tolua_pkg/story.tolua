@@ -35,7 +35,7 @@ void labelfont(string fontName);
 void labelanchor(float x, float y);
 void labelwidth(float w);
 void labelalign(CCTextAlignment a);
-void msg(string name, string s);
+void msg(string name, string s, float wait = 1);
 void move(string name, float x, float y, float time);
 void wait(float time);
 void waitarm();

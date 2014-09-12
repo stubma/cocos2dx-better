@@ -76,8 +76,9 @@ extern void policy(ResolutionPolicy p);
  *
  * @param name 说话人的名称, 名称也是一类特殊的文本, 有专门的命令控制它的颜色, 字体大小, 锚点和位置.
  * @param s 对话的内容
+ * @param wait 对话全部显示完毕后等待的时间, 小于0表示等待用户点击再消失
  */
-extern void msg(string name, string s);
+extern void msg(string name, string s, float wait = 1);
 
 /**
  * 设置剧情对话字体的大小, 由于剧情脚本是顺序执行的, 所以它不会影响命令之前的对话字体
@@ -595,6 +596,7 @@ public:
         struct {
             const char* name;
             const char* s;
+            float wait;
         } msg;
         
         struct {

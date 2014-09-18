@@ -48,6 +48,12 @@ private:
     /// backup old scrollview delegate
     CCScrollViewDelegate* m_oldCCDelegate;
     
+    /// auto fade
+    bool m_autoFade;
+    
+    /// init fade out
+    bool m_initFadeOut;
+    
 protected:
 	CCScrollBar();
 	
@@ -79,6 +85,9 @@ public:
 	
 	/// attach scrollbar to CCScrollView
 	void attachToCCScrollView(CCScrollView* scrollView, ccInsets insets = cciZero, bool horizontal = false);
+    
+    /// set auto fade and initial fade state
+    void setAutoFade(bool autoFade, bool initFadeOut = false);
 	
 	/// track bar
 	CC_SYNTHESIZE_RETAIN(CCScale9Sprite*, m_track, Track);
@@ -91,9 +100,6 @@ public:
 	
 	/// is horizontal?
 	CC_SYNTHESIZE_BOOL(m_horizontal, Horizontal);
-	
-	/// auto fade?
-	CC_SYNTHESIZE_BOOL(m_autoFade, AutoFade);
 };
 
 NS_CC_END

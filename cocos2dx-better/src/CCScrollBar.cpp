@@ -37,7 +37,8 @@ m_fixedThumb(NULL),
 m_fadingOut(false),
 m_fadeOutTimer(0),
 m_oldCCDelegate(NULL),
-m_autoFade(false) {
+m_autoFade(false),
+m_initFadeOut(false) {
 	
 }
 
@@ -170,6 +171,12 @@ void CCScrollBar::attachToUIScrollView(ScrollView* scrollView, ccInsets insets, 
 	
 	// listen to scrollview scrolling event
 	scrollView->addEventListenerScrollView(this, scrollvieweventselector(CCScrollBar::onUIScrollViewEvent));
+    
+    // init fade out
+    if(m_initFadeOut) {
+        m_fadingOut = true;
+        CCUtils::setOpacityRecursively(this, 0);
+    }
 }
 
 void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets, bool horizontal) {
@@ -260,6 +267,12 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
     // delegate
     m_oldCCDelegate = scrollView->getDelegate();
     scrollView->setDelegate(this);
+    
+    // init fade out
+    if(m_initFadeOut) {
+        m_fadingOut = true;
+        CCUtils::setOpacityRecursively(this, 0);
+    }
 }
 
 void CCScrollBar::syncThumbPositionForCCScrollView(CCScrollView* scrollView) {
@@ -319,6 +332,11 @@ void CCScrollBar::onUIScrollViewEvent(CCObject* sender, ScrollviewEventType e) {
         m_fadingOut = false;
         m_fadeOutTimer = 0;
 	}
+}
+
+void CCScrollBar::setAutoFade(bool autoFade, bool initFadeOut) {
+    m_autoFade = autoFade;
+    m_initFadeOut = initFadeOut;
 }
 
 void CCScrollBar::update(float delta) {

@@ -72,6 +72,39 @@ void CCResourceLoader::abortAll() {
     }
 }
 
+void CCResourceLoader::unloadImages(const string& tex) {
+    CCTextureCache::sharedTextureCache()->removeTextureForKey(tex.c_str());
+}
+
+void CCResourceLoader::unloadImages(const string& texPattern, int start, int end) {
+    char buf[512];
+    for(int i = start; i <= end; i++) {
+        sprintf(buf, texPattern.c_str(), i);
+        CCTextureCache::sharedTextureCache()->removeTextureForKey(buf);
+    }
+}
+
+void CCResourceLoader::unloadSpriteFrames(const string& plistPattern, const string& texPattern, int start, int end) {
+    char buf[512];
+    for(int i = start; i <= end; i++) {
+        sprintf(buf, plistPattern.c_str(), i);
+        CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile(buf);
+        sprintf(buf, texPattern.c_str(), i);
+        CCTextureCache::sharedTextureCache()->removeTextureForKey(buf);
+    }
+}
+
+void CCResourceLoader::unloadArmatures(string plistPattern, string texPattern, int start, int end, string config) {
+    CCArmatureDataManager::sharedArmatureDataManager()->removeArmatureFileInfo(config.c_str());
+    char buf[512];
+    for(int i = start; i <= end; i++) {
+        sprintf(buf, plistPattern.c_str(), i);
+        CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile(buf);
+        sprintf(buf, texPattern.c_str(), i);
+        CCTextureCache::sharedTextureCache()->removeTextureForKey(buf);
+    }
+}
+
 unsigned char* CCResourceLoader::loadRaw(const string& name, unsigned long* size, CC_DECRYPT_FUNC decFunc) {
     // load encryptd data
 	unsigned long len;

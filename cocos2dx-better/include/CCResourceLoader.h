@@ -449,7 +449,19 @@ public:
 	 * @param decFunc decrypt func
 	 */
 	static void loadZwoptex(const string& plistName, const string& texName, CC_DECRYPT_FUNC decFunc);
+    
+    /// unload image
+    static void unloadImages(const string& tex);
+    
+    /// unload images
+    static void unloadImages(const string& texPattern, int start, int end);
+    
+    /// unload sprite frames
+    static void unloadSpriteFrames(const string& plistPattern, const string& texPattern, int start, int end);
 	
+    /// unload armature
+    static void unloadArmatures(string plistPattern, string texPattern, int start, int end, string config);
+    
     /// start loading
     void run();
     

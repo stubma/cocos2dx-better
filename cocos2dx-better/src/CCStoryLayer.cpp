@@ -147,18 +147,18 @@ bool CCStoryLayer::preloadStoryString(const string& storyScript) {
                 string ext = CCUtils::getPathExtension(filename);
                 string path;
                 if(ext != ".png" && ext != ".jpg" && ext != ".jpeg") {
-                    path = CCUtils::externalize(filename + ".png");
+                    path = CCUtils::getExternalOrFullPath(filename + ".png");
                     if(!CCUtils::isPathExistent(path)) {
-                        path = CCUtils::externalize(filename + ".jpg");
+                        path = CCUtils::getExternalOrFullPath(filename + ".jpg");
                         if(!CCUtils::isPathExistent(path)) {
-                            path = CCUtils::externalize(filename + ".jpeg");
+                            path = CCUtils::getExternalOrFullPath(filename + ".jpeg");
                             if(!CCUtils::isPathExistent(path)) {
                                 path = filename + ".png";
                             }
                         }
                     }
                 } else {
-                    path = CCUtils::externalize(filename);
+                    path = CCUtils::getExternalOrFullPath(filename);
                     if(!CCUtils::isPathExistent(path)) {
                         path = filename;
                     }

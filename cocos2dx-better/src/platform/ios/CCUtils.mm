@@ -288,13 +288,14 @@ bool CCUtils::createFolder(const string& path) {
 }
 
 string CCUtils::externalize(const string& path) {
-	if(!CCFileUtils::sharedFileUtils()->isAbsolutePath(path)) {
-		NSString* nsPath = [NSString stringWithFormat:@"~/Documents/%s", path.c_str()];
-		nsPath = [nsPath stringByExpandingTildeInPath];
-		return [nsPath cStringUsingEncoding:NSUTF8StringEncoding];
-	} else {
+    if(!CCFileUtils::sharedFileUtils()->isAbsolutePath(path)) {
+        NSString* nsPath = [NSString stringWithUTF8String:path.c_str()];
+        NSString* nsFullPath = [NSString stringWithFormat:@"~/Documents/%@", nsPath];
+        nsFullPath = [nsFullPath stringByExpandingTildeInPath];
+        return [nsFullPath cStringUsingEncoding:NSUTF8StringEncoding];
+    } else {
         return path;
-	}
+    }
 }
 
 bool CCUtils::deleteFile(const string& path) {

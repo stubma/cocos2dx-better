@@ -277,12 +277,12 @@ bool CCUtils::isPathExistent(const string& path) {
 	if(path.empty())
 		return false;
 	
-	NSString* nsPath = [NSString stringWithFormat:@"%s", path.c_str()];
+	NSString* nsPath = [NSString stringWithUTF8String:path.c_str()];
 	return [[NSFileManager defaultManager] fileExistsAtPath:nsPath];
 }
 
 bool CCUtils::createFolder(const string& path) {
-	NSString* nsPath = [NSString stringWithFormat:@"%s", path.c_str()];
+	NSString* nsPath = [NSString stringWithUTF8String:path.c_str()];
 	NSFileManager* fm = [NSFileManager defaultManager];
 	return [fm createDirectoryAtPath:nsPath withIntermediateDirectories:YES attributes:NULL error:NULL];
 }
@@ -299,7 +299,7 @@ string CCUtils::externalize(const string& path) {
 }
 
 bool CCUtils::deleteFile(const string& path) {
-	NSString* p = [NSString stringWithFormat:@"%s", path.c_str()];
+	NSString* p = [NSString stringWithUTF8String:path.c_str()];
 	NSFileManager* fm = [NSFileManager defaultManager];
 	NSError* error = nil;
 	[fm removeItemAtPath:p error:&error];

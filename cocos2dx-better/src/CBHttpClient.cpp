@@ -34,12 +34,6 @@ using namespace std;
 
 NS_CC_BEGIN
 
-/// cancel all request
-#define kCCNotificationHttpCancelAll "kCCNotificationHttpCancelAll"
-
-/// cancel one request by tag, object is a CCInteger tag
-#define kCCNotificationHttpCancelOne "kCCNotificationHttpCancelOne"
-
 /// context info
 typedef struct {
     CBHttpRequest* request;
@@ -92,11 +86,6 @@ public:
     m_headers(NULL) {
         m_data = new CBData();
         CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(CURLHandler::dispatchNotification), this, 0, kCCRepeatForever, 0, false);
-        
-        // listener to some internal notification
-        CCNotificationCenter* nc = CCNotificationCenter::sharedNotificationCenter();
-        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelAll), kCCNotificationHttpCancelAll, NULL);
-        nc->addObserver(this, callfuncO_selector(CURLHandler::onCancelOne), kCCNotificationHttpCancelOne, NULL);
     }
     
     virtual ~CURLHandler() {
@@ -344,10 +333,6 @@ public:
             // notification
             nc->postNotification(kCCNotificationHttpRequestCompleted, m_ctx->response);
             
-            // unlistener internal notification
-            nc->removeObserver(this, kCCNotificationHttpCancelAll);
-            nc->removeObserver(this, kCCNotificationHttpCancelOne);
-            
             // balance retain in httpThreadEntry
             autorelease();
             
@@ -356,16 +341,6 @@ public:
         }
         
         pthread_mutex_unlock(&m_mutex);
-    }
-    
-    void onCancelAll(CCObject* unused) {
-        m_ctx->request->setCancel(true);
-    }
-    
-    void onCancelOne(CCInteger* tag) {
-        if(m_ctx->request->getTag() == tag->getValue()) {
-            m_ctx->request->setCancel(true);
-        }
     }
 };
 
@@ -453,6 +428,17 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     ctx->connectTimeout = m_connectTimeout;
     ctx->readTimeout = m_readTimeout;
     CC_SAFE_RETAIN(request);
+    
+    // ensure there is no same pointer in cache
+    for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
+        if(*iter == ctx) {
+            m_activeContexts.erase(iter);
+            break;
+        }
+    }
+    
+    // add to cache
+    m_activeContexts.push_back(ctx);
 
     // start network thread
     pthread_t thread;
@@ -461,11 +447,20 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
 }
 
 void CBHttpClient::cancel(int tag) {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationHttpCancelOne, CCInteger::create(tag));
+    for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
+        ccHttpContext* ctx = (ccHttpContext*)*iter;
+        if(ctx->request->getTag() == tag) {
+            ctx->request->setCancel(true);
+            break;
+        }
+    }
 }
 
 void CBHttpClient::cancelAll() {
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(kCCNotificationHttpCancelAll);
+    for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
+        ccHttpContext* ctx = (ccHttpContext*)*iter;
+        ctx->request->setCancel(true);
+    }
 }
 
 NS_CC_END

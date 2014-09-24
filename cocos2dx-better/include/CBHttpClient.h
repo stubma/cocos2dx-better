@@ -60,6 +60,9 @@ private:
     /// thread entry
     static void* httpThreadEntry(void* arg);
     
+    /// handler map, key is tag
+    vector<void*> m_activeContexts;
+    
 protected:
     CBHttpClient();
     

@@ -36,6 +36,7 @@ NS_CC_BEGIN
 
 /// context info
 typedef struct {
+    CBHttpClient* client;
     CBHttpRequest* request;
     CBHttpResponse* response;
     float connectTimeout;
@@ -93,6 +94,9 @@ public:
             curl_easy_cleanup(m_curl);
         if(m_headers)
             curl_slist_free_all(m_headers);
+        if(m_ctx->client) {
+            m_ctx->client->removeContext(m_ctx);
+        }
         CC_SAFE_RELEASE(m_ctx->request);
         CC_SAFE_RELEASE(m_ctx->response);
         CC_SAFE_FREE(m_ctx);
@@ -399,9 +403,22 @@ void* CBHttpClient::httpThreadEntry(void* arg) {
 CBHttpClient::CBHttpClient() :
 m_connectTimeout(30),
 m_readTimeout(60) {
+    // create mutex
+    pthread_mutexattr_t attr;
+    pthread_mutexattr_init(&attr);
+    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&m_mutex, &attr);
+    pthread_mutexattr_destroy(&attr);
 }
 
 CBHttpClient::~CBHttpClient() {
+    pthread_mutex_lock(&m_mutex);
+    for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
+        ccHttpContext* ctx = (ccHttpContext*)*iter;
+        ctx->client = NULL;
+    }
+    pthread_mutex_unlock(&m_mutex);
+    pthread_mutex_destroy(&m_mutex);
 }
 
 CBHttpClient* CBHttpClient::create() {
@@ -427,18 +444,13 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     ctx->request = request;
     ctx->connectTimeout = m_connectTimeout;
     ctx->readTimeout = m_readTimeout;
+    ctx->client = this;
     CC_SAFE_RETAIN(request);
     
-    // ensure there is no same pointer in cache
-    for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
-        if(*iter == ctx) {
-            m_activeContexts.erase(iter);
-            break;
-        }
-    }
-    
     // add to cache
+    pthread_mutex_lock(&m_mutex);
     m_activeContexts.push_back(ctx);
+    pthread_mutex_unlock(&m_mutex);
 
     // start network thread
     pthread_t thread;
@@ -446,7 +458,19 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     pthread_detach(thread);
 }
 
+void CBHttpClient::removeContext(void* ctx) {
+    pthread_mutex_lock(&m_mutex);
+    for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
+        if(ctx == *iter) {
+            m_activeContexts.erase(iter);
+            break;
+        }
+    }
+    pthread_mutex_unlock(&m_mutex);
+}
+
 void CBHttpClient::cancel(int tag) {
+    pthread_mutex_lock(&m_mutex);
     for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
         ccHttpContext* ctx = (ccHttpContext*)*iter;
         if(ctx->request->getTag() == tag) {
@@ -454,13 +478,16 @@ void CBHttpClient::cancel(int tag) {
             break;
         }
     }
+    pthread_mutex_unlock(&m_mutex);
 }
 
 void CBHttpClient::cancelAll() {
+    pthread_mutex_lock(&m_mutex);
     for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
         ccHttpContext* ctx = (ccHttpContext*)*iter;
         ctx->request->setCancel(true);
     }
+    pthread_mutex_unlock(&m_mutex);
 }
 
 NS_CC_END

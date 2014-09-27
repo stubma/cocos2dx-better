@@ -58,10 +58,10 @@ protected:
 	CCScrollBar();
 	
 	/// sync thumb position
-	void syncThumbPositionForUIScrollView(ScrollView* scrollView);
+	void syncThumbPositionSizeForUIScrollView(ScrollView* scrollView);
 	
 	/// sync thumb position for CCScrollView
-	void syncThumbPositionForCCScrollView(CCScrollView* scrollView);
+	void syncThumbPositionSizeForCCScrollView(CCScrollView* scrollView);
 	
 	/// UIScrollView event handler
 	void onUIScrollViewEvent(CCObject* sender, ScrollviewEventType e);

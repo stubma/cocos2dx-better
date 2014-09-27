@@ -167,7 +167,7 @@ void CCScrollBar::attachToUIScrollView(ScrollView* scrollView, ccInsets insets, 
 	}
 	
 	// sync thumb position
-	syncThumbPositionForUIScrollView(scrollView);
+	syncThumbPositionSizeForUIScrollView(scrollView);
 	
 	// listen to scrollview scrolling event
 	scrollView->addEventListenerScrollView(this, scrollvieweventselector(CCScrollBar::onUIScrollViewEvent));
@@ -262,7 +262,7 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
 	}
 	
 	// sync thumb position
-	syncThumbPositionForCCScrollView(scrollView);
+	syncThumbPositionSizeForCCScrollView(scrollView);
     
     // delegate
     m_oldCCDelegate = scrollView->getDelegate();
@@ -275,21 +275,25 @@ void CCScrollBar::attachToCCScrollView(CCScrollView* scrollView, ccInsets insets
     }
 }
 
-void CCScrollBar::syncThumbPositionForCCScrollView(CCScrollView* scrollView) {
+void CCScrollBar::syncThumbPositionSizeForCCScrollView(CCScrollView* scrollView) {
 	CCSize svSize = scrollView->getViewSize();
 	CCSize innerSize = scrollView->getContainer()->getContentSize();
 	CCSize sbSize = getContentSize();
 	CCSize thumbSize = m_thumb ? m_thumb->getContentSize() : m_fixedThumb->getContentSize();
 	float percentage = 0;
+    float thumbLength = 0;
 	if(m_horizontal) {
 		float minX = svSize.width - innerSize.width;
 		percentage = (scrollView->getContainer()->getPosition().x - minX) / -minX;
+        thumbLength = MIN(1, svSize.width / innerSize.width) * sbSize.height;
 	} else {
 		float minY = svSize.height - innerSize.height;
 		percentage = (scrollView->getContainer()->getPosition().y - minY) / -minY;
+        thumbLength = MIN(1, svSize.height / innerSize.height) * sbSize.height;
 	}
 	percentage = clampf(percentage, 0, 1);
 	if(m_thumb) {
+        m_thumb->setPreferredSize(CCSizeMake(sbSize.width, thumbLength));
 		m_thumb->setPosition(ccp(sbSize.width / 2,
 								 sbSize.height - percentage * (sbSize.height - thumbSize.height) - thumbSize.height / 2));
 	} else {
@@ -298,21 +302,25 @@ void CCScrollBar::syncThumbPositionForCCScrollView(CCScrollView* scrollView) {
 	}
 }
 
-void CCScrollBar::syncThumbPositionForUIScrollView(ScrollView* scrollView) {
+void CCScrollBar::syncThumbPositionSizeForUIScrollView(ScrollView* scrollView) {
 	CCSize svSize = scrollView->getSize();
 	CCSize innerSize = scrollView->getInnerContainerSize();
 	CCSize sbSize = getContentSize();
 	CCSize thumbSize = m_thumb ? m_thumb->getContentSize() : m_fixedThumb->getContentSize();
 	float percentage = 0;
+    float thumbLength = 0;
 	if(m_horizontal) {
 		float minX = svSize.width - innerSize.width;
 		percentage = (scrollView->getInnerContainer()->getPosition().x - minX) / -minX;
+        thumbLength = MIN(1, svSize.width / innerSize.width) * sbSize.height;
 	} else {
 		float minY = svSize.height - innerSize.height;
 		percentage = (scrollView->getInnerContainer()->getPosition().y - minY) / -minY;
+        thumbLength = MIN(1, svSize.height / innerSize.height) * sbSize.height;
 	}
 	percentage = clampf(percentage, 0, 1);
 	if(m_thumb) {
+        m_thumb->setPreferredSize(CCSizeMake(sbSize.width, thumbLength));
 		m_thumb->setPosition(ccp(sbSize.width / 2,
 								 sbSize.height - percentage * (sbSize.height - thumbSize.height) - thumbSize.height / 2));
 	} else {
@@ -324,7 +332,7 @@ void CCScrollBar::syncThumbPositionForUIScrollView(ScrollView* scrollView) {
 void CCScrollBar::onUIScrollViewEvent(CCObject* sender, ScrollviewEventType e) {
 	if(e == SCROLLVIEW_EVENT_SCROLLING) {
 		ScrollView* scrollView = (ScrollView*)sender;
-		syncThumbPositionForUIScrollView(scrollView);
+		syncThumbPositionSizeForUIScrollView(scrollView);
         
         // reset timer to fade out
         stopActionByTag(TAG_FADE_OUT);
@@ -352,7 +360,7 @@ void CCScrollBar::update(float delta) {
 }
 
 void CCScrollBar::scrollViewDidScroll(CCScrollView* view) {
-    syncThumbPositionForCCScrollView(view);
+    syncThumbPositionSizeForCCScrollView(view);
     
     // reset timer to fade out
     stopActionByTag(TAG_FADE_OUT);

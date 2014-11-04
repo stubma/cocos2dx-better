@@ -44,6 +44,13 @@ public:
     virtual string subtitle();
 };
 
+class ActionCurl : public ActionDemo
+{
+public:
+    virtual void onEnter();
+    virtual string subtitle();
+};
+
 class ActionFlash : public ActionDemo
 {
 public:

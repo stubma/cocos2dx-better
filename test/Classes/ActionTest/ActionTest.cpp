@@ -9,6 +9,7 @@
 TESTLAYER_CREATE_FUNC(ActionBlur);
 TESTLAYER_CREATE_FUNC(ActionClipInOut);
 TESTLAYER_CREATE_FUNC(ActionCount);
+TESTLAYER_CREATE_FUNC(ActionCurl);
 TESTLAYER_CREATE_FUNC(ActionFlash);
 TESTLAYER_CREATE_FUNC(ActionJumpEx);
 TESTLAYER_CREATE_FUNC(ActionMissile);
@@ -21,6 +22,7 @@ static NEWTESTFUNC createFunctions[] = {
 	CF(ActionBlur),
     CF(ActionClipInOut),
     CF(ActionCount),
+    CF(ActionCurl),
     CF(ActionFlash),
     CF(ActionJumpEx),
     CF(ActionMissile),
@@ -200,6 +202,35 @@ void ActionCount::onEnter()
 std::string ActionCount::subtitle()
 {
     return "Count";
+}
+
+//------------------------------------------------------------------
+//
+// Curl
+//
+//------------------------------------------------------------------
+void ActionCurl::onEnter()
+{
+    ActionDemo::onEnter();
+    
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+    
+    // grossini 1
+    CCSprite* s = CCSprite::create("Images/grossini.png");
+    CCPoint c = ccp(origin.x + visibleSize.width / 2,
+                    origin.y + visibleSize.height / 2);
+    s->setPosition(c);
+    addChild(s);
+    
+    s->runAction(CCRepeatForever::create(CCSequence::create(CCCurl::create(5, c, visibleSize.height / 2, M_PI / 2),
+                                                            CCCurl::create(5, c, 0, M_PI / 2),
+                                                            NULL)));
+}
+
+std::string ActionCurl::subtitle()
+{
+    return "Curl";
 }
 
 //------------------------------------------------------------------

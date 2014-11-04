@@ -22,6 +22,7 @@
 		9225951D18D5BAE200E200AE /* CCScrollBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951B18D5BAE200E200AE /* CCScrollBar.cpp */; };
 		92273506196A6EE7002E5C97 /* CBGridView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273505196A6EE7002E5C97 /* CBGridView.cpp */; };
 		92273509196A77EB002E5C97 /* CBTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273507196A77EB002E5C97 /* CBTableView.cpp */; };
+		922A8B201A08BD0700DE6F27 /* CCCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A8B1F1A08BD0700DE6F27 /* CCCurl.cpp */; };
 		9234736118BD86A4009DDBEF /* CCShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9234736018BD86A4009DDBEF /* CCShaders.cpp */; };
 		923606C319AEE49600E9E86E /* CCShine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923606C219AEE49600E9E86E /* CCShine.cpp */; };
 		9236C0BB19932053000A61A7 /* CBMoveTo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9236C0BA19932053000A61A7 /* CBMoveTo.cpp */; };
@@ -533,6 +534,8 @@
 		92273505196A6EE7002E5C97 /* CBGridView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBGridView.cpp; sourceTree = "<group>"; };
 		92273507196A77EB002E5C97 /* CBTableView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTableView.cpp; sourceTree = "<group>"; };
 		9227350A196A7919002E5C97 /* CBTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTableView.h; sourceTree = "<group>"; };
+		922A8B1D1A08BCD800DE6F27 /* CCCurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCurl.h; sourceTree = "<group>"; };
+		922A8B1F1A08BD0700DE6F27 /* CCCurl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCurl.cpp; sourceTree = "<group>"; };
 		922D3C8618C970B200E9AA9E /* CCCallFuncT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncT.h; sourceTree = "<group>"; };
 		9234735E18BD865A009DDBEF /* CCShaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCShaders.h; sourceTree = "<group>"; };
 		9234736018BD86A4009DDBEF /* CCShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCShaders.cpp; sourceTree = "<group>"; };
@@ -1529,6 +1532,7 @@
 				92396872185591DB0063E8A1 /* CCClipIn.h */,
 				92396873185591DB0063E8A1 /* CCClipOut.h */,
 				9273E5121995FA7F0012F6BF /* CCCount.h */,
+				922A8B1D1A08BCD800DE6F27 /* CCCurl.h */,
 				92CE277818B5EE81006E5B71 /* CCFlash.h */,
 				923606C019AEE47900E9E86E /* CCShine.h */,
 				922399EC187FD7B3006AD199 /* CBJumpBy.h */,
@@ -1638,6 +1642,7 @@
 				923968A7185591DB0063E8A1 /* CCClipIn.cpp */,
 				923968A8185591DB0063E8A1 /* CCClipOut.cpp */,
 				9273E5141995FA9F0012F6BF /* CCCount.cpp */,
+				922A8B1F1A08BD0700DE6F27 /* CCCurl.cpp */,
 				92CE277518B5EE35006E5B71 /* CCFlash.cpp */,
 				923606C219AEE49600E9E86E /* CCShine.cpp */,
 				922399E9187FD793006AD199 /* CBJumpBy.cpp */,
@@ -3501,6 +3506,7 @@
 				92731BAF195E896700D66FD2 /* ldebug.c in Sources */,
 				923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */,
 				920214D118EFC57E007FF1BD /* CCFileDownloader.cpp in Sources */,
+				922A8B201A08BD0700DE6F27 /* CCCurl.cpp in Sources */,
 				92273509196A77EB002E5C97 /* CBTableView.cpp in Sources */,
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
 				92A855AD19500C8F00098490 /* CCSpriteFrameCacheHelper.cpp in Sources */,

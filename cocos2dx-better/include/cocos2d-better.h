@@ -106,6 +106,7 @@
 #include "CBMoveTo.h"
 #include "CCCount.h"
 #include "CCShine.h"
+#include "CCCurl.h"
 
 // db
 #include "CCDatabase.h"

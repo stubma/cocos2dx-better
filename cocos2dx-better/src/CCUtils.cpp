@@ -485,6 +485,13 @@ CCRect CCUtils::getCenterRect(const string& frameName) {
     return CCRectMake(size.width / 2, size.height / 2, 1, 1);
 }
 
+bool CCUtils::containsRect(const CCRect& r1, const CCRect& r2) {
+    return r1.getMinX() <= r2.getMinX() &&
+        r1.getMaxX() >= r2.getMaxX() &&
+        r1.getMinY() <= r2.getMinY() &&
+        r1.getMaxY() >= r2.getMaxY();
+}
+
 CCScene* CCUtils::getScene(CCNode* n) {
     while(n) {
         CCScene* s = dynamic_cast<CCScene*>(n);

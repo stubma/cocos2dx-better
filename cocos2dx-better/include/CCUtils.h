@@ -204,6 +204,9 @@ public:
     static float lerp(float a, float b, float p) {
         return a * (1 - p) + b * p;
     }
+    
+    /// rect contains another rect?
+    static bool containsRect(const CCRect& r1, const CCRect& r2);
 	
 	/**
 	 * create intermediate folders for a path

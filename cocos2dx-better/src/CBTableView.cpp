@@ -302,9 +302,14 @@ CCPoint CBTableView::_offsetFromIndex(unsigned int index)
     CCPoint offset = this->__offsetFromIndex(index);
     
     const CCSize cellSize = m_pDataSource->tableCellSizeForIndex(this, index);
-    if (m_eVordering == kCCTableViewFillTopDown)
-    {
-        offset.y = this->getContainer()->getContentSize().height - offset.y - cellSize.height;
+    switch (getDirection()) {
+        case kCCScrollViewDirectionHorizontal:
+            break;
+        default:
+            if (m_eVordering == kCCTableViewFillTopDown) {
+                offset.y = getContainer()->getContentSize().height - offset.y - cellSize.height;
+            }
+            break;
     }
     return offset;
 }
@@ -314,8 +319,7 @@ CCPoint CBTableView::__offsetFromIndex(unsigned int index)
     CCPoint offset;
     CCSize  cellSize;
     
-    switch (this->getDirection())
-    {
+    switch (getDirection()) {
         case kCCScrollViewDirectionHorizontal:
             offset = ccp(m_vCellsPositions[index], 0.0f);
             break;

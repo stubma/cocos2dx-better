@@ -89,8 +89,8 @@ CCPoint CBGridView::__offsetFromIndex(unsigned int index) {
             row = index / m_colCount;
             col = index % m_colCount;
             spaceWidth = this->getContainer()->getContentSize().height / m_colCount;
-            offset = ccp(row * cellSize.height,
-                         col * spaceWidth + (spaceWidth - cellSize.width) * 0.5);
+            offset = ccp(row * cellSize.width,
+                         col * spaceWidth + (spaceWidth - cellSize.height) * 0.5);
             break;
         default:
             row = index / m_colCount;

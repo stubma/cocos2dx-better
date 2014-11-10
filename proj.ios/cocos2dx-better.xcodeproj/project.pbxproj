@@ -20,8 +20,7 @@
 		9225951518D5862600E200AE /* CCSecureUserDefault.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951318D5862600E200AE /* CCSecureUserDefault.cpp */; };
 		9225951918D5896000E200AE /* CCBase64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951718D5896000E200AE /* CCBase64.cpp */; };
 		9225951D18D5BAE200E200AE /* CCScrollBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9225951B18D5BAE200E200AE /* CCScrollBar.cpp */; };
-		92273506196A6EE7002E5C97 /* CBGridView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273505196A6EE7002E5C97 /* CBGridView.cpp */; };
-		92273509196A77EB002E5C97 /* CBTableView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273507196A77EB002E5C97 /* CBTableView.cpp */; };
+		92273509196A77EB002E5C97 /* CCGridView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 92273507196A77EB002E5C97 /* CCGridView.cpp */; };
 		922A8B201A08BD0700DE6F27 /* CCCurl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 922A8B1F1A08BD0700DE6F27 /* CCCurl.cpp */; };
 		9234736118BD86A4009DDBEF /* CCShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9234736018BD86A4009DDBEF /* CCShaders.cpp */; };
 		923606C319AEE49600E9E86E /* CCShine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 923606C219AEE49600E9E86E /* CCShine.cpp */; };
@@ -530,10 +529,8 @@
 		9225951A18D5897700E200AE /* CCBase64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCBase64.h; sourceTree = "<group>"; };
 		9225951B18D5BAE200E200AE /* CCScrollBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScrollBar.cpp; sourceTree = "<group>"; };
 		9225951E18D5BB0600E200AE /* CCScrollBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCScrollBar.h; sourceTree = "<group>"; };
-		92273504196A6ED8002E5C97 /* CBGridView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBGridView.h; sourceTree = "<group>"; };
-		92273505196A6EE7002E5C97 /* CBGridView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBGridView.cpp; sourceTree = "<group>"; };
-		92273507196A77EB002E5C97 /* CBTableView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CBTableView.cpp; sourceTree = "<group>"; };
-		9227350A196A7919002E5C97 /* CBTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBTableView.h; sourceTree = "<group>"; };
+		92273507196A77EB002E5C97 /* CCGridView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGridView.cpp; sourceTree = "<group>"; };
+		9227350A196A7919002E5C97 /* CCGridView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCGridView.h; sourceTree = "<group>"; };
 		922A8B1D1A08BCD800DE6F27 /* CCCurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCurl.h; sourceTree = "<group>"; };
 		922A8B1F1A08BD0700DE6F27 /* CCCurl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCCurl.cpp; sourceTree = "<group>"; };
 		922D3C8618C970B200E9AA9E /* CCCallFuncT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCCallFuncT.h; sourceTree = "<group>"; };
@@ -1608,8 +1605,7 @@
 				9243819C1883E46B00ECA91A /* CCLayerClip.h */,
 				92396877185591DB0063E8A1 /* CBLayerMultiplex.h */,
 				92E8D06D18D4368D00121DCC /* CCLaserSprite.h */,
-				9227350A196A7919002E5C97 /* CBTableView.h */,
-				92273504196A6ED8002E5C97 /* CBGridView.h */,
+				9227350A196A7919002E5C97 /* CCGridView.h */,
 				9239687E185591DB0063E8A1 /* CCMenuItemColor.h */,
 				92396884185591DB0063E8A1 /* CCProgressHUD.h */,
 				92396887185591DB0063E8A1 /* CCRichLabelTTF.h */,
@@ -1696,8 +1692,7 @@
 				924381991883E43100ECA91A /* CCLayerClip.cpp */,
 				923968AF185591DB0063E8A1 /* CBLayerMultiplex.cpp */,
 				92E8D06A18D4366200121DCC /* CCLaserSprite.cpp */,
-				92273507196A77EB002E5C97 /* CBTableView.cpp */,
-				92273505196A6EE7002E5C97 /* CBGridView.cpp */,
+				92273507196A77EB002E5C97 /* CCGridView.cpp */,
 				923968B6185591DB0063E8A1 /* CCMenuItemColor.cpp */,
 				923968B7185591DB0063E8A1 /* CCMenuItemColorStateListener.h */,
 				923968BB185591DB0063E8A1 /* CCProgressHUD.cpp */,
@@ -3394,7 +3389,6 @@
 				92A855B719500C8F00098490 /* UILayout.cpp in Sources */,
 				92F68F321855BDE200C97188 /* CCSPX3Sprite.cpp in Sources */,
 				923968E5185591DB0063E8A1 /* CCCalendar.cpp in Sources */,
-				92273506196A6EE7002E5C97 /* CBGridView.cpp in Sources */,
 				92731BB0195E896700D66FD2 /* ldo.c in Sources */,
 				9288DF2F188F98A400C14965 /* CCControlSwitch.cpp in Sources */,
 				9261AC3718978224001028B5 /* CCEditBoxImplIOS.mm in Sources */,
@@ -3507,7 +3501,7 @@
 				923968E1185591DB0063E8A1 /* CCAssetOutputStream.cpp in Sources */,
 				920214D118EFC57E007FF1BD /* CCFileDownloader.cpp in Sources */,
 				922A8B201A08BD0700DE6F27 /* CCCurl.cpp in Sources */,
-				92273509196A77EB002E5C97 /* CBTableView.cpp in Sources */,
+				92273509196A77EB002E5C97 /* CCGridView.cpp in Sources */,
 				92F68F381855BDE200C97188 /* CCSPXManager.cpp in Sources */,
 				92A855AD19500C8F00098490 /* CCSpriteFrameCacheHelper.cpp in Sources */,
 				92E6629718D3E73300C8A01E /* CCBlur.cpp in Sources */,

@@ -72,7 +72,7 @@ public:
     virtual string subtitle();
 };
 
-class CommonGridView : public CommonDemo, public CBTableViewDataSource, public CBTableViewDelegate
+class CommonGridView : public CommonDemo, public CCGridViewDataSource, public CCGridViewDelegate
 {
 public:
     virtual void onEnter();
@@ -81,12 +81,12 @@ public:
     // virtual tabel view
     virtual void scrollViewDidScroll(CCScrollView* view) {}
     virtual void scrollViewDidZoom(CCScrollView* view) {}
-    virtual void tableCellTouched(CBTableView* table, CCTableViewCell* cell);
-    virtual CCSize cellSizeForTable(CBTableView *table);
-    virtual CCTableViewCell* tableCellAtIndex(CBTableView *table, unsigned int idx);
-    virtual unsigned int numberOfCellsInTableView(CBTableView *table);
-    virtual void tableCellHighlight(CBTableView* table, CCTableViewCell* cell);
-    virtual void tableCellUnhighlight(CBTableView* table, CCTableViewCell* cell);
+    virtual void tableCellTouched(CCGridView* table, CCTableViewCell* cell);
+    virtual CCSize cellSizeForTable(CCGridView *table);
+    virtual CCTableViewCell* tableCellAtIndex(CCGridView *table, unsigned int idx);
+    virtual unsigned int numberOfCellsInTableView(CCGridView *table);
+    virtual void tableCellHighlight(CCGridView* table, CCTableViewCell* cell);
+    virtual void tableCellUnhighlight(CCGridView* table, CCTableViewCell* cell);
 };
 
 class CommonImagePicker : public CommonDemo, public CCImagePickerCallback

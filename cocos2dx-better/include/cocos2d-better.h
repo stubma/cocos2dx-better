@@ -52,8 +52,7 @@
 #include "CCLayerClip.h"
 #include "CCLaserSprite.h"
 #include "CCScrollBar.h"
-#include "CBTableView.h"
-#include "CBGridView.h"
+#include "CCGridView.h"
 
 // io
 #include "CCAssetInputStream.h"

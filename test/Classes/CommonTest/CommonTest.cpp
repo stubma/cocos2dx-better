@@ -356,10 +356,9 @@ void CommonGridView::onEnter()
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
     {
-        CBGridView* gridView = CBGridView::create(this, CCSizeMake(visibleSize.width * 0.45f, visibleSize.height * 0.6f));
+        CCGridView* gridView = CCGridView::create(this, CCSizeMake(visibleSize.width * 0.45f, visibleSize.height * 0.6f));
         gridView->ignoreAnchorPointForPosition(false);
         gridView->setAnchorPoint(ccp(0, 0.5f));
-        gridView->setVerticalFillOrder(kCCTableViewFillTopDown);
         gridView->setColCount(4);
         gridView->setPosition(ccp(origin.x, origin.y + visibleSize.height / 2));
         gridView->setDelegate(this);
@@ -370,10 +369,9 @@ void CommonGridView::onEnter()
     }
     
     {
-        CBGridView* gridView = CBGridView::create(this, CCSizeMake(visibleSize.width * 0.45f, visibleSize.height * 0.6f));
+        CCGridView* gridView = CCGridView::create(this, CCSizeMake(visibleSize.width * 0.45f, visibleSize.height * 0.6f));
         gridView->ignoreAnchorPointForPosition(false);
         gridView->setAnchorPoint(ccp(1, 0.5f));
-        gridView->setVerticalFillOrder(kCCTableViewFillTopDown);
         gridView->setColCount(3);
         gridView->setPosition(ccp(origin.x + visibleSize.width, origin.y + visibleSize.height / 2));
         gridView->setDelegate(this);
@@ -389,59 +387,67 @@ std::string CommonGridView::subtitle()
     return "Grid View";
 }
 
-void CommonGridView::tableCellTouched(CBTableView* table, CCTableViewCell* cell) {
+void CommonGridView::tableCellTouched(CCGridView* table, CCTableViewCell* cell) {
     CCLOG("clicked cell: %d", cell->getTag());
 }
 
-CCSize CommonGridView::cellSizeForTable(CBTableView *table) {
-    CBGridView* gridView = (CBGridView*)table;
+CCSize CommonGridView::cellSizeForTable(CCGridView *table) {
+    CCGridView* gridView = (CCGridView*)table;
     CCSize size = gridView->getViewSize();
-    if(gridView->getTag() == 1) {
-        size.width /= gridView->getColCount();
-        size.height /= 3;
-    } else {
-        size.width /= 4;
-        size.height /= gridView->getColCount();
-    }
+    size.width /= gridView->getColCount();
+    size.height /= 3;
 
     return size;
 }
 
-CCTableViewCell* CommonGridView::tableCellAtIndex(CBTableView *table, unsigned int idx) {
+CCTableViewCell* CommonGridView::tableCellAtIndex(CCGridView *table, unsigned int idx) {
     // create cell
-    CCTableViewCell* cell = new CCTableViewCell();
-    cell->autorelease();
+    CCTableViewCell* cell = table->dequeueCell();
+    if(!cell) {
+        cell = new CCTableViewCell();
+        cell->autorelease();
+    }
+    
+    // set content size and tag
     CCSize cellSize = cellSizeForTable(table);
     cell->setContentSize(cellSize);
     cell->setTag(idx);
     
     // add a random color layer
-    CCLayerColor* bg = CCLayerColor::create(ccc4(CCRANDOM_0_X_INT(255) & 0xff,
-                                                 CCRANDOM_0_X_INT(255) & 0xff,
-                                                 CCRANDOM_0_X_INT(255) & 0xff,
-                                                 255));
+    CCLayerColor* bg = (CCLayerColor*)cell->getChildByTag(1);
+    if(!bg) {
+        bg = CCLayerColor::create();
+        bg->setOpacity(255);
+        cell->addChild(bg, 0, 1);
+    }
     bg->setContentSize(cellSize);
-    cell->addChild(bg);
+    bg->setColor(ccc3(CCRANDOM_0_X_INT(255) & 0xff,
+                      CCRANDOM_0_X_INT(255) & 0xff,
+                      CCRANDOM_0_X_INT(255) & 0xff));
     
     // add a number label
+    CCRichLabelTTF* label = (CCRichLabelTTF*)cell->getChildByTag(2);
     char buf[64];
     sprintf(buf, "%u", idx);
-    CCRichLabelTTF* label = CCRichLabelTTF::create(buf, "Helvetica", 40);
+    if(!label) {
+        label = CCRichLabelTTF::create(buf, "Helvetica", 40);
+        cell->addChild(label, 1, 2);
+    }
     label->setPosition(CCUtils::getLocalCenter(cell));
-    cell->addChild(label);
+    label->setString(buf);
     
     // return cell
     return cell;
 }
 
-unsigned int CommonGridView::numberOfCellsInTableView(CBTableView *table) {
+unsigned int CommonGridView::numberOfCellsInTableView(CCGridView *table) {
     return 100;
 }
 
-void CommonGridView::tableCellHighlight(CBTableView* table, CCTableViewCell* cell) {
+void CommonGridView::tableCellHighlight(CCGridView* table, CCTableViewCell* cell) {
 }
 
-void CommonGridView::tableCellUnhighlight(CBTableView* table, CCTableViewCell* cell) {
+void CommonGridView::tableCellUnhighlight(CCGridView* table, CCTableViewCell* cell) {
 }
 
 //------------------------------------------------------------------

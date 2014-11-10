@@ -29,6 +29,7 @@
 #include "CCSorting.h"
 #include <set>
 #include <vector>
+#include "CCMoreMacros.h"
 
 USING_NS_CC_EXT;
 

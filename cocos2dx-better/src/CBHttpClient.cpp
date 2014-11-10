@@ -34,11 +34,14 @@ using namespace std;
 
 NS_CC_BEGIN
 
+class CURLHandler;
+
 /// context info
 typedef struct {
     CBHttpClient* client;
     CBHttpRequest* request;
     CBHttpResponse* response;
+    CURLHandler* curl;
     float connectTimeout;
     float readTimeout;
 } ccHttpContext;
@@ -351,7 +354,7 @@ public:
 void* CBHttpClient::httpThreadEntry(void* arg) {
     // handler, it is released if init failed or released in dispatchNotification
     ccHttpContext* ctx = (ccHttpContext*)arg;
-    CURLHandler* curl = new CURLHandler();
+    CURLHandler* curl = ctx->curl;
     if(!curl->initWithContext(ctx)) {
         CC_SAFE_RELEASE_NULL(curl);
     }
@@ -445,6 +448,7 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     ctx->connectTimeout = m_connectTimeout;
     ctx->readTimeout = m_readTimeout;
     ctx->client = this;
+    ctx->curl = new CURLHandler();
     CC_SAFE_RETAIN(request);
     
     // add to cache

@@ -64,9 +64,6 @@ private:
     /// handler map, key is tag
     vector<void*> m_activeContexts;
     
-    /// mutex
-    pthread_mutex_t m_mutex;
-    
 protected:
     CBHttpClient();
     
@@ -90,9 +87,6 @@ public:
     
     /// stop all ongoing http operation
     void cancelAll();
-    
-    /// remove context thread safely
-    void removeContext(void* ctx);
   
     /// connect timeout
     CC_SYNTHESIZE(float, m_connectTimeout, ConnectTimeout);

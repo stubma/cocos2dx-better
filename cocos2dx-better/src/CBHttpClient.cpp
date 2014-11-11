@@ -38,7 +38,6 @@ class CURLHandler;
 
 /// context info
 typedef struct {
-    CBHttpClient* client;
     CBHttpRequest* request;
     CBHttpResponse* response;
     CURLHandler* curl;
@@ -80,7 +79,7 @@ public:
     bool isHeaderAllReceived;
     
 public:
-    CURLHandler() :
+    CURLHandler(ccHttpContext* ctx) :
     m_ctx(NULL),
     m_curl(NULL),
     m_done(false),
@@ -90,6 +89,8 @@ public:
     m_headers(NULL) {
         // data
         m_data = new CBData();
+        m_ctx = (ccHttpContext*)calloc(1, sizeof(ccHttpContext));
+        memcpy(m_ctx, ctx, sizeof(ccHttpContext));
         
         // create mutex
         pthread_mutexattr_t attr;
@@ -107,9 +108,6 @@ public:
             curl_easy_cleanup(m_curl);
         if(m_headers)
             curl_slist_free_all(m_headers);
-        if(m_ctx->client) {
-            m_ctx->client->removeContext(m_ctx);
-        }
         CC_SAFE_RELEASE(m_ctx->request);
         CC_SAFE_RELEASE(m_ctx->response);
         CC_SAFE_FREE(m_ctx);
@@ -209,10 +207,7 @@ public:
             return sizes;
     }
     
-    bool initWithContext(ccHttpContext* ctx) {
-        // save context
-        m_ctx = ctx;
-        
+    bool init() {
         // check
         m_curl = curl_easy_init();
         if (!m_curl)
@@ -221,7 +216,7 @@ public:
             return false;
         
         /* get custom header data (if set) */
-       	const vector<string>& headers = ctx->request->getHeaders();
+       	const vector<string>& headers = m_ctx->request->getHeaders();
         if(!headers.empty()) {
             // append custom headers one by one
             for (vector<string>::const_iterator it = headers.begin(); it != headers.end(); ++it)
@@ -232,7 +227,7 @@ public:
                 return false;
         }
         
-        return curl_easy_setopt(m_curl, CURLOPT_URL, ctx->request->getUrl().c_str()) == CURLE_OK &&
+        return curl_easy_setopt(m_curl, CURLOPT_URL, m_ctx->request->getUrl().c_str()) == CURLE_OK &&
             curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, writeData) == CURLE_OK &&
             curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, this) == CURLE_OK &&
             curl_easy_setopt(m_curl, CURLOPT_HEADERFUNCTION, writeHeaderData) == CURLE_OK &&
@@ -358,18 +353,18 @@ void* CBHttpClient::httpThreadEntry(void* arg) {
     // handler, it is released if init failed or released in dispatchNotification
     ccHttpContext* ctx = (ccHttpContext*)arg;
     CURLHandler* curl = ctx->curl;
-    if(!curl->initWithContext(ctx)) {
+    if(!curl->init()) {
         CC_SAFE_RELEASE_NULL(curl);
     }
     
     if(curl) {
         // create response
-        CBHttpResponse* response = new CBHttpResponse(ctx->request);
-        ctx->response = response;
+        CBHttpResponse* response = new CBHttpResponse(curl->m_ctx->request);
+        curl->m_ctx->response = response;
         
         // process request
         bool retValue = false;
-        switch (ctx->request->getMethod()) {
+        switch (curl->m_ctx->request->getMethod()) {
             case CBHttpRequest::kHttpGet:
                 retValue = curl->processGetTask();
                 break;
@@ -409,22 +404,14 @@ void* CBHttpClient::httpThreadEntry(void* arg) {
 CBHttpClient::CBHttpClient() :
 m_connectTimeout(30),
 m_readTimeout(60) {
-    // create mutex
-    pthread_mutexattr_t attr;
-    pthread_mutexattr_init(&attr);
-    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&m_mutex, &attr);
-    pthread_mutexattr_destroy(&attr);
 }
 
 CBHttpClient::~CBHttpClient() {
-    pthread_mutex_lock(&m_mutex);
     for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
         ccHttpContext* ctx = (ccHttpContext*)*iter;
-        ctx->client = NULL;
+        CC_SAFE_FREE(ctx);
     }
-    pthread_mutex_unlock(&m_mutex);
-    pthread_mutex_destroy(&m_mutex);
+    m_activeContexts.clear();
 }
 
 CBHttpClient* CBHttpClient::create() {
@@ -450,14 +437,11 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     ctx->request = request;
     ctx->connectTimeout = m_connectTimeout;
     ctx->readTimeout = m_readTimeout;
-    ctx->client = this;
-    ctx->curl = new CURLHandler();
+    ctx->curl = new CURLHandler(ctx);
     CC_SAFE_RETAIN(request);
     
-    // add to cache
-    pthread_mutex_lock(&m_mutex);
+    // add to cache and clear useless context
     m_activeContexts.push_back(ctx);
-    pthread_mutex_unlock(&m_mutex);
 
     // start network thread
     pthread_t thread;
@@ -465,19 +449,7 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     pthread_detach(thread);
 }
 
-void CBHttpClient::removeContext(void* ctx) {
-    pthread_mutex_lock(&m_mutex);
-    for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
-        if(ctx == *iter) {
-            m_activeContexts.erase(iter);
-            break;
-        }
-    }
-    pthread_mutex_unlock(&m_mutex);
-}
-
 void CBHttpClient::cancel(int tag) {
-    pthread_mutex_lock(&m_mutex);
     for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
         ccHttpContext* ctx = (ccHttpContext*)*iter;
         if(ctx->request->getTag() == tag) {
@@ -485,16 +457,13 @@ void CBHttpClient::cancel(int tag) {
             break;
         }
     }
-    pthread_mutex_unlock(&m_mutex);
 }
 
 void CBHttpClient::cancelAll() {
-    pthread_mutex_lock(&m_mutex);
     for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
         ccHttpContext* ctx = (ccHttpContext*)*iter;
         ctx->request->setCancel(true);
     }
-    pthread_mutex_unlock(&m_mutex);
 }
 
 NS_CC_END

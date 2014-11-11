@@ -88,7 +88,17 @@ public:
     isHttpDidReceiveResponseDelivered(false),
     isHeaderAllReceived(false),
     m_headers(NULL) {
+        // data
         m_data = new CBData();
+        
+        // create mutex
+        pthread_mutexattr_t attr;
+        pthread_mutexattr_init(&attr);
+        pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+        pthread_mutex_init(&m_mutex, &attr);
+        pthread_mutexattr_destroy(&attr);
+        
+        // schedule event dispatch
         CCDirector::sharedDirector()->getScheduler()->scheduleSelector(schedule_selector(CURLHandler::dispatchNotification), this, 0, kCCRepeatForever, 0, false);
     }
     
@@ -209,13 +219,6 @@ public:
             return false;
         if (!configureCURL())
             return false;
-        
-        // create mutex
-        pthread_mutexattr_t attr;
-        pthread_mutexattr_init(&attr);
-        pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-        pthread_mutex_init(&m_mutex, &attr);
-        pthread_mutexattr_destroy(&attr);
         
         /* get custom header data (if set) */
        	const vector<string>& headers = ctx->request->getHeaders();

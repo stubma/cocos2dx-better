@@ -409,6 +409,7 @@ m_readTimeout(60) {
 CBHttpClient::~CBHttpClient() {
     for(vector<void*>::iterator iter = m_activeContexts.begin(); iter != m_activeContexts.end(); iter++) {
         ccHttpContext* ctx = (ccHttpContext*)*iter;
+        CC_SAFE_RELEASE(ctx->request);
         CC_SAFE_FREE(ctx);
     }
     m_activeContexts.clear();
@@ -438,7 +439,8 @@ void CBHttpClient::asyncExecute(CBHttpRequest* request) {
     ctx->connectTimeout = m_connectTimeout;
     ctx->readTimeout = m_readTimeout;
     ctx->curl = new CURLHandler(ctx);
-    CC_SAFE_RETAIN(request);
+    CC_SAFE_RETAIN(request); // release in CURLHandler
+    CC_SAFE_RETAIN(request); // release in this
     
     // add to cache and clear useless context
     m_activeContexts.push_back(ctx);

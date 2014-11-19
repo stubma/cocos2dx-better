@@ -32,6 +32,7 @@
 #include "CCMoreMacros.h"
 
 USING_NS_CC_EXT;
+using namespace std;
 
 NS_CC_BEGIN
 
@@ -90,12 +91,12 @@ public:
     virtual ~CCGridViewDataSource() {}
     
     /**
-     * cell height for a given table.
+     * cell size for a given index
      *
-     * @param table table to hold the instances of Class
-     * @return cell size
+     * @param idx the index of a cell to get a size
+     * @return size of a cell at given index
      */
-    virtual CCSize cellSizeForTable(CCGridView *table) = 0;
+    virtual CCSize tableCellSizeForIndex(CCGridView *table, unsigned int idx) = 0;
     
     /**
      * a cell instance at a given index
@@ -210,6 +211,8 @@ public:
     virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
     virtual void ccTouchCancelled(CCTouch *pTouch, CCEvent *pEvent);
     
+    int getRealRows();
+    
 protected:
     
     CCTableViewCell *m_pTouchedCell;
@@ -217,7 +220,11 @@ protected:
     /**
      * index set to query the indexes of the cells used.
      */
-    std::set<unsigned int>* m_pIndices;
+    set<unsigned int>* m_pIndices;
+    
+    vector<float> m_vCellsPositions; // relative to top
+    vector<float> m_hCellsPositions;
+    int m_viewRows; // for horizontal
     
     /**
      * cells that are currently in the table
@@ -244,6 +251,7 @@ protected:
     void _moveCellOutOfSight(CCTableViewCell *cell);
     void _setIndexForCell(unsigned int index, CCTableViewCell *cell);
     void _addCellIfNecessary(CCTableViewCell * cell);
+    void _updateCellPositions();
     
 public:
     virtual void _updateContentSize();

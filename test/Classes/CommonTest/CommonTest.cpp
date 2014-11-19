@@ -391,11 +391,34 @@ void CommonGridView::tableCellTouched(CCGridView* table, CCTableViewCell* cell) 
     CCLOG("clicked cell: %d", cell->getTag());
 }
 
-CCSize CommonGridView::cellSizeForTable(CCGridView *table) {
-    CCGridView* gridView = (CCGridView*)table;
-    CCSize size = gridView->getViewSize();
-    size.width /= gridView->getColCount();
-    size.height /= 3;
+CCSize CommonGridView::tableCellSizeForIndex(CCGridView *table, unsigned int idx) {
+    CCSize size = table->getViewSize();
+    size.width /= table->getColCount();
+    switch (table->getTag()) {
+        case 1:
+        {
+            if(idx % 4 == 1) {
+                size.width -= 40;
+            } else if(idx % 4 == 3) {
+                size.width += 40;
+            }
+            int row = idx / table->getColCount();
+            size.height /= ((row % 2) == 1) ? 3 : 4;
+            break;
+        }
+        default:
+        {
+            // for horizontal scrolling grid view, index start from top-left
+            // and increase downward
+            size.height /= 4;
+            if(idx % 4 == 1) {
+                size.height -= 20;
+            } else if(idx % 4 == 3) {
+                size.height += 20;
+            }
+            break;
+        }
+    }
 
     return size;
 }
@@ -409,7 +432,7 @@ CCTableViewCell* CommonGridView::tableCellAtIndex(CCGridView *table, unsigned in
     }
     
     // set content size and tag
-    CCSize cellSize = cellSizeForTable(table);
+    CCSize cellSize = tableCellSizeForIndex(table, idx);
     cell->setContentSize(cellSize);
     cell->setTag(idx);
     

@@ -82,7 +82,7 @@ public:
     virtual void scrollViewDidScroll(CCScrollView* view) {}
     virtual void scrollViewDidZoom(CCScrollView* view) {}
     virtual void tableCellTouched(CCGridView* table, CCTableViewCell* cell);
-    virtual CCSize cellSizeForTable(CCGridView *table);
+    virtual CCSize tableCellSizeForIndex(CCGridView *table, unsigned int idx);
     virtual CCTableViewCell* tableCellAtIndex(CCGridView *table, unsigned int idx);
     virtual unsigned int numberOfCellsInTableView(CCGridView *table);
     virtual void tableCellHighlight(CCGridView* table, CCTableViewCell* cell);

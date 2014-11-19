@@ -37,6 +37,7 @@ CCGridView* CCGridView::create(CCGridViewDataSource* dataSource, CCSize size, CC
     table->initWithViewSize(size, container);
     table->autorelease();
     table->setDataSource(dataSource);
+    table->_updateCellPositions();
     table->_updateContentSize();
     
     return table;
@@ -66,6 +67,7 @@ CCGridView::CCGridView()
 , m_pDataSource(NULL)
 , m_pTableViewDelegate(NULL)
 , m_eOldDirection(kCCScrollViewDirectionNone)
+, m_viewRows(-1)
 {
     
 }
@@ -102,6 +104,7 @@ void CCGridView::reloadData()
     m_pCellsUsed->release();
     m_pCellsUsed = new CCArrayForObjectSorting();
     
+    _updateCellPositions();
     _updateContentSize();
     if (m_pDataSource->numberOfCellsInTableView(this) > 0)
     {
@@ -174,7 +177,7 @@ void CCGridView::insertCellAtIndex(unsigned  int idx)
     cell = m_pDataSource->tableCellAtIndex(this, idx);
     _setIndexForCell(idx, cell);
     _addCellIfNecessary(cell);
-    
+    _updateCellPositions();
     _updateContentSize();
 }
 
@@ -236,30 +239,78 @@ void CCGridView::_addCellIfNecessary(CCTableViewCell * cell)
     }
     m_pCellsUsed->insertSortedObject(cell);
     m_pIndices->insert(cell->getIdx());
-    // [m_pIndices addIndex:cell.idx];
 }
 
-void CCGridView::_updateContentSize()
-{
-    CCSize cellSize = m_pDataSource->cellSizeForTable(this);
-    unsigned int cellsCount = m_pDataSource->numberOfCellsInTableView(this);
-    int rows = (cellsCount + m_colCount - 1) / m_colCount;
-    CCSize contentSize;
-    switch (getDirection()) {
-        case extension::kCCScrollViewDirectionHorizontal:
+void CCGridView::_updateCellPositions() {
+    int cellsCount = m_pDataSource->numberOfCellsInTableView(this);
+    m_vCellsPositions.clear();
+    m_hCellsPositions.clear();
+    
+    CCSize cellSize;
+    float pos;
+    CCScrollViewDirection d = getDirection();
+    switch(d) {
+        case kCCScrollViewDirectionHorizontal:
+            // view rows
+            pos = 0;
+            for (int i = 0; i < cellsCount; i++) {
+                cellSize = m_pDataSource->tableCellSizeForIndex(this, i);
+                pos += cellSize.height;
+                if(pos >= m_tViewSize.height) {
+                    m_viewRows = i + 1;
+                    break;
+                }
+            }
+            
+            // v pos
+            pos = 0;
+            for (int i = 0; i < m_viewRows; i++) {
+                cellSize = m_pDataSource->tableCellSizeForIndex(this, i);
+                m_vCellsPositions.push_back(pos);
+                pos += cellSize.height;
+            }
+            m_vCellsPositions.push_back(pos);
+            
+            // h pos
+            pos = 0;
+            for (int i = 0; i < cellsCount; i += m_viewRows) {
+                cellSize = m_pDataSource->tableCellSizeForIndex(this, i);
+                m_hCellsPositions.push_back(pos);
+                pos += cellSize.width;
+            }
+            m_hCellsPositions.push_back(pos);
+            break;
+        default:
         {
-            int viewRows = m_tViewSize.height / cellSize.height;
-            int screens = rows / viewRows;
-            contentSize = CCSizeMake(cellSize.width * m_colCount * screens, viewRows * cellSize.height);
+            // cols and rows
+            int cols = m_colCount;
+            
+            // v pos
+            pos = 0;
+            for (int i = 0; i < cellsCount; i += cols) {
+                cellSize = m_pDataSource->tableCellSizeForIndex(this, i);
+                m_vCellsPositions.push_back(pos);
+                pos += cellSize.height;
+            }
+            m_vCellsPositions.push_back(pos);
+            
+            // h pos
+            pos = 0;
+            for (int i = 0; i < cols; i++) {
+                cellSize = m_pDataSource->tableCellSizeForIndex(this, i);
+                m_hCellsPositions.push_back(pos);
+                pos += cellSize.width;
+            }
+            m_hCellsPositions.push_back(pos);
             break;
         }
-        default:
-            contentSize = CCSizeMake(cellSize.width * m_colCount, cellSize.height * rows);
-            break;
     }
+}
 
-    contentSize.width = MAX(contentSize.width, m_tViewSize.width);
-    contentSize.height = MAX(contentSize.height, m_tViewSize.height);
+void CCGridView::_updateContentSize() {
+    CCSize contentSize;
+    contentSize.width = MAX(m_hCellsPositions[m_hCellsPositions.size() - 1], m_tViewSize.width);
+    contentSize.height = MAX(m_vCellsPositions[m_vCellsPositions.size() - 1], m_tViewSize.height);
     setContentSize(contentSize);
     
 	if (m_eOldDirection != m_eDirection)
@@ -279,20 +330,20 @@ void CCGridView::_updateContentSize()
 
 CCPoint CCGridView::_offsetFromIndex(unsigned int index) {
     const CCSize& contentSize = getContentSize();
-    CCSize cellSize = m_pDataSource->cellSizeForTable(this);
     switch (getDirection()) {
         case kCCScrollViewDirectionHorizontal:
         {
-            int realCols = contentSize.width / cellSize.width;
-            int row = index / realCols;
-            int col = index % realCols;
-            return ccp(col * cellSize.width, contentSize.height - (row + 1) * cellSize.height);
+            int row = index % m_viewRows;
+            int col = index / m_viewRows;
+            return ccp(m_hCellsPositions[col],
+                       contentSize.height - m_vCellsPositions[row + 1] + 1);
         }
         default:
         {
             int row = index / m_colCount;
             int col = index % m_colCount;
-            return ccp(col * cellSize.width, contentSize.height - (row + 1) * cellSize.height);
+            return ccp(m_hCellsPositions[col],
+                       contentSize.height - m_vCellsPositions[row + 1] + 1);
         }
     }
 }
@@ -301,19 +352,37 @@ int CCGridView::_indexFromOffset(CCPoint offset) {
     // max index
     const int maxIdx = m_pDataSource->numberOfCellsInTableView(this) - 1;
     
-    // get index, without range limit
+    // locate
     const CCSize& contentSize = getContentSize();
-    CCSize size = m_pDataSource->cellSizeForTable(this);
-    int col = offset.x / size.width;
-    int row = (contentSize.height - offset.y) / size.height;
+    offset.y = contentSize.height - offset.y;
+    int c = (int)m_hCellsPositions.size();
+    int row, col;
+    for(int i = 0; i < c; i++) {
+        if(offset.x < m_hCellsPositions[i]) {
+            col = MAX(0, i - 1);
+            break;
+        } else if(offset.x == m_hCellsPositions[i]) {
+            col = MAX(0, i);
+            break;
+        }
+    }
+    c = (int)m_vCellsPositions.size();
+    for(int i = 0; i < c; i++) {
+        if(offset.y < m_vCellsPositions[i]) {
+            row = MAX(0, i - 1);
+            break;
+        } else if(offset.y == m_vCellsPositions[i]) {
+            row = MAX(0, i);
+            break;
+        }
+    }
+    
+    // get index, without range limit
     int index = -1;
     switch (getDirection()) {
         case kCCScrollViewDirectionHorizontal:
-        {
-            int realCols = contentSize.width / size.width;
-            index = col + row * realCols;
+            index = row + m_viewRows * col;
             break;
-        }
         default:
             index = col + row * m_colCount;
             break;
@@ -556,7 +625,12 @@ void CCGridView::unregisterAllScriptHandler()
 
 void CCGridView::setColCount(unsigned int cols) {
     m_colCount = cols;
+    _updateCellPositions();
     _updateContentSize();
+}
+
+int CCGridView::getRealRows() {
+    return (int)m_vCellsPositions.size() - 1;
 }
 
 NS_CC_END

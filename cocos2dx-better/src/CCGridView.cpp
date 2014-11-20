@@ -356,7 +356,7 @@ int CCGridView::_indexFromOffset(CCPoint offset) {
     const CCSize& contentSize = getContentSize();
     offset.y = contentSize.height - offset.y;
     int c = (int)m_hCellsPositions.size();
-    int row, col;
+    int row, col = c;
     for(int i = 0; i < c; i++) {
         if(offset.x < m_hCellsPositions[i]) {
             col = MAX(0, i - 1);
@@ -367,6 +367,7 @@ int CCGridView::_indexFromOffset(CCPoint offset) {
         }
     }
     c = (int)m_vCellsPositions.size();
+    row = c;
     for(int i = 0; i < c; i++) {
         if(offset.y < m_vCellsPositions[i]) {
             row = MAX(0, i - 1);

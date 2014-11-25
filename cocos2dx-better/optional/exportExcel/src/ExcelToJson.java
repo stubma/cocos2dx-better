@@ -448,21 +448,29 @@ public class ExcelToJson {
 				continue;
 			if(dataType.equalsIgnoreCase("StringArray")) {
 				cfile.append("\nstring " + className + "::get" + firstCapital(field) + "At(int index) {\n")
+					.append("\tif(index < 0 || index >= m_" + firstLowercase(field) + ".count())\n")
+					.append("\t\treturn \"\";\n")
 					.append("\tCCString* cc = (CCString*)m_" + firstLowercase(field) + ".objectAtIndex(index);\n")
 					.append("\treturn cc->getCString();\n")
 					.append("}\n");
 			} else if(dataType.equalsIgnoreCase("IntArray")) {
 				cfile.append("\nint " + className + "::get" + firstCapital(field) + "At(int index) {\n")
+					.append("\tif(index < 0 || index >= m_" + firstLowercase(field) + ".count())\n")
+					.append("\t\treturn 0;\n")
 					.append("\tCCInteger* cc = (CCInteger*)m_" + firstLowercase(field) + ".objectAtIndex(index);\n")
 					.append("\treturn cc->getValue();\n")
 					.append("}\n");
 			} else if(dataType.equalsIgnoreCase("FloatArray")) {
 				cfile.append("\nfloat " + className + "::get" + firstCapital(field) + "At(int index) {\n")
+					.append("\tif(index < 0 || index >= m_" + firstLowercase(field) + ".count())\n")
+					.append("\t\treturn 0;\n")
 					.append("\tCCFloat* cc = (CCFloat*)m_" + firstLowercase(field) + ".objectAtIndex(index);\n")
 					.append("\treturn cc->getValue();\n")
 					.append("}\n");
 			} else if(dataType.equalsIgnoreCase("BoolArray")) {
 				cfile.append("\nbool " + className + "::get" + firstCapital(field) + "At(int index) {\n")
+					.append("\tif(index < 0 || index >= m_" + firstLowercase(field) + ".count())\n")
+					.append("\t\treturn false;\n")
 					.append("\tCCBool* cc = (CCBool*)m_" + firstLowercase(field) + ".objectAtIndex(index);\n")
 					.append("\treturn cc->getValue();\n")
 					.append("}\n");

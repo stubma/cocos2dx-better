@@ -82,6 +82,15 @@ public:
      */
     static CCProgressHUD* show(const string& message);
     
+    /**
+     * create a CCProgressHUD. If currently one instance exists, no
+     * new CCProgressHUD will be created.
+     *
+     * \note the CCProgressHUD will be added to specified parent node, with max
+     * z order value
+     */
+    static CCProgressHUD* show(const string& message, CCNode* parent);
+    
     /// hide current instance of CCProgressHUD, or do nothing if no instance
     static void hide();
     

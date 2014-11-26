@@ -113,6 +113,15 @@ CCProgressHUD* CCProgressHUD::show(const string& message) {
     return s_hud;
 }
 
+CCProgressHUD* CCProgressHUD::show(const string& message, CCNode* parent) {
+    if(!s_hud) {
+        s_hud = CCProgressHUD::create(message);
+        parent->addChild(s_hud, MAX_INT);
+    }
+    
+    return s_hud;
+}
+
 void CCProgressHUD::hide() {
     if(s_hud) {
         s_hud->removeFromParent();

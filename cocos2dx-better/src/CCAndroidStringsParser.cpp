@@ -22,7 +22,6 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "CCAndroidStringsParser.h"
-#include "CCUtils.h"
 
 NS_CC_BEGIN
 

@@ -24,7 +24,8 @@
 #include "CCResourceLoader.h"
 #include "SimpleAudioEngine.h"
 #include "CCArmatureDataManager.h"
-
+#include "CCUtils.h"
+ 
 using namespace CocosDenshion;
 USING_NS_CC_EXT;
 
@@ -346,21 +347,82 @@ void CCResourceLoader::addZwoptexAnimTask(const string& name,
                                           const string& pattern,
                                           int startIndex,
                                           int endIndex,
-                                          const CCArray& delays,
+                                          const string& delayString,
                                           bool restoreOriginalFrame,
                                           float idle) {
     ZwoptexAnimLoadTask2* t = new ZwoptexAnimLoadTask2();
-	t->name = name;
+    t->name = name;
     t->restoreOriginalFrame = restoreOriginalFrame;
     t->idle = idle;
     
     char buf[256];
-	for(int i = startIndex; i <= endIndex; i++) {
-		sprintf(buf, pattern.c_str(), i);
-		t->frames.push_back(buf);
-	}
+    for(int i = startIndex; i <= endIndex; i++) {
+        sprintf(buf, pattern.c_str(), i);
+        t->frames.push_back(buf);
+    }
     
     CCObject* obj;
+    const CCArray& delays = CCUtils::arrayFromString(delayString);
+    CCARRAY_FOREACH(&delays, obj) {
+        CCFloat* f = (CCFloat*)obj;
+        t->durations.push_back(f->getValue());
+    }
+    
+    addLoadTask(t);
+}
+
+void CCResourceLoader::addZwoptexAnimTask(const string& name,
+                                          const string& pattern,
+                                          const string& indicesString,
+                                          float delay,
+                                          bool restoreOriginalFrame,
+                                          float idle) {
+    // task
+    ZwoptexAnimLoadTask2* t = new ZwoptexAnimLoadTask2();
+    t->name = name;
+    t->restoreOriginalFrame = restoreOriginalFrame;
+    t->idle = idle;
+    
+    // frame names
+    char buf[256];
+    const CCArray& indices = CCUtils::arrayFromString(indicesString);
+    CCObject* obj;
+    CCARRAY_FOREACH(&indices, obj) {
+        sprintf(buf, pattern.c_str(), ((CCInteger*)obj)->getValue());
+        t->frames.push_back(buf);
+    }
+    
+    // delay
+    for(int i = 0; i < indices.count(); i++) {
+        t->durations.push_back(delay);
+    }
+    
+    addLoadTask(t);
+}
+
+void CCResourceLoader::addZwoptexAnimTask(const string& name,
+                                          const string& pattern,
+                                          const string& indicesString,
+                                          const string& delayString,
+                                          bool restoreOriginalFrame,
+                                          float idle) {
+    // task
+    ZwoptexAnimLoadTask2* t = new ZwoptexAnimLoadTask2();
+    t->name = name;
+    t->restoreOriginalFrame = restoreOriginalFrame;
+    t->idle = idle;
+    
+    // frame names
+    char buf[256];
+    const CCArray& indices = CCUtils::arrayFromString(indicesString);
+    CCObject* obj;
+    CCARRAY_FOREACH(&indices, obj) {
+        sprintf(buf, pattern.c_str(), ((CCInteger*)obj)->getValue());
+        t->frames.push_back(buf);
+    }
+    
+    // delays
+    const CCArray& delays = CCUtils::arrayFromString(delayString);
     CCARRAY_FOREACH(&delays, obj) {
         CCFloat* f = (CCFloat*)obj;
         t->durations.push_back(f->getValue());

@@ -570,7 +570,7 @@ public:
      *      must be an integer
      * @param startIndex sprite frame pattern start index
      * @param endIndex sprite frame pattern end index
-     * @param delays delay time array, every element is a CGFloat
+     * @param delayString delay time string in format "[float,float,...]"
      * @param restoreOriginalFrame restore original frame or not
      * @param idle idle time after task is completed
      */
@@ -578,10 +578,46 @@ public:
 							const string& pattern,
 							int startIndex,
 							int endIndex,
-                            const CCArray& delays,
+                            const string& delayString,
 							bool restoreOriginalFrame = false,
                             float idle = 0);
     
+    /**
+     * add a zwoptex animation loading task, you can specify delay for every frame
+     *
+     * @param name animation name
+     * @param pattern sprite frame pattern, something likes frame_%d.png, the parameter
+     *      must be an integer
+     * @param indicesString a string in format "[num,num,...]"
+     * @param delay delay time
+     * @param restoreOriginalFrame restore original frame or not
+     * @param idle idle time after task is completed
+     */
+    void addZwoptexAnimTask(const string& name,
+                            const string& pattern,
+                            const string& indicesString,
+                            float delay,
+                            bool restoreOriginalFrame = false,
+                            float idle = 0);
+    
+    /**
+     * add a zwoptex animation loading task, you can specify delay for every frame
+     *
+     * @param name animation name
+     * @param pattern sprite frame pattern, something likes frame_%d.png, the parameter
+     *      must be an integer
+     * @param indicesString a string in format "[num,num,...]"
+     * @param delayString delay time string in format "[float,float,...]
+     * @param restoreOriginalFrame restore original frame or not
+     * @param idle idle time after task is completed
+     */
+    void addZwoptexAnimTask(const string& name,
+                            const string& pattern,
+                            const string& indicesString,
+                            const string& delayString,
+                            bool restoreOriginalFrame = false,
+                            float idle = 0);
+                            
     /**
      * add an armature config file load task, you should add related image task for this
      *

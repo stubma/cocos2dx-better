@@ -343,7 +343,7 @@ private:
                     af->autorelease();
 					array->addObject(af);
 				}
-                CCAnimation* anim = CCAnimation::createWithSpriteFrames(array, 1);
+                CCAnimation* anim = CCAnimation::create(array, 1);
 				anim->setRestoreOriginalFrame(restoreOriginalFrame);
                 CCAnimationCache::sharedAnimationCache()->addAnimation(anim, name.c_str());
             }

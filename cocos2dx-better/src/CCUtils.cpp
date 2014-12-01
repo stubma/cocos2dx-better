@@ -866,6 +866,8 @@ CCArray& CCUtils::arrayFromString(const string& s) {
     CCArray& comp = componentsOfString(s, ',');
     
     // clear
+    CCArray copy;
+    copy.addObjectsFromArray(&comp);
     s_tmpArray.removeAllObjects();
     
     // iterator components

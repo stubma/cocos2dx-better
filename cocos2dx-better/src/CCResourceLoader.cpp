@@ -388,7 +388,7 @@ void CCResourceLoader::addZwoptexAnimTask(const string& name,
     const CCArray& indices = CCUtils::arrayFromString(indicesString);
     CCObject* obj;
     CCARRAY_FOREACH(&indices, obj) {
-        sprintf(buf, pattern.c_str(), ((CCInteger*)obj)->getValue());
+        sprintf(buf, pattern.c_str(), (int)((CCFloat*)obj)->getValue());
         t->frames.push_back(buf);
     }
     
@@ -417,7 +417,7 @@ void CCResourceLoader::addZwoptexAnimTask(const string& name,
     const CCArray& indices = CCUtils::arrayFromString(indicesString);
     CCObject* obj;
     CCARRAY_FOREACH(&indices, obj) {
-        sprintf(buf, pattern.c_str(), ((CCInteger*)obj)->getValue());
+        sprintf(buf, pattern.c_str(), (int)((CCFloat*)obj)->getValue());
         t->frames.push_back(buf);
     }
     

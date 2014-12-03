@@ -90,17 +90,20 @@ public class ExcelToJson {
 				
 				// if cell is empty, skip
 				int colNum = fieldRow.getLastCellNum();
-				Cell cell0 = cSheet.getRow(i).getCell(0);
+				Row row = cSheet.getRow(i);
+				if(row == null)
+					continue;
+				Cell cell0 = row.getCell(0);
 				if (cell0 == null)
 					continue;
 				
 				// put row
 				// if not numeric and value is empty, skip
-				if (cSheet.getRow(i).getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-					rowJson.put(idColName + "", cSheet.getRow(i).getCell(0).getNumericCellValue());
+				if (row.getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					rowJson.put(idColName + "", row.getCell(0).getNumericCellValue());
 					json.put("" + rowJson.getIntValue(idColName), rowJson);
 				} else {
-					String sValue = cSheet.getRow(i).getCell(0).getStringCellValue().trim();
+					String sValue = row.getCell(0).getStringCellValue().trim();
 					if("".equals(sValue))
 						continue;
 					rowJson.put(idColName, sValue);
@@ -123,7 +126,7 @@ public class ExcelToJson {
 						continue;
 					
 					// get cell and check its type
-					Cell cell = cSheet.getRow(i).getCell(j);
+					Cell cell = row.getCell(j);
 					if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
 						if (type.equalsIgnoreCase("int") || type.equalsIgnoreCase("Byte") || type.equalsIgnoreCase("float") || type.equalsIgnoreCase("bool")) {
 							rowJson.put(colName, 0);
